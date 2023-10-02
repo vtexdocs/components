@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "jsx": "react-jsx",
+    "target": "ESNext",
+    "module": "esnext",
+    "declaration": true,
+    "declarationDir": "./dist",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "moduleResolution": "node",
+    "emitDeclarationOnly": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": "src",
+    "rootDir": "src",
+    "allowJs": true,
+    "lib": ["es6", "ES2021", "dom"]
+  },
+  "include": ["./src", "index.d.ts", "global.d.ts"],
+  "exclude": ["node_modules", "dist"]
+}
