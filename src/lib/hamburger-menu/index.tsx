@@ -12,6 +12,7 @@ import DocumentationCard from 'components/documentation-card'
 import SidebarSection, { SidebarSectionProps } from 'components/sidebar-section'
 import { updateOpenPage } from 'utils/sidebar-utils'
 import { LibraryContext } from 'utils/context/libraryContext'
+import SearchInput from 'components/search-input'
 
 interface HamburgerMenuProps {
   parentsArray?: string[]
@@ -37,7 +38,7 @@ const HamburgerMenu = ({ parentsArray = [] }: HamburgerMenuProps) => {
           <Box sx={styles.menuContainer}>
             <Box sx={styles.cardContainer}>
               <Box sx={styles.hamburgerSearchContainer}>
-                {/* <SearchInput /> */}
+                <SearchInput />
               </Box>
               {sidebarSections.map((section, id) => (
                 <Box
