@@ -1,13 +1,13 @@
 import { Box, Flex, Text, IconCaret, Tooltip } from '@vtex/brand-ui'
 
 import styles from './styles'
-import Link from 'next/link'
+import Link from 'next/link.js'
 import CustomHighlight from 'components/search-input/customHighlight'
 import { useState } from 'react'
 import ExpandedResultsIcon from 'components/icons/expanded-results-icon'
 import { Hit } from 'react-instantsearch-core'
 import MethodCategory from 'components/method-category'
-import { IconComponent, MethodType } from 'utils/types'
+import { IconComponent, MethodType } from 'utils/typings/types'
 import { ActionType, getAction } from 'utils/search-utils'
 
 export type FilteredHit = Hit & { filteredMatches?: Hit[] }
