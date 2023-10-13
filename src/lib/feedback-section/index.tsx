@@ -2,11 +2,13 @@ import { Flex, Text, Link } from '@vtex/brand-ui'
 import EditIcon from 'components/icons/edit-icon'
 import LikeIcon from 'components/icons/like-icon'
 import LikeSelectedIcon from 'components/icons/like-selected-icon'
-import { useRef, useState } from 'react'
+import { useContext, useRef, useState } from 'react'
 import { setButtonStyle } from './functions'
 import FeedbackModal, { ModalProps } from 'components/feedback-modal'
 
 import styles from './styles'
+import { LibraryContext } from 'utils/context/libraryContext'
+import { messages } from 'utils/get-message'
 
 interface DocPath {
   slug?: string
@@ -28,6 +30,7 @@ const FeedbackSection = ({
   })
   const likeButton = useRef<HTMLElement>()
   const dislikeButton = useRef<HTMLElement>()
+  const { locale } = useContext(LibraryContext)
 
   if (slug !== prevSlug) {
     setPrevSlug(slug)
@@ -46,8 +49,8 @@ const FeedbackSection = ({
     <Flex sx={styles.container} data-cy="feedback-section">
       <Text sx={styles.question}>
         {feedback !== undefined
-          ? 'Thanks for your feedback.'
-          : 'Was this helpful?'}
+          ? messages[locale]['feedback_section.response']
+          : messages[locale]['feedback_section.question']}
       </Text>
       <Flex sx={styles.likeContainer}>
         <Flex
@@ -61,7 +64,7 @@ const FeedbackSection = ({
           ) : (
             <LikeSelectedIcon size={24} sx={styles.likeIcon} />
           )}
-          <Text>Yes</Text>
+          <Text>{messages[locale]['feedback_section.positive']}</Text>
         </Flex>
         <Flex
           ref={dislikeButton}
@@ -73,7 +76,7 @@ const FeedbackSection = ({
           ) : (
             <LikeSelectedIcon size={24} sx={styles.dislikeIcon} />
           )}
-          <Text>No</Text>
+          <Text>{messages[locale]['feedback_section.negative']}</Text>
         </Flex>
       </Flex>
       {suggestEdits && (
@@ -84,7 +87,7 @@ const FeedbackSection = ({
           sx={styles.editContainer}
         >
           <EditIcon size={24} sx={styles.editIcon} />
-          <Text>Suggest edits (Github)</Text>
+          <Text>{messages[locale]['feedback_section.edit']}</Text>
         </Link>
       )}
       {modalState.modalOpen ? (
