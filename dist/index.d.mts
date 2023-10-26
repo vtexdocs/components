@@ -13,6 +13,14 @@ declare const MarkdownRenderer: ({ serialized }: MarkdownRendererProps) => react
 
 declare const TableOfContents: () => react_jsx_runtime.JSX.Element;
 
+interface SubItem {
+    title: string;
+    slug: string;
+}
+interface Item extends SubItem {
+    children: SubItem[];
+}
+
 interface SideBarSectionState {
     parentsArray?: string[];
 }
@@ -34,14 +42,6 @@ declare const FeedbackSection: ({ slug, urlToEdit, suggestEdits, sendFeedback, }
 declare const Search: () => react_jsx_runtime.JSX.Element;
 
 declare function SearchInput(): react_jsx_runtime.JSX.Element;
-
-interface SubItem {
-    title: string;
-    slug: string;
-}
-interface Item extends SubItem {
-    children: SubItem[];
-}
 
 type Section = {
     link: string;
@@ -99,4 +99,4 @@ interface AlgoliaConfig {
 }
 declare const createAlgoliaClient: (config: AlgoliaConfig) => void;
 
-export { FeedbackSection, HamburgerMenu, LibraryContext, LibraryContextProvider, MarkdownRenderer, Search, createAlgoliaClient as SearchConfig, SearchInput, Sidebar, TableOfContents };
+export { FeedbackSection, HamburgerMenu, Item, LibraryContext, LibraryContextProvider, MarkdownRenderer, Search, createAlgoliaClient as SearchConfig, SearchInput, Sidebar, TableOfContents };
