@@ -5830,7 +5830,8 @@ var LibraryContext = createContext({
   setSidebarDataMaster: (_) => void 0,
   setSidebarSectionHidden: () => void 0,
   setActiveSectionName: () => void 0,
-  setActiveSidebarElement: () => void 0,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
+  setActiveSidebarElement: (_) => void 0,
   toggleSidebarElementStatus: () => void 0,
   openSidebarElement: () => void 0,
   closeSidebarElements: () => void 0,
