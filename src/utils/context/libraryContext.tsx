@@ -68,7 +68,8 @@ export const LibraryContext = createContext<ContextType>({
   setSidebarDataMaster: (_: any) => undefined,
   setSidebarSectionHidden: () => undefined,
   setActiveSectionName: () => undefined,
-  setActiveSidebarElement: () => undefined,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
+  setActiveSidebarElement: (_: any) => undefined,
   toggleSidebarElementStatus: () => undefined,
   openSidebarElement: () => undefined,
   closeSidebarElements: () => undefined,
