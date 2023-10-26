@@ -4,8 +4,15 @@ var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
 var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __esm = (fn, res) => function __init() {
+  return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
+};
 var __commonJS = (cb, mod) => function __require() {
   return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
+};
+var __export = (target, all) => {
+  for (var name in all)
+    __defProp(target, name, { get: all[name], enumerable: true });
 };
 var __copyProps = (to, from, except, desc) => {
   if (from && typeof from === "object" || typeof from === "function") {
@@ -23,6 +30,7 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
   mod
 ));
+var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
 // node_modules/react-is/cjs/react-is.production.min.js
 var require_react_is_production_min = __commonJS({
@@ -206,7 +214,7 @@ var require_react_is_development = __commonJS({
         var ContextProvider = REACT_PROVIDER_TYPE;
         var Element = REACT_ELEMENT_TYPE;
         var ForwardRef = REACT_FORWARD_REF_TYPE;
-        var Fragment3 = REACT_FRAGMENT_TYPE;
+        var Fragment4 = REACT_FRAGMENT_TYPE;
         var Lazy = REACT_LAZY_TYPE;
         var Memo = REACT_MEMO_TYPE;
         var Portal = REACT_PORTAL_TYPE;
@@ -265,7 +273,7 @@ var require_react_is_development = __commonJS({
         exports.ContextProvider = ContextProvider;
         exports.Element = Element;
         exports.ForwardRef = ForwardRef;
-        exports.Fragment = Fragment3;
+        exports.Fragment = Fragment4;
         exports.Lazy = Lazy;
         exports.Memo = Memo;
         exports.Portal = Portal;
@@ -969,6 +977,2234 @@ var require_prop_types = __commonJS({
     }
     var ReactIs;
     var throwOnDirectAccess;
+  }
+});
+
+// node_modules/@algolia/cache-common/dist/cache-common.esm.js
+var cache_common_esm_exports = {};
+__export(cache_common_esm_exports, {
+  createFallbackableCache: () => createFallbackableCache,
+  createNullCache: () => createNullCache
+});
+function createFallbackableCache(options) {
+  const caches = [...options.caches];
+  const current = caches.shift();
+  if (current === void 0) {
+    return createNullCache();
+  }
+  return {
+    get(key, defaultValue, events = {
+      miss: () => Promise.resolve()
+    }) {
+      return current.get(key, defaultValue, events).catch(() => {
+        return createFallbackableCache({ caches }).get(key, defaultValue, events);
+      });
+    },
+    set(key, value) {
+      return current.set(key, value).catch(() => {
+        return createFallbackableCache({ caches }).set(key, value);
+      });
+    },
+    delete(key) {
+      return current.delete(key).catch(() => {
+        return createFallbackableCache({ caches }).delete(key);
+      });
+    },
+    clear() {
+      return current.clear().catch(() => {
+        return createFallbackableCache({ caches }).clear();
+      });
+    }
+  };
+}
+function createNullCache() {
+  return {
+    get(_key, defaultValue, events = {
+      miss: () => Promise.resolve()
+    }) {
+      const value = defaultValue();
+      return value.then((result) => Promise.all([result, events.miss(result)])).then(([result]) => result);
+    },
+    set(_key, value) {
+      return Promise.resolve(value);
+    },
+    delete(_key) {
+      return Promise.resolve();
+    },
+    clear() {
+      return Promise.resolve();
+    }
+  };
+}
+var init_cache_common_esm = __esm({
+  "node_modules/@algolia/cache-common/dist/cache-common.esm.js"() {
+    "use strict";
+  }
+});
+
+// node_modules/@algolia/cache-in-memory/dist/cache-in-memory.esm.js
+var cache_in_memory_esm_exports = {};
+__export(cache_in_memory_esm_exports, {
+  createInMemoryCache: () => createInMemoryCache
+});
+function createInMemoryCache(options = { serializable: true }) {
+  let cache = {};
+  return {
+    get(key, defaultValue, events = {
+      miss: () => Promise.resolve()
+    }) {
+      const keyAsString = JSON.stringify(key);
+      if (keyAsString in cache) {
+        return Promise.resolve(options.serializable ? JSON.parse(cache[keyAsString]) : cache[keyAsString]);
+      }
+      const promise = defaultValue();
+      const miss = events && events.miss || (() => Promise.resolve());
+      return promise.then((value) => miss(value)).then(() => promise);
+    },
+    set(key, value) {
+      cache[JSON.stringify(key)] = options.serializable ? JSON.stringify(value) : value;
+      return Promise.resolve(value);
+    },
+    delete(key) {
+      delete cache[JSON.stringify(key)];
+      return Promise.resolve();
+    },
+    clear() {
+      cache = {};
+      return Promise.resolve();
+    }
+  };
+}
+var init_cache_in_memory_esm = __esm({
+  "node_modules/@algolia/cache-in-memory/dist/cache-in-memory.esm.js"() {
+    "use strict";
+  }
+});
+
+// node_modules/@algolia/client-common/dist/client-common.esm.js
+var client_common_esm_exports = {};
+__export(client_common_esm_exports, {
+  AuthMode: () => AuthMode,
+  addMethods: () => addMethods,
+  createAuth: () => createAuth,
+  createRetryablePromise: () => createRetryablePromise,
+  createWaitablePromise: () => createWaitablePromise,
+  destroy: () => destroy,
+  encode: () => encode,
+  shuffle: () => shuffle,
+  version: () => version
+});
+function createAuth(authMode, appId, apiKey) {
+  const credentials = {
+    "x-algolia-api-key": apiKey,
+    "x-algolia-application-id": appId
+  };
+  return {
+    headers() {
+      return authMode === AuthMode.WithinHeaders ? credentials : {};
+    },
+    queryParameters() {
+      return authMode === AuthMode.WithinQueryParameters ? credentials : {};
+    }
+  };
+}
+function createRetryablePromise(callback) {
+  let retriesCount = 0;
+  const retry = () => {
+    retriesCount++;
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(callback(retry));
+      }, Math.min(100 * retriesCount, 1e3));
+    });
+  };
+  return callback(retry);
+}
+function createWaitablePromise(promise, wait = (_response, _requestOptions) => {
+  return Promise.resolve();
+}) {
+  return Object.assign(promise, {
+    wait(requestOptions) {
+      return createWaitablePromise(promise.then((response) => Promise.all([wait(response, requestOptions), response])).then((promiseResults) => promiseResults[1]));
+    }
+  });
+}
+function shuffle(array) {
+  let c = array.length - 1;
+  for (c; c > 0; c--) {
+    const b = Math.floor(Math.random() * (c + 1));
+    const a = array[c];
+    array[c] = array[b];
+    array[b] = a;
+  }
+  return array;
+}
+function addMethods(base, methods) {
+  if (!methods) {
+    return base;
+  }
+  Object.keys(methods).forEach((key) => {
+    base[key] = methods[key](base);
+  });
+  return base;
+}
+function encode(format, ...args) {
+  let i = 0;
+  return format.replace(/%s/g, () => encodeURIComponent(args[i++]));
+}
+var version, destroy, AuthMode;
+var init_client_common_esm = __esm({
+  "node_modules/@algolia/client-common/dist/client-common.esm.js"() {
+    "use strict";
+    version = "4.20.0";
+    destroy = (base) => {
+      return () => {
+        return base.transporter.requester.destroy();
+      };
+    };
+    AuthMode = {
+      /**
+       * If auth credentials should be in query parameters.
+       */
+      WithinQueryParameters: 0,
+      /**
+       * If auth credentials should be in headers.
+       */
+      WithinHeaders: 1
+    };
+  }
+});
+
+// node_modules/@algolia/requester-common/dist/requester-common.esm.js
+var MethodEnum;
+var init_requester_common_esm = __esm({
+  "node_modules/@algolia/requester-common/dist/requester-common.esm.js"() {
+    "use strict";
+    MethodEnum = {
+      Delete: "DELETE",
+      Get: "GET",
+      Post: "POST",
+      Put: "PUT"
+    };
+  }
+});
+
+// node_modules/@algolia/transporter/dist/transporter.esm.js
+var transporter_esm_exports = {};
+__export(transporter_esm_exports, {
+  CallEnum: () => CallEnum,
+  HostStatusEnum: () => HostStatusEnum,
+  createApiError: () => createApiError,
+  createDeserializationError: () => createDeserializationError,
+  createMappedRequestOptions: () => createMappedRequestOptions,
+  createRetryError: () => createRetryError,
+  createStatefulHost: () => createStatefulHost,
+  createStatelessHost: () => createStatelessHost,
+  createTransporter: () => createTransporter,
+  createUserAgent: () => createUserAgent,
+  deserializeFailure: () => deserializeFailure,
+  deserializeSuccess: () => deserializeSuccess,
+  isStatefulHostTimeouted: () => isStatefulHostTimeouted,
+  isStatefulHostUp: () => isStatefulHostUp,
+  serializeData: () => serializeData,
+  serializeHeaders: () => serializeHeaders,
+  serializeQueryParameters: () => serializeQueryParameters,
+  serializeUrl: () => serializeUrl,
+  stackFrameWithoutCredentials: () => stackFrameWithoutCredentials,
+  stackTraceWithoutCredentials: () => stackTraceWithoutCredentials
+});
+function createMappedRequestOptions(requestOptions, timeout) {
+  const options = requestOptions || {};
+  const data = options.data || {};
+  Object.keys(options).forEach((key) => {
+    if (["timeout", "headers", "queryParameters", "data", "cacheable"].indexOf(key) === -1) {
+      data[key] = options[key];
+    }
+  });
+  return {
+    data: Object.entries(data).length > 0 ? data : void 0,
+    timeout: options.timeout || timeout,
+    headers: options.headers || {},
+    queryParameters: options.queryParameters || {},
+    cacheable: options.cacheable
+  };
+}
+function createStatefulHost(host, status = HostStatusEnum.Up) {
+  return {
+    ...host,
+    status,
+    lastUpdate: Date.now()
+  };
+}
+function isStatefulHostUp(host) {
+  return host.status === HostStatusEnum.Up || Date.now() - host.lastUpdate > EXPIRATION_DELAY;
+}
+function isStatefulHostTimeouted(host) {
+  return host.status === HostStatusEnum.Timeouted && Date.now() - host.lastUpdate <= EXPIRATION_DELAY;
+}
+function createStatelessHost(options) {
+  if (typeof options === "string") {
+    return {
+      protocol: "https",
+      url: options,
+      accept: CallEnum.Any
+    };
+  }
+  return {
+    protocol: options.protocol || "https",
+    url: options.url,
+    accept: options.accept || CallEnum.Any
+  };
+}
+function createRetryableOptions(hostsCache, statelessHosts) {
+  return Promise.all(statelessHosts.map((statelessHost) => {
+    return hostsCache.get(statelessHost, () => {
+      return Promise.resolve(createStatefulHost(statelessHost));
+    });
+  })).then((statefulHosts) => {
+    const hostsUp = statefulHosts.filter((host) => isStatefulHostUp(host));
+    const hostsTimeouted = statefulHosts.filter((host) => isStatefulHostTimeouted(host));
+    const hostsAvailable = [...hostsUp, ...hostsTimeouted];
+    const statelessHostsAvailable = hostsAvailable.length > 0 ? hostsAvailable.map((host) => createStatelessHost(host)) : statelessHosts;
+    return {
+      getTimeout(timeoutsCount, baseTimeout) {
+        const timeoutMultiplier = hostsTimeouted.length === 0 && timeoutsCount === 0 ? 1 : hostsTimeouted.length + 3 + timeoutsCount;
+        return timeoutMultiplier * baseTimeout;
+      },
+      statelessHosts: statelessHostsAvailable
+    };
+  });
+}
+function retryableRequest(transporter, statelessHosts, request, requestOptions) {
+  const stackTrace = [];
+  const data = serializeData(request, requestOptions);
+  const headers = serializeHeaders(transporter, requestOptions);
+  const method = request.method;
+  const dataQueryParameters = request.method !== MethodEnum.Get ? {} : {
+    ...request.data,
+    ...requestOptions.data
+  };
+  const queryParameters = {
+    "x-algolia-agent": transporter.userAgent.value,
+    ...transporter.queryParameters,
+    ...dataQueryParameters,
+    ...requestOptions.queryParameters
+  };
+  let timeoutsCount = 0;
+  const retry = (hosts, getTimeout) => {
+    const host = hosts.pop();
+    if (host === void 0) {
+      throw createRetryError(stackTraceWithoutCredentials(stackTrace));
+    }
+    const payload = {
+      data,
+      headers,
+      method,
+      url: serializeUrl(host, request.path, queryParameters),
+      connectTimeout: getTimeout(timeoutsCount, transporter.timeouts.connect),
+      responseTimeout: getTimeout(timeoutsCount, requestOptions.timeout)
+    };
+    const pushToStackTrace = (response) => {
+      const stackFrame = {
+        request: payload,
+        response,
+        host,
+        triesLeft: hosts.length
+      };
+      stackTrace.push(stackFrame);
+      return stackFrame;
+    };
+    const decisions = {
+      onSuccess: (response) => deserializeSuccess(response),
+      onRetry(response) {
+        const stackFrame = pushToStackTrace(response);
+        if (response.isTimedOut) {
+          timeoutsCount++;
+        }
+        return Promise.all([
+          /**
+           * Failures are individually send the logger, allowing
+           * the end user to debug / store stack frames even
+           * when a retry error does not happen.
+           */
+          transporter.logger.info("Retryable failure", stackFrameWithoutCredentials(stackFrame)),
+          /**
+           * We also store the state of the host in failure cases. If the host, is
+           * down it will remain down for the next 2 minutes. In a timeout situation,
+           * this host will be added end of the list of hosts on the next request.
+           */
+          transporter.hostsCache.set(host, createStatefulHost(host, response.isTimedOut ? HostStatusEnum.Timeouted : HostStatusEnum.Down))
+        ]).then(() => retry(hosts, getTimeout));
+      },
+      onFail(response) {
+        pushToStackTrace(response);
+        throw deserializeFailure(response, stackTraceWithoutCredentials(stackTrace));
+      }
+    };
+    return transporter.requester.send(payload).then((response) => {
+      return retryDecision(response, decisions);
+    });
+  };
+  return createRetryableOptions(transporter.hostsCache, statelessHosts).then((options) => {
+    return retry([...options.statelessHosts].reverse(), options.getTimeout);
+  });
+}
+function createTransporter(options) {
+  const { hostsCache, logger, requester, requestsCache, responsesCache, timeouts, userAgent, hosts, queryParameters, headers } = options;
+  const transporter = {
+    hostsCache,
+    logger,
+    requester,
+    requestsCache,
+    responsesCache,
+    timeouts,
+    userAgent,
+    headers,
+    queryParameters,
+    hosts: hosts.map((host) => createStatelessHost(host)),
+    read(request, requestOptions) {
+      const mappedRequestOptions = createMappedRequestOptions(requestOptions, transporter.timeouts.read);
+      const createRetryableRequest = () => {
+        return retryableRequest(transporter, transporter.hosts.filter((host) => (host.accept & CallEnum.Read) !== 0), request, mappedRequestOptions);
+      };
+      const cacheable = mappedRequestOptions.cacheable !== void 0 ? mappedRequestOptions.cacheable : request.cacheable;
+      if (cacheable !== true) {
+        return createRetryableRequest();
+      }
+      const key = {
+        request,
+        mappedRequestOptions,
+        transporter: {
+          queryParameters: transporter.queryParameters,
+          headers: transporter.headers
+        }
+      };
+      return transporter.responsesCache.get(key, () => {
+        return transporter.requestsCache.get(key, () => {
+          return transporter.requestsCache.set(key, createRetryableRequest()).then((response) => Promise.all([transporter.requestsCache.delete(key), response]), (err) => Promise.all([transporter.requestsCache.delete(key), Promise.reject(err)])).then(([_, response]) => response);
+        });
+      }, {
+        /**
+         * Of course, once we get this response back from the server, we
+         * tell response cache to actually store the received response
+         * to be used later.
+         */
+        miss: (response) => transporter.responsesCache.set(key, response)
+      });
+    },
+    write(request, requestOptions) {
+      return retryableRequest(transporter, transporter.hosts.filter((host) => (host.accept & CallEnum.Write) !== 0), request, createMappedRequestOptions(requestOptions, transporter.timeouts.write));
+    }
+  };
+  return transporter;
+}
+function createUserAgent(version2) {
+  const userAgent = {
+    value: `Algolia for JavaScript (${version2})`,
+    add(options) {
+      const addedUserAgent = `; ${options.segment}${options.version !== void 0 ? ` (${options.version})` : ""}`;
+      if (userAgent.value.indexOf(addedUserAgent) === -1) {
+        userAgent.value = `${userAgent.value}${addedUserAgent}`;
+      }
+      return userAgent;
+    }
+  };
+  return userAgent;
+}
+function deserializeSuccess(response) {
+  try {
+    return JSON.parse(response.content);
+  } catch (e) {
+    throw createDeserializationError(e.message, response);
+  }
+}
+function deserializeFailure({ content, status }, stackFrame) {
+  let message = content;
+  try {
+    message = JSON.parse(content).message;
+  } catch (e) {
+  }
+  return createApiError(message, status, stackFrame);
+}
+function encode2(format, ...args) {
+  let i = 0;
+  return format.replace(/%s/g, () => encodeURIComponent(args[i++]));
+}
+function serializeUrl(host, path, queryParameters) {
+  const queryParametersAsString = serializeQueryParameters(queryParameters);
+  let url = `${host.protocol}://${host.url}/${path.charAt(0) === "/" ? path.substr(1) : path}`;
+  if (queryParametersAsString.length) {
+    url += `?${queryParametersAsString}`;
+  }
+  return url;
+}
+function serializeQueryParameters(parameters) {
+  const isObjectOrArray = (value) => Object.prototype.toString.call(value) === "[object Object]" || Object.prototype.toString.call(value) === "[object Array]";
+  return Object.keys(parameters).map((key) => encode2("%s=%s", key, isObjectOrArray(parameters[key]) ? JSON.stringify(parameters[key]) : parameters[key])).join("&");
+}
+function serializeData(request, requestOptions) {
+  if (request.method === MethodEnum.Get || request.data === void 0 && requestOptions.data === void 0) {
+    return void 0;
+  }
+  const data = Array.isArray(request.data) ? request.data : { ...request.data, ...requestOptions.data };
+  return JSON.stringify(data);
+}
+function serializeHeaders(transporter, requestOptions) {
+  const headers = {
+    ...transporter.headers,
+    ...requestOptions.headers
+  };
+  const serializedHeaders = {};
+  Object.keys(headers).forEach((header) => {
+    const value = headers[header];
+    serializedHeaders[header.toLowerCase()] = value;
+  });
+  return serializedHeaders;
+}
+function stackTraceWithoutCredentials(stackTrace) {
+  return stackTrace.map((stackFrame) => stackFrameWithoutCredentials(stackFrame));
+}
+function stackFrameWithoutCredentials(stackFrame) {
+  const modifiedHeaders = stackFrame.request.headers["x-algolia-api-key"] ? { "x-algolia-api-key": "*****" } : {};
+  return {
+    ...stackFrame,
+    request: {
+      ...stackFrame.request,
+      headers: {
+        ...stackFrame.request.headers,
+        ...modifiedHeaders
+      }
+    }
+  };
+}
+function createApiError(message, status, transporterStackTrace) {
+  return {
+    name: "ApiError",
+    message,
+    status,
+    transporterStackTrace
+  };
+}
+function createDeserializationError(message, response) {
+  return {
+    name: "DeserializationError",
+    message,
+    response
+  };
+}
+function createRetryError(transporterStackTrace) {
+  return {
+    name: "RetryError",
+    message: "Unreachable hosts - your application id may be incorrect. If the error persists, contact support@algolia.com.",
+    transporterStackTrace
+  };
+}
+var CallEnum, HostStatusEnum, EXPIRATION_DELAY, isNetworkError, isRetryable, isSuccess, retryDecision;
+var init_transporter_esm = __esm({
+  "node_modules/@algolia/transporter/dist/transporter.esm.js"() {
+    "use strict";
+    init_requester_common_esm();
+    CallEnum = {
+      /**
+       * If the host is read only.
+       */
+      Read: 1,
+      /**
+       * If the host is write only.
+       */
+      Write: 2,
+      /**
+       * If the host is both read and write.
+       */
+      Any: 3
+    };
+    HostStatusEnum = {
+      Up: 1,
+      Down: 2,
+      Timeouted: 3
+    };
+    EXPIRATION_DELAY = 2 * 60 * 1e3;
+    isNetworkError = ({ isTimedOut, status }) => {
+      return !isTimedOut && ~~status === 0;
+    };
+    isRetryable = (response) => {
+      const status = response.status;
+      const isTimedOut = response.isTimedOut;
+      return isTimedOut || isNetworkError(response) || ~~(status / 100) !== 2 && ~~(status / 100) !== 4;
+    };
+    isSuccess = ({ status }) => {
+      return ~~(status / 100) === 2;
+    };
+    retryDecision = (response, outcomes) => {
+      if (isRetryable(response)) {
+        return outcomes.onRetry(response);
+      }
+      if (isSuccess(response)) {
+        return outcomes.onSuccess(response);
+      }
+      return outcomes.onFail(response);
+    };
+  }
+});
+
+// node_modules/@algolia/client-analytics/dist/client-analytics.esm.js
+var client_analytics_esm_exports = {};
+__export(client_analytics_esm_exports, {
+  addABTest: () => addABTest,
+  createAnalyticsClient: () => createAnalyticsClient,
+  deleteABTest: () => deleteABTest,
+  getABTest: () => getABTest,
+  getABTests: () => getABTests,
+  stopABTest: () => stopABTest
+});
+var createAnalyticsClient, addABTest, deleteABTest, getABTest, getABTests, stopABTest;
+var init_client_analytics_esm = __esm({
+  "node_modules/@algolia/client-analytics/dist/client-analytics.esm.js"() {
+    "use strict";
+    init_client_common_esm();
+    init_transporter_esm();
+    init_requester_common_esm();
+    createAnalyticsClient = (options) => {
+      const region = options.region || "us";
+      const auth = createAuth(AuthMode.WithinHeaders, options.appId, options.apiKey);
+      const transporter = createTransporter({
+        hosts: [{ url: `analytics.${region}.algolia.com` }],
+        ...options,
+        headers: {
+          ...auth.headers(),
+          ...{ "content-type": "application/json" },
+          ...options.headers
+        },
+        queryParameters: {
+          ...auth.queryParameters(),
+          ...options.queryParameters
+        }
+      });
+      const appId = options.appId;
+      return addMethods({ appId, transporter }, options.methods);
+    };
+    addABTest = (base) => {
+      return (abTest, requestOptions) => {
+        return base.transporter.write({
+          method: MethodEnum.Post,
+          path: "2/abtests",
+          data: abTest
+        }, requestOptions);
+      };
+    };
+    deleteABTest = (base) => {
+      return (abTestID, requestOptions) => {
+        return base.transporter.write({
+          method: MethodEnum.Delete,
+          path: encode("2/abtests/%s", abTestID)
+        }, requestOptions);
+      };
+    };
+    getABTest = (base) => {
+      return (abTestID, requestOptions) => {
+        return base.transporter.read({
+          method: MethodEnum.Get,
+          path: encode("2/abtests/%s", abTestID)
+        }, requestOptions);
+      };
+    };
+    getABTests = (base) => {
+      return (requestOptions) => {
+        return base.transporter.read({
+          method: MethodEnum.Get,
+          path: "2/abtests"
+        }, requestOptions);
+      };
+    };
+    stopABTest = (base) => {
+      return (abTestID, requestOptions) => {
+        return base.transporter.write({
+          method: MethodEnum.Post,
+          path: encode("2/abtests/%s/stop", abTestID)
+        }, requestOptions);
+      };
+    };
+  }
+});
+
+// node_modules/@algolia/client-personalization/dist/client-personalization.esm.js
+var client_personalization_esm_exports = {};
+__export(client_personalization_esm_exports, {
+  createPersonalizationClient: () => createPersonalizationClient,
+  getPersonalizationStrategy: () => getPersonalizationStrategy,
+  setPersonalizationStrategy: () => setPersonalizationStrategy
+});
+var createPersonalizationClient, getPersonalizationStrategy, setPersonalizationStrategy;
+var init_client_personalization_esm = __esm({
+  "node_modules/@algolia/client-personalization/dist/client-personalization.esm.js"() {
+    "use strict";
+    init_client_common_esm();
+    init_transporter_esm();
+    init_requester_common_esm();
+    createPersonalizationClient = (options) => {
+      const region = options.region || "us";
+      const auth = createAuth(AuthMode.WithinHeaders, options.appId, options.apiKey);
+      const transporter = createTransporter({
+        hosts: [{ url: `personalization.${region}.algolia.com` }],
+        ...options,
+        headers: {
+          ...auth.headers(),
+          ...{ "content-type": "application/json" },
+          ...options.headers
+        },
+        queryParameters: {
+          ...auth.queryParameters(),
+          ...options.queryParameters
+        }
+      });
+      return addMethods({ appId: options.appId, transporter }, options.methods);
+    };
+    getPersonalizationStrategy = (base) => {
+      return (requestOptions) => {
+        return base.transporter.read({
+          method: MethodEnum.Get,
+          path: "1/strategies/personalization"
+        }, requestOptions);
+      };
+    };
+    setPersonalizationStrategy = (base) => {
+      return (personalizationStrategy, requestOptions) => {
+        return base.transporter.write({
+          method: MethodEnum.Post,
+          path: "1/strategies/personalization",
+          data: personalizationStrategy
+        }, requestOptions);
+      };
+    };
+  }
+});
+
+// node_modules/@algolia/client-search/dist/client-search.esm.js
+var client_search_esm_exports = {};
+__export(client_search_esm_exports, {
+  ApiKeyACLEnum: () => ApiKeyACLEnum,
+  BatchActionEnum: () => BatchActionEnum,
+  ScopeEnum: () => ScopeEnum,
+  StrategyEnum: () => StrategyEnum,
+  SynonymEnum: () => SynonymEnum,
+  addApiKey: () => addApiKey,
+  assignUserID: () => assignUserID,
+  assignUserIDs: () => assignUserIDs,
+  batch: () => batch,
+  browseObjects: () => browseObjects,
+  browseRules: () => browseRules,
+  browseSynonyms: () => browseSynonyms,
+  chunkedBatch: () => chunkedBatch,
+  clearDictionaryEntries: () => clearDictionaryEntries,
+  clearObjects: () => clearObjects,
+  clearRules: () => clearRules,
+  clearSynonyms: () => clearSynonyms,
+  copyIndex: () => copyIndex,
+  copyRules: () => copyRules,
+  copySettings: () => copySettings,
+  copySynonyms: () => copySynonyms,
+  createBrowsablePromise: () => createBrowsablePromise,
+  createMissingObjectIDError: () => createMissingObjectIDError,
+  createObjectNotFoundError: () => createObjectNotFoundError,
+  createSearchClient: () => createSearchClient,
+  createValidUntilNotFoundError: () => createValidUntilNotFoundError,
+  customRequest: () => customRequest,
+  deleteApiKey: () => deleteApiKey,
+  deleteBy: () => deleteBy,
+  deleteDictionaryEntries: () => deleteDictionaryEntries,
+  deleteIndex: () => deleteIndex,
+  deleteObject: () => deleteObject,
+  deleteObjects: () => deleteObjects,
+  deleteRule: () => deleteRule,
+  deleteSynonym: () => deleteSynonym,
+  exists: () => exists,
+  findAnswers: () => findAnswers,
+  findObject: () => findObject,
+  generateSecuredApiKey: () => generateSecuredApiKey,
+  getApiKey: () => getApiKey,
+  getAppTask: () => getAppTask,
+  getDictionarySettings: () => getDictionarySettings,
+  getLogs: () => getLogs,
+  getObject: () => getObject,
+  getObjectPosition: () => getObjectPosition,
+  getObjects: () => getObjects,
+  getRule: () => getRule,
+  getSecuredApiKeyRemainingValidity: () => getSecuredApiKeyRemainingValidity,
+  getSettings: () => getSettings,
+  getSynonym: () => getSynonym,
+  getTask: () => getTask,
+  getTopUserIDs: () => getTopUserIDs,
+  getUserID: () => getUserID,
+  hasPendingMappings: () => hasPendingMappings,
+  initIndex: () => initIndex,
+  listApiKeys: () => listApiKeys,
+  listClusters: () => listClusters,
+  listIndices: () => listIndices,
+  listUserIDs: () => listUserIDs,
+  moveIndex: () => moveIndex,
+  multipleBatch: () => multipleBatch,
+  multipleGetObjects: () => multipleGetObjects,
+  multipleQueries: () => multipleQueries,
+  multipleSearchForFacetValues: () => multipleSearchForFacetValues,
+  partialUpdateObject: () => partialUpdateObject,
+  partialUpdateObjects: () => partialUpdateObjects,
+  removeUserID: () => removeUserID,
+  replaceAllObjects: () => replaceAllObjects,
+  replaceAllRules: () => replaceAllRules,
+  replaceAllSynonyms: () => replaceAllSynonyms,
+  replaceDictionaryEntries: () => replaceDictionaryEntries,
+  restoreApiKey: () => restoreApiKey,
+  saveDictionaryEntries: () => saveDictionaryEntries,
+  saveObject: () => saveObject,
+  saveObjects: () => saveObjects,
+  saveRule: () => saveRule,
+  saveRules: () => saveRules,
+  saveSynonym: () => saveSynonym,
+  saveSynonyms: () => saveSynonyms,
+  search: () => search,
+  searchDictionaryEntries: () => searchDictionaryEntries,
+  searchForFacetValues: () => searchForFacetValues,
+  searchRules: () => searchRules,
+  searchSynonyms: () => searchSynonyms,
+  searchUserIDs: () => searchUserIDs,
+  setDictionarySettings: () => setDictionarySettings,
+  setSettings: () => setSettings,
+  updateApiKey: () => updateApiKey,
+  waitAppTask: () => waitAppTask,
+  waitTask: () => waitTask
+});
+import { createHmac } from "crypto";
+function createBrowsablePromise(options) {
+  const browse = (data) => {
+    return options.request(data).then((response) => {
+      if (options.batch !== void 0) {
+        options.batch(response.hits);
+      }
+      if (options.shouldStop(response)) {
+        return void 0;
+      }
+      if (response.cursor) {
+        return browse({
+          cursor: response.cursor
+        });
+      }
+      return browse({
+        page: (data.page || 0) + 1
+      });
+    });
+  };
+  return browse({});
+}
+function createMissingObjectIDError() {
+  return {
+    name: "MissingObjectIDError",
+    message: "All objects must have an unique objectID (like a primary key) to be valid. Algolia is also able to generate objectIDs automatically but *it's not recommended*. To do it, use the `{'autoGenerateObjectIDIfNotExist': true}` option."
+  };
+}
+function createObjectNotFoundError() {
+  return {
+    name: "ObjectNotFoundError",
+    message: "Object not found."
+  };
+}
+function createValidUntilNotFoundError() {
+  return {
+    name: "ValidUntilNotFoundError",
+    message: "ValidUntil not found in given secured api key."
+  };
+}
+var createSearchClient, addApiKey, assignUserID, assignUserIDs, clearDictionaryEntries, copyIndex, copyRules, copySettings, copySynonyms, customRequest, deleteApiKey, deleteDictionaryEntries, generateSecuredApiKey, getApiKey, getAppTask, getDictionarySettings, getLogs, getSecuredApiKeyRemainingValidity, getTopUserIDs, getUserID, hasPendingMappings, initIndex, listApiKeys, listClusters, listIndices, listUserIDs, moveIndex, multipleBatch, multipleGetObjects, multipleQueries, multipleSearchForFacetValues, removeUserID, replaceDictionaryEntries, restoreApiKey, saveDictionaryEntries, searchDictionaryEntries, searchUserIDs, setDictionarySettings, updateApiKey, waitAppTask, batch, browseObjects, browseRules, browseSynonyms, chunkedBatch, clearObjects, clearRules, clearSynonyms, deleteBy, deleteIndex, deleteObject, deleteObjects, deleteRule, deleteSynonym, exists, findAnswers, findObject, getObject, getObjectPosition, getObjects, getRule, getSettings, getSynonym, getTask, partialUpdateObject, partialUpdateObjects, replaceAllObjects, replaceAllRules, replaceAllSynonyms, saveObject, saveObjects, saveRule, saveRules, saveSynonym, saveSynonyms, search, searchForFacetValues, searchRules, searchSynonyms, setSettings, waitTask, ApiKeyACLEnum, BatchActionEnum, ScopeEnum, StrategyEnum, SynonymEnum;
+var init_client_search_esm = __esm({
+  "node_modules/@algolia/client-search/dist/client-search.esm.js"() {
+    "use strict";
+    init_client_common_esm();
+    init_transporter_esm();
+    init_requester_common_esm();
+    createSearchClient = (options) => {
+      const appId = options.appId;
+      const auth = createAuth(options.authMode !== void 0 ? options.authMode : AuthMode.WithinHeaders, appId, options.apiKey);
+      const transporter = createTransporter({
+        hosts: [
+          { url: `${appId}-dsn.algolia.net`, accept: CallEnum.Read },
+          { url: `${appId}.algolia.net`, accept: CallEnum.Write }
+        ].concat(shuffle([
+          { url: `${appId}-1.algolianet.com` },
+          { url: `${appId}-2.algolianet.com` },
+          { url: `${appId}-3.algolianet.com` }
+        ])),
+        ...options,
+        headers: {
+          ...auth.headers(),
+          ...{ "content-type": "application/x-www-form-urlencoded" },
+          ...options.headers
+        },
+        queryParameters: {
+          ...auth.queryParameters(),
+          ...options.queryParameters
+        }
+      });
+      const base = {
+        transporter,
+        appId,
+        addAlgoliaAgent(segment, version2) {
+          transporter.userAgent.add({ segment, version: version2 });
+        },
+        clearCache() {
+          return Promise.all([
+            transporter.requestsCache.clear(),
+            transporter.responsesCache.clear()
+          ]).then(() => void 0);
+        }
+      };
+      return addMethods(base, options.methods);
+    };
+    addApiKey = (base) => {
+      return (acl, requestOptions) => {
+        const { queryParameters, ...options } = requestOptions || {};
+        const data = {
+          acl,
+          ...queryParameters !== void 0 ? { queryParameters } : {}
+        };
+        const wait = (response, waitRequestOptions) => {
+          return createRetryablePromise((retry) => {
+            return getApiKey(base)(response.key, waitRequestOptions).catch((apiError) => {
+              if (apiError.status !== 404) {
+                throw apiError;
+              }
+              return retry();
+            });
+          });
+        };
+        return createWaitablePromise(base.transporter.write({
+          method: MethodEnum.Post,
+          path: "1/keys",
+          data
+        }, options), wait);
+      };
+    };
+    assignUserID = (base) => {
+      return (userID, clusterName, requestOptions) => {
+        const mappedRequestOptions = createMappedRequestOptions(requestOptions);
+        mappedRequestOptions.queryParameters["X-Algolia-User-ID"] = userID;
+        return base.transporter.write({
+          method: MethodEnum.Post,
+          path: "1/clusters/mapping",
+          data: { cluster: clusterName }
+        }, mappedRequestOptions);
+      };
+    };
+    assignUserIDs = (base) => {
+      return (userIDs, clusterName, requestOptions) => {
+        return base.transporter.write({
+          method: MethodEnum.Post,
+          path: "1/clusters/mapping/batch",
+          data: {
+            users: userIDs,
+            cluster: clusterName
+          }
+        }, requestOptions);
+      };
+    };
+    clearDictionaryEntries = (base) => {
+      return (dictionary, requestOptions) => {
+        return createWaitablePromise(base.transporter.write({
+          method: MethodEnum.Post,
+          path: encode("/1/dictionaries/%s/batch", dictionary),
+          data: {
+            clearExistingDictionaryEntries: true,
+            requests: { action: "addEntry", body: [] }
+          }
+        }, requestOptions), (response, waitRequestOptions) => waitAppTask(base)(response.taskID, waitRequestOptions));
+      };
+    };
+    copyIndex = (base) => {
+      return (from, to, requestOptions) => {
+        const wait = (response, waitRequestOptions) => {
+          return initIndex(base)(from, {
+            methods: { waitTask }
+          }).waitTask(response.taskID, waitRequestOptions);
+        };
+        return createWaitablePromise(base.transporter.write({
+          method: MethodEnum.Post,
+          path: encode("1/indexes/%s/operation", from),
+          data: {
+            operation: "copy",
+            destination: to
+          }
+        }, requestOptions), wait);
+      };
+    };
+    copyRules = (base) => {
+      return (from, to, requestOptions) => {
+        return copyIndex(base)(from, to, {
+          ...requestOptions,
+          scope: [ScopeEnum.Rules]
+        });
+      };
+    };
+    copySettings = (base) => {
+      return (from, to, requestOptions) => {
+        return copyIndex(base)(from, to, {
+          ...requestOptions,
+          scope: [ScopeEnum.Settings]
+        });
+      };
+    };
+    copySynonyms = (base) => {
+      return (from, to, requestOptions) => {
+        return copyIndex(base)(from, to, {
+          ...requestOptions,
+          scope: [ScopeEnum.Synonyms]
+        });
+      };
+    };
+    customRequest = (base) => {
+      return (request, requestOptions) => {
+        if (request.method === MethodEnum.Get) {
+          return base.transporter.read(request, requestOptions);
+        }
+        return base.transporter.write(request, requestOptions);
+      };
+    };
+    deleteApiKey = (base) => {
+      return (apiKey, requestOptions) => {
+        const wait = (_, waitRequestOptions) => {
+          return createRetryablePromise((retry) => {
+            return getApiKey(base)(apiKey, waitRequestOptions).then(retry).catch((apiError) => {
+              if (apiError.status !== 404) {
+                throw apiError;
+              }
+            });
+          });
+        };
+        return createWaitablePromise(base.transporter.write({
+          method: MethodEnum.Delete,
+          path: encode("1/keys/%s", apiKey)
+        }, requestOptions), wait);
+      };
+    };
+    deleteDictionaryEntries = (base) => {
+      return (dictionary, objectIDs, requestOptions) => {
+        const requests = objectIDs.map((objectID) => ({
+          action: "deleteEntry",
+          body: { objectID }
+        }));
+        return createWaitablePromise(base.transporter.write({
+          method: MethodEnum.Post,
+          path: encode("/1/dictionaries/%s/batch", dictionary),
+          data: { clearExistingDictionaryEntries: false, requests }
+        }, requestOptions), (response, waitRequestOptions) => waitAppTask(base)(response.taskID, waitRequestOptions));
+      };
+    };
+    generateSecuredApiKey = () => {
+      return (parentApiKey, restrictions) => {
+        const queryParameters = serializeQueryParameters(restrictions);
+        const securedKey = createHmac("sha256", parentApiKey).update(queryParameters).digest("hex");
+        return Buffer.from(securedKey + queryParameters).toString("base64");
+      };
+    };
+    getApiKey = (base) => {
+      return (apiKey, requestOptions) => {
+        return base.transporter.read({
+          method: MethodEnum.Get,
+          path: encode("1/keys/%s", apiKey)
+        }, requestOptions);
+      };
+    };
+    getAppTask = (base) => {
+      return (taskID, requestOptions) => {
+        return base.transporter.read({
+          method: MethodEnum.Get,
+          path: encode("1/task/%s", taskID.toString())
+        }, requestOptions);
+      };
+    };
+    getDictionarySettings = (base) => {
+      return (requestOptions) => {
+        return base.transporter.read({
+          method: MethodEnum.Get,
+          path: "/1/dictionaries/*/settings"
+        }, requestOptions);
+      };
+    };
+    getLogs = (base) => {
+      return (requestOptions) => {
+        return base.transporter.read({
+          method: MethodEnum.Get,
+          path: "1/logs"
+        }, requestOptions);
+      };
+    };
+    getSecuredApiKeyRemainingValidity = () => {
+      return (securedApiKey) => {
+        const decodedString = Buffer.from(securedApiKey, "base64").toString("ascii");
+        const regex = /validUntil=(\d+)/;
+        const match = decodedString.match(regex);
+        if (match === null) {
+          throw createValidUntilNotFoundError();
+        }
+        return parseInt(match[1], 10) - Math.round((/* @__PURE__ */ new Date()).getTime() / 1e3);
+      };
+    };
+    getTopUserIDs = (base) => {
+      return (requestOptions) => {
+        return base.transporter.read({
+          method: MethodEnum.Get,
+          path: "1/clusters/mapping/top"
+        }, requestOptions);
+      };
+    };
+    getUserID = (base) => {
+      return (userID, requestOptions) => {
+        return base.transporter.read({
+          method: MethodEnum.Get,
+          path: encode("1/clusters/mapping/%s", userID)
+        }, requestOptions);
+      };
+    };
+    hasPendingMappings = (base) => {
+      return (requestOptions) => {
+        const { retrieveMappings, ...options } = requestOptions || {};
+        if (retrieveMappings === true) {
+          options.getClusters = true;
+        }
+        return base.transporter.read({
+          method: MethodEnum.Get,
+          path: "1/clusters/mapping/pending"
+        }, options);
+      };
+    };
+    initIndex = (base) => {
+      return (indexName, options = {}) => {
+        const searchIndex2 = {
+          transporter: base.transporter,
+          appId: base.appId,
+          indexName
+        };
+        return addMethods(searchIndex2, options.methods);
+      };
+    };
+    listApiKeys = (base) => {
+      return (requestOptions) => {
+        return base.transporter.read({
+          method: MethodEnum.Get,
+          path: "1/keys"
+        }, requestOptions);
+      };
+    };
+    listClusters = (base) => {
+      return (requestOptions) => {
+        return base.transporter.read({
+          method: MethodEnum.Get,
+          path: "1/clusters"
+        }, requestOptions);
+      };
+    };
+    listIndices = (base) => {
+      return (requestOptions) => {
+        return base.transporter.read({
+          method: MethodEnum.Get,
+          path: "1/indexes"
+        }, requestOptions);
+      };
+    };
+    listUserIDs = (base) => {
+      return (requestOptions) => {
+        return base.transporter.read({
+          method: MethodEnum.Get,
+          path: "1/clusters/mapping"
+        }, requestOptions);
+      };
+    };
+    moveIndex = (base) => {
+      return (from, to, requestOptions) => {
+        const wait = (response, waitRequestOptions) => {
+          return initIndex(base)(from, {
+            methods: { waitTask }
+          }).waitTask(response.taskID, waitRequestOptions);
+        };
+        return createWaitablePromise(base.transporter.write({
+          method: MethodEnum.Post,
+          path: encode("1/indexes/%s/operation", from),
+          data: {
+            operation: "move",
+            destination: to
+          }
+        }, requestOptions), wait);
+      };
+    };
+    multipleBatch = (base) => {
+      return (requests, requestOptions) => {
+        const wait = (response, waitRequestOptions) => {
+          return Promise.all(Object.keys(response.taskID).map((indexName) => {
+            return initIndex(base)(indexName, {
+              methods: { waitTask }
+            }).waitTask(response.taskID[indexName], waitRequestOptions);
+          }));
+        };
+        return createWaitablePromise(base.transporter.write({
+          method: MethodEnum.Post,
+          path: "1/indexes/*/batch",
+          data: {
+            requests
+          }
+        }, requestOptions), wait);
+      };
+    };
+    multipleGetObjects = (base) => {
+      return (requests, requestOptions) => {
+        return base.transporter.read({
+          method: MethodEnum.Post,
+          path: "1/indexes/*/objects",
+          data: {
+            requests
+          }
+        }, requestOptions);
+      };
+    };
+    multipleQueries = (base) => {
+      return (queries, requestOptions) => {
+        const requests = queries.map((query) => {
+          return {
+            ...query,
+            params: serializeQueryParameters(query.params || {})
+          };
+        });
+        return base.transporter.read({
+          method: MethodEnum.Post,
+          path: "1/indexes/*/queries",
+          data: {
+            requests
+          },
+          cacheable: true
+        }, requestOptions);
+      };
+    };
+    multipleSearchForFacetValues = (base) => {
+      return (queries, requestOptions) => {
+        return Promise.all(queries.map((query) => {
+          const { facetName, facetQuery, ...params } = query.params;
+          return initIndex(base)(query.indexName, {
+            methods: { searchForFacetValues }
+          }).searchForFacetValues(facetName, facetQuery, {
+            ...requestOptions,
+            ...params
+          });
+        }));
+      };
+    };
+    removeUserID = (base) => {
+      return (userID, requestOptions) => {
+        const mappedRequestOptions = createMappedRequestOptions(requestOptions);
+        mappedRequestOptions.queryParameters["X-Algolia-User-ID"] = userID;
+        return base.transporter.write({
+          method: MethodEnum.Delete,
+          path: "1/clusters/mapping"
+        }, mappedRequestOptions);
+      };
+    };
+    replaceDictionaryEntries = (base) => {
+      return (dictionary, entries, requestOptions) => {
+        const requests = entries.map((entry) => ({
+          action: "addEntry",
+          body: entry
+        }));
+        return createWaitablePromise(base.transporter.write({
+          method: MethodEnum.Post,
+          path: encode("/1/dictionaries/%s/batch", dictionary),
+          data: { clearExistingDictionaryEntries: true, requests }
+        }, requestOptions), (response, waitRequestOptions) => waitAppTask(base)(response.taskID, waitRequestOptions));
+      };
+    };
+    restoreApiKey = (base) => {
+      return (apiKey, requestOptions) => {
+        const wait = (_, waitRequestOptions) => {
+          return createRetryablePromise((retry) => {
+            return getApiKey(base)(apiKey, waitRequestOptions).catch((apiError) => {
+              if (apiError.status !== 404) {
+                throw apiError;
+              }
+              return retry();
+            });
+          });
+        };
+        return createWaitablePromise(base.transporter.write({
+          method: MethodEnum.Post,
+          path: encode("1/keys/%s/restore", apiKey)
+        }, requestOptions), wait);
+      };
+    };
+    saveDictionaryEntries = (base) => {
+      return (dictionary, entries, requestOptions) => {
+        const requests = entries.map((entry) => ({
+          action: "addEntry",
+          body: entry
+        }));
+        return createWaitablePromise(base.transporter.write({
+          method: MethodEnum.Post,
+          path: encode("/1/dictionaries/%s/batch", dictionary),
+          data: { clearExistingDictionaryEntries: false, requests }
+        }, requestOptions), (response, waitRequestOptions) => waitAppTask(base)(response.taskID, waitRequestOptions));
+      };
+    };
+    searchDictionaryEntries = (base) => {
+      return (dictionary, query, requestOptions) => {
+        return base.transporter.read({
+          method: MethodEnum.Post,
+          path: encode("/1/dictionaries/%s/search", dictionary),
+          data: {
+            query
+          },
+          cacheable: true
+        }, requestOptions);
+      };
+    };
+    searchUserIDs = (base) => {
+      return (query, requestOptions) => {
+        return base.transporter.read({
+          method: MethodEnum.Post,
+          path: "1/clusters/mapping/search",
+          data: {
+            query
+          }
+        }, requestOptions);
+      };
+    };
+    setDictionarySettings = (base) => {
+      return (settings, requestOptions) => {
+        return createWaitablePromise(base.transporter.write({
+          method: MethodEnum.Put,
+          path: "/1/dictionaries/*/settings",
+          data: settings
+        }, requestOptions), (response, waitRequestOptions) => waitAppTask(base)(response.taskID, waitRequestOptions));
+      };
+    };
+    updateApiKey = (base) => {
+      return (apiKey, requestOptions) => {
+        const updatedFields = Object.assign({}, requestOptions);
+        const { queryParameters, ...options } = requestOptions || {};
+        const data = queryParameters ? { queryParameters } : {};
+        const apiKeyFields = [
+          "acl",
+          "indexes",
+          "referers",
+          "restrictSources",
+          "queryParameters",
+          "description",
+          "maxQueriesPerIPPerHour",
+          "maxHitsPerQuery"
+        ];
+        const hasChanged = (getApiKeyResponse) => {
+          return Object.keys(updatedFields).filter((updatedField) => apiKeyFields.indexOf(updatedField) !== -1).every((updatedField) => {
+            if (Array.isArray(getApiKeyResponse[updatedField]) && Array.isArray(updatedFields[updatedField])) {
+              const getApiKeyResponseArray = getApiKeyResponse[updatedField];
+              return getApiKeyResponseArray.length === updatedFields[updatedField].length && getApiKeyResponseArray.every((value, index) => value === updatedFields[updatedField][index]);
+            } else {
+              return getApiKeyResponse[updatedField] === updatedFields[updatedField];
+            }
+          });
+        };
+        const wait = (_, waitRequestOptions) => createRetryablePromise((retry) => {
+          return getApiKey(base)(apiKey, waitRequestOptions).then((getApiKeyResponse) => {
+            return hasChanged(getApiKeyResponse) ? Promise.resolve() : retry();
+          });
+        });
+        return createWaitablePromise(base.transporter.write({
+          method: MethodEnum.Put,
+          path: encode("1/keys/%s", apiKey),
+          data
+        }, options), wait);
+      };
+    };
+    waitAppTask = (base) => {
+      return (taskID, requestOptions) => {
+        return createRetryablePromise((retry) => {
+          return getAppTask(base)(taskID, requestOptions).then((response) => {
+            return response.status !== "published" ? retry() : void 0;
+          });
+        });
+      };
+    };
+    batch = (base) => {
+      return (requests, requestOptions) => {
+        const wait = (response, waitRequestOptions) => {
+          return waitTask(base)(response.taskID, waitRequestOptions);
+        };
+        return createWaitablePromise(base.transporter.write({
+          method: MethodEnum.Post,
+          path: encode("1/indexes/%s/batch", base.indexName),
+          data: {
+            requests
+          }
+        }, requestOptions), wait);
+      };
+    };
+    browseObjects = (base) => {
+      return (requestOptions) => {
+        return createBrowsablePromise({
+          shouldStop: (response) => response.cursor === void 0,
+          ...requestOptions,
+          request: (data) => base.transporter.read({
+            method: MethodEnum.Post,
+            path: encode("1/indexes/%s/browse", base.indexName),
+            data
+          }, requestOptions)
+        });
+      };
+    };
+    browseRules = (base) => {
+      return (requestOptions) => {
+        const options = {
+          hitsPerPage: 1e3,
+          ...requestOptions
+        };
+        return createBrowsablePromise({
+          shouldStop: (response) => response.hits.length < options.hitsPerPage,
+          ...options,
+          request(data) {
+            return searchRules(base)("", { ...options, ...data }).then((response) => {
+              return {
+                ...response,
+                hits: response.hits.map((rule) => {
+                  delete rule._highlightResult;
+                  return rule;
+                })
+              };
+            });
+          }
+        });
+      };
+    };
+    browseSynonyms = (base) => {
+      return (requestOptions) => {
+        const options = {
+          hitsPerPage: 1e3,
+          ...requestOptions
+        };
+        return createBrowsablePromise({
+          shouldStop: (response) => response.hits.length < options.hitsPerPage,
+          ...options,
+          request(data) {
+            return searchSynonyms(base)("", { ...options, ...data }).then((response) => {
+              return {
+                ...response,
+                hits: response.hits.map((synonym) => {
+                  delete synonym._highlightResult;
+                  return synonym;
+                })
+              };
+            });
+          }
+        });
+      };
+    };
+    chunkedBatch = (base) => {
+      return (bodies, action, requestOptions) => {
+        const { batchSize, ...options } = requestOptions || {};
+        const response = {
+          taskIDs: [],
+          objectIDs: []
+        };
+        const forEachBatch = (lastIndex = 0) => {
+          const bodiesChunk = [];
+          let index;
+          for (index = lastIndex; index < bodies.length; index++) {
+            bodiesChunk.push(bodies[index]);
+            if (bodiesChunk.length === (batchSize || 1e3)) {
+              break;
+            }
+          }
+          if (bodiesChunk.length === 0) {
+            return Promise.resolve(response);
+          }
+          return batch(base)(bodiesChunk.map((body2) => {
+            return {
+              action,
+              body: body2
+            };
+          }), options).then((res) => {
+            response.objectIDs = response.objectIDs.concat(res.objectIDs);
+            response.taskIDs.push(res.taskID);
+            index++;
+            return forEachBatch(index);
+          });
+        };
+        return createWaitablePromise(forEachBatch(), (chunkedBatchResponse, waitRequestOptions) => {
+          return Promise.all(chunkedBatchResponse.taskIDs.map((taskID) => {
+            return waitTask(base)(taskID, waitRequestOptions);
+          }));
+        });
+      };
+    };
+    clearObjects = (base) => {
+      return (requestOptions) => {
+        return createWaitablePromise(base.transporter.write({
+          method: MethodEnum.Post,
+          path: encode("1/indexes/%s/clear", base.indexName)
+        }, requestOptions), (response, waitRequestOptions) => waitTask(base)(response.taskID, waitRequestOptions));
+      };
+    };
+    clearRules = (base) => {
+      return (requestOptions) => {
+        const { forwardToReplicas, ...options } = requestOptions || {};
+        const mappedRequestOptions = createMappedRequestOptions(options);
+        if (forwardToReplicas) {
+          mappedRequestOptions.queryParameters.forwardToReplicas = 1;
+        }
+        return createWaitablePromise(base.transporter.write({
+          method: MethodEnum.Post,
+          path: encode("1/indexes/%s/rules/clear", base.indexName)
+        }, mappedRequestOptions), (response, waitRequestOptions) => waitTask(base)(response.taskID, waitRequestOptions));
+      };
+    };
+    clearSynonyms = (base) => {
+      return (requestOptions) => {
+        const { forwardToReplicas, ...options } = requestOptions || {};
+        const mappedRequestOptions = createMappedRequestOptions(options);
+        if (forwardToReplicas) {
+          mappedRequestOptions.queryParameters.forwardToReplicas = 1;
+        }
+        return createWaitablePromise(base.transporter.write({
+          method: MethodEnum.Post,
+          path: encode("1/indexes/%s/synonyms/clear", base.indexName)
+        }, mappedRequestOptions), (response, waitRequestOptions) => waitTask(base)(response.taskID, waitRequestOptions));
+      };
+    };
+    deleteBy = (base) => {
+      return (filters, requestOptions) => {
+        return createWaitablePromise(base.transporter.write({
+          method: MethodEnum.Post,
+          path: encode("1/indexes/%s/deleteByQuery", base.indexName),
+          data: filters
+        }, requestOptions), (response, waitRequestOptions) => waitTask(base)(response.taskID, waitRequestOptions));
+      };
+    };
+    deleteIndex = (base) => {
+      return (requestOptions) => {
+        return createWaitablePromise(base.transporter.write({
+          method: MethodEnum.Delete,
+          path: encode("1/indexes/%s", base.indexName)
+        }, requestOptions), (response, waitRequestOptions) => waitTask(base)(response.taskID, waitRequestOptions));
+      };
+    };
+    deleteObject = (base) => {
+      return (objectID, requestOptions) => {
+        return createWaitablePromise(deleteObjects(base)([objectID], requestOptions).then((response) => {
+          return { taskID: response.taskIDs[0] };
+        }), (response, waitRequestOptions) => waitTask(base)(response.taskID, waitRequestOptions));
+      };
+    };
+    deleteObjects = (base) => {
+      return (objectIDs, requestOptions) => {
+        const objects = objectIDs.map((objectID) => {
+          return { objectID };
+        });
+        return chunkedBatch(base)(objects, BatchActionEnum.DeleteObject, requestOptions);
+      };
+    };
+    deleteRule = (base) => {
+      return (objectID, requestOptions) => {
+        const { forwardToReplicas, ...options } = requestOptions || {};
+        const mappedRequestOptions = createMappedRequestOptions(options);
+        if (forwardToReplicas) {
+          mappedRequestOptions.queryParameters.forwardToReplicas = 1;
+        }
+        return createWaitablePromise(base.transporter.write({
+          method: MethodEnum.Delete,
+          path: encode("1/indexes/%s/rules/%s", base.indexName, objectID)
+        }, mappedRequestOptions), (response, waitRequestOptions) => waitTask(base)(response.taskID, waitRequestOptions));
+      };
+    };
+    deleteSynonym = (base) => {
+      return (objectID, requestOptions) => {
+        const { forwardToReplicas, ...options } = requestOptions || {};
+        const mappedRequestOptions = createMappedRequestOptions(options);
+        if (forwardToReplicas) {
+          mappedRequestOptions.queryParameters.forwardToReplicas = 1;
+        }
+        return createWaitablePromise(base.transporter.write({
+          method: MethodEnum.Delete,
+          path: encode("1/indexes/%s/synonyms/%s", base.indexName, objectID)
+        }, mappedRequestOptions), (response, waitRequestOptions) => waitTask(base)(response.taskID, waitRequestOptions));
+      };
+    };
+    exists = (base) => {
+      return (requestOptions) => {
+        return getSettings(base)(requestOptions).then(() => true).catch((error) => {
+          if (error.status !== 404) {
+            throw error;
+          }
+          return false;
+        });
+      };
+    };
+    findAnswers = (base) => {
+      return (query, queryLanguages, requestOptions) => {
+        return base.transporter.read({
+          method: MethodEnum.Post,
+          path: encode("1/answers/%s/prediction", base.indexName),
+          data: {
+            query,
+            queryLanguages
+          },
+          cacheable: true
+        }, requestOptions);
+      };
+    };
+    findObject = (base) => {
+      return (callback, requestOptions) => {
+        const { query, paginate, ...options } = requestOptions || {};
+        let page = 0;
+        const forEachPage = () => {
+          return search(base)(query || "", { ...options, page }).then((result) => {
+            for (const [position, hit] of Object.entries(result.hits)) {
+              if (callback(hit)) {
+                return {
+                  object: hit,
+                  position: parseInt(position, 10),
+                  page
+                };
+              }
+            }
+            page++;
+            if (paginate === false || page >= result.nbPages) {
+              throw createObjectNotFoundError();
+            }
+            return forEachPage();
+          });
+        };
+        return forEachPage();
+      };
+    };
+    getObject = (base) => {
+      return (objectID, requestOptions) => {
+        return base.transporter.read({
+          method: MethodEnum.Get,
+          path: encode("1/indexes/%s/%s", base.indexName, objectID)
+        }, requestOptions);
+      };
+    };
+    getObjectPosition = () => {
+      return (searchResponse, objectID) => {
+        for (const [position, hit] of Object.entries(searchResponse.hits)) {
+          if (hit.objectID === objectID) {
+            return parseInt(position, 10);
+          }
+        }
+        return -1;
+      };
+    };
+    getObjects = (base) => {
+      return (objectIDs, requestOptions) => {
+        const { attributesToRetrieve, ...options } = requestOptions || {};
+        const requests = objectIDs.map((objectID) => {
+          return {
+            indexName: base.indexName,
+            objectID,
+            ...attributesToRetrieve ? { attributesToRetrieve } : {}
+          };
+        });
+        return base.transporter.read({
+          method: MethodEnum.Post,
+          path: "1/indexes/*/objects",
+          data: {
+            requests
+          }
+        }, options);
+      };
+    };
+    getRule = (base) => {
+      return (objectID, requestOptions) => {
+        return base.transporter.read({
+          method: MethodEnum.Get,
+          path: encode("1/indexes/%s/rules/%s", base.indexName, objectID)
+        }, requestOptions);
+      };
+    };
+    getSettings = (base) => {
+      return (requestOptions) => {
+        return base.transporter.read({
+          method: MethodEnum.Get,
+          path: encode("1/indexes/%s/settings", base.indexName),
+          data: {
+            getVersion: 2
+          }
+        }, requestOptions);
+      };
+    };
+    getSynonym = (base) => {
+      return (objectID, requestOptions) => {
+        return base.transporter.read({
+          method: MethodEnum.Get,
+          path: encode(`1/indexes/%s/synonyms/%s`, base.indexName, objectID)
+        }, requestOptions);
+      };
+    };
+    getTask = (base) => {
+      return (taskID, requestOptions) => {
+        return base.transporter.read({
+          method: MethodEnum.Get,
+          path: encode("1/indexes/%s/task/%s", base.indexName, taskID.toString())
+        }, requestOptions);
+      };
+    };
+    partialUpdateObject = (base) => {
+      return (object, requestOptions) => {
+        return createWaitablePromise(partialUpdateObjects(base)([object], requestOptions).then((response) => {
+          return {
+            objectID: response.objectIDs[0],
+            taskID: response.taskIDs[0]
+          };
+        }), (response, waitRequestOptions) => waitTask(base)(response.taskID, waitRequestOptions));
+      };
+    };
+    partialUpdateObjects = (base) => {
+      return (objects, requestOptions) => {
+        const { createIfNotExists, ...options } = requestOptions || {};
+        const action = createIfNotExists ? BatchActionEnum.PartialUpdateObject : BatchActionEnum.PartialUpdateObjectNoCreate;
+        return chunkedBatch(base)(objects, action, options);
+      };
+    };
+    replaceAllObjects = (base) => {
+      return (objects, requestOptions) => {
+        const { safe, autoGenerateObjectIDIfNotExist, batchSize, ...options } = requestOptions || {};
+        const operation = (from, to, type, operationRequestOptions) => {
+          return createWaitablePromise(base.transporter.write({
+            method: MethodEnum.Post,
+            path: encode("1/indexes/%s/operation", from),
+            data: {
+              operation: type,
+              destination: to
+            }
+          }, operationRequestOptions), (response, waitRequestOptions) => waitTask(base)(response.taskID, waitRequestOptions));
+        };
+        const randomSuffix = Math.random().toString(36).substring(7);
+        const temporaryIndexName = `${base.indexName}_tmp_${randomSuffix}`;
+        const saveObjectsInTemporary = saveObjects({
+          appId: base.appId,
+          transporter: base.transporter,
+          indexName: temporaryIndexName
+        });
+        let responses = [];
+        const copyWaitablePromise = operation(base.indexName, temporaryIndexName, "copy", {
+          ...options,
+          scope: ["settings", "synonyms", "rules"]
+        });
+        responses.push(copyWaitablePromise);
+        const result = (safe ? copyWaitablePromise.wait(options) : copyWaitablePromise).then(() => {
+          const saveObjectsWaitablePromise = saveObjectsInTemporary(objects, {
+            ...options,
+            autoGenerateObjectIDIfNotExist,
+            batchSize
+          });
+          responses.push(saveObjectsWaitablePromise);
+          return safe ? saveObjectsWaitablePromise.wait(options) : saveObjectsWaitablePromise;
+        }).then(() => {
+          const moveWaitablePromise = operation(temporaryIndexName, base.indexName, "move", options);
+          responses.push(moveWaitablePromise);
+          return safe ? moveWaitablePromise.wait(options) : moveWaitablePromise;
+        }).then(() => Promise.all(responses)).then(([copyResponse, saveObjectsResponse, moveResponse]) => {
+          return {
+            objectIDs: saveObjectsResponse.objectIDs,
+            taskIDs: [copyResponse.taskID, ...saveObjectsResponse.taskIDs, moveResponse.taskID]
+          };
+        });
+        return createWaitablePromise(result, (_, waitRequestOptions) => {
+          return Promise.all(responses.map((response) => response.wait(waitRequestOptions)));
+        });
+      };
+    };
+    replaceAllRules = (base) => {
+      return (rules, requestOptions) => {
+        return saveRules(base)(rules, {
+          ...requestOptions,
+          clearExistingRules: true
+        });
+      };
+    };
+    replaceAllSynonyms = (base) => {
+      return (synonyms, requestOptions) => {
+        return saveSynonyms(base)(synonyms, {
+          ...requestOptions,
+          clearExistingSynonyms: true
+        });
+      };
+    };
+    saveObject = (base) => {
+      return (object, requestOptions) => {
+        return createWaitablePromise(saveObjects(base)([object], requestOptions).then((response) => {
+          return {
+            objectID: response.objectIDs[0],
+            taskID: response.taskIDs[0]
+          };
+        }), (response, waitRequestOptions) => waitTask(base)(response.taskID, waitRequestOptions));
+      };
+    };
+    saveObjects = (base) => {
+      return (objects, requestOptions) => {
+        const { autoGenerateObjectIDIfNotExist, ...options } = requestOptions || {};
+        const action = autoGenerateObjectIDIfNotExist ? BatchActionEnum.AddObject : BatchActionEnum.UpdateObject;
+        if (action === BatchActionEnum.UpdateObject) {
+          for (const object of objects) {
+            if (object.objectID === void 0) {
+              return createWaitablePromise(Promise.reject(createMissingObjectIDError()));
+            }
+          }
+        }
+        return chunkedBatch(base)(objects, action, options);
+      };
+    };
+    saveRule = (base) => {
+      return (rule, requestOptions) => {
+        return saveRules(base)([rule], requestOptions);
+      };
+    };
+    saveRules = (base) => {
+      return (rules, requestOptions) => {
+        const { forwardToReplicas, clearExistingRules, ...options } = requestOptions || {};
+        const mappedRequestOptions = createMappedRequestOptions(options);
+        if (forwardToReplicas) {
+          mappedRequestOptions.queryParameters.forwardToReplicas = 1;
+        }
+        if (clearExistingRules) {
+          mappedRequestOptions.queryParameters.clearExistingRules = 1;
+        }
+        return createWaitablePromise(base.transporter.write({
+          method: MethodEnum.Post,
+          path: encode("1/indexes/%s/rules/batch", base.indexName),
+          data: rules
+        }, mappedRequestOptions), (response, waitRequestOptions) => waitTask(base)(response.taskID, waitRequestOptions));
+      };
+    };
+    saveSynonym = (base) => {
+      return (synonym, requestOptions) => {
+        return saveSynonyms(base)([synonym], requestOptions);
+      };
+    };
+    saveSynonyms = (base) => {
+      return (synonyms, requestOptions) => {
+        const { forwardToReplicas, clearExistingSynonyms, replaceExistingSynonyms, ...options } = requestOptions || {};
+        const mappedRequestOptions = createMappedRequestOptions(options);
+        if (forwardToReplicas) {
+          mappedRequestOptions.queryParameters.forwardToReplicas = 1;
+        }
+        if (replaceExistingSynonyms || clearExistingSynonyms) {
+          mappedRequestOptions.queryParameters.replaceExistingSynonyms = 1;
+        }
+        return createWaitablePromise(base.transporter.write({
+          method: MethodEnum.Post,
+          path: encode("1/indexes/%s/synonyms/batch", base.indexName),
+          data: synonyms
+        }, mappedRequestOptions), (response, waitRequestOptions) => waitTask(base)(response.taskID, waitRequestOptions));
+      };
+    };
+    search = (base) => {
+      return (query, requestOptions) => {
+        return base.transporter.read({
+          method: MethodEnum.Post,
+          path: encode("1/indexes/%s/query", base.indexName),
+          data: {
+            query
+          },
+          cacheable: true
+        }, requestOptions);
+      };
+    };
+    searchForFacetValues = (base) => {
+      return (facetName, facetQuery, requestOptions) => {
+        return base.transporter.read({
+          method: MethodEnum.Post,
+          path: encode("1/indexes/%s/facets/%s/query", base.indexName, facetName),
+          data: {
+            facetQuery
+          },
+          cacheable: true
+        }, requestOptions);
+      };
+    };
+    searchRules = (base) => {
+      return (query, requestOptions) => {
+        return base.transporter.read({
+          method: MethodEnum.Post,
+          path: encode("1/indexes/%s/rules/search", base.indexName),
+          data: {
+            query
+          }
+        }, requestOptions);
+      };
+    };
+    searchSynonyms = (base) => {
+      return (query, requestOptions) => {
+        return base.transporter.read({
+          method: MethodEnum.Post,
+          path: encode("1/indexes/%s/synonyms/search", base.indexName),
+          data: {
+            query
+          }
+        }, requestOptions);
+      };
+    };
+    setSettings = (base) => {
+      return (settings, requestOptions) => {
+        const { forwardToReplicas, ...options } = requestOptions || {};
+        const mappedRequestOptions = createMappedRequestOptions(options);
+        if (forwardToReplicas) {
+          mappedRequestOptions.queryParameters.forwardToReplicas = 1;
+        }
+        return createWaitablePromise(base.transporter.write({
+          method: MethodEnum.Put,
+          path: encode("1/indexes/%s/settings", base.indexName),
+          data: settings
+        }, mappedRequestOptions), (response, waitRequestOptions) => waitTask(base)(response.taskID, waitRequestOptions));
+      };
+    };
+    waitTask = (base) => {
+      return (taskID, requestOptions) => {
+        return createRetryablePromise((retry) => {
+          return getTask(base)(taskID, requestOptions).then((response) => {
+            return response.status !== "published" ? retry() : void 0;
+          });
+        });
+      };
+    };
+    ApiKeyACLEnum = {
+      AddObject: "addObject",
+      Analytics: "analytics",
+      Browser: "browse",
+      DeleteIndex: "deleteIndex",
+      DeleteObject: "deleteObject",
+      EditSettings: "editSettings",
+      Inference: "inference",
+      ListIndexes: "listIndexes",
+      Logs: "logs",
+      Personalization: "personalization",
+      Recommendation: "recommendation",
+      Search: "search",
+      SeeUnretrievableAttributes: "seeUnretrievableAttributes",
+      Settings: "settings",
+      Usage: "usage"
+    };
+    BatchActionEnum = {
+      AddObject: "addObject",
+      UpdateObject: "updateObject",
+      PartialUpdateObject: "partialUpdateObject",
+      PartialUpdateObjectNoCreate: "partialUpdateObjectNoCreate",
+      DeleteObject: "deleteObject",
+      DeleteIndex: "delete",
+      ClearIndex: "clear"
+    };
+    ScopeEnum = {
+      Settings: "settings",
+      Synonyms: "synonyms",
+      Rules: "rules"
+    };
+    StrategyEnum = {
+      None: "none",
+      StopIfEnoughMatches: "stopIfEnoughMatches"
+    };
+    SynonymEnum = {
+      Synonym: "synonym",
+      OneWaySynonym: "oneWaySynonym",
+      AltCorrection1: "altCorrection1",
+      AltCorrection2: "altCorrection2",
+      Placeholder: "placeholder"
+    };
+  }
+});
+
+// node_modules/@algolia/logger-common/dist/logger-common.esm.js
+var logger_common_esm_exports = {};
+__export(logger_common_esm_exports, {
+  LogLevelEnum: () => LogLevelEnum,
+  createNullLogger: () => createNullLogger
+});
+function createNullLogger() {
+  return {
+    debug(_message, _args) {
+      return Promise.resolve();
+    },
+    info(_message, _args) {
+      return Promise.resolve();
+    },
+    error(_message, _args) {
+      return Promise.resolve();
+    }
+  };
+}
+var LogLevelEnum;
+var init_logger_common_esm = __esm({
+  "node_modules/@algolia/logger-common/dist/logger-common.esm.js"() {
+    "use strict";
+    LogLevelEnum = {
+      Debug: 1,
+      Info: 2,
+      Error: 3
+    };
+  }
+});
+
+// node_modules/@algolia/requester-node-http/dist/requester-node-http.esm.js
+var requester_node_http_esm_exports = {};
+__export(requester_node_http_esm_exports, {
+  createNodeHttpRequester: () => createNodeHttpRequester
+});
+import * as http from "http";
+import { Agent } from "http";
+import * as https from "https";
+import { Agent as Agent$1 } from "https";
+import { parse as parse2 } from "url";
+function createNodeHttpRequester({ agent: userGlobalAgent, httpAgent: userHttpAgent, httpsAgent: userHttpsAgent, requesterOptions = {} } = {}) {
+  const httpAgent = userHttpAgent || userGlobalAgent || defaultHttpAgent;
+  const httpsAgent = userHttpsAgent || userGlobalAgent || defaultHttpsAgent;
+  return {
+    send(request) {
+      return new Promise((resolve) => {
+        const url = parse2(request.url);
+        const path = url.query === null ? url.pathname : `${url.pathname}?${url.query}`;
+        const options = {
+          ...requesterOptions,
+          agent: url.protocol === "https:" ? httpsAgent : httpAgent,
+          hostname: url.hostname,
+          path,
+          method: request.method,
+          headers: {
+            ...requesterOptions && requesterOptions.headers ? requesterOptions.headers : {},
+            ...request.headers
+          },
+          ...url.port !== void 0 ? { port: url.port || "" } : {}
+        };
+        const req = (url.protocol === "https:" ? https : http).request(options, (response) => {
+          let contentBuffers = [];
+          response.on("data", (chunk) => {
+            contentBuffers = contentBuffers.concat(chunk);
+          });
+          response.on("end", () => {
+            clearTimeout(connectTimeout);
+            clearTimeout(responseTimeout);
+            resolve({
+              status: response.statusCode || 0,
+              content: Buffer.concat(contentBuffers).toString(),
+              isTimedOut: false
+            });
+          });
+        });
+        const createTimeout = (timeout, content) => {
+          return setTimeout(() => {
+            req.abort();
+            resolve({
+              status: 0,
+              content,
+              isTimedOut: true
+            });
+          }, timeout * 1e3);
+        };
+        const connectTimeout = createTimeout(request.connectTimeout, "Connection timeout");
+        let responseTimeout;
+        req.on("error", (error) => {
+          clearTimeout(connectTimeout);
+          clearTimeout(responseTimeout);
+          resolve({ status: 0, content: error.message, isTimedOut: false });
+        });
+        req.once("response", () => {
+          clearTimeout(connectTimeout);
+          responseTimeout = createTimeout(request.responseTimeout, "Socket timeout");
+        });
+        if (request.data !== void 0) {
+          req.write(request.data);
+        }
+        req.end();
+      });
+    },
+    destroy() {
+      httpAgent.destroy();
+      httpsAgent.destroy();
+      return Promise.resolve();
+    }
+  };
+}
+var agentOptions, defaultHttpAgent, defaultHttpsAgent;
+var init_requester_node_http_esm = __esm({
+  "node_modules/@algolia/requester-node-http/dist/requester-node-http.esm.js"() {
+    "use strict";
+    agentOptions = { keepAlive: true };
+    defaultHttpAgent = new Agent(agentOptions);
+    defaultHttpsAgent = new Agent$1(agentOptions);
+  }
+});
+
+// node_modules/algoliasearch/dist/algoliasearch.cjs.js
+var require_algoliasearch_cjs = __commonJS({
+  "node_modules/algoliasearch/dist/algoliasearch.cjs.js"(exports, module) {
+    "use strict";
+    var cacheCommon = (init_cache_common_esm(), __toCommonJS(cache_common_esm_exports));
+    var cacheInMemory = (init_cache_in_memory_esm(), __toCommonJS(cache_in_memory_esm_exports));
+    var clientAnalytics = (init_client_analytics_esm(), __toCommonJS(client_analytics_esm_exports));
+    var clientCommon = (init_client_common_esm(), __toCommonJS(client_common_esm_exports));
+    var clientPersonalization = (init_client_personalization_esm(), __toCommonJS(client_personalization_esm_exports));
+    var clientSearch = (init_client_search_esm(), __toCommonJS(client_search_esm_exports));
+    var loggerCommon = (init_logger_common_esm(), __toCommonJS(logger_common_esm_exports));
+    var requesterNodeHttp = (init_requester_node_http_esm(), __toCommonJS(requester_node_http_esm_exports));
+    var transporter = (init_transporter_esm(), __toCommonJS(transporter_esm_exports));
+    function algoliasearch2(appId, apiKey, options) {
+      const commonOptions = {
+        appId,
+        apiKey,
+        timeouts: {
+          connect: 2,
+          read: 5,
+          write: 30
+        },
+        requester: requesterNodeHttp.createNodeHttpRequester(),
+        logger: loggerCommon.createNullLogger(),
+        responsesCache: cacheCommon.createNullCache(),
+        requestsCache: cacheCommon.createNullCache(),
+        hostsCache: cacheInMemory.createInMemoryCache(),
+        userAgent: transporter.createUserAgent(clientCommon.version).add({
+          segment: "Node.js",
+          version: process.versions.node
+        })
+      };
+      const searchClientOptions = { ...commonOptions, ...options };
+      const initPersonalization = () => (clientOptions) => {
+        return clientPersonalization.createPersonalizationClient({
+          ...commonOptions,
+          ...clientOptions,
+          methods: {
+            getPersonalizationStrategy: clientPersonalization.getPersonalizationStrategy,
+            setPersonalizationStrategy: clientPersonalization.setPersonalizationStrategy
+          }
+        });
+      };
+      return clientSearch.createSearchClient({
+        ...searchClientOptions,
+        methods: {
+          search: clientSearch.multipleQueries,
+          searchForFacetValues: clientSearch.multipleSearchForFacetValues,
+          multipleBatch: clientSearch.multipleBatch,
+          multipleGetObjects: clientSearch.multipleGetObjects,
+          multipleQueries: clientSearch.multipleQueries,
+          copyIndex: clientSearch.copyIndex,
+          copySettings: clientSearch.copySettings,
+          copyRules: clientSearch.copyRules,
+          copySynonyms: clientSearch.copySynonyms,
+          moveIndex: clientSearch.moveIndex,
+          listIndices: clientSearch.listIndices,
+          getLogs: clientSearch.getLogs,
+          listClusters: clientSearch.listClusters,
+          multipleSearchForFacetValues: clientSearch.multipleSearchForFacetValues,
+          getApiKey: clientSearch.getApiKey,
+          addApiKey: clientSearch.addApiKey,
+          listApiKeys: clientSearch.listApiKeys,
+          updateApiKey: clientSearch.updateApiKey,
+          deleteApiKey: clientSearch.deleteApiKey,
+          restoreApiKey: clientSearch.restoreApiKey,
+          assignUserID: clientSearch.assignUserID,
+          assignUserIDs: clientSearch.assignUserIDs,
+          getUserID: clientSearch.getUserID,
+          searchUserIDs: clientSearch.searchUserIDs,
+          listUserIDs: clientSearch.listUserIDs,
+          getTopUserIDs: clientSearch.getTopUserIDs,
+          removeUserID: clientSearch.removeUserID,
+          hasPendingMappings: clientSearch.hasPendingMappings,
+          generateSecuredApiKey: clientSearch.generateSecuredApiKey,
+          getSecuredApiKeyRemainingValidity: clientSearch.getSecuredApiKeyRemainingValidity,
+          destroy: clientCommon.destroy,
+          clearDictionaryEntries: clientSearch.clearDictionaryEntries,
+          deleteDictionaryEntries: clientSearch.deleteDictionaryEntries,
+          getDictionarySettings: clientSearch.getDictionarySettings,
+          getAppTask: clientSearch.getAppTask,
+          replaceDictionaryEntries: clientSearch.replaceDictionaryEntries,
+          saveDictionaryEntries: clientSearch.saveDictionaryEntries,
+          searchDictionaryEntries: clientSearch.searchDictionaryEntries,
+          setDictionarySettings: clientSearch.setDictionarySettings,
+          waitAppTask: clientSearch.waitAppTask,
+          customRequest: clientSearch.customRequest,
+          initIndex: (base) => (indexName) => {
+            return clientSearch.initIndex(base)(indexName, {
+              methods: {
+                batch: clientSearch.batch,
+                delete: clientSearch.deleteIndex,
+                findAnswers: clientSearch.findAnswers,
+                getObject: clientSearch.getObject,
+                getObjects: clientSearch.getObjects,
+                saveObject: clientSearch.saveObject,
+                saveObjects: clientSearch.saveObjects,
+                search: clientSearch.search,
+                searchForFacetValues: clientSearch.searchForFacetValues,
+                waitTask: clientSearch.waitTask,
+                setSettings: clientSearch.setSettings,
+                getSettings: clientSearch.getSettings,
+                partialUpdateObject: clientSearch.partialUpdateObject,
+                partialUpdateObjects: clientSearch.partialUpdateObjects,
+                deleteObject: clientSearch.deleteObject,
+                deleteObjects: clientSearch.deleteObjects,
+                deleteBy: clientSearch.deleteBy,
+                clearObjects: clientSearch.clearObjects,
+                browseObjects: clientSearch.browseObjects,
+                getObjectPosition: clientSearch.getObjectPosition,
+                findObject: clientSearch.findObject,
+                exists: clientSearch.exists,
+                saveSynonym: clientSearch.saveSynonym,
+                saveSynonyms: clientSearch.saveSynonyms,
+                getSynonym: clientSearch.getSynonym,
+                searchSynonyms: clientSearch.searchSynonyms,
+                browseSynonyms: clientSearch.browseSynonyms,
+                deleteSynonym: clientSearch.deleteSynonym,
+                clearSynonyms: clientSearch.clearSynonyms,
+                replaceAllObjects: clientSearch.replaceAllObjects,
+                replaceAllSynonyms: clientSearch.replaceAllSynonyms,
+                searchRules: clientSearch.searchRules,
+                getRule: clientSearch.getRule,
+                deleteRule: clientSearch.deleteRule,
+                saveRule: clientSearch.saveRule,
+                saveRules: clientSearch.saveRules,
+                replaceAllRules: clientSearch.replaceAllRules,
+                browseRules: clientSearch.browseRules,
+                clearRules: clientSearch.clearRules
+              }
+            });
+          },
+          initAnalytics: () => (clientOptions) => {
+            return clientAnalytics.createAnalyticsClient({
+              ...commonOptions,
+              ...clientOptions,
+              methods: {
+                addABTest: clientAnalytics.addABTest,
+                getABTest: clientAnalytics.getABTest,
+                getABTests: clientAnalytics.getABTests,
+                stopABTest: clientAnalytics.stopABTest,
+                deleteABTest: clientAnalytics.deleteABTest
+              }
+            });
+          },
+          initPersonalization,
+          initRecommendation: () => (clientOptions) => {
+            searchClientOptions.logger.info("The `initRecommendation` method is deprecated. Use `initPersonalization` instead.");
+            return initPersonalization()(clientOptions);
+          }
+        }
+      });
+    }
+    algoliasearch2.version = clientCommon.version;
+    module.exports = algoliasearch2;
+  }
+});
+
+// node_modules/algoliasearch/index.js
+var require_algoliasearch = __commonJS({
+  "node_modules/algoliasearch/index.js"(exports, module) {
+    "use strict";
+    var algoliasearch2 = require_algoliasearch_cjs();
+    module.exports = algoliasearch2;
+    module.exports.default = algoliasearch2;
+  }
+});
+
+// node_modules/algoliasearch/lite.js
+var require_lite = __commonJS({
+  "node_modules/algoliasearch/lite.js"(exports, module) {
+    "use strict";
+    module.exports = require_algoliasearch();
   }
 });
 
@@ -3259,12 +5495,12 @@ var IconsMap = [
   }
 ];
 var getIcon = (name) => {
-  return IconsMap.find((icon2) => icon2.name === name)?.Icon;
+  return IconsMap.find((icon3) => icon3.name === name)?.Icon;
 };
-var OverviewCard = ({ icon: icon2, children }) => {
-  const Icon13 = getIcon(icon2);
+var OverviewCard = ({ icon: icon3, children }) => {
+  const Icon25 = getIcon(icon3);
   return /* @__PURE__ */ jsxs4(Flex, { sx: styles_default3.overviewCard, children: [
-    Icon13 && /* @__PURE__ */ jsx4(Icon13, { sx: styles_default3.overviewIcon }),
+    Icon25 && /* @__PURE__ */ jsx4(Icon25, { sx: styles_default3.overviewIcon }),
     /* @__PURE__ */ jsx4(Box3, { children })
   ] });
 };
@@ -3377,13 +5613,13 @@ import { useEffect as useEffect2 } from "react";
 function useClickOutside(ref, openModal) {
   useEffect2(() => {
     function handleClickOutside(event) {
-      const { body, documentElement } = document;
+      const { body: body2, documentElement } = document;
       if (ref.current && event.target instanceof Node && !ref.current.contains(event.target)) {
         openModal({ modalToggle: false });
-        const scrollTop = body.getBoundingClientRect().top * -1;
-        body.classList.remove("modal-open");
+        const scrollTop = body2.getBoundingClientRect().top * -1;
+        body2.classList.remove("modal-open");
         documentElement.scrollTop = scrollTop;
-        body.style.removeProperty("top");
+        body2.style.removeProperty("top");
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
@@ -3545,14 +5781,14 @@ var styles_default6 = { container: container2, title, description, linkContainer
 // src/components/whats-next-card/index.tsx
 import { jsx as jsx9, jsxs as jsxs7 } from "react/jsx-runtime";
 var WhatsNextCard = ({
-  title: title4,
-  description: description3,
+  title: title5,
+  description: description4,
   linkTitle,
   linkTo
 }) => {
   return /* @__PURE__ */ jsx9(Link, { href: linkTo, sx: styles_default6.container, children: /* @__PURE__ */ jsxs7(Box6, { children: [
-    /* @__PURE__ */ jsx9(Text2, { sx: styles_default6.title, className: "title", children: title4 }),
-    /* @__PURE__ */ jsx9(Text2, { sx: styles_default6.description, className: "description", children: description3 }),
+    /* @__PURE__ */ jsx9(Text2, { sx: styles_default6.title, className: "title", children: title5 }),
+    /* @__PURE__ */ jsx9(Text2, { sx: styles_default6.description, className: "description", children: description4 }),
     /* @__PURE__ */ jsxs7(Flex3, { sx: styles_default6.linkContainer, children: [
       /* @__PURE__ */ jsx9(Text2, { sx: styles_default6.link, className: "link", children: linkTitle }),
       /* @__PURE__ */ jsx9(
@@ -3599,7 +5835,8 @@ var LibraryContext = createContext({
   openSidebarElement: () => void 0,
   closeSidebarElements: () => void 0,
   sidebarSections: [],
-  setSidebarSections: () => void 0
+  setSidebarSections: () => void 0,
+  locale: "en"
 });
 var LibraryContextProvider = ({ children, ...props }) => {
   const [headingItems, setHeadingItems] = useState3([]);
@@ -3616,6 +5853,7 @@ var LibraryContextProvider = ({ children, ...props }) => {
   const [sidebarDataMaster, setSidebarDataMaster] = useState3(props.fallback);
   const [isEditorPreview, setIsEditorPreview] = useState3(props.isPreview);
   const [sidebarSections, setSidebarSections] = useState3(props.sections);
+  const locale = "en";
   useEffect4(() => {
     setSidebarDataMaster(props.fallback);
   }, [props.fallback]);
@@ -3626,10 +5864,10 @@ var LibraryContextProvider = ({ children, ...props }) => {
       setActiveSectionName(props.sectionSelected);
   }, [props.sectionSelected]);
   const { fallback } = props;
-  const toggleSidebarElementStatus = (title4) => {
+  const toggleSidebarElementStatus = (title5) => {
     setSidebarElementStatus((sidebarElementStatus2) => {
-      const open = sidebarElementStatus2.has(title4) === false ? true : !sidebarElementStatus2.get(title4);
-      return new Map(sidebarElementStatus2.set(title4, open));
+      const open = sidebarElementStatus2.has(title5) === false ? true : !sidebarElementStatus2.get(title5);
+      return new Map(sidebarElementStatus2.set(title5, open));
     });
   };
   const closeSidebarElements = (parentsArray) => {
@@ -3641,9 +5879,9 @@ var LibraryContextProvider = ({ children, ...props }) => {
       }
     });
   };
-  const openSidebarElement = (title4) => {
+  const openSidebarElement = (title5) => {
     setSidebarElementStatus((sidebarElementStatus2) => {
-      return new Map(sidebarElementStatus2.set(title4, true));
+      return new Map(sidebarElementStatus2.set(title5, true));
     });
   };
   const goToPreviousItem = () => {
@@ -3700,6 +5938,7 @@ var LibraryContextProvider = ({ children, ...props }) => {
         setSidebarDataMaster,
         sidebarSections,
         setSidebarSections,
+        locale,
         ...props
       },
       children: /* @__PURE__ */ jsx10(
@@ -3736,6 +5975,65 @@ var mermaidInit_default = mermaidInit;
 // src/lib/markdown-renderer/styles.module.css
 var styles_module_default = {};
 
+// src/messages/en.json
+var en_default = {
+  "feedback_section.question": "Was this helpful?",
+  "feedback_section.response": "Thanks for your feedback.",
+  "feedback_section.positive": "Yes",
+  "feedback_section.negative": "No",
+  "feedback_section.edit": "Suggest edits (Github)",
+  "feedback_modal.title": "Leave a comment (optional)",
+  "feedback_modal.button": "Send Feedback",
+  "search_input.empty": "No results found. Try different search terms.",
+  "search_input.placeholder": "Search",
+  "image.error_loading": "An error occurred while trying to load the image.",
+  api_reference_sidebar_filter_clear: "Clear all",
+  api_reference_sidebar_filter: "Filter by"
+};
+
+// src/messages/es.json
+var es_default = {
+  "feedback_section.question": "Was this helpful?",
+  "feedback_section.response": "Thanks for your feedback.",
+  "feedback_section.positive": "Yes",
+  "feedback_section.negative": "No",
+  "feedback_section.edit": "Suggest edits (Github)",
+  "feedback_modal.title": "Leave a comment (optional)",
+  "feedback_modal.button": "Send Feedback",
+  "search_input.empty": "No results found. Try different search terms.",
+  "search_input.placeholder": "Search",
+  "image.error_loading": "An error occurred while trying to load the image.",
+  api_reference_sidebar_filter_clear: "Clear all",
+  api_reference_sidebar_filter: "Filter by"
+};
+
+// src/messages/pt.json
+var pt_default = {
+  "feedback_section.question": "Was this helpful?",
+  "feedback_section.response": "Thanks for your feedback.",
+  "feedback_section.positive": "Yes",
+  "feedback_section.negative": "No",
+  "feedback_section.edit": "Suggest edits (Github)",
+  "feedback_modal.title": "Leave a comment (optional)",
+  "feedback_modal.button": "Send Feedback",
+  "search_input.empty": "No results found. Try different search terms.",
+  "search_input.placeholder": "Search",
+  "image.error_loading": "An error occurred while trying to load the image.",
+  api_reference_sidebar_filter_clear: "Clear all",
+  api_reference_sidebar_filter: "Filter by"
+};
+
+// src/utils/get-message.ts
+var getMessages = () => {
+  const messages2 = {
+    en: en_default,
+    es: es_default,
+    pt: pt_default
+  };
+  return messages2;
+};
+var messages = getMessages();
+
 // src/lib/markdown-renderer/components.tsx
 import { jsx as jsx11, jsxs as jsxs8 } from "react/jsx-runtime";
 mermaidInit_default();
@@ -3765,8 +6063,8 @@ var ObservableHeading = ({
     }
   );
 };
-var Callout = ({ node, icon: icon2, ...props }) => {
-  const blockquoteType = icon2 ? icon2 : "info";
+var Callout = ({ node, icon: icon3, ...props }) => {
+  const blockquoteType = icon3 ? icon3 : "info";
   return /* @__PURE__ */ jsx11(
     "blockquote",
     {
@@ -3819,12 +6117,13 @@ var MermaidDiagram = ({ node, ...props }) => {
 };
 var ImageComponent = ({ node, ...props }) => {
   const [srcHasError, setSrcHasError] = useState4(false);
+  const { locale } = useContext(LibraryContext);
   const regularImg = (
     // eslint-disable-next-line @next/next/no-img-element
     /* @__PURE__ */ jsx11("img", { src: props.src, alt: props.alt, onError: () => setSrcHasError(true) })
   );
   const errorMessage = /* @__PURE__ */ jsxs8("blockquote", { className: `${styles_module_default.blockquote} ${styles_module_default.blockquoteWarning}`, children: [
-    "ErrorMessage",
+    messages[locale]["image.error_loading"],
     " ",
     props.src
   ] });
@@ -3974,7 +6273,7 @@ var TableOfContents = () => {
     }
   }, [router.asPath]);
   const Item = ({
-    title: title4,
+    title: title5,
     slug,
     level,
     active
@@ -3989,7 +6288,7 @@ var TableOfContents = () => {
             subItem: level === 1 ? "" : slug
           }));
         },
-        children: /* @__PURE__ */ jsx13(Text3, { sx: styles_default7.item(level, active), children: title4 })
+        children: /* @__PURE__ */ jsx13(Text3, { sx: styles_default7.item(level, active), children: title5 })
       }
     );
   };
@@ -4025,9 +6324,9 @@ var TableOfContents = () => {
 var TableOfContents_default = TableOfContents;
 
 // src/lib/sidebar/index.tsx
-import { useEffect as useEffect9, useRef as useRef5, useState as useState8, useContext as useContext5 } from "react";
+import { useEffect as useEffect9, useRef as useRef5, useState as useState8, useContext as useContext6 } from "react";
 import { Flex as Flex10, Text as Text7, Box as Box14 } from "@vtex/brand-ui";
-import Link4 from "next/link";
+import Link4 from "next/link.js";
 
 // src/lib/sidebar/styles.ts
 var sidebar = {
@@ -4397,7 +6696,7 @@ import { useRouter as useRouter2 } from "next/router";
 import { useEffect as useEffect8 } from "react";
 var getIcon2 = (doc, sections) => {
   for (const section of sections) {
-    return section.find((icon2) => icon2.title === doc)?.Icon;
+    return section.find((icon3) => icon3.title === doc)?.Icon;
   }
 };
 var updateOpenPage = ({
@@ -4455,7 +6754,7 @@ var updateOpenPage = ({
 
 // src/components/sidebar-section/index.tsx
 import { Flex as Flex9, Box as Box13, Text as Text6, Button as Button4 } from "@vtex/brand-ui";
-import { useContext as useContext4, useMemo, useState as useState7 } from "react";
+import { useContext as useContext5, useMemo, useState as useState7 } from "react";
 
 // src/components/sidebar-section/styles.ts
 var sidebarContainer = {
@@ -4780,7 +7079,7 @@ var MethodCategory = ({
 var method_category_default = MethodCategory;
 
 // src/components/sidebar-section-filter/index.tsx
-import { useState as useState6 } from "react";
+import { useContext as useContext3, useState as useState6 } from "react";
 
 // src/components/sidebar-section-filter/styles.ts
 var container4 = {
@@ -4826,6 +7125,7 @@ var SectionFilter = ({
   setMethodFilter
 }) => {
   const [activeFilters, setActiveFilters] = useState6([]);
+  const { locale } = useContext3(LibraryContext);
   const setFilter = (methodFilterChanged) => {
     if (methodFilterChanged) {
       const index = activeFilters.indexOf(methodFilterChanged);
@@ -4868,7 +7168,7 @@ var SectionFilter = ({
     );
   };
   return /* @__PURE__ */ jsxs13(Box11, { sx: styles_default12.container, children: [
-    /* @__PURE__ */ jsx18(Text5, { sx: styles_default12.text, children: "Filter by" }),
+    /* @__PURE__ */ jsx18(Text5, { sx: styles_default12.text, children: messages[locale]["api_reference_sidebar_filter"] }),
     /* @__PURE__ */ jsxs13(Flex7, { children: [
       methodFilterList.map((methodFilter) => /* @__PURE__ */ jsx18(
         MethodButton,
@@ -4877,7 +7177,7 @@ var SectionFilter = ({
         },
         `filter-category-${methodFilter.name}`
       )),
-      activeFilters.length > 1 && /* @__PURE__ */ jsx18(Text5, { onClick: () => setFilter(null), sx: styles_default12.clear, children: "Clear all" })
+      activeFilters.length > 1 && /* @__PURE__ */ jsx18(Text5, { onClick: () => setFilter(null), sx: styles_default12.clear, children: messages[locale]["api_reference_sidebar_filter_clear"] })
     ] })
   ] });
 };
@@ -4885,7 +7185,7 @@ var sidebar_section_filter_default = SectionFilter;
 
 // src/components/sidebar-elements/index.tsx
 import { useRouter as useRouter3 } from "next/router";
-import { Fragment, useContext as useContext3 } from "react";
+import { Fragment, useContext as useContext4 } from "react";
 import {
   Box as Box12,
   Flex as Flex8,
@@ -4961,17 +7261,17 @@ var styles_default13 = {
 };
 
 // src/components/sidebar-elements/functions.tsx
-var styleByLevelNormal = (level, icon2) => {
-  const ml = 8 + (icon2 ? level * 4 : (level - 1) * 20 + 14);
-  const borderLeft = icon2 ? "none" : level >= 2 ? "1px solid #E7E9EE" : "";
+var styleByLevelNormal = (level, icon3) => {
+  const ml = 8 + (icon3 ? level * 4 : (level - 1) * 20 + 14);
+  const borderLeft = icon3 ? "none" : level >= 2 ? "1px solid #E7E9EE" : "";
   const normal = {
     marginLeft: `${ml}px`,
     borderLeft
   };
   return normal;
 };
-var textStyle = (active, icon2) => {
-  const ml = icon2 ? "4px" : "16px";
+var textStyle = (active, icon3) => {
+  const ml = icon3 ? "4px" : "16px";
   if (active) {
     const textStyleActive = {
       ...styles_default13.elementActive,
@@ -4995,7 +7295,7 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
     sidebarElementStatus,
     toggleSidebarElementStatus,
     sidebarDataMaster
-  } = useContext3(LibraryContext);
+  } = useContext4(LibraryContext);
   const router = useRouter3();
   const handleClick = (e, pathSuffix, slug) => {
     e.preventDefault();
@@ -5253,7 +7553,7 @@ var arrow_left_icon_default = ArrowLeftIcon;
 // src/components/sidebar-section/index.tsx
 import { jsx as jsx23, jsxs as jsxs17 } from "react/jsx-runtime";
 var SidebarSection = ({
-  documentation,
+  documentation: documentation2,
   categories,
   slugPrefix,
   isHamburgerMenu = false
@@ -5264,7 +7564,7 @@ var SidebarSection = ({
     sidebarSectionHidden,
     setSidebarSectionHidden,
     sidebarSections
-  } = useContext4(LibraryContext);
+  } = useContext5(LibraryContext);
   const [methodFilterList, setMethodFilterList] = useState7([
     { name: "POST", active: false },
     { name: "GET", active: false },
@@ -5275,6 +7575,7 @@ var SidebarSection = ({
   const filterStatus = methodFilterList.some(
     (methodFilter) => methodFilter.active
   );
+  const { locale } = useContext5(LibraryContext);
   const filteredResult = useMemo(() => {
     if (!filterStatus && searchValue === "")
       return categories;
@@ -5296,7 +7597,7 @@ var SidebarSection = ({
     }).filter((category2) => category2.children.length > 0);
     return filteredCategories;
   }, [filterStatus, methodFilterList, categories, searchValue]);
-  const DocIcon = getIcon2(documentation, sidebarSections);
+  const DocIcon = getIcon2(documentation2, sidebarSections);
   return isHamburgerMenu ? /* @__PURE__ */ jsx23(
     Box13,
     {
@@ -5323,7 +7624,7 @@ var SidebarSection = ({
                 }
               ),
               DocIcon && /* @__PURE__ */ jsx23(DocIcon, {}),
-              /* @__PURE__ */ jsx23(Text6, { sx: styles_default10.sidebarTitle, children: documentation })
+              /* @__PURE__ */ jsx23(Text6, { sx: styles_default10.sidebarTitle, children: documentation2 })
             ] }),
             /* @__PURE__ */ jsxs17(Box13, { sx: styles_default10.sidebarContainerBody, children: [
               /* @__PURE__ */ jsxs17(Flex9, { sx: styles_default10.searchBox, children: [
@@ -5334,13 +7635,13 @@ var SidebarSection = ({
                     style: styles_default10.searchInput,
                     className: "searchComponent",
                     type: "text",
-                    placeholder: `Search in ${documentation}...`,
+                    placeholder: messages[locale]["search_input.placeholder"],
                     value: searchValue,
                     onChange: (e) => setSearchValue(e.currentTarget.value)
                   }
                 )
               ] }),
-              documentation == "API Reference" && /* @__PURE__ */ jsx23(
+              documentation2 == "API Reference" && /* @__PURE__ */ jsx23(
                 sidebar_section_filter_default,
                 {
                   methodFilterList,
@@ -5404,7 +7705,7 @@ var SidebarSection = ({
                   ),
                   "PREVIEW MODE"
                 ] }),
-                /* @__PURE__ */ jsx23(Text6, { sx: styles_default10.sidebarTitle, children: documentation }),
+                /* @__PURE__ */ jsx23(Text6, { sx: styles_default10.sidebarTitle, children: documentation2 }),
                 /* @__PURE__ */ jsxs17(Flex9, { sx: styles_default10.searchBox, children: [
                   /* @__PURE__ */ jsx23(search_icon_default, { sx: styles_default10.searchIcon }),
                   /* @__PURE__ */ jsx23(
@@ -5413,14 +7714,14 @@ var SidebarSection = ({
                       style: styles_default10.searchInput,
                       className: "searchComponent",
                       type: "text",
-                      placeholder: `Search in ${!isEditorPreview ? `in ${documentation}` : ""}...`,
+                      placeholder: messages[locale]["search_input.placeholder"],
                       value: searchValue,
                       onChange: (e) => setSearchValue(e.currentTarget.value)
                     }
                   )
                 ] })
               ] }),
-              documentation == "API Reference" && /* @__PURE__ */ jsx23(
+              documentation2 == "API Reference" && /* @__PURE__ */ jsx23(
                 sidebar_section_filter_default,
                 {
                   methodFilterList,
@@ -5467,7 +7768,7 @@ import { Fragment as Fragment2, jsx as jsx24, jsxs as jsxs18 } from "react/jsx-r
 import { createElement } from "react";
 var Sidebar = ({ parentsArray = [] }) => {
   const [expandDelayStatus, setExpandDelayStatus] = useState8(true);
-  const context = useContext5(LibraryContext);
+  const context = useContext6(LibraryContext);
   const {
     isEditorPreview,
     setActiveSectionName,
@@ -5583,8 +7884,8 @@ var sidebar_default = Sidebar;
 import {
   Header,
   HamburgerMenu as VtexHamburgerMenu,
-  Box as Box16,
-  IconCaret as IconCaret3,
+  Box as Box18,
+  IconCaret as IconCaret4,
   Button as Button5
 } from "@vtex/brand-ui";
 
@@ -5668,10 +7969,10 @@ var styles_default14 = {
 };
 
 // src/lib/hamburger-menu/index.tsx
-import { useContext as useContext6 } from "react";
+import { useContext as useContext9 } from "react";
 
 // src/components/documentation-card/index.tsx
-import Link5 from "next/link";
+import Link5 from "next/link.js";
 import { Box as Box15, Flex as Flex11, Text as Text8 } from "@vtex/brand-ui";
 
 // src/components/documentation-card/styles.ts
@@ -5755,27 +8056,1152 @@ var cardTitle = (containerType) => {
 // src/components/documentation-card/index.tsx
 import { jsx as jsx25, jsxs as jsxs19 } from "react/jsx-runtime";
 var DocumentationCard = ({
-  title: title4,
-  description: description3,
+  title: title5,
+  description: description4,
   link: link2,
   containerType,
-  Icon: Icon13,
+  Icon: Icon25,
   onClick
 }) => {
   return /* @__PURE__ */ jsx25(Link5, { href: link2, legacyBehavior: true, children: /* @__PURE__ */ jsx25("a", { onClick, style: { width: "100%" }, children: /* @__PURE__ */ jsxs19(Box15, { sx: cardContainer3(containerType), children: [
     /* @__PURE__ */ jsxs19(Flex11, { sx: titleContainer2(containerType), children: [
-      /* @__PURE__ */ jsx25(Icon13, { sx: { color: "#4A596B" }, size: 24 }),
-      /* @__PURE__ */ jsx25(Text8, { className: "title", sx: cardTitle(containerType), children: title4 })
+      /* @__PURE__ */ jsx25(Icon25, { sx: { color: "#4A596B" }, size: 24 }),
+      /* @__PURE__ */ jsx25(Text8, { className: "title", sx: cardTitle(containerType), children: title5 })
     ] }),
-    /* @__PURE__ */ jsx25(Text8, { className: "description", sx: styles_default15.description, children: description3 })
+    /* @__PURE__ */ jsx25(Text8, { className: "description", sx: styles_default15.description, children: description4 })
   ] }) }) });
 };
 var documentation_card_default = DocumentationCard;
 
-// src/lib/hamburger-menu/index.tsx
+// src/components/search-input/index.tsx
+import { Configure, InstantSearch } from "react-instantsearch-dom";
+
+// src/components/search-input/search-box.tsx
+import { useRef as useRef6, useContext as useContext7 } from "react";
+import { useRouter as useRouter4 } from "next/router";
+import { Flex as Flex12 } from "@vtex/brand-ui";
+import { connectSearchBox } from "react-instantsearch-dom";
+
+// src/components/search-input/styles.ts
+var resultsOuterContainer = {
+  position: "relative"
+};
+var resultsInnerContainer = {
+  top: 0,
+  position: "absolute",
+  width: ["288px", "458px", "458px", "288px", "416px", "544px"],
+  border: "1px solid #B9B9B9",
+  borderRadius: "0px 0px 4px 4px",
+  background: "#FFFFFF"
+};
+var resultsBox = {
+  padding: "16px"
+};
+var seeAll = {
+  padding: "24px",
+  borderTop: "1px solid #E7E9EE",
+  color: "muted.0",
+  cursor: "pointer",
+  ":hover": {
+    background: "#F8F7FC",
+    borderTop: "1px solid #d0cdcd"
+  }
+};
+var hitBox = {
+  padding: "8px",
+  cursor: "pointer",
+  ":active, :hover": {
+    backgroundColor: "#F8F7FC",
+    borderRadius: "4px",
+    ".hit-content-title": {
+      color: "#000711"
+    },
+    ".hit-icon": {
+      "> path": {
+        stroke: "#000711"
+      }
+    }
+  }
+};
+var hitIcon = {
+  width: "16px",
+  height: "16px",
+  marginRight: "8px"
+};
+var hitContentContainer = {
+  width: "100%"
+};
+var hitContent = {
+  color: "muted.0",
+  fontSize: ["14px", "16px"],
+  lineHeight: ["20px", "22px"],
+  width: "100%"
+};
+var hitContentSmall = {
+  color: "muted.0",
+  fontSize: ["14px", "16px"],
+  lineHeight: ["20px", "22px"],
+  width: "100%",
+  whiteSpace: "pre",
+  overflow: "hidden",
+  textOverflow: "ellipsis"
+};
+var alignCenter = {
+  alignItems: "center"
+};
+var hitBreadCrumb = {
+  color: "muted.1",
+  fontSize: "12px",
+  lineHeight: "16px",
+  whiteSpace: "nowrap",
+  overflow: "hidden",
+  textOverflow: "ellipsis"
+};
+var hitBreadCrumbIn = {
+  ...hitBreadCrumb,
+  minWidth: "fit-content"
+};
+var hitBreadCrumbArrow = {
+  width: "16px",
+  height: "16px",
+  color: "muted.2"
+};
+var searchInput2 = {
+  width: "auto",
+  background: "none",
+  border: "#F4F4F4",
+  color: "#545454",
+  fontSize: ["14px"],
+  flex: 0,
+  transition: "flex 0.3s"
+};
+var searchIcon2 = {
+  minWidth: "16px",
+  minHeight: "16px",
+  width: "16px",
+  mr: "8px",
+  flex: 0,
+  maxWidth: "fit-content"
+};
+var searchContainer = {
+  paddingLeft: "12px",
+  alignItems: "center",
+  justifyContent: "center",
+  background: "#F4F4F4",
+  width: "288px",
+  height: "40px",
+  borderRadius: "4px",
+  transition: "all 0.3s ease-out",
+  cursor: "pointer",
+  ":hover": {
+    transition: "all 0.3s ease-out",
+    width: ["288px", "458px", "458px", "288px", "416px", "544px"],
+    border: "1px solid #3B3B3B"
+  },
+  ":focus-within": {
+    background: "#FFFFFF",
+    width: ["288px", "458px", "458px", "288px", "416px", "544px"],
+    transition: "all 0.3s ease-out",
+    border: "1px solid #3B3B3B",
+    boxShadow: "0px 0px 0px 1px #FFFFFF, 0px 0px 0px 3px #B9B9B9",
+    flex: "auto",
+    ".searchComponent": {
+      flex: "1 !important"
+    }
+  }
+};
+var noResults = {
+  justifyContent: "center",
+  alignContent: "center",
+  padding: "12px"
+};
+var hitContentHighlighted = {
+  ...hitContent,
+  color: "#4A596B",
+  width: "auto",
+  background: "#FFE0EF"
+};
+var styles_default16 = {
+  resultsOuterContainer,
+  resultsInnerContainer,
+  resultsBox,
+  seeAll,
+  hitBox,
+  hitIcon,
+  hitContentContainer,
+  hitContent,
+  hitContentSmall,
+  hitBreadCrumb,
+  hitBreadCrumbIn,
+  hitBreadCrumbArrow,
+  searchInput: searchInput2,
+  searchIcon: searchIcon2,
+  searchContainer,
+  alignCenter,
+  noResults,
+  hitContentHighlighted
+};
+
+// src/components/search-input/search-box.tsx
 import { jsx as jsx26, jsxs as jsxs20 } from "react/jsx-runtime";
+var SearchBoxComponent = ({
+  currentRefinement,
+  refine,
+  changeFocus
+}) => {
+  const router = useRouter4();
+  const inputRef = useRef6(null);
+  const { locale } = useContext7(LibraryContext);
+  const handleClick = () => {
+    if (inputRef.current != null)
+      inputRef.current.focus();
+  };
+  const keyPressed = (e) => {
+    if (e.key === "Enter") {
+      router.push({
+        pathname: "/search",
+        query: { keyword: inputRef.current?.value }
+      });
+      inputRef.current?.blur();
+      changeFocus(false);
+    }
+  };
+  return /* @__PURE__ */ jsxs20(Flex12, { sx: styles_default16.searchContainer, onClick: handleClick, children: [
+    /* @__PURE__ */ jsx26(search_icon_default, { sx: styles_default16.searchIcon }),
+    /* @__PURE__ */ jsx26(
+      "input",
+      {
+        style: styles_default16.searchInput,
+        ref: inputRef,
+        className: "searchComponent",
+        type: "text",
+        placeholder: messages[locale]["search_input.placeholder"],
+        value: currentRefinement,
+        "data-cy": "search",
+        onKeyDown: (e) => keyPressed(e),
+        onChange: (e) => refine(e.currentTarget.value)
+      }
+    )
+  ] });
+};
+var SearchBox = connectSearchBox(SearchBoxComponent);
+var search_box_default = SearchBox;
+
+// src/components/search-input/results-box.tsx
+import { useRouter as useRouter5 } from "next/router";
+import Link6 from "next/link.js";
+import {
+  connectStateResults,
+  connectHitInsights
+} from "react-instantsearch-dom";
+import aa from "search-insights";
+import { Box as Box16, Flex as Flex14, IconCaret as IconCaret3, Text as Text10 } from "@vtex/brand-ui";
+
+// src/components/icons/api-guides-icon.tsx
+import { Icon as Icon9 } from "@vtex/brand-ui";
+import { jsx as jsx27, jsxs as jsxs21 } from "react/jsx-runtime";
+var APIGuidesIcon = (props) => /* @__PURE__ */ jsxs21(
+  Icon9,
+  {
+    ...props,
+    viewBox: "0 0 32 32",
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg",
+    children: [
+      /* @__PURE__ */ jsx27(
+        "path",
+        {
+          fillRule: "evenodd",
+          clipRule: "evenodd",
+          d: "M24.5518 8.552L20.7812 4.78133C20.2812 4.28133 19.6025 4 18.8958 4H9.33317C7.85984 4 6.6665 5.19333 6.6665 6.66667V25.3333C6.6665 26.8067 7.85984 28 9.33317 28H22.6665C24.1398 28 25.3332 26.8067 25.3332 25.3333V10.4373C25.3332 9.73067 25.0518 9.052 24.5518 8.552V8.552Z",
+          stroke: "#4A596B",
+          strokeWidth: "2",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx27(
+        "path",
+        {
+          d: "M25.3332 10.6667H19.9998C19.2638 10.6667 18.6665 10.0693 18.6665 9.33333V4",
+          stroke: "#4A596B",
+          strokeWidth: "2",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx27(
+        "path",
+        {
+          d: "M10.6665 14.6667H18.6665",
+          stroke: "#4A596B",
+          strokeWidth: "2",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx27(
+        "path",
+        {
+          d: "M10.6665 18.6667H18.6665",
+          stroke: "#4A596B",
+          strokeWidth: "2",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx27(
+        "path",
+        {
+          d: "M10.6665 22.6667H16.4398",
+          stroke: "#4A596B",
+          strokeWidth: "2",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      )
+    ]
+  }
+);
+var api_guides_icon_default = APIGuidesIcon;
+
+// src/components/icons/api-reference-icon.tsx
+import { Icon as Icon10 } from "@vtex/brand-ui";
+import { jsx as jsx28, jsxs as jsxs22 } from "react/jsx-runtime";
+var APIReferenceIcon = (props) => /* @__PURE__ */ jsxs22(
+  Icon10,
+  {
+    ...props,
+    viewBox: "0 0 32 32",
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg",
+    children: [
+      /* @__PURE__ */ jsx28(
+        "path",
+        {
+          d: "M24.7612 26.6668C26.4439 26.6668 27.8092 25.3028 27.8092 23.6188V17.5242L29.3332 16.0002L27.8092 14.4762V8.3815C27.8092 6.6975 26.4452 5.3335 24.7612 5.3335",
+          stroke: "#4A596B",
+          strokeWidth: "2",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx28(
+        "path",
+        {
+          d: "M12 22.6668L20 9.3335",
+          stroke: "#4A596B",
+          strokeWidth: "2",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx28(
+        "path",
+        {
+          d: "M7.2385 5.3335C5.5545 5.3335 4.1905 6.6975 4.1905 8.3815V14.4762L2.6665 16.0002L4.1905 17.5242V23.6188C4.1905 25.3028 5.5545 26.6668 7.2385 26.6668",
+          stroke: "#4A596B",
+          strokeWidth: "2",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      )
+    ]
+  }
+);
+var api_reference_icon_default = APIReferenceIcon;
+
+// src/components/icons/app-development-icon.tsx
+import { Icon as Icon11 } from "@vtex/brand-ui";
+import { jsx as jsx29, jsxs as jsxs23 } from "react/jsx-runtime";
+var AppDevelopmentIcon = (props) => /* @__PURE__ */ jsxs23(
+  Icon11,
+  {
+    ...props,
+    viewBox: "0 0 32 32",
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg",
+    children: [
+      /* @__PURE__ */ jsx29(
+        "path",
+        {
+          fillRule: "evenodd",
+          clipRule: "evenodd",
+          d: "M4 9.36533L15.9827 14.732L28 9.36533L16.0173 4L4 9.36533Z",
+          stroke: "#4A596B",
+          strokeWidth: "2",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx29(
+        "path",
+        {
+          d: "M20.5813 19.312L28 22.6347L15.9827 28L4 22.6347L11.4187 19.3213",
+          stroke: "#4A596B",
+          strokeWidth: "2",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx29(
+        "path",
+        {
+          d: "M20.5813 12.6787L28 16L15.9827 21.3654L4 16L11.4187 12.688",
+          stroke: "#4A596B",
+          strokeWidth: "2",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      )
+    ]
+  }
+);
+var app_development_icon_default = AppDevelopmentIcon;
+
+// src/components/icons/release-notes-icon.tsx
+import { Icon as Icon12 } from "@vtex/brand-ui";
+import { jsx as jsx30, jsxs as jsxs24 } from "react/jsx-runtime";
+var ReleaseNotesIcon = (props) => /* @__PURE__ */ jsxs24(
+  Icon12,
+  {
+    ...props,
+    viewBox: "0 0 24 25",
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg",
+    children: [
+      /* @__PURE__ */ jsx30(
+        "path",
+        {
+          d: "M10 8.5V16.5",
+          stroke: "#4A596B",
+          strokeWidth: "1.5",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx30(
+        "path",
+        {
+          d: "M14 8.5V16.5",
+          stroke: "#4A596B",
+          strokeWidth: "1.5",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx30(
+        "path",
+        {
+          d: "M8 14.5H16",
+          stroke: "#4A596B",
+          strokeWidth: "1.5",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx30(
+        "path",
+        {
+          d: "M8 10.5H16",
+          stroke: "#4A596B",
+          strokeWidth: "1.5",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx30(
+        "path",
+        {
+          fillRule: "evenodd",
+          clipRule: "evenodd",
+          d: "M21 7.5V17.5C21 19.709 19.209 21.5 17 21.5H7C4.791 21.5 3 19.709 3 17.5V7.5C3 5.291 4.791 3.5 7 3.5H17C19.209 3.5 21 5.291 21 7.5Z",
+          stroke: "#4A596B",
+          strokeWidth: "1.5",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      )
+    ]
+  }
+);
+var release_notes_icon_default = ReleaseNotesIcon;
+
+// src/components/icons/storefront-development-icon.tsx
+import { Icon as Icon13 } from "@vtex/brand-ui";
+import { jsx as jsx31, jsxs as jsxs25 } from "react/jsx-runtime";
+var StorefrontDevelopmentIcon = (props) => /* @__PURE__ */ jsxs25(
+  Icon13,
+  {
+    ...props,
+    viewBox: "0 0 32 32",
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg",
+    children: [
+      /* @__PURE__ */ jsx31(
+        "path",
+        {
+          fillRule: "evenodd",
+          clipRule: "evenodd",
+          d: "M29.3332 6.67107V25.3324C29.3332 26.8057 28.1398 27.9991 26.6665 27.9991H5.33317C3.85984 27.9991 2.6665 26.8057 2.6665 25.3324V6.7164C2.6665 5.24573 3.85717 4.0524 5.32784 4.04973L26.6612 4.0044C28.1358 4.00173 29.3332 5.1964 29.3332 6.67107Z",
+          stroke: "#4A596B",
+          strokeWidth: "2",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx31(
+        "path",
+        {
+          d: "M10.6667 7.98568C10.6627 7.98568 10.66 7.98835 10.66 7.99235C10.66 7.99635 10.6627 7.99902 10.6667 7.99902C10.6707 7.99902 10.6733 7.99635 10.6733 7.99235C10.6733 7.98835 10.6707 7.98568 10.6667 7.98568",
+          stroke: "#4A596B",
+          strokeWidth: "2",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx31(
+        "path",
+        {
+          d: "M14.673 7.99252C14.669 7.99252 14.6663 7.99519 14.6663 7.99919C14.6663 8.00319 14.669 8.00585 14.673 8.00585C14.677 8.00585 14.6797 8.00319 14.6797 7.99919C14.6797 7.99519 14.677 7.99252 14.673 7.99252",
+          stroke: "#4A596B",
+          strokeWidth: "2",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx31(
+        "path",
+        {
+          d: "M6.66667 7.99887C6.66267 7.99887 6.66 8.00153 6.66 8.00553C6.66 8.00953 6.66267 8.0122 6.66667 8.0122C6.67067 8.0122 6.67333 8.00953 6.67333 8.00553C6.67333 8.00153 6.67067 7.99887 6.66667 7.99887",
+          stroke: "#4A596B",
+          strokeWidth: "2",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx31(
+        "path",
+        {
+          d: "M12.0667 14.999H20.6L19.6667 19.6657H13L11.6667 12.999H10",
+          stroke: "#4A596B",
+          strokeWidth: "2",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx31(
+        "path",
+        {
+          d: "M19.0468 22.952C19.0728 22.9781 19.0728 23.0203 19.0468 23.0463C19.0208 23.0724 18.9786 23.0724 18.9525 23.0463C18.9265 23.0203 18.9265 22.9781 18.9525 22.952C18.9786 22.926 19.0208 22.926 19.0468 22.952",
+          stroke: "#4A596B",
+          strokeWidth: "2",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx31(
+        "path",
+        {
+          d: "M13.7138 22.952C13.7398 22.9781 13.7398 23.0203 13.7138 23.0463C13.6878 23.0724 13.6456 23.0724 13.6195 23.0463C13.5935 23.0203 13.5935 22.9781 13.6195 22.952C13.6456 22.926 13.6878 22.926 13.7138 22.952",
+          stroke: "#4A596B",
+          strokeWidth: "2",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      )
+    ]
+  }
+);
+var storefront_development_icon_default = StorefrontDevelopmentIcon;
+
+// src/components/icons/vtex-io-apps-icon.tsx
+import { Icon as Icon14 } from "@vtex/brand-ui";
+import { jsx as jsx32, jsxs as jsxs26 } from "react/jsx-runtime";
+var VTEXIOAppsIcon = (props) => /* @__PURE__ */ jsxs26(
+  Icon14,
+  {
+    ...props,
+    viewBox: "0 0 32 32",
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg",
+    children: [
+      /* @__PURE__ */ jsx32(
+        "path",
+        {
+          fillRule: "evenodd",
+          clipRule: "evenodd",
+          d: "M10.3333 15.999H6.66667C5.19333 15.999 4 14.8057 4 13.3324V6.66569C4 5.19236 5.19333 3.99902 6.66667 3.99902H10.3333C11.8067 3.99902 13 5.19236 13 6.66569V13.3324C13 14.8057 11.8067 15.999 10.3333 15.999Z",
+          stroke: "#4A596B",
+          strokeWidth: "2",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx32(
+        "path",
+        {
+          fillRule: "evenodd",
+          clipRule: "evenodd",
+          d: "M10.3333 27.999H6.66667C5.19333 27.999 4 26.8057 4 25.3324V24.6657C4 23.1924 5.19333 21.999 6.66667 21.999H10.3333C11.8067 21.999 13 23.1924 13 24.6657V25.3324C13 26.8057 11.8067 27.999 10.3333 27.999Z",
+          stroke: "#4A596B",
+          strokeWidth: "2",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx32(
+        "path",
+        {
+          fillRule: "evenodd",
+          clipRule: "evenodd",
+          d: "M21.6667 15.999H25.3333C26.8067 15.999 28 17.1924 28 18.6657V25.3324C28 26.8057 26.8067 27.999 25.3333 27.999H21.6667C20.1933 27.999 19 26.8057 19 25.3324V18.6657C19 17.1924 20.1933 15.999 21.6667 15.999Z",
+          stroke: "#4A596B",
+          strokeWidth: "2",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx32(
+        "path",
+        {
+          fillRule: "evenodd",
+          clipRule: "evenodd",
+          d: "M21.6667 3.99902H25.3333C26.8067 3.99902 28 5.19236 28 6.66569V7.33236C28 8.80569 26.8067 9.99902 25.3333 9.99902H21.6667C20.1933 9.99902 19 8.80569 19 7.33236V6.66569C19 5.19236 20.1933 3.99902 21.6667 3.99902Z",
+          stroke: "#4A596B",
+          strokeWidth: "2",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      )
+    ]
+  }
+);
+var vtex_io_apps_icon_default = VTEXIOAppsIcon;
+
+// src/components/icons/added-icon.tsx
+import { Icon as Icon15 } from "@vtex/brand-ui";
+import { jsx as jsx33, jsxs as jsxs27 } from "react/jsx-runtime";
+var AddedIcon = (props) => /* @__PURE__ */ jsxs27(
+  Icon15,
+  {
+    ...props,
+    viewBox: "0 0 16 17",
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg",
+    children: [
+      /* @__PURE__ */ jsx33("circle", { cx: "8", cy: "8", r: "8", fill: "#DFF1E0" }),
+      /* @__PURE__ */ jsxs27("g", { clipPath: "url(#clip0_2354_76889)", children: [
+        /* @__PURE__ */ jsx33(
+          "path",
+          {
+            d: "M4.33398 8H11.6673",
+            stroke: "#38853C",
+            strokeWidth: "1.5",
+            strokeLinecap: "round",
+            strokeLinejoin: "round"
+          }
+        ),
+        /* @__PURE__ */ jsx33(
+          "path",
+          {
+            d: "M8 4.33594V11.6693",
+            stroke: "#38853C",
+            strokeWidth: "1.5",
+            strokeLinecap: "round",
+            strokeLinejoin: "round"
+          }
+        ),
+        /* @__PURE__ */ jsx33(
+          "path",
+          {
+            fillRule: "evenodd",
+            clipRule: "evenodd",
+            d: "M3.93359 8.00026C3.93359 7.77935 4.11268 7.60026 4.33359 7.60026H11.6669C11.8878 7.60026 12.0669 7.77935 12.0669 8.00026C12.0669 8.22117 11.8878 8.40026 11.6669 8.40026H4.33359C4.11268 8.40026 3.93359 8.22117 3.93359 8.00026Z",
+            fill: "#38853C"
+          }
+        ),
+        /* @__PURE__ */ jsx33(
+          "path",
+          {
+            fillRule: "evenodd",
+            clipRule: "evenodd",
+            d: "M8.00026 3.93359C8.22117 3.93359 8.40026 4.11268 8.40026 4.33359V11.6669C8.40026 11.8878 8.22117 12.0669 8.00026 12.0669C7.77935 12.0669 7.60026 11.8878 7.60026 11.6669V4.33359C7.60026 4.11268 7.77935 3.93359 8.00026 3.93359Z",
+            fill: "#38853C"
+          }
+        ),
+        /* @__PURE__ */ jsx33(
+          "path",
+          {
+            fillRule: "evenodd",
+            clipRule: "evenodd",
+            d: "M3.93359 8.00026C3.93359 7.77935 4.11268 7.60026 4.33359 7.60026H11.6669C11.8878 7.60026 12.0669 7.77935 12.0669 8.00026C12.0669 8.22117 11.8878 8.40026 11.6669 8.40026H4.33359C4.11268 8.40026 3.93359 8.22117 3.93359 8.00026Z",
+            stroke: "#38853C",
+            strokeWidth: "0.5",
+            strokeLinecap: "round",
+            strokeLinejoin: "round"
+          }
+        ),
+        /* @__PURE__ */ jsx33(
+          "path",
+          {
+            fillRule: "evenodd",
+            clipRule: "evenodd",
+            d: "M8.00026 3.93359C8.22117 3.93359 8.40026 4.11268 8.40026 4.33359V11.6669C8.40026 11.8878 8.22117 12.0669 8.00026 12.0669C7.77935 12.0669 7.60026 11.8878 7.60026 11.6669V4.33359C7.60026 4.11268 7.77935 3.93359 8.00026 3.93359Z",
+            stroke: "#38853C",
+            strokeWidth: "0.5",
+            strokeLinecap: "round",
+            strokeLinejoin: "round"
+          }
+        )
+      ] }),
+      /* @__PURE__ */ jsx33("defs", { children: /* @__PURE__ */ jsx33("clipPath", { id: "clip0_2354_76889", children: /* @__PURE__ */ jsx33(
+        "rect",
+        {
+          width: "10.6667",
+          height: "10.6667",
+          fill: "white",
+          transform: "translate(2.66699 3.66504)"
+        }
+      ) }) })
+    ]
+  }
+);
+var added_icon_default = AddedIcon;
+
+// src/components/icons/deprecated-icon.tsx
+import { Icon as Icon16 } from "@vtex/brand-ui";
+import { jsx as jsx34, jsxs as jsxs28 } from "react/jsx-runtime";
+var DeprecatedIcon = (props) => /* @__PURE__ */ jsxs28(
+  Icon16,
+  {
+    ...props,
+    viewBox: "0 0 16 16",
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg",
+    children: [
+      /* @__PURE__ */ jsx34("circle", { cx: "8", cy: "8", r: "8", fill: "#E7E9EE" }),
+      /* @__PURE__ */ jsx34(
+        "path",
+        {
+          fillRule: "evenodd",
+          clipRule: "evenodd",
+          d: "M3.8335 8C3.8335 7.72386 4.05735 7.5 4.3335 7.5H11.6668C11.943 7.5 12.1668 7.72386 12.1668 8C12.1668 8.27614 11.943 8.5 11.6668 8.5H4.3335C4.05735 8.5 3.8335 8.27614 3.8335 8Z",
+          fill: "black"
+        }
+      )
+    ]
+  }
+);
+var deprecated_icon_default = DeprecatedIcon;
+
+// src/components/icons/fixed-icon.tsx
+import { Icon as Icon17 } from "@vtex/brand-ui";
+import { jsx as jsx35, jsxs as jsxs29 } from "react/jsx-runtime";
+var FixedIcon = (props) => /* @__PURE__ */ jsxs29(
+  Icon17,
+  {
+    ...props,
+    viewBox: "0 0 16 17",
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg",
+    children: [
+      /* @__PURE__ */ jsx35("circle", { cx: "8", cy: "8", r: "8", fill: "#DEECF7" }),
+      /* @__PURE__ */ jsx35(
+        "path",
+        {
+          fillRule: "evenodd",
+          clipRule: "evenodd",
+          d: "M12.0206 5.31442C12.2158 5.50969 12.2158 5.82627 12.0205 6.02153L7.35387 10.688C7.15861 10.8832 6.84205 10.8832 6.64679 10.688L4.31345 8.35487C4.11818 8.15962 4.11817 7.84304 4.31342 7.64776C4.50868 7.45249 4.82526 7.45248 5.02053 7.64773L7.00032 9.62734L11.3134 5.31441C11.5087 5.11915 11.8253 5.11916 12.0206 5.31442Z",
+          fill: "#2953B2",
+          stroke: "#2953B2",
+          strokeWidth: "0.5",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      )
+    ]
+  }
+);
+var fixed_icon_default = FixedIcon;
+
+// src/components/icons/improved-icon.tsx
+import { Icon as Icon18 } from "@vtex/brand-ui";
+import { jsx as jsx36, jsxs as jsxs30 } from "react/jsx-runtime";
+var ImprovedIcon = (props) => /* @__PURE__ */ jsxs30(
+  Icon18,
+  {
+    ...props,
+    viewBox: "0 0 16 16",
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg",
+    children: [
+      /* @__PURE__ */ jsx36("circle", { cx: "8.5", cy: "8", r: "8", fill: "#FFEBD7" }),
+      /* @__PURE__ */ jsx36(
+        "path",
+        {
+          d: "M12.5 10L8.49511 6L4.5 10",
+          stroke: "#D56A00",
+          strokeWidth: "1.5",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      )
+    ]
+  }
+);
+var improved_icon_default = ImprovedIcon;
+
+// src/components/icons/removed-icon.tsx
+import { Icon as Icon19 } from "@vtex/brand-ui";
+import { jsx as jsx37, jsxs as jsxs31 } from "react/jsx-runtime";
+var RemovedIcon = (props) => /* @__PURE__ */ jsxs31(
+  Icon19,
+  {
+    ...props,
+    viewBox: "0 0 16 16",
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg",
+    children: [
+      /* @__PURE__ */ jsx37("circle", { cx: "8.5", cy: "8", r: "8", fill: "#F8E3E3" }),
+      /* @__PURE__ */ jsx37(
+        "path",
+        {
+          d: "M5.83203 5.33594L11.1654 10.6693",
+          stroke: "#CC3D3D",
+          strokeWidth: "1.5",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx37(
+        "path",
+        {
+          d: "M11.1654 5.33594L5.83203 10.6693",
+          stroke: "#CC3D3D",
+          strokeWidth: "1.5",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      )
+    ]
+  }
+);
+var removed_icon_default = RemovedIcon;
+
+// src/utils/search-utils.ts
+var getBreadcrumbs = (hit) => {
+  const breadcrumbs = [];
+  breadcrumbs.push(hit.doctype);
+  if (hit.doctype === "API Reference" && hit.doccategory)
+    breadcrumbs.push(hit.doccategory);
+  breadcrumbs.push(hit.doctitle);
+  return breadcrumbs;
+};
+var getRelativeURL = (url) => {
+  const relativeURL = url.replace(/^(?:\/\/|[^/]+)*\//, "");
+  return "/" + relativeURL;
+};
+var iconsMap = [
+  {
+    Icon: api_guides_icon_default,
+    name: "Guides"
+  },
+  {
+    Icon: api_reference_icon_default,
+    name: "API Reference"
+  },
+  {
+    Icon: app_development_icon_default,
+    name: "App Development"
+  },
+  {
+    Icon: storefront_development_icon_default,
+    name: "Storefront Development"
+  },
+  {
+    Icon: vtex_io_apps_icon_default,
+    name: "VTEX IO Apps"
+  },
+  {
+    Icon: release_notes_icon_default,
+    name: "Release Notes"
+  }
+];
+var getIcon3 = (name) => {
+  return iconsMap.find((icon3) => icon3.name === name)?.Icon;
+};
+var actions = [
+  {
+    type: "added",
+    title: "Added",
+    Icon: added_icon_default
+  },
+  {
+    type: "deprecated",
+    title: "Deprecated",
+    Icon: deprecated_icon_default
+  },
+  {
+    type: "fixed",
+    title: "Fixed",
+    Icon: fixed_icon_default
+  },
+  {
+    type: "improved",
+    title: "Improved",
+    Icon: improved_icon_default
+  },
+  {
+    type: "removed",
+    title: "Removed",
+    Icon: removed_icon_default
+  }
+];
+var getAction = (actionType) => {
+  return actions.find((action) => action.type === actionType);
+};
+
+// src/components/search-input/customHighlight.tsx
+import { useEffect as useEffect10, useRef as useRef7, useState as useState9 } from "react";
+import { connectHighlight } from "react-instantsearch-dom";
+import { Flex as Flex13, Text as Text9 } from "@vtex/brand-ui";
+import { jsx as jsx38 } from "react/jsx-runtime";
+var Highlight = ({
+  highlight,
+  attribute,
+  hit,
+  searchPage
+}) => {
+  const [parsedHit, setParsedHit] = useState9([]);
+  const textContainer = useRef7(null);
+  const hitHighlights = highlight({
+    highlightProperty: "_highlightResult",
+    attribute: hit.type != "content" ? `hierarchy.${hit.type}` : attribute,
+    hit
+  });
+  const maxDescriptionSize = 700;
+  const ellipsedContent = [];
+  if (searchPage) {
+    let charCount = 0;
+    hitHighlights.forEach((part) => {
+      if (maxDescriptionSize - charCount <= 0)
+        return;
+      if (part.value.length + charCount >= maxDescriptionSize) {
+        part.value = part.value.slice(0, maxDescriptionSize - charCount - 3) + "...";
+      }
+      charCount += part.value.length;
+      ellipsedContent.push(part);
+    });
+  }
+  useEffect10(() => {
+    if (searchPage)
+      return;
+    const titleSize = textContainer.current ? textContainer.current.offsetWidth / 7.75 : 40;
+    const highlightParts = [];
+    let highlightCount = 0, highlightLength = 0;
+    hitHighlights.forEach((match, index) => {
+      const isBetween = index > 0 && index < hitHighlights.length - 1 ? true : false;
+      if (match.isHighlighted) {
+        if (isBetween)
+          highlightCount++;
+        highlightCount++;
+        highlightLength += match.value.length;
+      } else {
+        highlightParts.push({
+          index,
+          isBetween,
+          size: match.value.length
+        });
+      }
+    });
+    highlightParts.sort(
+      (a, b) => a.size - b.size
+    );
+    let sizeRemaining = titleSize - highlightLength;
+    let size = sizeRemaining / (highlightCount || 1);
+    highlightParts.forEach((match) => {
+      const value = hitHighlights[match.index].value;
+      if (match.isBetween) {
+        if (match.size >= size * 2) {
+          const reticences = (size * 2 - 3) / 2;
+          hitHighlights[match.index].value = value.slice(0, reticences) + "..." + value.slice(value.length - reticences);
+          sizeRemaining -= size * 2;
+        } else {
+          sizeRemaining -= match.size;
+        }
+        highlightCount -= 2;
+      } else {
+        if (match.size >= size) {
+          if (match.index === 0)
+            hitHighlights[match.index].value = "..." + value.slice(value.length - (size - 3));
+          else
+            hitHighlights[match.index].value = value.slice(0, size - 3) + "...";
+          sizeRemaining -= size;
+        } else {
+          sizeRemaining -= match.size;
+        }
+        highlightCount -= 1;
+      }
+      size = sizeRemaining / highlightCount;
+      hitHighlights[match.index].value = hitHighlights[match.index].value.replace(/\s+/g, "\xA0");
+    });
+    setParsedHit(hitHighlights);
+  }, [hit, textContainer.current]);
+  return /* @__PURE__ */ jsx38(
+    Flex13,
+    {
+      ref: textContainer,
+      className: "hit-content-title",
+      sx: styles_default16.hitContentContainer,
+      children: /* @__PURE__ */ jsx38(Text9, { sx: searchPage ? styles_default16.hitContent : styles_default16.hitContentSmall, children: (searchPage ? ellipsedContent : parsedHit).map(
+        (part, index) => part.isHighlighted ? /* @__PURE__ */ jsx38("mark", { style: styles_default16.hitContentHighlighted, children: part.value }, index) : part.value
+      ) })
+    }
+  );
+};
+var connectedHighlight = connectHighlight(Highlight);
+var customHighlight_default = connectedHighlight;
+
+// src/components/search-input/results-box.tsx
+import { useContext as useContext8 } from "react";
+import { Fragment as Fragment3, jsx as jsx39, jsxs as jsxs32 } from "react/jsx-runtime";
+var Hit = ({ hit, insights }) => {
+  const breadcrumbsList = getBreadcrumbs(hit);
+  const DocIcon = getIcon3(hit.doctype);
+  return /* @__PURE__ */ jsx39(Link6, { href: getRelativeURL(hit.url), legacyBehavior: true, children: /* @__PURE__ */ jsx39(
+    "a",
+    {
+      onClick: () => insights("clickedObjectIDsAfterSearch", {
+        eventName: "Search in top bar",
+        objectIDs: [hit.objectID]
+      }),
+      children: /* @__PURE__ */ jsxs32(Box16, { sx: styles_default16.hitBox, children: [
+        /* @__PURE__ */ jsxs32(Flex14, { children: [
+          DocIcon && /* @__PURE__ */ jsx39(DocIcon, { className: "hit-icon", sx: styles_default16.hitIcon }),
+          /* @__PURE__ */ jsx39(Text10, { sx: styles_default16.hitContent, children: /* @__PURE__ */ jsx39(customHighlight_default, { hit, attribute: "content" }) })
+        ] }),
+        /* @__PURE__ */ jsxs32(Flex14, { sx: styles_default16.alignCenter, children: [
+          /* @__PURE__ */ jsx39(Text10, { sx: styles_default16.hitBreadCrumbIn, children: `In ${hit.doctype}` }),
+          breadcrumbsList.length > 0 && /* @__PURE__ */ jsx39(IconCaret3, { direction: "right", sx: styles_default16.hitBreadCrumbArrow }),
+          breadcrumbsList.map((filter, index) => /* @__PURE__ */ jsxs32(Flex14, { sx: styles_default16.alignCenter, children: [
+            /* @__PURE__ */ jsx39(Text10, { sx: styles_default16.hitBreadCrumb, children: filter }),
+            index < breadcrumbsList.length - 1 ? /* @__PURE__ */ jsx39(IconCaret3, { direction: "right", sx: styles_default16.hitBreadCrumbArrow }) : null
+          ] }, `${filter}${index}`))
+        ] })
+      ] })
+    }
+  ) });
+};
+var HitWithInsights = connectHitInsights(aa)(Hit);
+var HitsBox = connectStateResults(
+  ({ searchState, searchResults, changeFocus }) => {
+    const router = useRouter5();
+    const { locale } = useContext8(LibraryContext);
+    const seeAllSubmit = (keyword) => {
+      router.push({
+        pathname: "/search",
+        query: { keyword }
+      });
+      changeFocus(false);
+    };
+    const setQueryIDAndPosition = (hit, index) => {
+      return {
+        ...hit,
+        __queryID: searchResults.queryID || "",
+        __position: searchResults.hitsPerPage * searchResults.page + index + 1
+      };
+    };
+    return /* @__PURE__ */ jsx39(Fragment3, { children: searchResults && /* @__PURE__ */ jsx39(Box16, { sx: styles_default16.resultsOuterContainer, children: /* @__PURE__ */ jsxs32(Box16, { sx: styles_default16.resultsInnerContainer, children: [
+      /* @__PURE__ */ jsx39(Box16, { sx: searchResults.hits.length && styles_default16.resultsBox, children: searchResults.hits.map(
+        (searchResult, index) => index < 7 && /* @__PURE__ */ jsx39(
+          Box16,
+          {
+            onClick: () => changeFocus(false),
+            children: /* @__PURE__ */ jsx39(
+              HitWithInsights,
+              {
+                hit: setQueryIDAndPosition(searchResult, index)
+              }
+            )
+          },
+          `matched-result-${index}`
+        )
+      ) }),
+      searchResults.hits.length > 7 && /* @__PURE__ */ jsx39(
+        Box16,
+        {
+          sx: styles_default16.seeAll,
+          onClick: () => seeAllSubmit(searchState.query || ""),
+          children: /* @__PURE__ */ jsx39(Text10, { children: "See all results" })
+        }
+      ),
+      !searchResults.hits.length && /* @__PURE__ */ jsx39(Flex14, { sx: styles_default16.noResults, children: /* @__PURE__ */ jsx39(Text10, { children: messages[locale]["search_input.empty"] }) })
+    ] }) }) });
+  }
+);
+var results_box_default = HitsBox;
+
+// src/components/search-input/index.tsx
+import { Box as Box17 } from "@vtex/brand-ui";
+import { useRef as useRef8, useState as useState10 } from "react";
+
+// src/utils/config/search-config.ts
+var import_lite = __toESM(require_lite());
+import aa2 from "search-insights";
+var searchClient = void 0;
+var searchIndex = "";
+var createAlgoliaClient = (config) => {
+  const { apiKey, appId, index, algoliaOptions, customOptions } = config;
+  searchIndex = index;
+  aa2("init", {
+    appId: appId || "",
+    apiKey: apiKey || "",
+    useCookie: false
+  });
+  aa2("getUserToken", null, (err) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+  });
+  const algoliaClient = (0, import_lite.default)(appId || "", apiKey || "", algoliaOptions);
+  searchClient = {
+    ...algoliaClient,
+    ...customOptions,
+    search(requests) {
+      if (requests.every(({ params }) => !params?.query))
+        return;
+      return algoliaClient.search(requests);
+    }
+  };
+};
+var search_config_default = createAlgoliaClient;
+
+// src/components/search-input/index.tsx
+import { jsx as jsx40, jsxs as jsxs33 } from "react/jsx-runtime";
+function SearchInput() {
+  const [focusOut, setfocusOut] = useState10({
+    modaltoggle: true
+  });
+  const resultsBox2 = useRef8();
+  useClickOutside(resultsBox2, setfocusOut);
+  const changeFocus = (value) => {
+    setfocusOut({ modaltoggle: value });
+  };
+  return /* @__PURE__ */ jsxs33(InstantSearch, { searchClient, indexName: searchIndex, children: [
+    /* @__PURE__ */ jsx40(Configure, { clickAnalytics: true }),
+    /* @__PURE__ */ jsxs33(Box17, { onFocus: () => setfocusOut({ modaltoggle: true }), ref: resultsBox2, children: [
+      /* @__PURE__ */ jsx40(search_box_default, { changeFocus }),
+      focusOut.modaltoggle && /* @__PURE__ */ jsx40(results_box_default, { changeFocus })
+    ] })
+  ] });
+}
+
+// src/lib/hamburger-menu/index.tsx
+import { jsx as jsx41, jsxs as jsxs34 } from "react/jsx-runtime";
 var HamburgerMenu = ({ parentsArray = [] }) => {
-  const context = useContext6(LibraryContext);
+  const context = useContext9(LibraryContext);
   const {
     sidebarDataMaster,
     sidebarSectionHidden,
@@ -5785,23 +9211,23 @@ var HamburgerMenu = ({ parentsArray = [] }) => {
     sidebarSections
   } = context;
   updateOpenPage({ parentsArray, context });
-  return /* @__PURE__ */ jsx26(Header.ActionButton, { children: /* @__PURE__ */ jsx26(VtexHamburgerMenu, { sx: styles_default14.hamburgerContainer, children: /* @__PURE__ */ jsx26(VtexHamburgerMenu.Menu, { sx: styles_default14.innerHambugerContainer, children: /* @__PURE__ */ jsxs20(Box16, { sx: styles_default14.menuContainer, children: [
-    /* @__PURE__ */ jsxs20(Box16, { sx: styles_default14.cardContainer, children: [
-      /* @__PURE__ */ jsx26(Box16, { sx: styles_default14.hamburgerSearchContainer }),
-      sidebarSections.map((section, id) => /* @__PURE__ */ jsx26(
-        Box16,
+  return /* @__PURE__ */ jsx41(Header.ActionButton, { children: /* @__PURE__ */ jsx41(VtexHamburgerMenu, { sx: styles_default14.hamburgerContainer, children: /* @__PURE__ */ jsx41(VtexHamburgerMenu.Menu, { sx: styles_default14.innerHambugerContainer, children: /* @__PURE__ */ jsxs34(Box18, { sx: styles_default14.menuContainer, children: [
+    /* @__PURE__ */ jsxs34(Box18, { sx: styles_default14.cardContainer, children: [
+      /* @__PURE__ */ jsx41(Box18, { sx: styles_default14.hamburgerSearchContainer, children: /* @__PURE__ */ jsx41(SearchInput, {}) }),
+      sidebarSections.map((section, id) => /* @__PURE__ */ jsx41(
+        Box18,
         {
           sx: id > 0 ? styles_default14.updatesContainer : styles_default14.documentationContainer,
           "data-cy": "dropdown-menu-first-section",
-          children: section.map((card2) => /* @__PURE__ */ jsxs20(Box16, { sx: styles_default14.innerCardContainer, children: [
-            /* @__PURE__ */ jsx26(documentation_card_default, { containerType: "mobile", ...card2 }),
-            /* @__PURE__ */ jsx26(
+          children: section.map((card2) => /* @__PURE__ */ jsxs34(Box18, { sx: styles_default14.innerCardContainer, children: [
+            /* @__PURE__ */ jsx41(documentation_card_default, { containerType: "mobile", ...card2 }),
+            /* @__PURE__ */ jsx41(
               Button5,
               {
                 "aria-label": "Open sidebar",
                 size: "regular",
                 variant: "tertiary",
-                icon: () => /* @__PURE__ */ jsx26(IconCaret3, { direction: "right", size: 32 }),
+                icon: () => /* @__PURE__ */ jsx41(IconCaret4, { direction: "right", size: 32 }),
                 sx: activeSectionName === card2.title && !sidebarSectionHidden ? styles_default14.arrowIconActive : styles_default14.arrowIcon,
                 onClick: () => {
                   setActiveSectionName(card2.title);
@@ -5814,12 +9240,12 @@ var HamburgerMenu = ({ parentsArray = [] }) => {
         id
       ))
     ] }),
-    /* @__PURE__ */ jsx26(
-      Box16,
+    /* @__PURE__ */ jsx41(
+      Box18,
       {
         className: sidebarSectionHidden || !activeSectionName ? "" : "menuHidden",
         sx: styles_default14.sideMenuContainer,
-        children: activeSectionName ? /* @__PURE__ */ jsx26(
+        children: activeSectionName ? /* @__PURE__ */ jsx41(
           sidebar_section_default,
           {
             isHamburgerMenu: true,
@@ -5835,13 +9261,13 @@ var HamburgerMenu = ({ parentsArray = [] }) => {
 var hamburger_menu_default = HamburgerMenu;
 
 // src/lib/feedback-section/index.tsx
-import { Flex as Flex12, Text as Text10, Link as Link6 } from "@vtex/brand-ui";
+import { Flex as Flex15, Text as Text12, Link as Link7 } from "@vtex/brand-ui";
 
 // src/components/icons/edit-icon.tsx
-import { Icon as Icon9 } from "@vtex/brand-ui";
-import { jsx as jsx27, jsxs as jsxs21 } from "react/jsx-runtime";
-var EditIcon = (props) => /* @__PURE__ */ jsxs21(
-  Icon9,
+import { Icon as Icon20 } from "@vtex/brand-ui";
+import { jsx as jsx42, jsxs as jsxs35 } from "react/jsx-runtime";
+var EditIcon = (props) => /* @__PURE__ */ jsxs35(
+  Icon20,
   {
     ...props,
     width: "25",
@@ -5850,7 +9276,7 @@ var EditIcon = (props) => /* @__PURE__ */ jsxs21(
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg",
     children: [
-      /* @__PURE__ */ jsx27(
+      /* @__PURE__ */ jsx42(
         "path",
         {
           fillRule: "evenodd",
@@ -5862,7 +9288,7 @@ var EditIcon = (props) => /* @__PURE__ */ jsxs21(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx27(
+      /* @__PURE__ */ jsx42(
         "path",
         {
           d: "M14.25 8.15234L17.34 11.2423",
@@ -5878,10 +9304,10 @@ var EditIcon = (props) => /* @__PURE__ */ jsxs21(
 var edit_icon_default = EditIcon;
 
 // src/components/icons/like-icon.tsx
-import { Icon as Icon10 } from "@vtex/brand-ui";
-import { jsx as jsx28, jsxs as jsxs22 } from "react/jsx-runtime";
-var LikeIcon = (props) => /* @__PURE__ */ jsxs22(
-  Icon10,
+import { Icon as Icon21 } from "@vtex/brand-ui";
+import { jsx as jsx43, jsxs as jsxs36 } from "react/jsx-runtime";
+var LikeIcon = (props) => /* @__PURE__ */ jsxs36(
+  Icon21,
   {
     ...props,
     width: "25",
@@ -5890,7 +9316,7 @@ var LikeIcon = (props) => /* @__PURE__ */ jsxs22(
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg",
     children: [
-      /* @__PURE__ */ jsx28(
+      /* @__PURE__ */ jsx43(
         "path",
         {
           fillRule: "evenodd",
@@ -5902,7 +9328,7 @@ var LikeIcon = (props) => /* @__PURE__ */ jsxs22(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx28(
+      /* @__PURE__ */ jsx43(
         "path",
         {
           d: "M8.5 11.5638L12.149 6.81276C12.828 5.92776 14.154 5.90576 14.863 6.76676V6.76676C15.128 7.08776 15.272 7.49176 15.272 7.90776V11.1788H18.368C18.969 11.1788 19.53 11.4788 19.864 11.9778L20.193 12.4688C20.488 12.9098 20.574 13.4588 20.427 13.9678L19.068 18.6898C18.846 19.4608 18.141 19.9918 17.339 19.9918H11.05C10.55 19.9918 10.072 19.7838 9.732 19.4178L8.5 18.0918",
@@ -5918,10 +9344,10 @@ var LikeIcon = (props) => /* @__PURE__ */ jsxs22(
 var like_icon_default = LikeIcon;
 
 // src/components/icons/like-selected-icon.tsx
-import { Icon as Icon11 } from "@vtex/brand-ui";
-import { jsx as jsx29, jsxs as jsxs23 } from "react/jsx-runtime";
-var LikeSelectedIcon = (props) => /* @__PURE__ */ jsxs23(
-  Icon11,
+import { Icon as Icon22 } from "@vtex/brand-ui";
+import { jsx as jsx44, jsxs as jsxs37 } from "react/jsx-runtime";
+var LikeSelectedIcon = (props) => /* @__PURE__ */ jsxs37(
+  Icon22,
   {
     ...props,
     width: "24",
@@ -5930,7 +9356,7 @@ var LikeSelectedIcon = (props) => /* @__PURE__ */ jsxs23(
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg",
     children: [
-      /* @__PURE__ */ jsx29(
+      /* @__PURE__ */ jsx44(
         "path",
         {
           fillRule: "evenodd",
@@ -5939,7 +9365,7 @@ var LikeSelectedIcon = (props) => /* @__PURE__ */ jsxs23(
           fill: "#A1A8B3"
         }
       ),
-      /* @__PURE__ */ jsx29(
+      /* @__PURE__ */ jsx44(
         "path",
         {
           d: "M5.056 19.5H6.944C7.80314 19.5 8.5 18.8031 8.5 17.944V10.556C8.5 9.69686 7.80314 9 6.944 9H5.056C4.19686 9 3.5 9.69686 3.5 10.556V17.944C3.5 18.8031 4.19686 19.5 5.056 19.5Z",
@@ -5955,7 +9381,7 @@ var LikeSelectedIcon = (props) => /* @__PURE__ */ jsxs23(
 var like_selected_icon_default = LikeSelectedIcon;
 
 // src/lib/feedback-section/index.tsx
-import { useRef as useRef7, useState as useState10 } from "react";
+import { useContext as useContext11, useRef as useRef10, useState as useState12 } from "react";
 
 // src/lib/feedback-section/styles.ts
 var container5 = {
@@ -6023,7 +9449,7 @@ var editContainer = {
   display: "flex"
 };
 var editIcon = { mr: "4px" };
-var styles_default16 = {
+var styles_default17 = {
   container: container5,
   question,
   likeContainer,
@@ -6039,21 +9465,22 @@ var styles_default16 = {
 
 // src/lib/feedback-section/functions.ts
 var setButtonStyle = (feedback, modalState, like) => {
-  const buttonactive = modalState.modalOpen && like === modalState.liked ? styles_default16.buttonActive : styles_default16.button;
+  const buttonactive = modalState.modalOpen && like === modalState.liked ? styles_default17.buttonActive : styles_default17.button;
   const ml = like ? ["0", "8px"] : feedback === like ? ["0", "8px"] : ["32px", "16px"];
   if (feedback === void 0)
-    return { ...styles_default16.box, ...buttonactive, ml };
+    return { ...styles_default17.box, ...buttonactive, ml };
   if (like === feedback)
-    return { ...styles_default16.box, ...styles_default16.selectedButton, ml };
+    return { ...styles_default17.box, ...styles_default17.selectedButton, ml };
   return { display: "none !important" };
 };
 
 // src/components/feedback-modal/index.tsx
-import { Box as Box17, Button as Button6, Textarea, Text as Text9, Icon as Icon12 } from "@vtex/brand-ui";
+import { Box as Box19, Button as Button6, Textarea, Text as Text11, Icon as Icon23 } from "@vtex/brand-ui";
 import {
-  useEffect as useEffect10,
-  useRef as useRef6,
-  useState as useState9
+  useContext as useContext10,
+  useEffect as useEffect11,
+  useRef as useRef9,
+  useState as useState11
 } from "react";
 
 // src/components/feedback-modal/styles.ts
@@ -6117,7 +9544,7 @@ var arrow = {
   left: "calc(50% - 12px)",
   height: "14px"
 };
-var styles_default17 = {
+var styles_default18 = {
   container: container6,
   box: box2,
   card,
@@ -6148,7 +9575,7 @@ var modalPositionStyle = (chosenButtonRef) => {
     buttonTop > modalHeight ? `${buttonTop - modalHeight}px` : `${buttonBottom}px`
   ];
   const modalBox = {
-    ...styles_default17.box,
+    ...styles_default18.box,
     position: "absolute",
     left: modalLeft,
     top: modalTop
@@ -6163,7 +9590,7 @@ var arrowDirectionStyle = (chosenButtonRef, element) => {
     return false;
   if (element === "arrow") {
     const arrowDirection = {
-      ...styles_default17.arrow,
+      ...styles_default18.arrow,
       transform: "rotate(180deg)",
       top: "0",
       bottom: "initial"
@@ -6171,17 +9598,17 @@ var arrowDirectionStyle = (chosenButtonRef, element) => {
     return arrowDirection;
   }
   const cardPosition = {
-    ...styles_default17.card,
+    ...styles_default18.card,
     mt: "14px"
   };
   return cardPosition;
 };
 
 // src/components/feedback-modal/index.tsx
-import { jsx as jsx30, jsxs as jsxs24 } from "react/jsx-runtime";
+import { jsx as jsx45, jsxs as jsxs38 } from "react/jsx-runtime";
 var FeedBackModalArrow = (props) => {
-  return /* @__PURE__ */ jsxs24(
-    Icon12,
+  return /* @__PURE__ */ jsxs38(
+    Icon23,
     {
       ...props,
       width: "20",
@@ -6191,7 +9618,7 @@ var FeedBackModalArrow = (props) => {
       xmlns: "http://www.w3.org/2000/svg",
       children: [
         " ",
-        /* @__PURE__ */ jsx30(
+        /* @__PURE__ */ jsx45(
           "path",
           {
             d: "M10.8432 12.3275C10.4448 12.8914 9.60821 12.8914 9.20976 12.3275L0.500234 6.7935e-05L19.5527 6.56171e-05L10.8432 12.3275Z",
@@ -6209,15 +9636,16 @@ var FeedBackModal = ({
   chosenButtonRef,
   onSubmit
 }) => {
-  const cardRef = useRef6();
-  const { body, documentElement } = document;
-  const [comment, setComment] = useState9("");
+  const cardRef = useRef9();
+  const { body: body2, documentElement } = document;
+  const [comment, setComment] = useState11("");
+  const { locale } = useContext10(LibraryContext);
   const closeModal = () => {
     const feedback = modalState?.liked;
-    const scrollTop = body.getBoundingClientRect().top * -1;
-    body.classList.remove("modal-open");
+    const scrollTop = body2.getBoundingClientRect().top * -1;
+    body2.classList.remove("modal-open");
     documentElement.scrollTop = scrollTop;
-    body.style.removeProperty("top");
+    body2.style.removeProperty("top");
     changeModalState({ modalOpen: false });
     changeFeedBack(feedback);
   };
@@ -6225,52 +9653,52 @@ var FeedBackModal = ({
     onSubmit(comment);
     closeModal();
   };
-  useEffect10(() => {
-    const scrollTop = body.getBoundingClientRect().top * -1;
-    body.style.top = `-${scrollTop}px`;
-    body.classList.add("modal-open");
+  useEffect11(() => {
+    const scrollTop = body2.getBoundingClientRect().top * -1;
+    body2.style.top = `-${scrollTop}px`;
+    body2.classList.add("modal-open");
   }, []);
   useClickOutside(cardRef, changeModalState);
-  return /* @__PURE__ */ jsx30(Box17, { sx: styles_default17.container, children: /* @__PURE__ */ jsxs24(
-    Box17,
+  return /* @__PURE__ */ jsx45(Box19, { sx: styles_default18.container, children: /* @__PURE__ */ jsxs38(
+    Box19,
     {
       ref: cardRef,
-      sx: modalPositionStyle(chosenButtonRef.current) || styles_default17.box,
+      sx: modalPositionStyle(chosenButtonRef.current) || styles_default18.box,
       children: [
-        /* @__PURE__ */ jsxs24(
-          Box17,
+        /* @__PURE__ */ jsxs38(
+          Box19,
           {
-            sx: arrowDirectionStyle(chosenButtonRef.current, "card") || styles_default17.card,
+            sx: arrowDirectionStyle(chosenButtonRef.current, "card") || styles_default18.card,
             "data-cy": "feedback-modal",
             children: [
-              /* @__PURE__ */ jsx30(Text9, { sx: styles_default17.title, children: "Leave a comment (optional)" }),
-              /* @__PURE__ */ jsx30(
+              /* @__PURE__ */ jsx45(Text11, { sx: styles_default18.title, children: messages[locale]["feedback_modal.title"] }),
+              /* @__PURE__ */ jsx45(
                 Textarea,
                 {
                   id: "feedback-modal-input",
-                  sx: styles_default17.textarea,
+                  sx: styles_default18.textarea,
                   label: "",
                   rows: 7,
                   value: comment,
                   onChange: (e) => setComment(e.currentTarget.value)
                 }
               ),
-              /* @__PURE__ */ jsx30(
+              /* @__PURE__ */ jsx45(
                 Button6,
                 {
                   onClick: async () => await handleClick(),
-                  sx: styles_default17.button,
+                  sx: styles_default18.button,
                   variant: "secondary",
-                  children: "Send Feedback"
+                  children: messages[locale]["feedback_modal.button"]
                 }
               )
             ]
           }
         ),
-        /* @__PURE__ */ jsx30(
+        /* @__PURE__ */ jsx45(
           FeedBackModalArrow,
           {
-            sx: arrowDirectionStyle(chosenButtonRef.current, "arrow") || styles_default17.arrow
+            sx: arrowDirectionStyle(chosenButtonRef.current, "arrow") || styles_default18.arrow
           }
         )
       ]
@@ -6280,20 +9708,21 @@ var FeedBackModal = ({
 var feedback_modal_default = FeedBackModal;
 
 // src/lib/feedback-section/index.tsx
-import { jsx as jsx31, jsxs as jsxs25 } from "react/jsx-runtime";
+import { jsx as jsx46, jsxs as jsxs39 } from "react/jsx-runtime";
 var FeedbackSection = ({
   slug,
   urlToEdit,
   suggestEdits = true,
   sendFeedback
 }) => {
-  const [feedback, changeFeedback] = useState10(void 0);
-  const [prevSlug, setPrevSlug] = useState10(slug);
-  const [modalState, changeModalState] = useState10({
+  const [feedback, changeFeedback] = useState12(void 0);
+  const [prevSlug, setPrevSlug] = useState12(slug);
+  const [modalState, changeModalState] = useState12({
     modalOpen: false
   });
-  const likeButton = useRef7();
-  const dislikeButton = useRef7();
+  const likeButton = useRef10();
+  const dislikeButton = useRef10();
+  const { locale } = useContext11(LibraryContext);
   if (slug !== prevSlug) {
     setPrevSlug(slug);
     changeModalState({ modalOpen: false });
@@ -6305,49 +9734,49 @@ var FeedbackSection = ({
       liked: choice
     });
   };
-  return /* @__PURE__ */ jsxs25(Flex12, { sx: styles_default16.container, "data-cy": "feedback-section", children: [
-    /* @__PURE__ */ jsx31(Text10, { sx: styles_default16.question, children: feedback !== void 0 ? "Thanks for your feedback." : "Was this helpful?" }),
-    /* @__PURE__ */ jsxs25(Flex12, { sx: styles_default16.likeContainer, children: [
-      /* @__PURE__ */ jsxs25(
-        Flex12,
+  return /* @__PURE__ */ jsxs39(Flex15, { sx: styles_default17.container, "data-cy": "feedback-section", children: [
+    /* @__PURE__ */ jsx46(Text12, { sx: styles_default17.question, children: feedback !== void 0 ? messages[locale]["feedback_section.response"] : messages[locale]["feedback_section.question"] }),
+    /* @__PURE__ */ jsxs39(Flex15, { sx: styles_default17.likeContainer, children: [
+      /* @__PURE__ */ jsxs39(
+        Flex15,
         {
           ref: likeButton,
           sx: setButtonStyle(feedback, modalState, true),
           onClick: feedback === void 0 ? () => openModal(true) : null,
           "data-cy": "feedback-section-like",
           children: [
-            feedback === void 0 || !feedback ? /* @__PURE__ */ jsx31(like_icon_default, { size: 24, sx: styles_default16.likeIcon }) : /* @__PURE__ */ jsx31(like_selected_icon_default, { size: 24, sx: styles_default16.likeIcon }),
-            /* @__PURE__ */ jsx31(Text10, { children: "Yes" })
+            feedback === void 0 || !feedback ? /* @__PURE__ */ jsx46(like_icon_default, { size: 24, sx: styles_default17.likeIcon }) : /* @__PURE__ */ jsx46(like_selected_icon_default, { size: 24, sx: styles_default17.likeIcon }),
+            /* @__PURE__ */ jsx46(Text12, { children: messages[locale]["feedback_section.positive"] })
           ]
         }
       ),
-      /* @__PURE__ */ jsxs25(
-        Flex12,
+      /* @__PURE__ */ jsxs39(
+        Flex15,
         {
           ref: dislikeButton,
           sx: setButtonStyle(feedback, modalState, false),
           onClick: feedback === void 0 ? () => openModal(false) : null,
           children: [
-            feedback === void 0 || feedback ? /* @__PURE__ */ jsx31(like_icon_default, { size: 24, sx: styles_default16.dislikeIcon }) : /* @__PURE__ */ jsx31(like_selected_icon_default, { size: 24, sx: styles_default16.dislikeIcon }),
-            /* @__PURE__ */ jsx31(Text10, { children: "No" })
+            feedback === void 0 || feedback ? /* @__PURE__ */ jsx46(like_icon_default, { size: 24, sx: styles_default17.dislikeIcon }) : /* @__PURE__ */ jsx46(like_selected_icon_default, { size: 24, sx: styles_default17.dislikeIcon }),
+            /* @__PURE__ */ jsx46(Text12, { children: messages[locale]["feedback_section.negative"] })
           ]
         }
       )
     ] }),
-    suggestEdits && /* @__PURE__ */ jsxs25(
-      Link6,
+    suggestEdits && /* @__PURE__ */ jsxs39(
+      Link7,
       {
         target: "_blank",
         rel: "noopener noreferrer",
         href: urlToEdit,
-        sx: styles_default16.editContainer,
+        sx: styles_default17.editContainer,
         children: [
-          /* @__PURE__ */ jsx31(edit_icon_default, { size: 24, sx: styles_default16.editIcon }),
-          /* @__PURE__ */ jsx31(Text10, { children: "Suggest edits (Github)" })
+          /* @__PURE__ */ jsx46(edit_icon_default, { size: 24, sx: styles_default17.editIcon }),
+          /* @__PURE__ */ jsx46(Text12, { children: messages[locale]["feedback_section.edit"] })
         ]
       }
     ),
-    modalState.modalOpen ? /* @__PURE__ */ jsx31(
+    modalState.modalOpen ? /* @__PURE__ */ jsx46(
       feedback_modal_default,
       {
         changeFeedBack: changeFeedback,
@@ -6360,12 +9789,794 @@ var FeedbackSection = ({
   ] });
 };
 var feedback_section_default = FeedbackSection;
+
+// src/lib/search/index.tsx
+import { Box as Box25, Flex as Flex20 } from "@vtex/brand-ui";
+
+// src/components/search-sections/index.tsx
+import { Box as Box21 } from "@vtex/brand-ui";
+
+// src/components/search-section/index.tsx
+import { Box as Box20, Flex as Flex16, Text as Text13 } from "@vtex/brand-ui";
+import { useContext as useContext12, useEffect as useEffect12 } from "react";
+
+// src/components/search-section/styles.ts
+var sectionContainer = {
+  justifyContent: "space-between",
+  padding: "8px",
+  mb: "8px",
+  cursor: "pointer",
+  ":active, :hover": {
+    backgroundColor: "#F8F7FC",
+    borderRadius: "4px",
+    ".search-section-title": {
+      color: "#000711"
+    },
+    ".search-section-count": {
+      background: "#E7E9EE"
+    }
+  }
+};
+var sectionIconTitleBox = {
+  alignItems: "center"
+};
+var sectionIcon = {
+  width: "16px",
+  height: "16px",
+  minWidth: "16px",
+  minHeight: "16px",
+  mr: "8px"
+};
+var sectionTitle = {
+  fontSize: "12px",
+  lineHeight: "16px"
+};
+var sectionTitleActive = {
+  ...sectionTitle,
+  color: "#142032",
+  fontWeight: "600"
+};
+var sectionCount = {
+  background: "#F8F7FC",
+  borderRadius: "24px",
+  width: "auto",
+  textAlign: "center",
+  px: "8px",
+  fontSize: "12px",
+  lineHeight: "16px"
+};
+var allResultsText = {
+  ...sectionTitle,
+  ml: "24px"
+};
+var allResultsTextActive = {
+  ...allResultsText,
+  fontWeight: "bold",
+  color: "#0C1522"
+};
+var styles_default19 = {
+  sectionContainer,
+  sectionIconTitleBox,
+  sectionIcon,
+  sectionTitle,
+  sectionTitleActive,
+  sectionCount,
+  allResultsText,
+  allResultsTextActive
+};
+
+// src/components/search-section/index.tsx
+import { useRouter as useRouter6 } from "next/router";
+
+// src/utils/context/search.tsx
+import {
+  createContext as createContext2,
+  useState as useState13
+} from "react";
+import { jsx as jsx47 } from "react/jsx-runtime";
+var SearchContext = createContext2({
+  filterSelectedSection: "",
+  changeFilterSelectedSection: () => void 0,
+  ocurrenceCount: {},
+  updateOcurrenceCount: () => void 0
+});
+var SearchContextProvider = ({ children }) => {
+  const [filterSelectedSection, changeFilterSelectedSection] = useState13("");
+  const [ocurrenceCount, changeOcurrenceCount] = useState13({});
+  const updateOcurrenceCount = (resultsData) => {
+    changeOcurrenceCount(resultsData);
+  };
+  return /* @__PURE__ */ jsx47(
+    SearchContext.Provider,
+    {
+      value: {
+        filterSelectedSection,
+        changeFilterSelectedSection,
+        ocurrenceCount,
+        updateOcurrenceCount
+      },
+      children
+    }
+  );
+};
+var search_default = SearchContextProvider;
+
+// src/components/search-section/index.tsx
+import { jsx as jsx48, jsxs as jsxs40 } from "react/jsx-runtime";
+var SearchSection = ({ dataElement, index }) => {
+  const router = useRouter6();
+  const { filterSelectedSection, ocurrenceCount, changeFilterSelectedSection } = useContext12(SearchContext);
+  const updateFilter = (value) => {
+    router.query.filter = value;
+    changeFilterSelectedSection(value);
+  };
+  useEffect12(() => {
+    updateFilter("");
+  }, [router.query]);
+  return !dataElement ? /* @__PURE__ */ jsxs40(Flex16, { sx: styles_default19.sectionContainer, onClick: () => updateFilter(""), children: [
+    /* @__PURE__ */ jsx48(
+      Text13,
+      {
+        className: "search-section-title",
+        sx: filterSelectedSection ? styles_default19.allResultsText : styles_default19.allResultsTextActive,
+        children: "All results"
+      }
+    ),
+    /* @__PURE__ */ jsx48(Box20, { className: "search-section-count", sx: styles_default19.sectionCount, children: ocurrenceCount[""] })
+  ] }) : /* @__PURE__ */ jsxs40(
+    Flex16,
+    {
+      sx: styles_default19.sectionContainer,
+      onClick: () => updateFilter(dataElement.title),
+      children: [
+        /* @__PURE__ */ jsxs40(Flex16, { sx: styles_default19.sectionIconTitleBox, children: [
+          /* @__PURE__ */ jsx48(dataElement.Icon, { sx: styles_default19.sectionIcon }),
+          /* @__PURE__ */ jsx48(
+            Text13,
+            {
+              className: "search-section-title",
+              sx: filterSelectedSection === dataElement.title ? styles_default19.sectionTitleActive : styles_default19.sectionTitle,
+              children: dataElement.title
+            }
+          )
+        ] }),
+        /* @__PURE__ */ jsx48(Box20, { className: "search-section-count", sx: styles_default19.sectionCount, children: ocurrenceCount[dataElement.title] || 0 })
+      ]
+    },
+    `search-section-${dataElement.title}${index}`
+  );
+};
+var search_section_default = SearchSection;
+
+// src/components/search-sections/styles.ts
+var container7 = {
+  display: ["none", "none", "none", "initial"],
+  height: "100%",
+  width: "242px",
+  border: "1px solid #E7E9EE",
+  borderRadius: "4px",
+  mr: ["32px", "32px", "32px", "32px", "32px", "32px", "64px"],
+  mt: "96px"
+};
+var notesSection = {
+  px: "8px",
+  paddingTop: "8px"
+};
+var docsSection = {
+  ...notesSection,
+  borderBottom: "1px solid #E7E9EE"
+};
+var styles_default20 = {
+  container: container7,
+  notesSection,
+  docsSection
+};
+
+// src/components/search-sections/index.tsx
+import { useContext as useContext13 } from "react";
+import { jsx as jsx49, jsxs as jsxs41 } from "react/jsx-runtime";
+var SearchSections = () => {
+  const { sidebarSections } = useContext13(LibraryContext);
+  return /* @__PURE__ */ jsx49(Box21, { sx: styles_default20.container, children: sidebarSections.map((sections, id) => /* @__PURE__ */ jsxs41(
+    Box21,
+    {
+      sx: id < sidebarSections.length - 1 ? styles_default20.docsSection : styles_default20.notesSection,
+      children: [
+        id === 0 && /* @__PURE__ */ jsx49(search_section_default, { dataElement: null }),
+        sections.map((section, index) => /* @__PURE__ */ jsx49(
+          search_section_default,
+          {
+            dataElement: section,
+            index
+          },
+          `search-section-docs-${section.title}`
+        ))
+      ]
+    }
+  )) });
+};
+var search_sections_default = SearchSections;
+
+// src/components/search-results/index.tsx
+import { useRouter as useRouter7 } from "next/router";
+import { useContext as useContext15, useState as useState15 } from "react";
+import { Box as Box24, Text as Text15 } from "@vtex/brand-ui";
+import { Configure as Configure2, InstantSearch as InstantSearch2 } from "react-instantsearch-dom";
+
+// src/components/search-results/infiniteHits.tsx
+import { useContext as useContext14, useEffect as useEffect13, useMemo as useMemo2, useRef as useRef11 } from "react";
+import {
+  connectInfiniteHits,
+  connectStateResults as connectStateResults2
+} from "react-instantsearch-dom";
+
+// src/components/search-card/index.tsx
+import { Box as Box22, Flex as Flex17, Text as Text14, IconCaret as IconCaret5, Tooltip as Tooltip2 } from "@vtex/brand-ui";
+
+// src/components/search-card/styles.ts
+var container8 = {
+  justifyContent: "space-between",
+  borderRadius: "9px",
+  border: "1px solid #DDDDDD",
+  width: "100%",
+  mb: "18px",
+  paddingTop: "26px",
+  paddingBottom: "10px",
+  paddingLeft: ["13px", "44px"],
+  paddingRight: ["13px", "34px"],
+  background: "#FFFFFF",
+  cursor: "pointer"
+};
+var containerActive = (method) => {
+  const methodCategory = method ? methodsColors[method] : "";
+  return {
+    ...container8,
+    ":hover": {
+      background: "#F8F7FC",
+      ".searchCardTitle, .searchCardDescription": {
+        color: "#142032"
+      },
+      ".method-category": {
+        ...methodCategory
+      }
+    }
+  };
+};
+var title4 = {
+  display: "flex",
+  alignItems: "flex-start",
+  fontSize: ["16px", "18px"],
+  lineHeight: ["22px", "24px"],
+  color: "muted.0"
+};
+var httpMethod = {
+  mr: "4px"
+};
+var icon2 = {
+  width: "24px",
+  height: "24px",
+  mr: "8px",
+  path: {
+    stroke: "#A1A8B3"
+  }
+};
+var description3 = {
+  fontSize: "16px",
+  lineHeight: "22px",
+  paddingLeft: "32px",
+  color: "muted.0",
+  mt: "4px",
+  mb: "8px"
+};
+var descriptionToggle = {
+  height: "auto",
+  minWidth: "auto"
+};
+var descriptionExpandedItem = {
+  mt: "24px"
+};
+var breadcrumbsContainer = {
+  display: ["none", "flex"],
+  paddingLeft: "32px",
+  alignItems: "center"
+};
+var alignCenter2 = {
+  alignItems: "center"
+};
+var documentation = {
+  ...alignCenter2,
+  minWidth: "max-content"
+};
+var breadcrumb = {
+  color: "muted.1",
+  fontSize: "16px",
+  lineHeight: "18px",
+  whiteSpace: "nowrap",
+  overflow: "hidden",
+  textOverflow: "ellipsis"
+};
+var lastBreadcrumb = {
+  ...breadcrumb,
+  margin: "auto 0",
+  display: "block",
+  overflow: "hidden",
+  maxWidth: "max-content",
+  whiteSpace: "nowrap"
+};
+var breadcrumbsIn = {
+  ...breadcrumb,
+  mr: "4px",
+  minWidth: "fit-content"
+};
+var breadcrumbsArrow = {
+  width: "16px",
+  height: "16px",
+  color: "muted.2"
+};
+var actionContainer = {
+  paddingLeft: "32px",
+  alignItems: "center"
+};
+var actionIcon = {
+  minWidth: "16px",
+  minHeight: "16px",
+  width: "16px",
+  height: "16px",
+  mr: "8px"
+};
+var styles_default21 = {
+  containerActive,
+  title: title4,
+  httpMethod,
+  icon: icon2,
+  description: description3,
+  descriptionToggle,
+  descriptionExpandedItem,
+  breadcrumbsContainer,
+  alignCenter: alignCenter2,
+  documentation,
+  breadcrumb,
+  lastBreadcrumb,
+  breadcrumbsIn,
+  breadcrumbsArrow,
+  actionContainer,
+  actionIcon
+};
+
+// src/components/search-card/index.tsx
+import Link8 from "next/link.js";
+import { useState as useState14 } from "react";
+
+// src/components/icons/expanded-results-icon.tsx
+import { Icon as Icon24 } from "@vtex/brand-ui";
+import { jsx as jsx50, jsxs as jsxs42 } from "react/jsx-runtime";
+var ExpandedResultsIcon = ({ active }) => active ? /* @__PURE__ */ jsxs42(Icon24, { viewBox: "0 0 19 13", fill: "none", xmlns: "http://www.w3.org/2000/svg", children: [
+  /* @__PURE__ */ jsx50(
+    "path",
+    {
+      d: "M18.8728 6.03784C18.265 5.00744 14.9223 -0.163132 9.2436 0.00396015C3.99219 0.133921 0.953397 4.6454 0.127225 6.03784C0.0438786 6.17895 0 6.33903 0 6.50198C0 6.66493 0.0438786 6.82501 0.127225 6.96612C0.725488 7.97796 3.92572 13 9.51899 13H9.7564C15.0078 12.87 18.0561 8.35856 18.8728 6.96612C18.9561 6.82501 19 6.66493 19 6.50198C19 6.33903 18.9561 6.17895 18.8728 6.03784ZM9.70892 11.1434C5.61604 11.2363 2.9476 7.81087 2.11194 6.50198C3.06156 5.00744 5.54007 1.95337 9.33856 1.86054C13.4124 1.75843 16.0904 5.19309 16.9355 6.50198C15.9574 7.99652 13.5074 11.0506 9.70892 11.1434Z",
+      fill: "#EE2565"
+    }
+  ),
+  /* @__PURE__ */ jsx50(
+    "path",
+    {
+      d: "M9.49977 3.25293C8.84241 3.25293 8.19981 3.44348 7.65323 3.80049C7.10665 4.15749 6.68065 4.66492 6.42909 5.2586C6.17753 5.85228 6.11171 6.50554 6.23995 7.13579C6.3682 7.76604 6.68475 8.34495 7.14957 8.79934C7.6144 9.25372 8.20662 9.56316 8.85135 9.68852C9.49608 9.81388 10.1644 9.74954 10.7717 9.50363C11.379 9.25772 11.8981 8.84129 12.2633 8.30699C12.6285 7.7727 12.8234 7.14453 12.8234 6.50194C12.8234 5.64025 12.4733 4.81385 11.85 4.20454C11.2267 3.59524 10.3813 3.25293 9.49977 3.25293ZM9.49977 7.89437C9.21804 7.89437 8.94264 7.81271 8.70839 7.65971C8.47415 7.5067 8.29157 7.28923 8.18376 7.0348C8.07595 6.78037 8.04774 6.50039 8.1027 6.23029C8.15767 5.96018 8.29333 5.71208 8.49254 5.51734C8.69175 5.32261 8.94556 5.18999 9.22187 5.13626C9.49819 5.08253 9.78459 5.11011 10.0449 5.2155C10.3052 5.32089 10.5276 5.49936 10.6841 5.72835C10.8407 5.95733 10.9242 6.22654 10.9242 6.50194C10.9242 6.87124 10.7741 7.22541 10.507 7.48654C10.2399 7.74767 9.87755 7.89437 9.49977 7.89437Z",
+      fill: "#EE2565"
+    }
+  )
+] }) : /* @__PURE__ */ jsxs42(Icon24, { viewBox: "0 0 23 23", fill: "none", xmlns: "http://www.w3.org/2000/svg", children: [
+  /* @__PURE__ */ jsx50(
+    "path",
+    {
+      d: "M4.51334 3.15293C4.42398 3.06358 4.31791 2.9927 4.20116 2.94434C4.08441 2.89598 3.95929 2.87109 3.83292 2.87109C3.70656 2.87109 3.58143 2.89598 3.46468 2.94434C3.34794 2.9927 3.24186 3.06358 3.1525 3.15293C2.97205 3.33339 2.87067 3.57814 2.87067 3.83335C2.87067 4.08855 2.97205 4.33331 3.1525 4.51377L8.54792 9.90918C8.20657 10.5442 8.0789 11.2723 8.18384 11.9856C8.28878 12.6988 8.62074 13.3593 9.13053 13.8691C9.64031 14.3789 10.3008 14.7108 11.0141 14.8158C11.7273 14.9207 12.4554 14.793 13.0904 14.4517L18.4858 19.8471C18.5749 19.9369 18.6809 20.0082 18.7977 20.0569C18.9145 20.1055 19.0397 20.1306 19.1663 20.1306C19.2928 20.1306 19.418 20.1055 19.5348 20.0569C19.6516 20.0082 19.7576 19.9369 19.8467 19.8471C19.9365 19.758 20.0078 19.652 20.0564 19.5352C20.1051 19.4185 20.1301 19.2932 20.1301 19.1667C20.1301 19.0402 20.1051 18.9149 20.0564 18.7981C20.0078 18.6813 19.9365 18.5754 19.8467 18.4863L4.51334 3.15293ZM11.4996 12.9375C11.1183 12.9375 10.7527 12.7861 10.4831 12.5165C10.2135 12.2469 10.0621 11.8813 10.0621 11.5C10.0621 11.5 10.0621 11.4521 10.0621 11.4329L11.5571 12.9279L11.4996 12.9375Z",
+      fill: "#CCCED8"
+    }
+  ),
+  /* @__PURE__ */ jsx50(
+    "path",
+    {
+      d: "M11.71 16.2917C7.58919 16.3875 4.88669 12.8513 4.04336 11.5C4.64372 10.5424 5.36525 9.66623 6.19002 8.89336L4.79086 7.54211C3.70921 8.56127 2.78258 9.73328 2.04044 11.0209C1.95633 11.1665 1.91205 11.3318 1.91205 11.5C1.91205 11.6683 1.95633 11.8335 2.04044 11.9792C2.64419 13.0238 5.87378 18.2084 11.5184 18.2084H11.7579C12.8193 18.1769 13.867 17.9596 14.8534 17.5663L13.3392 16.0521C12.8067 16.1922 12.2603 16.2725 11.71 16.2917Z",
+      fill: "#CCCED8"
+    }
+  ),
+  /* @__PURE__ */ jsx50(
+    "path",
+    {
+      d: "M20.9587 11.0209C20.3453 9.9571 16.9624 4.61919 11.2412 4.79169C10.1798 4.82317 9.1321 5.04049 8.14575 5.43377L9.65992 6.94794C10.1924 6.80786 10.7388 6.7275 11.2891 6.70835C15.4003 6.60294 18.1028 10.1488 18.9558 11.5C18.3406 12.4606 17.6028 13.3368 16.7612 14.1067L18.2083 15.4579C19.3035 14.4415 20.2431 13.2693 20.997 11.9792C21.0754 11.8302 21.1131 11.6631 21.1063 11.4949C21.0996 11.3266 21.0487 11.1631 20.9587 11.0209Z",
+      fill: "#CCCED8"
+    }
+  )
+] });
+var expanded_results_icon_default = ExpandedResultsIcon;
+
+// src/components/search-card/index.tsx
+import { jsx as jsx51, jsxs as jsxs43 } from "react/jsx-runtime";
+var SearchCard = ({
+  Icon: Icon25,
+  title: title5,
+  method,
+  breadcrumbs,
+  actionType,
+  url,
+  hit
+}) => {
+  const actionValue = actionType ? getAction(actionType) : null;
+  const [toggleChildResults, setToggleChildResults] = useState14(false);
+  return /* @__PURE__ */ jsx51(Link8, { href: url, legacyBehavior: true, children: /* @__PURE__ */ jsxs43(Flex17, { sx: styles_default21.containerActive(method), children: [
+    /* @__PURE__ */ jsxs43(Box22, { children: [
+      /* @__PURE__ */ jsxs43(Text14, { className: "searchCardTitle", sx: styles_default21.title, children: [
+        Icon25 && /* @__PURE__ */ jsx51(Icon25, { sx: styles_default21.icon }),
+        method ? /* @__PURE__ */ jsx51(
+          method_category_default,
+          {
+            sx: styles_default21.httpMethod,
+            origin: "search",
+            method,
+            active: false
+          }
+        ) : null,
+        title5 === "overview" && `${hit.doccategory} `,
+        title5
+      ] }),
+      /* @__PURE__ */ jsxs43(Text14, { className: "searchCardDescription", sx: styles_default21.description, children: [
+        /* @__PURE__ */ jsx51(Flex17, { children: /* @__PURE__ */ jsx51(
+          customHighlight_default,
+          {
+            hit,
+            attribute: "content",
+            ...{ searchPage: true }
+          }
+        ) }),
+        toggleChildResults && hit.filteredMatches?.map((childHit, index) => /* @__PURE__ */ jsx51(
+          Box22,
+          {
+            sx: styles_default21.descriptionExpandedItem,
+            children: /* @__PURE__ */ jsx51(
+              customHighlight_default,
+              {
+                hit: childHit,
+                attribute: "content",
+                ...{ searchPage: true }
+              }
+            )
+          },
+          `search-card-${hit.objectID}-${index}`
+        ))
+      ] }),
+      breadcrumbs ? /* @__PURE__ */ jsxs43(Box22, { sx: styles_default21.breadcrumbsContainer, children: [
+        /* @__PURE__ */ jsx51(Text14, { sx: styles_default21.breadcrumbsIn, children: "In" }),
+        breadcrumbs.map((breadcrumb2, index) => /* @__PURE__ */ jsxs43(
+          Flex17,
+          {
+            sx: index === 0 ? styles_default21.documentation : styles_default21.alignCenter,
+            children: [
+              /* @__PURE__ */ jsx51(Tooltip2, { label: breadcrumb2, placement: "top", children: /* @__PURE__ */ jsx51(Text14, { sx: styles_default21.breadcrumb, children: breadcrumb2 }) }),
+              index < breadcrumbs.length - 1 ? /* @__PURE__ */ jsx51(IconCaret5, { direction: "right", sx: styles_default21.breadcrumbsArrow }) : null
+            ]
+          },
+          `${breadcrumb2}${index}`
+        ))
+      ] }) : null,
+      actionValue ? /* @__PURE__ */ jsxs43(Flex17, { sx: styles_default21.actionContainer, children: [
+        /* @__PURE__ */ jsx51(actionValue.Icon, { sx: styles_default21.actionIcon }),
+        " ",
+        /* @__PURE__ */ jsx51(Text14, { children: actionValue?.title })
+      ] }) : null
+    ] }),
+    hit.filteredMatches && hit.filteredMatches.length > 0 && /* @__PURE__ */ jsx51(
+      Box22,
+      {
+        sx: styles_default21.descriptionToggle,
+        onClick: (event) => {
+          setToggleChildResults(!toggleChildResults);
+          event.stopPropagation();
+        },
+        children: /* @__PURE__ */ jsx51(expanded_results_icon_default, { active: toggleChildResults })
+      }
+    )
+  ] }) });
+};
+var search_card_default = SearchCard;
+
+// src/components/search-results/infiniteHits.tsx
+import { Box as Box23, Flex as Flex18 } from "@vtex/brand-ui";
+import { jsx as jsx52, jsxs as jsxs44 } from "react/jsx-runtime";
+var Hit2 = ({ hit }) => {
+  const breadcrumbs = [
+    hit.doctype,
+    ...hit.doccategory ? [hit.doccategory] : [],
+    ,
+    hit.doctitle
+  ];
+  const DocIcon = getIcon3(hit.doctype);
+  return /* @__PURE__ */ jsx52(
+    search_card_default,
+    {
+      doc: hit.doctype,
+      Icon: DocIcon,
+      title: hit.doctitle,
+      method: hit.method || void 0,
+      breadcrumbs: breadcrumbs || [],
+      actionType: hit.actiontype || void 0,
+      url: getRelativeURL(hit.url),
+      hit
+    }
+  );
+};
+var StateResults = connectStateResults2(
+  ({ searchResults }) => {
+    const { updateOcurrenceCount } = useContext14(SearchContext);
+    useEffect13(() => {
+      const results = searchResults;
+      if (results && results._state.filters === "") {
+        const facets = searchResults?.facets[0];
+        updateOcurrenceCount({ ...facets?.data, "": searchResults?.nbHits });
+      }
+    }, [searchResults?.queryID]);
+    return null;
+  }
+);
+var InfiniteHits = ({ hits, hasMore, refineNext }) => {
+  const scrollRef = useRef11(null);
+  function onSentinelIntersection(entries) {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting && hasMore) {
+        refineNext();
+      }
+    });
+  }
+  const filteredResult = useMemo2(() => {
+    const mergeHits = [];
+    hits.forEach((hit) => {
+      const alreadyExists = mergeHits.findIndex(
+        (e) => e.url_without_anchor === hit.url_without_anchor
+      );
+      const filteredHit = { ...hit, filteredMatches: [] };
+      if (alreadyExists >= 0) {
+        mergeHits[alreadyExists].filteredMatches?.push(filteredHit);
+      } else
+        mergeHits.push(filteredHit);
+    });
+    return mergeHits;
+  }, [hits]);
+  useEffect13(() => {
+    const observer = new IntersectionObserver(onSentinelIntersection, {});
+    if (scrollRef.current)
+      observer.observe(scrollRef.current);
+    return () => {
+      observer.disconnect();
+    };
+  }, [hits]);
+  return /* @__PURE__ */ jsxs44(Box23, { children: [
+    /* @__PURE__ */ jsx52(StateResults, {}),
+    filteredResult.map((hit, index) => /* @__PURE__ */ jsx52(Flex18, { children: /* @__PURE__ */ jsx52(Hit2, { hit }, index) }, hit.objectID)),
+    /* @__PURE__ */ jsx52("span", { ref: scrollRef })
+  ] });
+};
+var infiniteHits_default = connectInfiniteHits(InfiniteHits);
+
+// src/components/search-results/styles.ts
+var resultContainer = {
+  width: ["80%", "544px", "544px", "544px", "720px", "720px", "1400px"],
+  paddingTop: ["32px", "32px", "32px", "64px"],
+  hr: {
+    marginTop: "16px",
+    marginBottom: "32px",
+    borderTop: "none",
+    borderColor: "#DDDDDD",
+    display: ["none", "none", "none", "block"]
+  }
+};
+var resultText = {
+  mb: "16px",
+  fontSize: "16px",
+  lineHeight: "22px",
+  display: ["none", "none", "none", "initial"]
+};
+var paginationContainer = {
+  mt: ["48px", "115px"],
+  mb: "34px",
+  justifyContent: "center"
+};
+var paginationLink = {
+  fontSize: "16px",
+  lineHeight: "20px",
+  color: "#EE2565",
+  cursor: "pointer"
+};
+var paginationLinkDisabled = {
+  ...paginationLink,
+  color: "muted.1"
+};
+var paginationNumber = {
+  display: "flex",
+  fontSize: ["14px", "16px"],
+  lineHeight: "20px",
+  color: "#4A596B",
+  mx: ["18px", "27px"]
+};
+var paginationActualNumber = {
+  fontWeight: "700",
+  mx: "4px"
+};
+var noResults2 = {
+  justifyContent: "center",
+  alignContent: "center",
+  padding: "12px"
+};
+var styles_default22 = {
+  resultContainer,
+  resultText,
+  paginationContainer,
+  paginationLink,
+  paginationLinkDisabled,
+  paginationNumber,
+  paginationActualNumber,
+  noResults: noResults2
+};
+
+// src/components/search-results/index.tsx
+import { jsx as jsx53, jsxs as jsxs45 } from "react/jsx-runtime";
+var SearchResults = () => {
+  const router = useRouter7();
+  const { filterSelectedSection, ocurrenceCount } = useContext15(SearchContext);
+  const filters = filterSelectedSection ? `doctype: "${filterSelectedSection}"` : "";
+  const [prevFilter, setPrevFilter] = useState15("");
+  const [searchState, setSearchState] = useState15({});
+  const updateSearchState = (currentState) => {
+    const page = filters !== prevFilter ? 1 : currentState.page || 1;
+    setPrevFilter(filters);
+    setSearchState({
+      ...currentState,
+      page
+    });
+  };
+  return /* @__PURE__ */ jsxs45(Box24, { sx: styles_default22.resultContainer, children: [
+    /* @__PURE__ */ jsxs45(Text15, { sx: styles_default22.resultText, children: [
+      "Showing ",
+      ocurrenceCount[filterSelectedSection],
+      ' results for "',
+      router.query.keyword,
+      '" in',
+      " ",
+      !filterSelectedSection ? `all results` : filterSelectedSection
+    ] }),
+    /* @__PURE__ */ jsx53("hr", {}),
+    /* @__PURE__ */ jsx53(Box24, { children: /* @__PURE__ */ jsxs45(
+      InstantSearch2,
+      {
+        searchClient,
+        indexName: searchIndex,
+        searchState,
+        onSearchStateChange: (currentState) => updateSearchState(currentState),
+        children: [
+          /* @__PURE__ */ jsx53(
+            Configure2,
+            {
+              filters,
+              query: router.query.keyword,
+              clickAnalytics: true,
+              hitsPerPage: 6,
+              facets: ["doctype"],
+              facetingAfterDistinct: true
+            }
+          ),
+          /* @__PURE__ */ jsx53(infiniteHits_default, {})
+        ]
+      }
+    ) })
+  ] });
+};
+var search_results_default = SearchResults;
+
+// src/components/search-filter-tab-bar/index.tsx
+import { useContext as useContext16 } from "react";
+import { Flex as Flex19, Text as Text16 } from "@vtex/brand-ui";
+
+// src/components/search-filter-tab-bar/styles.ts
+var container9 = {
+  display: ["flex", "flex", "flex", "none"],
+  overflowX: "scroll",
+  scrollbarWidth: "none",
+  "::-webkit-scrollbar": {
+    display: "none"
+  }
+};
+var tab = (active) => ({
+  pt: "8px",
+  pb: "14px",
+  px: "24px",
+  cursor: "pointer",
+  justifyContent: "center",
+  alignItems: "center",
+  borderBottom: `${active ? 2 : 1}px solid #${active ? "D71D55" : "DDDDDD"}`,
+  minWidth: "max-content"
+});
+var tabTitle = (active) => ({
+  fontSize: "14px",
+  fontWeight: "600",
+  lineHeight: "16.38px",
+  whiteSpace: "nowrap",
+  color: `#${active ? "D71D55" : "545454"}`
+});
+var tabCount = {
+  px: "8px",
+  ml: "2px",
+  fontSize: "12px",
+  fontWeight: "400",
+  lineHeight: "16px",
+  borderRadius: "24px",
+  backgroundColor: "#F8F7FC"
+};
+var styles_default23 = { container: container9, tab, tabTitle, tabCount };
+
+// src/components/search-filter-tab-bar/index.tsx
+import { jsx as jsx54, jsxs as jsxs46 } from "react/jsx-runtime";
+var SearchFilterTab = ({ filter }) => {
+  const { filterSelectedSection, changeFilterSelectedSection, ocurrenceCount } = useContext16(SearchContext);
+  return /* @__PURE__ */ jsxs46(
+    Flex19,
+    {
+      sx: styles_default23.tab(filterSelectedSection === filter),
+      onClick: () => changeFilterSelectedSection(filter),
+      children: [
+        /* @__PURE__ */ jsx54(Text16, { sx: styles_default23.tabTitle(filterSelectedSection === filter), children: filter || "All Results" }),
+        /* @__PURE__ */ jsx54(Text16, { sx: styles_default23.tabCount, children: ocurrenceCount[filter] || 0 })
+      ]
+    }
+  );
+};
+var SearchFilterTabBar = () => {
+  const { sidebarSections } = useContext16(LibraryContext);
+  return /* @__PURE__ */ jsxs46(Flex19, { sx: styles_default23.container, children: [
+    /* @__PURE__ */ jsx54(SearchFilterTab, { filter: "" }),
+    sidebarSections.flat().map((section) => {
+      return /* @__PURE__ */ jsx54(SearchFilterTab, { filter: section.title }, section.title);
+    })
+  ] });
+};
+var search_filter_tab_bar_default = SearchFilterTabBar;
+
+// src/lib/search/styles.ts
+var searchBarContainer = {
+  display: ["flex", "flex", "flex", "none"],
+  justifyContent: "center",
+  py: "16px"
+};
+var body = {
+  background: "#FFFFFF",
+  justifyContent: "center"
+};
+var styles_default24 = {
+  searchBarContainer,
+  body
+};
+
+// src/lib/search/index.tsx
+import { jsx as jsx55, jsxs as jsxs47 } from "react/jsx-runtime";
+var Search = () => {
+  return /* @__PURE__ */ jsxs47(search_default, { children: [
+    /* @__PURE__ */ jsxs47(Box25, { children: [
+      /* @__PURE__ */ jsx55(Flex20, { sx: styles_default24.searchBarContainer, children: /* @__PURE__ */ jsx55(SearchInput, {}) }),
+      /* @__PURE__ */ jsx55(search_filter_tab_bar_default, {})
+    ] }),
+    /* @__PURE__ */ jsxs47(Flex20, { sx: styles_default24.body, children: [
+      /* @__PURE__ */ jsx55(search_sections_default, {}),
+      /* @__PURE__ */ jsx55(search_results_default, {})
+    ] })
+  ] });
+};
+var search_default2 = Search;
 export {
   feedback_section_default as FeedbackSection,
   hamburger_menu_default as HamburgerMenu,
   LibraryContext,
   libraryContext_default as LibraryContextProvider,
   MarkdownRenderer_default as MarkdownRenderer,
+  search_default2 as Search,
+  search_config_default as SearchConfig,
+  SearchInput,
   sidebar_default as Sidebar,
   TableOfContents_default as TableOfContents
 };
