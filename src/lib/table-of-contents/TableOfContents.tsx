@@ -11,14 +11,17 @@ import { LibraryContext } from 'utils/context/libraryContext'
 
 import styles from './styles'
 
-const TableOfContents = () => {
+interface Props {
+  headingList?: Item[]
+}
+
+const TableOfContents = ({ headingList }: Props) => {
   const router = useRouter()
   const { headingItems, activeItem, setHeadingItems, setActiveItem } =
     useContext(LibraryContext)
 
   useEffect(() => {
-    console.log('ENTROUUUUUUUUU')
-    const headings: Item[] = []
+    const headings: Item[] = headingList ?? []
     if (!headings.length) {
       document.querySelectorAll('h2, h3').forEach((heading) => {
         const headingSlug = heading.id
@@ -34,8 +37,8 @@ const TableOfContents = () => {
         }
       })
       setHeadingItems(headings)
-    }
-  }, [router.asPath])
+    } else setHeadingItems(headings)
+  }, [router.asPath, headingList])
 
   const Item = ({
     title,

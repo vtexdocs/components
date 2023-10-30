@@ -11,8 +11,6 @@ interface MarkdownRendererProps {
 
 declare const MarkdownRenderer: ({ serialized }: MarkdownRendererProps) => react_jsx_runtime.JSX.Element;
 
-declare const TableOfContents: () => react_jsx_runtime.JSX.Element;
-
 interface SubItem {
     title: string;
     slug: string;
@@ -20,6 +18,11 @@ interface SubItem {
 interface Item extends SubItem {
     children: SubItem[];
 }
+
+interface Props$1 {
+    headingList?: Item[];
+}
+declare const TableOfContents: ({ headingList }: Props$1) => react_jsx_runtime.JSX.Element;
 
 interface SideBarSectionState {
     parentsArray?: string[];

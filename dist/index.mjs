@@ -6251,12 +6251,13 @@ var styles_default7 = { itemsContainer, item, subItemsContainer };
 
 // src/lib/table-of-contents/TableOfContents.tsx
 import { jsx as jsx13, jsxs as jsxs9 } from "react/jsx-runtime";
-var TableOfContents = () => {
+var TableOfContents = ({ headingList }) => {
   const router = useRouter();
   const { headingItems, activeItem, setHeadingItems, setActiveItem } = useContext2(LibraryContext);
   useEffect6(() => {
-    console.log("ENTROUUUUUUUUU");
-    const headings = [];
+    console.log("OIIIII");
+    const headings = headingList ?? [];
+    console.log(headings);
     if (!headings.length) {
       document.querySelectorAll("h2, h3").forEach((heading) => {
         const headingSlug = heading.id;
@@ -6271,8 +6272,9 @@ var TableOfContents = () => {
         }
       });
       setHeadingItems(headings);
-    }
-  }, [router.asPath]);
+    } else
+      setHeadingItems(headings);
+  }, [router.asPath, headingList]);
   const Item = ({
     title: title5,
     slug,
