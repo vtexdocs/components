@@ -10,7 +10,7 @@ import styles from './styles'
 import { LibraryContext } from 'utils/context/libraryContext'
 import { messages } from 'utils/get-message'
 
-interface DocPath {
+export interface DocPath {
   slug?: string
   urlToEdit?: string
   suggestEdits?: boolean
