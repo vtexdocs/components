@@ -32,9 +32,9 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 ));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
-// node_modules/react-is/cjs/react-is.production.min.js
+// node_modules/prop-types/node_modules/react-is/cjs/react-is.production.min.js
 var require_react_is_production_min = __commonJS({
-  "node_modules/react-is/cjs/react-is.production.min.js"(exports) {
+  "node_modules/prop-types/node_modules/react-is/cjs/react-is.production.min.js"(exports) {
     "use strict";
     var b = "function" === typeof Symbol && Symbol.for;
     var c = b ? Symbol.for("react.element") : 60103;
@@ -145,9 +145,9 @@ var require_react_is_production_min = __commonJS({
   }
 });
 
-// node_modules/react-is/cjs/react-is.development.js
+// node_modules/prop-types/node_modules/react-is/cjs/react-is.development.js
 var require_react_is_development = __commonJS({
-  "node_modules/react-is/cjs/react-is.development.js"(exports) {
+  "node_modules/prop-types/node_modules/react-is/cjs/react-is.development.js"(exports) {
     "use strict";
     if (process.env.NODE_ENV !== "production") {
       (function() {
@@ -300,9 +300,9 @@ var require_react_is_development = __commonJS({
   }
 });
 
-// node_modules/react-is/index.js
+// node_modules/prop-types/node_modules/react-is/index.js
 var require_react_is = __commonJS({
-  "node_modules/react-is/index.js"(exports, module) {
+  "node_modules/prop-types/node_modules/react-is/index.js"(exports, module) {
     "use strict";
     if (process.env.NODE_ENV === "production") {
       module.exports = require_react_is_production_min();
@@ -6255,9 +6255,7 @@ var TableOfContents = ({ headingList }) => {
   const router = useRouter();
   const { headingItems, activeItem, setHeadingItems, setActiveItem } = useContext2(LibraryContext);
   useEffect6(() => {
-    console.log("OIIIII");
     const headings = headingList ?? [];
-    console.log(headings);
     if (!headings.length) {
       document.querySelectorAll("h2, h3").forEach((heading) => {
         const headingSlug = heading.id;
@@ -9152,7 +9150,7 @@ import { useRef as useRef8, useState as useState10 } from "react";
 // src/utils/config/search-config.ts
 var import_lite = __toESM(require_lite());
 import aa2 from "search-insights";
-var searchClient = void 0;
+var searchClient = {};
 var searchIndex = "";
 var createAlgoliaClient = (config) => {
   const { apiKey, appId, index, algoliaOptions, customOptions } = config;
