@@ -14,7 +14,7 @@ import { updateOpenPage } from 'utils/sidebar-utils'
 import { LibraryContext } from 'utils/context/libraryContext'
 import SearchInput from 'components/search-input'
 
-interface HamburgerMenuProps {
+export interface HamburgerMenuProps {
   parentsArray?: string[]
 }
 
