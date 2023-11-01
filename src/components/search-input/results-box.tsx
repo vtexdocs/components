@@ -28,7 +28,7 @@ interface HitsBoxProps extends StateResultsProvided {
   changeFocus: (value: boolean) => void
 }
 
-const Hit = ({ hit, insights }: HitProps) => {
+const Hit2 = ({ hit, insights }: HitProps) => {
   const breadcrumbsList = getBreadcrumbs(hit)
   const DocIcon = getIcon(hit.doctype)
   return (
@@ -68,7 +68,7 @@ const Hit = ({ hit, insights }: HitProps) => {
   )
 }
 
-const HitWithInsights = connectHitInsights(aa)(Hit)
+const HitWithInsights = connectHitInsights(aa)(Hit2)
 
 const HitsBox = connectStateResults<HitsBoxProps>(
   ({ searchState, searchResults, changeFocus }) => {

@@ -14,13 +14,13 @@ import { Box, Flex } from '@vtex/brand-ui'
 import { MethodType } from 'utils/typings/types'
 import { SearchContext } from 'utils/context/search'
 
-export type FilteredHit = Hit & { filteredMatches?: Hit[] }
+export type FilteredHit2 = Hit & { filteredMatches?: Hit[] }
 
 interface HitProps {
-  hit: FilteredHit
+  hit: FilteredHit2
 }
 
-const Hit = ({ hit }: HitProps) => {
+const HitCard = ({ hit }: HitProps) => {
   const breadcrumbs = [
     hit.doctype,
     ...(hit.doccategory ? [hit.doccategory] : []),
@@ -70,7 +70,7 @@ const InfiniteHits = ({ hits, hasMore, refineNext }: InfiniteHitsProvided) => {
   }
 
   const filteredResult = useMemo(() => {
-    const mergeHits: FilteredHit[] = [] //hitsData
+    const mergeHits: FilteredHit2[] = [] //hitsData
     hits.forEach((hit) => {
       const alreadyExists = mergeHits.findIndex(
         (e) => e.url_without_anchor === hit.url_without_anchor
@@ -97,7 +97,7 @@ const InfiniteHits = ({ hits, hasMore, refineNext }: InfiniteHitsProvided) => {
       <StateResults />
       {filteredResult.map((hit: Hit, index: number) => (
         <Flex key={hit.objectID}>
-          <Hit hit={hit} key={index} />
+          <HitCard hit={hit} key={index} />
         </Flex>
       ))}
       <span ref={scrollRef}></span>
