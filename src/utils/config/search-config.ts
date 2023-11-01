@@ -3,7 +3,7 @@ import aa from 'search-insights'
 import { MultipleQueriesQuery } from '@algolia/client-search'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export let searchClient: any = undefined
+export let searchClient: any = {}
 export let searchIndex = ''
 
 interface AlgoliaConfig {
