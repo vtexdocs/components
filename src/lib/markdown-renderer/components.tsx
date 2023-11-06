@@ -9,7 +9,7 @@ import mermaid from 'mermaid'
 import parse from 'html-react-parser'
 import { InView } from 'react-intersection-observer'
 
-import CodeBlock from 'components/code-block'
+import { CH } from '@code-hike/mdx/components'
 import OverviewCard from 'components/overview-card'
 import YoutubeFrame from 'components/youtube-frame'
 import Steps from 'components/steps'
@@ -151,6 +151,7 @@ const ImageComponent = ({ node, ...props }: Component) => {
 }
 
 export default {
+  CH,
   OverviewCard,
   WhatsNextCard,
   YoutubeFrame,
@@ -171,7 +172,7 @@ export default {
     if (props.className && props.className === 'mermaid')
       return <MermaidDiagram {...props} />
 
-    return <CodeBlock {...props} />
+    return <pre className={styles.pre} {...props} />
   },
   h2: ({ node, ...props }: Component) => {
     const { activeItem, setActiveItem, goToPreviousItem } =
