@@ -32,9 +32,9 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 ));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
-// node_modules/prop-types/node_modules/react-is/cjs/react-is.production.min.js
+// node_modules/react-is/cjs/react-is.production.min.js
 var require_react_is_production_min = __commonJS({
-  "node_modules/prop-types/node_modules/react-is/cjs/react-is.production.min.js"(exports) {
+  "node_modules/react-is/cjs/react-is.production.min.js"(exports) {
     "use strict";
     var b = "function" === typeof Symbol && Symbol.for;
     var c = b ? Symbol.for("react.element") : 60103;
@@ -145,9 +145,9 @@ var require_react_is_production_min = __commonJS({
   }
 });
 
-// node_modules/prop-types/node_modules/react-is/cjs/react-is.development.js
+// node_modules/react-is/cjs/react-is.development.js
 var require_react_is_development = __commonJS({
-  "node_modules/prop-types/node_modules/react-is/cjs/react-is.development.js"(exports) {
+  "node_modules/react-is/cjs/react-is.development.js"(exports) {
     "use strict";
     if (process.env.NODE_ENV !== "production") {
       (function() {
@@ -300,9 +300,9 @@ var require_react_is_development = __commonJS({
   }
 });
 
-// node_modules/prop-types/node_modules/react-is/index.js
+// node_modules/react-is/index.js
 var require_react_is = __commonJS({
-  "node_modules/prop-types/node_modules/react-is/index.js"(exports, module) {
+  "node_modules/react-is/index.js"(exports, module) {
     "use strict";
     if (process.env.NODE_ENV === "production") {
       module.exports = require_react_is_production_min();
@@ -3209,181 +3209,19 @@ var require_lite = __commonJS({
 });
 
 // src/lib/markdown-renderer/MarkdownRenderer.tsx
-import { Box as Box8 } from "@vtex/brand-ui";
+import { Box as Box6 } from "@vtex/brand-ui";
 import { MDXRemote } from "next-mdx-remote";
 
 // src/lib/markdown-renderer/components.tsx
-import { useContext, useEffect as useEffect5, useRef as useRef3, useState as useState4 } from "react";
-import { Box as Box7, Flex as Flex4 } from "@vtex/brand-ui";
+import { useContext, useEffect as useEffect4, useRef as useRef2, useState as useState3 } from "react";
+import { Box as Box5, Flex as Flex4 } from "@vtex/brand-ui";
 import {
   UncontrolledReactSVGPanZoom
 } from "react-svg-pan-zoom";
 import mermaid2 from "mermaid";
 import parse from "html-react-parser";
 import { InView } from "react-intersection-observer";
-
-// src/components/copy-button/index.tsx
-import { useCallback, useState, useRef, useEffect } from "react";
-import copy from "copy-text-to-clipboard";
-import { Box, Button, Icon } from "@vtex/brand-ui";
-
-// src/components/copy-button/styles.ts
-var basicButton = {
-  float: "right",
-  ":focus": {
-    outline: "none !important",
-    boxShadow: "none !important"
-  },
-  width: "28px",
-  height: "28px",
-  padding: "6px",
-  marginX: "18px"
-};
-var copyButton = {
-  ...basicButton,
-  backgroundColor: "#E7E9EE"
-};
-var copyButtonCopied = {
-  ...basicButton,
-  backgroundColor: "#E6F2E6"
-};
-var copyButtonIcons = {
-  position: "relative",
-  width: "16px",
-  height: "16px"
-};
-var copyButtonIcon = {
-  position: "absolute",
-  top: "0",
-  left: "0",
-  fill: "#142032",
-  opacity: "inherit",
-  width: "inherit",
-  height: "inherit",
-  transition: "all 0.15s ease"
-};
-var copyButtonSuccessIcon = {
-  ...copyButtonIcon,
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  fill: "#79A479"
-};
-var copyButtonIconCopied = {
-  transform: "scale(0.33)",
-  opacity: "0"
-};
-var copyButtonSuccessIconCopied = {
-  transform: "translate(-50%, -50%)",
-  opacity: "1",
-  transitionDelay: "0.075s"
-};
-var styles_default = {
-  copyButton,
-  copyButtonCopied,
-  copyButtonIcons,
-  copyButtonIcon,
-  copyButtonSuccessIcon,
-  copyButtonSuccessIconCopied,
-  copyButtonIconCopied
-};
-
-// src/components/copy-button/index.tsx
-import { jsx, jsxs } from "react/jsx-runtime";
-function CopyButton({ code, sx }) {
-  const [isCopied, setIsCopied] = useState(false);
-  const copyTimeout = useRef(void 0);
-  const handleCopyCode = useCallback(() => {
-    copy(code);
-    setIsCopied(true);
-    copyTimeout.current = window.setTimeout(() => {
-      setIsCopied(false);
-    }, 1e3);
-  }, [code]);
-  useEffect(() => () => window.clearTimeout(copyTimeout.current), []);
-  return /* @__PURE__ */ jsx(
-    Button,
-    {
-      variant: "tertiary",
-      size: "small",
-      onClick: handleCopyCode,
-      sx: {
-        ...isCopied ? styles_default.copyButtonCopied : styles_default.copyButton,
-        ...sx
-      },
-      "aria-label": "Copy code snippet",
-      children: /* @__PURE__ */ jsxs(Box, { sx: styles_default.copyButtonIcons, "aria-hidden": "true", children: [
-        /* @__PURE__ */ jsx(
-          Icon,
-          {
-            size: 16,
-            sx: isCopied ? styles_default.copyButtonIconCopied : styles_default.copyButtonIcon,
-            children: /* @__PURE__ */ jsx("path", { d: "M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z" })
-          }
-        ),
-        /* @__PURE__ */ jsx(
-          Icon,
-          {
-            size: 16,
-            sx: isCopied ? styles_default.copyButtonSuccessIcon : styles_default.copyButtonSuccessIconCopied,
-            children: /* @__PURE__ */ jsx("path", { d: "M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z" })
-          }
-        )
-      ] })
-    }
-  );
-}
-
-// src/components/code-block/index.tsx
-import { Box as Box2, Text } from "@vtex/brand-ui";
-
-// src/utils/string-utils.ts
-var removeHTML = (str) => str.replace(/<\/?[^>]+>/g, "");
-var slugify = (str) => {
-  return str.toLowerCase().replace(/\s+/g, "-").replace(/\-+/g, "-").replace(/[^a-z0-9\-]/g, "");
-};
-var childrenToString = (children) => {
-  if (!children)
-    return "";
-  else if (Array.isArray(children))
-    return children.map((child) => {
-      if (typeof child === "string")
-        return child;
-      return childrenToString(child.props.children);
-    }).join("");
-  else {
-    if (typeof children === "string")
-      return children;
-    return childrenToString(children["props"]["children"]);
-  }
-};
-
-// src/components/code-block/styles.ts
-var CodeBlock = {
-  backgroundColor: "#f8f7fc !important",
-  border: "1px solid #e7e9ee",
-  borderRadius: "4px",
-  lineBreak: "auto",
-  marginY: "16px",
-  fontSize: "0.875em"
-};
-var CodeContent = {
-  code: {
-    backgroundColor: "#f8f7fc",
-    paddingY: "0px !important"
-  }
-};
-var styles_default2 = { CodeBlock, CodeContent };
-
-// src/components/code-block/index.tsx
-import { jsx as jsx2, jsxs as jsxs2 } from "react/jsx-runtime";
-var CodeBlock2 = ({ ...props }) => {
-  return /* @__PURE__ */ jsx2(Box2, { sx: styles_default2.CodeBlock, children: /* @__PURE__ */ jsxs2("pre", { children: [
-    /* @__PURE__ */ jsx2(CopyButton, { code: childrenToString(props.children) }),
-    /* @__PURE__ */ jsx2(Text, { sx: styles_default2.CodeContent, ...props })
-  ] }) });
-};
-var code_block_default = CodeBlock2;
+import { CH } from "@code-hike/mdx/components";
 
 // src/components/overview-card/styles.ts
 var overviewCard = {
@@ -3412,25 +3250,25 @@ var overviewIcon = {
   marginRight: "1.25em",
   marginTop: "0.375em"
 };
-var styles_default3 = {
+var styles_default = {
   overviewCard,
   overviewIcon
 };
 
 // src/components/overview-card/index.tsx
-import { Flex, Box as Box3 } from "@vtex/brand-ui";
+import { Flex, Box } from "@vtex/brand-ui";
 
 // src/components/overview-card/icons.tsx
-import { Icon as Icon2 } from "@vtex/brand-ui";
-import { jsx as jsx3, jsxs as jsxs3 } from "react/jsx-runtime";
-var StorageUnit = (props) => /* @__PURE__ */ jsx3(
-  Icon2,
+import { Icon } from "@vtex/brand-ui";
+import { jsx, jsxs } from "react/jsx-runtime";
+var StorageUnit = (props) => /* @__PURE__ */ jsx(
+  Icon,
   {
     ...props,
     viewBox: "0 0 48 48",
     xmlns: "http://www.w3.org/2000/svg",
     size: 35,
-    children: /* @__PURE__ */ jsxs3(
+    children: /* @__PURE__ */ jsxs(
       "g",
       {
         strokeLinecap: "square",
@@ -3439,7 +3277,7 @@ var StorageUnit = (props) => /* @__PURE__ */ jsx3(
         fill: "#f71963",
         stroke: "#f71963",
         children: [
-          /* @__PURE__ */ jsx3(
+          /* @__PURE__ */ jsx(
             "rect",
             {
               x: "15",
@@ -3451,7 +3289,7 @@ var StorageUnit = (props) => /* @__PURE__ */ jsx3(
               strokeMiterlimit: "10"
             }
           ),
-          /* @__PURE__ */ jsx3(
+          /* @__PURE__ */ jsx(
             "polyline",
             {
               points: "2 12 24 2 46 12",
@@ -3460,7 +3298,7 @@ var StorageUnit = (props) => /* @__PURE__ */ jsx3(
               strokeLinecap: "butt"
             }
           ),
-          /* @__PURE__ */ jsx3(
+          /* @__PURE__ */ jsx(
             "line",
             {
               x1: "24",
@@ -3472,7 +3310,7 @@ var StorageUnit = (props) => /* @__PURE__ */ jsx3(
               strokeMiterlimit: "10"
             }
           ),
-          /* @__PURE__ */ jsx3(
+          /* @__PURE__ */ jsx(
             "rect",
             {
               x: "6",
@@ -3484,7 +3322,7 @@ var StorageUnit = (props) => /* @__PURE__ */ jsx3(
               strokeMiterlimit: "10"
             }
           ),
-          /* @__PURE__ */ jsx3(
+          /* @__PURE__ */ jsx(
             "line",
             {
               x1: "15",
@@ -3496,7 +3334,7 @@ var StorageUnit = (props) => /* @__PURE__ */ jsx3(
               strokeMiterlimit: "10"
             }
           ),
-          /* @__PURE__ */ jsx3(
+          /* @__PURE__ */ jsx(
             "rect",
             {
               x: "24",
@@ -3508,7 +3346,7 @@ var StorageUnit = (props) => /* @__PURE__ */ jsx3(
               strokeMiterlimit: "10"
             }
           ),
-          /* @__PURE__ */ jsx3(
+          /* @__PURE__ */ jsx(
             "line",
             {
               x1: "33",
@@ -3525,14 +3363,14 @@ var StorageUnit = (props) => /* @__PURE__ */ jsx3(
     )
   }
 );
-var Board = (props) => /* @__PURE__ */ jsx3(
-  Icon2,
+var Board = (props) => /* @__PURE__ */ jsx(
+  Icon,
   {
     ...props,
     xmlns: "http://www.w3.org/2000/svg",
     viewBox: "0 0 48 48",
     size: 35,
-    children: /* @__PURE__ */ jsxs3(
+    children: /* @__PURE__ */ jsxs(
       "g",
       {
         strokeLinecap: "square",
@@ -3541,7 +3379,7 @@ var Board = (props) => /* @__PURE__ */ jsx3(
         fill: "#f71963",
         stroke: "#f71963",
         children: [
-          /* @__PURE__ */ jsx3(
+          /* @__PURE__ */ jsx(
             "rect",
             {
               x: "4",
@@ -3553,7 +3391,7 @@ var Board = (props) => /* @__PURE__ */ jsx3(
               strokeMiterlimit: "10"
             }
           ),
-          /* @__PURE__ */ jsx3(
+          /* @__PURE__ */ jsx(
             "rect",
             {
               x: "10",
@@ -3564,7 +3402,7 @@ var Board = (props) => /* @__PURE__ */ jsx3(
               strokeMiterlimit: "10"
             }
           ),
-          /* @__PURE__ */ jsx3(
+          /* @__PURE__ */ jsx(
             "rect",
             {
               x: "10",
@@ -3575,7 +3413,7 @@ var Board = (props) => /* @__PURE__ */ jsx3(
               strokeMiterlimit: "10"
             }
           ),
-          /* @__PURE__ */ jsx3(
+          /* @__PURE__ */ jsx(
             "rect",
             {
               x: "27",
@@ -3591,8 +3429,8 @@ var Board = (props) => /* @__PURE__ */ jsx3(
     )
   }
 );
-var Integration = (props) => /* @__PURE__ */ jsxs3(
-  Icon2,
+var Integration = (props) => /* @__PURE__ */ jsxs(
+  Icon,
   {
     ...props,
     xmlns: "http://www.w3.org/2000/svg",
@@ -3600,7 +3438,7 @@ var Integration = (props) => /* @__PURE__ */ jsxs3(
     width: "25",
     height: "25",
     children: [
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           fillRule: "evenodd",
@@ -3612,7 +3450,7 @@ var Integration = (props) => /* @__PURE__ */ jsxs3(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           fillRule: "evenodd",
@@ -3624,7 +3462,7 @@ var Integration = (props) => /* @__PURE__ */ jsxs3(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           fillRule: "evenodd",
@@ -3636,7 +3474,7 @@ var Integration = (props) => /* @__PURE__ */ jsxs3(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M11 5H19C20.105 5 21 5.895 21 7V10C21 11.105 20.105 12 19 12H17",
@@ -3646,7 +3484,7 @@ var Integration = (props) => /* @__PURE__ */ jsxs3(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M13 19H5C3.895 19 3 18.105 3 17V14C3 12.895 3.895 12 5 12H7",
@@ -3659,8 +3497,8 @@ var Integration = (props) => /* @__PURE__ */ jsxs3(
     ]
   }
 );
-var SearchList = (props) => /* @__PURE__ */ jsxs3(
-  Icon2,
+var SearchList = (props) => /* @__PURE__ */ jsxs(
+  Icon,
   {
     ...props,
     xmlns: "http://www.w3.org/2000/svg",
@@ -3668,7 +3506,7 @@ var SearchList = (props) => /* @__PURE__ */ jsxs3(
     width: "25",
     height: "25",
     children: [
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M18.98 6.98L21 9",
@@ -3678,7 +3516,7 @@ var SearchList = (props) => /* @__PURE__ */ jsxs3(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M18.9796 2.85437C20.1188 3.99353 20.1188 5.84047 18.9796 6.97963C17.8404 8.11879 15.9935 8.11879 14.8543 6.97963C13.7152 5.84047 13.7152 3.99353 14.8543 2.85437C15.9935 1.71521 17.8404 1.71521 18.9796 2.85437",
@@ -3688,7 +3526,7 @@ var SearchList = (props) => /* @__PURE__ */ jsxs3(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M11 7.5H4C3.448 7.5 3 7.052 3 6.5V4C3 3.448 3.448 3 4 3H11",
@@ -3698,7 +3536,7 @@ var SearchList = (props) => /* @__PURE__ */ jsxs3(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           fillRule: "evenodd",
@@ -3710,7 +3548,7 @@ var SearchList = (props) => /* @__PURE__ */ jsxs3(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M9.222 13H21",
@@ -3720,7 +3558,7 @@ var SearchList = (props) => /* @__PURE__ */ jsxs3(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           fillRule: "evenodd",
@@ -3732,7 +3570,7 @@ var SearchList = (props) => /* @__PURE__ */ jsxs3(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M9.222 19.5H21",
@@ -3745,8 +3583,8 @@ var SearchList = (props) => /* @__PURE__ */ jsxs3(
     ]
   }
 );
-var SwitchArrows = (props) => /* @__PURE__ */ jsxs3(
-  Icon2,
+var SwitchArrows = (props) => /* @__PURE__ */ jsxs(
+  Icon,
   {
     ...props,
     xmlns: "http://www.w3.org/2000/svg",
@@ -3754,7 +3592,7 @@ var SwitchArrows = (props) => /* @__PURE__ */ jsxs3(
     width: "25",
     height: "25",
     children: [
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M7 9.75L5 11.75L3 9.75",
@@ -3764,7 +3602,7 @@ var SwitchArrows = (props) => /* @__PURE__ */ jsxs3(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           fillRule: "evenodd",
@@ -3774,7 +3612,7 @@ var SwitchArrows = (props) => /* @__PURE__ */ jsxs3(
           strokeWidth: "1.5"
         }
       ),
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M16 5.5H7C5.895 5.5 5 6.395 5 7.5V11.75",
@@ -3784,7 +3622,7 @@ var SwitchArrows = (props) => /* @__PURE__ */ jsxs3(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M17 14.25L19 12.25L21 14.25",
@@ -3794,7 +3632,7 @@ var SwitchArrows = (props) => /* @__PURE__ */ jsxs3(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           fillRule: "evenodd",
@@ -3804,7 +3642,7 @@ var SwitchArrows = (props) => /* @__PURE__ */ jsxs3(
           strokeWidth: "1.5"
         }
       ),
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M8 18.5H17C18.105 18.5 19 17.605 19 16.5V12.25",
@@ -3817,8 +3655,8 @@ var SwitchArrows = (props) => /* @__PURE__ */ jsxs3(
     ]
   }
 );
-var SearchDetails = (props) => /* @__PURE__ */ jsxs3(
-  Icon2,
+var SearchDetails = (props) => /* @__PURE__ */ jsxs(
+  Icon,
   {
     ...props,
     xmlns: "http://www.w3.org/2000/svg",
@@ -3826,7 +3664,7 @@ var SearchDetails = (props) => /* @__PURE__ */ jsxs3(
     width: "25",
     height: "25",
     children: [
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M15.456 9.75699L12.037 13.177L9.75703 10.897L7.47803 13.177",
@@ -3836,7 +3674,7 @@ var SearchDetails = (props) => /* @__PURE__ */ jsxs3(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M16.747 6.18703C19.663 9.10307 19.663 13.8309 16.747 16.7469C13.831 19.663 9.1031 19.663 6.18709 16.7469C3.27105 13.8309 3.27105 9.10304 6.18709 6.18703C9.10313 3.27099 13.831 3.27099 16.747 6.18703",
@@ -3846,7 +3684,7 @@ var SearchDetails = (props) => /* @__PURE__ */ jsxs3(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M20 20L16.75 16.75",
@@ -3859,8 +3697,8 @@ var SearchDetails = (props) => /* @__PURE__ */ jsxs3(
     ]
   }
 );
-var List = (props) => /* @__PURE__ */ jsxs3(
-  Icon2,
+var List = (props) => /* @__PURE__ */ jsxs(
+  Icon,
   {
     ...props,
     xmlns: "http://www.w3.org/2000/svg",
@@ -3868,7 +3706,7 @@ var List = (props) => /* @__PURE__ */ jsxs3(
     width: "25",
     height: "25",
     children: [
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M11 5H21",
@@ -3879,7 +3717,7 @@ var List = (props) => /* @__PURE__ */ jsxs3(
         }
       ),
       " ",
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M11 12H21",
@@ -3890,7 +3728,7 @@ var List = (props) => /* @__PURE__ */ jsxs3(
         }
       ),
       " ",
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M11 19H21",
@@ -3901,7 +3739,7 @@ var List = (props) => /* @__PURE__ */ jsxs3(
         }
       ),
       " ",
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           fillRule: "evenodd",
@@ -3914,7 +3752,7 @@ var List = (props) => /* @__PURE__ */ jsxs3(
         }
       ),
       " ",
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           fillRule: "evenodd",
@@ -3927,7 +3765,7 @@ var List = (props) => /* @__PURE__ */ jsxs3(
         }
       ),
       " ",
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           fillRule: "evenodd",
@@ -3942,8 +3780,8 @@ var List = (props) => /* @__PURE__ */ jsxs3(
     ]
   }
 );
-var StoreCart = (props) => /* @__PURE__ */ jsxs3(
-  Icon2,
+var StoreCart = (props) => /* @__PURE__ */ jsxs(
+  Icon,
   {
     ...props,
     xmlns: "http://www.w3.org/2000/svg",
@@ -3951,7 +3789,7 @@ var StoreCart = (props) => /* @__PURE__ */ jsxs3(
     width: "25",
     height: "25",
     children: [
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M20 20V9.78",
@@ -3962,7 +3800,7 @@ var StoreCart = (props) => /* @__PURE__ */ jsxs3(
         }
       ),
       " ",
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           fillRule: "evenodd",
@@ -3975,7 +3813,7 @@ var StoreCart = (props) => /* @__PURE__ */ jsxs3(
         }
       ),
       " ",
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M16 20H21",
@@ -3986,7 +3824,7 @@ var StoreCart = (props) => /* @__PURE__ */ jsxs3(
         }
       ),
       " ",
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M4.59999 14.95H11L10.3 18.45H5.29999L4.29999 13.45H3.04999",
@@ -3997,7 +3835,7 @@ var StoreCart = (props) => /* @__PURE__ */ jsxs3(
         }
       ),
       " ",
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M9.835 20.915C9.855 20.935 9.855 20.966 9.835 20.986C9.815 21.006 9.784 21.006 9.764 20.986C9.744 20.966 9.744 20.935 9.764 20.915C9.784 20.895 9.816 20.895 9.835 20.915",
@@ -4008,7 +3846,7 @@ var StoreCart = (props) => /* @__PURE__ */ jsxs3(
         }
       ),
       " ",
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M5.835 20.915C5.855 20.935 5.855 20.966 5.835 20.986C5.815 21.006 5.784 21.006 5.764 20.986C5.744 20.966 5.744 20.935 5.764 20.915C5.784 20.895 5.816 20.895 5.835 20.915",
@@ -4021,8 +3859,8 @@ var StoreCart = (props) => /* @__PURE__ */ jsxs3(
     ]
   }
 );
-var GlobeCart = (props) => /* @__PURE__ */ jsxs3(
-  Icon2,
+var GlobeCart = (props) => /* @__PURE__ */ jsxs(
+  Icon,
   {
     ...props,
     xmlns: "http://www.w3.org/2000/svg",
@@ -4030,7 +3868,7 @@ var GlobeCart = (props) => /* @__PURE__ */ jsxs3(
     width: "25",
     height: "25",
     children: [
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M11 20C6.029 20 2 15.971 2 11C2 6.029 6.029 2 11 2C15.971 2 20 6.029 20 11",
@@ -4041,7 +3879,7 @@ var GlobeCart = (props) => /* @__PURE__ */ jsxs3(
         }
       ),
       " ",
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M22 14H20.742L19.736 19.031H14.705L14 15.509H20.44",
@@ -4052,7 +3890,7 @@ var GlobeCart = (props) => /* @__PURE__ */ jsxs3(
         }
       ),
       " ",
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M15.172 21.512C15.192 21.492 15.224 21.492 15.243 21.512C15.262 21.532 15.263 21.564 15.243 21.583C15.223 21.602 15.191 21.603 15.172 21.583C15.152 21.563 15.152 21.531 15.172 21.512",
@@ -4063,7 +3901,7 @@ var GlobeCart = (props) => /* @__PURE__ */ jsxs3(
         }
       ),
       " ",
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M19.197 21.512C19.217 21.492 19.249 21.492 19.268 21.512C19.287 21.532 19.288 21.564 19.268 21.583C19.248 21.602 19.216 21.603 19.197 21.583C19.177 21.563 19.177 21.531 19.197 21.512",
@@ -4074,7 +3912,7 @@ var GlobeCart = (props) => /* @__PURE__ */ jsxs3(
         }
       ),
       " ",
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M15 11C15 8.23599 14.277 5.47199 12.833 3.05999C11.986 1.64699 10.014 1.64699 9.16799 3.05999C6.27799 7.88499 6.27799 14.116 9.16799 18.941C9.59099 19.647 10.295 20 11 20",
@@ -4085,7 +3923,7 @@ var GlobeCart = (props) => /* @__PURE__ */ jsxs3(
         }
       ),
       " ",
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M2.50999 8H19",
@@ -4096,7 +3934,7 @@ var GlobeCart = (props) => /* @__PURE__ */ jsxs3(
         }
       ),
       " ",
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M2.50999 14H11",
@@ -4109,8 +3947,8 @@ var GlobeCart = (props) => /* @__PURE__ */ jsxs3(
     ]
   }
 );
-var PaymentHand = (props) => /* @__PURE__ */ jsxs3(
-  Icon2,
+var PaymentHand = (props) => /* @__PURE__ */ jsxs(
+  Icon,
   {
     ...props,
     xmlns: "http://www.w3.org/2000/svg",
@@ -4118,7 +3956,7 @@ var PaymentHand = (props) => /* @__PURE__ */ jsxs3(
     width: "25",
     height: "25",
     children: [
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           fillRule: "evenodd",
@@ -4130,7 +3968,7 @@ var PaymentHand = (props) => /* @__PURE__ */ jsxs3(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M13 17H15.333C15.766 17 16.187 16.86 16.533 16.6L18.949 14.788C19.552 14.336 20.396 14.396 20.929 14.929V14.929C21.521 15.521 21.521 16.48 20.929 17.071L18.856 19.144C18.298 19.702 17.586 20.083 16.812 20.238L13.882 20.824C13.301 20.94 12.702 20.926 12.127 20.782L9.477 20.12C9.16 20.04 8.835 20 8.508 20H7",
@@ -4140,7 +3978,7 @@ var PaymentHand = (props) => /* @__PURE__ */ jsxs3(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M13 17H14.485C15.322 17 16 16.322 16 15.485V15.182C16 14.487 15.527 13.881 14.853 13.713L12.561 13.14C12.188 13.047 11.806 13 11.422 13V13C10.495 13 9.588 13.274 8.817 13.789L7 15",
@@ -4150,7 +3988,7 @@ var PaymentHand = (props) => /* @__PURE__ */ jsxs3(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           fillRule: "evenodd",
@@ -4162,7 +4000,7 @@ var PaymentHand = (props) => /* @__PURE__ */ jsxs3(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M16.061 4.93899C16.647 5.52499 16.647 6.47599 16.061 7.06099C15.475 7.64599 14.524 7.64699 13.939 7.06099C13.353 6.47499 13.353 5.52399 13.939 4.93899C14.525 4.35399 15.475 4.35399 16.061 4.93899",
@@ -4175,8 +4013,8 @@ var PaymentHand = (props) => /* @__PURE__ */ jsxs3(
     ]
   }
 );
-var ToStore = (props) => /* @__PURE__ */ jsxs3(
-  Icon2,
+var ToStore = (props) => /* @__PURE__ */ jsxs(
+  Icon,
   {
     ...props,
     xmlns: "http://www.w3.org/2000/svg",
@@ -4184,7 +4022,7 @@ var ToStore = (props) => /* @__PURE__ */ jsxs3(
     width: "25",
     height: "25",
     children: [
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M12 20.91H3",
@@ -4194,7 +4032,7 @@ var ToStore = (props) => /* @__PURE__ */ jsxs3(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M4.21997 10.78V20.91",
@@ -4204,7 +4042,7 @@ var ToStore = (props) => /* @__PURE__ */ jsxs3(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           fillRule: "evenodd",
@@ -4216,7 +4054,7 @@ var ToStore = (props) => /* @__PURE__ */ jsxs3(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M20 13L20.02 10.78",
@@ -4226,7 +4064,7 @@ var ToStore = (props) => /* @__PURE__ */ jsxs3(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M16 21H17.5C18.881 21 20 19.881 20 18.5V18.5C20 17.119 18.881 16 17.5 16H13",
@@ -4236,7 +4074,7 @@ var ToStore = (props) => /* @__PURE__ */ jsxs3(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M15 18L13 16L15 14",
@@ -4249,8 +4087,8 @@ var ToStore = (props) => /* @__PURE__ */ jsxs3(
     ]
   }
 );
-var ChangeCart = (props) => /* @__PURE__ */ jsxs3(
-  Icon2,
+var ChangeCart = (props) => /* @__PURE__ */ jsxs(
+  Icon,
   {
     ...props,
     xmlns: "http://www.w3.org/2000/svg",
@@ -4258,7 +4096,7 @@ var ChangeCart = (props) => /* @__PURE__ */ jsxs3(
     width: "25",
     height: "25",
     children: [
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M1.5 11.25L3 9.75L4.5 11.25",
@@ -4268,7 +4106,7 @@ var ChangeCart = (props) => /* @__PURE__ */ jsxs3(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M22.5 12.75L21 14.25L19.5 12.75",
@@ -4278,7 +4116,7 @@ var ChangeCart = (props) => /* @__PURE__ */ jsxs3(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M3.235 9.98499C3.086 10.634 3 11.306 3 12C3 16.971 7.029 21 12 21C15.052 21 17.744 19.478 19.371 17.155",
@@ -4288,7 +4126,7 @@ var ChangeCart = (props) => /* @__PURE__ */ jsxs3(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M20.765 14.015C20.914 13.366 21 12.694 21 12C21 7.029 16.971 3 12 3C8.94803 3 6.25603 4.522 4.62903 6.845",
@@ -4298,7 +4136,7 @@ var ChangeCart = (props) => /* @__PURE__ */ jsxs3(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M9.05 10.25H15.45L14.75 13.75H9.75L8.75 8.75H7.5",
@@ -4308,7 +4146,7 @@ var ChangeCart = (props) => /* @__PURE__ */ jsxs3(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M14.285 16.215C14.305 16.235 14.305 16.266 14.285 16.286C14.265 16.306 14.234 16.306 14.214 16.286C14.194 16.266 14.194 16.235 14.214 16.215C14.234 16.195 14.266 16.195 14.285 16.215",
@@ -4318,7 +4156,7 @@ var ChangeCart = (props) => /* @__PURE__ */ jsxs3(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M10.285 16.215C10.305 16.235 10.305 16.266 10.285 16.286C10.265 16.306 10.234 16.306 10.214 16.286C10.194 16.266 10.194 16.235 10.214 16.215C10.234 16.195 10.266 16.195 10.285 16.215",
@@ -4331,8 +4169,8 @@ var ChangeCart = (props) => /* @__PURE__ */ jsxs3(
     ]
   }
 );
-var Blocks = (props) => /* @__PURE__ */ jsxs3(
-  Icon2,
+var Blocks = (props) => /* @__PURE__ */ jsxs(
+  Icon,
   {
     ...props,
     xmlns: "http://www.w3.org/2000/svg",
@@ -4341,7 +4179,7 @@ var Blocks = (props) => /* @__PURE__ */ jsxs3(
     height: "25",
     children: [
       " ",
-      /* @__PURE__ */ jsxs3(
+      /* @__PURE__ */ jsxs(
         "g",
         {
           strokeLinecap: "square",
@@ -4351,7 +4189,7 @@ var Blocks = (props) => /* @__PURE__ */ jsxs3(
           stroke: "#f71963",
           children: [
             " ",
-            /* @__PURE__ */ jsx3(
+            /* @__PURE__ */ jsx(
               "rect",
               {
                 x: "4",
@@ -4364,7 +4202,7 @@ var Blocks = (props) => /* @__PURE__ */ jsxs3(
               }
             ),
             " ",
-            /* @__PURE__ */ jsx3(
+            /* @__PURE__ */ jsx(
               "rect",
               {
                 x: "10",
@@ -4376,7 +4214,7 @@ var Blocks = (props) => /* @__PURE__ */ jsxs3(
               }
             ),
             " ",
-            /* @__PURE__ */ jsx3(
+            /* @__PURE__ */ jsx(
               "rect",
               {
                 x: "10",
@@ -4388,7 +4226,7 @@ var Blocks = (props) => /* @__PURE__ */ jsxs3(
               }
             ),
             " ",
-            /* @__PURE__ */ jsx3(
+            /* @__PURE__ */ jsx(
               "rect",
               {
                 x: "27",
@@ -4406,8 +4244,8 @@ var Blocks = (props) => /* @__PURE__ */ jsxs3(
     ]
   }
 );
-var StoreData = (props) => /* @__PURE__ */ jsxs3(
-  Icon2,
+var StoreData = (props) => /* @__PURE__ */ jsxs(
+  Icon,
   {
     ...props,
     xmlns: "http://www.w3.org/2000/svg",
@@ -4415,7 +4253,7 @@ var StoreData = (props) => /* @__PURE__ */ jsxs3(
     width: "25",
     height: "25",
     children: [
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M19.576 4.40599C20.236 5.06499 20.236 6.13399 19.576 6.79299C18.916 7.45199 17.847 7.45199 17.187 6.79299C16.527 6.13399 16.527 5.06499 17.187 4.40599C17.847 3.74699 18.916 3.74699 19.576 4.40599",
@@ -4425,7 +4263,7 @@ var StoreData = (props) => /* @__PURE__ */ jsxs3(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M4.42402 19.594C3.76402 18.935 3.76402 17.866 4.42402 17.207C5.08402 16.548 6.15302 16.548 6.81302 17.207C7.47302 17.866 7.47302 18.935 6.81302 19.594C6.15302 20.253 5.08402 20.253 4.42402 19.594",
@@ -4435,7 +4273,7 @@ var StoreData = (props) => /* @__PURE__ */ jsxs3(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M6.935 19.448C10.441 21.83 15.253 21.472 18.362 18.366C20.12 16.608 21 14.304 21 12C21 11.468 20.968 10.937 20.874 10.412",
@@ -4445,7 +4283,7 @@ var StoreData = (props) => /* @__PURE__ */ jsxs3(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M3.126 13.588C3.032 13.063 3 12.532 3 12C3 9.696 3.88 7.392 5.639 5.634C8.747 2.528 13.56 2.17 17.066 4.552",
@@ -4455,7 +4293,7 @@ var StoreData = (props) => /* @__PURE__ */ jsxs3(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           fillRule: "evenodd",
@@ -4470,8 +4308,8 @@ var StoreData = (props) => /* @__PURE__ */ jsxs3(
     ]
   }
 );
-var FileConfiguration = (props) => /* @__PURE__ */ jsxs3(
-  Icon2,
+var FileConfiguration = (props) => /* @__PURE__ */ jsxs(
+  Icon,
   {
     ...props,
     xmlns: "http://www.w3.org/2000/svg",
@@ -4479,7 +4317,7 @@ var FileConfiguration = (props) => /* @__PURE__ */ jsxs3(
     width: "25",
     height: "25",
     children: [
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M19 11V7.828C19 7.298 18.789 6.789 18.414 6.414L15.586 3.586C15.211 3.211 14.702 3 14.172 3H7C5.895 3 5 3.895 5 5V19C5 20.105 5.895 21 7 21H11",
@@ -4490,7 +4328,7 @@ var FileConfiguration = (props) => /* @__PURE__ */ jsxs3(
         }
       ),
       " ",
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M19 8H15C14.448 8 14 7.552 14 7V3",
@@ -4501,7 +4339,7 @@ var FileConfiguration = (props) => /* @__PURE__ */ jsxs3(
         }
       ),
       " ",
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M17.659 15.174V14.002",
@@ -4512,7 +4350,7 @@ var FileConfiguration = (props) => /* @__PURE__ */ jsxs3(
         }
       ),
       " ",
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M17.659 21V19.828",
@@ -4523,7 +4361,7 @@ var FileConfiguration = (props) => /* @__PURE__ */ jsxs3(
         }
       ),
       " ",
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M19.671 16.329L20.685 15.751",
@@ -4534,7 +4372,7 @@ var FileConfiguration = (props) => /* @__PURE__ */ jsxs3(
         }
       ),
       " ",
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M14.633 19.25L15.63 18.672",
@@ -4545,7 +4383,7 @@ var FileConfiguration = (props) => /* @__PURE__ */ jsxs3(
         }
       ),
       " ",
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M19.671 18.673L20.685 19.251",
@@ -4556,7 +4394,7 @@ var FileConfiguration = (props) => /* @__PURE__ */ jsxs3(
         }
       ),
       " ",
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M14.633 15.752L15.63 16.33",
@@ -4567,7 +4405,7 @@ var FileConfiguration = (props) => /* @__PURE__ */ jsxs3(
         }
       ),
       " ",
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M17.659 15.167C18.949 15.167 19.993 16.211 19.993 17.501C19.993 18.791 18.949 19.835 17.659 19.835C16.369 19.835 15.325 18.789 15.325 17.501C15.325 16.213 16.369 15.167 17.659 15.167",
@@ -4580,8 +4418,8 @@ var FileConfiguration = (props) => /* @__PURE__ */ jsxs3(
     ]
   }
 );
-var Cart = (props) => /* @__PURE__ */ jsxs3(
-  Icon2,
+var Cart = (props) => /* @__PURE__ */ jsxs(
+  Icon,
   {
     ...props,
     xmlns: "http://www.w3.org/2000/svg",
@@ -4589,7 +4427,7 @@ var Cart = (props) => /* @__PURE__ */ jsxs3(
     width: "25",
     height: "25",
     children: [
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M15.006 16.542C14.88 16.542 14.777 16.644 14.779 16.771C14.779 16.897 14.881 17 15.008 17C15.135 17 15.237 16.898 15.237 16.771C15.235 16.644 15.132 16.542 15.006 16.542",
@@ -4599,7 +4437,7 @@ var Cart = (props) => /* @__PURE__ */ jsxs3(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M9.74803 16.542C9.62203 16.542 9.51903 16.644 9.52103 16.771C9.52003 16.897 9.62303 17 9.74903 17C9.87503 17 9.97803 16.898 9.97803 16.771C9.97803 16.644 9.87503 16.542 9.74803 16.542",
@@ -4609,7 +4447,7 @@ var Cart = (props) => /* @__PURE__ */ jsxs3(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           fillRule: "evenodd",
@@ -4621,7 +4459,7 @@ var Cart = (props) => /* @__PURE__ */ jsxs3(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M7.984 8.875H15.875C16.282 8.875 16.58 9.257 16.481 9.652L15.639 13.022C15.511 13.534 15.076 13.91 14.551 13.963L10.291 14.389C9.656 14.452 9.075 14.028 8.944 13.404L7.578 7H6.5",
@@ -4634,15 +4472,15 @@ var Cart = (props) => /* @__PURE__ */ jsxs3(
     ]
   }
 );
-var Platform = (props) => /* @__PURE__ */ jsx3(
-  Icon2,
+var Platform = (props) => /* @__PURE__ */ jsx(
+  Icon,
   {
     ...props,
     xmlns: "http://www.w3.org/2000/svg",
     viewBox: "0 0 24 24",
     width: "25",
     height: "25",
-    children: /* @__PURE__ */ jsxs3(
+    children: /* @__PURE__ */ jsxs(
       "g",
       {
         strokeLinecap: "square",
@@ -4652,10 +4490,10 @@ var Platform = (props) => /* @__PURE__ */ jsx3(
         strokeLinejoin: "miter",
         "stroke-miterlimit": "10",
         children: [
-          /* @__PURE__ */ jsx3("rect", { x: "4", y: "15", width: "8", height: "7" }),
-          /* @__PURE__ */ jsx3("rect", { x: "12", y: "15", width: "8", height: "7" }),
-          /* @__PURE__ */ jsx3("rect", { x: "8", y: "8", width: "8", height: "7" }),
-          /* @__PURE__ */ jsx3(
+          /* @__PURE__ */ jsx("rect", { x: "4", y: "15", width: "8", height: "7" }),
+          /* @__PURE__ */ jsx("rect", { x: "12", y: "15", width: "8", height: "7" }),
+          /* @__PURE__ */ jsx("rect", { x: "8", y: "8", width: "8", height: "7" }),
+          /* @__PURE__ */ jsx(
             "polyline",
             {
               points: "1 7 12 2 23 7",
@@ -4664,39 +4502,39 @@ var Platform = (props) => /* @__PURE__ */ jsx3(
               stroke: "#142032"
             }
           ),
-          /* @__PURE__ */ jsx3("line", { x1: "12", y1: "8", x2: "12", y2: "10" }),
-          /* @__PURE__ */ jsx3("line", { x1: "16", y1: "15", x2: "16", y2: "17" }),
-          /* @__PURE__ */ jsx3("line", { x1: "8", y1: "15", x2: "8", y2: "17" })
+          /* @__PURE__ */ jsx("line", { x1: "12", y1: "8", x2: "12", y2: "10" }),
+          /* @__PURE__ */ jsx("line", { x1: "16", y1: "15", x2: "16", y2: "17" }),
+          /* @__PURE__ */ jsx("line", { x1: "8", y1: "15", x2: "8", y2: "17" })
         ]
       }
     )
   }
 );
-var RestApis = (props) => /* @__PURE__ */ jsx3(
-  Icon2,
+var RestApis = (props) => /* @__PURE__ */ jsx(
+  Icon,
   {
     ...props,
     xmlns: "http://www.w3.org/2000/svg",
     viewBox: "0 0 24 24",
     width: "25",
     height: "25",
-    children: /* @__PURE__ */ jsxs3("g", { fill: "#142032", children: [
-      /* @__PURE__ */ jsx3("path", { d: "M17,17H15.858a3.915,3.915,0,0,0-.425-1.019l.81-.81a1,1,0,1,0-1.414-1.414l-.81.81A3.915,3.915,0,0,0,13,14.142V13a1,1,0,0,0-2,0v1.142a3.915,3.915,0,0,0-1.019.425l-.81-.81a1,1,0,1,0-1.414,1.414l.81.81A3.915,3.915,0,0,0,8.142,17H7a1,1,0,0,0,0,2H8.142a3.915,3.915,0,0,0,.425,1.019l-.81.81a1,1,0,1,0,1.414,1.414l.81-.81A3.915,3.915,0,0,0,11,21.858V23a1,1,0,0,0,2,0V21.858a3.915,3.915,0,0,0,1.019-.425l.81.81a1,1,0,1,0,1.414-1.414l-.81-.81A3.915,3.915,0,0,0,15.858,19H17a1,1,0,0,0,0-2Zm-5,3a2,2,0,1,1,2-2A2,2,0,0,1,12,20Z" }),
-      /* @__PURE__ */ jsx3(
+    children: /* @__PURE__ */ jsxs("g", { fill: "#142032", children: [
+      /* @__PURE__ */ jsx("path", { d: "M17,17H15.858a3.915,3.915,0,0,0-.425-1.019l.81-.81a1,1,0,1,0-1.414-1.414l-.81.81A3.915,3.915,0,0,0,13,14.142V13a1,1,0,0,0-2,0v1.142a3.915,3.915,0,0,0-1.019.425l-.81-.81a1,1,0,1,0-1.414,1.414l.81.81A3.915,3.915,0,0,0,8.142,17H7a1,1,0,0,0,0,2H8.142a3.915,3.915,0,0,0,.425,1.019l-.81.81a1,1,0,1,0,1.414,1.414l.81-.81A3.915,3.915,0,0,0,11,21.858V23a1,1,0,0,0,2,0V21.858a3.915,3.915,0,0,0,1.019-.425l.81.81a1,1,0,1,0,1.414-1.414l-.81-.81A3.915,3.915,0,0,0,15.858,19H17a1,1,0,0,0,0-2Zm-5,3a2,2,0,1,1,2-2A2,2,0,0,1,12,20Z" }),
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M15,3a3,3,0,1,0-4,2.816V9a1,1,0,0,0,2,0V5.816A3,3,0,0,0,15,3Z",
           fill: "#f71963"
         }
       ),
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M6.271,10.856,4,8.586V5.816a3,3,0,1,0-2,0V9a1,1,0,0,0,.293.707l2.564,2.564a1,1,0,1,0,1.414-1.415Z",
           fill: "#f71963"
         }
       ),
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M24,3a3,3,0,1,0-4,2.816v2.77l-2.271,2.27a1,1,0,0,0,1.414,1.415l2.564-2.564A1,1,0,0,0,22,9V5.816A3,3,0,0,0,24,3Z",
@@ -4706,8 +4544,8 @@ var RestApis = (props) => /* @__PURE__ */ jsx3(
     ] })
   }
 );
-var Catalog = (props) => /* @__PURE__ */ jsxs3(
-  Icon2,
+var Catalog = (props) => /* @__PURE__ */ jsxs(
+  Icon,
   {
     ...props,
     xmlns: "http://www.w3.org/2000/svg",
@@ -4715,7 +4553,7 @@ var Catalog = (props) => /* @__PURE__ */ jsxs3(
     width: "25",
     height: "25",
     children: [
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M6.5 9V20C6.5 20.552 6.948 21 7.5 21H16.5C17.052 21 17.5 20.552 17.5 20V9",
@@ -4726,7 +4564,7 @@ var Catalog = (props) => /* @__PURE__ */ jsxs3(
         }
       ),
       " ",
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M6.5 13H3.5C2.948 13 2.5 12.552 2.5 12V7.416C2.5 6.248 3.178 5.186 4.238 4.694L7.702 3.088C8.463 2.735 9.364 2.895 9.958 3.488L11.293 4.823C11.684 5.214 12.317 5.214 12.707 4.823L14.042 3.488C14.635 2.895 15.536 2.735 16.298 3.088L19.762 4.694C20.822 5.185 21.5 6.247 21.5 7.416V12C21.5 12.552 21.052 13 20.5 13H17.5",
@@ -4739,8 +4577,8 @@ var Catalog = (props) => /* @__PURE__ */ jsxs3(
     ]
   }
 );
-var Orders = (props) => /* @__PURE__ */ jsxs3(
-  Icon2,
+var Orders = (props) => /* @__PURE__ */ jsxs(
+  Icon,
   {
     ...props,
     xmlns: "http://www.w3.org/2000/svg",
@@ -4748,7 +4586,7 @@ var Orders = (props) => /* @__PURE__ */ jsxs3(
     width: "25",
     height: "25",
     children: [
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           fillRule: "evenodd",
@@ -4761,7 +4599,7 @@ var Orders = (props) => /* @__PURE__ */ jsxs3(
         }
       ),
       " ",
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M17 7.31L20.64 3.87",
@@ -4772,7 +4610,7 @@ var Orders = (props) => /* @__PURE__ */ jsxs3(
         }
       ),
       " ",
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M17 20.59V7.31",
@@ -4783,7 +4621,7 @@ var Orders = (props) => /* @__PURE__ */ jsxs3(
         }
       ),
       " ",
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M17 7.31H3.38",
@@ -4794,7 +4632,7 @@ var Orders = (props) => /* @__PURE__ */ jsxs3(
         }
       ),
       " ",
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M10.36 7.31L15.29 3",
@@ -4805,7 +4643,7 @@ var Orders = (props) => /* @__PURE__ */ jsxs3(
         }
       ),
       " ",
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M8 11H12",
@@ -4818,8 +4656,8 @@ var Orders = (props) => /* @__PURE__ */ jsxs3(
     ]
   }
 );
-var Checkout = (props) => /* @__PURE__ */ jsxs3(
-  Icon2,
+var Checkout = (props) => /* @__PURE__ */ jsxs(
+  Icon,
   {
     ...props,
     xmlns: "http://www.w3.org/2000/svg",
@@ -4827,7 +4665,7 @@ var Checkout = (props) => /* @__PURE__ */ jsxs3(
     width: "25",
     height: "25",
     children: [
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           fillRule: "evenodd",
@@ -4840,7 +4678,7 @@ var Checkout = (props) => /* @__PURE__ */ jsxs3(
         }
       ),
       " ",
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M5.874 7L5.224 4H3.5",
@@ -4851,7 +4689,7 @@ var Checkout = (props) => /* @__PURE__ */ jsxs3(
         }
       ),
       " ",
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M17.109 19.267C16.907 19.267 16.743 19.431 16.745 19.633C16.745 19.835 16.909 19.999 17.111 19.999C17.313 19.999 17.477 19.835 17.477 19.633C17.476 19.431 17.312 19.267 17.109 19.267",
@@ -4862,7 +4700,7 @@ var Checkout = (props) => /* @__PURE__ */ jsxs3(
         }
       ),
       " ",
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M8.697 19.267C8.495 19.267 8.331 19.431 8.333 19.633C8.331 19.836 8.496 20 8.698 20C8.9 20 9.064 19.836 9.064 19.634C9.064 19.431 8.9 19.267 8.697 19.267",
@@ -4875,8 +4713,8 @@ var Checkout = (props) => /* @__PURE__ */ jsxs3(
     ]
   }
 );
-var Payments = (props) => /* @__PURE__ */ jsxs3(
-  Icon2,
+var Payments = (props) => /* @__PURE__ */ jsxs(
+  Icon,
   {
     ...props,
     xmlns: "http://www.w3.org/2000/svg",
@@ -4884,7 +4722,7 @@ var Payments = (props) => /* @__PURE__ */ jsxs3(
     width: "25",
     height: "25",
     children: [
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M1 5H19",
@@ -4895,7 +4733,7 @@ var Payments = (props) => /* @__PURE__ */ jsxs3(
         }
       ),
       " ",
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M7.5 9H5",
@@ -4906,7 +4744,7 @@ var Payments = (props) => /* @__PURE__ */ jsxs3(
         }
       ),
       " ",
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M9 15H1",
@@ -4917,7 +4755,7 @@ var Payments = (props) => /* @__PURE__ */ jsxs3(
         }
       ),
       " ",
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M7 13L9 15L7 17",
@@ -4928,7 +4766,7 @@ var Payments = (props) => /* @__PURE__ */ jsxs3(
         }
       ),
       " ",
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M1 11V4C1 2.343 2.343 1 4 1H16C17.657 1 19 2.343 19 4V12C19 13.657 17.657 15 16 15H13",
@@ -4941,8 +4779,8 @@ var Payments = (props) => /* @__PURE__ */ jsxs3(
     ]
   }
 );
-var Promotions = (props) => /* @__PURE__ */ jsxs3(
-  Icon2,
+var Promotions = (props) => /* @__PURE__ */ jsxs(
+  Icon,
   {
     ...props,
     xmlns: "http://www.w3.org/2000/svg",
@@ -4950,7 +4788,7 @@ var Promotions = (props) => /* @__PURE__ */ jsxs3(
     width: "25",
     height: "25",
     children: [
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           fillRule: "evenodd",
@@ -4963,7 +4801,7 @@ var Promotions = (props) => /* @__PURE__ */ jsxs3(
         }
       ),
       " ",
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M9 15L15 9",
@@ -4974,7 +4812,7 @@ var Promotions = (props) => /* @__PURE__ */ jsxs3(
         }
       ),
       " ",
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M9.249 9C9.111 9 8.999 9.112 9 9.25C9 9.388 9.112 9.5 9.25 9.5C9.388 9.5 9.5 9.388 9.5 9.25C9.5 9.112 9.388 9 9.249 9",
@@ -4985,7 +4823,7 @@ var Promotions = (props) => /* @__PURE__ */ jsxs3(
         }
       ),
       " ",
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M14.749 14.5C14.611 14.5 14.499 14.612 14.5 14.75C14.5 14.888 14.612 15 14.75 15C14.888 15 15 14.888 15 14.75C15 14.612 14.888 14.5 14.749 14.5",
@@ -4998,8 +4836,8 @@ var Promotions = (props) => /* @__PURE__ */ jsxs3(
     ]
   }
 );
-var Pricing = (props) => /* @__PURE__ */ jsxs3(
-  Icon2,
+var Pricing = (props) => /* @__PURE__ */ jsxs(
+  Icon,
   {
     ...props,
     xmlns: "http://www.w3.org/2000/svg",
@@ -5007,7 +4845,7 @@ var Pricing = (props) => /* @__PURE__ */ jsxs3(
     width: "25",
     height: "25",
     children: [
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M11.89 12.11L12.44 11.56",
@@ -5018,7 +4856,7 @@ var Pricing = (props) => /* @__PURE__ */ jsxs3(
         }
       ),
       " ",
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M8.57 15.43L8.02 15.98",
@@ -5029,7 +4867,7 @@ var Pricing = (props) => /* @__PURE__ */ jsxs3(
         }
       ),
       " ",
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M8.013 14.071C7.922 14.448 8.004 14.854 8.299 15.149L8.575 15.425L8.904 15.754C9.332 16.182 10.026 16.182 10.454 15.754C10.809 15.399 10.878 14.847 10.619 14.416L9.844 13.122C9.586 12.691 9.654 12.139 10.009 11.784C10.437 11.356 11.131 11.356 11.559 11.784L11.888 12.113L12.164 12.389C12.458 12.683 12.54 13.088 12.451 13.464",
@@ -5040,7 +4878,7 @@ var Pricing = (props) => /* @__PURE__ */ jsxs3(
         }
       ),
       " ",
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M15.8073 8.19265C15.9522 8.33754 15.9522 8.57244 15.8073 8.71732C15.6624 8.86221 15.4275 8.86221 15.2826 8.71732C15.1377 8.57244 15.1377 8.33753 15.2826 8.19265C15.4275 8.04777 15.6624 8.04777 15.8073 8.19265",
@@ -5051,7 +4889,7 @@ var Pricing = (props) => /* @__PURE__ */ jsxs3(
         }
       ),
       " ",
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           fillRule: "evenodd",
@@ -5066,8 +4904,8 @@ var Pricing = (props) => /* @__PURE__ */ jsxs3(
     ]
   }
 );
-var AccountManagement = (props) => /* @__PURE__ */ jsxs3(
-  Icon2,
+var AccountManagement = (props) => /* @__PURE__ */ jsxs(
+  Icon,
   {
     ...props,
     xmlns: "http://www.w3.org/2000/svg",
@@ -5075,7 +4913,7 @@ var AccountManagement = (props) => /* @__PURE__ */ jsxs3(
     width: "25",
     height: "25",
     children: [
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M15 5.2C16.7 6.9 16.7 9.6 15 11.2C13.3 12.8 10.6 12.9 9.00001 11.2C7.40001 9.5 7.30001 6.8 9.00001 5.2C10.7 3.6 13.3 3.6 15 5.2",
@@ -5086,7 +4924,7 @@ var AccountManagement = (props) => /* @__PURE__ */ jsxs3(
         }
       ),
       " ",
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M4 20C4 17.5 6 15.5 8.5 15.5H11.1",
@@ -5097,7 +4935,7 @@ var AccountManagement = (props) => /* @__PURE__ */ jsxs3(
         }
       ),
       " ",
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M19 17.6V16.5C19 15.7 18.3 15 17.5 15C16.7 15 16 15.7 16 16.5V17.6",
@@ -5108,7 +4946,7 @@ var AccountManagement = (props) => /* @__PURE__ */ jsxs3(
         }
       ),
       " ",
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           fillRule: "evenodd",
@@ -5123,8 +4961,8 @@ var AccountManagement = (props) => /* @__PURE__ */ jsxs3(
     ]
   }
 );
-var StoreSearch = (props) => /* @__PURE__ */ jsxs3(
-  Icon2,
+var StoreSearch = (props) => /* @__PURE__ */ jsxs(
+  Icon,
   {
     ...props,
     xmlns: "http://www.w3.org/2000/svg",
@@ -5132,7 +4970,7 @@ var StoreSearch = (props) => /* @__PURE__ */ jsxs3(
     width: "25",
     height: "25",
     children: [
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M10 20.91H3",
@@ -5143,7 +4981,7 @@ var StoreSearch = (props) => /* @__PURE__ */ jsxs3(
         }
       ),
       " ",
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M18.853 15.006C20.336 16.489 20.176 18.99 18.375 20.255C17.229 21.059 15.628 21.059 14.482 20.255C12.68 18.991 12.521 16.489 14.004 15.006C15.344 13.667 17.515 13.667 18.853 15.006",
@@ -5154,7 +4992,7 @@ var StoreSearch = (props) => /* @__PURE__ */ jsxs3(
         }
       ),
       " ",
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M21 22L18.852 19.852",
@@ -5165,7 +5003,7 @@ var StoreSearch = (props) => /* @__PURE__ */ jsxs3(
         }
       ),
       " ",
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M4.22 10.78V20.91",
@@ -5176,7 +5014,7 @@ var StoreSearch = (props) => /* @__PURE__ */ jsxs3(
         }
       ),
       " ",
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           fillRule: "evenodd",
@@ -5191,16 +5029,16 @@ var StoreSearch = (props) => /* @__PURE__ */ jsxs3(
     ]
   }
 );
-var Subscriptions = (props) => /* @__PURE__ */ jsx3(
-  Icon2,
+var Subscriptions = (props) => /* @__PURE__ */ jsx(
+  Icon,
   {
     ...props,
     xmlns: "http://www.w3.org/2000/svg",
     viewBox: "0 0 24 24",
     width: "25",
     height: "25",
-    children: /* @__PURE__ */ jsxs3("svg", { children: [
-      /* @__PURE__ */ jsx3(
+    children: /* @__PURE__ */ jsxs("svg", { children: [
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M4.5 12.75L3 14.25L1.5 12.75",
@@ -5210,7 +5048,7 @@ var Subscriptions = (props) => /* @__PURE__ */ jsx3(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M19.5 11.25L21 9.75L22.5 11.25",
@@ -5220,7 +5058,7 @@ var Subscriptions = (props) => /* @__PURE__ */ jsx3(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M19.371 6.845C17.744 4.522 15.052 3 12 3C7.029 3 3 7.029 3 12C3 12.694 3.086 13.366 3.235 14.015",
@@ -5230,7 +5068,7 @@ var Subscriptions = (props) => /* @__PURE__ */ jsx3(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M4.629 17.155C6.256 19.478 8.948 21 12 21C16.971 21 21 16.971 21 12C21 11.306 20.914 10.634 20.765 9.98499",
@@ -5240,7 +5078,7 @@ var Subscriptions = (props) => /* @__PURE__ */ jsx3(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M13.706 9.091V8.315C13.706 7.317 12.938 6.5 12 6.5C11.062 6.5 10.294 7.317 10.294 8.315V9.091",
@@ -5250,7 +5088,7 @@ var Subscriptions = (props) => /* @__PURE__ */ jsx3(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           fillRule: "evenodd",
@@ -5265,16 +5103,16 @@ var Subscriptions = (props) => /* @__PURE__ */ jsx3(
     ] })
   }
 );
-var Fulfillment = (props) => /* @__PURE__ */ jsx3(
-  Icon2,
+var Fulfillment = (props) => /* @__PURE__ */ jsx(
+  Icon,
   {
     ...props,
     xmlns: "http://www.w3.org/2000/svg",
     viewBox: "0 0 24 24",
     width: "25",
     height: "25",
-    children: /* @__PURE__ */ jsxs3("svg", { children: [
-      /* @__PURE__ */ jsx3(
+    children: /* @__PURE__ */ jsxs("svg", { children: [
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M18.704 18.296C19.323 18.915 19.323 19.918 18.704 20.536C18.085 21.155 17.082 21.155 16.464 20.536C15.845 19.917 15.845 18.914 16.464 18.296C17.083 17.677 18.086 17.677 18.704 18.296",
@@ -5284,7 +5122,7 @@ var Fulfillment = (props) => /* @__PURE__ */ jsx3(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M7.704 18.296C8.323 18.915 8.323 19.918 7.704 20.536C7.085 21.155 6.082 21.155 5.464 20.536C4.846 19.917 4.845 18.914 5.464 18.296C6.083 17.678 7.085 17.677 7.704 18.296",
@@ -5294,7 +5132,7 @@ var Fulfillment = (props) => /* @__PURE__ */ jsx3(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M10 4H14C14.552 4 15 4.448 15 5V15H2",
@@ -5304,7 +5142,7 @@ var Fulfillment = (props) => /* @__PURE__ */ jsx3(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M5 19.416H3C2.448 19.416 2 18.968 2 18.416V13",
@@ -5314,7 +5152,7 @@ var Fulfillment = (props) => /* @__PURE__ */ jsx3(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M15 7H19.323C19.732 7 20.1 7.249 20.251 7.629L21.857 11.643C21.951 11.879 22 12.131 22 12.385V18.333C22 18.885 21.552 19.333 21 19.333H19.169",
@@ -5324,7 +5162,7 @@ var Fulfillment = (props) => /* @__PURE__ */ jsx3(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M16 19.42H8.17",
@@ -5334,7 +5172,7 @@ var Fulfillment = (props) => /* @__PURE__ */ jsx3(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M22 14H18V10H21.2",
@@ -5344,7 +5182,7 @@ var Fulfillment = (props) => /* @__PURE__ */ jsx3(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M2 4H7",
@@ -5354,7 +5192,7 @@ var Fulfillment = (props) => /* @__PURE__ */ jsx3(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M2 7H5",
@@ -5364,7 +5202,7 @@ var Fulfillment = (props) => /* @__PURE__ */ jsx3(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx3(
+      /* @__PURE__ */ jsx(
         "path",
         {
           d: "M3 10H2",
@@ -5379,7 +5217,7 @@ var Fulfillment = (props) => /* @__PURE__ */ jsx3(
 );
 
 // src/components/overview-card/index.tsx
-import { jsx as jsx4, jsxs as jsxs4 } from "react/jsx-runtime";
+import { jsx as jsx2, jsxs as jsxs2 } from "react/jsx-runtime";
 var IconsMap = [
   {
     name: "StorageUnit",
@@ -5498,18 +5336,18 @@ var getIcon = (name) => {
   return IconsMap.find((icon3) => icon3.name === name)?.Icon;
 };
 var OverviewCard = ({ icon: icon3, children }) => {
-  const Icon25 = getIcon(icon3);
-  return /* @__PURE__ */ jsxs4(Flex, { sx: styles_default3.overviewCard, children: [
-    Icon25 && /* @__PURE__ */ jsx4(Icon25, { sx: styles_default3.overviewIcon }),
-    /* @__PURE__ */ jsx4(Box3, { children })
+  const Icon24 = getIcon(icon3);
+  return /* @__PURE__ */ jsxs2(Flex, { sx: styles_default.overviewCard, children: [
+    Icon24 && /* @__PURE__ */ jsx2(Icon24, { sx: styles_default.overviewIcon }),
+    /* @__PURE__ */ jsx2(Box, { children })
   ] });
 };
 var overview_card_default = OverviewCard;
 
 // src/components/youtube-frame/index.tsx
 var import_prop_types = __toESM(require_prop_types());
-import { jsx as jsx5 } from "react/jsx-runtime";
-var YoutubeFrame = ({ embedId }) => /* @__PURE__ */ jsx5("div", { className: "video-responsive", children: /* @__PURE__ */ jsx5(
+import { jsx as jsx3 } from "react/jsx-runtime";
+var YoutubeFrame = ({ embedId }) => /* @__PURE__ */ jsx3("div", { className: "video-responsive", children: /* @__PURE__ */ jsx3(
   "iframe",
   {
     width: "100%",
@@ -5527,7 +5365,7 @@ YoutubeFrame.propTypes = {
 var youtube_frame_default = YoutubeFrame;
 
 // src/components/steps/index.tsx
-import { Box as Box4 } from "@vtex/brand-ui";
+import { Box as Box2 } from "@vtex/brand-ui";
 
 // src/components/steps/styles.ts
 var steps = {
@@ -5555,26 +5393,26 @@ var steps = {
     lineHeight: "2em"
   }
 };
-var styles_default4 = {
+var styles_default2 = {
   steps
 };
 
 // src/components/steps/index.tsx
-import { jsx as jsx6 } from "react/jsx-runtime";
+import { jsx as jsx4 } from "react/jsx-runtime";
 var Steps = ({ children }) => {
-  return /* @__PURE__ */ jsx6(Box4, { sx: styles_default4.steps, children });
+  return /* @__PURE__ */ jsx4(Box2, { sx: styles_default2.steps, children });
 };
 var steps_default = Steps;
 
 // src/components/lightbox/index.tsx
-import { useEffect as useEffect3, useRef as useRef2, useState as useState2 } from "react";
-import { Box as Box5, Button as Button2, Flex as Flex2 } from "@vtex/brand-ui";
+import { useEffect as useEffect2, useRef, useState } from "react";
+import { Box as Box3, Button, Flex as Flex2 } from "@vtex/brand-ui";
 
 // src/components/icons/close-icon.tsx
-import { Icon as Icon3 } from "@vtex/brand-ui";
-import { jsx as jsx7, jsxs as jsxs5 } from "react/jsx-runtime";
-var CloseIcon = (props) => /* @__PURE__ */ jsxs5(
-  Icon3,
+import { Icon as Icon2 } from "@vtex/brand-ui";
+import { jsx as jsx5, jsxs as jsxs3 } from "react/jsx-runtime";
+var CloseIcon = (props) => /* @__PURE__ */ jsxs3(
+  Icon2,
   {
     ...props,
     width: "32",
@@ -5583,7 +5421,7 @@ var CloseIcon = (props) => /* @__PURE__ */ jsxs5(
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg",
     children: [
-      /* @__PURE__ */ jsx7(
+      /* @__PURE__ */ jsx5(
         "path",
         {
           d: "M8 8L24 24",
@@ -5593,7 +5431,7 @@ var CloseIcon = (props) => /* @__PURE__ */ jsxs5(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx7(
+      /* @__PURE__ */ jsx5(
         "path",
         {
           d: "M24 8L8 24",
@@ -5609,9 +5447,9 @@ var CloseIcon = (props) => /* @__PURE__ */ jsxs5(
 var close_icon_default = CloseIcon;
 
 // src/utils/hooks/useClickOutside.ts
-import { useEffect as useEffect2 } from "react";
+import { useEffect } from "react";
 function useClickOutside(ref, openModal) {
-  useEffect2(() => {
+  useEffect(() => {
     function handleClickOutside(event) {
       const { body: body2, documentElement } = document;
       if (ref.current && event.target instanceof Node && !ref.current.contains(event.target)) {
@@ -5685,7 +5523,7 @@ var closeButton = {
     color: "rgb(100, 100, 100)"
   }
 };
-var styles_default5 = {
+var styles_default3 = {
   imageContainer,
   container,
   modal,
@@ -5693,11 +5531,11 @@ var styles_default5 = {
 };
 
 // src/components/lightbox/index.tsx
-import { jsx as jsx8, jsxs as jsxs6 } from "react/jsx-runtime";
+import { jsx as jsx6, jsxs as jsxs4 } from "react/jsx-runtime";
 function LightBox({ children }) {
-  const [isModalOpen, setIsModalOpen] = useState2(false);
-  const modalRef = useRef2();
-  useEffect3(() => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const modalRef = useRef();
+  useEffect2(() => {
     if (isModalOpen) {
       const scrollTop = document.body.getBoundingClientRect().top;
       document.body.style.top = `${scrollTop}px`;
@@ -5708,27 +5546,27 @@ function LightBox({ children }) {
     }
   }, [isModalOpen]);
   useClickOutside(modalRef, () => setIsModalOpen(false));
-  return /* @__PURE__ */ jsxs6("div", { children: [
-    isModalOpen && /* @__PURE__ */ jsxs6(Flex2, { sx: styles_default5.container, children: [
-      /* @__PURE__ */ jsx8(
-        Button2,
+  return /* @__PURE__ */ jsxs4("div", { children: [
+    isModalOpen && /* @__PURE__ */ jsxs4(Flex2, { sx: styles_default3.container, children: [
+      /* @__PURE__ */ jsx6(
+        Button,
         {
-          sx: styles_default5.closeButton,
+          sx: styles_default3.closeButton,
           "aria-label": "Close",
           size: "small",
           variant: "tertiary",
-          icon: () => /* @__PURE__ */ jsx8(close_icon_default, { size: 24 }),
+          icon: () => /* @__PURE__ */ jsx6(close_icon_default, { size: 24 }),
           onClick: () => setIsModalOpen(false)
         }
       ),
-      /* @__PURE__ */ jsx8(Box5, { sx: styles_default5.modal, ref: modalRef, children })
+      /* @__PURE__ */ jsx6(Box3, { sx: styles_default3.modal, ref: modalRef, children })
     ] }),
-    /* @__PURE__ */ jsx8(Box5, { sx: styles_default5.imageContainer, onClick: () => setIsModalOpen(true), children })
+    /* @__PURE__ */ jsx6(Box3, { sx: styles_default3.imageContainer, onClick: () => setIsModalOpen(true), children })
   ] });
 }
 
 // src/components/whats-next-card/index.tsx
-import { Box as Box6, Flex as Flex3, IconCaret, Text as Text2, Link } from "@vtex/brand-ui";
+import { Box as Box4, Flex as Flex3, IconCaret, Text, Link } from "@vtex/brand-ui";
 
 // src/components/whats-next-card/styles.ts
 var container2 = {
@@ -5776,22 +5614,22 @@ var link = {
   ...description,
   color: "muted.1"
 };
-var styles_default6 = { container: container2, title, description, linkContainer, link };
+var styles_default4 = { container: container2, title, description, linkContainer, link };
 
 // src/components/whats-next-card/index.tsx
-import { jsx as jsx9, jsxs as jsxs7 } from "react/jsx-runtime";
+import { jsx as jsx7, jsxs as jsxs5 } from "react/jsx-runtime";
 var WhatsNextCard = ({
   title: title5,
   description: description4,
   linkTitle,
   linkTo
 }) => {
-  return /* @__PURE__ */ jsx9(Link, { href: linkTo, sx: styles_default6.container, children: /* @__PURE__ */ jsxs7(Box6, { children: [
-    /* @__PURE__ */ jsx9(Text2, { sx: styles_default6.title, className: "title", children: title5 }),
-    /* @__PURE__ */ jsx9(Text2, { sx: styles_default6.description, className: "description", children: description4 }),
-    /* @__PURE__ */ jsxs7(Flex3, { sx: styles_default6.linkContainer, children: [
-      /* @__PURE__ */ jsx9(Text2, { sx: styles_default6.link, className: "link", children: linkTitle }),
-      /* @__PURE__ */ jsx9(
+  return /* @__PURE__ */ jsx7(Link, { href: linkTo, sx: styles_default4.container, children: /* @__PURE__ */ jsxs5(Box4, { children: [
+    /* @__PURE__ */ jsx7(Text, { sx: styles_default4.title, className: "title", children: title5 }),
+    /* @__PURE__ */ jsx7(Text, { sx: styles_default4.description, className: "description", children: description4 }),
+    /* @__PURE__ */ jsxs5(Flex3, { sx: styles_default4.linkContainer, children: [
+      /* @__PURE__ */ jsx7(Text, { sx: styles_default4.link, className: "link", children: linkTitle }),
+      /* @__PURE__ */ jsx7(
         IconCaret,
         {
           className: "caret",
@@ -5806,9 +5644,9 @@ var WhatsNextCard = ({
 var whats_next_card_default = WhatsNextCard;
 
 // src/utils/context/libraryContext.tsx
-import { createContext, useEffect as useEffect4, useState as useState3 } from "react";
+import { createContext, useEffect as useEffect3, useState as useState2 } from "react";
 import { SWRConfig } from "swr";
-import { jsx as jsx10 } from "react/jsx-runtime";
+import { jsx as jsx8 } from "react/jsx-runtime";
 var LibraryContext = createContext({
   headingItems: [],
   setHeadingItems: () => void 0,
@@ -5840,25 +5678,25 @@ var LibraryContext = createContext({
   locale: "en"
 });
 var LibraryContextProvider = ({ children, ...props }) => {
-  const [headingItems, setHeadingItems] = useState3([]);
-  const [activeItem, setActiveItem] = useState3({
+  const [headingItems, setHeadingItems] = useState2([]);
+  const [activeItem, setActiveItem] = useState2({
     item: "",
     subItem: ""
   });
-  const [activeSectionName, setActiveSectionName] = useState3(
+  const [activeSectionName, setActiveSectionName] = useState2(
     props.sectionSelected
   );
-  const [sidebarSectionHidden, setSidebarSectionHidden] = useState3(false);
-  const [activeSidebarElement, setActiveSidebarElement] = useState3("");
-  const [sidebarElementStatus, setSidebarElementStatus] = useState3(/* @__PURE__ */ new Map());
-  const [sidebarDataMaster, setSidebarDataMaster] = useState3(props.fallback);
-  const [isEditorPreview, setIsEditorPreview] = useState3(props.isPreview);
-  const [sidebarSections, setSidebarSections] = useState3(props.sections);
+  const [sidebarSectionHidden, setSidebarSectionHidden] = useState2(false);
+  const [activeSidebarElement, setActiveSidebarElement] = useState2("");
+  const [sidebarElementStatus, setSidebarElementStatus] = useState2(/* @__PURE__ */ new Map());
+  const [sidebarDataMaster, setSidebarDataMaster] = useState2(props.fallback);
+  const [isEditorPreview, setIsEditorPreview] = useState2(props.isPreview);
+  const [sidebarSections, setSidebarSections] = useState2(props.sections);
   const locale = "en";
-  useEffect4(() => {
+  useEffect3(() => {
     setSidebarDataMaster(props.fallback);
   }, [props.fallback]);
-  useEffect4(() => {
+  useEffect3(() => {
     if (props.sectionSelected === "")
       setSidebarSectionHidden(true);
     else if (props.sectionSelected !== activeSectionName)
@@ -5913,7 +5751,7 @@ var LibraryContextProvider = ({ children, ...props }) => {
       };
     });
   };
-  return /* @__PURE__ */ jsx10(
+  return /* @__PURE__ */ jsx8(
     LibraryContext.Provider,
     {
       value: {
@@ -5942,7 +5780,7 @@ var LibraryContextProvider = ({ children, ...props }) => {
         locale,
         ...props
       },
-      children: /* @__PURE__ */ jsx10(
+      children: /* @__PURE__ */ jsx8(
         SWRConfig,
         {
           value: {
@@ -5957,6 +5795,27 @@ var LibraryContextProvider = ({ children, ...props }) => {
   );
 };
 var libraryContext_default = LibraryContextProvider;
+
+// src/utils/string-utils.ts
+var removeHTML = (str) => str.replace(/<\/?[^>]+>/g, "");
+var slugify = (str) => {
+  return str.toLowerCase().replace(/\s+/g, "-").replace(/\-+/g, "-").replace(/[^a-z0-9\-]/g, "");
+};
+var childrenToString = (children) => {
+  if (!children)
+    return "";
+  else if (Array.isArray(children))
+    return children.map((child) => {
+      if (typeof child === "string")
+        return child;
+      return childrenToString(child.props.children);
+    }).join("");
+  else {
+    if (typeof children === "string")
+      return children;
+    return childrenToString(children["props"]["children"]);
+  }
+};
 
 // src/utils/mermaidInit.ts
 import mermaid from "mermaid";
@@ -6036,7 +5895,7 @@ var getMessages = () => {
 var messages = getMessages();
 
 // src/lib/markdown-renderer/components.tsx
-import { jsx as jsx11, jsxs as jsxs8 } from "react/jsx-runtime";
+import { jsx as jsx9, jsxs as jsxs6 } from "react/jsx-runtime";
 mermaidInit_default();
 var ObservableHeading = ({
   level,
@@ -6044,10 +5903,10 @@ var ObservableHeading = ({
   onLeaveView,
   ...headingProps
 }) => {
-  const [y, setY] = useState4(Infinity);
+  const [y, setY] = useState3(Infinity);
   const toSlugify = childrenToString(headingProps.children);
   const slug = slugify(toSlugify);
-  return /* @__PURE__ */ jsx11(
+  return /* @__PURE__ */ jsx9(
     InView,
     {
       threshold: 0.5,
@@ -6060,27 +5919,27 @@ var ObservableHeading = ({
           onLeaveView(slug, entry, y);
         setY(entry.boundingClientRect.y);
       },
-      children: level === 2 ? /* @__PURE__ */ jsx11("h2", { id: slug, className: styles_module_default.heading, ...headingProps }) : /* @__PURE__ */ jsx11("h3", { id: slug, className: styles_module_default.heading, ...headingProps })
+      children: level === 2 ? /* @__PURE__ */ jsx9("h2", { id: slug, className: styles_module_default.heading, ...headingProps }) : /* @__PURE__ */ jsx9("h3", { id: slug, className: styles_module_default.heading, ...headingProps })
     }
   );
 };
 var Callout = ({ node, icon: icon3, ...props }) => {
   const blockquoteType = icon3 ? icon3 : "info";
-  return /* @__PURE__ */ jsx11(
+  return /* @__PURE__ */ jsx9(
     "blockquote",
     {
       className: `${styles_module_default.blockquote} ${blockquoteType === "info" ? styles_module_default.blockquoteInfo : blockquoteType === "danger" ? styles_module_default.blockquoteDanger : blockquoteType === "warning" ? styles_module_default.blockquoteWarning : blockquoteType === "success" ? styles_module_default.blockquoteSuccess : ""}`,
-      children: /* @__PURE__ */ jsx11("p", { ...props })
+      children: /* @__PURE__ */ jsx9("p", { ...props })
     }
   );
 };
 var MermaidDiagram = ({ node, ...props }) => {
-  const viewerRef = useRef3(null);
-  const ref = useRef3();
-  const [diagram, setDiagram] = useState4("");
-  const [width, setWidth] = useState4(0);
-  const [height, setHeight] = useState4(0);
-  useEffect5(() => {
+  const viewerRef = useRef2(null);
+  const ref = useRef2();
+  const [diagram, setDiagram] = useState3("");
+  const [width, setWidth] = useState3(0);
+  const [height, setHeight] = useState3(0);
+  useEffect4(() => {
     const resizeObserver = new ResizeObserver(() => {
       if (!ref.current)
         return;
@@ -6097,7 +5956,7 @@ var MermaidDiagram = ({ node, ...props }) => {
     if (ref.current)
       resizeObserver.observe(ref.current);
   }, []);
-  return /* @__PURE__ */ jsx11(Box7, { ref, className: styles_module_default.svgContainer, children: /* @__PURE__ */ jsx11(
+  return /* @__PURE__ */ jsx9(Box5, { ref, className: styles_module_default.svgContainer, children: /* @__PURE__ */ jsx9(
     UncontrolledReactSVGPanZoom,
     {
       ref: viewerRef,
@@ -6112,18 +5971,18 @@ var MermaidDiagram = ({ node, ...props }) => {
       background: "rgba(0, 0, 0, 0)",
       detectAutoPan: false,
       detectWheel: false,
-      children: /* @__PURE__ */ jsx11("svg", { width, height, children: parse(diagram) })
+      children: /* @__PURE__ */ jsx9("svg", { width, height, children: parse(diagram) })
     }
   ) });
 };
 var ImageComponent = ({ node, ...props }) => {
-  const [srcHasError, setSrcHasError] = useState4(false);
+  const [srcHasError, setSrcHasError] = useState3(false);
   const { locale } = useContext(LibraryContext);
   const regularImg = (
     // eslint-disable-next-line @next/next/no-img-element
-    /* @__PURE__ */ jsx11("img", { src: props.src, alt: props.alt, onError: () => setSrcHasError(true) })
+    /* @__PURE__ */ jsx9("img", { src: props.src, alt: props.alt, onError: () => setSrcHasError(true) })
   );
-  const errorMessage = /* @__PURE__ */ jsxs8("blockquote", { className: `${styles_module_default.blockquote} ${styles_module_default.blockquoteWarning}`, children: [
+  const errorMessage = /* @__PURE__ */ jsxs6("blockquote", { className: `${styles_module_default.blockquote} ${styles_module_default.blockquoteWarning}`, children: [
     messages[locale]["image.error_loading"],
     " ",
     props.src
@@ -6135,31 +5994,32 @@ var ImageComponent = ({ node, ...props }) => {
     console.log(`Error parsing`, error);
     return errorMessage;
   }
-  return !srcHasError ? /* @__PURE__ */ jsx11(LightBox, { children: regularImg }) : errorMessage;
+  return !srcHasError ? /* @__PURE__ */ jsx9(LightBox, { children: regularImg }) : errorMessage;
 };
 var components_default = {
+  CH,
   OverviewCard: overview_card_default,
   WhatsNextCard: whats_next_card_default,
   YoutubeFrame: youtube_frame_default,
   Steps: steps_default,
-  Flex: ({ node, ...props }) => /* @__PURE__ */ jsx11(Flex4, { className: styles_module_default.flexWrap, ...props }),
-  table: ({ node, ...props }) => /* @__PURE__ */ jsx11("table", { ...props }),
-  td: ({ node, ...props }) => /* @__PURE__ */ jsx11("td", { ...props }),
+  Flex: ({ node, ...props }) => /* @__PURE__ */ jsx9(Flex4, { className: styles_module_default.flexWrap, ...props }),
+  table: ({ node, ...props }) => /* @__PURE__ */ jsx9("table", { ...props }),
+  td: ({ node, ...props }) => /* @__PURE__ */ jsx9("td", { ...props }),
   img: ImageComponent,
   blockquote: ({ ...props }) => {
-    return /* @__PURE__ */ jsx11(Callout, { ...props });
+    return /* @__PURE__ */ jsx9(Callout, { ...props });
   },
   code: ({ node, ...props }) => {
-    return /* @__PURE__ */ jsx11("code", { className: styles_module_default.code, ...props });
+    return /* @__PURE__ */ jsx9("code", { className: styles_module_default.code, ...props });
   },
   pre: ({ ...props }) => {
     if (props.className && props.className === "mermaid")
-      return /* @__PURE__ */ jsx11(MermaidDiagram, { ...props });
-    return /* @__PURE__ */ jsx11(code_block_default, { ...props });
+      return /* @__PURE__ */ jsx9(MermaidDiagram, { ...props });
+    return /* @__PURE__ */ jsx9("pre", { className: styles_module_default.pre, ...props });
   },
   h2: ({ node, ...props }) => {
     const { activeItem, setActiveItem, goToPreviousItem } = useContext(LibraryContext);
-    return /* @__PURE__ */ jsx11(
+    return /* @__PURE__ */ jsx9(
       ObservableHeading,
       {
         level: 2,
@@ -6180,7 +6040,7 @@ var components_default = {
   },
   h3: ({ node, ...props }) => {
     const { activeItem, setActiveItem, goToPreviousSubItem } = useContext(LibraryContext);
-    return /* @__PURE__ */ jsx11(
+    return /* @__PURE__ */ jsx9(
       ObservableHeading,
       {
         level: 3,
@@ -6202,16 +6062,16 @@ var components_default = {
 };
 
 // src/lib/markdown-renderer/MarkdownRenderer.tsx
-import { jsx as jsx12 } from "react/jsx-runtime";
+import { jsx as jsx10 } from "react/jsx-runtime";
 var MDXRemote2 = MDXRemote;
-var MarkdownRenderer = ({ serialized }) => /* @__PURE__ */ jsx12(Box8, { children: /* @__PURE__ */ jsx12(MDXRemote2, { components: components_default, lazy: true, ...serialized }) });
+var MarkdownRenderer = ({ serialized }) => /* @__PURE__ */ jsx10(Box6, { children: /* @__PURE__ */ jsx10(MDXRemote2, { components: components_default, lazy: true, ...serialized }) });
 var MarkdownRenderer_default = MarkdownRenderer;
 
 // src/lib/table-of-contents/TableOfContents.tsx
-import { useContext as useContext2, useEffect as useEffect6 } from "react";
+import { useContext as useContext2, useEffect as useEffect5 } from "react";
 import Link2 from "next/link.js";
 import { useRouter } from "next/router.js";
-import { Box as Box9, Text as Text3 } from "@vtex/brand-ui";
+import { Box as Box7, Text as Text2 } from "@vtex/brand-ui";
 import AnimateHeight from "react-animate-height";
 
 // src/lib/table-of-contents/styles.ts
@@ -6247,14 +6107,14 @@ var subItemsContainer = {
   ml: "16px",
   borderLeft: "1px solid #E7E9EE"
 };
-var styles_default7 = { itemsContainer, item, subItemsContainer };
+var styles_default5 = { itemsContainer, item, subItemsContainer };
 
 // src/lib/table-of-contents/TableOfContents.tsx
-import { jsx as jsx13, jsxs as jsxs9 } from "react/jsx-runtime";
+import { jsx as jsx11, jsxs as jsxs7 } from "react/jsx-runtime";
 var TableOfContents = ({ headingList }) => {
   const router = useRouter();
   const { headingItems, activeItem, setHeadingItems, setActiveItem } = useContext2(LibraryContext);
-  useEffect6(() => {
+  useEffect5(() => {
     const headings = headingList ?? [];
     if (!headings.length) {
       document.querySelectorAll("h2, h3").forEach((heading) => {
@@ -6279,7 +6139,7 @@ var TableOfContents = ({ headingList }) => {
     level,
     active
   }) => {
-    return /* @__PURE__ */ jsx13(
+    return /* @__PURE__ */ jsx11(
       Link2,
       {
         href: `#${slug}`,
@@ -6289,12 +6149,12 @@ var TableOfContents = ({ headingList }) => {
             subItem: level === 1 ? "" : slug
           }));
         },
-        children: /* @__PURE__ */ jsx13(Text3, { sx: styles_default7.item(level, active), children: title5 })
+        children: /* @__PURE__ */ jsx11(Text2, { sx: styles_default5.item(level, active), children: title5 })
       }
     );
   };
-  return /* @__PURE__ */ jsx13(Box9, { sx: styles_default7.itemsContainer, "data-cy": "table-of-contents", children: headingItems.map((item2) => /* @__PURE__ */ jsxs9(Box9, { children: [
-    /* @__PURE__ */ jsx13(
+  return /* @__PURE__ */ jsx11(Box7, { sx: styles_default5.itemsContainer, "data-cy": "table-of-contents", children: headingItems.map((item2) => /* @__PURE__ */ jsxs7(Box7, { children: [
+    /* @__PURE__ */ jsx11(
       Item,
       {
         title: item2.title,
@@ -6303,12 +6163,12 @@ var TableOfContents = ({ headingList }) => {
         active: item2.slug === activeItem.item
       }
     ),
-    /* @__PURE__ */ jsx13(
+    /* @__PURE__ */ jsx11(
       AnimateHeight,
       {
         duration: 300,
         height: item2.slug === activeItem.item ? "auto" : 0,
-        children: /* @__PURE__ */ jsx13(Box9, { sx: styles_default7.subItemsContainer, children: item2.children.map((subItem) => /* @__PURE__ */ jsx13(
+        children: /* @__PURE__ */ jsx11(Box7, { sx: styles_default5.subItemsContainer, children: item2.children.map((subItem) => /* @__PURE__ */ jsx11(
           Item,
           {
             title: subItem.title,
@@ -6325,8 +6185,8 @@ var TableOfContents = ({ headingList }) => {
 var TableOfContents_default = TableOfContents;
 
 // src/lib/sidebar/index.tsx
-import { useEffect as useEffect9, useRef as useRef5, useState as useState8, useContext as useContext6 } from "react";
-import { Flex as Flex10, Text as Text7, Box as Box14 } from "@vtex/brand-ui";
+import { useEffect as useEffect8, useRef as useRef4, useState as useState7, useContext as useContext6 } from "react";
+import { Flex as Flex10, Text as Text6, Box as Box12 } from "@vtex/brand-ui";
 import Link4 from "next/link.js";
 
 // src/lib/sidebar/styles.ts
@@ -6447,7 +6307,7 @@ var iconTooltip = {
     "none !important"
   ]
 };
-var styles_default8 = {
+var styles_default6 = {
   sidebar,
   sidebarIcons,
   sidebarIconsContainer,
@@ -6477,8 +6337,8 @@ var iconTooltipStyle = (tooltipState) => {
 };
 
 // src/components/tooltip/index.tsx
-import { useEffect as useEffect7, useRef as useRef4, useState as useState5 } from "react";
-import { Box as Box10, Flex as Flex5 } from "@vtex/brand-ui";
+import { useEffect as useEffect6, useRef as useRef3, useState as useState4 } from "react";
+import { Box as Box8, Flex as Flex5 } from "@vtex/brand-ui";
 
 // src/components/tooltip/styles.ts
 var tooltipContainer = (sx, placement, width, height, x, y) => {
@@ -6568,13 +6428,13 @@ var labelStyle = (documentationSection) => {
     return labelDocumentationContainer;
   return labelContibutorsContainer;
 };
-var styles_default9 = { tooltipContainer, caret, labelStyle };
+var styles_default7 = { tooltipContainer, caret, labelStyle };
 
 // src/components/icons/caret.tsx
-import { Icon as Icon4 } from "@vtex/brand-ui";
-import { jsx as jsx14 } from "react/jsx-runtime";
-var CaretIcon = (props) => /* @__PURE__ */ jsx14(
-  Icon4,
+import { Icon as Icon3 } from "@vtex/brand-ui";
+import { jsx as jsx12 } from "react/jsx-runtime";
+var CaretIcon = (props) => /* @__PURE__ */ jsx12(
+  Icon3,
   {
     ...props,
     width: "9",
@@ -6582,7 +6442,7 @@ var CaretIcon = (props) => /* @__PURE__ */ jsx14(
     viewBox: "0 0 9 4",
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg",
-    children: /* @__PURE__ */ jsx14(
+    children: /* @__PURE__ */ jsx12(
       "path",
       {
         d: "M5.20686 0.707106L8.49976 4L0.499756 4L3.79265 0.707107C4.18317 0.316583 4.81634 0.316582 5.20686 0.707106Z",
@@ -6594,15 +6454,15 @@ var CaretIcon = (props) => /* @__PURE__ */ jsx14(
 var caret_default = CaretIcon;
 
 // src/components/tooltip/index.tsx
-import { jsx as jsx15, jsxs as jsxs10 } from "react/jsx-runtime";
+import { jsx as jsx13, jsxs as jsxs8 } from "react/jsx-runtime";
 var Tooltip = ({ children, label: label2, placement, sx, isCard }) => {
-  const box3 = useRef4();
-  const [boxWidth, setBoxWidth] = useState5(0);
-  const [boxHeight, setBoxHeight] = useState5(0);
-  const [boxOffsetLeft, setBoxOffsetLeft] = useState5(0);
-  const [boxOffsetTop, setBoxOffsetTop] = useState5(0);
-  const [visible, setVisible] = useState5(false);
-  useEffect7(() => {
+  const box3 = useRef3();
+  const [boxWidth, setBoxWidth] = useState4(0);
+  const [boxHeight, setBoxHeight] = useState4(0);
+  const [boxOffsetLeft, setBoxOffsetLeft] = useState4(0);
+  const [boxOffsetTop, setBoxOffsetTop] = useState4(0);
+  const [visible, setVisible] = useState4(false);
+  useEffect6(() => {
     if (box3.current) {
       setBoxWidth(box3.current.clientWidth);
       setBoxHeight(box3.current.clientHeight);
@@ -6616,9 +6476,9 @@ var Tooltip = ({ children, label: label2, placement, sx, isCard }) => {
     box3.current?.offsetLeft,
     box3.current?.offsetTop
   ]);
-  return /* @__PURE__ */ jsxs10(Box10, { children: [
-    /* @__PURE__ */ jsx15(
-      Box10,
+  return /* @__PURE__ */ jsxs8(Box8, { children: [
+    /* @__PURE__ */ jsx13(
+      Box8,
       {
         ref: box3,
         onMouseEnter: () => setVisible(true),
@@ -6626,10 +6486,10 @@ var Tooltip = ({ children, label: label2, placement, sx, isCard }) => {
         children
       }
     ),
-    visible && (isCard ?? true) && /* @__PURE__ */ jsxs10(
+    visible && (isCard ?? true) && /* @__PURE__ */ jsxs8(
       Flex5,
       {
-        sx: styles_default9.tooltipContainer(
+        sx: styles_default7.tooltipContainer(
           sx,
           placement || "top",
           boxWidth,
@@ -6638,8 +6498,8 @@ var Tooltip = ({ children, label: label2, placement, sx, isCard }) => {
           boxOffsetTop
         ),
         children: [
-          /* @__PURE__ */ jsx15(caret_default, { sx: styles_default9.caret(placement || "top") }),
-          /* @__PURE__ */ jsx15(Box10, { sx: styles_default9.labelStyle(isCard ?? false), children: label2 })
+          /* @__PURE__ */ jsx13(caret_default, { sx: styles_default7.caret(placement || "top") }),
+          /* @__PURE__ */ jsx13(Box8, { sx: styles_default7.labelStyle(isCard ?? false), children: label2 })
         ]
       }
     )
@@ -6694,7 +6554,7 @@ var getParents = (path, data, flattenedSidebar, parentsArray, parent) => {
 
 // src/utils/sidebar-utils.ts
 import { useRouter as useRouter2 } from "next/router";
-import { useEffect as useEffect8 } from "react";
+import { useEffect as useEffect7 } from "react";
 var getIcon2 = (doc, sections) => {
   for (const section of sections) {
     return section.find((icon3) => icon3.title === doc)?.Icon;
@@ -6737,7 +6597,7 @@ var updateOpenPage = ({
   } else {
     activeSlug = parentsArray[parentsArray.length - 1];
   }
-  useEffect8(() => {
+  useEffect7(() => {
     const timer = setTimeout(
       () => setExpandDelayStatus && setExpandDelayStatus(false),
       5e3
@@ -6754,8 +6614,8 @@ var updateOpenPage = ({
 };
 
 // src/components/sidebar-section/index.tsx
-import { Flex as Flex9, Box as Box13, Text as Text6, Button as Button4 } from "@vtex/brand-ui";
-import { useContext as useContext5, useMemo, useState as useState7 } from "react";
+import { Flex as Flex9, Box as Box11, Text as Text5, Button as Button3 } from "@vtex/brand-ui";
+import { useContext as useContext5, useMemo, useState as useState6 } from "react";
 
 // src/components/sidebar-section/styles.ts
 var sidebarContainer = {
@@ -6891,7 +6751,7 @@ var previewMode = {
     mr: "10px"
   }
 };
-var styles_default10 = {
+var styles_default8 = {
   sidebarContainer,
   sidebarContainerHamburger,
   sidebarContainerBox,
@@ -6912,10 +6772,10 @@ var styles_default10 = {
 };
 
 // src/components/sidebar-section-filter/index.tsx
-import { Box as Box11, Flex as Flex7, Text as Text5 } from "@vtex/brand-ui";
+import { Box as Box9, Flex as Flex7, Text as Text4 } from "@vtex/brand-ui";
 
 // src/components/method-category/index.tsx
-import { Flex as Flex6, Text as Text4 } from "@vtex/brand-ui";
+import { Flex as Flex6, Text as Text3 } from "@vtex/brand-ui";
 
 // src/components/method-category/styles.ts
 var container3 = {
@@ -6938,7 +6798,7 @@ var closeIcon = {
   width: "12px",
   ml: "4px"
 };
-var styles_default11 = {
+var styles_default9 = {
   container: container3,
   text,
   closeIcon
@@ -6979,7 +6839,7 @@ var categoryStyle = (method, active, sx) => {
     background: "#F8E3E3"
   };
   const categoryStyle2 = active ? {
-    ...styles_default11.container,
+    ...styles_default9.container,
     ...categoryColors,
     ...sx,
     ":hover": {
@@ -6993,7 +6853,7 @@ var categoryStyle = (method, active, sx) => {
       }
     }
   } : {
-    ...styles_default11.container,
+    ...styles_default9.container,
     color: categoryColors.color,
     ...sx
   };
@@ -7008,7 +6868,7 @@ var categoryText = (method, origin) => {
 var closeCategoryStyle = (method) => {
   const categoryColors = methodsColors[method];
   const categoryStyle2 = {
-    ...styles_default11.closeIcon,
+    ...styles_default9.closeIcon,
     rect: {
       fill: "transparent"
     },
@@ -7020,10 +6880,10 @@ var closeCategoryStyle = (method) => {
 };
 
 // src/components/icons/close-filter-icon.tsx
-import { Icon as Icon5 } from "@vtex/brand-ui";
-import { jsx as jsx16, jsxs as jsxs11 } from "react/jsx-runtime";
-var CloseFilterIcon = (props) => /* @__PURE__ */ jsxs11(
-  Icon5,
+import { Icon as Icon4 } from "@vtex/brand-ui";
+import { jsx as jsx14, jsxs as jsxs9 } from "react/jsx-runtime";
+var CloseFilterIcon = (props) => /* @__PURE__ */ jsxs9(
+  Icon4,
   {
     ...props,
     width: "12",
@@ -7032,8 +6892,8 @@ var CloseFilterIcon = (props) => /* @__PURE__ */ jsxs11(
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg",
     children: [
-      /* @__PURE__ */ jsx16("rect", { width: "12", height: "12", rx: "2", fill: "#2978B5" }),
-      /* @__PURE__ */ jsx16(
+      /* @__PURE__ */ jsx14("rect", { width: "12", height: "12", rx: "2", fill: "#2978B5" }),
+      /* @__PURE__ */ jsx14(
         "path",
         {
           d: "M3 3L9 9",
@@ -7043,7 +6903,7 @@ var CloseFilterIcon = (props) => /* @__PURE__ */ jsxs11(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx16(
+      /* @__PURE__ */ jsx14(
         "path",
         {
           d: "M9 3L3 9",
@@ -7059,16 +6919,16 @@ var CloseFilterIcon = (props) => /* @__PURE__ */ jsxs11(
 var close_filter_icon_default = CloseFilterIcon;
 
 // src/components/method-category/index.tsx
-import { jsx as jsx17, jsxs as jsxs12 } from "react/jsx-runtime";
+import { jsx as jsx15, jsxs as jsxs10 } from "react/jsx-runtime";
 var MethodCategory = ({
   method,
   active,
   origin,
   sx
 }) => {
-  return /* @__PURE__ */ jsxs12(Flex6, { className: "method-category", sx: categoryStyle(method, active, sx), children: [
-    /* @__PURE__ */ jsx17(Text4, { sx: styles_default11.text, children: categoryText(method, origin) }),
-    origin === "filter" && active && /* @__PURE__ */ jsx17(
+  return /* @__PURE__ */ jsxs10(Flex6, { className: "method-category", sx: categoryStyle(method, active, sx), children: [
+    /* @__PURE__ */ jsx15(Text3, { sx: styles_default9.text, children: categoryText(method, origin) }),
+    origin === "filter" && active && /* @__PURE__ */ jsx15(
       close_filter_icon_default,
       {
         className: "filter-close-button",
@@ -7080,7 +6940,7 @@ var MethodCategory = ({
 var method_category_default = MethodCategory;
 
 // src/components/sidebar-section-filter/index.tsx
-import { useContext as useContext3, useState as useState6 } from "react";
+import { useContext as useContext3, useState as useState5 } from "react";
 
 // src/components/sidebar-section-filter/styles.ts
 var container4 = {
@@ -7112,7 +6972,7 @@ var clear = {
     color: "#000711"
   }
 };
-var styles_default12 = {
+var styles_default10 = {
   container: container4,
   text: text2,
   category,
@@ -7120,12 +6980,12 @@ var styles_default12 = {
 };
 
 // src/components/sidebar-section-filter/index.tsx
-import { jsx as jsx18, jsxs as jsxs13 } from "react/jsx-runtime";
+import { jsx as jsx16, jsxs as jsxs11 } from "react/jsx-runtime";
 var SectionFilter = ({
   methodFilterList,
   setMethodFilter
 }) => {
-  const [activeFilters, setActiveFilters] = useState6([]);
+  const [activeFilters, setActiveFilters] = useState5([]);
   const { locale } = useContext3(LibraryContext);
   const setFilter = (methodFilterChanged) => {
     if (methodFilterChanged) {
@@ -7151,14 +7011,14 @@ var SectionFilter = ({
     }
   };
   const MethodButton = ({ methodFilter }) => {
-    return /* @__PURE__ */ jsx18(
-      Box11,
+    return /* @__PURE__ */ jsx16(
+      Box9,
       {
         onClick: () => setFilter(methodFilter.name),
-        children: /* @__PURE__ */ jsx18(
+        children: /* @__PURE__ */ jsx16(
           method_category_default,
           {
-            sx: styles_default12.category,
+            sx: styles_default10.category,
             active: methodFilter.active,
             method: methodFilter.name,
             origin: "filter"
@@ -7168,17 +7028,17 @@ var SectionFilter = ({
       `filter-category-${methodFilter.name}`
     );
   };
-  return /* @__PURE__ */ jsxs13(Box11, { sx: styles_default12.container, children: [
-    /* @__PURE__ */ jsx18(Text5, { sx: styles_default12.text, children: messages[locale]["api_reference_sidebar_filter"] }),
-    /* @__PURE__ */ jsxs13(Flex7, { children: [
-      methodFilterList.map((methodFilter) => /* @__PURE__ */ jsx18(
+  return /* @__PURE__ */ jsxs11(Box9, { sx: styles_default10.container, children: [
+    /* @__PURE__ */ jsx16(Text4, { sx: styles_default10.text, children: messages[locale]["api_reference_sidebar_filter"] }),
+    /* @__PURE__ */ jsxs11(Flex7, { children: [
+      methodFilterList.map((methodFilter) => /* @__PURE__ */ jsx16(
         MethodButton,
         {
           methodFilter
         },
         `filter-category-${methodFilter.name}`
       )),
-      activeFilters.length > 1 && /* @__PURE__ */ jsx18(Text5, { onClick: () => setFilter(null), sx: styles_default12.clear, children: messages[locale]["api_reference_sidebar_filter_clear"] })
+      activeFilters.length > 1 && /* @__PURE__ */ jsx16(Text4, { onClick: () => setFilter(null), sx: styles_default10.clear, children: messages[locale]["api_reference_sidebar_filter_clear"] })
     ] })
   ] });
 };
@@ -7188,10 +7048,10 @@ var sidebar_section_filter_default = SectionFilter;
 import { useRouter as useRouter3 } from "next/router";
 import { Fragment, useContext as useContext4 } from "react";
 import {
-  Box as Box12,
+  Box as Box10,
   Flex as Flex8,
   Link as Link3,
-  Button as Button3,
+  Button as Button2,
   IconCaret as IconCaret2,
   IconExternalLink
 } from "@vtex/brand-ui";
@@ -7250,7 +7110,7 @@ var sectionDivider2 = {
 var methodBox = {
   mr: "10px"
 };
-var styles_default13 = {
+var styles_default11 = {
   elementContainer,
   elementText,
   elementActive,
@@ -7275,20 +7135,20 @@ var textStyle = (active, icon3) => {
   const ml = icon3 ? "4px" : "16px";
   if (active) {
     const textStyleActive = {
-      ...styles_default13.elementActive,
+      ...styles_default11.elementActive,
       ml
     };
     return textStyleActive;
   }
   const textStyle2 = {
-    ...styles_default13.elementText,
+    ...styles_default11.elementText,
     ml
   };
   return textStyle2;
 };
 
 // src/components/sidebar-elements/index.tsx
-import { jsx as jsx19, jsxs as jsxs14 } from "react/jsx-runtime";
+import { jsx as jsx17, jsxs as jsxs12 } from "react/jsx-runtime";
 var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
   const {
     isEditorPreview,
@@ -7342,15 +7202,15 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
     const isExpandable = children.length > 0;
     const pathSuffix = method ? `#${method.toLowerCase()}-${endpoint}` : "";
     const activeItem = method ? `${slug}${pathSuffix}` : slug;
-    return /* @__PURE__ */ jsx19(Box12, { sx: styles_default13.elementContainer, children: /* @__PURE__ */ jsxs14(Flex8, { sx: styleByLevelNormal(subItemLevel, isExpandable || false), children: [
-      isExpandable && /* @__PURE__ */ jsx19(
-        Button3,
+    return /* @__PURE__ */ jsx17(Box10, { sx: styles_default11.elementContainer, children: /* @__PURE__ */ jsxs12(Flex8, { sx: styleByLevelNormal(subItemLevel, isExpandable || false), children: [
+      isExpandable && /* @__PURE__ */ jsx17(
+        Button2,
         {
           "aria-label": sidebarElementStatus.has(slug) && sidebarElementStatus.get(slug) ? "Collapse category" : "Expand category",
           size: "regular",
           variant: "tertiary",
-          sx: sidebarElementStatus.has(slug) && sidebarElementStatus.get(slug) ? styles_default13.arrowIconActive : styles_default13.arrowIcon,
-          icon: () => /* @__PURE__ */ jsx19(
+          sx: sidebarElementStatus.has(slug) && sidebarElementStatus.get(slug) ? styles_default11.arrowIconActive : styles_default11.arrowIcon,
+          icon: () => /* @__PURE__ */ jsx17(
             IconCaret2,
             {
               direction: sidebarElementStatus.has(slug) && sidebarElementStatus.get(slug) ? "down" : "right",
@@ -7360,7 +7220,7 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
           onClick: () => toggleSidebarElementStatus(slug)
         }
       ),
-      !checkDocumentationType(sidebarDataMaster, slug, "category") && !checkDocumentationType(sidebarDataMaster, slug, "link") ? /* @__PURE__ */ jsxs14(
+      !checkDocumentationType(sidebarDataMaster, slug, "category") && !checkDocumentationType(sidebarDataMaster, slug, "link") ? /* @__PURE__ */ jsxs12(
         Link3,
         {
           sx: textStyle(activeSidebarElement === activeItem, isExpandable),
@@ -7373,10 +7233,10 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
           href: getHref(slugPrefix || "", pathSuffix, slug),
           target: isEditorPreview === true ? "_blank" : "_self",
           children: [
-            method && /* @__PURE__ */ jsx19(
+            method && /* @__PURE__ */ jsx17(
               method_category_default,
               {
-                sx: styles_default13.methodBox,
+                sx: styles_default11.methodBox,
                 active: activeSidebarElement === activeItem,
                 origin: "sidebar",
                 method
@@ -7385,21 +7245,21 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
             name
           ]
         }
-      ) : checkDocumentationType(sidebarDataMaster, slug, "link") ? /* @__PURE__ */ jsxs14(Link3, { href: slug, target: "_blank", sx: styles_default13.elementText, children: [
-        /* @__PURE__ */ jsx19(IconExternalLink, { size: 16, sx: { marginRight: "10px" } }),
+      ) : checkDocumentationType(sidebarDataMaster, slug, "link") ? /* @__PURE__ */ jsxs12(Link3, { href: slug, target: "_blank", sx: styles_default11.elementText, children: [
+        /* @__PURE__ */ jsx17(IconExternalLink, { size: 16, sx: { marginRight: "10px" } }),
         name
-      ] }) : /* @__PURE__ */ jsxs14(
-        Box12,
+      ] }) : /* @__PURE__ */ jsxs12(
+        Box10,
         {
           sx: textStyle(activeSidebarElement === slug, isExpandable),
           onClick: () => {
             toggleSidebarElementStatus(slug);
           },
           children: [
-            method && /* @__PURE__ */ jsx19(
+            method && /* @__PURE__ */ jsx17(
               method_category_default,
               {
-                sx: styles_default13.methodBox,
+                sx: styles_default11.methodBox,
                 active: activeSidebarElement === slug,
                 origin: "sidebar",
                 method
@@ -7413,7 +7273,7 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
   };
   const ElementChildren = ({ slug, children }) => {
     const isExpandable = children.length > 0;
-    return isExpandable && sidebarElementStatus.has(slug) && sidebarElementStatus.get(slug) ? /* @__PURE__ */ jsx19(Box12, { children: /* @__PURE__ */ jsx19(
+    return isExpandable && sidebarElementStatus.has(slug) && sidebarElementStatus.get(slug) ? /* @__PURE__ */ jsx17(Box10, { children: /* @__PURE__ */ jsx17(
       SidebarElements,
       {
         slugPrefix,
@@ -7423,29 +7283,29 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
       `${slug}sd`
     ) }) : null;
   };
-  return /* @__PURE__ */ jsx19(Box12, { className: "sidebar-component", children: items?.map((item2, index) => {
+  return /* @__PURE__ */ jsx17(Box10, { className: "sidebar-component", children: items?.map((item2, index) => {
     const key = String(item2.slug) + String(index);
     const slug = `${item2.slug}`;
-    return /* @__PURE__ */ jsxs14(Fragment, { children: [
-      /* @__PURE__ */ jsx19(ElementRoot, { ...item2, slug }),
-      /* @__PURE__ */ jsx19(Box12, { children: /* @__PURE__ */ jsx19(ElementChildren, { ...item2, slug }) }),
-      subItemLevel == 0 ? /* @__PURE__ */ jsx19(Box12, { sx: styles_default13.sectionDivider, children: /* @__PURE__ */ jsx19("hr", {}) }) : null
+    return /* @__PURE__ */ jsxs12(Fragment, { children: [
+      /* @__PURE__ */ jsx17(ElementRoot, { ...item2, slug }),
+      /* @__PURE__ */ jsx17(Box10, { children: /* @__PURE__ */ jsx17(ElementChildren, { ...item2, slug }) }),
+      subItemLevel == 0 ? /* @__PURE__ */ jsx17(Box10, { sx: styles_default11.sectionDivider, children: /* @__PURE__ */ jsx17("hr", {}) }) : null
     ] }, String(key));
   }) });
 };
 var sidebar_elements_default = SidebarElements;
 
 // src/components/icons/search-icon.tsx
-import { Icon as Icon6 } from "@vtex/brand-ui";
-import { jsx as jsx20 } from "react/jsx-runtime";
-var SearchIcon = (props) => /* @__PURE__ */ jsx20(
-  Icon6,
+import { Icon as Icon5 } from "@vtex/brand-ui";
+import { jsx as jsx18 } from "react/jsx-runtime";
+var SearchIcon = (props) => /* @__PURE__ */ jsx18(
+  Icon5,
   {
     ...props,
     viewBox: "0 0 16 16",
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg",
-    children: /* @__PURE__ */ jsx20(
+    children: /* @__PURE__ */ jsx18(
       "path",
       {
         fillRule: "evenodd",
@@ -7459,17 +7319,17 @@ var SearchIcon = (props) => /* @__PURE__ */ jsx20(
 var search_icon_default = SearchIcon;
 
 // src/components/icons/sidebar-toggle-icon.tsx
-import { Icon as Icon7 } from "@vtex/brand-ui";
-import { jsx as jsx21, jsxs as jsxs15 } from "react/jsx-runtime";
-var SideBarToggleIcon = (props) => /* @__PURE__ */ jsxs15(
-  Icon7,
+import { Icon as Icon6 } from "@vtex/brand-ui";
+import { jsx as jsx19, jsxs as jsxs13 } from "react/jsx-runtime";
+var SideBarToggleIcon = (props) => /* @__PURE__ */ jsxs13(
+  Icon6,
   {
     ...props,
     viewBox: "0 0 24 24",
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg",
     children: [
-      /* @__PURE__ */ jsx21(
+      /* @__PURE__ */ jsx19(
         "path",
         {
           d: "M12 16.332L7 16.332",
@@ -7479,7 +7339,7 @@ var SideBarToggleIcon = (props) => /* @__PURE__ */ jsxs15(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx21(
+      /* @__PURE__ */ jsx19(
         "path",
         {
           d: "M10 12.168L7 12.168",
@@ -7489,7 +7349,7 @@ var SideBarToggleIcon = (props) => /* @__PURE__ */ jsxs15(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx21(
+      /* @__PURE__ */ jsx19(
         "path",
         {
           d: "M12 8L7 8",
@@ -7499,7 +7359,7 @@ var SideBarToggleIcon = (props) => /* @__PURE__ */ jsxs15(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx21(
+      /* @__PURE__ */ jsx19(
         "path",
         {
           d: "M17 9.03906L14 12.1641L17 15.2891",
@@ -7515,10 +7375,10 @@ var SideBarToggleIcon = (props) => /* @__PURE__ */ jsxs15(
 var sidebar_toggle_icon_default = SideBarToggleIcon;
 
 // src/components/icons/arrow-left-icon.tsx
-import { Icon as Icon8 } from "@vtex/brand-ui";
-import { jsx as jsx22, jsxs as jsxs16 } from "react/jsx-runtime";
-var ArrowLeftIcon = (props) => /* @__PURE__ */ jsxs16(
-  Icon8,
+import { Icon as Icon7 } from "@vtex/brand-ui";
+import { jsx as jsx20, jsxs as jsxs14 } from "react/jsx-runtime";
+var ArrowLeftIcon = (props) => /* @__PURE__ */ jsxs14(
+  Icon7,
   {
     ...props,
     viewBox: "0 0 24 24",
@@ -7526,7 +7386,7 @@ var ArrowLeftIcon = (props) => /* @__PURE__ */ jsxs16(
     xmlns: "http://www.w3.org/2000/svg",
     children: [
       " ",
-      /* @__PURE__ */ jsx22(
+      /* @__PURE__ */ jsx20(
         "path",
         {
           d: "M19.5195 12.0195L4.52953 12.0195",
@@ -7536,7 +7396,7 @@ var ArrowLeftIcon = (props) => /* @__PURE__ */ jsxs16(
           "stroke-linejoin": "round"
         }
       ),
-      /* @__PURE__ */ jsx22(
+      /* @__PURE__ */ jsx20(
         "path",
         {
           d: "M10.5176 18.0117L4.48058 11.9997L10.5176 5.98772",
@@ -7552,21 +7412,21 @@ var ArrowLeftIcon = (props) => /* @__PURE__ */ jsxs16(
 var arrow_left_icon_default = ArrowLeftIcon;
 
 // src/components/sidebar-section/index.tsx
-import { jsx as jsx23, jsxs as jsxs17 } from "react/jsx-runtime";
+import { jsx as jsx21, jsxs as jsxs15 } from "react/jsx-runtime";
 var SidebarSection = ({
   documentation: documentation2,
   categories,
   slugPrefix,
   isHamburgerMenu = false
 }) => {
-  const [searchValue, setSearchValue] = useState7("");
+  const [searchValue, setSearchValue] = useState6("");
   const {
     isEditorPreview,
     sidebarSectionHidden,
     setSidebarSectionHidden,
     sidebarSections
   } = useContext5(LibraryContext);
-  const [methodFilterList, setMethodFilterList] = useState7([
+  const [methodFilterList, setMethodFilterList] = useState6([
     { name: "POST", active: false },
     { name: "GET", active: false },
     { name: "PUT", active: false },
@@ -7599,41 +7459,41 @@ var SidebarSection = ({
     return filteredCategories;
   }, [filterStatus, methodFilterList, categories, searchValue]);
   const DocIcon = getIcon2(documentation2, sidebarSections);
-  return isHamburgerMenu ? /* @__PURE__ */ jsx23(
-    Box13,
+  return isHamburgerMenu ? /* @__PURE__ */ jsx21(
+    Box11,
     {
       className: sidebarSectionHidden ? "active" : "",
-      sx: styles_default10.sidebarContainerHamburger,
-      children: /* @__PURE__ */ jsxs17(
-        Box13,
+      sx: styles_default8.sidebarContainerHamburger,
+      children: /* @__PURE__ */ jsxs15(
+        Box11,
         {
           className: sidebarSectionHidden ? "sidebarHide" : "",
-          sx: styles_default10.sidebarContainerBoxHamburger,
+          sx: styles_default8.sidebarContainerBoxHamburger,
           children: [
-            /* @__PURE__ */ jsxs17(Flex9, { sx: styles_default10.sidebarContainerTitle, children: [
-              /* @__PURE__ */ jsx23(
-                Button4,
+            /* @__PURE__ */ jsxs15(Flex9, { sx: styles_default8.sidebarContainerTitle, children: [
+              /* @__PURE__ */ jsx21(
+                Button3,
                 {
-                  sx: styles_default10.arrowButton,
+                  sx: styles_default8.arrowButton,
                   "aria-label": "Go back",
                   size: "small",
                   variant: "tertiary",
-                  icon: () => /* @__PURE__ */ jsx23(arrow_left_icon_default, { size: 24 }),
+                  icon: () => /* @__PURE__ */ jsx21(arrow_left_icon_default, { size: 24 }),
                   onClick: () => {
                     setSidebarSectionHidden(true);
                   }
                 }
               ),
-              DocIcon && /* @__PURE__ */ jsx23(DocIcon, {}),
-              /* @__PURE__ */ jsx23(Text6, { sx: styles_default10.sidebarTitle, children: documentation2 })
+              DocIcon && /* @__PURE__ */ jsx21(DocIcon, {}),
+              /* @__PURE__ */ jsx21(Text5, { sx: styles_default8.sidebarTitle, children: documentation2 })
             ] }),
-            /* @__PURE__ */ jsxs17(Box13, { sx: styles_default10.sidebarContainerBody, children: [
-              /* @__PURE__ */ jsxs17(Flex9, { sx: styles_default10.searchBox, children: [
-                /* @__PURE__ */ jsx23(search_icon_default, { sx: styles_default10.searchIcon }),
-                /* @__PURE__ */ jsx23(
+            /* @__PURE__ */ jsxs15(Box11, { sx: styles_default8.sidebarContainerBody, children: [
+              /* @__PURE__ */ jsxs15(Flex9, { sx: styles_default8.searchBox, children: [
+                /* @__PURE__ */ jsx21(search_icon_default, { sx: styles_default8.searchIcon }),
+                /* @__PURE__ */ jsx21(
                   "input",
                   {
-                    style: styles_default10.searchInput,
+                    style: styles_default8.searchInput,
                     className: "searchComponent",
                     type: "text",
                     placeholder: messages[locale]["search_input.placeholder"],
@@ -7642,7 +7502,7 @@ var SidebarSection = ({
                   }
                 )
               ] }),
-              documentation2 == "API Reference" && /* @__PURE__ */ jsx23(
+              documentation2 == "API Reference" && /* @__PURE__ */ jsx21(
                 sidebar_section_filter_default,
                 {
                   methodFilterList,
@@ -7650,7 +7510,7 @@ var SidebarSection = ({
                 }
               )
             ] }),
-            /* @__PURE__ */ jsx23(Box13, { sx: styles_default10.sidebarContainerBody, children: /* @__PURE__ */ jsx23(
+            /* @__PURE__ */ jsx21(Box11, { sx: styles_default8.sidebarContainerBody, children: /* @__PURE__ */ jsx21(
               sidebar_elements_default,
               {
                 items: filteredResult,
@@ -7662,22 +7522,22 @@ var SidebarSection = ({
         }
       )
     }
-  ) : /* @__PURE__ */ jsxs17(
-    Box13,
+  ) : /* @__PURE__ */ jsxs15(
+    Box11,
     {
       className: sidebarSectionHidden ? "active" : "",
-      sx: styles_default10.sidebarContainer,
+      sx: styles_default8.sidebarContainer,
       children: [
-        /* @__PURE__ */ jsxs17(
-          Box13,
+        /* @__PURE__ */ jsxs15(
+          Box11,
           {
             className: sidebarSectionHidden ? "sidebarHide" : "",
-            sx: styles_default10.sidebarContainerBox,
+            sx: styles_default8.sidebarContainerBox,
             "data-cy": "sidebar-section",
             children: [
-              /* @__PURE__ */ jsxs17(Box13, { sx: styles_default10.sidebarContainerHeader, children: [
-                isEditorPreview && /* @__PURE__ */ jsxs17(Text6, { sx: styles_default10.previewMode, children: [
-                  /* @__PURE__ */ jsxs17(
+              /* @__PURE__ */ jsxs15(Box11, { sx: styles_default8.sidebarContainerHeader, children: [
+                isEditorPreview && /* @__PURE__ */ jsxs15(Text5, { sx: styles_default8.previewMode, children: [
+                  /* @__PURE__ */ jsxs15(
                     "svg",
                     {
                       xmlns: "http://www.w3.org/2000/svg",
@@ -7686,15 +7546,15 @@ var SidebarSection = ({
                       viewBox: "0 0 72 72",
                       fill: "none",
                       children: [
-                        /* @__PURE__ */ jsx23("circle", { cx: "36", cy: "36", r: "36", fill: "#FFB100" }),
-                        /* @__PURE__ */ jsx23(
+                        /* @__PURE__ */ jsx21("circle", { cx: "36", cy: "36", r: "36", fill: "#FFB100" }),
+                        /* @__PURE__ */ jsx21(
                           "path",
                           {
                             d: "M40.4202 22.6818H31.8152V42.6377H40.4202V22.6818Z",
                             fill: "white"
                           }
                         ),
-                        /* @__PURE__ */ jsx23(
+                        /* @__PURE__ */ jsx21(
                           "path",
                           {
                             d: "M36.1177 54.6113C38.4939 54.6113 40.4202 52.8244 40.4202 50.6201C40.4202 48.4158 38.4939 46.6289 36.1177 46.6289C33.7415 46.6289 31.8152 48.4158 31.8152 50.6201C31.8152 52.8244 33.7415 54.6113 36.1177 54.6113Z",
@@ -7706,13 +7566,13 @@ var SidebarSection = ({
                   ),
                   "PREVIEW MODE"
                 ] }),
-                /* @__PURE__ */ jsx23(Text6, { sx: styles_default10.sidebarTitle, children: documentation2 }),
-                /* @__PURE__ */ jsxs17(Flex9, { sx: styles_default10.searchBox, children: [
-                  /* @__PURE__ */ jsx23(search_icon_default, { sx: styles_default10.searchIcon }),
-                  /* @__PURE__ */ jsx23(
+                /* @__PURE__ */ jsx21(Text5, { sx: styles_default8.sidebarTitle, children: documentation2 }),
+                /* @__PURE__ */ jsxs15(Flex9, { sx: styles_default8.searchBox, children: [
+                  /* @__PURE__ */ jsx21(search_icon_default, { sx: styles_default8.searchIcon }),
+                  /* @__PURE__ */ jsx21(
                     "input",
                     {
-                      style: styles_default10.searchInput,
+                      style: styles_default8.searchInput,
                       className: "searchComponent",
                       type: "text",
                       placeholder: messages[locale]["search_input.placeholder"],
@@ -7722,14 +7582,14 @@ var SidebarSection = ({
                   )
                 ] })
               ] }),
-              documentation2 == "API Reference" && /* @__PURE__ */ jsx23(
+              documentation2 == "API Reference" && /* @__PURE__ */ jsx21(
                 sidebar_section_filter_default,
                 {
                   methodFilterList,
                   setMethodFilter: setMethodFilterList
                 }
               ),
-              /* @__PURE__ */ jsx23(Box13, { sx: styles_default10.sidebarContainerBody, children: /* @__PURE__ */ jsx23(
+              /* @__PURE__ */ jsx21(Box11, { sx: styles_default8.sidebarContainerBody, children: /* @__PURE__ */ jsx21(
                 sidebar_elements_default,
                 {
                   items: filteredResult,
@@ -7740,12 +7600,12 @@ var SidebarSection = ({
             ]
           }
         ),
-        /* @__PURE__ */ jsx23(
+        /* @__PURE__ */ jsx21(
           Flex9,
           {
             className: "toggleIcon",
-            sx: sidebarSectionHidden ? styles_default10.toggleIconBoxActive : styles_default10.toggleIconBox,
-            children: /* @__PURE__ */ jsx23(
+            sx: sidebarSectionHidden ? styles_default8.toggleIconBoxActive : styles_default8.toggleIconBox,
+            children: /* @__PURE__ */ jsx21(
               sidebar_toggle_icon_default,
               {
                 onClick: () => {
@@ -7753,7 +7613,7 @@ var SidebarSection = ({
                     (sidebarSectionHidden2) => !sidebarSectionHidden2
                   );
                 },
-                sx: sidebarSectionHidden ? styles_default10.toggleIcon : {}
+                sx: sidebarSectionHidden ? styles_default8.toggleIcon : {}
               }
             )
           }
@@ -7765,10 +7625,10 @@ var SidebarSection = ({
 var sidebar_section_default = SidebarSection;
 
 // src/lib/sidebar/index.tsx
-import { Fragment as Fragment2, jsx as jsx24, jsxs as jsxs18 } from "react/jsx-runtime";
+import { Fragment as Fragment2, jsx as jsx22, jsxs as jsxs16 } from "react/jsx-runtime";
 import { createElement } from "react";
 var Sidebar = ({ parentsArray = [] }) => {
-  const [expandDelayStatus, setExpandDelayStatus] = useState8(true);
+  const [expandDelayStatus, setExpandDelayStatus] = useState7(true);
   const context = useContext6(LibraryContext);
   const {
     isEditorPreview,
@@ -7779,10 +7639,10 @@ var Sidebar = ({ parentsArray = [] }) => {
   } = context;
   updateOpenPage({ parentsArray, context, setExpandDelayStatus });
   const SideBarIcon = (sectionElement) => {
-    const [iconTooltip2, setIconTooltip] = useState8(false);
-    const [tooltipLabel, setTooltipLabel] = useState8(sectionElement.title);
-    const titleRef = useRef5();
-    useEffect9(() => {
+    const [iconTooltip2, setIconTooltip] = useState7(false);
+    const [tooltipLabel, setTooltipLabel] = useState7(sectionElement.title);
+    const titleRef = useRef4();
+    useEffect8(() => {
       const resizeObserver = new MutationObserver(function(entries) {
         const target = entries[0].target;
         if (target.offsetWidth < target.scrollWidth)
@@ -7803,13 +7663,13 @@ var Sidebar = ({ parentsArray = [] }) => {
         resizeObserver.disconnect;
       };
     }, [titleRef.current]);
-    return /* @__PURE__ */ jsx24(Box14, { sx: styles_default8.linkContainer, children: /* @__PURE__ */ jsx24(
+    return /* @__PURE__ */ jsx22(Box12, { sx: styles_default6.linkContainer, children: /* @__PURE__ */ jsx22(
       tooltip_default,
       {
         sx: iconTooltipStyle(iconTooltip2),
         placement: "right",
         label: tooltipLabel,
-        children: /* @__PURE__ */ jsx24(
+        children: /* @__PURE__ */ jsx22(
           Link4,
           {
             href: !isEditorPreview ? sectionElement.link : "/",
@@ -7821,23 +7681,23 @@ var Sidebar = ({ parentsArray = [] }) => {
             },
             passHref: true,
             "aria-label": sectionElement.title,
-            children: /* @__PURE__ */ jsxs18(
+            children: /* @__PURE__ */ jsxs16(
               Flex10,
               {
-                sx: activeSectionName === sectionElement.title ? styles_default8.iconBoxActive : styles_default8.iconBox,
+                sx: activeSectionName === sectionElement.title ? styles_default6.iconBoxActive : styles_default6.iconBox,
                 children: [
-                  /* @__PURE__ */ jsx24(
+                  /* @__PURE__ */ jsx22(
                     sectionElement.Icon,
                     {
-                      sx: activeSectionName === sectionElement.title ? styles_default8.iconActive : styles_default8.icon
+                      sx: activeSectionName === sectionElement.title ? styles_default6.iconActive : styles_default6.icon
                     }
                   ),
-                  /* @__PURE__ */ jsx24(
-                    Text7,
+                  /* @__PURE__ */ jsx22(
+                    Text6,
                     {
                       className: expandDelayStatus ? "iconDescriptionExpanded" : "",
                       ref: titleRef,
-                      sx: styles_default8.iconTitle,
+                      sx: styles_default6.iconTitle,
                       children: sectionElement.title
                     }
                   )
@@ -7849,16 +7709,16 @@ var Sidebar = ({ parentsArray = [] }) => {
       }
     ) });
   };
-  return /* @__PURE__ */ jsxs18(Flex10, { sx: styles_default8.sidebar, children: [
-    /* @__PURE__ */ jsx24(
+  return /* @__PURE__ */ jsxs16(Flex10, { sx: styles_default6.sidebar, children: [
+    /* @__PURE__ */ jsx22(
       Flex10,
       {
         className: expandDelayStatus ? "iconContainerExpanded" : "",
-        sx: styles_default8.sidebarIcons,
+        sx: styles_default6.sidebarIcons,
         children: sidebarSections.map((section, id) => {
-          return /* @__PURE__ */ jsxs18(Fragment2, { children: [
-            id > 0 && /* @__PURE__ */ jsx24(Box14, { sx: styles_default8.sectionDivider, children: /* @__PURE__ */ jsx24("hr", {}) }, `${id}-divider`),
-            /* @__PURE__ */ jsx24(Flex10, { sx: styles_default8.sidebarIconsContainer, children: section.map((element) => /* @__PURE__ */ createElement(
+          return /* @__PURE__ */ jsxs16(Fragment2, { children: [
+            id > 0 && /* @__PURE__ */ jsx22(Box12, { sx: styles_default6.sectionDivider, children: /* @__PURE__ */ jsx22("hr", {}) }, `${id}-divider`),
+            /* @__PURE__ */ jsx22(Flex10, { sx: styles_default6.sidebarIconsContainer, children: section.map((element) => /* @__PURE__ */ createElement(
               SideBarIcon,
               {
                 ...element,
@@ -7869,7 +7729,7 @@ var Sidebar = ({ parentsArray = [] }) => {
         })
       }
     ),
-    activeSectionName ? /* @__PURE__ */ jsx24(
+    activeSectionName ? /* @__PURE__ */ jsx22(
       sidebar_section_default,
       {
         ...Array.isArray(sidebarDataMaster) ? sidebarDataMaster?.find(
@@ -7885,9 +7745,9 @@ var sidebar_default = Sidebar;
 import {
   Header,
   HamburgerMenu as VtexHamburgerMenu,
-  Box as Box18,
+  Box as Box16,
   IconCaret as IconCaret4,
-  Button as Button5
+  Button as Button4
 } from "@vtex/brand-ui";
 
 // src/lib/hamburger-menu/styles.ts
@@ -7955,7 +7815,7 @@ var arrowIconActive2 = {
   ...arrowIcon2,
   color: "#D71D55"
 };
-var styles_default14 = {
+var styles_default12 = {
   menuContainer,
   cardContainer,
   sideMenuContainer,
@@ -7974,7 +7834,7 @@ import { useContext as useContext9 } from "react";
 
 // src/components/documentation-card/index.tsx
 import Link5 from "next/link.js";
-import { Box as Box15, Flex as Flex11, Text as Text8 } from "@vtex/brand-ui";
+import { Box as Box13, Flex as Flex11, Text as Text7 } from "@vtex/brand-ui";
 
 // src/components/documentation-card/styles.ts
 var cardContainer2 = {
@@ -8008,7 +7868,7 @@ var description2 = {
   lineHeight: "18px",
   color: "muted.1"
 };
-var styles_default15 = {
+var styles_default13 = {
   cardContainer: cardContainer2,
   description: description2,
   title: title2,
@@ -8020,7 +7880,7 @@ var cardContainer3 = (containerType) => {
   const containerWidth = containerType === "dropdown" ? ["308px", "442px", "444px", "480px"] : containerType === "mobile" ? "100%" : ["324px", "544px", "544px", "544px", "544px", "720px", "1400px"];
   const textWidth = containerType === "dropdown" ? ["276px", "410px", "412px", "432px"] : containerType === "mobile" ? "90%" : ["276px", "496px", "496px", "496px", "496px", "672px", "1352px"];
   const cardContainer4 = {
-    ...styles_default15.cardContainer,
+    ...styles_default13.cardContainer,
     width: containerWidth,
     ".title, .description": {
       width: textWidth
@@ -8031,7 +7891,7 @@ var cardContainer3 = (containerType) => {
 var titleContainer2 = (containerType) => {
   const marginBottom = containerType === "dropdown" ? ["5px", "5px", "5px", "1px"] : "8px";
   const titleContainer3 = {
-    ...styles_default15.titleContainer,
+    ...styles_default13.titleContainer,
     marginBottom
   };
   return titleContainer3;
@@ -8048,28 +7908,28 @@ var cardTitle = (containerType) => {
     lineHeight: "22px"
   };
   const cardTitle2 = {
-    ...styles_default15.title,
+    ...styles_default13.title,
     ...titleAttributes
   };
   return cardTitle2;
 };
 
 // src/components/documentation-card/index.tsx
-import { jsx as jsx25, jsxs as jsxs19 } from "react/jsx-runtime";
+import { jsx as jsx23, jsxs as jsxs17 } from "react/jsx-runtime";
 var DocumentationCard = ({
   title: title5,
   description: description4,
   link: link2,
   containerType,
-  Icon: Icon25,
+  Icon: Icon24,
   onClick
 }) => {
-  return /* @__PURE__ */ jsx25(Link5, { href: link2, legacyBehavior: true, children: /* @__PURE__ */ jsx25("a", { onClick, style: { width: "100%" }, children: /* @__PURE__ */ jsxs19(Box15, { sx: cardContainer3(containerType), children: [
-    /* @__PURE__ */ jsxs19(Flex11, { sx: titleContainer2(containerType), children: [
-      /* @__PURE__ */ jsx25(Icon25, { sx: { color: "#4A596B" }, size: 24 }),
-      /* @__PURE__ */ jsx25(Text8, { className: "title", sx: cardTitle(containerType), children: title5 })
+  return /* @__PURE__ */ jsx23(Link5, { href: link2, legacyBehavior: true, children: /* @__PURE__ */ jsx23("a", { onClick, style: { width: "100%" }, children: /* @__PURE__ */ jsxs17(Box13, { sx: cardContainer3(containerType), children: [
+    /* @__PURE__ */ jsxs17(Flex11, { sx: titleContainer2(containerType), children: [
+      /* @__PURE__ */ jsx23(Icon24, { sx: { color: "#4A596B" }, size: 24 }),
+      /* @__PURE__ */ jsx23(Text7, { className: "title", sx: cardTitle(containerType), children: title5 })
     ] }),
-    /* @__PURE__ */ jsx25(Text8, { className: "description", sx: styles_default15.description, children: description4 })
+    /* @__PURE__ */ jsx23(Text7, { className: "description", sx: styles_default13.description, children: description4 })
   ] }) }) });
 };
 var documentation_card_default = DocumentationCard;
@@ -8078,7 +7938,7 @@ var documentation_card_default = DocumentationCard;
 import { Configure, InstantSearch } from "react-instantsearch-dom";
 
 // src/components/search-input/search-box.tsx
-import { useRef as useRef6, useContext as useContext7 } from "react";
+import { useRef as useRef5, useContext as useContext7 } from "react";
 import { useRouter as useRouter4 } from "next/router";
 import { Flex as Flex12 } from "@vtex/brand-ui";
 import { connectSearchBox } from "react-instantsearch-dom";
@@ -8222,7 +8082,7 @@ var hitContentHighlighted = {
   width: "auto",
   background: "#FFE0EF"
 };
-var styles_default16 = {
+var styles_default14 = {
   resultsOuterContainer,
   resultsInnerContainer,
   resultsBox,
@@ -8244,14 +8104,14 @@ var styles_default16 = {
 };
 
 // src/components/search-input/search-box.tsx
-import { jsx as jsx26, jsxs as jsxs20 } from "react/jsx-runtime";
+import { jsx as jsx24, jsxs as jsxs18 } from "react/jsx-runtime";
 var SearchBoxComponent = ({
   currentRefinement,
   refine,
   changeFocus
 }) => {
   const router = useRouter4();
-  const inputRef = useRef6(null);
+  const inputRef = useRef5(null);
   const { locale } = useContext7(LibraryContext);
   const handleClick = () => {
     if (inputRef.current != null)
@@ -8267,12 +8127,12 @@ var SearchBoxComponent = ({
       changeFocus(false);
     }
   };
-  return /* @__PURE__ */ jsxs20(Flex12, { sx: styles_default16.searchContainer, onClick: handleClick, children: [
-    /* @__PURE__ */ jsx26(search_icon_default, { sx: styles_default16.searchIcon }),
-    /* @__PURE__ */ jsx26(
+  return /* @__PURE__ */ jsxs18(Flex12, { sx: styles_default14.searchContainer, onClick: handleClick, children: [
+    /* @__PURE__ */ jsx24(search_icon_default, { sx: styles_default14.searchIcon }),
+    /* @__PURE__ */ jsx24(
       "input",
       {
-        style: styles_default16.searchInput,
+        style: styles_default14.searchInput,
         ref: inputRef,
         className: "searchComponent",
         type: "text",
@@ -8296,20 +8156,20 @@ import {
   connectHitInsights
 } from "react-instantsearch-dom";
 import aa from "search-insights";
-import { Box as Box16, Flex as Flex14, IconCaret as IconCaret3, Text as Text10 } from "@vtex/brand-ui";
+import { Box as Box14, Flex as Flex14, IconCaret as IconCaret3, Text as Text9 } from "@vtex/brand-ui";
 
 // src/components/icons/api-guides-icon.tsx
-import { Icon as Icon9 } from "@vtex/brand-ui";
-import { jsx as jsx27, jsxs as jsxs21 } from "react/jsx-runtime";
-var APIGuidesIcon = (props) => /* @__PURE__ */ jsxs21(
-  Icon9,
+import { Icon as Icon8 } from "@vtex/brand-ui";
+import { jsx as jsx25, jsxs as jsxs19 } from "react/jsx-runtime";
+var APIGuidesIcon = (props) => /* @__PURE__ */ jsxs19(
+  Icon8,
   {
     ...props,
     viewBox: "0 0 32 32",
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg",
     children: [
-      /* @__PURE__ */ jsx27(
+      /* @__PURE__ */ jsx25(
         "path",
         {
           fillRule: "evenodd",
@@ -8321,7 +8181,7 @@ var APIGuidesIcon = (props) => /* @__PURE__ */ jsxs21(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx27(
+      /* @__PURE__ */ jsx25(
         "path",
         {
           d: "M25.3332 10.6667H19.9998C19.2638 10.6667 18.6665 10.0693 18.6665 9.33333V4",
@@ -8331,7 +8191,7 @@ var APIGuidesIcon = (props) => /* @__PURE__ */ jsxs21(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx27(
+      /* @__PURE__ */ jsx25(
         "path",
         {
           d: "M10.6665 14.6667H18.6665",
@@ -8341,7 +8201,7 @@ var APIGuidesIcon = (props) => /* @__PURE__ */ jsxs21(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx27(
+      /* @__PURE__ */ jsx25(
         "path",
         {
           d: "M10.6665 18.6667H18.6665",
@@ -8351,7 +8211,7 @@ var APIGuidesIcon = (props) => /* @__PURE__ */ jsxs21(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx27(
+      /* @__PURE__ */ jsx25(
         "path",
         {
           d: "M10.6665 22.6667H16.4398",
@@ -8367,17 +8227,17 @@ var APIGuidesIcon = (props) => /* @__PURE__ */ jsxs21(
 var api_guides_icon_default = APIGuidesIcon;
 
 // src/components/icons/api-reference-icon.tsx
-import { Icon as Icon10 } from "@vtex/brand-ui";
-import { jsx as jsx28, jsxs as jsxs22 } from "react/jsx-runtime";
-var APIReferenceIcon = (props) => /* @__PURE__ */ jsxs22(
-  Icon10,
+import { Icon as Icon9 } from "@vtex/brand-ui";
+import { jsx as jsx26, jsxs as jsxs20 } from "react/jsx-runtime";
+var APIReferenceIcon = (props) => /* @__PURE__ */ jsxs20(
+  Icon9,
   {
     ...props,
     viewBox: "0 0 32 32",
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg",
     children: [
-      /* @__PURE__ */ jsx28(
+      /* @__PURE__ */ jsx26(
         "path",
         {
           d: "M24.7612 26.6668C26.4439 26.6668 27.8092 25.3028 27.8092 23.6188V17.5242L29.3332 16.0002L27.8092 14.4762V8.3815C27.8092 6.6975 26.4452 5.3335 24.7612 5.3335",
@@ -8387,7 +8247,7 @@ var APIReferenceIcon = (props) => /* @__PURE__ */ jsxs22(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx28(
+      /* @__PURE__ */ jsx26(
         "path",
         {
           d: "M12 22.6668L20 9.3335",
@@ -8397,7 +8257,7 @@ var APIReferenceIcon = (props) => /* @__PURE__ */ jsxs22(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx28(
+      /* @__PURE__ */ jsx26(
         "path",
         {
           d: "M7.2385 5.3335C5.5545 5.3335 4.1905 6.6975 4.1905 8.3815V14.4762L2.6665 16.0002L4.1905 17.5242V23.6188C4.1905 25.3028 5.5545 26.6668 7.2385 26.6668",
@@ -8413,17 +8273,17 @@ var APIReferenceIcon = (props) => /* @__PURE__ */ jsxs22(
 var api_reference_icon_default = APIReferenceIcon;
 
 // src/components/icons/app-development-icon.tsx
-import { Icon as Icon11 } from "@vtex/brand-ui";
-import { jsx as jsx29, jsxs as jsxs23 } from "react/jsx-runtime";
-var AppDevelopmentIcon = (props) => /* @__PURE__ */ jsxs23(
-  Icon11,
+import { Icon as Icon10 } from "@vtex/brand-ui";
+import { jsx as jsx27, jsxs as jsxs21 } from "react/jsx-runtime";
+var AppDevelopmentIcon = (props) => /* @__PURE__ */ jsxs21(
+  Icon10,
   {
     ...props,
     viewBox: "0 0 32 32",
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg",
     children: [
-      /* @__PURE__ */ jsx29(
+      /* @__PURE__ */ jsx27(
         "path",
         {
           fillRule: "evenodd",
@@ -8435,7 +8295,7 @@ var AppDevelopmentIcon = (props) => /* @__PURE__ */ jsxs23(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx29(
+      /* @__PURE__ */ jsx27(
         "path",
         {
           d: "M20.5813 19.312L28 22.6347L15.9827 28L4 22.6347L11.4187 19.3213",
@@ -8445,7 +8305,7 @@ var AppDevelopmentIcon = (props) => /* @__PURE__ */ jsxs23(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx29(
+      /* @__PURE__ */ jsx27(
         "path",
         {
           d: "M20.5813 12.6787L28 16L15.9827 21.3654L4 16L11.4187 12.688",
@@ -8461,17 +8321,17 @@ var AppDevelopmentIcon = (props) => /* @__PURE__ */ jsxs23(
 var app_development_icon_default = AppDevelopmentIcon;
 
 // src/components/icons/release-notes-icon.tsx
-import { Icon as Icon12 } from "@vtex/brand-ui";
-import { jsx as jsx30, jsxs as jsxs24 } from "react/jsx-runtime";
-var ReleaseNotesIcon = (props) => /* @__PURE__ */ jsxs24(
-  Icon12,
+import { Icon as Icon11 } from "@vtex/brand-ui";
+import { jsx as jsx28, jsxs as jsxs22 } from "react/jsx-runtime";
+var ReleaseNotesIcon = (props) => /* @__PURE__ */ jsxs22(
+  Icon11,
   {
     ...props,
     viewBox: "0 0 24 25",
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg",
     children: [
-      /* @__PURE__ */ jsx30(
+      /* @__PURE__ */ jsx28(
         "path",
         {
           d: "M10 8.5V16.5",
@@ -8481,7 +8341,7 @@ var ReleaseNotesIcon = (props) => /* @__PURE__ */ jsxs24(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx30(
+      /* @__PURE__ */ jsx28(
         "path",
         {
           d: "M14 8.5V16.5",
@@ -8491,7 +8351,7 @@ var ReleaseNotesIcon = (props) => /* @__PURE__ */ jsxs24(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx30(
+      /* @__PURE__ */ jsx28(
         "path",
         {
           d: "M8 14.5H16",
@@ -8501,7 +8361,7 @@ var ReleaseNotesIcon = (props) => /* @__PURE__ */ jsxs24(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx30(
+      /* @__PURE__ */ jsx28(
         "path",
         {
           d: "M8 10.5H16",
@@ -8511,7 +8371,7 @@ var ReleaseNotesIcon = (props) => /* @__PURE__ */ jsxs24(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx30(
+      /* @__PURE__ */ jsx28(
         "path",
         {
           fillRule: "evenodd",
@@ -8529,17 +8389,17 @@ var ReleaseNotesIcon = (props) => /* @__PURE__ */ jsxs24(
 var release_notes_icon_default = ReleaseNotesIcon;
 
 // src/components/icons/storefront-development-icon.tsx
-import { Icon as Icon13 } from "@vtex/brand-ui";
-import { jsx as jsx31, jsxs as jsxs25 } from "react/jsx-runtime";
-var StorefrontDevelopmentIcon = (props) => /* @__PURE__ */ jsxs25(
-  Icon13,
+import { Icon as Icon12 } from "@vtex/brand-ui";
+import { jsx as jsx29, jsxs as jsxs23 } from "react/jsx-runtime";
+var StorefrontDevelopmentIcon = (props) => /* @__PURE__ */ jsxs23(
+  Icon12,
   {
     ...props,
     viewBox: "0 0 32 32",
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg",
     children: [
-      /* @__PURE__ */ jsx31(
+      /* @__PURE__ */ jsx29(
         "path",
         {
           fillRule: "evenodd",
@@ -8551,7 +8411,7 @@ var StorefrontDevelopmentIcon = (props) => /* @__PURE__ */ jsxs25(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx31(
+      /* @__PURE__ */ jsx29(
         "path",
         {
           d: "M10.6667 7.98568C10.6627 7.98568 10.66 7.98835 10.66 7.99235C10.66 7.99635 10.6627 7.99902 10.6667 7.99902C10.6707 7.99902 10.6733 7.99635 10.6733 7.99235C10.6733 7.98835 10.6707 7.98568 10.6667 7.98568",
@@ -8561,7 +8421,7 @@ var StorefrontDevelopmentIcon = (props) => /* @__PURE__ */ jsxs25(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx31(
+      /* @__PURE__ */ jsx29(
         "path",
         {
           d: "M14.673 7.99252C14.669 7.99252 14.6663 7.99519 14.6663 7.99919C14.6663 8.00319 14.669 8.00585 14.673 8.00585C14.677 8.00585 14.6797 8.00319 14.6797 7.99919C14.6797 7.99519 14.677 7.99252 14.673 7.99252",
@@ -8571,7 +8431,7 @@ var StorefrontDevelopmentIcon = (props) => /* @__PURE__ */ jsxs25(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx31(
+      /* @__PURE__ */ jsx29(
         "path",
         {
           d: "M6.66667 7.99887C6.66267 7.99887 6.66 8.00153 6.66 8.00553C6.66 8.00953 6.66267 8.0122 6.66667 8.0122C6.67067 8.0122 6.67333 8.00953 6.67333 8.00553C6.67333 8.00153 6.67067 7.99887 6.66667 7.99887",
@@ -8581,7 +8441,7 @@ var StorefrontDevelopmentIcon = (props) => /* @__PURE__ */ jsxs25(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx31(
+      /* @__PURE__ */ jsx29(
         "path",
         {
           d: "M12.0667 14.999H20.6L19.6667 19.6657H13L11.6667 12.999H10",
@@ -8591,7 +8451,7 @@ var StorefrontDevelopmentIcon = (props) => /* @__PURE__ */ jsxs25(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx31(
+      /* @__PURE__ */ jsx29(
         "path",
         {
           d: "M19.0468 22.952C19.0728 22.9781 19.0728 23.0203 19.0468 23.0463C19.0208 23.0724 18.9786 23.0724 18.9525 23.0463C18.9265 23.0203 18.9265 22.9781 18.9525 22.952C18.9786 22.926 19.0208 22.926 19.0468 22.952",
@@ -8601,7 +8461,7 @@ var StorefrontDevelopmentIcon = (props) => /* @__PURE__ */ jsxs25(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx31(
+      /* @__PURE__ */ jsx29(
         "path",
         {
           d: "M13.7138 22.952C13.7398 22.9781 13.7398 23.0203 13.7138 23.0463C13.6878 23.0724 13.6456 23.0724 13.6195 23.0463C13.5935 23.0203 13.5935 22.9781 13.6195 22.952C13.6456 22.926 13.6878 22.926 13.7138 22.952",
@@ -8617,17 +8477,17 @@ var StorefrontDevelopmentIcon = (props) => /* @__PURE__ */ jsxs25(
 var storefront_development_icon_default = StorefrontDevelopmentIcon;
 
 // src/components/icons/vtex-io-apps-icon.tsx
-import { Icon as Icon14 } from "@vtex/brand-ui";
-import { jsx as jsx32, jsxs as jsxs26 } from "react/jsx-runtime";
-var VTEXIOAppsIcon = (props) => /* @__PURE__ */ jsxs26(
-  Icon14,
+import { Icon as Icon13 } from "@vtex/brand-ui";
+import { jsx as jsx30, jsxs as jsxs24 } from "react/jsx-runtime";
+var VTEXIOAppsIcon = (props) => /* @__PURE__ */ jsxs24(
+  Icon13,
   {
     ...props,
     viewBox: "0 0 32 32",
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg",
     children: [
-      /* @__PURE__ */ jsx32(
+      /* @__PURE__ */ jsx30(
         "path",
         {
           fillRule: "evenodd",
@@ -8639,7 +8499,7 @@ var VTEXIOAppsIcon = (props) => /* @__PURE__ */ jsxs26(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx32(
+      /* @__PURE__ */ jsx30(
         "path",
         {
           fillRule: "evenodd",
@@ -8651,7 +8511,7 @@ var VTEXIOAppsIcon = (props) => /* @__PURE__ */ jsxs26(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx32(
+      /* @__PURE__ */ jsx30(
         "path",
         {
           fillRule: "evenodd",
@@ -8663,7 +8523,7 @@ var VTEXIOAppsIcon = (props) => /* @__PURE__ */ jsxs26(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx32(
+      /* @__PURE__ */ jsx30(
         "path",
         {
           fillRule: "evenodd",
@@ -8681,19 +8541,19 @@ var VTEXIOAppsIcon = (props) => /* @__PURE__ */ jsxs26(
 var vtex_io_apps_icon_default = VTEXIOAppsIcon;
 
 // src/components/icons/added-icon.tsx
-import { Icon as Icon15 } from "@vtex/brand-ui";
-import { jsx as jsx33, jsxs as jsxs27 } from "react/jsx-runtime";
-var AddedIcon = (props) => /* @__PURE__ */ jsxs27(
-  Icon15,
+import { Icon as Icon14 } from "@vtex/brand-ui";
+import { jsx as jsx31, jsxs as jsxs25 } from "react/jsx-runtime";
+var AddedIcon = (props) => /* @__PURE__ */ jsxs25(
+  Icon14,
   {
     ...props,
     viewBox: "0 0 16 17",
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg",
     children: [
-      /* @__PURE__ */ jsx33("circle", { cx: "8", cy: "8", r: "8", fill: "#DFF1E0" }),
-      /* @__PURE__ */ jsxs27("g", { clipPath: "url(#clip0_2354_76889)", children: [
-        /* @__PURE__ */ jsx33(
+      /* @__PURE__ */ jsx31("circle", { cx: "8", cy: "8", r: "8", fill: "#DFF1E0" }),
+      /* @__PURE__ */ jsxs25("g", { clipPath: "url(#clip0_2354_76889)", children: [
+        /* @__PURE__ */ jsx31(
           "path",
           {
             d: "M4.33398 8H11.6673",
@@ -8703,7 +8563,7 @@ var AddedIcon = (props) => /* @__PURE__ */ jsxs27(
             strokeLinejoin: "round"
           }
         ),
-        /* @__PURE__ */ jsx33(
+        /* @__PURE__ */ jsx31(
           "path",
           {
             d: "M8 4.33594V11.6693",
@@ -8713,7 +8573,7 @@ var AddedIcon = (props) => /* @__PURE__ */ jsxs27(
             strokeLinejoin: "round"
           }
         ),
-        /* @__PURE__ */ jsx33(
+        /* @__PURE__ */ jsx31(
           "path",
           {
             fillRule: "evenodd",
@@ -8722,7 +8582,7 @@ var AddedIcon = (props) => /* @__PURE__ */ jsxs27(
             fill: "#38853C"
           }
         ),
-        /* @__PURE__ */ jsx33(
+        /* @__PURE__ */ jsx31(
           "path",
           {
             fillRule: "evenodd",
@@ -8731,7 +8591,7 @@ var AddedIcon = (props) => /* @__PURE__ */ jsxs27(
             fill: "#38853C"
           }
         ),
-        /* @__PURE__ */ jsx33(
+        /* @__PURE__ */ jsx31(
           "path",
           {
             fillRule: "evenodd",
@@ -8743,7 +8603,7 @@ var AddedIcon = (props) => /* @__PURE__ */ jsxs27(
             strokeLinejoin: "round"
           }
         ),
-        /* @__PURE__ */ jsx33(
+        /* @__PURE__ */ jsx31(
           "path",
           {
             fillRule: "evenodd",
@@ -8756,7 +8616,7 @@ var AddedIcon = (props) => /* @__PURE__ */ jsxs27(
           }
         )
       ] }),
-      /* @__PURE__ */ jsx33("defs", { children: /* @__PURE__ */ jsx33("clipPath", { id: "clip0_2354_76889", children: /* @__PURE__ */ jsx33(
+      /* @__PURE__ */ jsx31("defs", { children: /* @__PURE__ */ jsx31("clipPath", { id: "clip0_2354_76889", children: /* @__PURE__ */ jsx31(
         "rect",
         {
           width: "10.6667",
@@ -8771,18 +8631,18 @@ var AddedIcon = (props) => /* @__PURE__ */ jsxs27(
 var added_icon_default = AddedIcon;
 
 // src/components/icons/deprecated-icon.tsx
-import { Icon as Icon16 } from "@vtex/brand-ui";
-import { jsx as jsx34, jsxs as jsxs28 } from "react/jsx-runtime";
-var DeprecatedIcon = (props) => /* @__PURE__ */ jsxs28(
-  Icon16,
+import { Icon as Icon15 } from "@vtex/brand-ui";
+import { jsx as jsx32, jsxs as jsxs26 } from "react/jsx-runtime";
+var DeprecatedIcon = (props) => /* @__PURE__ */ jsxs26(
+  Icon15,
   {
     ...props,
     viewBox: "0 0 16 16",
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg",
     children: [
-      /* @__PURE__ */ jsx34("circle", { cx: "8", cy: "8", r: "8", fill: "#E7E9EE" }),
-      /* @__PURE__ */ jsx34(
+      /* @__PURE__ */ jsx32("circle", { cx: "8", cy: "8", r: "8", fill: "#E7E9EE" }),
+      /* @__PURE__ */ jsx32(
         "path",
         {
           fillRule: "evenodd",
@@ -8797,18 +8657,18 @@ var DeprecatedIcon = (props) => /* @__PURE__ */ jsxs28(
 var deprecated_icon_default = DeprecatedIcon;
 
 // src/components/icons/fixed-icon.tsx
-import { Icon as Icon17 } from "@vtex/brand-ui";
-import { jsx as jsx35, jsxs as jsxs29 } from "react/jsx-runtime";
-var FixedIcon = (props) => /* @__PURE__ */ jsxs29(
-  Icon17,
+import { Icon as Icon16 } from "@vtex/brand-ui";
+import { jsx as jsx33, jsxs as jsxs27 } from "react/jsx-runtime";
+var FixedIcon = (props) => /* @__PURE__ */ jsxs27(
+  Icon16,
   {
     ...props,
     viewBox: "0 0 16 17",
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg",
     children: [
-      /* @__PURE__ */ jsx35("circle", { cx: "8", cy: "8", r: "8", fill: "#DEECF7" }),
-      /* @__PURE__ */ jsx35(
+      /* @__PURE__ */ jsx33("circle", { cx: "8", cy: "8", r: "8", fill: "#DEECF7" }),
+      /* @__PURE__ */ jsx33(
         "path",
         {
           fillRule: "evenodd",
@@ -8827,18 +8687,18 @@ var FixedIcon = (props) => /* @__PURE__ */ jsxs29(
 var fixed_icon_default = FixedIcon;
 
 // src/components/icons/improved-icon.tsx
-import { Icon as Icon18 } from "@vtex/brand-ui";
-import { jsx as jsx36, jsxs as jsxs30 } from "react/jsx-runtime";
-var ImprovedIcon = (props) => /* @__PURE__ */ jsxs30(
-  Icon18,
+import { Icon as Icon17 } from "@vtex/brand-ui";
+import { jsx as jsx34, jsxs as jsxs28 } from "react/jsx-runtime";
+var ImprovedIcon = (props) => /* @__PURE__ */ jsxs28(
+  Icon17,
   {
     ...props,
     viewBox: "0 0 16 16",
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg",
     children: [
-      /* @__PURE__ */ jsx36("circle", { cx: "8.5", cy: "8", r: "8", fill: "#FFEBD7" }),
-      /* @__PURE__ */ jsx36(
+      /* @__PURE__ */ jsx34("circle", { cx: "8.5", cy: "8", r: "8", fill: "#FFEBD7" }),
+      /* @__PURE__ */ jsx34(
         "path",
         {
           d: "M12.5 10L8.49511 6L4.5 10",
@@ -8854,18 +8714,18 @@ var ImprovedIcon = (props) => /* @__PURE__ */ jsxs30(
 var improved_icon_default = ImprovedIcon;
 
 // src/components/icons/removed-icon.tsx
-import { Icon as Icon19 } from "@vtex/brand-ui";
-import { jsx as jsx37, jsxs as jsxs31 } from "react/jsx-runtime";
-var RemovedIcon = (props) => /* @__PURE__ */ jsxs31(
-  Icon19,
+import { Icon as Icon18 } from "@vtex/brand-ui";
+import { jsx as jsx35, jsxs as jsxs29 } from "react/jsx-runtime";
+var RemovedIcon = (props) => /* @__PURE__ */ jsxs29(
+  Icon18,
   {
     ...props,
     viewBox: "0 0 16 16",
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg",
     children: [
-      /* @__PURE__ */ jsx37("circle", { cx: "8.5", cy: "8", r: "8", fill: "#F8E3E3" }),
-      /* @__PURE__ */ jsx37(
+      /* @__PURE__ */ jsx35("circle", { cx: "8.5", cy: "8", r: "8", fill: "#F8E3E3" }),
+      /* @__PURE__ */ jsx35(
         "path",
         {
           d: "M5.83203 5.33594L11.1654 10.6693",
@@ -8875,7 +8735,7 @@ var RemovedIcon = (props) => /* @__PURE__ */ jsxs31(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx37(
+      /* @__PURE__ */ jsx35(
         "path",
         {
           d: "M11.1654 5.33594L5.83203 10.6693",
@@ -8964,18 +8824,18 @@ var getAction = (actionType) => {
 };
 
 // src/components/search-input/customHighlight.tsx
-import { useEffect as useEffect10, useRef as useRef7, useState as useState9 } from "react";
+import { useEffect as useEffect9, useRef as useRef6, useState as useState8 } from "react";
 import { connectHighlight } from "react-instantsearch-dom";
-import { Flex as Flex13, Text as Text9 } from "@vtex/brand-ui";
-import { jsx as jsx38 } from "react/jsx-runtime";
+import { Flex as Flex13, Text as Text8 } from "@vtex/brand-ui";
+import { jsx as jsx36 } from "react/jsx-runtime";
 var Highlight = ({
   highlight,
   attribute,
   hit,
   searchPage
 }) => {
-  const [parsedHit, setParsedHit] = useState9([]);
-  const textContainer = useRef7(null);
+  const [parsedHit, setParsedHit] = useState8([]);
+  const textContainer = useRef6(null);
   const hitHighlights = highlight({
     highlightProperty: "_highlightResult",
     attribute: hit.type != "content" ? `hierarchy.${hit.type}` : attribute,
@@ -8995,7 +8855,7 @@ var Highlight = ({
       ellipsedContent.push(part);
     });
   }
-  useEffect10(() => {
+  useEffect9(() => {
     if (searchPage)
       return;
     const titleSize = textContainer.current ? textContainer.current.offsetWidth / 7.75 : 40;
@@ -9049,14 +8909,14 @@ var Highlight = ({
     });
     setParsedHit(hitHighlights);
   }, [hit, textContainer.current]);
-  return /* @__PURE__ */ jsx38(
+  return /* @__PURE__ */ jsx36(
     Flex13,
     {
       ref: textContainer,
       className: "hit-content-title",
-      sx: styles_default16.hitContentContainer,
-      children: /* @__PURE__ */ jsx38(Text9, { sx: searchPage ? styles_default16.hitContent : styles_default16.hitContentSmall, children: (searchPage ? ellipsedContent : parsedHit).map(
-        (part, index) => part.isHighlighted ? /* @__PURE__ */ jsx38("mark", { style: styles_default16.hitContentHighlighted, children: part.value }, index) : part.value
+      sx: styles_default14.hitContentContainer,
+      children: /* @__PURE__ */ jsx36(Text8, { sx: searchPage ? styles_default14.hitContent : styles_default14.hitContentSmall, children: (searchPage ? ellipsedContent : parsedHit).map(
+        (part, index) => part.isHighlighted ? /* @__PURE__ */ jsx36("mark", { style: styles_default14.hitContentHighlighted, children: part.value }, index) : part.value
       ) })
     }
   );
@@ -9066,28 +8926,28 @@ var customHighlight_default = connectedHighlight;
 
 // src/components/search-input/results-box.tsx
 import { useContext as useContext8 } from "react";
-import { Fragment as Fragment3, jsx as jsx39, jsxs as jsxs32 } from "react/jsx-runtime";
+import { Fragment as Fragment3, jsx as jsx37, jsxs as jsxs30 } from "react/jsx-runtime";
 var Hit = ({ hit, insights }) => {
   const breadcrumbsList = getBreadcrumbs(hit);
   const DocIcon = getIcon3(hit.doctype);
-  return /* @__PURE__ */ jsx39(Link6, { href: getRelativeURL(hit.url), legacyBehavior: true, children: /* @__PURE__ */ jsx39(
+  return /* @__PURE__ */ jsx37(Link6, { href: getRelativeURL(hit.url), legacyBehavior: true, children: /* @__PURE__ */ jsx37(
     "a",
     {
       onClick: () => insights("clickedObjectIDsAfterSearch", {
         eventName: "Search in top bar",
         objectIDs: [hit.objectID]
       }),
-      children: /* @__PURE__ */ jsxs32(Box16, { sx: styles_default16.hitBox, children: [
-        /* @__PURE__ */ jsxs32(Flex14, { children: [
-          DocIcon && /* @__PURE__ */ jsx39(DocIcon, { className: "hit-icon", sx: styles_default16.hitIcon }),
-          /* @__PURE__ */ jsx39(Text10, { sx: styles_default16.hitContent, children: /* @__PURE__ */ jsx39(customHighlight_default, { hit, attribute: "content" }) })
+      children: /* @__PURE__ */ jsxs30(Box14, { sx: styles_default14.hitBox, children: [
+        /* @__PURE__ */ jsxs30(Flex14, { children: [
+          DocIcon && /* @__PURE__ */ jsx37(DocIcon, { className: "hit-icon", sx: styles_default14.hitIcon }),
+          /* @__PURE__ */ jsx37(Text9, { sx: styles_default14.hitContent, children: /* @__PURE__ */ jsx37(customHighlight_default, { hit, attribute: "content" }) })
         ] }),
-        /* @__PURE__ */ jsxs32(Flex14, { sx: styles_default16.alignCenter, children: [
-          /* @__PURE__ */ jsx39(Text10, { sx: styles_default16.hitBreadCrumbIn, children: `In ${hit.doctype}` }),
-          breadcrumbsList.length > 0 && /* @__PURE__ */ jsx39(IconCaret3, { direction: "right", sx: styles_default16.hitBreadCrumbArrow }),
-          breadcrumbsList.map((filter, index) => /* @__PURE__ */ jsxs32(Flex14, { sx: styles_default16.alignCenter, children: [
-            /* @__PURE__ */ jsx39(Text10, { sx: styles_default16.hitBreadCrumb, children: filter }),
-            index < breadcrumbsList.length - 1 ? /* @__PURE__ */ jsx39(IconCaret3, { direction: "right", sx: styles_default16.hitBreadCrumbArrow }) : null
+        /* @__PURE__ */ jsxs30(Flex14, { sx: styles_default14.alignCenter, children: [
+          /* @__PURE__ */ jsx37(Text9, { sx: styles_default14.hitBreadCrumbIn, children: `In ${hit.doctype}` }),
+          breadcrumbsList.length > 0 && /* @__PURE__ */ jsx37(IconCaret3, { direction: "right", sx: styles_default14.hitBreadCrumbArrow }),
+          breadcrumbsList.map((filter, index) => /* @__PURE__ */ jsxs30(Flex14, { sx: styles_default14.alignCenter, children: [
+            /* @__PURE__ */ jsx37(Text9, { sx: styles_default14.hitBreadCrumb, children: filter }),
+            index < breadcrumbsList.length - 1 ? /* @__PURE__ */ jsx37(IconCaret3, { direction: "right", sx: styles_default14.hitBreadCrumbArrow }) : null
           ] }, `${filter}${index}`))
         ] })
       ] })
@@ -9113,13 +8973,13 @@ var HitsBox = connectStateResults(
         __position: searchResults.hitsPerPage * searchResults.page + index + 1
       };
     };
-    return /* @__PURE__ */ jsx39(Fragment3, { children: searchResults && /* @__PURE__ */ jsx39(Box16, { sx: styles_default16.resultsOuterContainer, children: /* @__PURE__ */ jsxs32(Box16, { sx: styles_default16.resultsInnerContainer, children: [
-      /* @__PURE__ */ jsx39(Box16, { sx: searchResults.hits.length && styles_default16.resultsBox, children: searchResults.hits.map(
-        (searchResult, index) => index < 7 && /* @__PURE__ */ jsx39(
-          Box16,
+    return /* @__PURE__ */ jsx37(Fragment3, { children: searchResults && /* @__PURE__ */ jsx37(Box14, { sx: styles_default14.resultsOuterContainer, children: /* @__PURE__ */ jsxs30(Box14, { sx: styles_default14.resultsInnerContainer, children: [
+      /* @__PURE__ */ jsx37(Box14, { sx: searchResults.hits.length && styles_default14.resultsBox, children: searchResults.hits.map(
+        (searchResult, index) => index < 7 && /* @__PURE__ */ jsx37(
+          Box14,
           {
             onClick: () => changeFocus(false),
-            children: /* @__PURE__ */ jsx39(
+            children: /* @__PURE__ */ jsx37(
               HitWithInsights,
               {
                 hit: setQueryIDAndPosition(searchResult, index)
@@ -9129,23 +8989,23 @@ var HitsBox = connectStateResults(
           `matched-result-${index}`
         )
       ) }),
-      searchResults.hits.length > 7 && /* @__PURE__ */ jsx39(
-        Box16,
+      searchResults.hits.length > 7 && /* @__PURE__ */ jsx37(
+        Box14,
         {
-          sx: styles_default16.seeAll,
+          sx: styles_default14.seeAll,
           onClick: () => seeAllSubmit(searchState.query || ""),
-          children: /* @__PURE__ */ jsx39(Text10, { children: "See all results" })
+          children: /* @__PURE__ */ jsx37(Text9, { children: "See all results" })
         }
       ),
-      !searchResults.hits.length && /* @__PURE__ */ jsx39(Flex14, { sx: styles_default16.noResults, children: /* @__PURE__ */ jsx39(Text10, { children: messages[locale]["search_input.empty"] }) })
+      !searchResults.hits.length && /* @__PURE__ */ jsx37(Flex14, { sx: styles_default14.noResults, children: /* @__PURE__ */ jsx37(Text9, { children: messages[locale]["search_input.empty"] }) })
     ] }) }) });
   }
 );
 var results_box_default = HitsBox;
 
 // src/components/search-input/index.tsx
-import { Box as Box17 } from "@vtex/brand-ui";
-import { useRef as useRef8, useState as useState10 } from "react";
+import { Box as Box15 } from "@vtex/brand-ui";
+import { useRef as useRef7, useState as useState9 } from "react";
 
 // src/utils/config/search-config.ts
 var import_lite = __toESM(require_lite());
@@ -9180,27 +9040,27 @@ var createAlgoliaClient = (config) => {
 var search_config_default = createAlgoliaClient;
 
 // src/components/search-input/index.tsx
-import { jsx as jsx40, jsxs as jsxs33 } from "react/jsx-runtime";
+import { jsx as jsx38, jsxs as jsxs31 } from "react/jsx-runtime";
 function SearchInput() {
-  const [focusOut, setfocusOut] = useState10({
+  const [focusOut, setfocusOut] = useState9({
     modaltoggle: true
   });
-  const resultsBox2 = useRef8();
+  const resultsBox2 = useRef7();
   useClickOutside(resultsBox2, setfocusOut);
   const changeFocus = (value) => {
     setfocusOut({ modaltoggle: value });
   };
-  return /* @__PURE__ */ jsxs33(InstantSearch, { searchClient, indexName: searchIndex, children: [
-    /* @__PURE__ */ jsx40(Configure, { clickAnalytics: true }),
-    /* @__PURE__ */ jsxs33(Box17, { onFocus: () => setfocusOut({ modaltoggle: true }), ref: resultsBox2, children: [
-      /* @__PURE__ */ jsx40(search_box_default, { changeFocus }),
-      focusOut.modaltoggle && /* @__PURE__ */ jsx40(results_box_default, { changeFocus })
+  return /* @__PURE__ */ jsxs31(InstantSearch, { searchClient, indexName: searchIndex, children: [
+    /* @__PURE__ */ jsx38(Configure, { clickAnalytics: true }),
+    /* @__PURE__ */ jsxs31(Box15, { onFocus: () => setfocusOut({ modaltoggle: true }), ref: resultsBox2, children: [
+      /* @__PURE__ */ jsx38(search_box_default, { changeFocus }),
+      focusOut.modaltoggle && /* @__PURE__ */ jsx38(results_box_default, { changeFocus })
     ] })
   ] });
 }
 
 // src/lib/hamburger-menu/index.tsx
-import { jsx as jsx41, jsxs as jsxs34 } from "react/jsx-runtime";
+import { jsx as jsx39, jsxs as jsxs32 } from "react/jsx-runtime";
 var HamburgerMenu = ({ parentsArray = [] }) => {
   const context = useContext9(LibraryContext);
   const {
@@ -9212,24 +9072,24 @@ var HamburgerMenu = ({ parentsArray = [] }) => {
     sidebarSections
   } = context;
   updateOpenPage({ parentsArray, context });
-  return /* @__PURE__ */ jsx41(Header.ActionButton, { children: /* @__PURE__ */ jsx41(VtexHamburgerMenu, { sx: styles_default14.hamburgerContainer, children: /* @__PURE__ */ jsx41(VtexHamburgerMenu.Menu, { sx: styles_default14.innerHambugerContainer, children: /* @__PURE__ */ jsxs34(Box18, { sx: styles_default14.menuContainer, children: [
-    /* @__PURE__ */ jsxs34(Box18, { sx: styles_default14.cardContainer, children: [
-      /* @__PURE__ */ jsx41(Box18, { sx: styles_default14.hamburgerSearchContainer, children: /* @__PURE__ */ jsx41(SearchInput, {}) }),
-      sidebarSections.map((section, id) => /* @__PURE__ */ jsx41(
-        Box18,
+  return /* @__PURE__ */ jsx39(Header.ActionButton, { children: /* @__PURE__ */ jsx39(VtexHamburgerMenu, { sx: styles_default12.hamburgerContainer, children: /* @__PURE__ */ jsx39(VtexHamburgerMenu.Menu, { sx: styles_default12.innerHambugerContainer, children: /* @__PURE__ */ jsxs32(Box16, { sx: styles_default12.menuContainer, children: [
+    /* @__PURE__ */ jsxs32(Box16, { sx: styles_default12.cardContainer, children: [
+      /* @__PURE__ */ jsx39(Box16, { sx: styles_default12.hamburgerSearchContainer, children: /* @__PURE__ */ jsx39(SearchInput, {}) }),
+      sidebarSections.map((section, id) => /* @__PURE__ */ jsx39(
+        Box16,
         {
-          sx: id > 0 ? styles_default14.updatesContainer : styles_default14.documentationContainer,
+          sx: id > 0 ? styles_default12.updatesContainer : styles_default12.documentationContainer,
           "data-cy": "dropdown-menu-first-section",
-          children: section.map((card2) => /* @__PURE__ */ jsxs34(Box18, { sx: styles_default14.innerCardContainer, children: [
-            /* @__PURE__ */ jsx41(documentation_card_default, { containerType: "mobile", ...card2 }),
-            /* @__PURE__ */ jsx41(
-              Button5,
+          children: section.map((card2) => /* @__PURE__ */ jsxs32(Box16, { sx: styles_default12.innerCardContainer, children: [
+            /* @__PURE__ */ jsx39(documentation_card_default, { containerType: "mobile", ...card2 }),
+            /* @__PURE__ */ jsx39(
+              Button4,
               {
                 "aria-label": "Open sidebar",
                 size: "regular",
                 variant: "tertiary",
-                icon: () => /* @__PURE__ */ jsx41(IconCaret4, { direction: "right", size: 32 }),
-                sx: activeSectionName === card2.title && !sidebarSectionHidden ? styles_default14.arrowIconActive : styles_default14.arrowIcon,
+                icon: () => /* @__PURE__ */ jsx39(IconCaret4, { direction: "right", size: 32 }),
+                sx: activeSectionName === card2.title && !sidebarSectionHidden ? styles_default12.arrowIconActive : styles_default12.arrowIcon,
                 onClick: () => {
                   setActiveSectionName(card2.title);
                   setSidebarSectionHidden(false);
@@ -9241,12 +9101,12 @@ var HamburgerMenu = ({ parentsArray = [] }) => {
         id
       ))
     ] }),
-    /* @__PURE__ */ jsx41(
-      Box18,
+    /* @__PURE__ */ jsx39(
+      Box16,
       {
         className: sidebarSectionHidden || !activeSectionName ? "" : "menuHidden",
-        sx: styles_default14.sideMenuContainer,
-        children: activeSectionName ? /* @__PURE__ */ jsx41(
+        sx: styles_default12.sideMenuContainer,
+        children: activeSectionName ? /* @__PURE__ */ jsx39(
           sidebar_section_default,
           {
             isHamburgerMenu: true,
@@ -9262,13 +9122,13 @@ var HamburgerMenu = ({ parentsArray = [] }) => {
 var hamburger_menu_default = HamburgerMenu;
 
 // src/lib/feedback-section/index.tsx
-import { Flex as Flex15, Text as Text12, Link as Link7 } from "@vtex/brand-ui";
+import { Flex as Flex15, Text as Text11, Link as Link7 } from "@vtex/brand-ui";
 
 // src/components/icons/edit-icon.tsx
-import { Icon as Icon20 } from "@vtex/brand-ui";
-import { jsx as jsx42, jsxs as jsxs35 } from "react/jsx-runtime";
-var EditIcon = (props) => /* @__PURE__ */ jsxs35(
-  Icon20,
+import { Icon as Icon19 } from "@vtex/brand-ui";
+import { jsx as jsx40, jsxs as jsxs33 } from "react/jsx-runtime";
+var EditIcon = (props) => /* @__PURE__ */ jsxs33(
+  Icon19,
   {
     ...props,
     width: "25",
@@ -9277,7 +9137,7 @@ var EditIcon = (props) => /* @__PURE__ */ jsxs35(
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg",
     children: [
-      /* @__PURE__ */ jsx42(
+      /* @__PURE__ */ jsx40(
         "path",
         {
           fillRule: "evenodd",
@@ -9289,7 +9149,7 @@ var EditIcon = (props) => /* @__PURE__ */ jsxs35(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx42(
+      /* @__PURE__ */ jsx40(
         "path",
         {
           d: "M14.25 8.15234L17.34 11.2423",
@@ -9305,10 +9165,10 @@ var EditIcon = (props) => /* @__PURE__ */ jsxs35(
 var edit_icon_default = EditIcon;
 
 // src/components/icons/like-icon.tsx
-import { Icon as Icon21 } from "@vtex/brand-ui";
-import { jsx as jsx43, jsxs as jsxs36 } from "react/jsx-runtime";
-var LikeIcon = (props) => /* @__PURE__ */ jsxs36(
-  Icon21,
+import { Icon as Icon20 } from "@vtex/brand-ui";
+import { jsx as jsx41, jsxs as jsxs34 } from "react/jsx-runtime";
+var LikeIcon = (props) => /* @__PURE__ */ jsxs34(
+  Icon20,
   {
     ...props,
     width: "25",
@@ -9317,7 +9177,7 @@ var LikeIcon = (props) => /* @__PURE__ */ jsxs36(
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg",
     children: [
-      /* @__PURE__ */ jsx43(
+      /* @__PURE__ */ jsx41(
         "path",
         {
           fillRule: "evenodd",
@@ -9329,7 +9189,7 @@ var LikeIcon = (props) => /* @__PURE__ */ jsxs36(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx43(
+      /* @__PURE__ */ jsx41(
         "path",
         {
           d: "M8.5 11.5638L12.149 6.81276C12.828 5.92776 14.154 5.90576 14.863 6.76676V6.76676C15.128 7.08776 15.272 7.49176 15.272 7.90776V11.1788H18.368C18.969 11.1788 19.53 11.4788 19.864 11.9778L20.193 12.4688C20.488 12.9098 20.574 13.4588 20.427 13.9678L19.068 18.6898C18.846 19.4608 18.141 19.9918 17.339 19.9918H11.05C10.55 19.9918 10.072 19.7838 9.732 19.4178L8.5 18.0918",
@@ -9345,10 +9205,10 @@ var LikeIcon = (props) => /* @__PURE__ */ jsxs36(
 var like_icon_default = LikeIcon;
 
 // src/components/icons/like-selected-icon.tsx
-import { Icon as Icon22 } from "@vtex/brand-ui";
-import { jsx as jsx44, jsxs as jsxs37 } from "react/jsx-runtime";
-var LikeSelectedIcon = (props) => /* @__PURE__ */ jsxs37(
-  Icon22,
+import { Icon as Icon21 } from "@vtex/brand-ui";
+import { jsx as jsx42, jsxs as jsxs35 } from "react/jsx-runtime";
+var LikeSelectedIcon = (props) => /* @__PURE__ */ jsxs35(
+  Icon21,
   {
     ...props,
     width: "24",
@@ -9357,7 +9217,7 @@ var LikeSelectedIcon = (props) => /* @__PURE__ */ jsxs37(
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg",
     children: [
-      /* @__PURE__ */ jsx44(
+      /* @__PURE__ */ jsx42(
         "path",
         {
           fillRule: "evenodd",
@@ -9366,7 +9226,7 @@ var LikeSelectedIcon = (props) => /* @__PURE__ */ jsxs37(
           fill: "#A1A8B3"
         }
       ),
-      /* @__PURE__ */ jsx44(
+      /* @__PURE__ */ jsx42(
         "path",
         {
           d: "M5.056 19.5H6.944C7.80314 19.5 8.5 18.8031 8.5 17.944V10.556C8.5 9.69686 7.80314 9 6.944 9H5.056C4.19686 9 3.5 9.69686 3.5 10.556V17.944C3.5 18.8031 4.19686 19.5 5.056 19.5Z",
@@ -9382,7 +9242,7 @@ var LikeSelectedIcon = (props) => /* @__PURE__ */ jsxs37(
 var like_selected_icon_default = LikeSelectedIcon;
 
 // src/lib/feedback-section/index.tsx
-import { useContext as useContext11, useRef as useRef10, useState as useState12 } from "react";
+import { useContext as useContext11, useRef as useRef9, useState as useState11 } from "react";
 
 // src/lib/feedback-section/styles.ts
 var container5 = {
@@ -9450,7 +9310,7 @@ var editContainer = {
   display: "flex"
 };
 var editIcon = { mr: "4px" };
-var styles_default17 = {
+var styles_default15 = {
   container: container5,
   question,
   likeContainer,
@@ -9466,22 +9326,22 @@ var styles_default17 = {
 
 // src/lib/feedback-section/functions.ts
 var setButtonStyle = (feedback, modalState, like) => {
-  const buttonactive = modalState.modalOpen && like === modalState.liked ? styles_default17.buttonActive : styles_default17.button;
+  const buttonactive = modalState.modalOpen && like === modalState.liked ? styles_default15.buttonActive : styles_default15.button;
   const ml = like ? ["0", "8px"] : feedback === like ? ["0", "8px"] : ["32px", "16px"];
   if (feedback === void 0)
-    return { ...styles_default17.box, ...buttonactive, ml };
+    return { ...styles_default15.box, ...buttonactive, ml };
   if (like === feedback)
-    return { ...styles_default17.box, ...styles_default17.selectedButton, ml };
+    return { ...styles_default15.box, ...styles_default15.selectedButton, ml };
   return { display: "none !important" };
 };
 
 // src/components/feedback-modal/index.tsx
-import { Box as Box19, Button as Button6, Textarea, Text as Text11, Icon as Icon23 } from "@vtex/brand-ui";
+import { Box as Box17, Button as Button5, Textarea, Text as Text10, Icon as Icon22 } from "@vtex/brand-ui";
 import {
   useContext as useContext10,
-  useEffect as useEffect11,
-  useRef as useRef9,
-  useState as useState11
+  useEffect as useEffect10,
+  useRef as useRef8,
+  useState as useState10
 } from "react";
 
 // src/components/feedback-modal/styles.ts
@@ -9545,7 +9405,7 @@ var arrow = {
   left: "calc(50% - 12px)",
   height: "14px"
 };
-var styles_default18 = {
+var styles_default16 = {
   container: container6,
   box: box2,
   card,
@@ -9576,7 +9436,7 @@ var modalPositionStyle = (chosenButtonRef) => {
     buttonTop > modalHeight ? `${buttonTop - modalHeight}px` : `${buttonBottom}px`
   ];
   const modalBox = {
-    ...styles_default18.box,
+    ...styles_default16.box,
     position: "absolute",
     left: modalLeft,
     top: modalTop
@@ -9591,7 +9451,7 @@ var arrowDirectionStyle = (chosenButtonRef, element) => {
     return false;
   if (element === "arrow") {
     const arrowDirection = {
-      ...styles_default18.arrow,
+      ...styles_default16.arrow,
       transform: "rotate(180deg)",
       top: "0",
       bottom: "initial"
@@ -9599,17 +9459,17 @@ var arrowDirectionStyle = (chosenButtonRef, element) => {
     return arrowDirection;
   }
   const cardPosition = {
-    ...styles_default18.card,
+    ...styles_default16.card,
     mt: "14px"
   };
   return cardPosition;
 };
 
 // src/components/feedback-modal/index.tsx
-import { jsx as jsx45, jsxs as jsxs38 } from "react/jsx-runtime";
+import { jsx as jsx43, jsxs as jsxs36 } from "react/jsx-runtime";
 var FeedBackModalArrow = (props) => {
-  return /* @__PURE__ */ jsxs38(
-    Icon23,
+  return /* @__PURE__ */ jsxs36(
+    Icon22,
     {
       ...props,
       width: "20",
@@ -9619,7 +9479,7 @@ var FeedBackModalArrow = (props) => {
       xmlns: "http://www.w3.org/2000/svg",
       children: [
         " ",
-        /* @__PURE__ */ jsx45(
+        /* @__PURE__ */ jsx43(
           "path",
           {
             d: "M10.8432 12.3275C10.4448 12.8914 9.60821 12.8914 9.20976 12.3275L0.500234 6.7935e-05L19.5527 6.56171e-05L10.8432 12.3275Z",
@@ -9637,9 +9497,9 @@ var FeedBackModal = ({
   chosenButtonRef,
   onSubmit
 }) => {
-  const cardRef = useRef9();
+  const cardRef = useRef8();
   const { body: body2, documentElement } = document;
-  const [comment, setComment] = useState11("");
+  const [comment, setComment] = useState10("");
   const { locale } = useContext10(LibraryContext);
   const closeModal = () => {
     const feedback = modalState?.liked;
@@ -9654,41 +9514,41 @@ var FeedBackModal = ({
     onSubmit(comment);
     closeModal();
   };
-  useEffect11(() => {
+  useEffect10(() => {
     const scrollTop = body2.getBoundingClientRect().top * -1;
     body2.style.top = `-${scrollTop}px`;
     body2.classList.add("modal-open");
   }, []);
   useClickOutside(cardRef, changeModalState);
-  return /* @__PURE__ */ jsx45(Box19, { sx: styles_default18.container, children: /* @__PURE__ */ jsxs38(
-    Box19,
+  return /* @__PURE__ */ jsx43(Box17, { sx: styles_default16.container, children: /* @__PURE__ */ jsxs36(
+    Box17,
     {
       ref: cardRef,
-      sx: modalPositionStyle(chosenButtonRef.current) || styles_default18.box,
+      sx: modalPositionStyle(chosenButtonRef.current) || styles_default16.box,
       children: [
-        /* @__PURE__ */ jsxs38(
-          Box19,
+        /* @__PURE__ */ jsxs36(
+          Box17,
           {
-            sx: arrowDirectionStyle(chosenButtonRef.current, "card") || styles_default18.card,
+            sx: arrowDirectionStyle(chosenButtonRef.current, "card") || styles_default16.card,
             "data-cy": "feedback-modal",
             children: [
-              /* @__PURE__ */ jsx45(Text11, { sx: styles_default18.title, children: messages[locale]["feedback_modal.title"] }),
-              /* @__PURE__ */ jsx45(
+              /* @__PURE__ */ jsx43(Text10, { sx: styles_default16.title, children: messages[locale]["feedback_modal.title"] }),
+              /* @__PURE__ */ jsx43(
                 Textarea,
                 {
                   id: "feedback-modal-input",
-                  sx: styles_default18.textarea,
+                  sx: styles_default16.textarea,
                   label: "",
                   rows: 7,
                   value: comment,
                   onChange: (e) => setComment(e.currentTarget.value)
                 }
               ),
-              /* @__PURE__ */ jsx45(
-                Button6,
+              /* @__PURE__ */ jsx43(
+                Button5,
                 {
                   onClick: async () => await handleClick(),
-                  sx: styles_default18.button,
+                  sx: styles_default16.button,
                   variant: "secondary",
                   children: messages[locale]["feedback_modal.button"]
                 }
@@ -9696,10 +9556,10 @@ var FeedBackModal = ({
             ]
           }
         ),
-        /* @__PURE__ */ jsx45(
+        /* @__PURE__ */ jsx43(
           FeedBackModalArrow,
           {
-            sx: arrowDirectionStyle(chosenButtonRef.current, "arrow") || styles_default18.arrow
+            sx: arrowDirectionStyle(chosenButtonRef.current, "arrow") || styles_default16.arrow
           }
         )
       ]
@@ -9709,20 +9569,20 @@ var FeedBackModal = ({
 var feedback_modal_default = FeedBackModal;
 
 // src/lib/feedback-section/index.tsx
-import { jsx as jsx46, jsxs as jsxs39 } from "react/jsx-runtime";
+import { jsx as jsx44, jsxs as jsxs37 } from "react/jsx-runtime";
 var FeedbackSection = ({
   slug,
   urlToEdit,
   suggestEdits = true,
   sendFeedback
 }) => {
-  const [feedback, changeFeedback] = useState12(void 0);
-  const [prevSlug, setPrevSlug] = useState12(slug);
-  const [modalState, changeModalState] = useState12({
+  const [feedback, changeFeedback] = useState11(void 0);
+  const [prevSlug, setPrevSlug] = useState11(slug);
+  const [modalState, changeModalState] = useState11({
     modalOpen: false
   });
-  const likeButton = useRef10();
-  const dislikeButton = useRef10();
+  const likeButton = useRef9();
+  const dislikeButton = useRef9();
   const { locale } = useContext11(LibraryContext);
   if (slug !== prevSlug) {
     setPrevSlug(slug);
@@ -9735,10 +9595,10 @@ var FeedbackSection = ({
       liked: choice
     });
   };
-  return /* @__PURE__ */ jsxs39(Flex15, { sx: styles_default17.container, "data-cy": "feedback-section", children: [
-    /* @__PURE__ */ jsx46(Text12, { sx: styles_default17.question, children: feedback !== void 0 ? messages[locale]["feedback_section.response"] : messages[locale]["feedback_section.question"] }),
-    /* @__PURE__ */ jsxs39(Flex15, { sx: styles_default17.likeContainer, children: [
-      /* @__PURE__ */ jsxs39(
+  return /* @__PURE__ */ jsxs37(Flex15, { sx: styles_default15.container, "data-cy": "feedback-section", children: [
+    /* @__PURE__ */ jsx44(Text11, { sx: styles_default15.question, children: feedback !== void 0 ? messages[locale]["feedback_section.response"] : messages[locale]["feedback_section.question"] }),
+    /* @__PURE__ */ jsxs37(Flex15, { sx: styles_default15.likeContainer, children: [
+      /* @__PURE__ */ jsxs37(
         Flex15,
         {
           ref: likeButton,
@@ -9746,38 +9606,38 @@ var FeedbackSection = ({
           onClick: feedback === void 0 ? () => openModal(true) : null,
           "data-cy": "feedback-section-like",
           children: [
-            feedback === void 0 || !feedback ? /* @__PURE__ */ jsx46(like_icon_default, { size: 24, sx: styles_default17.likeIcon }) : /* @__PURE__ */ jsx46(like_selected_icon_default, { size: 24, sx: styles_default17.likeIcon }),
-            /* @__PURE__ */ jsx46(Text12, { children: messages[locale]["feedback_section.positive"] })
+            feedback === void 0 || !feedback ? /* @__PURE__ */ jsx44(like_icon_default, { size: 24, sx: styles_default15.likeIcon }) : /* @__PURE__ */ jsx44(like_selected_icon_default, { size: 24, sx: styles_default15.likeIcon }),
+            /* @__PURE__ */ jsx44(Text11, { children: messages[locale]["feedback_section.positive"] })
           ]
         }
       ),
-      /* @__PURE__ */ jsxs39(
+      /* @__PURE__ */ jsxs37(
         Flex15,
         {
           ref: dislikeButton,
           sx: setButtonStyle(feedback, modalState, false),
           onClick: feedback === void 0 ? () => openModal(false) : null,
           children: [
-            feedback === void 0 || feedback ? /* @__PURE__ */ jsx46(like_icon_default, { size: 24, sx: styles_default17.dislikeIcon }) : /* @__PURE__ */ jsx46(like_selected_icon_default, { size: 24, sx: styles_default17.dislikeIcon }),
-            /* @__PURE__ */ jsx46(Text12, { children: messages[locale]["feedback_section.negative"] })
+            feedback === void 0 || feedback ? /* @__PURE__ */ jsx44(like_icon_default, { size: 24, sx: styles_default15.dislikeIcon }) : /* @__PURE__ */ jsx44(like_selected_icon_default, { size: 24, sx: styles_default15.dislikeIcon }),
+            /* @__PURE__ */ jsx44(Text11, { children: messages[locale]["feedback_section.negative"] })
           ]
         }
       )
     ] }),
-    suggestEdits && /* @__PURE__ */ jsxs39(
+    suggestEdits && /* @__PURE__ */ jsxs37(
       Link7,
       {
         target: "_blank",
         rel: "noopener noreferrer",
         href: urlToEdit,
-        sx: styles_default17.editContainer,
+        sx: styles_default15.editContainer,
         children: [
-          /* @__PURE__ */ jsx46(edit_icon_default, { size: 24, sx: styles_default17.editIcon }),
-          /* @__PURE__ */ jsx46(Text12, { children: messages[locale]["feedback_section.edit"] })
+          /* @__PURE__ */ jsx44(edit_icon_default, { size: 24, sx: styles_default15.editIcon }),
+          /* @__PURE__ */ jsx44(Text11, { children: messages[locale]["feedback_section.edit"] })
         ]
       }
     ),
-    modalState.modalOpen ? /* @__PURE__ */ jsx46(
+    modalState.modalOpen ? /* @__PURE__ */ jsx44(
       feedback_modal_default,
       {
         changeFeedBack: changeFeedback,
@@ -9792,14 +9652,14 @@ var FeedbackSection = ({
 var feedback_section_default = FeedbackSection;
 
 // src/lib/search/index.tsx
-import { Box as Box25, Flex as Flex20 } from "@vtex/brand-ui";
+import { Box as Box23, Flex as Flex20 } from "@vtex/brand-ui";
 
 // src/components/search-sections/index.tsx
-import { Box as Box21 } from "@vtex/brand-ui";
+import { Box as Box19 } from "@vtex/brand-ui";
 
 // src/components/search-section/index.tsx
-import { Box as Box20, Flex as Flex16, Text as Text13 } from "@vtex/brand-ui";
-import { useContext as useContext12, useEffect as useEffect12 } from "react";
+import { Box as Box18, Flex as Flex16, Text as Text12 } from "@vtex/brand-ui";
+import { useContext as useContext12, useEffect as useEffect11 } from "react";
 
 // src/components/search-section/styles.ts
 var sectionContainer = {
@@ -9855,7 +9715,7 @@ var allResultsTextActive = {
   fontWeight: "bold",
   color: "#0C1522"
 };
-var styles_default19 = {
+var styles_default17 = {
   sectionContainer,
   sectionIconTitleBox,
   sectionIcon,
@@ -9872,9 +9732,9 @@ import { useRouter as useRouter6 } from "next/router";
 // src/utils/context/search.tsx
 import {
   createContext as createContext2,
-  useState as useState13
+  useState as useState12
 } from "react";
-import { jsx as jsx47 } from "react/jsx-runtime";
+import { jsx as jsx45 } from "react/jsx-runtime";
 var SearchContext = createContext2({
   filterSelectedSection: "",
   changeFilterSelectedSection: () => void 0,
@@ -9882,12 +9742,12 @@ var SearchContext = createContext2({
   updateOcurrenceCount: () => void 0
 });
 var SearchContextProvider = ({ children }) => {
-  const [filterSelectedSection, changeFilterSelectedSection] = useState13("");
-  const [ocurrenceCount, changeOcurrenceCount] = useState13({});
+  const [filterSelectedSection, changeFilterSelectedSection] = useState12("");
+  const [ocurrenceCount, changeOcurrenceCount] = useState12({});
   const updateOcurrenceCount = (resultsData) => {
     changeOcurrenceCount(resultsData);
   };
-  return /* @__PURE__ */ jsx47(
+  return /* @__PURE__ */ jsx45(
     SearchContext.Provider,
     {
       value: {
@@ -9903,7 +9763,7 @@ var SearchContextProvider = ({ children }) => {
 var search_default = SearchContextProvider;
 
 // src/components/search-section/index.tsx
-import { jsx as jsx48, jsxs as jsxs40 } from "react/jsx-runtime";
+import { jsx as jsx46, jsxs as jsxs38 } from "react/jsx-runtime";
 var SearchSection = ({ dataElement, index }) => {
   const router = useRouter6();
   const { filterSelectedSection, ocurrenceCount, changeFilterSelectedSection } = useContext12(SearchContext);
@@ -9911,37 +9771,37 @@ var SearchSection = ({ dataElement, index }) => {
     router.query.filter = value;
     changeFilterSelectedSection(value);
   };
-  useEffect12(() => {
+  useEffect11(() => {
     updateFilter("");
   }, [router.query]);
-  return !dataElement ? /* @__PURE__ */ jsxs40(Flex16, { sx: styles_default19.sectionContainer, onClick: () => updateFilter(""), children: [
-    /* @__PURE__ */ jsx48(
-      Text13,
+  return !dataElement ? /* @__PURE__ */ jsxs38(Flex16, { sx: styles_default17.sectionContainer, onClick: () => updateFilter(""), children: [
+    /* @__PURE__ */ jsx46(
+      Text12,
       {
         className: "search-section-title",
-        sx: filterSelectedSection ? styles_default19.allResultsText : styles_default19.allResultsTextActive,
+        sx: filterSelectedSection ? styles_default17.allResultsText : styles_default17.allResultsTextActive,
         children: "All results"
       }
     ),
-    /* @__PURE__ */ jsx48(Box20, { className: "search-section-count", sx: styles_default19.sectionCount, children: ocurrenceCount[""] })
-  ] }) : /* @__PURE__ */ jsxs40(
+    /* @__PURE__ */ jsx46(Box18, { className: "search-section-count", sx: styles_default17.sectionCount, children: ocurrenceCount[""] })
+  ] }) : /* @__PURE__ */ jsxs38(
     Flex16,
     {
-      sx: styles_default19.sectionContainer,
+      sx: styles_default17.sectionContainer,
       onClick: () => updateFilter(dataElement.title),
       children: [
-        /* @__PURE__ */ jsxs40(Flex16, { sx: styles_default19.sectionIconTitleBox, children: [
-          /* @__PURE__ */ jsx48(dataElement.Icon, { sx: styles_default19.sectionIcon }),
-          /* @__PURE__ */ jsx48(
-            Text13,
+        /* @__PURE__ */ jsxs38(Flex16, { sx: styles_default17.sectionIconTitleBox, children: [
+          /* @__PURE__ */ jsx46(dataElement.Icon, { sx: styles_default17.sectionIcon }),
+          /* @__PURE__ */ jsx46(
+            Text12,
             {
               className: "search-section-title",
-              sx: filterSelectedSection === dataElement.title ? styles_default19.sectionTitleActive : styles_default19.sectionTitle,
+              sx: filterSelectedSection === dataElement.title ? styles_default17.sectionTitleActive : styles_default17.sectionTitle,
               children: dataElement.title
             }
           )
         ] }),
-        /* @__PURE__ */ jsx48(Box20, { className: "search-section-count", sx: styles_default19.sectionCount, children: ocurrenceCount[dataElement.title] || 0 })
+        /* @__PURE__ */ jsx46(Box18, { className: "search-section-count", sx: styles_default17.sectionCount, children: ocurrenceCount[dataElement.title] || 0 })
       ]
     },
     `search-section-${dataElement.title}${index}`
@@ -9967,7 +9827,7 @@ var docsSection = {
   ...notesSection,
   borderBottom: "1px solid #E7E9EE"
 };
-var styles_default20 = {
+var styles_default18 = {
   container: container7,
   notesSection,
   docsSection
@@ -9975,16 +9835,16 @@ var styles_default20 = {
 
 // src/components/search-sections/index.tsx
 import { useContext as useContext13 } from "react";
-import { jsx as jsx49, jsxs as jsxs41 } from "react/jsx-runtime";
+import { jsx as jsx47, jsxs as jsxs39 } from "react/jsx-runtime";
 var SearchSections = () => {
   const { sidebarSections } = useContext13(LibraryContext);
-  return /* @__PURE__ */ jsx49(Box21, { sx: styles_default20.container, children: sidebarSections.map((sections, id) => /* @__PURE__ */ jsxs41(
-    Box21,
+  return /* @__PURE__ */ jsx47(Box19, { sx: styles_default18.container, children: sidebarSections.map((sections, id) => /* @__PURE__ */ jsxs39(
+    Box19,
     {
-      sx: id < sidebarSections.length - 1 ? styles_default20.docsSection : styles_default20.notesSection,
+      sx: id < sidebarSections.length - 1 ? styles_default18.docsSection : styles_default18.notesSection,
       children: [
-        id === 0 && /* @__PURE__ */ jsx49(search_section_default, { dataElement: null }),
-        sections.map((section, index) => /* @__PURE__ */ jsx49(
+        id === 0 && /* @__PURE__ */ jsx47(search_section_default, { dataElement: null }),
+        sections.map((section, index) => /* @__PURE__ */ jsx47(
           search_section_default,
           {
             dataElement: section,
@@ -10000,19 +9860,19 @@ var search_sections_default = SearchSections;
 
 // src/components/search-results/index.tsx
 import { useRouter as useRouter7 } from "next/router";
-import { useContext as useContext15, useState as useState15 } from "react";
-import { Box as Box24, Text as Text15 } from "@vtex/brand-ui";
+import { useContext as useContext15, useState as useState14 } from "react";
+import { Box as Box22, Text as Text14 } from "@vtex/brand-ui";
 import { Configure as Configure2, InstantSearch as InstantSearch2 } from "react-instantsearch-dom";
 
 // src/components/search-results/infiniteHits.tsx
-import { useContext as useContext14, useEffect as useEffect13, useMemo as useMemo2, useRef as useRef11 } from "react";
+import { useContext as useContext14, useEffect as useEffect12, useMemo as useMemo2, useRef as useRef10 } from "react";
 import {
   connectInfiniteHits,
   connectStateResults as connectStateResults2
 } from "react-instantsearch-dom";
 
 // src/components/search-card/index.tsx
-import { Box as Box22, Flex as Flex17, Text as Text14, IconCaret as IconCaret5, Tooltip as Tooltip2 } from "@vtex/brand-ui";
+import { Box as Box20, Flex as Flex17, Text as Text13, IconCaret as IconCaret5, Tooltip as Tooltip2 } from "@vtex/brand-ui";
 
 // src/components/search-card/styles.ts
 var container8 = {
@@ -10125,7 +9985,7 @@ var actionIcon = {
   height: "16px",
   mr: "8px"
 };
-var styles_default21 = {
+var styles_default19 = {
   containerActive,
   title: title4,
   httpMethod,
@@ -10146,42 +10006,42 @@ var styles_default21 = {
 
 // src/components/search-card/index.tsx
 import Link8 from "next/link.js";
-import { useState as useState14 } from "react";
+import { useState as useState13 } from "react";
 
 // src/components/icons/expanded-results-icon.tsx
-import { Icon as Icon24 } from "@vtex/brand-ui";
-import { jsx as jsx50, jsxs as jsxs42 } from "react/jsx-runtime";
-var ExpandedResultsIcon = ({ active }) => active ? /* @__PURE__ */ jsxs42(Icon24, { viewBox: "0 0 19 13", fill: "none", xmlns: "http://www.w3.org/2000/svg", children: [
-  /* @__PURE__ */ jsx50(
+import { Icon as Icon23 } from "@vtex/brand-ui";
+import { jsx as jsx48, jsxs as jsxs40 } from "react/jsx-runtime";
+var ExpandedResultsIcon = ({ active }) => active ? /* @__PURE__ */ jsxs40(Icon23, { viewBox: "0 0 19 13", fill: "none", xmlns: "http://www.w3.org/2000/svg", children: [
+  /* @__PURE__ */ jsx48(
     "path",
     {
       d: "M18.8728 6.03784C18.265 5.00744 14.9223 -0.163132 9.2436 0.00396015C3.99219 0.133921 0.953397 4.6454 0.127225 6.03784C0.0438786 6.17895 0 6.33903 0 6.50198C0 6.66493 0.0438786 6.82501 0.127225 6.96612C0.725488 7.97796 3.92572 13 9.51899 13H9.7564C15.0078 12.87 18.0561 8.35856 18.8728 6.96612C18.9561 6.82501 19 6.66493 19 6.50198C19 6.33903 18.9561 6.17895 18.8728 6.03784ZM9.70892 11.1434C5.61604 11.2363 2.9476 7.81087 2.11194 6.50198C3.06156 5.00744 5.54007 1.95337 9.33856 1.86054C13.4124 1.75843 16.0904 5.19309 16.9355 6.50198C15.9574 7.99652 13.5074 11.0506 9.70892 11.1434Z",
       fill: "#EE2565"
     }
   ),
-  /* @__PURE__ */ jsx50(
+  /* @__PURE__ */ jsx48(
     "path",
     {
       d: "M9.49977 3.25293C8.84241 3.25293 8.19981 3.44348 7.65323 3.80049C7.10665 4.15749 6.68065 4.66492 6.42909 5.2586C6.17753 5.85228 6.11171 6.50554 6.23995 7.13579C6.3682 7.76604 6.68475 8.34495 7.14957 8.79934C7.6144 9.25372 8.20662 9.56316 8.85135 9.68852C9.49608 9.81388 10.1644 9.74954 10.7717 9.50363C11.379 9.25772 11.8981 8.84129 12.2633 8.30699C12.6285 7.7727 12.8234 7.14453 12.8234 6.50194C12.8234 5.64025 12.4733 4.81385 11.85 4.20454C11.2267 3.59524 10.3813 3.25293 9.49977 3.25293ZM9.49977 7.89437C9.21804 7.89437 8.94264 7.81271 8.70839 7.65971C8.47415 7.5067 8.29157 7.28923 8.18376 7.0348C8.07595 6.78037 8.04774 6.50039 8.1027 6.23029C8.15767 5.96018 8.29333 5.71208 8.49254 5.51734C8.69175 5.32261 8.94556 5.18999 9.22187 5.13626C9.49819 5.08253 9.78459 5.11011 10.0449 5.2155C10.3052 5.32089 10.5276 5.49936 10.6841 5.72835C10.8407 5.95733 10.9242 6.22654 10.9242 6.50194C10.9242 6.87124 10.7741 7.22541 10.507 7.48654C10.2399 7.74767 9.87755 7.89437 9.49977 7.89437Z",
       fill: "#EE2565"
     }
   )
-] }) : /* @__PURE__ */ jsxs42(Icon24, { viewBox: "0 0 23 23", fill: "none", xmlns: "http://www.w3.org/2000/svg", children: [
-  /* @__PURE__ */ jsx50(
+] }) : /* @__PURE__ */ jsxs40(Icon23, { viewBox: "0 0 23 23", fill: "none", xmlns: "http://www.w3.org/2000/svg", children: [
+  /* @__PURE__ */ jsx48(
     "path",
     {
       d: "M4.51334 3.15293C4.42398 3.06358 4.31791 2.9927 4.20116 2.94434C4.08441 2.89598 3.95929 2.87109 3.83292 2.87109C3.70656 2.87109 3.58143 2.89598 3.46468 2.94434C3.34794 2.9927 3.24186 3.06358 3.1525 3.15293C2.97205 3.33339 2.87067 3.57814 2.87067 3.83335C2.87067 4.08855 2.97205 4.33331 3.1525 4.51377L8.54792 9.90918C8.20657 10.5442 8.0789 11.2723 8.18384 11.9856C8.28878 12.6988 8.62074 13.3593 9.13053 13.8691C9.64031 14.3789 10.3008 14.7108 11.0141 14.8158C11.7273 14.9207 12.4554 14.793 13.0904 14.4517L18.4858 19.8471C18.5749 19.9369 18.6809 20.0082 18.7977 20.0569C18.9145 20.1055 19.0397 20.1306 19.1663 20.1306C19.2928 20.1306 19.418 20.1055 19.5348 20.0569C19.6516 20.0082 19.7576 19.9369 19.8467 19.8471C19.9365 19.758 20.0078 19.652 20.0564 19.5352C20.1051 19.4185 20.1301 19.2932 20.1301 19.1667C20.1301 19.0402 20.1051 18.9149 20.0564 18.7981C20.0078 18.6813 19.9365 18.5754 19.8467 18.4863L4.51334 3.15293ZM11.4996 12.9375C11.1183 12.9375 10.7527 12.7861 10.4831 12.5165C10.2135 12.2469 10.0621 11.8813 10.0621 11.5C10.0621 11.5 10.0621 11.4521 10.0621 11.4329L11.5571 12.9279L11.4996 12.9375Z",
       fill: "#CCCED8"
     }
   ),
-  /* @__PURE__ */ jsx50(
+  /* @__PURE__ */ jsx48(
     "path",
     {
       d: "M11.71 16.2917C7.58919 16.3875 4.88669 12.8513 4.04336 11.5C4.64372 10.5424 5.36525 9.66623 6.19002 8.89336L4.79086 7.54211C3.70921 8.56127 2.78258 9.73328 2.04044 11.0209C1.95633 11.1665 1.91205 11.3318 1.91205 11.5C1.91205 11.6683 1.95633 11.8335 2.04044 11.9792C2.64419 13.0238 5.87378 18.2084 11.5184 18.2084H11.7579C12.8193 18.1769 13.867 17.9596 14.8534 17.5663L13.3392 16.0521C12.8067 16.1922 12.2603 16.2725 11.71 16.2917Z",
       fill: "#CCCED8"
     }
   ),
-  /* @__PURE__ */ jsx50(
+  /* @__PURE__ */ jsx48(
     "path",
     {
       d: "M20.9587 11.0209C20.3453 9.9571 16.9624 4.61919 11.2412 4.79169C10.1798 4.82317 9.1321 5.04049 8.14575 5.43377L9.65992 6.94794C10.1924 6.80786 10.7388 6.7275 11.2891 6.70835C15.4003 6.60294 18.1028 10.1488 18.9558 11.5C18.3406 12.4606 17.6028 13.3368 16.7612 14.1067L18.2083 15.4579C19.3035 14.4415 20.2431 13.2693 20.997 11.9792C21.0754 11.8302 21.1131 11.6631 21.1063 11.4949C21.0996 11.3266 21.0487 11.1631 20.9587 11.0209Z",
@@ -10192,9 +10052,9 @@ var ExpandedResultsIcon = ({ active }) => active ? /* @__PURE__ */ jsxs42(Icon24
 var expanded_results_icon_default = ExpandedResultsIcon;
 
 // src/components/search-card/index.tsx
-import { jsx as jsx51, jsxs as jsxs43 } from "react/jsx-runtime";
+import { jsx as jsx49, jsxs as jsxs41 } from "react/jsx-runtime";
 var SearchCard = ({
-  Icon: Icon25,
+  Icon: Icon24,
   title: title5,
   method,
   breadcrumbs,
@@ -10203,15 +10063,15 @@ var SearchCard = ({
   hit
 }) => {
   const actionValue = actionType ? getAction(actionType) : null;
-  const [toggleChildResults, setToggleChildResults] = useState14(false);
-  return /* @__PURE__ */ jsx51(Link8, { href: url, legacyBehavior: true, children: /* @__PURE__ */ jsxs43(Flex17, { sx: styles_default21.containerActive(method), children: [
-    /* @__PURE__ */ jsxs43(Box22, { children: [
-      /* @__PURE__ */ jsxs43(Text14, { className: "searchCardTitle", sx: styles_default21.title, children: [
-        Icon25 && /* @__PURE__ */ jsx51(Icon25, { sx: styles_default21.icon }),
-        method ? /* @__PURE__ */ jsx51(
+  const [toggleChildResults, setToggleChildResults] = useState13(false);
+  return /* @__PURE__ */ jsx49(Link8, { href: url, legacyBehavior: true, children: /* @__PURE__ */ jsxs41(Flex17, { sx: styles_default19.containerActive(method), children: [
+    /* @__PURE__ */ jsxs41(Box20, { children: [
+      /* @__PURE__ */ jsxs41(Text13, { className: "searchCardTitle", sx: styles_default19.title, children: [
+        Icon24 && /* @__PURE__ */ jsx49(Icon24, { sx: styles_default19.icon }),
+        method ? /* @__PURE__ */ jsx49(
           method_category_default,
           {
-            sx: styles_default21.httpMethod,
+            sx: styles_default19.httpMethod,
             origin: "search",
             method,
             active: false
@@ -10220,8 +10080,8 @@ var SearchCard = ({
         title5 === "overview" && `${hit.doccategory} `,
         title5
       ] }),
-      /* @__PURE__ */ jsxs43(Text14, { className: "searchCardDescription", sx: styles_default21.description, children: [
-        /* @__PURE__ */ jsx51(Flex17, { children: /* @__PURE__ */ jsx51(
+      /* @__PURE__ */ jsxs41(Text13, { className: "searchCardDescription", sx: styles_default19.description, children: [
+        /* @__PURE__ */ jsx49(Flex17, { children: /* @__PURE__ */ jsx49(
           customHighlight_default,
           {
             hit,
@@ -10229,11 +10089,11 @@ var SearchCard = ({
             ...{ searchPage: true }
           }
         ) }),
-        toggleChildResults && hit.filteredMatches?.map((childHit, index) => /* @__PURE__ */ jsx51(
-          Box22,
+        toggleChildResults && hit.filteredMatches?.map((childHit, index) => /* @__PURE__ */ jsx49(
+          Box20,
           {
-            sx: styles_default21.descriptionExpandedItem,
-            children: /* @__PURE__ */ jsx51(
+            sx: styles_default19.descriptionExpandedItem,
+            children: /* @__PURE__ */ jsx49(
               customHighlight_default,
               {
                 hit: childHit,
@@ -10245,35 +10105,35 @@ var SearchCard = ({
           `search-card-${hit.objectID}-${index}`
         ))
       ] }),
-      breadcrumbs ? /* @__PURE__ */ jsxs43(Box22, { sx: styles_default21.breadcrumbsContainer, children: [
-        /* @__PURE__ */ jsx51(Text14, { sx: styles_default21.breadcrumbsIn, children: "In" }),
-        breadcrumbs.map((breadcrumb2, index) => /* @__PURE__ */ jsxs43(
+      breadcrumbs ? /* @__PURE__ */ jsxs41(Box20, { sx: styles_default19.breadcrumbsContainer, children: [
+        /* @__PURE__ */ jsx49(Text13, { sx: styles_default19.breadcrumbsIn, children: "In" }),
+        breadcrumbs.map((breadcrumb2, index) => /* @__PURE__ */ jsxs41(
           Flex17,
           {
-            sx: index === 0 ? styles_default21.documentation : styles_default21.alignCenter,
+            sx: index === 0 ? styles_default19.documentation : styles_default19.alignCenter,
             children: [
-              /* @__PURE__ */ jsx51(Tooltip2, { label: breadcrumb2, placement: "top", children: /* @__PURE__ */ jsx51(Text14, { sx: styles_default21.breadcrumb, children: breadcrumb2 }) }),
-              index < breadcrumbs.length - 1 ? /* @__PURE__ */ jsx51(IconCaret5, { direction: "right", sx: styles_default21.breadcrumbsArrow }) : null
+              /* @__PURE__ */ jsx49(Tooltip2, { label: breadcrumb2, placement: "top", children: /* @__PURE__ */ jsx49(Text13, { sx: styles_default19.breadcrumb, children: breadcrumb2 }) }),
+              index < breadcrumbs.length - 1 ? /* @__PURE__ */ jsx49(IconCaret5, { direction: "right", sx: styles_default19.breadcrumbsArrow }) : null
             ]
           },
           `${breadcrumb2}${index}`
         ))
       ] }) : null,
-      actionValue ? /* @__PURE__ */ jsxs43(Flex17, { sx: styles_default21.actionContainer, children: [
-        /* @__PURE__ */ jsx51(actionValue.Icon, { sx: styles_default21.actionIcon }),
+      actionValue ? /* @__PURE__ */ jsxs41(Flex17, { sx: styles_default19.actionContainer, children: [
+        /* @__PURE__ */ jsx49(actionValue.Icon, { sx: styles_default19.actionIcon }),
         " ",
-        /* @__PURE__ */ jsx51(Text14, { children: actionValue?.title })
+        /* @__PURE__ */ jsx49(Text13, { children: actionValue?.title })
       ] }) : null
     ] }),
-    hit.filteredMatches && hit.filteredMatches.length > 0 && /* @__PURE__ */ jsx51(
-      Box22,
+    hit.filteredMatches && hit.filteredMatches.length > 0 && /* @__PURE__ */ jsx49(
+      Box20,
       {
-        sx: styles_default21.descriptionToggle,
+        sx: styles_default19.descriptionToggle,
         onClick: (event) => {
           setToggleChildResults(!toggleChildResults);
           event.stopPropagation();
         },
-        children: /* @__PURE__ */ jsx51(expanded_results_icon_default, { active: toggleChildResults })
+        children: /* @__PURE__ */ jsx49(expanded_results_icon_default, { active: toggleChildResults })
       }
     )
   ] }) });
@@ -10281,8 +10141,8 @@ var SearchCard = ({
 var search_card_default = SearchCard;
 
 // src/components/search-results/infiniteHits.tsx
-import { Box as Box23, Flex as Flex18 } from "@vtex/brand-ui";
-import { jsx as jsx52, jsxs as jsxs44 } from "react/jsx-runtime";
+import { Box as Box21, Flex as Flex18 } from "@vtex/brand-ui";
+import { jsx as jsx50, jsxs as jsxs42 } from "react/jsx-runtime";
 var Hit2 = ({ hit }) => {
   const breadcrumbs = [
     hit.doctype,
@@ -10291,7 +10151,7 @@ var Hit2 = ({ hit }) => {
     hit.doctitle
   ];
   const DocIcon = getIcon3(hit.doctype);
-  return /* @__PURE__ */ jsx52(
+  return /* @__PURE__ */ jsx50(
     search_card_default,
     {
       doc: hit.doctype,
@@ -10308,7 +10168,7 @@ var Hit2 = ({ hit }) => {
 var StateResults = connectStateResults2(
   ({ searchResults }) => {
     const { updateOcurrenceCount } = useContext14(SearchContext);
-    useEffect13(() => {
+    useEffect12(() => {
       const results = searchResults;
       if (results && results._state.filters === "") {
         const facets = searchResults?.facets[0];
@@ -10319,7 +10179,7 @@ var StateResults = connectStateResults2(
   }
 );
 var InfiniteHits = ({ hits, hasMore, refineNext }) => {
-  const scrollRef = useRef11(null);
+  const scrollRef = useRef10(null);
   function onSentinelIntersection(entries) {
     entries.forEach((entry) => {
       if (entry.isIntersecting && hasMore) {
@@ -10341,7 +10201,7 @@ var InfiniteHits = ({ hits, hasMore, refineNext }) => {
     });
     return mergeHits;
   }, [hits]);
-  useEffect13(() => {
+  useEffect12(() => {
     const observer = new IntersectionObserver(onSentinelIntersection, {});
     if (scrollRef.current)
       observer.observe(scrollRef.current);
@@ -10349,10 +10209,10 @@ var InfiniteHits = ({ hits, hasMore, refineNext }) => {
       observer.disconnect();
     };
   }, [hits]);
-  return /* @__PURE__ */ jsxs44(Box23, { children: [
-    /* @__PURE__ */ jsx52(StateResults, {}),
-    filteredResult.map((hit, index) => /* @__PURE__ */ jsx52(Flex18, { children: /* @__PURE__ */ jsx52(Hit2, { hit }, index) }, hit.objectID)),
-    /* @__PURE__ */ jsx52("span", { ref: scrollRef })
+  return /* @__PURE__ */ jsxs42(Box21, { children: [
+    /* @__PURE__ */ jsx50(StateResults, {}),
+    filteredResult.map((hit, index) => /* @__PURE__ */ jsx50(Flex18, { children: /* @__PURE__ */ jsx50(Hit2, { hit }, index) }, hit.objectID)),
+    /* @__PURE__ */ jsx50("span", { ref: scrollRef })
   ] });
 };
 var infiniteHits_default = connectInfiniteHits(InfiniteHits);
@@ -10406,7 +10266,7 @@ var noResults2 = {
   alignContent: "center",
   padding: "12px"
 };
-var styles_default22 = {
+var styles_default20 = {
   resultContainer,
   resultText,
   paginationContainer,
@@ -10418,13 +10278,13 @@ var styles_default22 = {
 };
 
 // src/components/search-results/index.tsx
-import { jsx as jsx53, jsxs as jsxs45 } from "react/jsx-runtime";
+import { jsx as jsx51, jsxs as jsxs43 } from "react/jsx-runtime";
 var SearchResults = () => {
   const router = useRouter7();
   const { filterSelectedSection, ocurrenceCount } = useContext15(SearchContext);
   const filters = filterSelectedSection ? `doctype: "${filterSelectedSection}"` : "";
-  const [prevFilter, setPrevFilter] = useState15("");
-  const [searchState, setSearchState] = useState15({});
+  const [prevFilter, setPrevFilter] = useState14("");
+  const [searchState, setSearchState] = useState14({});
   const updateSearchState = (currentState) => {
     const page = filters !== prevFilter ? 1 : currentState.page || 1;
     setPrevFilter(filters);
@@ -10433,8 +10293,8 @@ var SearchResults = () => {
       page
     });
   };
-  return /* @__PURE__ */ jsxs45(Box24, { sx: styles_default22.resultContainer, children: [
-    /* @__PURE__ */ jsxs45(Text15, { sx: styles_default22.resultText, children: [
+  return /* @__PURE__ */ jsxs43(Box22, { sx: styles_default20.resultContainer, children: [
+    /* @__PURE__ */ jsxs43(Text14, { sx: styles_default20.resultText, children: [
       "Showing ",
       ocurrenceCount[filterSelectedSection],
       ' results for "',
@@ -10443,8 +10303,8 @@ var SearchResults = () => {
       " ",
       !filterSelectedSection ? `all results` : filterSelectedSection
     ] }),
-    /* @__PURE__ */ jsx53("hr", {}),
-    /* @__PURE__ */ jsx53(Box24, { children: /* @__PURE__ */ jsxs45(
+    /* @__PURE__ */ jsx51("hr", {}),
+    /* @__PURE__ */ jsx51(Box22, { children: /* @__PURE__ */ jsxs43(
       InstantSearch2,
       {
         searchClient,
@@ -10452,7 +10312,7 @@ var SearchResults = () => {
         searchState,
         onSearchStateChange: (currentState) => updateSearchState(currentState),
         children: [
-          /* @__PURE__ */ jsx53(
+          /* @__PURE__ */ jsx51(
             Configure2,
             {
               filters,
@@ -10463,7 +10323,7 @@ var SearchResults = () => {
               facetingAfterDistinct: true
             }
           ),
-          /* @__PURE__ */ jsx53(infiniteHits_default, {})
+          /* @__PURE__ */ jsx51(infiniteHits_default, {})
         ]
       }
     ) })
@@ -10473,7 +10333,7 @@ var search_results_default = SearchResults;
 
 // src/components/search-filter-tab-bar/index.tsx
 import { useContext as useContext16 } from "react";
-import { Flex as Flex19, Text as Text16 } from "@vtex/brand-ui";
+import { Flex as Flex19, Text as Text15 } from "@vtex/brand-ui";
 
 // src/components/search-filter-tab-bar/styles.ts
 var container9 = {
@@ -10510,30 +10370,30 @@ var tabCount = {
   borderRadius: "24px",
   backgroundColor: "#F8F7FC"
 };
-var styles_default23 = { container: container9, tab, tabTitle, tabCount };
+var styles_default21 = { container: container9, tab, tabTitle, tabCount };
 
 // src/components/search-filter-tab-bar/index.tsx
-import { jsx as jsx54, jsxs as jsxs46 } from "react/jsx-runtime";
+import { jsx as jsx52, jsxs as jsxs44 } from "react/jsx-runtime";
 var SearchFilterTab = ({ filter }) => {
   const { filterSelectedSection, changeFilterSelectedSection, ocurrenceCount } = useContext16(SearchContext);
-  return /* @__PURE__ */ jsxs46(
+  return /* @__PURE__ */ jsxs44(
     Flex19,
     {
-      sx: styles_default23.tab(filterSelectedSection === filter),
+      sx: styles_default21.tab(filterSelectedSection === filter),
       onClick: () => changeFilterSelectedSection(filter),
       children: [
-        /* @__PURE__ */ jsx54(Text16, { sx: styles_default23.tabTitle(filterSelectedSection === filter), children: filter || "All Results" }),
-        /* @__PURE__ */ jsx54(Text16, { sx: styles_default23.tabCount, children: ocurrenceCount[filter] || 0 })
+        /* @__PURE__ */ jsx52(Text15, { sx: styles_default21.tabTitle(filterSelectedSection === filter), children: filter || "All Results" }),
+        /* @__PURE__ */ jsx52(Text15, { sx: styles_default21.tabCount, children: ocurrenceCount[filter] || 0 })
       ]
     }
   );
 };
 var SearchFilterTabBar = () => {
   const { sidebarSections } = useContext16(LibraryContext);
-  return /* @__PURE__ */ jsxs46(Flex19, { sx: styles_default23.container, children: [
-    /* @__PURE__ */ jsx54(SearchFilterTab, { filter: "" }),
+  return /* @__PURE__ */ jsxs44(Flex19, { sx: styles_default21.container, children: [
+    /* @__PURE__ */ jsx52(SearchFilterTab, { filter: "" }),
     sidebarSections.flat().map((section) => {
-      return /* @__PURE__ */ jsx54(SearchFilterTab, { filter: section.title }, section.title);
+      return /* @__PURE__ */ jsx52(SearchFilterTab, { filter: section.title }, section.title);
     })
   ] });
 };
@@ -10549,22 +10409,22 @@ var body = {
   background: "#FFFFFF",
   justifyContent: "center"
 };
-var styles_default24 = {
+var styles_default22 = {
   searchBarContainer,
   body
 };
 
 // src/lib/search/index.tsx
-import { jsx as jsx55, jsxs as jsxs47 } from "react/jsx-runtime";
+import { jsx as jsx53, jsxs as jsxs45 } from "react/jsx-runtime";
 var Search = () => {
-  return /* @__PURE__ */ jsxs47(search_default, { children: [
-    /* @__PURE__ */ jsxs47(Box25, { children: [
-      /* @__PURE__ */ jsx55(Flex20, { sx: styles_default24.searchBarContainer, children: /* @__PURE__ */ jsx55(SearchInput, {}) }),
-      /* @__PURE__ */ jsx55(search_filter_tab_bar_default, {})
+  return /* @__PURE__ */ jsxs45(search_default, { children: [
+    /* @__PURE__ */ jsxs45(Box23, { children: [
+      /* @__PURE__ */ jsx53(Flex20, { sx: styles_default22.searchBarContainer, children: /* @__PURE__ */ jsx53(SearchInput, {}) }),
+      /* @__PURE__ */ jsx53(search_filter_tab_bar_default, {})
     ] }),
-    /* @__PURE__ */ jsxs47(Flex20, { sx: styles_default24.body, children: [
-      /* @__PURE__ */ jsx55(search_sections_default, {}),
-      /* @__PURE__ */ jsx55(search_results_default, {})
+    /* @__PURE__ */ jsxs45(Flex20, { sx: styles_default22.body, children: [
+      /* @__PURE__ */ jsx53(search_sections_default, {}),
+      /* @__PURE__ */ jsx53(search_results_default, {})
     ] })
   ] });
 };
