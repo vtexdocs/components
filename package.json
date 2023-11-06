@@ -20,6 +20,7 @@
   "author": "Vtex",
   "license": "MIT",
   "dependencies": {
+    "@code-hike/mdx": "^0.9.0",
     "@vtex/brand-ui": "^0.46.1",
     "copy-text-to-clipboard": "^3.0.1",
     "html-react-parser": "^3.0.15",
@@ -38,10 +39,10 @@
     "@types/react": "^18.2.2",
     "@types/react-instantsearch-core": "^6.26.5",
     "@types/react-instantsearch-dom": "^6.12.3",
-    "@typescript-eslint/eslint-plugin": "^5.14.0",
-    "@typescript-eslint/parser": "^5.14.0",
     "@types/react-router-hash-link": "^2.4.6",
     "@types/react-svg-pan-zoom": "^3.3.5",
+    "@typescript-eslint/eslint-plugin": "^5.14.0",
+    "@typescript-eslint/parser": "^5.14.0",
     "@vtex/prettier-config": "^1.0.0",
     "algoliasearch": "^4.14.2",
     "autoprefixer": "^10.4.15",
@@ -49,7 +50,6 @@
     "eslint": "^7.32.0",
     "eslint-config-next": "13.0.6",
     "eslint-config-prettier": "^8.5.0",
-    "eslint-config-vtex-react": "^8.2.1",
     "eslint-plugin-prettier": "^4.0.0",
     "postcss": "^8.4.29",
     "prettier": "^2.5.1",
@@ -59,8 +59,8 @@
     "typescript": "^5.0.4"
   },
   "peerDependencies": {
-    "react": "^18.2.0",
     "next": "13.2.4",
+    "react": "^18.2.0",
     "react-dom": "18.2.0"
   }
 }
