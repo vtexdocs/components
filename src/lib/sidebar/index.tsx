@@ -11,10 +11,14 @@ import { updateOpenPage } from 'utils/sidebar-utils'
 import SidebarSection, { SidebarSectionProps } from 'components/sidebar-section'
 import { LibraryContext } from 'utils/context/libraryContext'
 
-interface SideBarSectionState {
+export interface SideBarSectionState {
+  /** Array containing the name of the parents of the expanded page in the menu. */
   parentsArray?: string[]
 }
 
+/**
+ * Sidebar component.
+ */
 const Sidebar = ({ parentsArray = [] }: SideBarSectionState) => {
   const [expandDelayStatus, setExpandDelayStatus] = useState(true)
 
@@ -26,7 +30,7 @@ const Sidebar = ({ parentsArray = [] }: SideBarSectionState) => {
     sidebarSections,
     sidebarDataMaster,
   } = context
-
+  console.log(sidebarDataMaster)
   updateOpenPage({ parentsArray, context, setExpandDelayStatus })
 
   const SideBarIcon = (sectionElement: Section) => {
