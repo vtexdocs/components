@@ -2,7 +2,7 @@ import { Box, Flex, Text } from '@vtex/brand-ui'
 import { useContext, useEffect } from 'react'
 
 import styles from './styles'
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/router.js'
 import { FilterType, SearchContext } from 'utils/context/search'
 import { Section } from 'utils/typings/types'
 
