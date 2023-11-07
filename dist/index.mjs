@@ -6553,7 +6553,7 @@ var getParents = (path, data, flattenedSidebar, parentsArray, parent) => {
 };
 
 // src/utils/sidebar-utils.ts
-import { useRouter as useRouter2 } from "next/router";
+import { useRouter as useRouter2 } from "next/router.js";
 import { useEffect as useEffect7 } from "react";
 var getIcon2 = (doc, sections) => {
   for (const section of sections) {
@@ -7045,7 +7045,7 @@ var SectionFilter = ({
 var sidebar_section_filter_default = SectionFilter;
 
 // src/components/sidebar-elements/index.tsx
-import { useRouter as useRouter3 } from "next/router";
+import { useRouter as useRouter3 } from "next/router.js";
 import { Fragment, useContext as useContext4 } from "react";
 import {
   Box as Box10,
@@ -7939,7 +7939,7 @@ import { Configure, InstantSearch } from "react-instantsearch-dom";
 
 // src/components/search-input/search-box.tsx
 import { useRef as useRef5, useContext as useContext7 } from "react";
-import { useRouter as useRouter4 } from "next/router";
+import { useRouter as useRouter4 } from "next/router.js";
 import { Flex as Flex12 } from "@vtex/brand-ui";
 import { connectSearchBox } from "react-instantsearch-dom";
 
@@ -8149,7 +8149,7 @@ var SearchBox = connectSearchBox(SearchBoxComponent);
 var search_box_default = SearchBox;
 
 // src/components/search-input/results-box.tsx
-import { useRouter as useRouter5 } from "next/router";
+import { useRouter as useRouter5 } from "next/router.js";
 import Link6 from "next/link.js";
 import {
   connectStateResults,
@@ -9727,7 +9727,7 @@ var styles_default17 = {
 };
 
 // src/components/search-section/index.tsx
-import { useRouter as useRouter6 } from "next/router";
+import { useRouter as useRouter6 } from "next/router.js";
 
 // src/utils/context/search.tsx
 import {
@@ -9859,7 +9859,7 @@ var SearchSections = () => {
 var search_sections_default = SearchSections;
 
 // src/components/search-results/index.tsx
-import { useRouter as useRouter7 } from "next/router";
+import { useRouter as useRouter7 } from "next/router.js";
 import { useContext as useContext15, useState as useState14 } from "react";
 import { Box as Box22, Text as Text14 } from "@vtex/brand-ui";
 import { Configure as Configure2, InstantSearch as InstantSearch2 } from "react-instantsearch-dom";
