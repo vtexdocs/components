@@ -21,31 +21,29 @@ const sections = [
   ],
 ]
 
-const navigation = {
-  navbar: [
-    {
-      documentation: 'Guides',
-      slugPrefix: 'docs/guides',
-      categories: [
-        {
-          name: 'Getting Started',
-          slug: 'getting-started',
-          origin: '',
-          type: 'markdown',
-          children: [
-            {
-              name: 'Plataform overview',
-              slug: 'getting-started-platform-overview',
-              origin: '',
-              type: 'markdown',
-              children: [],
-            },
-          ],
-        },
-      ],
-    },
-  ],
-}
+const navigation = [
+  {
+    documentation: 'Guides',
+    slugPrefix: 'docs/guides',
+    categories: [
+      {
+        name: 'Getting Started',
+        slug: 'getting-started',
+        origin: '',
+        type: 'markdown',
+        children: [
+          {
+            name: 'Plataform overview',
+            slug: 'getting-started-platform-overview',
+            origin: '',
+            type: 'markdown',
+            children: [],
+          },
+        ],
+      },
+    ],
+  },
+]
 
 export const exampleContextProps = {
   sections: sections,
