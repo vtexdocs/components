@@ -15,9 +15,11 @@ import { LibraryContext } from 'utils/context/libraryContext'
 import SearchInput from 'components/search-input'
 
 export interface HamburgerMenuProps {
+  /** Array that contains the name of the sections in the menu that should be expanded. */
   parentsArray?: string[]
 }
 
+/** Hamburger Menu component, the menu uses the sidebar components internally, but it is only visible on the smaller breakpoints. */
 const HamburgerMenu = ({ parentsArray = [] }: HamburgerMenuProps) => {
   const context = useContext(LibraryContext)
   const {

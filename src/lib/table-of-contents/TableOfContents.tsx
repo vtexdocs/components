@@ -12,9 +12,11 @@ import { LibraryContext } from 'utils/context/libraryContext'
 import styles from './styles'
 
 interface Props {
+  /** List of headings in the current documentation page */
   headingList?: Item[]
 }
 
+/** Table of contents for documentation pages. */
 const TableOfContents = ({ headingList }: Props) => {
   const router = useRouter()
   const { headingItems, activeItem, setHeadingItems, setActiveItem } =
