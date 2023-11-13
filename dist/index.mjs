@@ -5833,7 +5833,18 @@ var mermaidInit = () => {
 var mermaidInit_default = mermaidInit;
 
 // src/lib/markdown-renderer/styles.module.css
-var styles_module_default = {};
+var styles_module_default = {
+  img: "styles_module_img",
+  heading: "styles_module_heading",
+  code: "styles_module_code",
+  blockquote: "styles_module_blockquote",
+  blockquoteInfo: "styles_module_blockquoteInfo",
+  blockquoteDanger: "styles_module_blockquoteDanger",
+  blockquoteWarning: "styles_module_blockquoteWarning",
+  blockquoteSuccess: "styles_module_blockquoteSuccess",
+  flexWrap: "styles_module_flexWrap",
+  svgContainer: "styles_module_svgContainer"
+};
 
 // src/messages/en.json
 var en_default = {
