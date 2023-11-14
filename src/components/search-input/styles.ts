@@ -97,7 +97,7 @@ const hitBreadCrumbArrow: SxStyleProp = {
 }
 
 const searchInput: SxStyleProp = {
-  width: 'auto',
+  width: '76px',
   background: 'none',
   border: '#F4F4F4',
   color: '#545454',
