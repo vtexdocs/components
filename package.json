@@ -10,6 +10,17 @@
   "main": "./dist/index.mjs",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.mts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.mjs",
+      "style": "./dist/index.css"
+    },
+    "./styles": "./dist/index.css",
+    "./styles.css": "./dist/index.css",
+    "./dist/index.css": "./dist/index.css"
+  },
   "version": "0.0.1",
   "description": "",
   "repository": "https://github.com/vtexdocs/components",
