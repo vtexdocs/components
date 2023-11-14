@@ -5861,6 +5861,7 @@ var en_default = {
   "feedback_modal.button": "Send Feedback",
   "search_input.empty": "No results found. Try different search terms.",
   "search_input.placeholder": "Search",
+  "sidebar_search.placeholder": "Search in",
   "image.error_loading": "An error occurred while trying to load the image.",
   api_reference_sidebar_filter_clear: "Clear all",
   api_reference_sidebar_filter: "Filter by"
@@ -5877,6 +5878,7 @@ var es_default = {
   "feedback_modal.button": "Send Feedback",
   "search_input.empty": "No results found. Try different search terms.",
   "search_input.placeholder": "Search",
+  "sidebar_search.placeholder": "Search in",
   "image.error_loading": "An error occurred while trying to load the image.",
   api_reference_sidebar_filter_clear: "Clear all",
   api_reference_sidebar_filter: "Filter by"
@@ -5893,6 +5895,7 @@ var pt_default = {
   "feedback_modal.button": "Send Feedback",
   "search_input.empty": "No results found. Try different search terms.",
   "search_input.placeholder": "Search",
+  "sidebar_search.placeholder": "Search in",
   "image.error_loading": "An error occurred while trying to load the image.",
   api_reference_sidebar_filter_clear: "Clear all",
   api_reference_sidebar_filter: "Filter by"
@@ -7511,7 +7514,7 @@ var SidebarSection = ({
                     style: styles_default8.searchInput,
                     className: "searchComponent",
                     type: "text",
-                    placeholder: messages[locale]["search_input.placeholder"],
+                    placeholder: messages[locale]["sidebar_search.placeholder"] + " " + documentation2,
                     value: searchValue,
                     onChange: (e) => setSearchValue(e.currentTarget.value)
                   }
@@ -7590,7 +7593,7 @@ var SidebarSection = ({
                       style: styles_default8.searchInput,
                       className: "searchComponent",
                       type: "text",
-                      placeholder: messages[locale]["search_input.placeholder"],
+                      placeholder: messages[locale]["sidebar_search.placeholder"] + " " + documentation2,
                       value: searchValue,
                       onChange: (e) => setSearchValue(e.currentTarget.value)
                     }
@@ -8043,7 +8046,7 @@ var hitBreadCrumbArrow = {
   color: "muted.2"
 };
 var searchInput2 = {
-  width: "auto",
+  width: "76px",
   background: "none",
   border: "#F4F4F4",
   color: "#545454",
