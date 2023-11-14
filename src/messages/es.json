@@ -8,6 +8,7 @@
   "feedback_modal.button": "Send Feedback",
   "search_input.empty": "No results found. Try different search terms.",
   "search_input.placeholder": "Search",
+  "sidebar_search.placeholder": "Search in",
   "image.error_loading": "An error occurred while trying to load the image.",
   "api_reference_sidebar_filter_clear": "Clear all",
   "api_reference_sidebar_filter": "Filter by"

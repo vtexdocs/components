@@ -114,7 +114,11 @@ const SidebarSection = ({
               style={styles.searchInput}
               className="searchComponent"
               type="text"
-              placeholder={messages[locale]['search_input.placeholder']}
+              placeholder={
+                messages[locale]['sidebar_search.placeholder'] +
+                ' ' +
+                documentation
+              }
               value={searchValue}
               onChange={(e) => setSearchValue(e.currentTarget.value)}
             />
@@ -175,7 +179,11 @@ const SidebarSection = ({
               style={styles.searchInput}
               className="searchComponent"
               type="text"
-              placeholder={messages[locale]['search_input.placeholder']}
+              placeholder={
+                messages[locale]['sidebar_search.placeholder'] +
+                ' ' +
+                documentation
+              }
               value={searchValue}
               onChange={(e) => setSearchValue(e.currentTarget.value)}
             />

@@ -8,6 +8,7 @@ export type MessagesType = {
   'feedback_modal.button': string
   'search_input.empty': string
   'search_input.placeholder': string
+  'sidebar_search.placeholder': string
   'image.error_loading': string
   api_reference_sidebar_filter_clear: string
   api_reference_sidebar_filter: string
