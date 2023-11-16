@@ -2,7 +2,7 @@ import APIGuidesIcon from 'components/icons/api-guides-icon'
 import APIReferenceIcon from 'components/icons/api-reference-icon'
 import { serialize } from 'next-mdx-remote/serialize'
 
-const sections = [
+export const sections = [
   [
     {
       Icon: APIGuidesIcon,
@@ -21,7 +21,7 @@ const sections = [
   ],
 ]
 
-const navigation = [
+export const navigation = [
   {
     documentation: 'Guides',
     slugPrefix: 'docs/guides',

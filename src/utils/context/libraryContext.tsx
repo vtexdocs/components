@@ -6,11 +6,16 @@ import { SWRConfig } from 'swr'
 
 interface Props extends Partial<ContextType> {
   children: ReactNode
+  /** The navigation array containing the list of documentations shown in the sidebar. */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   fallback?: any
+  /** Documentation sections, the same sections that divide the fallback. */
   sections: Section[][]
+  /** Whether is a branch preview or not. */
   isPreview: boolean
+  /** The section currently selected. */
   sectionSelected: string
+  /** The portal language. The default is english. */
   locale?: 'en' | 'pt' | 'es'
 }
 
@@ -78,6 +83,7 @@ export const LibraryContext = createContext<ContextType>({
   locale: 'en',
 })
 
+/** Provider for the LibraryContext created with React.createContext. The context is used in the following components: feedback, search, sidebar, hamburger menu, markdown renderer and table of contents. */
 const LibraryContextProvider = ({ children, ...props }: Props) => {
   const [headingItems, setHeadingItems] = useState<Item[]>([])
   const [activeItem, setActiveItem] = useState<ActiveItem>({
