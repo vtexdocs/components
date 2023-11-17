@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 import Sidebar from './index'
 import LibraryContextProvider from 'utils/context/libraryContext'
 import { exampleContextProps } from 'utils/storybook-constants'
+import { ThemeProvider } from '@vtex/brand-ui'
 
 const meta = {
   title: 'Example/Sidebar',
@@ -9,9 +10,11 @@ const meta = {
   tags: ['autodocs'],
   decorators: [
     (Story) => (
-      <LibraryContextProvider {...exampleContextProps}>
-        <Story />
-      </LibraryContextProvider>
+      <ThemeProvider>
+        <LibraryContextProvider {...exampleContextProps}>
+          <Story />
+        </LibraryContextProvider>
+      </ThemeProvider>
     ),
   ],
 } satisfies Meta<typeof Sidebar>

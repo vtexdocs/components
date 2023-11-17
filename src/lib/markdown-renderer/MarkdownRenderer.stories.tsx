@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
+import { ThemeProvider } from '@vtex/brand-ui'
 import { MarkdownRenderer } from 'index'
 import LibraryContextProvider from 'utils/context/libraryContext'
 import { exampleContextProps, serialized } from 'utils/storybook-constants'
@@ -9,9 +10,11 @@ const meta = {
   tags: ['autodocs'],
   decorators: [
     (Story) => (
-      <LibraryContextProvider {...exampleContextProps}>
-        <Story />
-      </LibraryContextProvider>
+      <ThemeProvider>
+        <LibraryContextProvider {...exampleContextProps}>
+          <Story />
+        </LibraryContextProvider>
+      </ThemeProvider>
     ),
   ],
 } satisfies Meta<typeof MarkdownRenderer>

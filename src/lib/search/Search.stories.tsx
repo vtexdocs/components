@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 import LibraryContextProvider from 'utils/context/libraryContext'
 import { exampleContextProps } from 'utils/storybook-constants'
 import Search from './index'
+import { ThemeProvider } from '@vtex/brand-ui'
 
 const meta = {
   title: 'Example/Search',
@@ -12,9 +13,11 @@ const meta = {
   tags: ['autodocs'],
   decorators: [
     (Story) => (
-      <LibraryContextProvider {...exampleContextProps}>
-        <Story />
-      </LibraryContextProvider>
+      <ThemeProvider>
+        <LibraryContextProvider {...exampleContextProps}>
+          <Story />
+        </LibraryContextProvider>
+      </ThemeProvider>
     ),
   ],
 } satisfies Meta<typeof Search>
