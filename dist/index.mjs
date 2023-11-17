@@ -8087,6 +8087,14 @@ var searchContainer = {
     ".searchComponent": {
       flex: "1 !important"
     }
+  },
+  ".searchComponent": {
+    ":placeholder-shown": {
+      width: "76px"
+    },
+    ":not(:placeholder-shown)": {
+      flex: "1 !important"
+    }
   }
 };
 var noResults = {
