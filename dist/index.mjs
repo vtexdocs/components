@@ -7655,6 +7655,7 @@ var Sidebar = ({ parentsArray = [] }) => {
     sidebarSections,
     sidebarDataMaster
   } = context;
+  console.log(sidebarDataMaster);
   updateOpenPage({ parentsArray, context, setExpandDelayStatus });
   const SideBarIcon = (sectionElement) => {
     const [iconTooltip2, setIconTooltip] = useState7(false);
@@ -8953,7 +8954,7 @@ var customHighlight_default = connectedHighlight;
 // src/components/search-input/results-box.tsx
 import { useContext as useContext8 } from "react";
 import { Fragment as Fragment3, jsx as jsx37, jsxs as jsxs30 } from "react/jsx-runtime";
-var Hit = ({ hit, insights }) => {
+var Hit2 = ({ hit, insights }) => {
   const breadcrumbsList = getBreadcrumbs(hit);
   const DocIcon = getIcon3(hit.doctype);
   return /* @__PURE__ */ jsx37(Link6, { href: getRelativeURL(hit.url), legacyBehavior: true, children: /* @__PURE__ */ jsx37(
@@ -8980,7 +8981,7 @@ var Hit = ({ hit, insights }) => {
     }
   ) });
 };
-var HitWithInsights = connectHitInsights(aa)(Hit);
+var HitWithInsights = connectHitInsights(aa)(Hit2);
 var HitsBox = connectStateResults(
   ({ searchState, searchResults, changeFocus }) => {
     const router = useRouter5();
@@ -10169,7 +10170,7 @@ var search_card_default = SearchCard;
 // src/components/search-results/infiniteHits.tsx
 import { Box as Box21, Flex as Flex18 } from "@vtex/brand-ui";
 import { jsx as jsx50, jsxs as jsxs42 } from "react/jsx-runtime";
-var Hit2 = ({ hit }) => {
+var HitCard = ({ hit }) => {
   const breadcrumbs = [
     hit.doctype,
     ...hit.doccategory ? [hit.doccategory] : [],
@@ -10237,7 +10238,7 @@ var InfiniteHits = ({ hits, hasMore, refineNext }) => {
   }, [hits]);
   return /* @__PURE__ */ jsxs42(Box21, { children: [
     /* @__PURE__ */ jsx50(StateResults, {}),
-    filteredResult.map((hit, index) => /* @__PURE__ */ jsx50(Flex18, { children: /* @__PURE__ */ jsx50(Hit2, { hit }, index) }, hit.objectID)),
+    filteredResult.map((hit, index) => /* @__PURE__ */ jsx50(Flex18, { children: /* @__PURE__ */ jsx50(HitCard, { hit }, index) }, hit.objectID)),
     /* @__PURE__ */ jsx50("span", { ref: scrollRef })
   ] });
 };

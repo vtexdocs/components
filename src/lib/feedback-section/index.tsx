@@ -10,13 +10,18 @@ import styles from './styles'
 import { LibraryContext } from 'utils/context/libraryContext'
 import { messages } from 'utils/get-message'
 
-interface DocPath {
+export interface DocPath {
+  /** Slug that corresponds to the current page. */
   slug?: string
+  /** Github edit URL to the correspoding documentation file. */
   urlToEdit?: string
+  /** Whether is possible for the user to suggest edits or not. */
   suggestEdits?: boolean
+  /** Function that executes when the user sends the feedback. The function receives the user comment and whether it was a positive (liked = true) or negative feedback. */
   sendFeedback: (comment: string, liked: boolean) => Promise<void>
 }
 
+/** Component that can be used on each documentation page, so the user can give feedback of whether or not it has helpful. When liked or disliked it opens a modal with a field to add a comment and send feedback. */
 const FeedbackSection = ({
   slug,
   urlToEdit,
