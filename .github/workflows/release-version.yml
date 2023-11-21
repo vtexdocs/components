@@ -36,7 +36,6 @@ jobs:
         git checkout main
         git config user.name "${{ github.event.pull_request.user.login }}"
         git config user.email "${{ github.event.pull_request.user.id }}+${{ github.event.pull_request.user.login }}@users.noreply.github.com"
-        chmod +x .husky/*
         yarn install
     - name: Set major release env var
       if: contains(github.event.pull_request.labels.*.name, 'release-major')
