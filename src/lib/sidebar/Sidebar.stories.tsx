@@ -1,7 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import Sidebar from './index'
 import LibraryContextProvider from 'utils/context/libraryContext'
-import { exampleContextProps } from 'utils/storybook-constants'
+import {
+  exampleContextProps,
+  exampleContextPropsLocale,
+} from 'utils/storybook-constants'
 import { ThemeProvider } from '@vtex/brand-ui'
 
 const meta = {
@@ -26,4 +29,20 @@ export const SimpleSidebar: Story = {
   args: {
     parentsArray: [],
   },
+}
+
+/** Story in which the navigation file contains the translations in english, spanish and portuguese for each page name. */
+export const SidebarWithLocale: Story = {
+  args: {
+    parentsArray: [],
+  },
+  decorators: [
+    (Story) => (
+      <ThemeProvider>
+        <LibraryContextProvider {...exampleContextPropsLocale}>
+          <Story />
+        </LibraryContextProvider>
+      </ThemeProvider>
+    ),
+  ],
 }
