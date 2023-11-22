@@ -7173,7 +7173,8 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
     activeSidebarElement,
     sidebarElementStatus,
     toggleSidebarElementStatus,
-    sidebarDataMaster
+    sidebarDataMaster,
+    locale
   } = useContext4(LibraryContext);
   const router = useRouter3();
   const handleClick = (e, pathSuffix, slug) => {
@@ -7217,6 +7218,7 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
     endpoint,
     children
   }) => {
+    const localizedName = typeof name === "string" ? name : name[`${locale}`];
     const isExpandable = children.length > 0;
     const pathSuffix = method ? `#${method.toLowerCase()}-${endpoint}` : "";
     const activeItem = method ? `${slug}${pathSuffix}` : slug;
@@ -7260,7 +7262,7 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
                 method
               }
             ),
-            name
+            localizedName
           ]
         }
       ) : checkDocumentationType(sidebarDataMaster, slug, "link") ? /* @__PURE__ */ jsxs12(Link3, { href: slug, target: "_blank", sx: styles_default11.elementText, children: [
@@ -7283,7 +7285,7 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
                 method
               }
             ),
-            name
+            localizedName
           ]
         }
       )
