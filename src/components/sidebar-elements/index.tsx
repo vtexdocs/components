@@ -39,6 +39,7 @@ const SidebarElements = ({ slugPrefix, items, subItemLevel }: SidebarProps) => {
     sidebarElementStatus,
     toggleSidebarElementStatus,
     sidebarDataMaster,
+    locale,
   } = useContext(LibraryContext)
   const router = useRouter()
 
@@ -107,6 +108,8 @@ const SidebarElements = ({ slugPrefix, items, subItemLevel }: SidebarProps) => {
     endpoint,
     children,
   }: SidebarElement) => {
+    const localizedName: string =
+      typeof name === 'string' ? name : name[`${locale}`]
     const isExpandable = children.length > 0
     const pathSuffix = method ? `#${method.toLowerCase()}-${endpoint}` : ''
     const activeItem = method ? `${slug}${pathSuffix}` : slug
@@ -162,7 +165,7 @@ const SidebarElements = ({ slugPrefix, items, subItemLevel }: SidebarProps) => {
                   method={method}
                 />
               )}
-              {name}
+              {localizedName}
             </Link>
           ) : checkDocumentationType(sidebarDataMaster, slug, 'link') ? (
             <Link href={slug} target="_blank" sx={styles.elementText}>
@@ -184,7 +187,7 @@ const SidebarElements = ({ slugPrefix, items, subItemLevel }: SidebarProps) => {
                   method={method}
                 />
               )}
-              {name}
+              {localizedName}
             </Box>
           )}
         </Flex>
