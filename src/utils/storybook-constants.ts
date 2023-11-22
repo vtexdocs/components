@@ -21,6 +21,43 @@ export const sections = [
   ],
 ]
 
+export const navigationLocale = [
+  {
+    documentation: 'Guides',
+    slugPrefix: 'docs/guides',
+    categories: [
+      {
+        name: {
+          en: 'Getting Started',
+          es: 'Primeros pasos',
+          pt: 'Primeiros passos',
+        },
+        slug: 'getting-started',
+        origin: '',
+        type: 'markdown',
+        children: [
+          {
+            name: {
+              en: 'Platform  overview',
+              es: 'Vista General de la plataforma',
+              pt: 'Visão geral da plataforma',
+            },
+            slug: 'getting-started-platform-overview',
+            origin: '',
+            type: 'markdown',
+            children: [],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    documentation: 'Reference',
+    slugPrefix: 'docs/reference',
+    categories: [],
+  },
+]
+
 export const navigation = [
   {
     documentation: 'Guides',
@@ -33,7 +70,7 @@ export const navigation = [
         type: 'markdown',
         children: [
           {
-            name: 'Plataform overview',
+            name: 'Platform  overview',
             slug: 'getting-started-platform-overview',
             origin: '',
             type: 'markdown',
@@ -43,13 +80,28 @@ export const navigation = [
       },
     ],
   },
+  {
+    documentation: 'Reference',
+    slugPrefix: 'docs/reference',
+    categories: [],
+  },
 ]
+
+const locale: 'en' | 'pt' | 'es' = 'pt'
 
 export const exampleContextProps = {
   sections: sections,
   isPreview: false,
   sectionSelected: '',
   fallback: navigation,
+}
+
+export const exampleContextPropsLocale = {
+  sections: sections,
+  isPreview: false,
+  sectionSelected: '',
+  fallback: navigationLocale,
+  locale,
 }
 
 const markdown_example = `
