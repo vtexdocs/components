@@ -31,6 +31,7 @@ const SidebarSection = ({
     sidebarSectionHidden,
     setSidebarSectionHidden,
     sidebarSections,
+    locale,
   } = useContext(LibraryContext)
   const [methodFilterList, setMethodFilterList] = useState([
     { name: 'POST', active: false },
@@ -43,8 +44,6 @@ const SidebarSection = ({
   const filterStatus = methodFilterList.some(
     (methodFilter) => methodFilter.active
   )
-
-  const { locale } = useContext(LibraryContext)
 
   const filteredResult = useMemo(() => {
     if (!filterStatus && searchValue === '') return categories
@@ -63,7 +62,12 @@ const SidebarSection = ({
                 )?.active
               const hasInputFilter =
                 searchValue === '' ||
-                endpoint.name.toLowerCase().includes(searchValue.toLowerCase())
+                (typeof endpoint.name === 'string'
+                  ? endpoint.name
+                  : endpoint.name[locale]
+                )
+                  .toLowerCase()
+                  .includes(searchValue.toLowerCase())
               return hasMethodFilter && hasInputFilter
             })
             return subcategory
@@ -72,7 +76,10 @@ const SidebarSection = ({
             (subcategory) =>
               subcategory.children.length > 0 ||
               (subcategory.type === 'markdown' &&
-                subcategory.name
+                (typeof subcategory.name === 'string'
+                  ? subcategory.name
+                  : subcategory.name[locale]
+                )
                   .toLowerCase()
                   .includes(searchValue.toLowerCase()))
           )

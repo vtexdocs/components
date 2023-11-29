@@ -17,7 +17,7 @@ import { MethodType } from 'utils/typings/types'
 import { LibraryContext } from 'utils/context/libraryContext'
 
 export interface SidebarElement {
-  name: string
+  name: string | { en: string; pt: string; es: string }
   slug: string
   origin: string
   type: string
@@ -108,8 +108,7 @@ const SidebarElements = ({ slugPrefix, items, subItemLevel }: SidebarProps) => {
     endpoint,
     children,
   }: SidebarElement) => {
-    const localizedName: string =
-      typeof name === 'string' ? name : name[`${locale}`]
+    const localizedName: string = typeof name === 'string' ? name : name[locale]
     const isExpandable = children.length > 0
     const pathSuffix = method ? `#${method.toLowerCase()}-${endpoint}` : ''
     const activeItem = method ? `${slug}${pathSuffix}` : slug
@@ -170,7 +169,7 @@ const SidebarElements = ({ slugPrefix, items, subItemLevel }: SidebarProps) => {
           ) : checkDocumentationType(sidebarDataMaster, slug, 'link') ? (
             <Link href={slug} target="_blank" sx={styles.elementText}>
               <IconExternalLink size={16} sx={{ marginRight: '10px' }} />
-              {name}
+              {localizedName}
             </Link>
           ) : (
             <Box
