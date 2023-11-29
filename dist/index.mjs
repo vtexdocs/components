@@ -7218,7 +7218,7 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
     endpoint,
     children
   }) => {
-    const localizedName = typeof name === "string" ? name : name[`${locale}`];
+    const localizedName = typeof name === "string" ? name : name[locale];
     const isExpandable = children.length > 0;
     const pathSuffix = method ? `#${method.toLowerCase()}-${endpoint}` : "";
     const activeItem = method ? `${slug}${pathSuffix}` : slug;
@@ -7267,7 +7267,7 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
         }
       ) : checkDocumentationType(sidebarDataMaster, slug, "link") ? /* @__PURE__ */ jsxs12(Link3, { href: slug, target: "_blank", sx: styles_default11.elementText, children: [
         /* @__PURE__ */ jsx17(IconExternalLink, { size: 16, sx: { marginRight: "10px" } }),
-        name
+        localizedName
       ] }) : /* @__PURE__ */ jsxs12(
         Box10,
         {
@@ -7444,7 +7444,8 @@ var SidebarSection = ({
     isEditorPreview,
     sidebarSectionHidden,
     setSidebarSectionHidden,
-    sidebarSections
+    sidebarSections,
+    locale
   } = useContext5(LibraryContext);
   const [methodFilterList, setMethodFilterList] = useState6([
     { name: "POST", active: false },
@@ -7456,7 +7457,6 @@ var SidebarSection = ({
   const filterStatus = methodFilterList.some(
     (methodFilter) => methodFilter.active
   );
-  const { locale } = useContext5(LibraryContext);
   const filteredResult = useMemo(() => {
     if (!filterStatus && searchValue === "")
       return categories;
@@ -7467,12 +7467,12 @@ var SidebarSection = ({
           const hasMethodFilter = !filterStatus || methodFilterList.find(
             (methodFilter) => methodFilter.name === endpoint.method
           )?.active;
-          const hasInputFilter = searchValue === "" || endpoint.name.toLowerCase().includes(searchValue.toLowerCase());
+          const hasInputFilter = searchValue === "" || (typeof endpoint.name === "string" ? endpoint.name : endpoint.name[locale]).toLowerCase().includes(searchValue.toLowerCase());
           return hasMethodFilter && hasInputFilter;
         });
         return subcategory;
       }).filter(
-        (subcategory) => subcategory.children.length > 0 || subcategory.type === "markdown" && subcategory.name.toLowerCase().includes(searchValue.toLowerCase())
+        (subcategory) => subcategory.children.length > 0 || subcategory.type === "markdown" && (typeof subcategory.name === "string" ? subcategory.name : subcategory.name[locale]).toLowerCase().includes(searchValue.toLowerCase())
       );
       return category2;
     }).filter((category2) => category2.children.length > 0);
