@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.14](https://github.com/vtexdocs/components/compare/v1.1.13...v1.1.14) (2023-11-29)
+
+
+### Bug Fixes
+
+* check if name is string and use locale ([6185f3b](https://github.com/vtexdocs/components/commit/6185f3b4b8caa015f528904cb5212a00472423d9))
+
 ### [1.1.13](https://github.com/vtexdocs/components/compare/v1.1.12...v1.1.13) (2023-11-22)
 
 
