@@ -5947,7 +5947,7 @@ var Callout = ({ node, icon: icon3, ...props }) => {
     "blockquote",
     {
       className: `${styles_module_default.blockquote} ${blockquoteType === "info" ? styles_module_default.blockquoteInfo : blockquoteType === "danger" ? styles_module_default.blockquoteDanger : blockquoteType === "warning" ? styles_module_default.blockquoteWarning : blockquoteType === "success" ? styles_module_default.blockquoteSuccess : ""}`,
-      children: /* @__PURE__ */ jsx9("p", { ...props })
+      children: /* @__PURE__ */ jsx9("div", { ...props })
     }
   );
 };
@@ -6024,6 +6024,9 @@ var components_default = {
   table: ({ node, ...props }) => /* @__PURE__ */ jsx9("table", { ...props }),
   td: ({ node, ...props }) => /* @__PURE__ */ jsx9("td", { ...props }),
   img: ImageComponent,
+  text: ({ node, ...props }) => {
+    return /* @__PURE__ */ jsx9(Box5, { sx: { marginBlock: "1em" }, ...props });
+  },
   blockquote: ({ ...props }) => {
     return /* @__PURE__ */ jsx9(Callout, { ...props });
   },
@@ -6082,7 +6085,24 @@ var components_default = {
 // src/lib/markdown-renderer/MarkdownRenderer.tsx
 import { jsx as jsx10 } from "react/jsx-runtime";
 var MDXRemote2 = MDXRemote;
-var MarkdownRenderer = ({ serialized }) => /* @__PURE__ */ jsx10(Box6, { children: /* @__PURE__ */ jsx10(MDXRemote2, { components: components_default, lazy: true, ...serialized }) });
+var MarkdownRenderer = ({
+  serialized,
+  customComponents,
+  scope
+}) => {
+  if (components_default && scope) {
+    return /* @__PURE__ */ jsx10(Box6, { children: /* @__PURE__ */ jsx10(
+      MDXRemote2,
+      {
+        components: { ...components_default, ...customComponents },
+        lazy: true,
+        ...serialized,
+        scope
+      }
+    ) });
+  }
+  return /* @__PURE__ */ jsx10(Box6, { children: /* @__PURE__ */ jsx10(MDXRemote2, { components: components_default, lazy: true, ...serialized }) });
+};
 var MarkdownRenderer_default = MarkdownRenderer;
 
 // src/lib/table-of-contents/TableOfContents.tsx

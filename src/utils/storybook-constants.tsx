@@ -1,5 +1,6 @@
 import APIGuidesIcon from 'components/icons/api-guides-icon'
 import APIReferenceIcon from 'components/icons/api-reference-icon'
+import { Component } from 'lib/markdown-renderer/MarkdownRenderer.types'
 import { serialize } from 'next-mdx-remote/serialize'
 
 export const sections = [
@@ -124,8 +125,15 @@ These are some of the features built-in our clients infrastructure:
 
 ![Clients on IO Services](https://imgur.com/i45O8MN.png)
 
+<TestComponent text="Test component prop" />
+
 Learn how to create Clients of your own by accessing [Managing Clients](https://developers.vtex.com/vtex-developer-docs/docs/vtex-io-documentation-how-to-create-and-use-clients) documentation. 
 `
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const TestComponent = ({ node, ...props }: Component) => {
+  return <div>{props.text}</div>
+}
 
 export const serialized = await serialize(markdown_example, {
   mdxOptions: {

@@ -36,7 +36,8 @@ table .styles_module_code {
   grid-template-rows: 1fr;
   word-break: break-all;
 }
-.styles_module_blockquote p {
+.styles_module_blockquote p,
+.styles_module_blockquote div {
   margin: 0px;
   grid-column: 2 / -1;
   grid-row: 1 / 1;

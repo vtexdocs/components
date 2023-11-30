@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { MDXRemoteSerializeResult } from 'next-mdx-remote'
 
 export type Component = {
@@ -8,6 +9,12 @@ export type Component = {
 
 export interface MarkdownRendererProps {
   serialized: MDXRemoteSerializeResult
+  customComponents?: {
+    [name: string]: any
+  }
+  scope?: {
+    [name: string]: any
+  }
 }
 
 export interface ObservableHeadingProps {

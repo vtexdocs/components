@@ -72,7 +72,7 @@ const Callout = ({ node, icon, ...props }: Component) => {
           : ''
       }`}
     >
-      <p {...props} />
+      <div {...props} />
     </blockquote>
   )
 }
@@ -162,6 +162,9 @@ export default {
   table: ({ node, ...props }: Component) => <table {...props} />,
   td: ({ node, ...props }: Component) => <td {...props} />,
   img: ImageComponent,
+  text: ({ node, ...props }: Component) => {
+    return <Box sx={{ marginBlock: '1em' }} {...props} />
+  },
   blockquote: ({ ...props }: Component) => {
     return <Callout {...props} />
   },
