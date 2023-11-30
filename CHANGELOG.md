@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.15](https://github.com/vtexdocs/components/compare/v1.1.14...v1.1.15) (2023-11-30)
+
+
+### Features
+
+* add custom component to storybook constants ([2858e4c](https://github.com/vtexdocs/components/commit/2858e4c38fa3ba6a3a6c8563090b7744d1535c22))
+* update MarkdownRenderer to support custom components and scope ([13bb9eb](https://github.com/vtexdocs/components/commit/13bb9eb5d48078342b1f0c4e5845f2c8859f3385))
+
 ### [1.1.14](https://github.com/vtexdocs/components/compare/v1.1.13...v1.1.14) (2023-11-29)
 
 
