@@ -7,9 +7,15 @@ import { AlgoliaSearchOptions } from 'algoliasearch/lite';
 
 interface MarkdownRendererProps {
     serialized: MDXRemoteSerializeResult;
+    customComponents?: {
+        [name: string]: any;
+    };
+    scope?: {
+        [name: string]: any;
+    };
 }
 
-declare const MarkdownRenderer: ({ serialized }: MarkdownRendererProps) => react_jsx_runtime.JSX.Element;
+declare const MarkdownRenderer: ({ serialized, customComponents, scope, }: MarkdownRendererProps) => react_jsx_runtime.JSX.Element;
 
 interface SubItem {
     title: string;
