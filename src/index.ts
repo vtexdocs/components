@@ -6,6 +6,7 @@ export {
   FeedbackSection,
   SearchInput,
   Search,
+  CookieBar,
   type Item,
 } from './lib'
 export { default as LibraryContextProvider } from 'utils/context/libraryContext'
