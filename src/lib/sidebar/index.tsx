@@ -30,8 +30,34 @@ const Sidebar = ({ parentsArray = [] }: SideBarSectionState) => {
     sidebarSections,
     sidebarDataMaster,
   } = context
-  console.log(sidebarDataMaster)
-  updateOpenPage({ parentsArray, context, setExpandDelayStatus })
+
+  const sidebarSectionContent = {
+    ...(Array.isArray(sidebarDataMaster)
+      ? sidebarDataMaster?.find(
+          (section: SidebarSectionProps) =>
+            section.documentation === activeSectionName
+        )
+      : null),
+  }
+
+  updateOpenPage({
+    parentsArray,
+    context,
+  })
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout | undefined = undefined
+    if (sidebarSectionContent.categories?.length > 0)
+      timer = setTimeout(
+        () => setExpandDelayStatus && setExpandDelayStatus(false),
+        5000
+      )
+    else setExpandDelayStatus && setExpandDelayStatus(true)
+
+    return () => {
+      timer && clearTimeout(timer)
+    }
+  }, [activeSectionName])
 
   const SideBarIcon = (sectionElement: Section) => {
     const [iconTooltip, setIconTooltip] = useState(false)
@@ -130,16 +156,7 @@ const Sidebar = ({ parentsArray = [] }: SideBarSectionState) => {
           )
         })}
       </Flex>
-      {activeSectionName ? (
-        <SidebarSection
-          {...(Array.isArray(sidebarDataMaster)
-            ? sidebarDataMaster?.find(
-                (section: SidebarSectionProps) =>
-                  section.documentation === activeSectionName
-              )
-            : null)}
-        />
-      ) : null}
+      {activeSectionName ? <SidebarSection {...sidebarSectionContent} /> : null}
     </Flex>
   )
 }

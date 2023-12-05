@@ -1,7 +1,7 @@
 import { Section } from './typings/types'
 import { flattenJSON, getKeyByEndpoint, getParents } from './navigation-utils'
 import { useRouter } from 'next/router.js'
-import { Dispatch, SetStateAction, useEffect } from 'react'
+import { useEffect } from 'react'
 import { ContextType } from './context/libraryContext'
 
 export const getIcon = (doc: string, sections: Section[][]) => {
@@ -13,12 +13,10 @@ export const getIcon = (doc: string, sections: Section[][]) => {
 interface updateOpenPageProps {
   parentsArray?: string[]
   context: ContextType
-  setExpandDelayStatus?: Dispatch<SetStateAction<boolean>>
 }
 export const updateOpenPage = ({
   parentsArray = [],
   context,
-  setExpandDelayStatus,
 }: updateOpenPageProps) => {
   const {
     activeSidebarElement,
@@ -58,17 +56,10 @@ export const updateOpenPage = ({
   }
 
   useEffect(() => {
-    const timer = setTimeout(
-      () => setExpandDelayStatus && setExpandDelayStatus(false),
-      5000
-    )
     closeSidebarElements(parentsArray)
     parentsArray.forEach((slug: string) => {
       openSidebarElement(slug)
     })
     setActiveSidebarElement(activeSlug?.replace('?endpoint=', '#'))
-    return () => {
-      clearTimeout(timer)
-    }
   }, [activeSidebarElement, router])
 }
