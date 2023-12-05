@@ -1,5 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import CookieBar from '.'
+import LibraryContextProvider from 'utils/context/libraryContext'
+import { ThemeProvider } from '@vtex/brand-ui'
+import { exampleContextProps } from 'utils/storybook-constants'
 
 const meta = {
   title: 'Example/CookieBar',
@@ -11,6 +14,15 @@ const meta = {
   argTypes: {
     onAccept: () => alert('Accept cookies'),
   },
+  decorators: [
+    (Story) => (
+      <ThemeProvider>
+        <LibraryContextProvider {...exampleContextProps}>
+          <Story />
+        </LibraryContextProvider>
+      </ThemeProvider>
+    ),
+  ],
 } satisfies Meta<typeof CookieBar>
 
 export default meta
