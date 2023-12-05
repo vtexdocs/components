@@ -10500,7 +10500,7 @@ var search_default2 = Search;
 
 // src/lib/cookie-bar/index.tsx
 import { useContext as useContext17 } from "react";
-import CookieConsent from "react-cookie-consent";
+import { CookieConsent } from "react-cookie-consent";
 
 // src/lib/cookie-bar/styles.ts
 var bar = {
