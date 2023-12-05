@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.16](https://github.com/vtexdocs/components/compare/v1.1.15...v1.1.16) (2023-12-05)
+
+
+### Bug Fixes
+
+* keep sidebar expanded if there are no subpages ([acb7932](https://github.com/vtexdocs/components/commit/acb7932ae5dbfe754932a56a2090eaa9f11bd865))
+
 ### [1.1.15](https://github.com/vtexdocs/components/compare/v1.1.14...v1.1.15) (2023-11-30)
 
 
