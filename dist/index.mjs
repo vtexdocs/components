@@ -214,7 +214,7 @@ var require_react_is_development = __commonJS({
         var ContextProvider = REACT_PROVIDER_TYPE;
         var Element = REACT_ELEMENT_TYPE;
         var ForwardRef = REACT_FORWARD_REF_TYPE;
-        var Fragment4 = REACT_FRAGMENT_TYPE;
+        var Fragment5 = REACT_FRAGMENT_TYPE;
         var Lazy = REACT_LAZY_TYPE;
         var Memo = REACT_MEMO_TYPE;
         var Portal = REACT_PORTAL_TYPE;
@@ -273,7 +273,7 @@ var require_react_is_development = __commonJS({
         exports.ContextProvider = ContextProvider;
         exports.Element = Element;
         exports.ForwardRef = ForwardRef;
-        exports.Fragment = Fragment4;
+        exports.Fragment = Fragment5;
         exports.Lazy = Lazy;
         exports.Memo = Memo;
         exports.Portal = Portal;
@@ -6600,8 +6600,7 @@ var getIcon2 = (doc, sections) => {
 };
 var updateOpenPage = ({
   parentsArray = [],
-  context,
-  setExpandDelayStatus
+  context
 }) => {
   const {
     activeSidebarElement,
@@ -6636,18 +6635,11 @@ var updateOpenPage = ({
     activeSlug = parentsArray[parentsArray.length - 1];
   }
   useEffect7(() => {
-    const timer = setTimeout(
-      () => setExpandDelayStatus && setExpandDelayStatus(false),
-      5e3
-    );
     closeSidebarElements(parentsArray);
     parentsArray.forEach((slug) => {
       openSidebarElement(slug);
     });
     setActiveSidebarElement(activeSlug?.replace("?endpoint=", "#"));
-    return () => {
-      clearTimeout(timer);
-    };
   }, [activeSidebarElement, router]);
 };
 
@@ -7452,7 +7444,7 @@ var ArrowLeftIcon = (props) => /* @__PURE__ */ jsxs14(
 var arrow_left_icon_default = ArrowLeftIcon;
 
 // src/components/sidebar-section/index.tsx
-import { jsx as jsx21, jsxs as jsxs15 } from "react/jsx-runtime";
+import { Fragment as Fragment2, jsx as jsx21, jsxs as jsxs15 } from "react/jsx-runtime";
 var SidebarSection = ({
   documentation: documentation2,
   categories,
@@ -7499,6 +7491,8 @@ var SidebarSection = ({
     return filteredCategories;
   }, [filterStatus, methodFilterList, categories, searchValue]);
   const DocIcon = getIcon2(documentation2, sidebarSections);
+  if (!categories || categories.length <= 0)
+    return /* @__PURE__ */ jsx21(Fragment2, {});
   return isHamburgerMenu ? /* @__PURE__ */ jsx21(
     Box11,
     {
@@ -7665,7 +7659,7 @@ var SidebarSection = ({
 var sidebar_section_default = SidebarSection;
 
 // src/lib/sidebar/index.tsx
-import { Fragment as Fragment2, jsx as jsx22, jsxs as jsxs16 } from "react/jsx-runtime";
+import { Fragment as Fragment3, jsx as jsx22, jsxs as jsxs16 } from "react/jsx-runtime";
 import { createElement } from "react";
 var Sidebar = ({ parentsArray = [] }) => {
   const [expandDelayStatus, setExpandDelayStatus] = useState7(true);
@@ -7677,8 +7671,28 @@ var Sidebar = ({ parentsArray = [] }) => {
     sidebarSections,
     sidebarDataMaster
   } = context;
-  console.log(sidebarDataMaster);
-  updateOpenPage({ parentsArray, context, setExpandDelayStatus });
+  const sidebarSectionContent = {
+    ...Array.isArray(sidebarDataMaster) ? sidebarDataMaster?.find(
+      (section) => section.documentation === activeSectionName
+    ) : null
+  };
+  updateOpenPage({
+    parentsArray,
+    context
+  });
+  useEffect8(() => {
+    let timer = void 0;
+    if (sidebarSectionContent.categories?.length > 0)
+      timer = setTimeout(
+        () => setExpandDelayStatus && setExpandDelayStatus(false),
+        5e3
+      );
+    else
+      setExpandDelayStatus && setExpandDelayStatus(true);
+    return () => {
+      timer && clearTimeout(timer);
+    };
+  }, [activeSectionName]);
   const SideBarIcon = (sectionElement) => {
     const [iconTooltip2, setIconTooltip] = useState7(false);
     const [tooltipLabel, setTooltipLabel] = useState7(sectionElement.title);
@@ -7757,7 +7771,7 @@ var Sidebar = ({ parentsArray = [] }) => {
         className: expandDelayStatus ? "iconContainerExpanded" : "",
         sx: styles_default6.sidebarIcons,
         children: sidebarSections.map((section, id) => {
-          return /* @__PURE__ */ jsxs16(Fragment2, { children: [
+          return /* @__PURE__ */ jsxs16(Fragment3, { children: [
             id > 0 && /* @__PURE__ */ jsx22(Box12, { sx: styles_default6.sectionDivider, children: /* @__PURE__ */ jsx22("hr", {}) }, `${id}-divider`),
             /* @__PURE__ */ jsx22(Flex10, { sx: styles_default6.sidebarIconsContainer, children: section.map((element) => /* @__PURE__ */ createElement(
               SideBarIcon,
@@ -7770,14 +7784,7 @@ var Sidebar = ({ parentsArray = [] }) => {
         })
       }
     ),
-    activeSectionName ? /* @__PURE__ */ jsx22(
-      sidebar_section_default,
-      {
-        ...Array.isArray(sidebarDataMaster) ? sidebarDataMaster?.find(
-          (section) => section.documentation === activeSectionName
-        ) : null
-      }
-    ) : null
+    activeSectionName ? /* @__PURE__ */ jsx22(sidebar_section_default, { ...sidebarSectionContent }) : null
   ] });
 };
 var sidebar_default = Sidebar;
@@ -8975,7 +8982,7 @@ var customHighlight_default = connectedHighlight;
 
 // src/components/search-input/results-box.tsx
 import { useContext as useContext8 } from "react";
-import { Fragment as Fragment3, jsx as jsx37, jsxs as jsxs30 } from "react/jsx-runtime";
+import { Fragment as Fragment4, jsx as jsx37, jsxs as jsxs30 } from "react/jsx-runtime";
 var Hit2 = ({ hit, insights }) => {
   const breadcrumbsList = getBreadcrumbs(hit);
   const DocIcon = getIcon3(hit.doctype);
@@ -9022,7 +9029,7 @@ var HitsBox = connectStateResults(
         __position: searchResults.hitsPerPage * searchResults.page + index + 1
       };
     };
-    return /* @__PURE__ */ jsx37(Fragment3, { children: searchResults && /* @__PURE__ */ jsx37(Box14, { sx: styles_default14.resultsOuterContainer, children: /* @__PURE__ */ jsxs30(Box14, { sx: styles_default14.resultsInnerContainer, children: [
+    return /* @__PURE__ */ jsx37(Fragment4, { children: searchResults && /* @__PURE__ */ jsx37(Box14, { sx: styles_default14.resultsOuterContainer, children: /* @__PURE__ */ jsxs30(Box14, { sx: styles_default14.resultsInnerContainer, children: [
       /* @__PURE__ */ jsx37(Box14, { sx: searchResults.hits.length && styles_default14.resultsBox, children: searchResults.hits.map(
         (searchResult, index) => index < 7 && /* @__PURE__ */ jsx37(
           Box14,

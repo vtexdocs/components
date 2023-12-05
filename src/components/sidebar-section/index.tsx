@@ -91,6 +91,8 @@ const SidebarSection = ({
 
   const DocIcon = getIcon(documentation, sidebarSections)
 
+  if (!categories || categories.length <= 0) return <></>
+
   return isHamburgerMenu ? (
     <Box
       className={sidebarSectionHidden ? 'active' : ''}
