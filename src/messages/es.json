@@ -11,5 +11,9 @@
   "sidebar_search.placeholder": "Search in",
   "image.error_loading": "An error occurred while trying to load the image.",
   "api_reference_sidebar_filter_clear": "Clear all",
-  "api_reference_sidebar_filter": "Filter by"
+  "api_reference_sidebar_filter": "Filter by",
+  "cookie_bar.title": "We use cookies",
+  "cookie_bar.description": "This website uses cookies to improve site navigation, analyze website usage, and assist in our marketing efforts.",
+  "cookie_bar.accept": "I understand",
+  "cookie_bar.decline": "I decline"
 }

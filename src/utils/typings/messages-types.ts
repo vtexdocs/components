@@ -12,4 +12,8 @@ export type MessagesType = {
   'image.error_loading': string
   api_reference_sidebar_filter_clear: string
   api_reference_sidebar_filter: string
+  'cookie_bar.title': string
+  'cookie_bar.description': string
+  'cookie_bar.accept': string
+  'cookie_bar.decline': string
 }
