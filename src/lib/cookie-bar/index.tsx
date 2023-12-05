@@ -1,5 +1,5 @@
-import React, { ReactNode, useContext } from 'react'
-import CookieConsent from 'react-cookie-consent'
+import { ReactNode, useContext } from 'react'
+import { CookieConsent } from 'react-cookie-consent'
 import styles from './styles'
 import { Flex, SxStyleProp, Text } from '@vtex/brand-ui'
 import { messages } from 'utils/get-message'
