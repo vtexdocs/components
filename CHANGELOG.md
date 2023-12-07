@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/vtexdocs/components/compare/v1.1.16...v1.2.0) (2023-12-07)
+
+
+### Features
+
+* add cookie bar messages ([dc437fd](https://github.com/vtexdocs/components/commit/dc437fd7a5f53d2d84f790a381001bcd6368ee95))
+* create cookie bar component ([b5237b0](https://github.com/vtexdocs/components/commit/b5237b09e219efaf5963aa300e40d27c6f28a271))
+
+
+### Bug Fixes
+
+* cookie consent import ([f4efc1c](https://github.com/vtexdocs/components/commit/f4efc1c5ab2971a44f9784925a24b70e280a4e14))
+
 ### [1.1.16](https://github.com/vtexdocs/components/compare/v1.1.15...v1.1.16) (2023-12-05)
 
 
