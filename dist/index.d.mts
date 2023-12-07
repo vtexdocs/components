@@ -25,12 +25,12 @@ interface Item extends SubItem {
     children: SubItem[];
 }
 
-interface Props$1 {
+interface Props$2 {
     /** List of headings in the current documentation page */
     headingList?: Item[];
 }
 /** Table of contents for documentation pages. */
-declare const TableOfContents: ({ headingList }: Props$1) => react_jsx_runtime.JSX.Element;
+declare const TableOfContents: ({ headingList }: Props$2) => react_jsx_runtime.JSX.Element;
 
 interface SideBarSectionState {
     /** Array containing the name of the parents of the expanded page in the menu. */
@@ -64,6 +64,11 @@ declare const FeedbackSection: ({ slug, urlToEdit, suggestEdits, sendFeedback, }
 declare const Search: () => react_jsx_runtime.JSX.Element;
 
 declare function SearchInput(): react_jsx_runtime.JSX.Element;
+
+interface Props$1 {
+    onAccept: () => void;
+}
+declare const CookieBar: ({ onAccept }: Props$1) => react_jsx_runtime.JSX.Element;
 
 type Section = {
     link: string;
@@ -127,4 +132,4 @@ interface AlgoliaConfig {
 }
 declare const createAlgoliaClient: (config: AlgoliaConfig) => void;
 
-export { FeedbackSection, HamburgerMenu, Item, LibraryContext, LibraryContextProvider, MarkdownRenderer, Search, createAlgoliaClient as SearchConfig, SearchInput, Sidebar, TableOfContents };
+export { CookieBar, FeedbackSection, HamburgerMenu, Item, LibraryContext, LibraryContextProvider, MarkdownRenderer, Search, createAlgoliaClient as SearchConfig, SearchInput, Sidebar, TableOfContents };

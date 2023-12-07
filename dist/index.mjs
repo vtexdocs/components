@@ -5619,13 +5619,13 @@ var styles_default4 = { container: container2, title, description, linkContainer
 // src/components/whats-next-card/index.tsx
 import { jsx as jsx7, jsxs as jsxs5 } from "react/jsx-runtime";
 var WhatsNextCard = ({
-  title: title5,
+  title: title6,
   description: description4,
   linkTitle,
   linkTo
 }) => {
   return /* @__PURE__ */ jsx7(Link, { href: linkTo, sx: styles_default4.container, children: /* @__PURE__ */ jsxs5(Box4, { children: [
-    /* @__PURE__ */ jsx7(Text, { sx: styles_default4.title, className: "title", children: title5 }),
+    /* @__PURE__ */ jsx7(Text, { sx: styles_default4.title, className: "title", children: title6 }),
     /* @__PURE__ */ jsx7(Text, { sx: styles_default4.description, className: "description", children: description4 }),
     /* @__PURE__ */ jsxs5(Flex3, { sx: styles_default4.linkContainer, children: [
       /* @__PURE__ */ jsx7(Text, { sx: styles_default4.link, className: "link", children: linkTitle }),
@@ -5703,10 +5703,10 @@ var LibraryContextProvider = ({ children, ...props }) => {
       setActiveSectionName(props.sectionSelected);
   }, [props.sectionSelected]);
   const { fallback } = props;
-  const toggleSidebarElementStatus = (title5) => {
+  const toggleSidebarElementStatus = (title6) => {
     setSidebarElementStatus((sidebarElementStatus2) => {
-      const open = sidebarElementStatus2.has(title5) === false ? true : !sidebarElementStatus2.get(title5);
-      return new Map(sidebarElementStatus2.set(title5, open));
+      const open = sidebarElementStatus2.has(title6) === false ? true : !sidebarElementStatus2.get(title6);
+      return new Map(sidebarElementStatus2.set(title6, open));
     });
   };
   const closeSidebarElements = (parentsArray) => {
@@ -5718,9 +5718,9 @@ var LibraryContextProvider = ({ children, ...props }) => {
       }
     });
   };
-  const openSidebarElement = (title5) => {
+  const openSidebarElement = (title6) => {
     setSidebarElementStatus((sidebarElementStatus2) => {
-      return new Map(sidebarElementStatus2.set(title5, true));
+      return new Map(sidebarElementStatus2.set(title6, true));
     });
   };
   const goToPreviousItem = () => {
@@ -5864,7 +5864,11 @@ var en_default = {
   "sidebar_search.placeholder": "Search in",
   "image.error_loading": "An error occurred while trying to load the image.",
   api_reference_sidebar_filter_clear: "Clear all",
-  api_reference_sidebar_filter: "Filter by"
+  api_reference_sidebar_filter: "Filter by",
+  "cookie_bar.title": "We use cookies",
+  "cookie_bar.description": "This website uses cookies to improve site navigation, analyze website usage, and assist in our marketing efforts.",
+  "cookie_bar.accept": "I understand",
+  "cookie_bar.decline": "I decline"
 };
 
 // src/messages/es.json
@@ -5881,7 +5885,11 @@ var es_default = {
   "sidebar_search.placeholder": "Search in",
   "image.error_loading": "An error occurred while trying to load the image.",
   api_reference_sidebar_filter_clear: "Clear all",
-  api_reference_sidebar_filter: "Filter by"
+  api_reference_sidebar_filter: "Filter by",
+  "cookie_bar.title": "We use cookies",
+  "cookie_bar.description": "This website uses cookies to improve site navigation, analyze website usage, and assist in our marketing efforts.",
+  "cookie_bar.accept": "I understand",
+  "cookie_bar.decline": "I decline"
 };
 
 // src/messages/pt.json
@@ -5898,7 +5906,11 @@ var pt_default = {
   "sidebar_search.placeholder": "Search in",
   "image.error_loading": "An error occurred while trying to load the image.",
   api_reference_sidebar_filter_clear: "Clear all",
-  api_reference_sidebar_filter: "Filter by"
+  api_reference_sidebar_filter: "Filter by",
+  "cookie_bar.title": "We use cookies",
+  "cookie_bar.description": "This website uses cookies to improve site navigation, analyze website usage, and assist in our marketing efforts.",
+  "cookie_bar.accept": "I understand",
+  "cookie_bar.decline": "I decline"
 };
 
 // src/utils/get-message.ts
@@ -6172,7 +6184,7 @@ var TableOfContents = ({ headingList }) => {
       setHeadingItems(headings);
   }, [router.asPath, headingList]);
   const Item = ({
-    title: title5,
+    title: title6,
     slug,
     level,
     active
@@ -6187,7 +6199,7 @@ var TableOfContents = ({ headingList }) => {
             subItem: level === 1 ? "" : slug
           }));
         },
-        children: /* @__PURE__ */ jsx11(Text2, { sx: styles_default5.item(level, active), children: title5 })
+        children: /* @__PURE__ */ jsx11(Text2, { sx: styles_default5.item(level, active), children: title6 })
       }
     );
   };
@@ -7965,7 +7977,7 @@ var cardTitle = (containerType) => {
 // src/components/documentation-card/index.tsx
 import { jsx as jsx23, jsxs as jsxs17 } from "react/jsx-runtime";
 var DocumentationCard = ({
-  title: title5,
+  title: title6,
   description: description4,
   link: link2,
   containerType,
@@ -7975,7 +7987,7 @@ var DocumentationCard = ({
   return /* @__PURE__ */ jsx23(Link5, { href: link2, legacyBehavior: true, children: /* @__PURE__ */ jsx23("a", { onClick, style: { width: "100%" }, children: /* @__PURE__ */ jsxs17(Box13, { sx: cardContainer3(containerType), children: [
     /* @__PURE__ */ jsxs17(Flex11, { sx: titleContainer2(containerType), children: [
       /* @__PURE__ */ jsx23(Icon24, { sx: { color: "#4A596B" }, size: 24 }),
-      /* @__PURE__ */ jsx23(Text7, { className: "title", sx: cardTitle(containerType), children: title5 })
+      /* @__PURE__ */ jsx23(Text7, { className: "title", sx: cardTitle(containerType), children: title6 })
     ] }),
     /* @__PURE__ */ jsx23(Text7, { className: "description", sx: styles_default13.description, children: description4 })
   ] }) }) });
@@ -10111,7 +10123,7 @@ var expanded_results_icon_default = ExpandedResultsIcon;
 import { jsx as jsx49, jsxs as jsxs41 } from "react/jsx-runtime";
 var SearchCard = ({
   Icon: Icon24,
-  title: title5,
+  title: title6,
   method,
   breadcrumbs,
   actionType,
@@ -10133,8 +10145,8 @@ var SearchCard = ({
             active: false
           }
         ) : null,
-        title5 === "overview" && `${hit.doccategory} `,
-        title5
+        title6 === "overview" && `${hit.doccategory} `,
+        title6
       ] }),
       /* @__PURE__ */ jsxs41(Text13, { className: "searchCardDescription", sx: styles_default19.description, children: [
         /* @__PURE__ */ jsx49(Flex17, { children: /* @__PURE__ */ jsx49(
@@ -10485,7 +10497,116 @@ var Search = () => {
   ] });
 };
 var search_default2 = Search;
+
+// src/lib/cookie-bar/index.tsx
+import { useContext as useContext17 } from "react";
+import { CookieConsent } from "react-cookie-consent";
+
+// src/lib/cookie-bar/styles.ts
+var bar = {
+  backgroundColor: "#FFF",
+  borderRadius: "8px",
+  color: "#5E6E84",
+  padding: "20px",
+  width: "80%",
+  left: "50%",
+  transform: "translateX(-50%)",
+  maxWidth: "1280px",
+  alignItems: "center",
+  justifyContent: "center",
+  boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)"
+};
+var barContent = {
+  display: "flex",
+  flex: "1 0 300px",
+  flexDirection: "column",
+  maxWidth: "100%"
+};
+var title5 = {
+  color: "#5E6E84",
+  marginBottom: "10px",
+  lineHeight: "28px",
+  fontSize: "25px",
+  fontWeight: "400"
+};
+var buttonContainer = {
+  display: "flex",
+  flexWrap: "wrap",
+  gap: "10px",
+  justifyContent: "center",
+  margin: "15px"
+};
+var acceptButton = {
+  background: "#F71963",
+  color: "#FFF",
+  padding: "7px 16px",
+  borderRadius: "2px",
+  margin: "0",
+  height: "32px",
+  fontWeight: "400",
+  ":hover": {
+    opacity: "0.7"
+  }
+};
+var declineButton = {
+  border: "1px solid #F71963",
+  background: "#FFF",
+  color: "#F71963",
+  borderRadius: "2px",
+  fontWeight: "400",
+  margin: "0",
+  height: "32px",
+  ":hover": {
+    opacity: "0.7"
+  }
+};
+var styles_default23 = {
+  bar,
+  barContent,
+  title: title5,
+  acceptButton,
+  declineButton,
+  buttonContainer
+};
+
+// src/lib/cookie-bar/index.tsx
+import { Flex as Flex21, Text as Text16 } from "@vtex/brand-ui";
+import aa3 from "search-insights";
+import { jsx as jsx54, jsxs as jsxs46 } from "react/jsx-runtime";
+var Button6 = ({ children, style, ...props }) => {
+  return /* @__PURE__ */ jsx54(Flex21, { sx: style, ...props, children });
+};
+var CookieBar = ({ onAccept }) => {
+  const { locale } = useContext17(LibraryContext);
+  return /* @__PURE__ */ jsxs46(
+    CookieConsent,
+    {
+      enableDeclineButton: true,
+      buttonStyle: styles_default23.acceptButton,
+      declineButtonStyle: styles_default23.declineButton,
+      style: styles_default23.bar,
+      onAccept: () => {
+        aa3("init", {
+          partial: true,
+          useCookie: true
+        });
+        onAccept();
+      },
+      declineButtonText: messages[locale]["cookie_bar.decline"],
+      buttonText: messages[locale]["cookie_bar.accept"],
+      ButtonComponent: Button6,
+      customButtonWrapperAttributes: { style: styles_default23.buttonContainer },
+      customContentAttributes: { style: styles_default23.barContent },
+      children: [
+        /* @__PURE__ */ jsx54(Text16, { sx: styles_default23.title, children: messages[locale]["cookie_bar.title"] }),
+        /* @__PURE__ */ jsx54(Text16, { children: messages[locale]["cookie_bar.description"] })
+      ]
+    }
+  );
+};
+var cookie_bar_default = CookieBar;
 export {
+  cookie_bar_default as CookieBar,
   feedback_section_default as FeedbackSection,
   hamburger_menu_default as HamburgerMenu,
   LibraryContext,
