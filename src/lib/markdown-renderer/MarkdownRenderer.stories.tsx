@@ -30,5 +30,6 @@ export const SimpleMarkdownRenderer: Story = {
   args: {
     serialized: serialized,
     customComponents: { TestComponent },
+    scope: {},
   },
 }
