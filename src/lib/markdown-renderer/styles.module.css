@@ -37,6 +37,10 @@ table .code {
   border: 1px solid #ccced8;
   grid-template-columns: 20px 1fr;
   grid-template-rows: 1fr;
+  word-break: break-word;
+}
+
+.blockquote a {
   word-break: break-all;
 }
 
