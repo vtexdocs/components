@@ -17,10 +17,11 @@ const config: StorybookConfig = {
     autodocs: 'tag',
   },
   webpackFinal: async (config, { configType }) => {
-    config.resolve.modules = [
-      path.resolve(__dirname, "..", "src"),
-      "node_modules",
-    ]
+    if (config.resolve)
+      config.resolve.modules = [
+        path.resolve(__dirname, "..", "src"),
+        "node_modules",
+      ]
     return config;
   }
 }
