@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.2.1](https://github.com/vtexdocs/components/compare/v1.2.0...v1.2.1) (2023-12-14)
+
+
+### Bug Fixes
+
+* **storybook:** check if config.resolve is not undefined ([a1d4c3f](https://github.com/vtexdocs/components/commit/a1d4c3fd7fc77eac78879f2fce95a35c44bb14fb))
+
 ## [1.2.0](https://github.com/vtexdocs/components/compare/v1.1.16...v1.2.0) (2023-12-07)
 
 
