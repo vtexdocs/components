@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.2.2](https://github.com/vtexdocs/components/compare/v1.2.1...v1.2.2) (2023-12-15)
+
+
+### Bug Fixes
+
+* **toc:** check headings length ([06242ee](https://github.com/vtexdocs/components/commit/06242ee37df1d8d02b3fa723c1128ec4b12b6aa3))
+
 ### [1.2.1](https://github.com/vtexdocs/components/compare/v1.2.0...v1.2.1) (2023-12-14)
 
 
