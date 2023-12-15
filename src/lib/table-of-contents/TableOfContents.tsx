@@ -34,8 +34,10 @@ const TableOfContents = ({ headingList }: Props) => {
 
         if (heading.tagName === 'H2') {
           headings.push({ ...item, children: [] })
-        } else {
+        } else if (headings.length > 0) {
           headings[headings.length - 1].children.push({ ...item })
+        } else {
+          headings.push({ ...item, children: [] })
         }
       })
       setHeadingItems(headings)

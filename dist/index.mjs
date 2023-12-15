@@ -6175,8 +6175,10 @@ var TableOfContents = ({ headingList }) => {
         };
         if (heading.tagName === "H2") {
           headings.push({ ...item2, children: [] });
-        } else {
+        } else if (headings.length > 0) {
           headings[headings.length - 1].children.push({ ...item2 });
+        } else {
+          headings.push({ ...item2, children: [] });
         }
       });
       setHeadingItems(headings);
