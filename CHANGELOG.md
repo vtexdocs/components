@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.2.3](https://github.com/vtexdocs/components/compare/v1.2.2...v1.2.3) (2024-01-08)
+
+
+### Bug Fixes
+
+* **icons:** use camelCase in props names ([e3030fd](https://github.com/vtexdocs/components/commit/e3030fdde8ff4d15732663d9781ffe774154eed2))
+
 ### [1.2.2](https://github.com/vtexdocs/components/compare/v1.2.1...v1.2.2) (2023-12-15)
 
 
