@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.2.4](https://github.com/vtexdocs/components/compare/v1.2.3...v1.2.4) (2024-01-08)
+
+
+### Bug Fixes
+
+* update build files ([361207d](https://github.com/vtexdocs/components/commit/361207d681d44c25d18a37da522c5e7c50c8d71d))
+
 ### [1.2.3](https://github.com/vtexdocs/components/compare/v1.2.2...v1.2.3) (2024-01-08)
 
 
