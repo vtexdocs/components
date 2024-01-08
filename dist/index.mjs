@@ -4488,7 +4488,7 @@ var Platform = (props) => /* @__PURE__ */ jsx(
         fill: "none",
         stroke: "#f71963",
         strokeLinejoin: "miter",
-        "stroke-miterlimit": "10",
+        strokeMiterlimit: "10",
         children: [
           /* @__PURE__ */ jsx("rect", { x: "4", y: "15", width: "8", height: "7" }),
           /* @__PURE__ */ jsx("rect", { x: "12", y: "15", width: "8", height: "7" }),
@@ -7437,9 +7437,9 @@ var ArrowLeftIcon = (props) => /* @__PURE__ */ jsxs14(
         {
           d: "M19.5195 12.0195L4.52953 12.0195",
           stroke: "#4A596B",
-          "stroke-width": "1.5",
-          "stroke-linecap": "round",
-          "stroke-linejoin": "round"
+          strokeWidth: "1.5",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
         }
       ),
       /* @__PURE__ */ jsx20(
@@ -7447,9 +7447,9 @@ var ArrowLeftIcon = (props) => /* @__PURE__ */ jsxs14(
         {
           d: "M10.5176 18.0117L4.48058 11.9997L10.5176 5.98772",
           stroke: "#4A596B",
-          "stroke-width": "1.5",
-          "stroke-linecap": "round",
-          "stroke-linejoin": "round"
+          strokeWidth: "1.5",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
         }
       )
     ]
