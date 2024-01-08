@@ -87,6 +87,7 @@ interface Props extends Partial<ContextType> {
     isPreview: boolean;
     /** The section currently selected. */
     sectionSelected: string;
+    hamburguerMenuSections: Section[][];
     /** The portal language. The default is english. */
     locale?: 'en' | 'pt' | 'es';
 }
@@ -113,6 +114,8 @@ type ContextType = {
     closeSidebarElements: (parentsArray: string[]) => void;
     sidebarSections: Section[][];
     setSidebarSections: Dispatch<SetStateAction<Section[][]>>;
+    hamburguerSections: Section[][];
+    setHamburguerSections: Dispatch<SetStateAction<Section[][]>>;
     locale: 'en' | 'pt' | 'es';
 };
 type ActiveItem = {

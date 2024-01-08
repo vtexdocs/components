@@ -15,8 +15,12 @@ interface Props extends Partial<ContextType> {
   isPreview: boolean
   /** The section currently selected. */
   sectionSelected: string
+  /** The sections to be used on the hamburguer menu */
+  hamburguerMenuSections: Section[][]
   /** The portal language. The default is english. */
   locale?: 'en' | 'pt' | 'es'
+
+
 }
 
 export type ContextType = {
@@ -44,6 +48,8 @@ export type ContextType = {
   closeSidebarElements: (parentsArray: string[]) => void
   sidebarSections: Section[][]
   setSidebarSections: Dispatch<SetStateAction<Section[][]>>
+  hamburguerSections: Section[][]
+  setHamburguerSections: Dispatch<SetStateAction<Section[][]>>
   locale: 'en' | 'pt' | 'es'
 }
 
@@ -80,6 +86,8 @@ export const LibraryContext = createContext<ContextType>({
   closeSidebarElements: () => undefined,
   sidebarSections: [],
   setSidebarSections: () => undefined,
+  hamburguerSections: [],
+  setHamburguerSections: () => undefined,
   locale: 'en',
 })
 
@@ -100,8 +108,10 @@ const LibraryContextProvider = ({ children, ...props }: Props) => {
   const [sidebarDataMaster, setSidebarDataMaster] = useState(props.fallback)
   const [isEditorPreview, setIsEditorPreview] = useState(props.isPreview)
   const [sidebarSections, setSidebarSections] = useState(props.sections)
+  const [hamburguerSections, setHamburguerSections] = useState(props.hamburguerMenuSections)
   const locale = 'en'
-
+  
+  console.log("abacate mal");
   useEffect(() => {
     setSidebarDataMaster(props.fallback)
   }, [props.fallback])
@@ -200,6 +210,8 @@ const LibraryContextProvider = ({ children, ...props }: Props) => {
         setSidebarDataMaster,
         sidebarSections,
         setSidebarSections,
+        hamburguerSections,
+        setHamburguerSections,
         locale,
         ...props,
       }}
