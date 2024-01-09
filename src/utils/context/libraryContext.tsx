@@ -111,7 +111,6 @@ const LibraryContextProvider = ({ children, ...props }: Props) => {
   const [hamburguerSections, setHamburguerSections] = useState(props.hamburguerMenuSections)
   const locale = 'en'
   
-  console.log("abacate mal");
   useEffect(() => {
     setSidebarDataMaster(props.fallback)
   }, [props.fallback])
