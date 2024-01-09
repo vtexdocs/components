@@ -29,6 +29,8 @@ const HamburgerMenu = ({ parentsArray = [] }: HamburgerMenuProps) => {
     setActiveSectionName,
     setSidebarSectionHidden,
     sidebarSections,
+    hamburguerSections,
+    setHamburguerSections
   } = context
 
   updateOpenPage({ parentsArray, context })
@@ -42,7 +44,7 @@ const HamburgerMenu = ({ parentsArray = [] }: HamburgerMenuProps) => {
               <Box sx={styles.hamburgerSearchContainer}>
                 <SearchInput />
               </Box>
-              {sidebarSections.map((section, id) => (
+              {hamburguerSections.map((section, id) => (
                 <Box
                   sx={
                     id > 0
