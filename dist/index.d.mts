@@ -87,6 +87,7 @@ interface Props extends Partial<ContextType> {
     isPreview: boolean;
     /** The section currently selected. */
     sectionSelected: string;
+    /** The sections to be used on the hamburguer menu */
     hamburguerMenuSections: Section[][];
     /** The portal language. The default is english. */
     locale?: 'en' | 'pt' | 'es';
