@@ -22,7 +22,8 @@ const steps: SxStyleProp = {
     borderRadius: '9999px',
     fontSize: '1em',
     textAlign: 'center',
-    lineHeight: '2em',
+    lineHeight: '2.1em',
+    boxSizing: 'content-box',
   },
 }
 
