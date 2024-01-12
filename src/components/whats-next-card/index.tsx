@@ -1,12 +1,14 @@
 import React from 'react'
 import { Box, Flex, IconCaret, Text, Link } from '@vtex/brand-ui'
 import styles from './styles'
+import Image from 'next/image.js'
 
 export type WhatsNextDataElement = {
   title: string
-  description: string
-  linkTitle: string
+  description?: string
+  linkTitle?: string
   linkTo: string
+  image?: string
 }
 
 const WhatsNextCard = ({
@@ -14,28 +16,49 @@ const WhatsNextCard = ({
   description,
   linkTitle,
   linkTo,
+  image,
 }: WhatsNextDataElement) => {
   return (
     <Link href={linkTo} sx={styles.container}>
-      <Box>
-        <Text sx={styles.title} className="title">
-          {title}
-        </Text>
-        <Text sx={styles.description} className="description">
-          {description}
-        </Text>
-        <Flex sx={styles.linkContainer}>
-          <Text sx={styles.link} className="link">
-            {linkTitle}
-          </Text>
-          <IconCaret
-            className="caret"
-            color="#A1A8B3"
-            direction="right"
-            size={16}
+      {image ? (
+        <Box>
+          <Image
+            src={image}
+            alt={title}
+            width={0}
+            height={0}
+            sizes="100vw"
+            style={{ width: '100%', height: 'auto' }}
           />
-        </Flex>
-      </Box>
+          <Text sx={styles.imageTitle} className="title">
+            {title}
+          </Text>
+        </Box>
+      ) : (
+        <Box sx={{ padding: '16px' }}>
+          <Text sx={styles.title} className="title">
+            {title}
+          </Text>
+          {description && (
+            <Text sx={styles.description} className="description">
+              {description}
+            </Text>
+          )}
+          {linkTitle && (
+            <Flex sx={styles.linkContainer}>
+              <Text sx={styles.link} className="link">
+                {linkTitle}
+              </Text>
+              <IconCaret
+                className="caret"
+                color="#A1A8B3"
+                direction="right"
+                size={16}
+              />
+            </Flex>
+          )}
+        </Box>
+      )}
     </Link>
   )
 }
