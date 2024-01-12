@@ -32,9 +32,9 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 ));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
-// node_modules/react-is/cjs/react-is.production.min.js
+// node_modules/prop-types/node_modules/react-is/cjs/react-is.production.min.js
 var require_react_is_production_min = __commonJS({
-  "node_modules/react-is/cjs/react-is.production.min.js"(exports) {
+  "node_modules/prop-types/node_modules/react-is/cjs/react-is.production.min.js"(exports) {
     "use strict";
     var b = "function" === typeof Symbol && Symbol.for;
     var c = b ? Symbol.for("react.element") : 60103;
@@ -145,9 +145,9 @@ var require_react_is_production_min = __commonJS({
   }
 });
 
-// node_modules/react-is/cjs/react-is.development.js
+// node_modules/prop-types/node_modules/react-is/cjs/react-is.development.js
 var require_react_is_development = __commonJS({
-  "node_modules/react-is/cjs/react-is.development.js"(exports) {
+  "node_modules/prop-types/node_modules/react-is/cjs/react-is.development.js"(exports) {
     "use strict";
     if (process.env.NODE_ENV !== "production") {
       (function() {
@@ -300,9 +300,9 @@ var require_react_is_development = __commonJS({
   }
 });
 
-// node_modules/react-is/index.js
+// node_modules/prop-types/node_modules/react-is/index.js
 var require_react_is = __commonJS({
-  "node_modules/react-is/index.js"(exports, module) {
+  "node_modules/prop-types/node_modules/react-is/index.js"(exports, module) {
     "use strict";
     if (process.env.NODE_ENV === "production") {
       module.exports = require_react_is_production_min();
@@ -5390,7 +5390,8 @@ var steps = {
     borderRadius: "9999px",
     fontSize: "1em",
     textAlign: "center",
-    lineHeight: "2em"
+    lineHeight: "2.1em",
+    boxSizing: "content-box"
   }
 };
 var styles_default2 = {
@@ -5571,7 +5572,6 @@ import { Box as Box4, Flex as Flex3, IconCaret, Text, Link } from "@vtex/brand-u
 // src/components/whats-next-card/styles.ts
 var container2 = {
   mt: "16px",
-  padding: "16px",
   borderRadius: "4px",
   border: "1px solid #E7E9EE",
   width: ["100%", "49%"],
@@ -5600,6 +5600,20 @@ var title = {
   lineHeight: ["22px", "18px"],
   color: "muted.0"
 };
+var imageTitle = {
+  padding: "16px",
+  fontSize: "16px",
+  fontWeight: "400",
+  color: "muted.0",
+  ":after": {
+    content: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='rgb(74 89 108)' %3E%3Cpath fill-rule='evenodd' d='M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z' clip-rule='evenodd' /%3E%3C/svg%3E")`,
+    position: "absolute",
+    height: "16px",
+    width: "16px",
+    marginLeft: "3px",
+    lineHeight: "30px"
+  }
+};
 var description = {
   fontSize: "14px",
   fontWeight: "400",
@@ -5614,20 +5628,42 @@ var link = {
   ...description,
   color: "muted.1"
 };
-var styles_default4 = { container: container2, title, description, linkContainer, link };
+var styles_default4 = {
+  container: container2,
+  title,
+  imageTitle,
+  description,
+  linkContainer,
+  link
+};
 
 // src/components/whats-next-card/index.tsx
+import Image from "next/image.js";
 import { jsx as jsx7, jsxs as jsxs5 } from "react/jsx-runtime";
 var WhatsNextCard = ({
   title: title6,
   description: description4,
   linkTitle,
-  linkTo
+  linkTo,
+  image
 }) => {
-  return /* @__PURE__ */ jsx7(Link, { href: linkTo, sx: styles_default4.container, children: /* @__PURE__ */ jsxs5(Box4, { children: [
+  return /* @__PURE__ */ jsx7(Link, { href: linkTo, sx: styles_default4.container, children: image ? /* @__PURE__ */ jsxs5(Box4, { children: [
+    /* @__PURE__ */ jsx7(
+      Image,
+      {
+        src: image,
+        alt: title6,
+        width: 0,
+        height: 0,
+        sizes: "100vw",
+        style: { width: "100%", height: "auto" }
+      }
+    ),
+    /* @__PURE__ */ jsx7(Text, { sx: styles_default4.imageTitle, className: "title", children: title6 })
+  ] }) : /* @__PURE__ */ jsxs5(Box4, { sx: { padding: "16px" }, children: [
     /* @__PURE__ */ jsx7(Text, { sx: styles_default4.title, className: "title", children: title6 }),
-    /* @__PURE__ */ jsx7(Text, { sx: styles_default4.description, className: "description", children: description4 }),
-    /* @__PURE__ */ jsxs5(Flex3, { sx: styles_default4.linkContainer, children: [
+    description4 && /* @__PURE__ */ jsx7(Text, { sx: styles_default4.description, className: "description", children: description4 }),
+    linkTitle && /* @__PURE__ */ jsxs5(Flex3, { sx: styles_default4.linkContainer, children: [
       /* @__PURE__ */ jsx7(Text, { sx: styles_default4.link, className: "link", children: linkTitle }),
       /* @__PURE__ */ jsx7(
         IconCaret,
@@ -6346,7 +6382,7 @@ var iconTitle = {
   fontSize: "14px",
   ml: ["8px", "8px", "8px", "8px", "8px", "12px"],
   whiteSpace: "nowrap",
-  overflowX: "hidden",
+  overflow: "hidden",
   textOverflow: "ellipsis"
 };
 var iconTooltip = {
