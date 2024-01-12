@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box, Flex, IconCaret, Text, Link } from '@vtex/brand-ui'
 import styles from './styles'
-import Image from 'next/image'
+import Image from 'next/image.js'
 
 export type WhatsNextDataElement = {
   title: string
