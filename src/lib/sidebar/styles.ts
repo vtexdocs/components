@@ -113,7 +113,7 @@ const iconTitle: SxStyleProp = {
   fontSize: '14px',
   ml: ['8px', '8px', '8px', '8px', '8px', '12px'],
   whiteSpace: 'nowrap',
-  overflowX: 'hidden',
+  overflow: 'hidden',
   textOverflow: 'ellipsis',
 }
 
