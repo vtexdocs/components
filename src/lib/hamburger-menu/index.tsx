@@ -30,8 +30,17 @@ const HamburgerMenu = ({ parentsArray = [] }: HamburgerMenuProps) => {
     setSidebarSectionHidden,
     sidebarSections,
     hamburguerSections,
-    setHamburguerSections
+    setHamburguerSections,
   } = context
+
+  const isDocument = (sections: any, title: string) => {
+    let isDoc = false
+    if (Array.isArray(sections)) {
+      isDoc = sections.find((section) => section.document === title)
+    }
+
+    return isDoc
+  }
 
   updateOpenPage({ parentsArray, context })
 
@@ -57,22 +66,24 @@ const HamburgerMenu = ({ parentsArray = [] }: HamburgerMenuProps) => {
                   {section.map((card) => (
                     <Box sx={styles.innerCardContainer} key={card.title}>
                       <DocumentationCard containerType="mobile" {...card} />
-                      <Button
-                        aria-label={'Open sidebar'}
-                        size="regular"
-                        variant="tertiary"
-                        icon={() => <IconCaret direction="right" size={32} />}
-                        sx={
-                          activeSectionName === card.title &&
-                          !sidebarSectionHidden
-                            ? styles.arrowIconActive
-                            : styles.arrowIcon
-                        }
-                        onClick={() => {
-                          setActiveSectionName(card.title)
-                          setSidebarSectionHidden(false)
-                        }}
-                      />
+                      {isDocument(sidebarDataMaster, card.title) ? (
+                        <Button
+                          aria-label={'Open sidebar'}
+                          size="regular"
+                          variant="tertiary"
+                          icon={() => <IconCaret direction="right" size={32} />}
+                          sx={
+                            activeSectionName === card.title &&
+                            !sidebarSectionHidden
+                              ? styles.arrowIconActive
+                              : styles.arrowIcon
+                          }
+                          onClick={() => {
+                            setActiveSectionName(card.title)
+                            setSidebarSectionHidden(false)
+                          }}
+                        />
+                      ) : null}
                     </Box>
                   ))}
                 </Box>
