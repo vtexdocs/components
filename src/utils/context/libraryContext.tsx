@@ -19,8 +19,6 @@ interface Props extends Partial<ContextType> {
   hamburguerMenuSections: Section[][]
   /** The portal language. The default is english. */
   locale?: 'en' | 'pt' | 'es'
-
-
 }
 
 export type ContextType = {
@@ -108,9 +106,11 @@ const LibraryContextProvider = ({ children, ...props }: Props) => {
   const [sidebarDataMaster, setSidebarDataMaster] = useState(props.fallback)
   const [isEditorPreview, setIsEditorPreview] = useState(props.isPreview)
   const [sidebarSections, setSidebarSections] = useState(props.sections)
-  const [hamburguerSections, setHamburguerSections] = useState(props.hamburguerMenuSections)
+  const [hamburguerSections, setHamburguerSections] = useState(
+    props.hamburguerMenuSections
+  )
   const locale = 'en'
-  
+
   useEffect(() => {
     setSidebarDataMaster(props.fallback)
   }, [props.fallback])
