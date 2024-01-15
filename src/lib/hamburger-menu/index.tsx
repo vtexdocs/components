@@ -28,21 +28,23 @@ const HamburgerMenu = ({ parentsArray = [] }: HamburgerMenuProps) => {
     activeSectionName,
     setActiveSectionName,
     setSidebarSectionHidden,
-    sidebarSections,
     hamburguerSections,
-    setHamburguerSections,
   } = context
 
-  const isDocument = (sections: any, title: string) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const isDocument = (sections: any, documentID: string) => {
     let isDoc = false
+    console.log('document id', documentID)
     if (Array.isArray(sections)) {
-      isDoc = sections.find((section) => section.document === title)
+      isDoc = sections.find((section) => section.documentation === documentID)
     }
 
     return isDoc
   }
 
   updateOpenPage({ parentsArray, context })
+
+  console.log('abacate mal', activeSectionName)
 
   return (
     <Header.ActionButton>
@@ -66,14 +68,14 @@ const HamburgerMenu = ({ parentsArray = [] }: HamburgerMenuProps) => {
                   {section.map((card) => (
                     <Box sx={styles.innerCardContainer} key={card.title}>
                       <DocumentationCard containerType="mobile" {...card} />
-                      {isDocument(sidebarDataMaster, card.title) ? (
+                      {isDocument(sidebarDataMaster, card.id) ? (
                         <Button
                           aria-label={'Open sidebar'}
                           size="regular"
                           variant="tertiary"
                           icon={() => <IconCaret direction="right" size={32} />}
                           sx={
-                            activeSectionName === card.title &&
+                            activeSectionName === card.id &&
                             !sidebarSectionHidden
                               ? styles.arrowIconActive
                               : styles.arrowIcon
