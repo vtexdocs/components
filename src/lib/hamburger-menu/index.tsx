@@ -34,7 +34,7 @@ const HamburgerMenu = ({ parentsArray = [] }: HamburgerMenuProps) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const isDocument = (sections: any, documentID: string) => {
     let isDoc = false
-    console.log('document id', documentID)
+
     if (Array.isArray(sections)) {
       isDoc = sections.find((section) => section.documentation === documentID)
     }
@@ -43,8 +43,6 @@ const HamburgerMenu = ({ parentsArray = [] }: HamburgerMenuProps) => {
   }
 
   updateOpenPage({ parentsArray, context })
-
-  console.log('abacate mal', activeSectionName)
 
   return (
     <Header.ActionButton>
@@ -81,7 +79,7 @@ const HamburgerMenu = ({ parentsArray = [] }: HamburgerMenuProps) => {
                               : styles.arrowIcon
                           }
                           onClick={() => {
-                            setActiveSectionName(card.title)
+                            setActiveSectionName(card.id)
                             setSidebarSectionHidden(false)
                           }}
                         />
