@@ -5675,6 +5675,8 @@ var LibraryContext = createContext({
   closeSidebarElements: () => void 0,
   sidebarSections: [],
   setSidebarSections: () => void 0,
+  hamburguerSections: [],
+  setHamburguerSections: () => void 0,
   locale: "en"
 });
 var LibraryContextProvider = ({ children, ...props }) => {
@@ -5692,6 +5694,9 @@ var LibraryContextProvider = ({ children, ...props }) => {
   const [sidebarDataMaster, setSidebarDataMaster] = useState2(props.fallback);
   const [isEditorPreview, setIsEditorPreview] = useState2(props.isPreview);
   const [sidebarSections, setSidebarSections] = useState2(props.sections);
+  const [hamburguerSections, setHamburguerSections] = useState2(
+    props.hamburguerMenuSections
+  );
   const locale = "en";
   useEffect3(() => {
     setSidebarDataMaster(props.fallback);
@@ -5777,6 +5782,8 @@ var LibraryContextProvider = ({ children, ...props }) => {
         setSidebarDataMaster,
         sidebarSections,
         setSidebarSections,
+        hamburguerSections,
+        setHamburguerSections,
         locale,
         ...props
       },
@@ -9139,33 +9146,40 @@ var HamburgerMenu = ({ parentsArray = [] }) => {
     activeSectionName,
     setActiveSectionName,
     setSidebarSectionHidden,
-    sidebarSections
+    hamburguerSections
   } = context;
+  const isDocument = (sections, documentID) => {
+    let isDoc = false;
+    if (Array.isArray(sections)) {
+      isDoc = sections.find((section) => section.documentation === documentID);
+    }
+    return isDoc;
+  };
   updateOpenPage({ parentsArray, context });
   return /* @__PURE__ */ jsx39(Header.ActionButton, { children: /* @__PURE__ */ jsx39(VtexHamburgerMenu, { sx: styles_default12.hamburgerContainer, children: /* @__PURE__ */ jsx39(VtexHamburgerMenu.Menu, { sx: styles_default12.innerHambugerContainer, children: /* @__PURE__ */ jsxs32(Box16, { sx: styles_default12.menuContainer, children: [
     /* @__PURE__ */ jsxs32(Box16, { sx: styles_default12.cardContainer, children: [
       /* @__PURE__ */ jsx39(Box16, { sx: styles_default12.hamburgerSearchContainer, children: /* @__PURE__ */ jsx39(SearchInput, {}) }),
-      sidebarSections.map((section, id) => /* @__PURE__ */ jsx39(
+      hamburguerSections.map((section, id) => /* @__PURE__ */ jsx39(
         Box16,
         {
           sx: id > 0 ? styles_default12.updatesContainer : styles_default12.documentationContainer,
           "data-cy": "dropdown-menu-first-section",
           children: section.map((card2) => /* @__PURE__ */ jsxs32(Box16, { sx: styles_default12.innerCardContainer, children: [
             /* @__PURE__ */ jsx39(documentation_card_default, { containerType: "mobile", ...card2 }),
-            /* @__PURE__ */ jsx39(
+            isDocument(sidebarDataMaster, card2.id) ? /* @__PURE__ */ jsx39(
               Button4,
               {
                 "aria-label": "Open sidebar",
                 size: "regular",
                 variant: "tertiary",
                 icon: () => /* @__PURE__ */ jsx39(IconCaret4, { direction: "right", size: 32 }),
-                sx: activeSectionName === card2.title && !sidebarSectionHidden ? styles_default12.arrowIconActive : styles_default12.arrowIcon,
+                sx: activeSectionName === card2.id && !sidebarSectionHidden ? styles_default12.arrowIconActive : styles_default12.arrowIcon,
                 onClick: () => {
-                  setActiveSectionName(card2.title);
+                  setActiveSectionName(card2.id);
                   setSidebarSectionHidden(false);
                 }
               }
-            )
+            ) : null
           ] }, card2.title))
         },
         id
