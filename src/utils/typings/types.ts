@@ -1,6 +1,7 @@
 import { IconProps } from '@vtex/brand-ui'
 
 export type Section = {
+  id: string
   link: string
   title: string
   description: string

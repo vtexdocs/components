@@ -28,8 +28,19 @@ const HamburgerMenu = ({ parentsArray = [] }: HamburgerMenuProps) => {
     activeSectionName,
     setActiveSectionName,
     setSidebarSectionHidden,
-    sidebarSections,
+    hamburguerSections,
   } = context
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const isDocument = (sections: any, documentID: string) => {
+    let isDoc = false
+
+    if (Array.isArray(sections)) {
+      isDoc = sections.find((section) => section.documentation === documentID)
+    }
+
+    return isDoc
+  }
 
   updateOpenPage({ parentsArray, context })
 
@@ -42,7 +53,7 @@ const HamburgerMenu = ({ parentsArray = [] }: HamburgerMenuProps) => {
               <Box sx={styles.hamburgerSearchContainer}>
                 <SearchInput />
               </Box>
-              {sidebarSections.map((section, id) => (
+              {hamburguerSections.map((section, id) => (
                 <Box
                   sx={
                     id > 0
@@ -55,22 +66,24 @@ const HamburgerMenu = ({ parentsArray = [] }: HamburgerMenuProps) => {
                   {section.map((card) => (
                     <Box sx={styles.innerCardContainer} key={card.title}>
                       <DocumentationCard containerType="mobile" {...card} />
-                      <Button
-                        aria-label={'Open sidebar'}
-                        size="regular"
-                        variant="tertiary"
-                        icon={() => <IconCaret direction="right" size={32} />}
-                        sx={
-                          activeSectionName === card.title &&
-                          !sidebarSectionHidden
-                            ? styles.arrowIconActive
-                            : styles.arrowIcon
-                        }
-                        onClick={() => {
-                          setActiveSectionName(card.title)
-                          setSidebarSectionHidden(false)
-                        }}
-                      />
+                      {isDocument(sidebarDataMaster, card.id) ? (
+                        <Button
+                          aria-label={'Open sidebar'}
+                          size="regular"
+                          variant="tertiary"
+                          icon={() => <IconCaret direction="right" size={32} />}
+                          sx={
+                            activeSectionName === card.id &&
+                            !sidebarSectionHidden
+                              ? styles.arrowIconActive
+                              : styles.arrowIcon
+                          }
+                          onClick={() => {
+                            setActiveSectionName(card.id)
+                            setSidebarSectionHidden(false)
+                          }}
+                        />
+                      ) : null}
                     </Box>
                   ))}
                 </Box>

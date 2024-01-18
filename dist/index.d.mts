@@ -71,6 +71,7 @@ interface Props$1 {
 declare const CookieBar: ({ onAccept }: Props$1) => react_jsx_runtime.JSX.Element;
 
 type Section = {
+    id: string;
     link: string;
     title: string;
     description: string;
@@ -87,6 +88,8 @@ interface Props extends Partial<ContextType> {
     isPreview: boolean;
     /** The section currently selected. */
     sectionSelected: string;
+    /** The sections to be used on the hamburguer menu */
+    hamburguerMenuSections: Section[][];
     /** The portal language. The default is english. */
     locale?: 'en' | 'pt' | 'es';
 }
@@ -113,6 +116,8 @@ type ContextType = {
     closeSidebarElements: (parentsArray: string[]) => void;
     sidebarSections: Section[][];
     setSidebarSections: Dispatch<SetStateAction<Section[][]>>;
+    hamburguerSections: Section[][];
+    setHamburguerSections: Dispatch<SetStateAction<Section[][]>>;
     locale: 'en' | 'pt' | 'es';
 };
 type ActiveItem = {

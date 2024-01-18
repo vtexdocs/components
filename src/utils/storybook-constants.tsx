@@ -22,6 +22,25 @@ export const sections = [
   ],
 ]
 
+export const hamburguerSections = [
+  [
+    {
+      Icon: APIGuidesIcon,
+      title: 'Guides',
+      description: 'Guides description',
+      link: '#',
+    },
+  ],
+  [
+    {
+      Icon: APIReferenceIcon,
+      title: 'Reference',
+      description: 'Reference description',
+      link: '#',
+    },
+  ],
+]
+
 export const navigationLocale = [
   {
     documentation: 'Guides',
@@ -95,6 +114,7 @@ export const exampleContextProps = {
   isPreview: false,
   sectionSelected: '',
   fallback: navigation,
+  hamburguerMenuSections: hamburguerSections
 }
 
 export const exampleContextPropsLocale = {
