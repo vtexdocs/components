@@ -2,6 +2,37 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0](https://github.com/vtexdocs/components/compare/v1.4.0...v2.0.0) (2024-01-18)
+
+
+### Features
+
+* adds hamburguer menu sections ([72fdf7a](https://github.com/vtexdocs/components/commit/72fdf7a34f4ce109e73f286c42bfa22cad23479c))
+* adds hamburguer menu sections ([2b2fabc](https://github.com/vtexdocs/components/commit/2b2fabce39f7216efc4b23f40e88943d994df8f5))
+* adds id to section ([885dc16](https://github.com/vtexdocs/components/commit/885dc1683120e16d7572e3fd3f6e7912fc07ddeb))
+* adds id to section ([477dc6c](https://github.com/vtexdocs/components/commit/477dc6cfcf06860a2cb9349cdb775f34c1ae962d))
+* changes from sidebar sections to hamburguer menu sections ([0b1e088](https://github.com/vtexdocs/components/commit/0b1e088190721a76bf4857aacadbe32269b95a2d))
+* changes from sidebar sections to hamburguer menu sections ([74f704f](https://github.com/vtexdocs/components/commit/74f704fa7dd8e5aef23d40e77194a5b7920e8c09))
+* manages iconcarent if is a document ([545f576](https://github.com/vtexdocs/components/commit/545f576bf4c4c40772dc18c00a2b9b153f381882))
+* manages iconcarent if is a document ([27e047c](https://github.com/vtexdocs/components/commit/27e047c775805845cdf34a151aad2f0beb9246e6))
+* separate external links from docs to render arrow ([bf76e2d](https://github.com/vtexdocs/components/commit/bf76e2d7ddb16e03be869924f322fff4f765f881))
+* separate external links from docs to render arrow ([4929b08](https://github.com/vtexdocs/components/commit/4929b0857cf3d8363fd83c3a4df968700152eb44))
+* updating dist ([fc5a8ac](https://github.com/vtexdocs/components/commit/fc5a8acf9e98c8e58fe7b08eca1edb3de9c4c879))
+* updating dist ([a97741e](https://github.com/vtexdocs/components/commit/a97741ed8f7198612bf70daae0436435fa02c6d3))
+
+
+### Bug Fixes
+
+* adds hamburguer menu fallback to storybook ([593fd25](https://github.com/vtexdocs/components/commit/593fd25faebad61d912d07d797fb7bb399a2b203))
+* adds hamburguer menu fallback to storybook ([48681d0](https://github.com/vtexdocs/components/commit/48681d0aa18a666cbee140ff02f497d050a3881a))
+* comparing with card id instead of title ([b1a618e](https://github.com/vtexdocs/components/commit/b1a618e206870c09f1e8f947e9cade4202421196))
+* comparing with card id instead of title ([83aed4d](https://github.com/vtexdocs/components/commit/83aed4d88bc3f236d0526b6bbab33215ac25fbbc))
+* correct mjs file ([92ddf2e](https://github.com/vtexdocs/components/commit/92ddf2ef11128b4fb339d8e6dcd2a37a1b41c61a))
+* fix linttering ([c4cf1aa](https://github.com/vtexdocs/components/commit/c4cf1aae7fd609c526dd5ba50e19b93fa80bd7f4))
+* fix linttering ([9a30020](https://github.com/vtexdocs/components/commit/9a30020ad1e01d41f9307978cb82f1d6bf02d0ce))
+* removing test log ([42c912c](https://github.com/vtexdocs/components/commit/42c912cc1c0f8bb7266278af47d03db3bd2d0da1))
+* removing test log ([2b5cec4](https://github.com/vtexdocs/components/commit/2b5cec4586d48b14c01e22fa443b2498ba0b1310))
+
 ## [1.4.0](https://github.com/vtexdocs/components/compare/v1.3.0...v1.4.0) (2024-01-12)
 
 ## [1.3.0](https://github.com/vtexdocs/components/compare/v1.2.4...v1.3.0) (2024-01-12)
