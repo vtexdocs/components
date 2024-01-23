@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.0.1](https://github.com/vtexdocs/components/compare/v2.0.0...v2.0.1) (2024-01-23)
+
+
+### Bug Fixes
+
+* sidebar identation ([23a327b](https://github.com/vtexdocs/components/commit/23a327be8d6f070c2654dd23e0e7d4100adbb8ad))
+
 ## [2.0.0](https://github.com/vtexdocs/components/compare/v1.4.0...v2.0.0) (2024-01-18)
 
 
