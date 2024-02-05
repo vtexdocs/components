@@ -2,11 +2,13 @@ import { Configure, InstantSearch } from 'react-instantsearch-dom'
 import SearchBox from './search-box'
 import Results from './results-box'
 import { Box } from '@vtex/brand-ui'
-import { useRef, useState } from 'react'
+import { useContext, useRef, useState } from 'react'
 import useClickOutside from 'utils/hooks/useClickOutside'
 import { searchClient, searchIndex } from 'utils/config/search-config'
+import { LibraryContext } from 'utils/context/libraryContext'
 
 export default function SearchInput() {
+  const { locale } = useContext(LibraryContext)
   const [focusOut, setfocusOut] = useState<{ modaltoggle: boolean }>({
     modaltoggle: true,
   })
@@ -19,7 +21,10 @@ export default function SearchInput() {
 
   return (
     <InstantSearch searchClient={searchClient} indexName={searchIndex}>
-      <Configure clickAnalytics={true} />
+      {
+        searchClient.instantSearchConfigs && <Configure {...searchClient.instantSearchConfigs} />
+      }
+      <Configure clickAnalytics={true} facetFilters={[`language:${locale}`]} />
       <Box onFocus={() => setfocusOut({ modaltoggle: true })} ref={resultsBox}>
         <SearchBox changeFocus={changeFocus} />
         {focusOut.modaltoggle && <Results changeFocus={changeFocus} />}
