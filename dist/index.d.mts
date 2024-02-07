@@ -134,6 +134,7 @@ interface AlgoliaConfig {
     index: string;
     algoliaOptions?: AlgoliaSearchOptions;
     customOptions?: any;
+    instantSearchConfigs?: any;
 }
 declare const createAlgoliaClient: (config: AlgoliaConfig) => void;
 

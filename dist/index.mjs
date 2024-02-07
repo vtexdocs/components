@@ -7935,7 +7935,7 @@ var styles_default12 = {
 };
 
 // src/lib/hamburger-menu/index.tsx
-import { useContext as useContext9 } from "react";
+import { useContext as useContext10 } from "react";
 
 // src/components/documentation-card/index.tsx
 import Link5 from "next/link.js";
@@ -9118,7 +9118,7 @@ var results_box_default = HitsBox;
 
 // src/components/search-input/index.tsx
 import { Box as Box15 } from "@vtex/brand-ui";
-import { useRef as useRef7, useState as useState9 } from "react";
+import { useContext as useContext9, useRef as useRef7, useState as useState9 } from "react";
 
 // src/utils/config/search-config.ts
 var import_lite = __toESM(require_lite());
@@ -9126,7 +9126,7 @@ import aa2 from "search-insights";
 var searchClient = {};
 var searchIndex = "";
 var createAlgoliaClient = (config) => {
-  const { apiKey, appId, index, algoliaOptions, customOptions } = config;
+  const { apiKey, appId, index, algoliaOptions, customOptions, instantSearchConfigs } = config;
   searchIndex = index;
   aa2("init", {
     appId: appId || "",
@@ -9143,6 +9143,7 @@ var createAlgoliaClient = (config) => {
   searchClient = {
     ...algoliaClient,
     ...customOptions,
+    instantSearchConfigs,
     search(requests) {
       if (requests.every(({ params }) => !params?.query))
         return;
@@ -9155,6 +9156,7 @@ var search_config_default = createAlgoliaClient;
 // src/components/search-input/index.tsx
 import { jsx as jsx38, jsxs as jsxs31 } from "react/jsx-runtime";
 function SearchInput() {
+  const { locale } = useContext9(LibraryContext);
   const [focusOut, setfocusOut] = useState9({
     modaltoggle: true
   });
@@ -9164,7 +9166,8 @@ function SearchInput() {
     setfocusOut({ modaltoggle: value });
   };
   return /* @__PURE__ */ jsxs31(InstantSearch, { searchClient, indexName: searchIndex, children: [
-    /* @__PURE__ */ jsx38(Configure, { clickAnalytics: true }),
+    searchClient.instantSearchConfigs && /* @__PURE__ */ jsx38(Configure, { ...searchClient.instantSearchConfigs }),
+    /* @__PURE__ */ jsx38(Configure, { clickAnalytics: true, facetFilters: [`language:${locale}`] }),
     /* @__PURE__ */ jsxs31(Box15, { onFocus: () => setfocusOut({ modaltoggle: true }), ref: resultsBox2, children: [
       /* @__PURE__ */ jsx38(search_box_default, { changeFocus }),
       focusOut.modaltoggle && /* @__PURE__ */ jsx38(results_box_default, { changeFocus })
@@ -9175,7 +9178,7 @@ function SearchInput() {
 // src/lib/hamburger-menu/index.tsx
 import { jsx as jsx39, jsxs as jsxs32 } from "react/jsx-runtime";
 var HamburgerMenu = ({ parentsArray = [] }) => {
-  const context = useContext9(LibraryContext);
+  const context = useContext10(LibraryContext);
   const {
     sidebarDataMaster,
     sidebarSectionHidden,
@@ -9362,7 +9365,7 @@ var LikeSelectedIcon = (props) => /* @__PURE__ */ jsxs35(
 var like_selected_icon_default = LikeSelectedIcon;
 
 // src/lib/feedback-section/index.tsx
-import { useContext as useContext11, useRef as useRef9, useState as useState11 } from "react";
+import { useContext as useContext12, useRef as useRef9, useState as useState11 } from "react";
 
 // src/lib/feedback-section/styles.ts
 var container5 = {
@@ -9458,7 +9461,7 @@ var setButtonStyle = (feedback, modalState, like) => {
 // src/components/feedback-modal/index.tsx
 import { Box as Box17, Button as Button5, Textarea, Text as Text10, Icon as Icon22 } from "@vtex/brand-ui";
 import {
-  useContext as useContext10,
+  useContext as useContext11,
   useEffect as useEffect10,
   useRef as useRef8,
   useState as useState10
@@ -9620,7 +9623,7 @@ var FeedBackModal = ({
   const cardRef = useRef8();
   const { body: body2, documentElement } = document;
   const [comment, setComment] = useState10("");
-  const { locale } = useContext10(LibraryContext);
+  const { locale } = useContext11(LibraryContext);
   const closeModal = () => {
     const feedback = modalState?.liked;
     const scrollTop = body2.getBoundingClientRect().top * -1;
@@ -9703,7 +9706,7 @@ var FeedbackSection = ({
   });
   const likeButton = useRef9();
   const dislikeButton = useRef9();
-  const { locale } = useContext11(LibraryContext);
+  const { locale } = useContext12(LibraryContext);
   if (slug !== prevSlug) {
     setPrevSlug(slug);
     changeModalState({ modalOpen: false });
@@ -9779,7 +9782,7 @@ import { Box as Box19 } from "@vtex/brand-ui";
 
 // src/components/search-section/index.tsx
 import { Box as Box18, Flex as Flex16, Text as Text12 } from "@vtex/brand-ui";
-import { useContext as useContext12, useEffect as useEffect11 } from "react";
+import { useContext as useContext13, useEffect as useEffect11 } from "react";
 
 // src/components/search-section/styles.ts
 var sectionContainer = {
@@ -9886,7 +9889,7 @@ var search_default = SearchContextProvider;
 import { jsx as jsx46, jsxs as jsxs38 } from "react/jsx-runtime";
 var SearchSection = ({ dataElement, index }) => {
   const router = useRouter6();
-  const { filterSelectedSection, ocurrenceCount, changeFilterSelectedSection } = useContext12(SearchContext);
+  const { filterSelectedSection, ocurrenceCount, changeFilterSelectedSection } = useContext13(SearchContext);
   const updateFilter = (value) => {
     router.query.filter = value;
     changeFilterSelectedSection(value);
@@ -9954,10 +9957,10 @@ var styles_default18 = {
 };
 
 // src/components/search-sections/index.tsx
-import { useContext as useContext13 } from "react";
+import { useContext as useContext14 } from "react";
 import { jsx as jsx47, jsxs as jsxs39 } from "react/jsx-runtime";
 var SearchSections = () => {
-  const { sidebarSections } = useContext13(LibraryContext);
+  const { sidebarSections } = useContext14(LibraryContext);
   return /* @__PURE__ */ jsx47(Box19, { sx: styles_default18.container, children: sidebarSections.map((sections, id) => /* @__PURE__ */ jsxs39(
     Box19,
     {
@@ -9980,12 +9983,12 @@ var search_sections_default = SearchSections;
 
 // src/components/search-results/index.tsx
 import { useRouter as useRouter7 } from "next/router.js";
-import { useContext as useContext15, useState as useState14 } from "react";
+import { useContext as useContext16, useState as useState14 } from "react";
 import { Box as Box22, Text as Text14 } from "@vtex/brand-ui";
 import { Configure as Configure2, InstantSearch as InstantSearch2 } from "react-instantsearch-dom";
 
 // src/components/search-results/infiniteHits.tsx
-import { useContext as useContext14, useEffect as useEffect12, useMemo as useMemo2, useRef as useRef10 } from "react";
+import { useContext as useContext15, useEffect as useEffect12, useMemo as useMemo2, useRef as useRef10 } from "react";
 import {
   connectInfiniteHits,
   connectStateResults as connectStateResults2
@@ -10287,7 +10290,7 @@ var HitCard = ({ hit }) => {
 };
 var StateResults = connectStateResults2(
   ({ searchResults }) => {
-    const { updateOcurrenceCount } = useContext14(SearchContext);
+    const { updateOcurrenceCount } = useContext15(SearchContext);
     useEffect12(() => {
       const results = searchResults;
       if (results && results._state.filters === "") {
@@ -10401,7 +10404,7 @@ var styles_default20 = {
 import { jsx as jsx51, jsxs as jsxs43 } from "react/jsx-runtime";
 var SearchResults = () => {
   const router = useRouter7();
-  const { filterSelectedSection, ocurrenceCount } = useContext15(SearchContext);
+  const { filterSelectedSection, ocurrenceCount } = useContext16(SearchContext);
   const filters = filterSelectedSection ? `doctype: "${filterSelectedSection}"` : "";
   const [prevFilter, setPrevFilter] = useState14("");
   const [searchState, setSearchState] = useState14({});
@@ -10452,7 +10455,7 @@ var SearchResults = () => {
 var search_results_default = SearchResults;
 
 // src/components/search-filter-tab-bar/index.tsx
-import { useContext as useContext16 } from "react";
+import { useContext as useContext17 } from "react";
 import { Flex as Flex19, Text as Text15 } from "@vtex/brand-ui";
 
 // src/components/search-filter-tab-bar/styles.ts
@@ -10495,7 +10498,7 @@ var styles_default21 = { container: container9, tab, tabTitle, tabCount };
 // src/components/search-filter-tab-bar/index.tsx
 import { jsx as jsx52, jsxs as jsxs44 } from "react/jsx-runtime";
 var SearchFilterTab = ({ filter }) => {
-  const { filterSelectedSection, changeFilterSelectedSection, ocurrenceCount } = useContext16(SearchContext);
+  const { filterSelectedSection, changeFilterSelectedSection, ocurrenceCount } = useContext17(SearchContext);
   return /* @__PURE__ */ jsxs44(
     Flex19,
     {
@@ -10509,7 +10512,7 @@ var SearchFilterTab = ({ filter }) => {
   );
 };
 var SearchFilterTabBar = () => {
-  const { sidebarSections } = useContext16(LibraryContext);
+  const { sidebarSections } = useContext17(LibraryContext);
   return /* @__PURE__ */ jsxs44(Flex19, { sx: styles_default21.container, children: [
     /* @__PURE__ */ jsx52(SearchFilterTab, { filter: "" }),
     sidebarSections.flat().map((section) => {
@@ -10551,7 +10554,7 @@ var Search = () => {
 var search_default2 = Search;
 
 // src/lib/cookie-bar/index.tsx
-import { useContext as useContext17 } from "react";
+import { useContext as useContext18 } from "react";
 import { CookieConsent } from "react-cookie-consent";
 
 // src/lib/cookie-bar/styles.ts
@@ -10629,7 +10632,7 @@ var Button6 = ({ children, style, ...props }) => {
   return /* @__PURE__ */ jsx54(Flex21, { sx: style, ...props, children });
 };
 var CookieBar = ({ onAccept }) => {
-  const { locale } = useContext17(LibraryContext);
+  const { locale } = useContext18(LibraryContext);
   return /* @__PURE__ */ jsxs46(
     CookieConsent,
     {
