@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.0.2](https://github.com/vtexdocs/components/compare/v2.0.1...v2.0.2) (2024-02-09)
+
+
+### Features
+
+* add language facetFilter ([4f4cb99](https://github.com/vtexdocs/components/commit/4f4cb99fc82072e3a0e29d1252c476af0f542934))
+
+
+### Bug Fixes
+
+* update build files ([b3348d1](https://github.com/vtexdocs/components/commit/b3348d1864c8f1733cc8fd9b1e27fd988fed7cb4))
+
 ### [2.0.1](https://github.com/vtexdocs/components/compare/v2.0.0...v2.0.1) (2024-01-23)
 
 
