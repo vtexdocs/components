@@ -32,9 +32,9 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 ));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
-// node_modules/prop-types/node_modules/react-is/cjs/react-is.production.min.js
+// node_modules/react-is/cjs/react-is.production.min.js
 var require_react_is_production_min = __commonJS({
-  "node_modules/prop-types/node_modules/react-is/cjs/react-is.production.min.js"(exports) {
+  "node_modules/react-is/cjs/react-is.production.min.js"(exports) {
     "use strict";
     var b = "function" === typeof Symbol && Symbol.for;
     var c = b ? Symbol.for("react.element") : 60103;
@@ -145,9 +145,9 @@ var require_react_is_production_min = __commonJS({
   }
 });
 
-// node_modules/prop-types/node_modules/react-is/cjs/react-is.development.js
+// node_modules/react-is/cjs/react-is.development.js
 var require_react_is_development = __commonJS({
-  "node_modules/prop-types/node_modules/react-is/cjs/react-is.development.js"(exports) {
+  "node_modules/react-is/cjs/react-is.development.js"(exports) {
     "use strict";
     if (process.env.NODE_ENV !== "production") {
       (function() {
@@ -300,9 +300,9 @@ var require_react_is_development = __commonJS({
   }
 });
 
-// node_modules/prop-types/node_modules/react-is/index.js
+// node_modules/react-is/index.js
 var require_react_is = __commonJS({
-  "node_modules/prop-types/node_modules/react-is/index.js"(exports, module) {
+  "node_modules/react-is/index.js"(exports, module) {
     "use strict";
     if (process.env.NODE_ENV === "production") {
       module.exports = require_react_is_production_min();
@@ -9126,7 +9126,15 @@ import aa2 from "search-insights";
 var searchClient = {};
 var searchIndex = "";
 var createAlgoliaClient = (config) => {
-  const { apiKey, appId, index, algoliaOptions, customOptions, instantSearchConfigs } = config;
+  const {
+    apiKey,
+    appId,
+    index,
+    algoliaOptions,
+    customOptions,
+    instantSearchConfigs,
+    useLanguageFilter = false
+  } = config;
   searchIndex = index;
   aa2("init", {
     appId: appId || "",
@@ -9144,6 +9152,7 @@ var createAlgoliaClient = (config) => {
     ...algoliaClient,
     ...customOptions,
     instantSearchConfigs,
+    useLanguageFilter,
     search(requests) {
       if (requests.every(({ params }) => !params?.query))
         return;
@@ -9167,7 +9176,14 @@ function SearchInput() {
   };
   return /* @__PURE__ */ jsxs31(InstantSearch, { searchClient, indexName: searchIndex, children: [
     searchClient.instantSearchConfigs && /* @__PURE__ */ jsx38(Configure, { ...searchClient.instantSearchConfigs }),
-    /* @__PURE__ */ jsx38(Configure, { clickAnalytics: true, facetFilters: [`language:${locale}`] }),
+    searchClient.useLanguageFilter && /* @__PURE__ */ jsx38(
+      Configure,
+      {
+        clickAnalytics: true,
+        facetFilters: [`language:${locale}`]
+      }
+    ),
+    !searchClient.useLanguageFilter && /* @__PURE__ */ jsx38(Configure, { clickAnalytics: true }),
     /* @__PURE__ */ jsxs31(Box15, { onFocus: () => setfocusOut({ modaltoggle: true }), ref: resultsBox2, children: [
       /* @__PURE__ */ jsx38(search_box_default, { changeFocus }),
       focusOut.modaltoggle && /* @__PURE__ */ jsx38(results_box_default, { changeFocus })
