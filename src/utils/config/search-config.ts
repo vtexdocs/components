@@ -13,11 +13,21 @@ interface AlgoliaConfig {
   algoliaOptions?: AlgoliaSearchOptions
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   customOptions?: any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   instantSearchConfigs?: any
+  useLanguageFilter?: boolean
 }
 
 const createAlgoliaClient = (config: AlgoliaConfig) => {
-  const { apiKey, appId, index, algoliaOptions, customOptions, instantSearchConfigs } = config
+  const {
+    apiKey,
+    appId,
+    index,
+    algoliaOptions,
+    customOptions,
+    instantSearchConfigs,
+    useLanguageFilter = false,
+  } = config
   searchIndex = index
 
   aa('init', {
@@ -39,6 +49,7 @@ const createAlgoliaClient = (config: AlgoliaConfig) => {
     ...algoliaClient,
     ...customOptions,
     instantSearchConfigs,
+    useLanguageFilter,
     search(requests: MultipleQueriesQuery[]) {
       if (requests.every(({ params }) => !params?.query)) return
       return algoliaClient.search(requests)

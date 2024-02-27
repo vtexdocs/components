@@ -21,10 +21,16 @@ export default function SearchInput() {
 
   return (
     <InstantSearch searchClient={searchClient} indexName={searchIndex}>
-      {
-        searchClient.instantSearchConfigs && <Configure {...searchClient.instantSearchConfigs} />
-      }
-      <Configure clickAnalytics={true} facetFilters={[`language:${locale}`]} />
+      {searchClient.instantSearchConfigs && (
+        <Configure {...searchClient.instantSearchConfigs} />
+      )}
+      {searchClient.useLanguageFilter && (
+        <Configure
+          clickAnalytics={true}
+          facetFilters={[`language:${locale}`]}
+        />
+      )}
+      {!searchClient.useLanguageFilter && <Configure clickAnalytics={true} />}
       <Box onFocus={() => setfocusOut({ modaltoggle: true })} ref={resultsBox}>
         <SearchBox changeFocus={changeFocus} />
         {focusOut.modaltoggle && <Results changeFocus={changeFocus} />}
