@@ -135,6 +135,7 @@ interface AlgoliaConfig {
     algoliaOptions?: AlgoliaSearchOptions;
     customOptions?: any;
     instantSearchConfigs?: any;
+    useLanguageFilter?: boolean;
 }
 declare const createAlgoliaClient: (config: AlgoliaConfig) => void;
 
