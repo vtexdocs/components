@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.0.3](https://github.com/vtexdocs/components/compare/v2.0.2...v2.0.3) (2024-03-01)
+
+
+### Bug Fixes
+
+* add useLanguageFilter prop to search client ([4e6c68a](https://github.com/vtexdocs/components/commit/4e6c68a4cfc694bca5dab483c6105e5514cc5c21))
+
 ### [2.0.2](https://github.com/vtexdocs/components/compare/v2.0.1...v2.0.2) (2024-02-09)
 
 
