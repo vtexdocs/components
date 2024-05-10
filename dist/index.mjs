@@ -32,9 +32,9 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 ));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
-// node_modules/react-is/cjs/react-is.production.min.js
+// node_modules/prop-types/node_modules/react-is/cjs/react-is.production.min.js
 var require_react_is_production_min = __commonJS({
-  "node_modules/react-is/cjs/react-is.production.min.js"(exports) {
+  "node_modules/prop-types/node_modules/react-is/cjs/react-is.production.min.js"(exports) {
     "use strict";
     var b = "function" === typeof Symbol && Symbol.for;
     var c = b ? Symbol.for("react.element") : 60103;
@@ -145,9 +145,9 @@ var require_react_is_production_min = __commonJS({
   }
 });
 
-// node_modules/react-is/cjs/react-is.development.js
+// node_modules/prop-types/node_modules/react-is/cjs/react-is.development.js
 var require_react_is_development = __commonJS({
-  "node_modules/react-is/cjs/react-is.development.js"(exports) {
+  "node_modules/prop-types/node_modules/react-is/cjs/react-is.development.js"(exports) {
     "use strict";
     if (process.env.NODE_ENV !== "production") {
       (function() {
@@ -300,9 +300,9 @@ var require_react_is_development = __commonJS({
   }
 });
 
-// node_modules/react-is/index.js
+// node_modules/prop-types/node_modules/react-is/index.js
 var require_react_is = __commonJS({
-  "node_modules/react-is/index.js"(exports, module) {
+  "node_modules/prop-types/node_modules/react-is/index.js"(exports, module) {
     "use strict";
     if (process.env.NODE_ENV === "production") {
       module.exports = require_react_is_production_min();
@@ -5471,7 +5471,6 @@ function useClickOutside(ref, openModal) {
 // src/components/lightbox/styles.ts
 var imageContainer = {
   cursor: "pointer",
-  width: "fit-content",
   borderRadius: "5px",
   mt: "16px",
   mb: "24px",
@@ -5480,6 +5479,7 @@ var imageContainer = {
     boxShadow: "2px 4px 8px 2px rgb(0 0 0 / 10%)"
   },
   "> img": {
+    width: "100%",
     display: "block",
     padding: "0",
     margin: "0"
