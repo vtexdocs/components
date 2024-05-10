@@ -11,7 +11,7 @@ const imageContainer: SxStyleProp = {
   },
 
   '> img': {
-    width: 'fit-content',
+    width: '100%',
     display: 'block',
     padding: '0',
     margin: '0',
