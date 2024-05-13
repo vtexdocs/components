@@ -5472,6 +5472,7 @@ function useClickOutside(ref, openModal) {
 var imageContainer = {
   cursor: "pointer",
   borderRadius: "5px",
+  width: "fit-content",
   mt: "16px",
   mb: "24px",
   transition: "0.3s",

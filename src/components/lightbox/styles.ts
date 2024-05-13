@@ -3,6 +3,7 @@ import { SxStyleProp } from '@vtex/brand-ui'
 const imageContainer: SxStyleProp = {
   cursor: 'pointer',
   borderRadius: '5px',
+  width: 'fit-content',
   mt: '16px',
   mb: '24px',
   transition: '0.3s',
