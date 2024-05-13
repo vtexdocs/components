@@ -5479,7 +5479,7 @@ var imageContainer = {
     boxShadow: "2px 4px 8px 2px rgb(0 0 0 / 10%)"
   },
   "> img": {
-    width: "100%",
+    maxWidth: "100%",
     display: "block",
     padding: "0",
     margin: "0"
