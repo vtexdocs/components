@@ -5336,9 +5336,9 @@ var getIcon = (name) => {
   return IconsMap.find((icon3) => icon3.name === name)?.Icon;
 };
 var OverviewCard = ({ icon: icon3, children }) => {
-  const Icon24 = getIcon(icon3);
+  const Icon30 = getIcon(icon3);
   return /* @__PURE__ */ jsxs2(Flex, { sx: styles_default.overviewCard, children: [
-    Icon24 && /* @__PURE__ */ jsx2(Icon24, { sx: styles_default.overviewIcon }),
+    Icon30 && /* @__PURE__ */ jsx2(Icon30, { sx: styles_default.overviewIcon }),
     /* @__PURE__ */ jsx2(Box, { children })
   ] });
 };
@@ -8027,12 +8027,12 @@ var DocumentationCard = ({
   description: description4,
   link: link2,
   containerType,
-  Icon: Icon24,
+  Icon: Icon30,
   onClick
 }) => {
   return /* @__PURE__ */ jsx23(Link5, { href: link2, legacyBehavior: true, children: /* @__PURE__ */ jsx23("a", { onClick, style: { width: "100%" }, children: /* @__PURE__ */ jsxs17(Box13, { sx: cardContainer3(containerType), children: [
     /* @__PURE__ */ jsxs17(Flex11, { sx: titleContainer2(containerType), children: [
-      /* @__PURE__ */ jsx23(Icon24, { sx: { color: "#4A596B" }, size: 24 }),
+      /* @__PURE__ */ jsx23(Icon30, { sx: { color: "#4A596B" }, size: 24 }),
       /* @__PURE__ */ jsx23(Text7, { className: "title", sx: cardTitle(containerType), children: title6 })
     ] }),
     /* @__PURE__ */ jsx23(Text7, { className: "description", sx: styles_default13.description, children: description4 })
@@ -10194,7 +10194,7 @@ var expanded_results_icon_default = ExpandedResultsIcon;
 // src/components/search-card/index.tsx
 import { jsx as jsx49, jsxs as jsxs41 } from "react/jsx-runtime";
 var SearchCard = ({
-  Icon: Icon24,
+  Icon: Icon30,
   title: title6,
   method,
   breadcrumbs,
@@ -10207,7 +10207,7 @@ var SearchCard = ({
   return /* @__PURE__ */ jsx49(Link8, { href: url, legacyBehavior: true, children: /* @__PURE__ */ jsxs41(Flex17, { sx: styles_default19.containerActive(method), children: [
     /* @__PURE__ */ jsxs41(Box20, { children: [
       /* @__PURE__ */ jsxs41(Text13, { className: "searchCardTitle", sx: styles_default19.title, children: [
-        Icon24 && /* @__PURE__ */ jsx49(Icon24, { sx: styles_default19.icon }),
+        Icon30 && /* @__PURE__ */ jsx49(Icon30, { sx: styles_default19.icon }),
         method ? /* @__PURE__ */ jsx49(
           method_category_default,
           {
@@ -10677,6 +10677,289 @@ var CookieBar = ({ onAccept }) => {
   );
 };
 var cookie_bar_default = CookieBar;
+
+// src/components/share-button/index.tsx
+import { Box as Box24, Button as Button7, Flex as Flex22, Text as Text17 } from "@vtex/brand-ui";
+
+// src/components/icons/facebook-icon.tsx
+import { Icon as Icon24 } from "@vtex/brand-ui";
+import { jsx as jsx55 } from "react/jsx-runtime";
+var FacebookIcon = (props) => /* @__PURE__ */ jsx55(
+  Icon24,
+  {
+    ...props,
+    viewBox: "0 0 8 16",
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg",
+    children: /* @__PURE__ */ jsx55(
+      "path",
+      {
+        d: "M7.47581 8.93204L7.89039 6.05825H5.29681V4.19417C5.29681 3.40778 5.65844 2.64078 6.8201 2.64078H8V0.194175C8 0.194175 6.92967 0 5.90684 0C3.76989 0 2.37444 1.37668 2.37444 3.86796V6.05825H0V8.93204H2.37444V15.8796C2.85114 15.9592 3.33882 16 3.83563 16C4.33243 16 4.82011 15.9592 5.29681 15.8796V8.93204H7.47581Z",
+        fill: "currentcolor"
+      }
+    )
+  }
+);
+var facebook_icon_default = FacebookIcon;
+
+// src/components/icons/linkedin-icon.tsx
+import { Icon as Icon25 } from "@vtex/brand-ui";
+import { jsx as jsx56 } from "react/jsx-runtime";
+var LinkedinIcon = (props) => /* @__PURE__ */ jsx56(
+  Icon25,
+  {
+    ...props,
+    viewBox: "0 0 26 24",
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg",
+    children: /* @__PURE__ */ jsx56(
+      "path",
+      {
+        fillRule: "evenodd",
+        clipRule: "evenodd",
+        d: "M6.49092 2.79706C6.49092 4.35191 5.32054 5.59605 3.4413 5.59605H3.40686C1.59747 5.59605 0.427734 4.35191 0.427734 2.79706C0.427734 1.20932 1.6331 0 3.47682 0C5.32054 0 6.45594 1.20932 6.49092 2.79706ZM6.13595 7.80637V23.9997H0.746429V7.80637H6.13595ZM25.5724 23.9996L25.5726 14.7149C25.5726 9.74099 22.9138 7.42607 19.3673 7.42607C16.5058 7.42607 15.2247 8.9978 14.5093 10.1004V7.80675H9.11917C9.1902 9.32624 9.11917 24 9.11917 24H14.5093V14.9564C14.5093 14.4724 14.5443 13.9896 14.6868 13.6431C15.0763 12.6763 15.9632 11.6752 17.4522 11.6752C19.4032 11.6752 20.1831 13.1601 20.1831 15.3362V23.9996H25.5724Z",
+        fill: "currentcolor"
+      }
+    )
+  }
+);
+var linkedin_icon_default = LinkedinIcon;
+
+// src/components/icons/share-icon.tsx
+import { Icon as Icon26 } from "@vtex/brand-ui";
+import { jsx as jsx57, jsxs as jsxs47 } from "react/jsx-runtime";
+var ShareIcon = (props) => /* @__PURE__ */ jsxs47(
+  Icon26,
+  {
+    ...props,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg",
+    children: [
+      /* @__PURE__ */ jsx57(
+        "path",
+        {
+          d: "M12 12L21 3V10V3H14",
+          stroke: "currentcolor",
+          strokeWidth: "1.5",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx57(
+        "path",
+        {
+          d: "M9 3H5C3.895 3 3 3.895 3 5V19C3 20.105 3.895 21 5 21H19C20.105 21 21 20.105 21 19V15",
+          stroke: "currentcolor",
+          strokeWidth: "1.5",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      )
+    ]
+  }
+);
+var share_icon_default = ShareIcon;
+
+// src/components/icons/twitter-icon.tsx
+import { Icon as Icon27 } from "@vtex/brand-ui";
+import { jsx as jsx58 } from "react/jsx-runtime";
+var TwitterIcon = (props) => /* @__PURE__ */ jsx58(
+  Icon27,
+  {
+    ...props,
+    viewBox: "0 0 16 16",
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg",
+    children: /* @__PURE__ */ jsx58(
+      "path",
+      {
+        fillRule: "evenodd",
+        clipRule: "evenodd",
+        d: "M5.99386 8.11479L0 0.666748H4.74756L8.44753 5.27015L12.4004 0.687475H15.0151L9.71175 6.84307L16 14.6667H11.2666L7.2603 9.68846L2.98317 14.6529H0.354296L5.99386 8.11479ZM11.9565 13.2868L2.91105 2.04674H4.0571L13.0912 13.2868H11.9565Z",
+        fill: "currentcolor"
+      }
+    )
+  }
+);
+var twitter_icon_default = TwitterIcon;
+
+// src/components/share-button/index.tsx
+import { useRef as useRef11, useState as useState15 } from "react";
+import {
+  FacebookShareButton,
+  LinkedinShareButton,
+  TwitterShareButton,
+  EmailShareButton
+} from "react-share";
+
+// src/components/share-button/styles.ts
+var container10 = {
+  position: "relative",
+  height: "24px"
+};
+var button3 = {
+  cursor: "pointer",
+  color: "#A1AAB7",
+  width: "24px",
+  height: "24px",
+  transition: "0.3s",
+  ":hover": {
+    color: "#4A4A4A"
+  }
+};
+var innerButton = {
+  gap: "16px",
+  color: "#A1AAB7",
+  cursor: "pointer",
+  transition: "0.3s",
+  ":hover": {
+    color: "#4A4A4A"
+  },
+  alignItems: "center"
+};
+var innerContainer = {
+  position: "absolute",
+  backgroundColor: "white",
+  flexDirection: "column",
+  top: "100%",
+  right: "0",
+  mt: "8px",
+  padding: "16px",
+  gap: "16px",
+  boxShadow: "0px 0px 16px rgba(0, 0, 0, 0.1)",
+  borderRadius: "5px",
+  ":before": {
+    content: "''",
+    position: "absolute",
+    top: "-8px",
+    right: "8px",
+    borderLeft: "8px solid transparent",
+    borderRight: "8px solid transparent",
+    borderBottom: "8px solid white",
+    boxShadow: "0 16px 10px -17px rgba(0, 0, 0, 0.5)"
+  }
+};
+var divider = {
+  borderBottom: "1px solid #E7E9EE"
+};
+var styles_default24 = {
+  container: container10,
+  button: button3,
+  innerButton,
+  innerContainer,
+  divider
+};
+
+// src/components/icons/email-icon.tsx
+import { Icon as Icon28 } from "@vtex/brand-ui";
+import { jsx as jsx59 } from "react/jsx-runtime";
+var EmailIcon = (props) => /* @__PURE__ */ jsx59(
+  Icon28,
+  {
+    ...props,
+    width: "25",
+    height: "25",
+    viewBox: "0 0 24 24",
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg",
+    children: /* @__PURE__ */ jsx59(
+      "path",
+      {
+        d: "M12 0C5.376 0 0 5.376 0 12C0 18.624 5.376 24 12 24H18V21.6H12C6.792 21.6 2.4 17.208 2.4 12C2.4 6.792 6.792 2.4 12 2.4C17.208 2.4 21.6 6.792 21.6 12V13.716C21.6 14.664 20.748 15.6 19.8 15.6C18.852 15.6 18 14.664 18 13.716V12C18 8.688 15.312 6 12 6C8.688 6 6 8.688 6 12C6 15.312 8.688 18 12 18C13.656 18 15.168 17.328 16.248 16.236C17.028 17.304 18.372 18 19.8 18C22.164 18 24 16.08 24 13.716V12C24 5.376 18.624 0 12 0ZM12 15.6C10.008 15.6 8.4 13.992 8.4 12C8.4 10.008 10.008 8.4 12 8.4C13.992 8.4 15.6 10.008 15.6 12C15.6 13.992 13.992 15.6 12 15.6Z",
+        fill: "currentcolor"
+      }
+    )
+  }
+);
+var email_icon_default = EmailIcon;
+
+// src/components/icons/link-icon.tsx
+import { Icon as Icon29 } from "@vtex/brand-ui";
+import { jsx as jsx60, jsxs as jsxs48 } from "react/jsx-runtime";
+var LinkIcon = (props) => /* @__PURE__ */ jsxs48(
+  Icon29,
+  {
+    ...props,
+    viewBox: "0 0 16 16",
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg",
+    children: [
+      /* @__PURE__ */ jsx60(
+        "path",
+        {
+          d: "M6.6665 8.66672C6.95281 9.04948 7.31808 9.36618 7.73754 9.59535C8.157 9.82452 8.62084 9.9608 9.0976 9.99495C9.57437 10.0291 10.0529 9.9603 10.5007 9.79325C10.9486 9.62619 11.3552 9.36477 11.6932 9.02672L13.6932 7.02672C14.3004 6.39805 14.6363 5.55604 14.6288 4.68205C14.6212 3.80806 14.2706 2.97202 13.6526 2.354C13.0345 1.73597 12.1985 1.38541 11.3245 1.37781C10.4505 1.37022 9.60851 1.7062 8.97984 2.31339L7.83317 3.45339",
+          stroke: "currentcolor",
+          strokeWidth: "1.5",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx60(
+        "path",
+        {
+          d: "M9.33347 7.33332C9.04716 6.95057 8.68189 6.63387 8.26243 6.40469C7.84297 6.17552 7.37913 6.03924 6.90237 6.0051C6.4256 5.97095 5.94707 6.03974 5.49924 6.2068C5.0514 6.37386 4.64472 6.63527 4.3068 6.97332L2.3068 8.97332C1.69961 9.60199 1.36363 10.444 1.37122 11.318C1.37881 12.192 1.72938 13.028 2.3474 13.646C2.96543 14.2641 3.80147 14.6146 4.67546 14.6222C5.54945 14.6298 6.39146 14.2938 7.02013 13.6867L8.16013 12.5467",
+          stroke: "currentcolor",
+          strokeWidth: "1.5",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      )
+    ]
+  }
+);
+var link_icon_default = LinkIcon;
+
+// src/components/share-button/index.tsx
+import { jsx as jsx61, jsxs as jsxs49 } from "react/jsx-runtime";
+var ShareButton = ({ url }) => {
+  const [isOpen, setIsOpen] = useState15(false);
+  const containerRef = useRef11();
+  useClickOutside(containerRef, () => setIsOpen(false));
+  const handleCopyLink = async () => {
+    try {
+      if (window)
+        await navigator.clipboard.writeText(window.location.href);
+    } catch (error) {
+      console.error("Error copying link to clipboard:", error);
+    }
+  };
+  return /* @__PURE__ */ jsxs49(Flex22, { sx: styles_default24.container, ref: containerRef, children: [
+    /* @__PURE__ */ jsx61(
+      Button7,
+      {
+        sx: styles_default24.button,
+        variant: "tertiary",
+        icon: share_icon_default,
+        onClick: () => setIsOpen(!isOpen)
+      }
+    ),
+    isOpen && /* @__PURE__ */ jsxs49(Flex22, { sx: styles_default24.innerContainer, children: [
+      /* @__PURE__ */ jsxs49(Flex22, { sx: styles_default24.innerButton, onClick: handleCopyLink, children: [
+        /* @__PURE__ */ jsx61(link_icon_default, { size: 16 }),
+        /* @__PURE__ */ jsx61(Text17, { children: "Copy link" })
+      ] }),
+      /* @__PURE__ */ jsx61(Box24, { sx: styles_default24.divider }),
+      /* @__PURE__ */ jsx61(EmailShareButton, { url, children: /* @__PURE__ */ jsxs49(Flex22, { sx: styles_default24.innerButton, onClick: handleCopyLink, children: [
+        /* @__PURE__ */ jsx61(email_icon_default, { size: 16 }),
+        /* @__PURE__ */ jsx61(Text17, { children: "E-mail" })
+      ] }) }),
+      /* @__PURE__ */ jsx61(TwitterShareButton, { url, children: /* @__PURE__ */ jsxs49(Flex22, { sx: styles_default24.innerButton, children: [
+        /* @__PURE__ */ jsx61(twitter_icon_default, { size: 16 }),
+        /* @__PURE__ */ jsx61(Text17, { children: "Twitter" })
+      ] }) }),
+      /* @__PURE__ */ jsx61(FacebookShareButton, { url, children: /* @__PURE__ */ jsxs49(Flex22, { sx: styles_default24.innerButton, children: [
+        /* @__PURE__ */ jsx61(facebook_icon_default, { size: 16 }),
+        /* @__PURE__ */ jsx61(Text17, { children: "Facebook" })
+      ] }) }),
+      /* @__PURE__ */ jsx61(LinkedinShareButton, { url, children: /* @__PURE__ */ jsxs49(Flex22, { sx: styles_default24.innerButton, children: [
+        /* @__PURE__ */ jsx61(linkedin_icon_default, { size: 16 }),
+        /* @__PURE__ */ jsx61(Text17, { children: "LinkedIn" })
+      ] }) })
+    ] })
+  ] });
+};
+var share_button_default = ShareButton;
 export {
   cookie_bar_default as CookieBar,
   feedback_section_default as FeedbackSection,
@@ -10687,6 +10970,7 @@ export {
   search_default2 as Search,
   search_config_default as SearchConfig,
   SearchInput,
+  share_button_default as ShareButton,
   sidebar_default as Sidebar,
   TableOfContents_default as TableOfContents
 };
