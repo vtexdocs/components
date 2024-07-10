@@ -9262,7 +9262,7 @@ var HamburgerMenu = ({ parentsArray = [] }) => {
 var hamburger_menu_default = HamburgerMenu;
 
 // src/lib/feedback-section/index.tsx
-import { Flex as Flex15, Text as Text11, Link as Link7 } from "@vtex/brand-ui";
+import { Flex as Flex16, Text as Text12, Link as Link7 } from "@vtex/brand-ui";
 
 // src/components/icons/edit-icon.tsx
 import { Icon as Icon19 } from "@vtex/brand-ui";
@@ -9382,7 +9382,7 @@ var LikeSelectedIcon = (props) => /* @__PURE__ */ jsxs35(
 var like_selected_icon_default = LikeSelectedIcon;
 
 // src/lib/feedback-section/index.tsx
-import { useContext as useContext12, useRef as useRef9, useState as useState11 } from "react";
+import { useContext as useContext12, useRef as useRef10, useState as useState12 } from "react";
 
 // src/lib/feedback-section/styles.ts
 var container5 = {
@@ -9708,21 +9708,305 @@ var FeedBackModal = ({
 };
 var feedback_modal_default = FeedBackModal;
 
+// src/components/share-button/index.tsx
+import { Box as Box18, Button as Button6, Flex as Flex15, Text as Text11 } from "@vtex/brand-ui";
+
+// src/components/icons/facebook-icon.tsx
+import { Icon as Icon23 } from "@vtex/brand-ui";
+import { jsx as jsx44 } from "react/jsx-runtime";
+var FacebookIcon = (props) => /* @__PURE__ */ jsx44(
+  Icon23,
+  {
+    ...props,
+    viewBox: "0 0 8 16",
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg",
+    children: /* @__PURE__ */ jsx44(
+      "path",
+      {
+        d: "M7.47581 8.93204L7.89039 6.05825H5.29681V4.19417C5.29681 3.40778 5.65844 2.64078 6.8201 2.64078H8V0.194175C8 0.194175 6.92967 0 5.90684 0C3.76989 0 2.37444 1.37668 2.37444 3.86796V6.05825H0V8.93204H2.37444V15.8796C2.85114 15.9592 3.33882 16 3.83563 16C4.33243 16 4.82011 15.9592 5.29681 15.8796V8.93204H7.47581Z",
+        fill: "currentcolor"
+      }
+    )
+  }
+);
+var facebook_icon_default = FacebookIcon;
+
+// src/components/icons/linkedin-icon.tsx
+import { Icon as Icon24 } from "@vtex/brand-ui";
+import { jsx as jsx45 } from "react/jsx-runtime";
+var LinkedinIcon = (props) => /* @__PURE__ */ jsx45(
+  Icon24,
+  {
+    ...props,
+    viewBox: "0 0 26 24",
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg",
+    children: /* @__PURE__ */ jsx45(
+      "path",
+      {
+        fillRule: "evenodd",
+        clipRule: "evenodd",
+        d: "M6.49092 2.79706C6.49092 4.35191 5.32054 5.59605 3.4413 5.59605H3.40686C1.59747 5.59605 0.427734 4.35191 0.427734 2.79706C0.427734 1.20932 1.6331 0 3.47682 0C5.32054 0 6.45594 1.20932 6.49092 2.79706ZM6.13595 7.80637V23.9997H0.746429V7.80637H6.13595ZM25.5724 23.9996L25.5726 14.7149C25.5726 9.74099 22.9138 7.42607 19.3673 7.42607C16.5058 7.42607 15.2247 8.9978 14.5093 10.1004V7.80675H9.11917C9.1902 9.32624 9.11917 24 9.11917 24H14.5093V14.9564C14.5093 14.4724 14.5443 13.9896 14.6868 13.6431C15.0763 12.6763 15.9632 11.6752 17.4522 11.6752C19.4032 11.6752 20.1831 13.1601 20.1831 15.3362V23.9996H25.5724Z",
+        fill: "currentcolor"
+      }
+    )
+  }
+);
+var linkedin_icon_default = LinkedinIcon;
+
+// src/components/icons/share-icon.tsx
+import { Icon as Icon25 } from "@vtex/brand-ui";
+import { jsx as jsx46, jsxs as jsxs37 } from "react/jsx-runtime";
+var ShareIcon = (props) => /* @__PURE__ */ jsxs37(
+  Icon25,
+  {
+    ...props,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg",
+    children: [
+      /* @__PURE__ */ jsx46(
+        "path",
+        {
+          d: "M12 12L21 3V10V3H14",
+          stroke: "currentcolor",
+          strokeWidth: "1.5",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx46(
+        "path",
+        {
+          d: "M9 3H5C3.895 3 3 3.895 3 5V19C3 20.105 3.895 21 5 21H19C20.105 21 21 20.105 21 19V15",
+          stroke: "currentcolor",
+          strokeWidth: "1.5",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      )
+    ]
+  }
+);
+var share_icon_default = ShareIcon;
+
+// src/components/icons/twitter-icon.tsx
+import { Icon as Icon26 } from "@vtex/brand-ui";
+import { jsx as jsx47 } from "react/jsx-runtime";
+var TwitterIcon = (props) => /* @__PURE__ */ jsx47(
+  Icon26,
+  {
+    ...props,
+    viewBox: "0 0 16 16",
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg",
+    children: /* @__PURE__ */ jsx47(
+      "path",
+      {
+        fillRule: "evenodd",
+        clipRule: "evenodd",
+        d: "M5.99386 8.11479L0 0.666748H4.74756L8.44753 5.27015L12.4004 0.687475H15.0151L9.71175 6.84307L16 14.6667H11.2666L7.2603 9.68846L2.98317 14.6529H0.354296L5.99386 8.11479ZM11.9565 13.2868L2.91105 2.04674H4.0571L13.0912 13.2868H11.9565Z",
+        fill: "currentcolor"
+      }
+    )
+  }
+);
+var twitter_icon_default = TwitterIcon;
+
+// src/components/share-button/index.tsx
+import { useRef as useRef9, useState as useState11 } from "react";
+import {
+  FacebookShareButton,
+  LinkedinShareButton,
+  TwitterShareButton,
+  EmailShareButton
+} from "react-share";
+
+// src/components/share-button/styles.ts
+var container7 = {
+  position: "relative",
+  height: "24px"
+};
+var button3 = {
+  cursor: "pointer",
+  color: "#A1AAB7",
+  width: "24px",
+  height: "24px",
+  transition: "0.3s",
+  ":hover": {
+    color: "#4A4A4A"
+  }
+};
+var innerButton = {
+  gap: "16px",
+  color: "#A1AAB7",
+  cursor: "pointer",
+  transition: "0.3s",
+  ":hover": {
+    color: "#4A4A4A"
+  },
+  alignItems: "center"
+};
+var innerContainer = {
+  position: "absolute",
+  backgroundColor: "white",
+  flexDirection: "column",
+  top: "100%",
+  right: "0",
+  mt: "8px",
+  padding: "16px",
+  gap: "16px",
+  boxShadow: "0px 0px 16px rgba(0, 0, 0, 0.1)",
+  borderRadius: "5px",
+  ":before": {
+    content: "''",
+    position: "absolute",
+    top: "-8px",
+    right: "8px",
+    borderLeft: "8px solid transparent",
+    borderRight: "8px solid transparent",
+    borderBottom: "8px solid white",
+    boxShadow: "0 16px 10px -17px rgba(0, 0, 0, 0.5)"
+  }
+};
+var divider = {
+  borderBottom: "1px solid #E7E9EE"
+};
+var styles_default17 = {
+  container: container7,
+  button: button3,
+  innerButton,
+  innerContainer,
+  divider
+};
+
+// src/components/icons/email-icon.tsx
+import { Icon as Icon27 } from "@vtex/brand-ui";
+import { jsx as jsx48 } from "react/jsx-runtime";
+var EmailIcon = (props) => /* @__PURE__ */ jsx48(
+  Icon27,
+  {
+    ...props,
+    width: "25",
+    height: "25",
+    viewBox: "0 0 24 24",
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg",
+    children: /* @__PURE__ */ jsx48(
+      "path",
+      {
+        d: "M12 0C5.376 0 0 5.376 0 12C0 18.624 5.376 24 12 24H18V21.6H12C6.792 21.6 2.4 17.208 2.4 12C2.4 6.792 6.792 2.4 12 2.4C17.208 2.4 21.6 6.792 21.6 12V13.716C21.6 14.664 20.748 15.6 19.8 15.6C18.852 15.6 18 14.664 18 13.716V12C18 8.688 15.312 6 12 6C8.688 6 6 8.688 6 12C6 15.312 8.688 18 12 18C13.656 18 15.168 17.328 16.248 16.236C17.028 17.304 18.372 18 19.8 18C22.164 18 24 16.08 24 13.716V12C24 5.376 18.624 0 12 0ZM12 15.6C10.008 15.6 8.4 13.992 8.4 12C8.4 10.008 10.008 8.4 12 8.4C13.992 8.4 15.6 10.008 15.6 12C15.6 13.992 13.992 15.6 12 15.6Z",
+        fill: "currentcolor"
+      }
+    )
+  }
+);
+var email_icon_default = EmailIcon;
+
+// src/components/icons/link-icon.tsx
+import { Icon as Icon28 } from "@vtex/brand-ui";
+import { jsx as jsx49, jsxs as jsxs38 } from "react/jsx-runtime";
+var LinkIcon = (props) => /* @__PURE__ */ jsxs38(
+  Icon28,
+  {
+    ...props,
+    viewBox: "0 0 16 16",
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg",
+    children: [
+      /* @__PURE__ */ jsx49(
+        "path",
+        {
+          d: "M6.6665 8.66672C6.95281 9.04948 7.31808 9.36618 7.73754 9.59535C8.157 9.82452 8.62084 9.9608 9.0976 9.99495C9.57437 10.0291 10.0529 9.9603 10.5007 9.79325C10.9486 9.62619 11.3552 9.36477 11.6932 9.02672L13.6932 7.02672C14.3004 6.39805 14.6363 5.55604 14.6288 4.68205C14.6212 3.80806 14.2706 2.97202 13.6526 2.354C13.0345 1.73597 12.1985 1.38541 11.3245 1.37781C10.4505 1.37022 9.60851 1.7062 8.97984 2.31339L7.83317 3.45339",
+          stroke: "currentcolor",
+          strokeWidth: "1.5",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx49(
+        "path",
+        {
+          d: "M9.33347 7.33332C9.04716 6.95057 8.68189 6.63387 8.26243 6.40469C7.84297 6.17552 7.37913 6.03924 6.90237 6.0051C6.4256 5.97095 5.94707 6.03974 5.49924 6.2068C5.0514 6.37386 4.64472 6.63527 4.3068 6.97332L2.3068 8.97332C1.69961 9.60199 1.36363 10.444 1.37122 11.318C1.37881 12.192 1.72938 13.028 2.3474 13.646C2.96543 14.2641 3.80147 14.6146 4.67546 14.6222C5.54945 14.6298 6.39146 14.2938 7.02013 13.6867L8.16013 12.5467",
+          stroke: "currentcolor",
+          strokeWidth: "1.5",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      )
+    ]
+  }
+);
+var link_icon_default = LinkIcon;
+
+// src/components/share-button/index.tsx
+import { jsx as jsx50, jsxs as jsxs39 } from "react/jsx-runtime";
+var ShareButton = ({ url }) => {
+  const [isOpen, setIsOpen] = useState11(false);
+  const containerRef = useRef9();
+  useClickOutside(containerRef, () => setIsOpen(false));
+  const handleCopyLink = async () => {
+    try {
+      if (window)
+        await navigator.clipboard.writeText(window.location.href);
+    } catch (error) {
+      console.error("Error copying link to clipboard:", error);
+    }
+  };
+  return /* @__PURE__ */ jsxs39(Flex15, { sx: styles_default17.container, ref: containerRef, children: [
+    /* @__PURE__ */ jsx50(
+      Button6,
+      {
+        sx: styles_default17.button,
+        variant: "tertiary",
+        icon: share_icon_default,
+        onClick: () => setIsOpen(!isOpen)
+      }
+    ),
+    isOpen && /* @__PURE__ */ jsxs39(Flex15, { sx: styles_default17.innerContainer, children: [
+      /* @__PURE__ */ jsxs39(Flex15, { sx: styles_default17.innerButton, onClick: handleCopyLink, children: [
+        /* @__PURE__ */ jsx50(link_icon_default, { size: 16 }),
+        /* @__PURE__ */ jsx50(Text11, { children: "Copy link" })
+      ] }),
+      /* @__PURE__ */ jsx50(Box18, { sx: styles_default17.divider }),
+      /* @__PURE__ */ jsx50(EmailShareButton, { url, children: /* @__PURE__ */ jsxs39(Flex15, { sx: styles_default17.innerButton, onClick: handleCopyLink, children: [
+        /* @__PURE__ */ jsx50(email_icon_default, { size: 16 }),
+        /* @__PURE__ */ jsx50(Text11, { children: "E-mail" })
+      ] }) }),
+      /* @__PURE__ */ jsx50(TwitterShareButton, { url, children: /* @__PURE__ */ jsxs39(Flex15, { sx: styles_default17.innerButton, children: [
+        /* @__PURE__ */ jsx50(twitter_icon_default, { size: 16 }),
+        /* @__PURE__ */ jsx50(Text11, { children: "Twitter" })
+      ] }) }),
+      /* @__PURE__ */ jsx50(FacebookShareButton, { url, children: /* @__PURE__ */ jsxs39(Flex15, { sx: styles_default17.innerButton, children: [
+        /* @__PURE__ */ jsx50(facebook_icon_default, { size: 16 }),
+        /* @__PURE__ */ jsx50(Text11, { children: "Facebook" })
+      ] }) }),
+      /* @__PURE__ */ jsx50(LinkedinShareButton, { url, children: /* @__PURE__ */ jsxs39(Flex15, { sx: styles_default17.innerButton, children: [
+        /* @__PURE__ */ jsx50(linkedin_icon_default, { size: 16 }),
+        /* @__PURE__ */ jsx50(Text11, { children: "LinkedIn" })
+      ] }) })
+    ] })
+  ] });
+};
+var share_button_default = ShareButton;
+
 // src/lib/feedback-section/index.tsx
-import { jsx as jsx44, jsxs as jsxs37 } from "react/jsx-runtime";
+import { jsx as jsx51, jsxs as jsxs40 } from "react/jsx-runtime";
 var FeedbackSection = ({
   slug,
   urlToEdit,
   suggestEdits = true,
+  shareButton = false,
   sendFeedback
 }) => {
-  const [feedback, changeFeedback] = useState11(void 0);
-  const [prevSlug, setPrevSlug] = useState11(slug);
-  const [modalState, changeModalState] = useState11({
+  const [feedback, changeFeedback] = useState12(void 0);
+  const [prevSlug, setPrevSlug] = useState12(slug);
+  const [modalState, changeModalState] = useState12({
     modalOpen: false
   });
-  const likeButton = useRef9();
-  const dislikeButton = useRef9();
+  const likeButton = useRef10();
+  const dislikeButton = useRef10();
   const { locale } = useContext12(LibraryContext);
   if (slug !== prevSlug) {
     setPrevSlug(slug);
@@ -9735,36 +10019,36 @@ var FeedbackSection = ({
       liked: choice
     });
   };
-  return /* @__PURE__ */ jsxs37(Flex15, { sx: styles_default15.container, "data-cy": "feedback-section", children: [
-    /* @__PURE__ */ jsx44(Text11, { sx: styles_default15.question, children: feedback !== void 0 ? messages[locale]["feedback_section.response"] : messages[locale]["feedback_section.question"] }),
-    /* @__PURE__ */ jsxs37(Flex15, { sx: styles_default15.likeContainer, children: [
-      /* @__PURE__ */ jsxs37(
-        Flex15,
+  return /* @__PURE__ */ jsxs40(Flex16, { sx: styles_default15.container, "data-cy": "feedback-section", children: [
+    /* @__PURE__ */ jsx51(Text12, { sx: styles_default15.question, children: feedback !== void 0 ? messages[locale]["feedback_section.response"] : messages[locale]["feedback_section.question"] }),
+    /* @__PURE__ */ jsxs40(Flex16, { sx: styles_default15.likeContainer, children: [
+      /* @__PURE__ */ jsxs40(
+        Flex16,
         {
           ref: likeButton,
           sx: setButtonStyle(feedback, modalState, true),
           onClick: feedback === void 0 ? () => openModal(true) : null,
           "data-cy": "feedback-section-like",
           children: [
-            feedback === void 0 || !feedback ? /* @__PURE__ */ jsx44(like_icon_default, { size: 24, sx: styles_default15.likeIcon }) : /* @__PURE__ */ jsx44(like_selected_icon_default, { size: 24, sx: styles_default15.likeIcon }),
-            /* @__PURE__ */ jsx44(Text11, { children: messages[locale]["feedback_section.positive"] })
+            feedback === void 0 || !feedback ? /* @__PURE__ */ jsx51(like_icon_default, { size: 24, sx: styles_default15.likeIcon }) : /* @__PURE__ */ jsx51(like_selected_icon_default, { size: 24, sx: styles_default15.likeIcon }),
+            /* @__PURE__ */ jsx51(Text12, { children: messages[locale]["feedback_section.positive"] })
           ]
         }
       ),
-      /* @__PURE__ */ jsxs37(
-        Flex15,
+      /* @__PURE__ */ jsxs40(
+        Flex16,
         {
           ref: dislikeButton,
           sx: setButtonStyle(feedback, modalState, false),
           onClick: feedback === void 0 ? () => openModal(false) : null,
           children: [
-            feedback === void 0 || feedback ? /* @__PURE__ */ jsx44(like_icon_default, { size: 24, sx: styles_default15.dislikeIcon }) : /* @__PURE__ */ jsx44(like_selected_icon_default, { size: 24, sx: styles_default15.dislikeIcon }),
-            /* @__PURE__ */ jsx44(Text11, { children: messages[locale]["feedback_section.negative"] })
+            feedback === void 0 || feedback ? /* @__PURE__ */ jsx51(like_icon_default, { size: 24, sx: styles_default15.dislikeIcon }) : /* @__PURE__ */ jsx51(like_selected_icon_default, { size: 24, sx: styles_default15.dislikeIcon }),
+            /* @__PURE__ */ jsx51(Text12, { children: messages[locale]["feedback_section.negative"] })
           ]
         }
       )
     ] }),
-    suggestEdits && /* @__PURE__ */ jsxs37(
+    suggestEdits && /* @__PURE__ */ jsxs40(
       Link7,
       {
         target: "_blank",
@@ -9772,12 +10056,13 @@ var FeedbackSection = ({
         href: urlToEdit,
         sx: styles_default15.editContainer,
         children: [
-          /* @__PURE__ */ jsx44(edit_icon_default, { size: 24, sx: styles_default15.editIcon }),
-          /* @__PURE__ */ jsx44(Text11, { children: messages[locale]["feedback_section.edit"] })
+          /* @__PURE__ */ jsx51(edit_icon_default, { size: 24, sx: styles_default15.editIcon }),
+          /* @__PURE__ */ jsx51(Text12, { children: messages[locale]["feedback_section.edit"] })
         ]
       }
     ),
-    modalState.modalOpen ? /* @__PURE__ */ jsx44(
+    shareButton && /* @__PURE__ */ jsx51(share_button_default, { url: window.location.href }),
+    modalState.modalOpen ? /* @__PURE__ */ jsx51(
       feedback_modal_default,
       {
         changeFeedBack: changeFeedback,
@@ -9792,13 +10077,13 @@ var FeedbackSection = ({
 var feedback_section_default = FeedbackSection;
 
 // src/lib/search/index.tsx
-import { Box as Box23, Flex as Flex20 } from "@vtex/brand-ui";
+import { Box as Box24, Flex as Flex21 } from "@vtex/brand-ui";
 
 // src/components/search-sections/index.tsx
-import { Box as Box19 } from "@vtex/brand-ui";
+import { Box as Box20 } from "@vtex/brand-ui";
 
 // src/components/search-section/index.tsx
-import { Box as Box18, Flex as Flex16, Text as Text12 } from "@vtex/brand-ui";
+import { Box as Box19, Flex as Flex17, Text as Text13 } from "@vtex/brand-ui";
 import { useContext as useContext13, useEffect as useEffect11 } from "react";
 
 // src/components/search-section/styles.ts
@@ -9855,7 +10140,7 @@ var allResultsTextActive = {
   fontWeight: "bold",
   color: "#0C1522"
 };
-var styles_default17 = {
+var styles_default18 = {
   sectionContainer,
   sectionIconTitleBox,
   sectionIcon,
@@ -9872,9 +10157,9 @@ import { useRouter as useRouter6 } from "next/router.js";
 // src/utils/context/search.tsx
 import {
   createContext as createContext2,
-  useState as useState12
+  useState as useState13
 } from "react";
-import { jsx as jsx45 } from "react/jsx-runtime";
+import { jsx as jsx52 } from "react/jsx-runtime";
 var SearchContext = createContext2({
   filterSelectedSection: "",
   changeFilterSelectedSection: () => void 0,
@@ -9882,12 +10167,12 @@ var SearchContext = createContext2({
   updateOcurrenceCount: () => void 0
 });
 var SearchContextProvider = ({ children }) => {
-  const [filterSelectedSection, changeFilterSelectedSection] = useState12("");
-  const [ocurrenceCount, changeOcurrenceCount] = useState12({});
+  const [filterSelectedSection, changeFilterSelectedSection] = useState13("");
+  const [ocurrenceCount, changeOcurrenceCount] = useState13({});
   const updateOcurrenceCount = (resultsData) => {
     changeOcurrenceCount(resultsData);
   };
-  return /* @__PURE__ */ jsx45(
+  return /* @__PURE__ */ jsx52(
     SearchContext.Provider,
     {
       value: {
@@ -9903,7 +10188,7 @@ var SearchContextProvider = ({ children }) => {
 var search_default = SearchContextProvider;
 
 // src/components/search-section/index.tsx
-import { jsx as jsx46, jsxs as jsxs38 } from "react/jsx-runtime";
+import { jsx as jsx53, jsxs as jsxs41 } from "react/jsx-runtime";
 var SearchSection = ({ dataElement, index }) => {
   const router = useRouter6();
   const { filterSelectedSection, ocurrenceCount, changeFilterSelectedSection } = useContext13(SearchContext);
@@ -9914,34 +10199,34 @@ var SearchSection = ({ dataElement, index }) => {
   useEffect11(() => {
     updateFilter("");
   }, [router.query]);
-  return !dataElement ? /* @__PURE__ */ jsxs38(Flex16, { sx: styles_default17.sectionContainer, onClick: () => updateFilter(""), children: [
-    /* @__PURE__ */ jsx46(
-      Text12,
+  return !dataElement ? /* @__PURE__ */ jsxs41(Flex17, { sx: styles_default18.sectionContainer, onClick: () => updateFilter(""), children: [
+    /* @__PURE__ */ jsx53(
+      Text13,
       {
         className: "search-section-title",
-        sx: filterSelectedSection ? styles_default17.allResultsText : styles_default17.allResultsTextActive,
+        sx: filterSelectedSection ? styles_default18.allResultsText : styles_default18.allResultsTextActive,
         children: "All results"
       }
     ),
-    /* @__PURE__ */ jsx46(Box18, { className: "search-section-count", sx: styles_default17.sectionCount, children: ocurrenceCount[""] })
-  ] }) : /* @__PURE__ */ jsxs38(
-    Flex16,
+    /* @__PURE__ */ jsx53(Box19, { className: "search-section-count", sx: styles_default18.sectionCount, children: ocurrenceCount[""] })
+  ] }) : /* @__PURE__ */ jsxs41(
+    Flex17,
     {
-      sx: styles_default17.sectionContainer,
+      sx: styles_default18.sectionContainer,
       onClick: () => updateFilter(dataElement.title),
       children: [
-        /* @__PURE__ */ jsxs38(Flex16, { sx: styles_default17.sectionIconTitleBox, children: [
-          /* @__PURE__ */ jsx46(dataElement.Icon, { sx: styles_default17.sectionIcon }),
-          /* @__PURE__ */ jsx46(
-            Text12,
+        /* @__PURE__ */ jsxs41(Flex17, { sx: styles_default18.sectionIconTitleBox, children: [
+          /* @__PURE__ */ jsx53(dataElement.Icon, { sx: styles_default18.sectionIcon }),
+          /* @__PURE__ */ jsx53(
+            Text13,
             {
               className: "search-section-title",
-              sx: filterSelectedSection === dataElement.title ? styles_default17.sectionTitleActive : styles_default17.sectionTitle,
+              sx: filterSelectedSection === dataElement.title ? styles_default18.sectionTitleActive : styles_default18.sectionTitle,
               children: dataElement.title
             }
           )
         ] }),
-        /* @__PURE__ */ jsx46(Box18, { className: "search-section-count", sx: styles_default17.sectionCount, children: ocurrenceCount[dataElement.title] || 0 })
+        /* @__PURE__ */ jsx53(Box19, { className: "search-section-count", sx: styles_default18.sectionCount, children: ocurrenceCount[dataElement.title] || 0 })
       ]
     },
     `search-section-${dataElement.title}${index}`
@@ -9950,7 +10235,7 @@ var SearchSection = ({ dataElement, index }) => {
 var search_section_default = SearchSection;
 
 // src/components/search-sections/styles.ts
-var container7 = {
+var container8 = {
   display: ["none", "none", "none", "initial"],
   height: "100%",
   width: "242px",
@@ -9967,24 +10252,24 @@ var docsSection = {
   ...notesSection,
   borderBottom: "1px solid #E7E9EE"
 };
-var styles_default18 = {
-  container: container7,
+var styles_default19 = {
+  container: container8,
   notesSection,
   docsSection
 };
 
 // src/components/search-sections/index.tsx
 import { useContext as useContext14 } from "react";
-import { jsx as jsx47, jsxs as jsxs39 } from "react/jsx-runtime";
+import { jsx as jsx54, jsxs as jsxs42 } from "react/jsx-runtime";
 var SearchSections = () => {
   const { sidebarSections } = useContext14(LibraryContext);
-  return /* @__PURE__ */ jsx47(Box19, { sx: styles_default18.container, children: sidebarSections.map((sections, id) => /* @__PURE__ */ jsxs39(
-    Box19,
+  return /* @__PURE__ */ jsx54(Box20, { sx: styles_default19.container, children: sidebarSections.map((sections, id) => /* @__PURE__ */ jsxs42(
+    Box20,
     {
-      sx: id < sidebarSections.length - 1 ? styles_default18.docsSection : styles_default18.notesSection,
+      sx: id < sidebarSections.length - 1 ? styles_default19.docsSection : styles_default19.notesSection,
       children: [
-        id === 0 && /* @__PURE__ */ jsx47(search_section_default, { dataElement: null }),
-        sections.map((section, index) => /* @__PURE__ */ jsx47(
+        id === 0 && /* @__PURE__ */ jsx54(search_section_default, { dataElement: null }),
+        sections.map((section, index) => /* @__PURE__ */ jsx54(
           search_section_default,
           {
             dataElement: section,
@@ -10000,22 +10285,22 @@ var search_sections_default = SearchSections;
 
 // src/components/search-results/index.tsx
 import { useRouter as useRouter7 } from "next/router.js";
-import { useContext as useContext16, useState as useState14 } from "react";
-import { Box as Box22, Text as Text14 } from "@vtex/brand-ui";
+import { useContext as useContext16, useState as useState15 } from "react";
+import { Box as Box23, Text as Text15 } from "@vtex/brand-ui";
 import { Configure as Configure2, InstantSearch as InstantSearch2 } from "react-instantsearch-dom";
 
 // src/components/search-results/infiniteHits.tsx
-import { useContext as useContext15, useEffect as useEffect12, useMemo as useMemo2, useRef as useRef10 } from "react";
+import { useContext as useContext15, useEffect as useEffect12, useMemo as useMemo2, useRef as useRef11 } from "react";
 import {
   connectInfiniteHits,
   connectStateResults as connectStateResults2
 } from "react-instantsearch-dom";
 
 // src/components/search-card/index.tsx
-import { Box as Box20, Flex as Flex17, Text as Text13, IconCaret as IconCaret5, Tooltip as Tooltip2 } from "@vtex/brand-ui";
+import { Box as Box21, Flex as Flex18, Text as Text14, IconCaret as IconCaret5, Tooltip as Tooltip2 } from "@vtex/brand-ui";
 
 // src/components/search-card/styles.ts
-var container8 = {
+var container9 = {
   justifyContent: "space-between",
   borderRadius: "9px",
   border: "1px solid #DDDDDD",
@@ -10031,7 +10316,7 @@ var container8 = {
 var containerActive = (method) => {
   const methodCategory = method ? methodsColors[method] : "";
   return {
-    ...container8,
+    ...container9,
     ":hover": {
       background: "#F8F7FC",
       ".searchCardTitle, .searchCardDescription": {
@@ -10125,7 +10410,7 @@ var actionIcon = {
   height: "16px",
   mr: "8px"
 };
-var styles_default19 = {
+var styles_default20 = {
   containerActive,
   title: title4,
   httpMethod,
@@ -10146,42 +10431,42 @@ var styles_default19 = {
 
 // src/components/search-card/index.tsx
 import Link8 from "next/link.js";
-import { useState as useState13 } from "react";
+import { useState as useState14 } from "react";
 
 // src/components/icons/expanded-results-icon.tsx
-import { Icon as Icon23 } from "@vtex/brand-ui";
-import { jsx as jsx48, jsxs as jsxs40 } from "react/jsx-runtime";
-var ExpandedResultsIcon = ({ active }) => active ? /* @__PURE__ */ jsxs40(Icon23, { viewBox: "0 0 19 13", fill: "none", xmlns: "http://www.w3.org/2000/svg", children: [
-  /* @__PURE__ */ jsx48(
+import { Icon as Icon29 } from "@vtex/brand-ui";
+import { jsx as jsx55, jsxs as jsxs43 } from "react/jsx-runtime";
+var ExpandedResultsIcon = ({ active }) => active ? /* @__PURE__ */ jsxs43(Icon29, { viewBox: "0 0 19 13", fill: "none", xmlns: "http://www.w3.org/2000/svg", children: [
+  /* @__PURE__ */ jsx55(
     "path",
     {
       d: "M18.8728 6.03784C18.265 5.00744 14.9223 -0.163132 9.2436 0.00396015C3.99219 0.133921 0.953397 4.6454 0.127225 6.03784C0.0438786 6.17895 0 6.33903 0 6.50198C0 6.66493 0.0438786 6.82501 0.127225 6.96612C0.725488 7.97796 3.92572 13 9.51899 13H9.7564C15.0078 12.87 18.0561 8.35856 18.8728 6.96612C18.9561 6.82501 19 6.66493 19 6.50198C19 6.33903 18.9561 6.17895 18.8728 6.03784ZM9.70892 11.1434C5.61604 11.2363 2.9476 7.81087 2.11194 6.50198C3.06156 5.00744 5.54007 1.95337 9.33856 1.86054C13.4124 1.75843 16.0904 5.19309 16.9355 6.50198C15.9574 7.99652 13.5074 11.0506 9.70892 11.1434Z",
       fill: "#EE2565"
     }
   ),
-  /* @__PURE__ */ jsx48(
+  /* @__PURE__ */ jsx55(
     "path",
     {
       d: "M9.49977 3.25293C8.84241 3.25293 8.19981 3.44348 7.65323 3.80049C7.10665 4.15749 6.68065 4.66492 6.42909 5.2586C6.17753 5.85228 6.11171 6.50554 6.23995 7.13579C6.3682 7.76604 6.68475 8.34495 7.14957 8.79934C7.6144 9.25372 8.20662 9.56316 8.85135 9.68852C9.49608 9.81388 10.1644 9.74954 10.7717 9.50363C11.379 9.25772 11.8981 8.84129 12.2633 8.30699C12.6285 7.7727 12.8234 7.14453 12.8234 6.50194C12.8234 5.64025 12.4733 4.81385 11.85 4.20454C11.2267 3.59524 10.3813 3.25293 9.49977 3.25293ZM9.49977 7.89437C9.21804 7.89437 8.94264 7.81271 8.70839 7.65971C8.47415 7.5067 8.29157 7.28923 8.18376 7.0348C8.07595 6.78037 8.04774 6.50039 8.1027 6.23029C8.15767 5.96018 8.29333 5.71208 8.49254 5.51734C8.69175 5.32261 8.94556 5.18999 9.22187 5.13626C9.49819 5.08253 9.78459 5.11011 10.0449 5.2155C10.3052 5.32089 10.5276 5.49936 10.6841 5.72835C10.8407 5.95733 10.9242 6.22654 10.9242 6.50194C10.9242 6.87124 10.7741 7.22541 10.507 7.48654C10.2399 7.74767 9.87755 7.89437 9.49977 7.89437Z",
       fill: "#EE2565"
     }
   )
-] }) : /* @__PURE__ */ jsxs40(Icon23, { viewBox: "0 0 23 23", fill: "none", xmlns: "http://www.w3.org/2000/svg", children: [
-  /* @__PURE__ */ jsx48(
+] }) : /* @__PURE__ */ jsxs43(Icon29, { viewBox: "0 0 23 23", fill: "none", xmlns: "http://www.w3.org/2000/svg", children: [
+  /* @__PURE__ */ jsx55(
     "path",
     {
       d: "M4.51334 3.15293C4.42398 3.06358 4.31791 2.9927 4.20116 2.94434C4.08441 2.89598 3.95929 2.87109 3.83292 2.87109C3.70656 2.87109 3.58143 2.89598 3.46468 2.94434C3.34794 2.9927 3.24186 3.06358 3.1525 3.15293C2.97205 3.33339 2.87067 3.57814 2.87067 3.83335C2.87067 4.08855 2.97205 4.33331 3.1525 4.51377L8.54792 9.90918C8.20657 10.5442 8.0789 11.2723 8.18384 11.9856C8.28878 12.6988 8.62074 13.3593 9.13053 13.8691C9.64031 14.3789 10.3008 14.7108 11.0141 14.8158C11.7273 14.9207 12.4554 14.793 13.0904 14.4517L18.4858 19.8471C18.5749 19.9369 18.6809 20.0082 18.7977 20.0569C18.9145 20.1055 19.0397 20.1306 19.1663 20.1306C19.2928 20.1306 19.418 20.1055 19.5348 20.0569C19.6516 20.0082 19.7576 19.9369 19.8467 19.8471C19.9365 19.758 20.0078 19.652 20.0564 19.5352C20.1051 19.4185 20.1301 19.2932 20.1301 19.1667C20.1301 19.0402 20.1051 18.9149 20.0564 18.7981C20.0078 18.6813 19.9365 18.5754 19.8467 18.4863L4.51334 3.15293ZM11.4996 12.9375C11.1183 12.9375 10.7527 12.7861 10.4831 12.5165C10.2135 12.2469 10.0621 11.8813 10.0621 11.5C10.0621 11.5 10.0621 11.4521 10.0621 11.4329L11.5571 12.9279L11.4996 12.9375Z",
       fill: "#CCCED8"
     }
   ),
-  /* @__PURE__ */ jsx48(
+  /* @__PURE__ */ jsx55(
     "path",
     {
       d: "M11.71 16.2917C7.58919 16.3875 4.88669 12.8513 4.04336 11.5C4.64372 10.5424 5.36525 9.66623 6.19002 8.89336L4.79086 7.54211C3.70921 8.56127 2.78258 9.73328 2.04044 11.0209C1.95633 11.1665 1.91205 11.3318 1.91205 11.5C1.91205 11.6683 1.95633 11.8335 2.04044 11.9792C2.64419 13.0238 5.87378 18.2084 11.5184 18.2084H11.7579C12.8193 18.1769 13.867 17.9596 14.8534 17.5663L13.3392 16.0521C12.8067 16.1922 12.2603 16.2725 11.71 16.2917Z",
       fill: "#CCCED8"
     }
   ),
-  /* @__PURE__ */ jsx48(
+  /* @__PURE__ */ jsx55(
     "path",
     {
       d: "M20.9587 11.0209C20.3453 9.9571 16.9624 4.61919 11.2412 4.79169C10.1798 4.82317 9.1321 5.04049 8.14575 5.43377L9.65992 6.94794C10.1924 6.80786 10.7388 6.7275 11.2891 6.70835C15.4003 6.60294 18.1028 10.1488 18.9558 11.5C18.3406 12.4606 17.6028 13.3368 16.7612 14.1067L18.2083 15.4579C19.3035 14.4415 20.2431 13.2693 20.997 11.9792C21.0754 11.8302 21.1131 11.6631 21.1063 11.4949C21.0996 11.3266 21.0487 11.1631 20.9587 11.0209Z",
@@ -10192,7 +10477,7 @@ var ExpandedResultsIcon = ({ active }) => active ? /* @__PURE__ */ jsxs40(Icon23
 var expanded_results_icon_default = ExpandedResultsIcon;
 
 // src/components/search-card/index.tsx
-import { jsx as jsx49, jsxs as jsxs41 } from "react/jsx-runtime";
+import { jsx as jsx56, jsxs as jsxs44 } from "react/jsx-runtime";
 var SearchCard = ({
   Icon: Icon30,
   title: title6,
@@ -10203,15 +10488,15 @@ var SearchCard = ({
   hit
 }) => {
   const actionValue = actionType ? getAction(actionType) : null;
-  const [toggleChildResults, setToggleChildResults] = useState13(false);
-  return /* @__PURE__ */ jsx49(Link8, { href: url, legacyBehavior: true, children: /* @__PURE__ */ jsxs41(Flex17, { sx: styles_default19.containerActive(method), children: [
-    /* @__PURE__ */ jsxs41(Box20, { children: [
-      /* @__PURE__ */ jsxs41(Text13, { className: "searchCardTitle", sx: styles_default19.title, children: [
-        Icon30 && /* @__PURE__ */ jsx49(Icon30, { sx: styles_default19.icon }),
-        method ? /* @__PURE__ */ jsx49(
+  const [toggleChildResults, setToggleChildResults] = useState14(false);
+  return /* @__PURE__ */ jsx56(Link8, { href: url, legacyBehavior: true, children: /* @__PURE__ */ jsxs44(Flex18, { sx: styles_default20.containerActive(method), children: [
+    /* @__PURE__ */ jsxs44(Box21, { children: [
+      /* @__PURE__ */ jsxs44(Text14, { className: "searchCardTitle", sx: styles_default20.title, children: [
+        Icon30 && /* @__PURE__ */ jsx56(Icon30, { sx: styles_default20.icon }),
+        method ? /* @__PURE__ */ jsx56(
           method_category_default,
           {
-            sx: styles_default19.httpMethod,
+            sx: styles_default20.httpMethod,
             origin: "search",
             method,
             active: false
@@ -10220,8 +10505,8 @@ var SearchCard = ({
         title6 === "overview" && `${hit.doccategory} `,
         title6
       ] }),
-      /* @__PURE__ */ jsxs41(Text13, { className: "searchCardDescription", sx: styles_default19.description, children: [
-        /* @__PURE__ */ jsx49(Flex17, { children: /* @__PURE__ */ jsx49(
+      /* @__PURE__ */ jsxs44(Text14, { className: "searchCardDescription", sx: styles_default20.description, children: [
+        /* @__PURE__ */ jsx56(Flex18, { children: /* @__PURE__ */ jsx56(
           customHighlight_default,
           {
             hit,
@@ -10229,11 +10514,11 @@ var SearchCard = ({
             ...{ searchPage: true }
           }
         ) }),
-        toggleChildResults && hit.filteredMatches?.map((childHit, index) => /* @__PURE__ */ jsx49(
-          Box20,
+        toggleChildResults && hit.filteredMatches?.map((childHit, index) => /* @__PURE__ */ jsx56(
+          Box21,
           {
-            sx: styles_default19.descriptionExpandedItem,
-            children: /* @__PURE__ */ jsx49(
+            sx: styles_default20.descriptionExpandedItem,
+            children: /* @__PURE__ */ jsx56(
               customHighlight_default,
               {
                 hit: childHit,
@@ -10245,35 +10530,35 @@ var SearchCard = ({
           `search-card-${hit.objectID}-${index}`
         ))
       ] }),
-      breadcrumbs ? /* @__PURE__ */ jsxs41(Box20, { sx: styles_default19.breadcrumbsContainer, children: [
-        /* @__PURE__ */ jsx49(Text13, { sx: styles_default19.breadcrumbsIn, children: "In" }),
-        breadcrumbs.map((breadcrumb2, index) => /* @__PURE__ */ jsxs41(
-          Flex17,
+      breadcrumbs ? /* @__PURE__ */ jsxs44(Box21, { sx: styles_default20.breadcrumbsContainer, children: [
+        /* @__PURE__ */ jsx56(Text14, { sx: styles_default20.breadcrumbsIn, children: "In" }),
+        breadcrumbs.map((breadcrumb2, index) => /* @__PURE__ */ jsxs44(
+          Flex18,
           {
-            sx: index === 0 ? styles_default19.documentation : styles_default19.alignCenter,
+            sx: index === 0 ? styles_default20.documentation : styles_default20.alignCenter,
             children: [
-              /* @__PURE__ */ jsx49(Tooltip2, { label: breadcrumb2, placement: "top", children: /* @__PURE__ */ jsx49(Text13, { sx: styles_default19.breadcrumb, children: breadcrumb2 }) }),
-              index < breadcrumbs.length - 1 ? /* @__PURE__ */ jsx49(IconCaret5, { direction: "right", sx: styles_default19.breadcrumbsArrow }) : null
+              /* @__PURE__ */ jsx56(Tooltip2, { label: breadcrumb2, placement: "top", children: /* @__PURE__ */ jsx56(Text14, { sx: styles_default20.breadcrumb, children: breadcrumb2 }) }),
+              index < breadcrumbs.length - 1 ? /* @__PURE__ */ jsx56(IconCaret5, { direction: "right", sx: styles_default20.breadcrumbsArrow }) : null
             ]
           },
           `${breadcrumb2}${index}`
         ))
       ] }) : null,
-      actionValue ? /* @__PURE__ */ jsxs41(Flex17, { sx: styles_default19.actionContainer, children: [
-        /* @__PURE__ */ jsx49(actionValue.Icon, { sx: styles_default19.actionIcon }),
+      actionValue ? /* @__PURE__ */ jsxs44(Flex18, { sx: styles_default20.actionContainer, children: [
+        /* @__PURE__ */ jsx56(actionValue.Icon, { sx: styles_default20.actionIcon }),
         " ",
-        /* @__PURE__ */ jsx49(Text13, { children: actionValue?.title })
+        /* @__PURE__ */ jsx56(Text14, { children: actionValue?.title })
       ] }) : null
     ] }),
-    hit.filteredMatches && hit.filteredMatches.length > 0 && /* @__PURE__ */ jsx49(
-      Box20,
+    hit.filteredMatches && hit.filteredMatches.length > 0 && /* @__PURE__ */ jsx56(
+      Box21,
       {
-        sx: styles_default19.descriptionToggle,
+        sx: styles_default20.descriptionToggle,
         onClick: (event) => {
           setToggleChildResults(!toggleChildResults);
           event.stopPropagation();
         },
-        children: /* @__PURE__ */ jsx49(expanded_results_icon_default, { active: toggleChildResults })
+        children: /* @__PURE__ */ jsx56(expanded_results_icon_default, { active: toggleChildResults })
       }
     )
   ] }) });
@@ -10281,8 +10566,8 @@ var SearchCard = ({
 var search_card_default = SearchCard;
 
 // src/components/search-results/infiniteHits.tsx
-import { Box as Box21, Flex as Flex18 } from "@vtex/brand-ui";
-import { jsx as jsx50, jsxs as jsxs42 } from "react/jsx-runtime";
+import { Box as Box22, Flex as Flex19 } from "@vtex/brand-ui";
+import { jsx as jsx57, jsxs as jsxs45 } from "react/jsx-runtime";
 var HitCard = ({ hit }) => {
   const breadcrumbs = [
     hit.doctype,
@@ -10291,7 +10576,7 @@ var HitCard = ({ hit }) => {
     hit.doctitle
   ];
   const DocIcon = getIcon3(hit.doctype);
-  return /* @__PURE__ */ jsx50(
+  return /* @__PURE__ */ jsx57(
     search_card_default,
     {
       doc: hit.doctype,
@@ -10319,7 +10604,7 @@ var StateResults = connectStateResults2(
   }
 );
 var InfiniteHits = ({ hits, hasMore, refineNext }) => {
-  const scrollRef = useRef10(null);
+  const scrollRef = useRef11(null);
   function onSentinelIntersection(entries) {
     entries.forEach((entry) => {
       if (entry.isIntersecting && hasMore) {
@@ -10349,10 +10634,10 @@ var InfiniteHits = ({ hits, hasMore, refineNext }) => {
       observer.disconnect();
     };
   }, [hits]);
-  return /* @__PURE__ */ jsxs42(Box21, { children: [
-    /* @__PURE__ */ jsx50(StateResults, {}),
-    filteredResult.map((hit, index) => /* @__PURE__ */ jsx50(Flex18, { children: /* @__PURE__ */ jsx50(HitCard, { hit }, index) }, hit.objectID)),
-    /* @__PURE__ */ jsx50("span", { ref: scrollRef })
+  return /* @__PURE__ */ jsxs45(Box22, { children: [
+    /* @__PURE__ */ jsx57(StateResults, {}),
+    filteredResult.map((hit, index) => /* @__PURE__ */ jsx57(Flex19, { children: /* @__PURE__ */ jsx57(HitCard, { hit }, index) }, hit.objectID)),
+    /* @__PURE__ */ jsx57("span", { ref: scrollRef })
   ] });
 };
 var infiniteHits_default = connectInfiniteHits(InfiniteHits);
@@ -10406,7 +10691,7 @@ var noResults2 = {
   alignContent: "center",
   padding: "12px"
 };
-var styles_default20 = {
+var styles_default21 = {
   resultContainer,
   resultText,
   paginationContainer,
@@ -10418,13 +10703,13 @@ var styles_default20 = {
 };
 
 // src/components/search-results/index.tsx
-import { jsx as jsx51, jsxs as jsxs43 } from "react/jsx-runtime";
+import { jsx as jsx58, jsxs as jsxs46 } from "react/jsx-runtime";
 var SearchResults = () => {
   const router = useRouter7();
   const { filterSelectedSection, ocurrenceCount } = useContext16(SearchContext);
   const filters = filterSelectedSection ? `doctype: "${filterSelectedSection}"` : "";
-  const [prevFilter, setPrevFilter] = useState14("");
-  const [searchState, setSearchState] = useState14({});
+  const [prevFilter, setPrevFilter] = useState15("");
+  const [searchState, setSearchState] = useState15({});
   const updateSearchState = (currentState) => {
     const page = filters !== prevFilter ? 1 : currentState.page || 1;
     setPrevFilter(filters);
@@ -10433,8 +10718,8 @@ var SearchResults = () => {
       page
     });
   };
-  return /* @__PURE__ */ jsxs43(Box22, { sx: styles_default20.resultContainer, children: [
-    /* @__PURE__ */ jsxs43(Text14, { sx: styles_default20.resultText, children: [
+  return /* @__PURE__ */ jsxs46(Box23, { sx: styles_default21.resultContainer, children: [
+    /* @__PURE__ */ jsxs46(Text15, { sx: styles_default21.resultText, children: [
       "Showing ",
       ocurrenceCount[filterSelectedSection],
       ' results for "',
@@ -10443,8 +10728,8 @@ var SearchResults = () => {
       " ",
       !filterSelectedSection ? `all results` : filterSelectedSection
     ] }),
-    /* @__PURE__ */ jsx51("hr", {}),
-    /* @__PURE__ */ jsx51(Box22, { children: /* @__PURE__ */ jsxs43(
+    /* @__PURE__ */ jsx58("hr", {}),
+    /* @__PURE__ */ jsx58(Box23, { children: /* @__PURE__ */ jsxs46(
       InstantSearch2,
       {
         searchClient,
@@ -10452,7 +10737,7 @@ var SearchResults = () => {
         searchState,
         onSearchStateChange: (currentState) => updateSearchState(currentState),
         children: [
-          /* @__PURE__ */ jsx51(
+          /* @__PURE__ */ jsx58(
             Configure2,
             {
               filters,
@@ -10463,7 +10748,7 @@ var SearchResults = () => {
               facetingAfterDistinct: true
             }
           ),
-          /* @__PURE__ */ jsx51(infiniteHits_default, {})
+          /* @__PURE__ */ jsx58(infiniteHits_default, {})
         ]
       }
     ) })
@@ -10473,10 +10758,10 @@ var search_results_default = SearchResults;
 
 // src/components/search-filter-tab-bar/index.tsx
 import { useContext as useContext17 } from "react";
-import { Flex as Flex19, Text as Text15 } from "@vtex/brand-ui";
+import { Flex as Flex20, Text as Text16 } from "@vtex/brand-ui";
 
 // src/components/search-filter-tab-bar/styles.ts
-var container9 = {
+var container10 = {
   display: ["flex", "flex", "flex", "none"],
   overflowX: "scroll",
   scrollbarWidth: "none",
@@ -10510,30 +10795,30 @@ var tabCount = {
   borderRadius: "24px",
   backgroundColor: "#F8F7FC"
 };
-var styles_default21 = { container: container9, tab, tabTitle, tabCount };
+var styles_default22 = { container: container10, tab, tabTitle, tabCount };
 
 // src/components/search-filter-tab-bar/index.tsx
-import { jsx as jsx52, jsxs as jsxs44 } from "react/jsx-runtime";
+import { jsx as jsx59, jsxs as jsxs47 } from "react/jsx-runtime";
 var SearchFilterTab = ({ filter }) => {
   const { filterSelectedSection, changeFilterSelectedSection, ocurrenceCount } = useContext17(SearchContext);
-  return /* @__PURE__ */ jsxs44(
-    Flex19,
+  return /* @__PURE__ */ jsxs47(
+    Flex20,
     {
-      sx: styles_default21.tab(filterSelectedSection === filter),
+      sx: styles_default22.tab(filterSelectedSection === filter),
       onClick: () => changeFilterSelectedSection(filter),
       children: [
-        /* @__PURE__ */ jsx52(Text15, { sx: styles_default21.tabTitle(filterSelectedSection === filter), children: filter || "All Results" }),
-        /* @__PURE__ */ jsx52(Text15, { sx: styles_default21.tabCount, children: ocurrenceCount[filter] || 0 })
+        /* @__PURE__ */ jsx59(Text16, { sx: styles_default22.tabTitle(filterSelectedSection === filter), children: filter || "All Results" }),
+        /* @__PURE__ */ jsx59(Text16, { sx: styles_default22.tabCount, children: ocurrenceCount[filter] || 0 })
       ]
     }
   );
 };
 var SearchFilterTabBar = () => {
   const { sidebarSections } = useContext17(LibraryContext);
-  return /* @__PURE__ */ jsxs44(Flex19, { sx: styles_default21.container, children: [
-    /* @__PURE__ */ jsx52(SearchFilterTab, { filter: "" }),
+  return /* @__PURE__ */ jsxs47(Flex20, { sx: styles_default22.container, children: [
+    /* @__PURE__ */ jsx59(SearchFilterTab, { filter: "" }),
     sidebarSections.flat().map((section) => {
-      return /* @__PURE__ */ jsx52(SearchFilterTab, { filter: section.title }, section.title);
+      return /* @__PURE__ */ jsx59(SearchFilterTab, { filter: section.title }, section.title);
     })
   ] });
 };
@@ -10549,22 +10834,22 @@ var body = {
   background: "#FFFFFF",
   justifyContent: "center"
 };
-var styles_default22 = {
+var styles_default23 = {
   searchBarContainer,
   body
 };
 
 // src/lib/search/index.tsx
-import { jsx as jsx53, jsxs as jsxs45 } from "react/jsx-runtime";
+import { jsx as jsx60, jsxs as jsxs48 } from "react/jsx-runtime";
 var Search = () => {
-  return /* @__PURE__ */ jsxs45(search_default, { children: [
-    /* @__PURE__ */ jsxs45(Box23, { children: [
-      /* @__PURE__ */ jsx53(Flex20, { sx: styles_default22.searchBarContainer, children: /* @__PURE__ */ jsx53(SearchInput, {}) }),
-      /* @__PURE__ */ jsx53(search_filter_tab_bar_default, {})
+  return /* @__PURE__ */ jsxs48(search_default, { children: [
+    /* @__PURE__ */ jsxs48(Box24, { children: [
+      /* @__PURE__ */ jsx60(Flex21, { sx: styles_default23.searchBarContainer, children: /* @__PURE__ */ jsx60(SearchInput, {}) }),
+      /* @__PURE__ */ jsx60(search_filter_tab_bar_default, {})
     ] }),
-    /* @__PURE__ */ jsxs45(Flex20, { sx: styles_default22.body, children: [
-      /* @__PURE__ */ jsx53(search_sections_default, {}),
-      /* @__PURE__ */ jsx53(search_results_default, {})
+    /* @__PURE__ */ jsxs48(Flex21, { sx: styles_default23.body, children: [
+      /* @__PURE__ */ jsx60(search_sections_default, {}),
+      /* @__PURE__ */ jsx60(search_results_default, {})
     ] })
   ] });
 };
@@ -10632,7 +10917,7 @@ var declineButton = {
     opacity: "0.7"
   }
 };
-var styles_default23 = {
+var styles_default24 = {
   bar,
   barContent,
   title: title5,
@@ -10642,21 +10927,21 @@ var styles_default23 = {
 };
 
 // src/lib/cookie-bar/index.tsx
-import { Flex as Flex21, Text as Text16 } from "@vtex/brand-ui";
+import { Flex as Flex22, Text as Text17 } from "@vtex/brand-ui";
 import aa3 from "search-insights";
-import { jsx as jsx54, jsxs as jsxs46 } from "react/jsx-runtime";
-var Button6 = ({ children, style, ...props }) => {
-  return /* @__PURE__ */ jsx54(Flex21, { sx: style, ...props, children });
+import { jsx as jsx61, jsxs as jsxs49 } from "react/jsx-runtime";
+var Button7 = ({ children, style, ...props }) => {
+  return /* @__PURE__ */ jsx61(Flex22, { sx: style, ...props, children });
 };
 var CookieBar = ({ onAccept }) => {
   const { locale } = useContext18(LibraryContext);
-  return /* @__PURE__ */ jsxs46(
+  return /* @__PURE__ */ jsxs49(
     CookieConsent,
     {
       enableDeclineButton: true,
-      buttonStyle: styles_default23.acceptButton,
-      declineButtonStyle: styles_default23.declineButton,
-      style: styles_default23.bar,
+      buttonStyle: styles_default24.acceptButton,
+      declineButtonStyle: styles_default24.declineButton,
+      style: styles_default24.bar,
       onAccept: () => {
         aa3("init", {
           partial: true,
@@ -10666,300 +10951,17 @@ var CookieBar = ({ onAccept }) => {
       },
       declineButtonText: messages[locale]["cookie_bar.decline"],
       buttonText: messages[locale]["cookie_bar.accept"],
-      ButtonComponent: Button6,
-      customButtonWrapperAttributes: { style: styles_default23.buttonContainer },
-      customContentAttributes: { style: styles_default23.barContent },
+      ButtonComponent: Button7,
+      customButtonWrapperAttributes: { style: styles_default24.buttonContainer },
+      customContentAttributes: { style: styles_default24.barContent },
       children: [
-        /* @__PURE__ */ jsx54(Text16, { sx: styles_default23.title, children: messages[locale]["cookie_bar.title"] }),
-        /* @__PURE__ */ jsx54(Text16, { children: messages[locale]["cookie_bar.description"] })
+        /* @__PURE__ */ jsx61(Text17, { sx: styles_default24.title, children: messages[locale]["cookie_bar.title"] }),
+        /* @__PURE__ */ jsx61(Text17, { children: messages[locale]["cookie_bar.description"] })
       ]
     }
   );
 };
 var cookie_bar_default = CookieBar;
-
-// src/components/share-button/index.tsx
-import { Box as Box24, Button as Button7, Flex as Flex22, Text as Text17 } from "@vtex/brand-ui";
-
-// src/components/icons/facebook-icon.tsx
-import { Icon as Icon24 } from "@vtex/brand-ui";
-import { jsx as jsx55 } from "react/jsx-runtime";
-var FacebookIcon = (props) => /* @__PURE__ */ jsx55(
-  Icon24,
-  {
-    ...props,
-    viewBox: "0 0 8 16",
-    fill: "none",
-    xmlns: "http://www.w3.org/2000/svg",
-    children: /* @__PURE__ */ jsx55(
-      "path",
-      {
-        d: "M7.47581 8.93204L7.89039 6.05825H5.29681V4.19417C5.29681 3.40778 5.65844 2.64078 6.8201 2.64078H8V0.194175C8 0.194175 6.92967 0 5.90684 0C3.76989 0 2.37444 1.37668 2.37444 3.86796V6.05825H0V8.93204H2.37444V15.8796C2.85114 15.9592 3.33882 16 3.83563 16C4.33243 16 4.82011 15.9592 5.29681 15.8796V8.93204H7.47581Z",
-        fill: "currentcolor"
-      }
-    )
-  }
-);
-var facebook_icon_default = FacebookIcon;
-
-// src/components/icons/linkedin-icon.tsx
-import { Icon as Icon25 } from "@vtex/brand-ui";
-import { jsx as jsx56 } from "react/jsx-runtime";
-var LinkedinIcon = (props) => /* @__PURE__ */ jsx56(
-  Icon25,
-  {
-    ...props,
-    viewBox: "0 0 26 24",
-    fill: "none",
-    xmlns: "http://www.w3.org/2000/svg",
-    children: /* @__PURE__ */ jsx56(
-      "path",
-      {
-        fillRule: "evenodd",
-        clipRule: "evenodd",
-        d: "M6.49092 2.79706C6.49092 4.35191 5.32054 5.59605 3.4413 5.59605H3.40686C1.59747 5.59605 0.427734 4.35191 0.427734 2.79706C0.427734 1.20932 1.6331 0 3.47682 0C5.32054 0 6.45594 1.20932 6.49092 2.79706ZM6.13595 7.80637V23.9997H0.746429V7.80637H6.13595ZM25.5724 23.9996L25.5726 14.7149C25.5726 9.74099 22.9138 7.42607 19.3673 7.42607C16.5058 7.42607 15.2247 8.9978 14.5093 10.1004V7.80675H9.11917C9.1902 9.32624 9.11917 24 9.11917 24H14.5093V14.9564C14.5093 14.4724 14.5443 13.9896 14.6868 13.6431C15.0763 12.6763 15.9632 11.6752 17.4522 11.6752C19.4032 11.6752 20.1831 13.1601 20.1831 15.3362V23.9996H25.5724Z",
-        fill: "currentcolor"
-      }
-    )
-  }
-);
-var linkedin_icon_default = LinkedinIcon;
-
-// src/components/icons/share-icon.tsx
-import { Icon as Icon26 } from "@vtex/brand-ui";
-import { jsx as jsx57, jsxs as jsxs47 } from "react/jsx-runtime";
-var ShareIcon = (props) => /* @__PURE__ */ jsxs47(
-  Icon26,
-  {
-    ...props,
-    viewBox: "0 0 24 24",
-    fill: "none",
-    xmlns: "http://www.w3.org/2000/svg",
-    children: [
-      /* @__PURE__ */ jsx57(
-        "path",
-        {
-          d: "M12 12L21 3V10V3H14",
-          stroke: "currentcolor",
-          strokeWidth: "1.5",
-          strokeLinecap: "round",
-          strokeLinejoin: "round"
-        }
-      ),
-      /* @__PURE__ */ jsx57(
-        "path",
-        {
-          d: "M9 3H5C3.895 3 3 3.895 3 5V19C3 20.105 3.895 21 5 21H19C20.105 21 21 20.105 21 19V15",
-          stroke: "currentcolor",
-          strokeWidth: "1.5",
-          strokeLinecap: "round",
-          strokeLinejoin: "round"
-        }
-      )
-    ]
-  }
-);
-var share_icon_default = ShareIcon;
-
-// src/components/icons/twitter-icon.tsx
-import { Icon as Icon27 } from "@vtex/brand-ui";
-import { jsx as jsx58 } from "react/jsx-runtime";
-var TwitterIcon = (props) => /* @__PURE__ */ jsx58(
-  Icon27,
-  {
-    ...props,
-    viewBox: "0 0 16 16",
-    fill: "none",
-    xmlns: "http://www.w3.org/2000/svg",
-    children: /* @__PURE__ */ jsx58(
-      "path",
-      {
-        fillRule: "evenodd",
-        clipRule: "evenodd",
-        d: "M5.99386 8.11479L0 0.666748H4.74756L8.44753 5.27015L12.4004 0.687475H15.0151L9.71175 6.84307L16 14.6667H11.2666L7.2603 9.68846L2.98317 14.6529H0.354296L5.99386 8.11479ZM11.9565 13.2868L2.91105 2.04674H4.0571L13.0912 13.2868H11.9565Z",
-        fill: "currentcolor"
-      }
-    )
-  }
-);
-var twitter_icon_default = TwitterIcon;
-
-// src/components/share-button/index.tsx
-import { useRef as useRef11, useState as useState15 } from "react";
-import {
-  FacebookShareButton,
-  LinkedinShareButton,
-  TwitterShareButton,
-  EmailShareButton
-} from "react-share";
-
-// src/components/share-button/styles.ts
-var container10 = {
-  position: "relative",
-  height: "24px"
-};
-var button3 = {
-  cursor: "pointer",
-  color: "#A1AAB7",
-  width: "24px",
-  height: "24px",
-  transition: "0.3s",
-  ":hover": {
-    color: "#4A4A4A"
-  }
-};
-var innerButton = {
-  gap: "16px",
-  color: "#A1AAB7",
-  cursor: "pointer",
-  transition: "0.3s",
-  ":hover": {
-    color: "#4A4A4A"
-  },
-  alignItems: "center"
-};
-var innerContainer = {
-  position: "absolute",
-  backgroundColor: "white",
-  flexDirection: "column",
-  top: "100%",
-  right: "0",
-  mt: "8px",
-  padding: "16px",
-  gap: "16px",
-  boxShadow: "0px 0px 16px rgba(0, 0, 0, 0.1)",
-  borderRadius: "5px",
-  ":before": {
-    content: "''",
-    position: "absolute",
-    top: "-8px",
-    right: "8px",
-    borderLeft: "8px solid transparent",
-    borderRight: "8px solid transparent",
-    borderBottom: "8px solid white",
-    boxShadow: "0 16px 10px -17px rgba(0, 0, 0, 0.5)"
-  }
-};
-var divider = {
-  borderBottom: "1px solid #E7E9EE"
-};
-var styles_default24 = {
-  container: container10,
-  button: button3,
-  innerButton,
-  innerContainer,
-  divider
-};
-
-// src/components/icons/email-icon.tsx
-import { Icon as Icon28 } from "@vtex/brand-ui";
-import { jsx as jsx59 } from "react/jsx-runtime";
-var EmailIcon = (props) => /* @__PURE__ */ jsx59(
-  Icon28,
-  {
-    ...props,
-    width: "25",
-    height: "25",
-    viewBox: "0 0 24 24",
-    fill: "none",
-    xmlns: "http://www.w3.org/2000/svg",
-    children: /* @__PURE__ */ jsx59(
-      "path",
-      {
-        d: "M12 0C5.376 0 0 5.376 0 12C0 18.624 5.376 24 12 24H18V21.6H12C6.792 21.6 2.4 17.208 2.4 12C2.4 6.792 6.792 2.4 12 2.4C17.208 2.4 21.6 6.792 21.6 12V13.716C21.6 14.664 20.748 15.6 19.8 15.6C18.852 15.6 18 14.664 18 13.716V12C18 8.688 15.312 6 12 6C8.688 6 6 8.688 6 12C6 15.312 8.688 18 12 18C13.656 18 15.168 17.328 16.248 16.236C17.028 17.304 18.372 18 19.8 18C22.164 18 24 16.08 24 13.716V12C24 5.376 18.624 0 12 0ZM12 15.6C10.008 15.6 8.4 13.992 8.4 12C8.4 10.008 10.008 8.4 12 8.4C13.992 8.4 15.6 10.008 15.6 12C15.6 13.992 13.992 15.6 12 15.6Z",
-        fill: "currentcolor"
-      }
-    )
-  }
-);
-var email_icon_default = EmailIcon;
-
-// src/components/icons/link-icon.tsx
-import { Icon as Icon29 } from "@vtex/brand-ui";
-import { jsx as jsx60, jsxs as jsxs48 } from "react/jsx-runtime";
-var LinkIcon = (props) => /* @__PURE__ */ jsxs48(
-  Icon29,
-  {
-    ...props,
-    viewBox: "0 0 16 16",
-    fill: "none",
-    xmlns: "http://www.w3.org/2000/svg",
-    children: [
-      /* @__PURE__ */ jsx60(
-        "path",
-        {
-          d: "M6.6665 8.66672C6.95281 9.04948 7.31808 9.36618 7.73754 9.59535C8.157 9.82452 8.62084 9.9608 9.0976 9.99495C9.57437 10.0291 10.0529 9.9603 10.5007 9.79325C10.9486 9.62619 11.3552 9.36477 11.6932 9.02672L13.6932 7.02672C14.3004 6.39805 14.6363 5.55604 14.6288 4.68205C14.6212 3.80806 14.2706 2.97202 13.6526 2.354C13.0345 1.73597 12.1985 1.38541 11.3245 1.37781C10.4505 1.37022 9.60851 1.7062 8.97984 2.31339L7.83317 3.45339",
-          stroke: "currentcolor",
-          strokeWidth: "1.5",
-          strokeLinecap: "round",
-          strokeLinejoin: "round"
-        }
-      ),
-      /* @__PURE__ */ jsx60(
-        "path",
-        {
-          d: "M9.33347 7.33332C9.04716 6.95057 8.68189 6.63387 8.26243 6.40469C7.84297 6.17552 7.37913 6.03924 6.90237 6.0051C6.4256 5.97095 5.94707 6.03974 5.49924 6.2068C5.0514 6.37386 4.64472 6.63527 4.3068 6.97332L2.3068 8.97332C1.69961 9.60199 1.36363 10.444 1.37122 11.318C1.37881 12.192 1.72938 13.028 2.3474 13.646C2.96543 14.2641 3.80147 14.6146 4.67546 14.6222C5.54945 14.6298 6.39146 14.2938 7.02013 13.6867L8.16013 12.5467",
-          stroke: "currentcolor",
-          strokeWidth: "1.5",
-          strokeLinecap: "round",
-          strokeLinejoin: "round"
-        }
-      )
-    ]
-  }
-);
-var link_icon_default = LinkIcon;
-
-// src/components/share-button/index.tsx
-import { jsx as jsx61, jsxs as jsxs49 } from "react/jsx-runtime";
-var ShareButton = ({ url }) => {
-  const [isOpen, setIsOpen] = useState15(false);
-  const containerRef = useRef11();
-  useClickOutside(containerRef, () => setIsOpen(false));
-  const handleCopyLink = async () => {
-    try {
-      if (window)
-        await navigator.clipboard.writeText(window.location.href);
-    } catch (error) {
-      console.error("Error copying link to clipboard:", error);
-    }
-  };
-  return /* @__PURE__ */ jsxs49(Flex22, { sx: styles_default24.container, ref: containerRef, children: [
-    /* @__PURE__ */ jsx61(
-      Button7,
-      {
-        sx: styles_default24.button,
-        variant: "tertiary",
-        icon: share_icon_default,
-        onClick: () => setIsOpen(!isOpen)
-      }
-    ),
-    isOpen && /* @__PURE__ */ jsxs49(Flex22, { sx: styles_default24.innerContainer, children: [
-      /* @__PURE__ */ jsxs49(Flex22, { sx: styles_default24.innerButton, onClick: handleCopyLink, children: [
-        /* @__PURE__ */ jsx61(link_icon_default, { size: 16 }),
-        /* @__PURE__ */ jsx61(Text17, { children: "Copy link" })
-      ] }),
-      /* @__PURE__ */ jsx61(Box24, { sx: styles_default24.divider }),
-      /* @__PURE__ */ jsx61(EmailShareButton, { url, children: /* @__PURE__ */ jsxs49(Flex22, { sx: styles_default24.innerButton, onClick: handleCopyLink, children: [
-        /* @__PURE__ */ jsx61(email_icon_default, { size: 16 }),
-        /* @__PURE__ */ jsx61(Text17, { children: "E-mail" })
-      ] }) }),
-      /* @__PURE__ */ jsx61(TwitterShareButton, { url, children: /* @__PURE__ */ jsxs49(Flex22, { sx: styles_default24.innerButton, children: [
-        /* @__PURE__ */ jsx61(twitter_icon_default, { size: 16 }),
-        /* @__PURE__ */ jsx61(Text17, { children: "Twitter" })
-      ] }) }),
-      /* @__PURE__ */ jsx61(FacebookShareButton, { url, children: /* @__PURE__ */ jsxs49(Flex22, { sx: styles_default24.innerButton, children: [
-        /* @__PURE__ */ jsx61(facebook_icon_default, { size: 16 }),
-        /* @__PURE__ */ jsx61(Text17, { children: "Facebook" })
-      ] }) }),
-      /* @__PURE__ */ jsx61(LinkedinShareButton, { url, children: /* @__PURE__ */ jsxs49(Flex22, { sx: styles_default24.innerButton, children: [
-        /* @__PURE__ */ jsx61(linkedin_icon_default, { size: 16 }),
-        /* @__PURE__ */ jsx61(Text17, { children: "LinkedIn" })
-      ] }) })
-    ] })
-  ] });
-};
-var share_button_default = ShareButton;
 export {
   cookie_bar_default as CookieBar,
   feedback_section_default as FeedbackSection,
