@@ -9392,6 +9392,7 @@ var container5 = {
   flexDirection: ["column", "row"],
   alignItems: "center",
   alignContent: ["initial", "space-between"],
+  justifyContent: ["initial", "space-between"],
   marginTop: "32px",
   marginBottom: "16px"
 };
@@ -9445,11 +9446,14 @@ var editContainer = {
   ":hover": {
     color: "#000711 !important"
   },
-  ml: ["0", "auto"],
+  // ml: ['0', 'auto'],
   color: "#4A596B !important",
   display: "flex"
 };
 var editIcon = { mr: "4px" };
+var shareButton = {
+  // ml: ['0', 'auto'],
+};
 var styles_default15 = {
   container: container5,
   question,
@@ -9461,7 +9465,8 @@ var styles_default15 = {
   box,
   button,
   buttonActive,
-  selectedButton
+  selectedButton,
+  shareButton
 };
 
 // src/lib/feedback-section/functions.ts
@@ -9766,26 +9771,8 @@ var ShareIcon = (props) => /* @__PURE__ */ jsxs37(
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg",
     children: [
-      /* @__PURE__ */ jsx46(
-        "path",
-        {
-          d: "M12 12L21 3V10V3H14",
-          stroke: "currentcolor",
-          strokeWidth: "1.5",
-          strokeLinecap: "round",
-          strokeLinejoin: "round"
-        }
-      ),
-      /* @__PURE__ */ jsx46(
-        "path",
-        {
-          d: "M9 3H5C3.895 3 3 3.895 3 5V19C3 20.105 3.895 21 5 21H19C20.105 21 21 20.105 21 19V15",
-          stroke: "currentcolor",
-          strokeWidth: "1.5",
-          strokeLinecap: "round",
-          strokeLinejoin: "round"
-        }
-      )
+      /* @__PURE__ */ jsx46("path", { d: "m0 0h24v24h-24z", opacity: "0", stroke: "currentColor" }),
+      /* @__PURE__ */ jsx46("path", { d: "m18 15a3 3 0 0 0 -2.1.86l-7.9-3.52c0-.12 0-.22 0-.34s0-.22 0-.33l7.9-3.53a3 3 0 1 0 -.9-2.14v.34l-7.9 3.52a3 3 0 1 0 0 4.28l7.9 3.53v.33a3 3 0 1 0 3-3z", fill: "currentColor" })
     ]
   }
 );
@@ -9830,13 +9817,21 @@ var container7 = {
 };
 var button3 = {
   cursor: "pointer",
-  color: "#A1AAB7",
+  textTransform: "none",
+  fontSize: "16px",
+  lineHeight: "18px",
+  color: "#4A596B",
   width: "24px",
   height: "24px",
   transition: "0.3s",
   ":hover": {
-    color: "#4A4A4A"
-  }
+    color: "#000711 !important",
+    textDecoration: "none"
+  },
+  alignItems: "start"
+};
+var shareIcon = {
+  marginRight: "4px"
 };
 var innerButton = {
   gap: "16px",
@@ -9876,6 +9871,7 @@ var divider = {
 var styles_default17 = {
   container: container7,
   button: button3,
+  shareIcon,
   innerButton,
   innerContainer,
   divider
@@ -9942,7 +9938,7 @@ var link_icon_default = LinkIcon;
 
 // src/components/share-button/index.tsx
 import { jsx as jsx50, jsxs as jsxs39 } from "react/jsx-runtime";
-var ShareButton = ({ url }) => {
+var ShareButton = ({ url, sx = {} }) => {
   const [isOpen, setIsOpen] = useState11(false);
   const containerRef = useRef9();
   useClickOutside(containerRef, () => setIsOpen(false));
@@ -9954,14 +9950,17 @@ var ShareButton = ({ url }) => {
       console.error("Error copying link to clipboard:", error);
     }
   };
-  return /* @__PURE__ */ jsxs39(Flex15, { sx: styles_default17.container, ref: containerRef, children: [
-    /* @__PURE__ */ jsx50(
+  return /* @__PURE__ */ jsxs39(Flex15, { sx: { ...styles_default17.container, ...sx }, ref: containerRef, children: [
+    /* @__PURE__ */ jsxs39(
       Button6,
       {
         sx: styles_default17.button,
         variant: "tertiary",
-        icon: share_icon_default,
-        onClick: () => setIsOpen(!isOpen)
+        onClick: () => setIsOpen(!isOpen),
+        children: [
+          /* @__PURE__ */ jsx50(share_icon_default, { sx: styles_default17.shareIcon, size: 24 }),
+          " Share"
+        ]
       }
     ),
     isOpen && /* @__PURE__ */ jsxs39(Flex15, { sx: styles_default17.innerContainer, children: [
@@ -9997,7 +9996,7 @@ var FeedbackSection = ({
   slug,
   urlToEdit,
   suggestEdits = true,
-  shareButton = false,
+  shareButton: shareButton2 = false,
   sendFeedback
 }) => {
   const [feedback, changeFeedback] = useState12(void 0);
@@ -10020,8 +10019,8 @@ var FeedbackSection = ({
     });
   };
   return /* @__PURE__ */ jsxs40(Flex16, { sx: styles_default15.container, "data-cy": "feedback-section", children: [
-    /* @__PURE__ */ jsx51(Text12, { sx: styles_default15.question, children: feedback !== void 0 ? messages[locale]["feedback_section.response"] : messages[locale]["feedback_section.question"] }),
     /* @__PURE__ */ jsxs40(Flex16, { sx: styles_default15.likeContainer, children: [
+      /* @__PURE__ */ jsx51(Text12, { sx: styles_default15.question, children: feedback !== void 0 ? messages[locale]["feedback_section.response"] : messages[locale]["feedback_section.question"] }),
       /* @__PURE__ */ jsxs40(
         Flex16,
         {
@@ -10061,7 +10060,7 @@ var FeedbackSection = ({
         ]
       }
     ),
-    shareButton && /* @__PURE__ */ jsx51(share_button_default, { url: window.location.href }),
+    shareButton2 && /* @__PURE__ */ jsx51(share_button_default, { url: window.location.href, sx: styles_default15.shareButton }),
     modalState.modalOpen ? /* @__PURE__ */ jsx51(
       feedback_modal_default,
       {

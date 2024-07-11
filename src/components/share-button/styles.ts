@@ -7,13 +7,22 @@ const container: SxStyleProp = {
 
 const button: SxStyleProp = {
   cursor: 'pointer',
-  color: '#A1AAB7',
+  textTransform: 'none',
+  fontSize: '16px',
+  lineHeight: '18px',
+  color: '#4A596B',
   width: '24px',
   height: '24px',
   transition: '0.3s',
   ':hover': {
-    color: '#4A4A4A',
+    color: '#000711 !important',
+    textDecoration: 'none',
   },
+  alignItems: 'start',
+}
+
+const shareIcon: SxStyleProp = {
+  marginRight: '4px',
 }
 
 const innerButton: SxStyleProp = {
@@ -58,6 +67,7 @@ const divider: SxStyleProp = {
 export default {
   container,
   button,
+  shareIcon,
   innerButton,
   innerContainer,
   divider,

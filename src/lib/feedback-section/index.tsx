@@ -56,12 +56,12 @@ const FeedbackSection = ({
 
   return (
     <Flex sx={styles.container} data-cy="feedback-section">
-      <Text sx={styles.question}>
-        {feedback !== undefined
-          ? messages[locale]['feedback_section.response']
-          : messages[locale]['feedback_section.question']}
-      </Text>
       <Flex sx={styles.likeContainer}>
+        <Text sx={styles.question}>
+          {feedback !== undefined
+            ? messages[locale]['feedback_section.response']
+            : messages[locale]['feedback_section.question']}
+        </Text>
         <Flex
           ref={likeButton}
           sx={setButtonStyle(feedback, modalState, true)}
@@ -100,7 +100,7 @@ const FeedbackSection = ({
         </Link>
       )}
       {shareButton && (
-        <ShareButton url={window.location.href}/>
+        <ShareButton url={window.location.href} sx={styles.shareButton} />
       )}
       {modalState.modalOpen ? (
         <FeedbackModal
