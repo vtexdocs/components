@@ -18,6 +18,7 @@ const button: SxStyleProp = {
     color: '#000711 !important',
     textDecoration: 'none',
   },
+  alignItems: 'start',
 }
 
 const innerButton: SxStyleProp = {

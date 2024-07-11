@@ -9824,7 +9824,8 @@ var button3 = {
   ":hover": {
     color: "#000711 !important",
     textDecoration: "none"
-  }
+  },
+  alignItems: "start"
 };
 var innerButton = {
   gap: "16px",
