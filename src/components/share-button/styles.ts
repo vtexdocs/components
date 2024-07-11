@@ -7,6 +7,7 @@ const container: SxStyleProp = {
 
 const button: SxStyleProp = {
   cursor: 'pointer',
+  textTransform: 'none',
   color: '#A1AAB7',
   width: '24px',
   height: '24px',

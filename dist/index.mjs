@@ -9392,6 +9392,7 @@ var container5 = {
   flexDirection: ["column", "row"],
   alignItems: "center",
   alignContent: ["initial", "space-between"],
+  justifyContent: ["initial", "space-between"],
   marginTop: "32px",
   marginBottom: "16px"
 };
@@ -9813,6 +9814,7 @@ var container7 = {
 };
 var button3 = {
   cursor: "pointer",
+  textTransform: "none",
   color: "#A1AAB7",
   width: "24px",
   height: "24px",
@@ -9938,14 +9940,16 @@ var ShareButton = ({ url, sx = {} }) => {
     }
   };
   return /* @__PURE__ */ jsxs38(Flex15, { sx: { ...styles_default17.container, ...sx }, ref: containerRef, children: [
-    /* @__PURE__ */ jsx50(
+    /* @__PURE__ */ jsxs38(
       Button6,
       {
         sx: styles_default17.button,
         variant: "tertiary",
-        icon: share_icon_default,
         onClick: () => setIsOpen(!isOpen),
-        children: "Share"
+        children: [
+          /* @__PURE__ */ jsx50(share_icon_default, { size: 16 }),
+          " Share"
+        ]
       }
     ),
     isOpen && /* @__PURE__ */ jsxs38(Flex15, { sx: styles_default17.innerContainer, children: [
@@ -10004,8 +10008,8 @@ var FeedbackSection = ({
     });
   };
   return /* @__PURE__ */ jsxs39(Flex16, { sx: styles_default15.container, "data-cy": "feedback-section", children: [
-    /* @__PURE__ */ jsx51(Text12, { sx: styles_default15.question, children: feedback !== void 0 ? messages[locale]["feedback_section.response"] : messages[locale]["feedback_section.question"] }),
     /* @__PURE__ */ jsxs39(Flex16, { sx: styles_default15.likeContainer, children: [
+      /* @__PURE__ */ jsx51(Text12, { sx: styles_default15.question, children: feedback !== void 0 ? messages[locale]["feedback_section.response"] : messages[locale]["feedback_section.question"] }),
       /* @__PURE__ */ jsxs39(
         Flex16,
         {

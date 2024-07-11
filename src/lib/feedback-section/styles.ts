@@ -7,6 +7,7 @@ const container: SxStyleProp = {
   flexDirection: ['column', 'row'],
   alignItems: 'center',
   alignContent: ['initial', 'space-between'],
+  justifyContent: ['initial', 'space-between'],
   marginTop: '32px',
   marginBottom: '16px',
 }
