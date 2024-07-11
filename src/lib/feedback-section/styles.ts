@@ -76,6 +76,10 @@ const editContainer: SxStyleProp = {
 
 const editIcon: SxStyleProp = { mr: '4px' }
 
+const shareButton: SxStyleProp = {
+  ml: ['0', 'auto'],
+}
+
 export default {
   container,
   question,
@@ -88,4 +92,5 @@ export default {
   button,
   buttonActive,
   selectedButton,
+  shareButton
 }

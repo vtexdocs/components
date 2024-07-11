@@ -39,7 +39,7 @@ const ShareButton = ({ url }: Props) => {
         variant="tertiary"
         icon={ShareIcon}
         onClick={() => setIsOpen(!isOpen)}
-      ></Button>
+      >Share</Button>
       {isOpen && (
         <Flex sx={styles.innerContainer}>
           <Flex sx={styles.innerButton} onClick={handleCopyLink}>
