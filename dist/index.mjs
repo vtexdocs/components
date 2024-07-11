@@ -9945,7 +9945,7 @@ var ShareButton = ({ url }) => {
         variant: "tertiary",
         icon: share_icon_default,
         onClick: () => setIsOpen(!isOpen),
-        children: "Share"
+        children: /* @__PURE__ */ jsx50(Text11, { children: "Share" })
       }
     ),
     isOpen && /* @__PURE__ */ jsxs38(Flex15, { sx: styles_default17.innerContainer, children: [
