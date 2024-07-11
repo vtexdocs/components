@@ -13,13 +13,15 @@ import {
 import styles from './styles'
 import EmailIcon from 'components/icons/email-icon'
 import LinkIcon from 'components/icons/link-icon'
+import { SxStyleProp } from '@vtex/brand-ui'
 import useClickOutside from 'utils/hooks/useClickOutside'
 
 interface Props {
   url: string
+  sx?: SxStyleProp
 }
 
-const ShareButton = ({ url }: Props) => {
+const ShareButton = ({ url, sx={} }: Props) => {
   const [isOpen, setIsOpen] = useState(false)
   const containerRef = useRef()
   useClickOutside(containerRef, () => setIsOpen(false))
@@ -33,14 +35,14 @@ const ShareButton = ({ url }: Props) => {
   }
 
   return (
-    <Flex sx={styles.container} ref={containerRef}>
+    <Flex sx={{...styles.container, ...sx}} ref={containerRef}>
       <Button
         sx={styles.button}
         variant="tertiary"
         icon={ShareIcon}
         onClick={() => setIsOpen(!isOpen)}
       >
-        <Text>Share</Text>
+      Share
       </Button>
       {isOpen && (
         <Flex sx={styles.innerContainer}>

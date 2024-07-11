@@ -100,7 +100,7 @@ const FeedbackSection = ({
         </Link>
       )}
       {shareButton && (
-        <Flex sx={styles.shareButton}> <ShareButton url={window.location.href}  /> </Flex>
+        <ShareButton url={window.location.href} sx={styles.shareButton} />
       )}
       {modalState.modalOpen ? (
         <FeedbackModal

@@ -69,7 +69,7 @@ const editContainer: SxStyleProp = {
   ':hover': {
     color: '#000711 !important',
   },
-  ml: ['0', 'auto'],
+  // ml: ['0', 'auto'],
   color: '#4A596B !important',
   display: 'flex',
 }
@@ -77,7 +77,7 @@ const editContainer: SxStyleProp = {
 const editIcon: SxStyleProp = { mr: '4px' }
 
 const shareButton: SxStyleProp = {
-  ml: ['0', 'auto'],
+  // ml: ['0', 'auto'],
 }
 
 export default {

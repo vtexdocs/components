@@ -9445,13 +9445,13 @@ var editContainer = {
   ":hover": {
     color: "#000711 !important"
   },
-  ml: ["0", "auto"],
+  // ml: ['0', 'auto'],
   color: "#4A596B !important",
   display: "flex"
 };
 var editIcon = { mr: "4px" };
 var shareButton = {
-  ml: ["0", "auto"]
+  // ml: ['0', 'auto'],
 };
 var styles_default15 = {
   container: container5,
@@ -9925,7 +9925,7 @@ var link_icon_default = LinkIcon;
 
 // src/components/share-button/index.tsx
 import { jsx as jsx50, jsxs as jsxs38 } from "react/jsx-runtime";
-var ShareButton = ({ url }) => {
+var ShareButton = ({ url, sx = {} }) => {
   const [isOpen, setIsOpen] = useState11(false);
   const containerRef = useRef9();
   useClickOutside(containerRef, () => setIsOpen(false));
@@ -9937,7 +9937,7 @@ var ShareButton = ({ url }) => {
       console.error("Error copying link to clipboard:", error);
     }
   };
-  return /* @__PURE__ */ jsxs38(Flex15, { sx: styles_default17.container, ref: containerRef, children: [
+  return /* @__PURE__ */ jsxs38(Flex15, { sx: { ...styles_default17.container, ...sx }, ref: containerRef, children: [
     /* @__PURE__ */ jsx50(
       Button6,
       {
@@ -9945,7 +9945,7 @@ var ShareButton = ({ url }) => {
         variant: "tertiary",
         icon: share_icon_default,
         onClick: () => setIsOpen(!isOpen),
-        children: /* @__PURE__ */ jsx50(Text11, { children: "Share" })
+        children: "Share"
       }
     ),
     isOpen && /* @__PURE__ */ jsxs38(Flex15, { sx: styles_default17.innerContainer, children: [
@@ -10045,11 +10045,7 @@ var FeedbackSection = ({
         ]
       }
     ),
-    shareButton2 && /* @__PURE__ */ jsxs39(Flex16, { sx: styles_default15.shareButton, children: [
-      " ",
-      /* @__PURE__ */ jsx51(share_button_default, { url: window.location.href }),
-      " "
-    ] }),
+    shareButton2 && /* @__PURE__ */ jsx51(share_button_default, { url: window.location.href, sx: styles_default15.shareButton }),
     modalState.modalOpen ? /* @__PURE__ */ jsx51(
       feedback_modal_default,
       {
