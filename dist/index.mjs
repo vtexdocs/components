@@ -9815,12 +9815,15 @@ var container7 = {
 var button3 = {
   cursor: "pointer",
   textTransform: "none",
+  fontSize: "16px",
+  lineHeight: "18px",
   color: "#A1AAB7",
   width: "24px",
   height: "24px",
   transition: "0.3s",
   ":hover": {
-    color: "#4A4A4A"
+    color: "#4A4A4A",
+    textDecoration: "none"
   }
 };
 var innerButton = {
@@ -9947,7 +9950,7 @@ var ShareButton = ({ url, sx = {} }) => {
         variant: "tertiary",
         onClick: () => setIsOpen(!isOpen),
         children: [
-          /* @__PURE__ */ jsx50(share_icon_default, { size: 16 }),
+          /* @__PURE__ */ jsx50(share_icon_default, { size: 24 }),
           " Share"
         ]
       }

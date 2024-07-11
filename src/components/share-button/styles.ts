@@ -8,12 +8,15 @@ const container: SxStyleProp = {
 const button: SxStyleProp = {
   cursor: 'pointer',
   textTransform: 'none',
+  fontSize: '16px',
+  lineHeight: '18px',
   color: '#A1AAB7',
   width: '24px',
   height: '24px',
   transition: '0.3s',
   ':hover': {
     color: '#4A4A4A',
+    textDecoration: 'none',
   },
 }
 

@@ -41,7 +41,7 @@ const ShareButton = ({ url, sx={} }: Props) => {
         variant="tertiary"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <ShareIcon size={16}/> Share
+        <ShareIcon size={24}/> Share
       </Button>
       {isOpen && (
         <Flex sx={styles.innerContainer}>
