@@ -9771,8 +9771,8 @@ var ShareIcon = (props) => /* @__PURE__ */ jsxs37(
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg",
     children: [
-      /* @__PURE__ */ jsx46("path", { d: "m0 0h24v24h-24z", fill: "#fff", opacity: "0" }),
-      /* @__PURE__ */ jsx46("path", { d: "m18 15a3 3 0 0 0 -2.1.86l-7.9-3.52c0-.12 0-.22 0-.34s0-.22 0-.33l7.9-3.53a3 3 0 1 0 -.9-2.14v.34l-7.9 3.52a3 3 0 1 0 0 4.28l7.9 3.53v.33a3 3 0 1 0 3-3z", fill: "#231f20" })
+      /* @__PURE__ */ jsx46("path", { d: "m0 0h24v24h-24z", opacity: "0", stroke: "currentColor" }),
+      /* @__PURE__ */ jsx46("path", { d: "m18 15a3 3 0 0 0 -2.1.86l-7.9-3.52c0-.12 0-.22 0-.34s0-.22 0-.33l7.9-3.53a3 3 0 1 0 -.9-2.14v.34l-7.9 3.52a3 3 0 1 0 0 4.28l7.9 3.53v.33a3 3 0 1 0 3-3z", fill: "currentColor" })
     ]
   }
 );
@@ -9830,6 +9830,9 @@ var button3 = {
   },
   alignItems: "start"
 };
+var shareIcon = {
+  marginRight: "4px"
+};
 var innerButton = {
   gap: "16px",
   color: "#A1AAB7",
@@ -9868,6 +9871,7 @@ var divider = {
 var styles_default17 = {
   container: container7,
   button: button3,
+  shareIcon,
   innerButton,
   innerContainer,
   divider
@@ -9954,7 +9958,7 @@ var ShareButton = ({ url, sx = {} }) => {
         variant: "tertiary",
         onClick: () => setIsOpen(!isOpen),
         children: [
-          /* @__PURE__ */ jsx50(share_icon_default, { size: 24 }),
+          /* @__PURE__ */ jsx50(share_icon_default, { sx: styles_default17.shareIcon, size: 24 }),
           " Share"
         ]
       }

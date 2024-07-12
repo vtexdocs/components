@@ -21,6 +21,10 @@ const button: SxStyleProp = {
   alignItems: 'start',
 }
 
+const shareIcon: SxStyleProp = {
+  marginRight: '4px',
+}
+
 const innerButton: SxStyleProp = {
   gap: '16px',
   color: '#A1AAB7',
@@ -63,6 +67,7 @@ const divider: SxStyleProp = {
 export default {
   container,
   button,
+  shareIcon,
   innerButton,
   innerContainer,
   divider,
