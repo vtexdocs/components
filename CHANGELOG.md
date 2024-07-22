@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.1.0](https://github.com/vtexdocs/components/compare/v2.0.7...v2.1.0) (2024-07-22)
+
+
+### Features
+
+* **share-on-feedback:** add share button on feedback section ([ee0aa91](https://github.com/vtexdocs/components/commit/ee0aa91f5d4640cb65469a4a858bd88073e74058))
+* **share-on-feedback:** change dependencies ([626eb03](https://github.com/vtexdocs/components/commit/626eb0370e477e5b44b9134649fde143f24e4a3c))
+* **share-on-feedback:** export share button ([3ff7376](https://github.com/vtexdocs/components/commit/3ff7376cd5dac7e4efdd0d91dcc9abd3e55127b3))
+* **share-on-feedback:** move share-button component ([387ea43](https://github.com/vtexdocs/components/commit/387ea43a0c6fcc1630a20ec0c423ed8165e6b8f5))
+* **share-on-feedback:** restyle share button ([74fcadf](https://github.com/vtexdocs/components/commit/74fcadf2c2796437a3e4b712caee5fb434792176))
+
+
+### Bug Fixes
+
+* **share-on-feedback:** dependencies ([da0341c](https://github.com/vtexdocs/components/commit/da0341c08144cea3f24150e6e336906e1c06228b))
+
 ### [2.0.7](https://github.com/vtexdocs/components/compare/v2.0.6...v2.0.7) (2024-05-13)
 
 ### [2.0.6](https://github.com/vtexdocs/components/compare/v2.0.5...v2.0.6) (2024-05-13)
