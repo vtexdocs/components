@@ -7,6 +7,7 @@ const container: SxStyleProp = {
   flexDirection: ['column', 'row'],
   alignItems: 'center',
   alignContent: ['initial', 'space-between'],
+  justifyContent: ['initial', 'space-between'],
   marginTop: '32px',
   marginBottom: '16px',
 }
@@ -69,12 +70,16 @@ const editContainer: SxStyleProp = {
   ':hover': {
     color: '#000711 !important',
   },
-  ml: ['0', 'auto'],
+  // ml: ['0', 'auto'],
   color: '#4A596B !important',
   display: 'flex',
 }
 
 const editIcon: SxStyleProp = { mr: '4px' }
+
+const shareButton: SxStyleProp = {
+  // ml: ['0', 'auto'],
+}
 
 export default {
   container,
@@ -88,4 +93,5 @@ export default {
   button,
   buttonActive,
   selectedButton,
+  shareButton
 }

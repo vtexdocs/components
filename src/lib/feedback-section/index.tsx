@@ -9,6 +9,7 @@ import FeedbackModal, { ModalProps } from 'components/feedback-modal'
 import styles from './styles'
 import { LibraryContext } from 'utils/context/libraryContext'
 import { messages } from 'utils/get-message'
+import ShareButton from 'components/share-button'
 
 export interface DocPath {
   /** Slug that corresponds to the current page. */
@@ -17,6 +18,8 @@ export interface DocPath {
   urlToEdit?: string
   /** Whether is possible for the user to suggest edits or not. */
   suggestEdits?: boolean
+  /** Include or not a share button. */
+  shareButton?: boolean
   /** Function that executes when the user sends the feedback. The function receives the user comment and whether it was a positive (liked = true) or negative feedback. */
   sendFeedback: (comment: string, liked: boolean) => Promise<void>
 }
@@ -26,6 +29,7 @@ const FeedbackSection = ({
   slug,
   urlToEdit,
   suggestEdits = true,
+  shareButton = false,
   sendFeedback,
 }: DocPath) => {
   const [feedback, changeFeedback] = useState<boolean | undefined>(undefined)
@@ -52,12 +56,12 @@ const FeedbackSection = ({
 
   return (
     <Flex sx={styles.container} data-cy="feedback-section">
-      <Text sx={styles.question}>
-        {feedback !== undefined
-          ? messages[locale]['feedback_section.response']
-          : messages[locale]['feedback_section.question']}
-      </Text>
       <Flex sx={styles.likeContainer}>
+        <Text sx={styles.question}>
+          {feedback !== undefined
+            ? messages[locale]['feedback_section.response']
+            : messages[locale]['feedback_section.question']}
+        </Text>
         <Flex
           ref={likeButton}
           sx={setButtonStyle(feedback, modalState, true)}
@@ -94,6 +98,9 @@ const FeedbackSection = ({
           <EditIcon size={24} sx={styles.editIcon} />
           <Text>{messages[locale]['feedback_section.edit']}</Text>
         </Link>
+      )}
+      {shareButton && (
+        <ShareButton url={window.location.href} sx={styles.shareButton} />
       )}
       {modalState.modalOpen ? (
         <FeedbackModal
