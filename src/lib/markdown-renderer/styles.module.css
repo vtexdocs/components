@@ -51,7 +51,12 @@ table .code {
 }
 
 .blockquote a{
-  color: #D4084C !important;
+  color: #e31c58 !important;
+  text-decoration: underline 1px solid;
+}
+
+.blockquote a:hover{
+  color: #c81e51;
 }
 
 .blockquoteInfo {
