@@ -6841,7 +6841,7 @@ var TableOfContents = ({ headingList }) => {
 var TableOfContents_default = TableOfContents;
 
 // src/lib/sidebar/index.tsx
-import { useEffect as useEffect8, useRef as useRef4, useState as useState7, useContext as useContext6, Fragment as Fragment3 } from "react";
+import { useEffect as useEffect8, useRef as useRef4, useState as useState7, useContext as useContext6 } from "react";
 import { Flex as Flex10, Text as Text6, Box as Box12 } from "@vtex/brand-ui";
 import Link4 from "next/link.js";
 
@@ -7859,6 +7859,8 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
     const isExpandable = children.length > 0;
     const pathSuffix = method ? `#${method.toLowerCase()}-${endpoint}` : "";
     const activeItem = method ? `${localizedSlug}${pathSuffix}` : localizedSlug;
+    const href = getHref(slugPrefix || "", pathSuffix, localizedSlug);
+    console.log("Rendering ElementRoot with href:", href);
     return /* @__PURE__ */ jsx17(Box10, { sx: styles_default12.elementContainer, children: /* @__PURE__ */ jsxs12(Flex8, { sx: styleByLevelNormal(subItemLevel, isExpandable || false), children: [
       isExpandable && /* @__PURE__ */ jsx17(
         Button2,
@@ -7887,7 +7889,7 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
             }
             toggleSidebarElementStatus(activeItem);
           },
-          href: getHref(slugPrefix || "", pathSuffix, localizedSlug),
+          href,
           target: isEditorPreview === true ? "_blank" : "_self",
           children: [
             method && /* @__PURE__ */ jsx17(
@@ -8285,7 +8287,7 @@ var SidebarSection = ({
 var sidebar_section_default = SidebarSection;
 
 // src/lib/sidebar/index.tsx
-import { jsx as jsx22, jsxs as jsxs16 } from "react/jsx-runtime";
+import { Fragment as Fragment3, jsx as jsx22, jsxs as jsxs16 } from "react/jsx-runtime";
 import { createElement } from "react";
 var Sidebar = ({ parentsArray = [] }) => {
   const [expandDelayStatus, setExpandDelayStatus] = useState7(true);
@@ -8398,15 +8400,15 @@ var Sidebar = ({ parentsArray = [] }) => {
         sx: styles_default7.sidebarIcons,
         children: sidebarSections.map((section, id) => {
           return /* @__PURE__ */ jsxs16(Fragment3, { children: [
-            id > 0 && /* @__PURE__ */ jsx22(Box12, { sx: styles_default7.sectionDivider, children: /* @__PURE__ */ jsx22("hr", {}) }, `divider-${id}`),
-            /* @__PURE__ */ jsx22(Flex10, { sx: styles_default7.sidebarIconsContainer, children: section.map((element, elementId) => /* @__PURE__ */ createElement(
+            id > 0 && /* @__PURE__ */ jsx22(Box12, { sx: styles_default7.sectionDivider, children: /* @__PURE__ */ jsx22("hr", {}) }, `${id}-divider`),
+            /* @__PURE__ */ jsx22(Flex10, { sx: styles_default7.sidebarIconsContainer, children: section.map((element) => /* @__PURE__ */ createElement(
               SideBarIcon,
               {
                 ...element,
-                key: `sidebar-icon-${element.title}-${elementId}`
+                key: `sidebar-icon-${element.title}`
               }
-            )) }, `container-${id}`)
-          ] }, `section-${id}`);
+            )) }, id)
+          ] });
         })
       }
     ),
