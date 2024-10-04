@@ -7289,38 +7289,39 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
     children
   }) => {
     const localizedName = typeof name === "string" ? name : name[locale];
+    const localizedSlug = typeof slug === "string" ? slug : slug[locale];
     const isExpandable = children.length > 0;
     const pathSuffix = method ? `#${method.toLowerCase()}-${endpoint}` : "";
-    const activeItem = method ? `${slug}${pathSuffix}` : slug;
+    const activeItem = method ? `${localizedSlug}${pathSuffix}` : localizedSlug;
     return /* @__PURE__ */ jsx17(Box10, { sx: styles_default11.elementContainer, children: /* @__PURE__ */ jsxs12(Flex8, { sx: styleByLevelNormal(subItemLevel, isExpandable || false), children: [
       isExpandable && /* @__PURE__ */ jsx17(
         Button2,
         {
-          "aria-label": sidebarElementStatus.has(slug) && sidebarElementStatus.get(slug) ? "Collapse category" : "Expand category",
+          "aria-label": sidebarElementStatus.has(localizedSlug) && sidebarElementStatus.get(localizedSlug) ? "Collapse category" : "Expand category",
           size: "regular",
           variant: "tertiary",
-          sx: sidebarElementStatus.has(slug) && sidebarElementStatus.get(slug) ? styles_default11.arrowIconActive : styles_default11.arrowIcon,
+          sx: sidebarElementStatus.has(localizedSlug) && sidebarElementStatus.get(localizedSlug) ? styles_default11.arrowIconActive : styles_default11.arrowIcon,
           icon: () => /* @__PURE__ */ jsx17(
             IconCaret2,
             {
-              direction: sidebarElementStatus.has(slug) && sidebarElementStatus.get(slug) ? "down" : "right",
+              direction: sidebarElementStatus.has(localizedSlug) && sidebarElementStatus.get(localizedSlug) ? "down" : "right",
               size: 24
             }
           ),
-          onClick: () => toggleSidebarElementStatus(slug)
+          onClick: () => toggleSidebarElementStatus(localizedSlug)
         }
       ),
-      !checkDocumentationType(sidebarDataMaster, slug, "category") && !checkDocumentationType(sidebarDataMaster, slug, "link") ? /* @__PURE__ */ jsxs12(
+      !checkDocumentationType(sidebarDataMaster, localizedSlug, "category") && !checkDocumentationType(sidebarDataMaster, localizedSlug, "link") ? /* @__PURE__ */ jsxs12(
         Link3,
         {
           sx: textStyle(activeSidebarElement === activeItem, isExpandable),
           onClick: (e) => {
             if (!isEditorPreview) {
-              handleClick(e, pathSuffix, slug);
+              handleClick(e, pathSuffix, localizedSlug);
             }
             toggleSidebarElementStatus(activeItem);
           },
-          href: getHref(slugPrefix || "", pathSuffix, slug),
+          href: getHref(slugPrefix || "", pathSuffix, localizedSlug),
           target: isEditorPreview === true ? "_blank" : "_self",
           children: [
             method && /* @__PURE__ */ jsx17(
@@ -7335,22 +7336,22 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
             localizedName
           ]
         }
-      ) : checkDocumentationType(sidebarDataMaster, slug, "link") ? /* @__PURE__ */ jsxs12(Link3, { href: slug, target: "_blank", sx: styles_default11.elementText, children: [
+      ) : checkDocumentationType(sidebarDataMaster, localizedSlug, "link") ? /* @__PURE__ */ jsxs12(Link3, { href: localizedSlug, target: "_blank", sx: styles_default11.elementText, children: [
         /* @__PURE__ */ jsx17(IconExternalLink, { size: 16, sx: { marginRight: "10px" } }),
         localizedName
       ] }) : /* @__PURE__ */ jsxs12(
         Box10,
         {
-          sx: textStyle(activeSidebarElement === slug, isExpandable),
+          sx: textStyle(activeSidebarElement === localizedSlug, isExpandable),
           onClick: () => {
-            toggleSidebarElementStatus(slug);
+            toggleSidebarElementStatus(localizedSlug);
           },
           children: [
             method && /* @__PURE__ */ jsx17(
               method_category_default,
               {
                 sx: styles_default11.methodBox,
-                active: activeSidebarElement === slug,
+                active: activeSidebarElement === localizedSlug,
                 origin: "sidebar",
                 method
               }
@@ -7363,7 +7364,8 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
   };
   const ElementChildren = ({ slug, children }) => {
     const isExpandable = children.length > 0;
-    return isExpandable && sidebarElementStatus.has(slug) && sidebarElementStatus.get(slug) ? /* @__PURE__ */ jsx17(Box10, { children: /* @__PURE__ */ jsx17(
+    const localizedSlug = typeof slug === "string" ? slug : slug[locale];
+    return isExpandable && sidebarElementStatus.has(localizedSlug) && sidebarElementStatus.get(localizedSlug) ? /* @__PURE__ */ jsx17(Box10, { children: /* @__PURE__ */ jsx17(
       SidebarElements,
       {
         slugPrefix,
@@ -7374,8 +7376,8 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
     ) }) : null;
   };
   return /* @__PURE__ */ jsx17(Box10, { className: "sidebar-component", children: items?.map((item2, index) => {
-    const key = String(item2.slug) + String(index);
-    const slug = `${item2.slug}`;
+    const key = typeof item2.slug === "string" ? String(item2.slug) + String(index) : String(item2.slug[locale]) + String(index);
+    const slug = typeof item2.slug === "string" ? `${item2.slug}` : `${item2.slug[locale]}`;
     return /* @__PURE__ */ jsxs12(Fragment, { children: [
       /* @__PURE__ */ jsx17(ElementRoot, { ...item2, slug }),
       /* @__PURE__ */ jsx17(Box10, { children: /* @__PURE__ */ jsx17(ElementChildren, { ...item2, slug }) }),
