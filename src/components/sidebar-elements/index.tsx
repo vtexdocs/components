@@ -120,6 +120,10 @@ const SidebarElements = ({ slugPrefix, items, subItemLevel }: SidebarProps) => {
     const isExpandable = children.length > 0
     const pathSuffix = method ? `#${method.toLowerCase()}-${endpoint}` : ''
     const activeItem = method ? `${localizedSlug}${pathSuffix}` : localizedSlug
+    const href = getHref(slugPrefix || '', pathSuffix, localizedSlug)
+
+    console.log('Rendering ElementRoot with href:', href)
+
     return (
       <Box sx={styles.elementContainer}>
         <Flex sx={styleByLevelNormal(subItemLevel, isExpandable || false)}>
@@ -161,7 +165,7 @@ const SidebarElements = ({ slugPrefix, items, subItemLevel }: SidebarProps) => {
                 }
                 toggleSidebarElementStatus(activeItem)
               }}
-              href={getHref(slugPrefix || '', pathSuffix, localizedSlug)}
+              href={href}
               target={isEditorPreview === true ? '_blank' : '_self'}
             >
               {method && (
