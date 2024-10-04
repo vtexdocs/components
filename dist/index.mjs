@@ -7932,7 +7932,7 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
         items: children,
         subItemLevel: subItemLevel + 1
       },
-      `${slug}sd`
+      `${localizedSlug}sd`
     ) }) : null;
   };
   return /* @__PURE__ */ jsx17(Box10, { className: "sidebar-component", children: items?.map((item2, index) => {
