@@ -96,7 +96,7 @@ const SidebarElements = ({ slugPrefix, items, subItemLevel }: SidebarProps) => {
         }
       }
     }
-  
+
     return false
   }
 
@@ -228,7 +228,7 @@ const SidebarElements = ({ slugPrefix, items, subItemLevel }: SidebarProps) => {
         const slug = `${item.slug}`
 
         return (
-          <Fragment key={String(key)}>
+          <Fragment key={key}>
             <ElementRoot {...item} slug={slug} />
             <Box>
               <ElementChildren {...item} slug={slug} />
