@@ -18,7 +18,7 @@ import { LibraryContext } from 'utils/context/libraryContext'
 
 export interface SidebarElement {
   name: string | { en: string; pt: string; es: string }
-  slug: string
+  slug: string | { en: string; pt: string; es: string }
   origin: string
   type: string
   method?: MethodType
