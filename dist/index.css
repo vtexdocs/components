@@ -1,16 +1,16 @@
 /* src/lib/markdown-renderer/styles.module.css */
-.styles_module_img {
+.styles_img {
   max-width: 100%;
   padding-top: 2vh;
   border-radius: 4px;
 }
-.styles_module_heading::before {
+.styles_heading::before {
   content: "";
   display: block;
   visibility: hidden;
   pointer-events: none;
 }
-.styles_module_code {
+.styles_code {
   background-color: #f6f8fa;
   background-color: var(--md-code-background, #f6f8fa);
   border-radius: 4px;
@@ -20,10 +20,10 @@
   font-size: 0.875em;
   word-break: break-all;
 }
-table .styles_module_code {
+table .styles_code {
   word-break: normal;
 }
-.styles_module_blockquote {
+.styles_blockquote {
   display: grid;
   padding: 20px;
   gap: 20px;
@@ -36,23 +36,23 @@ table .styles_module_code {
   grid-template-rows: 1fr;
   word-break: break-word;
 }
-.styles_module_blockquote a {
+.styles_blockquote a {
   word-break: break-all;
 }
-.styles_module_blockquote p,
-.styles_module_blockquote div {
+.styles_blockquote p,
+.styles_blockquote div {
   margin: 0px;
   grid-column: 2 / -1;
   grid-row: 1 / 1;
 }
-.styles_module_blockquote a {
+.styles_blockquote a {
   color: #D4084C !important;
 }
-.styles_module_blockquoteInfo {
+.styles_blockquoteInfo {
   background: #f8f7fc;
   border: 1px solid #ccced8;
 }
-.styles_module_blockquoteInfo:before {
+.styles_blockquoteInfo:before {
   display: inline-block;
   height: 20px;
   width: 20px;
@@ -60,11 +60,11 @@ table .styles_module_code {
   background: url(https://vtex-dev-portal-navigation.fra1.digitaloceanspaces.com/info.svg) no-repeat 0 0;
   background-size: 20px 20px;
 }
-.styles_module_blockquoteDanger {
+.styles_blockquoteDanger {
   background: #fdefef;
   border: 1px solid #dc5a41;
 }
-.styles_module_blockquoteDanger:before {
+.styles_blockquoteDanger:before {
   display: inline-block;
   height: 20px;
   width: 20px;
@@ -72,17 +72,17 @@ table .styles_module_code {
   background: url(https://vtex-dev-portal-navigation.fra1.digitaloceanspaces.com/danger.svg) no-repeat 0 0;
   background-size: 20px 20px;
 }
-.styles_module_blockquoteWarning {
+.styles_blockquoteWarning {
   background: #fff2d4;
   border: 1px solid #ffb100;
 }
-.styles_module_blockquoteWarning code {
+.styles_blockquoteWarning code {
   background-color: #ffe5b5;
 }
-.styles_module_blockquoteInfo code {
+.styles_blockquoteInfo code {
   background-color: #ecebf3;
 }
-.styles_module_blockquoteWarning:before {
+.styles_blockquoteWarning:before {
   display: inline-block;
   height: 20px;
   width: 20px;
@@ -90,11 +90,11 @@ table .styles_module_code {
   background: url(https://vtex-dev-portal-navigation.fra1.digitaloceanspaces.com/warning.svg) no-repeat 0 0;
   background-size: 20px 20px;
 }
-.styles_module_blockquoteSuccess {
+.styles_blockquoteSuccess {
   background: #f3f8f3;
   border: 1px solid #80be80;
 }
-.styles_module_blockquoteSuccess:before {
+.styles_blockquoteSuccess:before {
   display: inline-block;
   height: 20px;
   width: 20px;
@@ -102,11 +102,11 @@ table .styles_module_code {
   background: url(https://vtex-dev-portal-navigation.fra1.digitaloceanspaces.com/success.svg) no-repeat 0 0;
   background-size: 20px 20px;
 }
-.styles_module_flexWrap {
+.styles_flexWrap {
   flex-wrap: wrap;
   justify-content: space-between;
 }
-.styles_module_svgContainer {
+.styles_svgContainer {
   width: 100%;
 }
 /*# sourceMappingURL=index.css.map */

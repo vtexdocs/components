@@ -1081,19 +1081,7 @@ var init_cache_in_memory_esm = __esm({
   }
 });
 
-// node_modules/@algolia/client-common/dist/client-common.esm.js
-var client_common_esm_exports = {};
-__export(client_common_esm_exports, {
-  AuthMode: () => AuthMode,
-  addMethods: () => addMethods,
-  createAuth: () => createAuth,
-  createRetryablePromise: () => createRetryablePromise,
-  createWaitablePromise: () => createWaitablePromise,
-  destroy: () => destroy,
-  encode: () => encode,
-  shuffle: () => shuffle,
-  version: () => version
-});
+// node_modules/@algolia/client-analytics/node_modules/@algolia/client-common/dist/client-common.esm.js
 function createAuth(authMode, appId, apiKey) {
   const credentials = {
     "x-algolia-api-key": apiKey,
@@ -1108,37 +1096,6 @@ function createAuth(authMode, appId, apiKey) {
     }
   };
 }
-function createRetryablePromise(callback) {
-  let retriesCount = 0;
-  const retry = () => {
-    retriesCount++;
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(callback(retry));
-      }, Math.min(100 * retriesCount, 1e3));
-    });
-  };
-  return callback(retry);
-}
-function createWaitablePromise(promise, wait = (_response, _requestOptions) => {
-  return Promise.resolve();
-}) {
-  return Object.assign(promise, {
-    wait(requestOptions) {
-      return createWaitablePromise(promise.then((response) => Promise.all([wait(response, requestOptions), response])).then((promiseResults) => promiseResults[1]));
-    }
-  });
-}
-function shuffle(array) {
-  let c = array.length - 1;
-  for (c; c > 0; c--) {
-    const b = Math.floor(Math.random() * (c + 1));
-    const a = array[c];
-    array[c] = array[b];
-    array[b] = a;
-  }
-  return array;
-}
 function addMethods(base, methods) {
   if (!methods) {
     return base;
@@ -1152,16 +1109,10 @@ function encode(format, ...args) {
   let i = 0;
   return format.replace(/%s/g, () => encodeURIComponent(args[i++]));
 }
-var version, destroy, AuthMode;
+var AuthMode;
 var init_client_common_esm = __esm({
-  "node_modules/@algolia/client-common/dist/client-common.esm.js"() {
+  "node_modules/@algolia/client-analytics/node_modules/@algolia/client-common/dist/client-common.esm.js"() {
     "use strict";
-    version = "4.20.0";
-    destroy = (base) => {
-      return () => {
-        return base.transporter.requester.destroy();
-      };
-    };
     AuthMode = {
       /**
        * If auth credentials should be in query parameters.
@@ -1176,6 +1127,10 @@ var init_client_common_esm = __esm({
 });
 
 // node_modules/@algolia/requester-common/dist/requester-common.esm.js
+var requester_common_esm_exports = {};
+__export(requester_common_esm_exports, {
+  MethodEnum: () => MethodEnum
+});
 var MethodEnum;
 var init_requester_common_esm = __esm({
   "node_modules/@algolia/requester-common/dist/requester-common.esm.js"() {
@@ -1398,9 +1353,9 @@ function createTransporter(options) {
   };
   return transporter;
 }
-function createUserAgent(version2) {
+function createUserAgent(version3) {
   const userAgent = {
-    value: `Algolia for JavaScript (${version2})`,
+    value: `Algolia for JavaScript (${version3})`,
     add(options) {
       const addedUserAgent = `; ${options.segment}${options.version !== void 0 ? ` (${options.version})` : ""}`;
       if (userAgent.value.indexOf(addedUserAgent) === -1) {
@@ -1495,7 +1450,7 @@ function createDeserializationError(message, response) {
 function createRetryError(transporterStackTrace) {
   return {
     name: "RetryError",
-    message: "Unreachable hosts - your application id may be incorrect. If the error persists, contact support@algolia.com.",
+    message: "Unreachable hosts - your application id may be incorrect. If the error persists, please reach out to the Algolia Support team: https://alg.li/support .",
     transporterStackTrace
   };
 }
@@ -1627,6 +1582,141 @@ var init_client_analytics_esm = __esm({
   }
 });
 
+// node_modules/algoliasearch/node_modules/@algolia/client-common/dist/client-common.esm.js
+var client_common_esm_exports = {};
+__export(client_common_esm_exports, {
+  AuthMode: () => AuthMode2,
+  addMethods: () => addMethods2,
+  createAuth: () => createAuth2,
+  createRetryablePromise: () => createRetryablePromise,
+  createWaitablePromise: () => createWaitablePromise,
+  destroy: () => destroy,
+  encode: () => encode3,
+  shuffle: () => shuffle,
+  version: () => version
+});
+function createAuth2(authMode, appId, apiKey) {
+  const credentials = {
+    "x-algolia-api-key": apiKey,
+    "x-algolia-application-id": appId
+  };
+  return {
+    headers() {
+      return authMode === AuthMode2.WithinHeaders ? credentials : {};
+    },
+    queryParameters() {
+      return authMode === AuthMode2.WithinQueryParameters ? credentials : {};
+    }
+  };
+}
+function createRetryablePromise(callback) {
+  let retriesCount = 0;
+  const retry = () => {
+    retriesCount++;
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(callback(retry));
+      }, Math.min(100 * retriesCount, 1e3));
+    });
+  };
+  return callback(retry);
+}
+function createWaitablePromise(promise, wait = (_response, _requestOptions) => {
+  return Promise.resolve();
+}) {
+  return Object.assign(promise, {
+    wait(requestOptions) {
+      return createWaitablePromise(promise.then((response) => Promise.all([wait(response, requestOptions), response])).then((promiseResults) => promiseResults[1]));
+    }
+  });
+}
+function shuffle(array) {
+  let c = array.length - 1;
+  for (c; c > 0; c--) {
+    const b = Math.floor(Math.random() * (c + 1));
+    const a = array[c];
+    array[c] = array[b];
+    array[b] = a;
+  }
+  return array;
+}
+function addMethods2(base, methods) {
+  if (!methods) {
+    return base;
+  }
+  Object.keys(methods).forEach((key) => {
+    base[key] = methods[key](base);
+  });
+  return base;
+}
+function encode3(format, ...args) {
+  let i = 0;
+  return format.replace(/%s/g, () => encodeURIComponent(args[i++]));
+}
+var version, destroy, AuthMode2;
+var init_client_common_esm2 = __esm({
+  "node_modules/algoliasearch/node_modules/@algolia/client-common/dist/client-common.esm.js"() {
+    "use strict";
+    version = "4.24.0";
+    destroy = (base) => {
+      return () => {
+        return base.transporter.requester.destroy();
+      };
+    };
+    AuthMode2 = {
+      /**
+       * If auth credentials should be in query parameters.
+       */
+      WithinQueryParameters: 0,
+      /**
+       * If auth credentials should be in headers.
+       */
+      WithinHeaders: 1
+    };
+  }
+});
+
+// node_modules/@algolia/client-personalization/node_modules/@algolia/client-common/dist/client-common.esm.js
+function createAuth3(authMode, appId, apiKey) {
+  const credentials = {
+    "x-algolia-api-key": apiKey,
+    "x-algolia-application-id": appId
+  };
+  return {
+    headers() {
+      return authMode === AuthMode3.WithinHeaders ? credentials : {};
+    },
+    queryParameters() {
+      return authMode === AuthMode3.WithinQueryParameters ? credentials : {};
+    }
+  };
+}
+function addMethods3(base, methods) {
+  if (!methods) {
+    return base;
+  }
+  Object.keys(methods).forEach((key) => {
+    base[key] = methods[key](base);
+  });
+  return base;
+}
+var AuthMode3;
+var init_client_common_esm3 = __esm({
+  "node_modules/@algolia/client-personalization/node_modules/@algolia/client-common/dist/client-common.esm.js"() {
+    "use strict";
+    AuthMode3 = {
+      /**
+       * If auth credentials should be in query parameters.
+       */
+      WithinQueryParameters: 0,
+      /**
+       * If auth credentials should be in headers.
+       */
+      WithinHeaders: 1
+    };
+  }
+});
+
 // node_modules/@algolia/client-personalization/dist/client-personalization.esm.js
 var client_personalization_esm_exports = {};
 __export(client_personalization_esm_exports, {
@@ -1638,12 +1728,12 @@ var createPersonalizationClient, getPersonalizationStrategy, setPersonalizationS
 var init_client_personalization_esm = __esm({
   "node_modules/@algolia/client-personalization/dist/client-personalization.esm.js"() {
     "use strict";
-    init_client_common_esm();
+    init_client_common_esm3();
     init_transporter_esm();
     init_requester_common_esm();
     createPersonalizationClient = (options) => {
       const region = options.region || "us";
-      const auth = createAuth(AuthMode.WithinHeaders, options.appId, options.apiKey);
+      const auth = createAuth3(AuthMode3.WithinHeaders, options.appId, options.apiKey);
       const transporter = createTransporter({
         hosts: [{ url: `personalization.${region}.algolia.com` }],
         ...options,
@@ -1657,7 +1747,7 @@ var init_client_personalization_esm = __esm({
           ...options.queryParameters
         }
       });
-      return addMethods({ appId: options.appId, transporter }, options.methods);
+      return addMethods3({ appId: options.appId, transporter }, options.methods);
     };
     getPersonalizationStrategy = (base) => {
       return (requestOptions) => {
@@ -1675,6 +1765,82 @@ var init_client_personalization_esm = __esm({
           data: personalizationStrategy
         }, requestOptions);
       };
+    };
+  }
+});
+
+// node_modules/@algolia/client-search/node_modules/@algolia/client-common/dist/client-common.esm.js
+function createAuth4(authMode, appId, apiKey) {
+  const credentials = {
+    "x-algolia-api-key": apiKey,
+    "x-algolia-application-id": appId
+  };
+  return {
+    headers() {
+      return authMode === AuthMode4.WithinHeaders ? credentials : {};
+    },
+    queryParameters() {
+      return authMode === AuthMode4.WithinQueryParameters ? credentials : {};
+    }
+  };
+}
+function createRetryablePromise2(callback) {
+  let retriesCount = 0;
+  const retry = () => {
+    retriesCount++;
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(callback(retry));
+      }, Math.min(100 * retriesCount, 1e3));
+    });
+  };
+  return callback(retry);
+}
+function createWaitablePromise2(promise, wait = (_response, _requestOptions) => {
+  return Promise.resolve();
+}) {
+  return Object.assign(promise, {
+    wait(requestOptions) {
+      return createWaitablePromise2(promise.then((response) => Promise.all([wait(response, requestOptions), response])).then((promiseResults) => promiseResults[1]));
+    }
+  });
+}
+function shuffle2(array) {
+  let c = array.length - 1;
+  for (c; c > 0; c--) {
+    const b = Math.floor(Math.random() * (c + 1));
+    const a = array[c];
+    array[c] = array[b];
+    array[b] = a;
+  }
+  return array;
+}
+function addMethods4(base, methods) {
+  if (!methods) {
+    return base;
+  }
+  Object.keys(methods).forEach((key) => {
+    base[key] = methods[key](base);
+  });
+  return base;
+}
+function encode4(format, ...args) {
+  let i = 0;
+  return format.replace(/%s/g, () => encodeURIComponent(args[i++]));
+}
+var AuthMode4;
+var init_client_common_esm4 = __esm({
+  "node_modules/@algolia/client-search/node_modules/@algolia/client-common/dist/client-common.esm.js"() {
+    "use strict";
+    AuthMode4 = {
+      /**
+       * If auth credentials should be in query parameters.
+       */
+      WithinQueryParameters: 0,
+      /**
+       * If auth credentials should be in headers.
+       */
+      WithinHeaders: 1
     };
   }
 });
@@ -1817,17 +1983,17 @@ var createSearchClient, addApiKey, assignUserID, assignUserIDs, clearDictionaryE
 var init_client_search_esm = __esm({
   "node_modules/@algolia/client-search/dist/client-search.esm.js"() {
     "use strict";
-    init_client_common_esm();
+    init_client_common_esm4();
     init_transporter_esm();
     init_requester_common_esm();
     createSearchClient = (options) => {
       const appId = options.appId;
-      const auth = createAuth(options.authMode !== void 0 ? options.authMode : AuthMode.WithinHeaders, appId, options.apiKey);
+      const auth = createAuth4(options.authMode !== void 0 ? options.authMode : AuthMode4.WithinHeaders, appId, options.apiKey);
       const transporter = createTransporter({
         hosts: [
           { url: `${appId}-dsn.algolia.net`, accept: CallEnum.Read },
           { url: `${appId}.algolia.net`, accept: CallEnum.Write }
-        ].concat(shuffle([
+        ].concat(shuffle2([
           { url: `${appId}-1.algolianet.com` },
           { url: `${appId}-2.algolianet.com` },
           { url: `${appId}-3.algolianet.com` }
@@ -1846,8 +2012,8 @@ var init_client_search_esm = __esm({
       const base = {
         transporter,
         appId,
-        addAlgoliaAgent(segment, version2) {
-          transporter.userAgent.add({ segment, version: version2 });
+        addAlgoliaAgent(segment, version3) {
+          transporter.userAgent.add({ segment, version: version3 });
         },
         clearCache() {
           return Promise.all([
@@ -1856,7 +2022,7 @@ var init_client_search_esm = __esm({
           ]).then(() => void 0);
         }
       };
-      return addMethods(base, options.methods);
+      return addMethods4(base, options.methods);
     };
     addApiKey = (base) => {
       return (acl, requestOptions) => {
@@ -1866,7 +2032,7 @@ var init_client_search_esm = __esm({
           ...queryParameters !== void 0 ? { queryParameters } : {}
         };
         const wait = (response, waitRequestOptions) => {
-          return createRetryablePromise((retry) => {
+          return createRetryablePromise2((retry) => {
             return getApiKey(base)(response.key, waitRequestOptions).catch((apiError) => {
               if (apiError.status !== 404) {
                 throw apiError;
@@ -1875,7 +2041,7 @@ var init_client_search_esm = __esm({
             });
           });
         };
-        return createWaitablePromise(base.transporter.write({
+        return createWaitablePromise2(base.transporter.write({
           method: MethodEnum.Post,
           path: "1/keys",
           data
@@ -1907,9 +2073,9 @@ var init_client_search_esm = __esm({
     };
     clearDictionaryEntries = (base) => {
       return (dictionary, requestOptions) => {
-        return createWaitablePromise(base.transporter.write({
+        return createWaitablePromise2(base.transporter.write({
           method: MethodEnum.Post,
-          path: encode("/1/dictionaries/%s/batch", dictionary),
+          path: encode4("/1/dictionaries/%s/batch", dictionary),
           data: {
             clearExistingDictionaryEntries: true,
             requests: { action: "addEntry", body: [] }
@@ -1924,9 +2090,9 @@ var init_client_search_esm = __esm({
             methods: { waitTask }
           }).waitTask(response.taskID, waitRequestOptions);
         };
-        return createWaitablePromise(base.transporter.write({
+        return createWaitablePromise2(base.transporter.write({
           method: MethodEnum.Post,
-          path: encode("1/indexes/%s/operation", from),
+          path: encode4("1/indexes/%s/operation", from),
           data: {
             operation: "copy",
             destination: to
@@ -1969,7 +2135,7 @@ var init_client_search_esm = __esm({
     deleteApiKey = (base) => {
       return (apiKey, requestOptions) => {
         const wait = (_, waitRequestOptions) => {
-          return createRetryablePromise((retry) => {
+          return createRetryablePromise2((retry) => {
             return getApiKey(base)(apiKey, waitRequestOptions).then(retry).catch((apiError) => {
               if (apiError.status !== 404) {
                 throw apiError;
@@ -1977,9 +2143,9 @@ var init_client_search_esm = __esm({
             });
           });
         };
-        return createWaitablePromise(base.transporter.write({
+        return createWaitablePromise2(base.transporter.write({
           method: MethodEnum.Delete,
-          path: encode("1/keys/%s", apiKey)
+          path: encode4("1/keys/%s", apiKey)
         }, requestOptions), wait);
       };
     };
@@ -1989,9 +2155,9 @@ var init_client_search_esm = __esm({
           action: "deleteEntry",
           body: { objectID }
         }));
-        return createWaitablePromise(base.transporter.write({
+        return createWaitablePromise2(base.transporter.write({
           method: MethodEnum.Post,
-          path: encode("/1/dictionaries/%s/batch", dictionary),
+          path: encode4("/1/dictionaries/%s/batch", dictionary),
           data: { clearExistingDictionaryEntries: false, requests }
         }, requestOptions), (response, waitRequestOptions) => waitAppTask(base)(response.taskID, waitRequestOptions));
       };
@@ -2007,7 +2173,7 @@ var init_client_search_esm = __esm({
       return (apiKey, requestOptions) => {
         return base.transporter.read({
           method: MethodEnum.Get,
-          path: encode("1/keys/%s", apiKey)
+          path: encode4("1/keys/%s", apiKey)
         }, requestOptions);
       };
     };
@@ -2015,7 +2181,7 @@ var init_client_search_esm = __esm({
       return (taskID, requestOptions) => {
         return base.transporter.read({
           method: MethodEnum.Get,
-          path: encode("1/task/%s", taskID.toString())
+          path: encode4("1/task/%s", taskID.toString())
         }, requestOptions);
       };
     };
@@ -2058,7 +2224,7 @@ var init_client_search_esm = __esm({
       return (userID, requestOptions) => {
         return base.transporter.read({
           method: MethodEnum.Get,
-          path: encode("1/clusters/mapping/%s", userID)
+          path: encode4("1/clusters/mapping/%s", userID)
         }, requestOptions);
       };
     };
@@ -2081,7 +2247,7 @@ var init_client_search_esm = __esm({
           appId: base.appId,
           indexName
         };
-        return addMethods(searchIndex2, options.methods);
+        return addMethods4(searchIndex2, options.methods);
       };
     };
     listApiKeys = (base) => {
@@ -2123,9 +2289,9 @@ var init_client_search_esm = __esm({
             methods: { waitTask }
           }).waitTask(response.taskID, waitRequestOptions);
         };
-        return createWaitablePromise(base.transporter.write({
+        return createWaitablePromise2(base.transporter.write({
           method: MethodEnum.Post,
-          path: encode("1/indexes/%s/operation", from),
+          path: encode4("1/indexes/%s/operation", from),
           data: {
             operation: "move",
             destination: to
@@ -2142,7 +2308,7 @@ var init_client_search_esm = __esm({
             }).waitTask(response.taskID[indexName], waitRequestOptions);
           }));
         };
-        return createWaitablePromise(base.transporter.write({
+        return createWaitablePromise2(base.transporter.write({
           method: MethodEnum.Post,
           path: "1/indexes/*/batch",
           data: {
@@ -2209,9 +2375,9 @@ var init_client_search_esm = __esm({
           action: "addEntry",
           body: entry
         }));
-        return createWaitablePromise(base.transporter.write({
+        return createWaitablePromise2(base.transporter.write({
           method: MethodEnum.Post,
-          path: encode("/1/dictionaries/%s/batch", dictionary),
+          path: encode4("/1/dictionaries/%s/batch", dictionary),
           data: { clearExistingDictionaryEntries: true, requests }
         }, requestOptions), (response, waitRequestOptions) => waitAppTask(base)(response.taskID, waitRequestOptions));
       };
@@ -2219,7 +2385,7 @@ var init_client_search_esm = __esm({
     restoreApiKey = (base) => {
       return (apiKey, requestOptions) => {
         const wait = (_, waitRequestOptions) => {
-          return createRetryablePromise((retry) => {
+          return createRetryablePromise2((retry) => {
             return getApiKey(base)(apiKey, waitRequestOptions).catch((apiError) => {
               if (apiError.status !== 404) {
                 throw apiError;
@@ -2228,9 +2394,9 @@ var init_client_search_esm = __esm({
             });
           });
         };
-        return createWaitablePromise(base.transporter.write({
+        return createWaitablePromise2(base.transporter.write({
           method: MethodEnum.Post,
-          path: encode("1/keys/%s/restore", apiKey)
+          path: encode4("1/keys/%s/restore", apiKey)
         }, requestOptions), wait);
       };
     };
@@ -2240,9 +2406,9 @@ var init_client_search_esm = __esm({
           action: "addEntry",
           body: entry
         }));
-        return createWaitablePromise(base.transporter.write({
+        return createWaitablePromise2(base.transporter.write({
           method: MethodEnum.Post,
-          path: encode("/1/dictionaries/%s/batch", dictionary),
+          path: encode4("/1/dictionaries/%s/batch", dictionary),
           data: { clearExistingDictionaryEntries: false, requests }
         }, requestOptions), (response, waitRequestOptions) => waitAppTask(base)(response.taskID, waitRequestOptions));
       };
@@ -2251,7 +2417,7 @@ var init_client_search_esm = __esm({
       return (dictionary, query, requestOptions) => {
         return base.transporter.read({
           method: MethodEnum.Post,
-          path: encode("/1/dictionaries/%s/search", dictionary),
+          path: encode4("/1/dictionaries/%s/search", dictionary),
           data: {
             query
           },
@@ -2272,7 +2438,7 @@ var init_client_search_esm = __esm({
     };
     setDictionarySettings = (base) => {
       return (settings, requestOptions) => {
-        return createWaitablePromise(base.transporter.write({
+        return createWaitablePromise2(base.transporter.write({
           method: MethodEnum.Put,
           path: "/1/dictionaries/*/settings",
           data: settings
@@ -2304,21 +2470,21 @@ var init_client_search_esm = __esm({
             }
           });
         };
-        const wait = (_, waitRequestOptions) => createRetryablePromise((retry) => {
+        const wait = (_, waitRequestOptions) => createRetryablePromise2((retry) => {
           return getApiKey(base)(apiKey, waitRequestOptions).then((getApiKeyResponse) => {
             return hasChanged(getApiKeyResponse) ? Promise.resolve() : retry();
           });
         });
-        return createWaitablePromise(base.transporter.write({
+        return createWaitablePromise2(base.transporter.write({
           method: MethodEnum.Put,
-          path: encode("1/keys/%s", apiKey),
+          path: encode4("1/keys/%s", apiKey),
           data
         }, options), wait);
       };
     };
     waitAppTask = (base) => {
       return (taskID, requestOptions) => {
-        return createRetryablePromise((retry) => {
+        return createRetryablePromise2((retry) => {
           return getAppTask(base)(taskID, requestOptions).then((response) => {
             return response.status !== "published" ? retry() : void 0;
           });
@@ -2330,9 +2496,9 @@ var init_client_search_esm = __esm({
         const wait = (response, waitRequestOptions) => {
           return waitTask(base)(response.taskID, waitRequestOptions);
         };
-        return createWaitablePromise(base.transporter.write({
+        return createWaitablePromise2(base.transporter.write({
           method: MethodEnum.Post,
-          path: encode("1/indexes/%s/batch", base.indexName),
+          path: encode4("1/indexes/%s/batch", base.indexName),
           data: {
             requests
           }
@@ -2346,7 +2512,7 @@ var init_client_search_esm = __esm({
           ...requestOptions,
           request: (data) => base.transporter.read({
             method: MethodEnum.Post,
-            path: encode("1/indexes/%s/browse", base.indexName),
+            path: encode4("1/indexes/%s/browse", base.indexName),
             data
           }, requestOptions)
         });
@@ -2429,7 +2595,7 @@ var init_client_search_esm = __esm({
             return forEachBatch(index);
           });
         };
-        return createWaitablePromise(forEachBatch(), (chunkedBatchResponse, waitRequestOptions) => {
+        return createWaitablePromise2(forEachBatch(), (chunkedBatchResponse, waitRequestOptions) => {
           return Promise.all(chunkedBatchResponse.taskIDs.map((taskID) => {
             return waitTask(base)(taskID, waitRequestOptions);
           }));
@@ -2438,9 +2604,9 @@ var init_client_search_esm = __esm({
     };
     clearObjects = (base) => {
       return (requestOptions) => {
-        return createWaitablePromise(base.transporter.write({
+        return createWaitablePromise2(base.transporter.write({
           method: MethodEnum.Post,
-          path: encode("1/indexes/%s/clear", base.indexName)
+          path: encode4("1/indexes/%s/clear", base.indexName)
         }, requestOptions), (response, waitRequestOptions) => waitTask(base)(response.taskID, waitRequestOptions));
       };
     };
@@ -2451,9 +2617,9 @@ var init_client_search_esm = __esm({
         if (forwardToReplicas) {
           mappedRequestOptions.queryParameters.forwardToReplicas = 1;
         }
-        return createWaitablePromise(base.transporter.write({
+        return createWaitablePromise2(base.transporter.write({
           method: MethodEnum.Post,
-          path: encode("1/indexes/%s/rules/clear", base.indexName)
+          path: encode4("1/indexes/%s/rules/clear", base.indexName)
         }, mappedRequestOptions), (response, waitRequestOptions) => waitTask(base)(response.taskID, waitRequestOptions));
       };
     };
@@ -2464,32 +2630,32 @@ var init_client_search_esm = __esm({
         if (forwardToReplicas) {
           mappedRequestOptions.queryParameters.forwardToReplicas = 1;
         }
-        return createWaitablePromise(base.transporter.write({
+        return createWaitablePromise2(base.transporter.write({
           method: MethodEnum.Post,
-          path: encode("1/indexes/%s/synonyms/clear", base.indexName)
+          path: encode4("1/indexes/%s/synonyms/clear", base.indexName)
         }, mappedRequestOptions), (response, waitRequestOptions) => waitTask(base)(response.taskID, waitRequestOptions));
       };
     };
     deleteBy = (base) => {
       return (filters, requestOptions) => {
-        return createWaitablePromise(base.transporter.write({
+        return createWaitablePromise2(base.transporter.write({
           method: MethodEnum.Post,
-          path: encode("1/indexes/%s/deleteByQuery", base.indexName),
+          path: encode4("1/indexes/%s/deleteByQuery", base.indexName),
           data: filters
         }, requestOptions), (response, waitRequestOptions) => waitTask(base)(response.taskID, waitRequestOptions));
       };
     };
     deleteIndex = (base) => {
       return (requestOptions) => {
-        return createWaitablePromise(base.transporter.write({
+        return createWaitablePromise2(base.transporter.write({
           method: MethodEnum.Delete,
-          path: encode("1/indexes/%s", base.indexName)
+          path: encode4("1/indexes/%s", base.indexName)
         }, requestOptions), (response, waitRequestOptions) => waitTask(base)(response.taskID, waitRequestOptions));
       };
     };
     deleteObject = (base) => {
       return (objectID, requestOptions) => {
-        return createWaitablePromise(deleteObjects(base)([objectID], requestOptions).then((response) => {
+        return createWaitablePromise2(deleteObjects(base)([objectID], requestOptions).then((response) => {
           return { taskID: response.taskIDs[0] };
         }), (response, waitRequestOptions) => waitTask(base)(response.taskID, waitRequestOptions));
       };
@@ -2509,9 +2675,9 @@ var init_client_search_esm = __esm({
         if (forwardToReplicas) {
           mappedRequestOptions.queryParameters.forwardToReplicas = 1;
         }
-        return createWaitablePromise(base.transporter.write({
+        return createWaitablePromise2(base.transporter.write({
           method: MethodEnum.Delete,
-          path: encode("1/indexes/%s/rules/%s", base.indexName, objectID)
+          path: encode4("1/indexes/%s/rules/%s", base.indexName, objectID)
         }, mappedRequestOptions), (response, waitRequestOptions) => waitTask(base)(response.taskID, waitRequestOptions));
       };
     };
@@ -2522,9 +2688,9 @@ var init_client_search_esm = __esm({
         if (forwardToReplicas) {
           mappedRequestOptions.queryParameters.forwardToReplicas = 1;
         }
-        return createWaitablePromise(base.transporter.write({
+        return createWaitablePromise2(base.transporter.write({
           method: MethodEnum.Delete,
-          path: encode("1/indexes/%s/synonyms/%s", base.indexName, objectID)
+          path: encode4("1/indexes/%s/synonyms/%s", base.indexName, objectID)
         }, mappedRequestOptions), (response, waitRequestOptions) => waitTask(base)(response.taskID, waitRequestOptions));
       };
     };
@@ -2542,7 +2708,7 @@ var init_client_search_esm = __esm({
       return (query, queryLanguages, requestOptions) => {
         return base.transporter.read({
           method: MethodEnum.Post,
-          path: encode("1/answers/%s/prediction", base.indexName),
+          path: encode4("1/answers/%s/prediction", base.indexName),
           data: {
             query,
             queryLanguages
@@ -2580,7 +2746,7 @@ var init_client_search_esm = __esm({
       return (objectID, requestOptions) => {
         return base.transporter.read({
           method: MethodEnum.Get,
-          path: encode("1/indexes/%s/%s", base.indexName, objectID)
+          path: encode4("1/indexes/%s/%s", base.indexName, objectID)
         }, requestOptions);
       };
     };
@@ -2617,7 +2783,7 @@ var init_client_search_esm = __esm({
       return (objectID, requestOptions) => {
         return base.transporter.read({
           method: MethodEnum.Get,
-          path: encode("1/indexes/%s/rules/%s", base.indexName, objectID)
+          path: encode4("1/indexes/%s/rules/%s", base.indexName, objectID)
         }, requestOptions);
       };
     };
@@ -2625,7 +2791,7 @@ var init_client_search_esm = __esm({
       return (requestOptions) => {
         return base.transporter.read({
           method: MethodEnum.Get,
-          path: encode("1/indexes/%s/settings", base.indexName),
+          path: encode4("1/indexes/%s/settings", base.indexName),
           data: {
             getVersion: 2
           }
@@ -2636,7 +2802,7 @@ var init_client_search_esm = __esm({
       return (objectID, requestOptions) => {
         return base.transporter.read({
           method: MethodEnum.Get,
-          path: encode(`1/indexes/%s/synonyms/%s`, base.indexName, objectID)
+          path: encode4(`1/indexes/%s/synonyms/%s`, base.indexName, objectID)
         }, requestOptions);
       };
     };
@@ -2644,13 +2810,13 @@ var init_client_search_esm = __esm({
       return (taskID, requestOptions) => {
         return base.transporter.read({
           method: MethodEnum.Get,
-          path: encode("1/indexes/%s/task/%s", base.indexName, taskID.toString())
+          path: encode4("1/indexes/%s/task/%s", base.indexName, taskID.toString())
         }, requestOptions);
       };
     };
     partialUpdateObject = (base) => {
       return (object, requestOptions) => {
-        return createWaitablePromise(partialUpdateObjects(base)([object], requestOptions).then((response) => {
+        return createWaitablePromise2(partialUpdateObjects(base)([object], requestOptions).then((response) => {
           return {
             objectID: response.objectIDs[0],
             taskID: response.taskIDs[0]
@@ -2669,9 +2835,9 @@ var init_client_search_esm = __esm({
       return (objects, requestOptions) => {
         const { safe, autoGenerateObjectIDIfNotExist, batchSize, ...options } = requestOptions || {};
         const operation = (from, to, type, operationRequestOptions) => {
-          return createWaitablePromise(base.transporter.write({
+          return createWaitablePromise2(base.transporter.write({
             method: MethodEnum.Post,
-            path: encode("1/indexes/%s/operation", from),
+            path: encode4("1/indexes/%s/operation", from),
             data: {
               operation: type,
               destination: to
@@ -2709,7 +2875,7 @@ var init_client_search_esm = __esm({
             taskIDs: [copyResponse.taskID, ...saveObjectsResponse.taskIDs, moveResponse.taskID]
           };
         });
-        return createWaitablePromise(result, (_, waitRequestOptions) => {
+        return createWaitablePromise2(result, (_, waitRequestOptions) => {
           return Promise.all(responses.map((response) => response.wait(waitRequestOptions)));
         });
       };
@@ -2732,7 +2898,7 @@ var init_client_search_esm = __esm({
     };
     saveObject = (base) => {
       return (object, requestOptions) => {
-        return createWaitablePromise(saveObjects(base)([object], requestOptions).then((response) => {
+        return createWaitablePromise2(saveObjects(base)([object], requestOptions).then((response) => {
           return {
             objectID: response.objectIDs[0],
             taskID: response.taskIDs[0]
@@ -2747,7 +2913,7 @@ var init_client_search_esm = __esm({
         if (action === BatchActionEnum.UpdateObject) {
           for (const object of objects) {
             if (object.objectID === void 0) {
-              return createWaitablePromise(Promise.reject(createMissingObjectIDError()));
+              return createWaitablePromise2(Promise.reject(createMissingObjectIDError()));
             }
           }
         }
@@ -2769,9 +2935,9 @@ var init_client_search_esm = __esm({
         if (clearExistingRules) {
           mappedRequestOptions.queryParameters.clearExistingRules = 1;
         }
-        return createWaitablePromise(base.transporter.write({
+        return createWaitablePromise2(base.transporter.write({
           method: MethodEnum.Post,
-          path: encode("1/indexes/%s/rules/batch", base.indexName),
+          path: encode4("1/indexes/%s/rules/batch", base.indexName),
           data: rules
         }, mappedRequestOptions), (response, waitRequestOptions) => waitTask(base)(response.taskID, waitRequestOptions));
       };
@@ -2791,9 +2957,9 @@ var init_client_search_esm = __esm({
         if (replaceExistingSynonyms || clearExistingSynonyms) {
           mappedRequestOptions.queryParameters.replaceExistingSynonyms = 1;
         }
-        return createWaitablePromise(base.transporter.write({
+        return createWaitablePromise2(base.transporter.write({
           method: MethodEnum.Post,
-          path: encode("1/indexes/%s/synonyms/batch", base.indexName),
+          path: encode4("1/indexes/%s/synonyms/batch", base.indexName),
           data: synonyms
         }, mappedRequestOptions), (response, waitRequestOptions) => waitTask(base)(response.taskID, waitRequestOptions));
       };
@@ -2802,7 +2968,7 @@ var init_client_search_esm = __esm({
       return (query, requestOptions) => {
         return base.transporter.read({
           method: MethodEnum.Post,
-          path: encode("1/indexes/%s/query", base.indexName),
+          path: encode4("1/indexes/%s/query", base.indexName),
           data: {
             query
           },
@@ -2814,7 +2980,7 @@ var init_client_search_esm = __esm({
       return (facetName, facetQuery, requestOptions) => {
         return base.transporter.read({
           method: MethodEnum.Post,
-          path: encode("1/indexes/%s/facets/%s/query", base.indexName, facetName),
+          path: encode4("1/indexes/%s/facets/%s/query", base.indexName, facetName),
           data: {
             facetQuery
           },
@@ -2826,7 +2992,7 @@ var init_client_search_esm = __esm({
       return (query, requestOptions) => {
         return base.transporter.read({
           method: MethodEnum.Post,
-          path: encode("1/indexes/%s/rules/search", base.indexName),
+          path: encode4("1/indexes/%s/rules/search", base.indexName),
           data: {
             query
           }
@@ -2837,7 +3003,7 @@ var init_client_search_esm = __esm({
       return (query, requestOptions) => {
         return base.transporter.read({
           method: MethodEnum.Post,
-          path: encode("1/indexes/%s/synonyms/search", base.indexName),
+          path: encode4("1/indexes/%s/synonyms/search", base.indexName),
           data: {
             query
           }
@@ -2851,16 +3017,16 @@ var init_client_search_esm = __esm({
         if (forwardToReplicas) {
           mappedRequestOptions.queryParameters.forwardToReplicas = 1;
         }
-        return createWaitablePromise(base.transporter.write({
+        return createWaitablePromise2(base.transporter.write({
           method: MethodEnum.Put,
-          path: encode("1/indexes/%s/settings", base.indexName),
+          path: encode4("1/indexes/%s/settings", base.indexName),
           data: settings
         }, mappedRequestOptions), (response, waitRequestOptions) => waitTask(base)(response.taskID, waitRequestOptions));
       };
     };
     waitTask = (base) => {
       return (taskID, requestOptions) => {
-        return createRetryablePromise((retry) => {
+        return createRetryablePromise2((retry) => {
           return getTask(base)(taskID, requestOptions).then((response) => {
             return response.status !== "published" ? retry() : void 0;
           });
@@ -2943,7 +3109,101 @@ var init_logger_common_esm = __esm({
   }
 });
 
-// node_modules/@algolia/requester-node-http/dist/requester-node-http.esm.js
+// node_modules/@algolia/recommend/node_modules/@algolia/client-common/dist/client-common.esm.js
+var client_common_esm_exports2 = {};
+__export(client_common_esm_exports2, {
+  AuthMode: () => AuthMode5,
+  addMethods: () => addMethods5,
+  createAuth: () => createAuth5,
+  createRetryablePromise: () => createRetryablePromise3,
+  createWaitablePromise: () => createWaitablePromise3,
+  destroy: () => destroy2,
+  encode: () => encode5,
+  shuffle: () => shuffle3,
+  version: () => version2
+});
+function createAuth5(authMode, appId, apiKey) {
+  const credentials = {
+    "x-algolia-api-key": apiKey,
+    "x-algolia-application-id": appId
+  };
+  return {
+    headers() {
+      return authMode === AuthMode5.WithinHeaders ? credentials : {};
+    },
+    queryParameters() {
+      return authMode === AuthMode5.WithinQueryParameters ? credentials : {};
+    }
+  };
+}
+function createRetryablePromise3(callback) {
+  let retriesCount = 0;
+  const retry = () => {
+    retriesCount++;
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(callback(retry));
+      }, Math.min(100 * retriesCount, 1e3));
+    });
+  };
+  return callback(retry);
+}
+function createWaitablePromise3(promise, wait = (_response, _requestOptions) => {
+  return Promise.resolve();
+}) {
+  return Object.assign(promise, {
+    wait(requestOptions) {
+      return createWaitablePromise3(promise.then((response) => Promise.all([wait(response, requestOptions), response])).then((promiseResults) => promiseResults[1]));
+    }
+  });
+}
+function shuffle3(array) {
+  let c = array.length - 1;
+  for (c; c > 0; c--) {
+    const b = Math.floor(Math.random() * (c + 1));
+    const a = array[c];
+    array[c] = array[b];
+    array[b] = a;
+  }
+  return array;
+}
+function addMethods5(base, methods) {
+  if (!methods) {
+    return base;
+  }
+  Object.keys(methods).forEach((key) => {
+    base[key] = methods[key](base);
+  });
+  return base;
+}
+function encode5(format, ...args) {
+  let i = 0;
+  return format.replace(/%s/g, () => encodeURIComponent(args[i++]));
+}
+var version2, destroy2, AuthMode5;
+var init_client_common_esm5 = __esm({
+  "node_modules/@algolia/recommend/node_modules/@algolia/client-common/dist/client-common.esm.js"() {
+    "use strict";
+    version2 = "4.24.0";
+    destroy2 = (base) => {
+      return () => {
+        return base.transporter.requester.destroy();
+      };
+    };
+    AuthMode5 = {
+      /**
+       * If auth credentials should be in query parameters.
+       */
+      WithinQueryParameters: 0,
+      /**
+       * If auth credentials should be in headers.
+       */
+      WithinHeaders: 1
+    };
+  }
+});
+
+// node_modules/@algolia/recommend/node_modules/@algolia/requester-node-http/dist/requester-node-http.esm.js
 var requester_node_http_esm_exports = {};
 __export(requester_node_http_esm_exports, {
   createNodeHttpRequester: () => createNodeHttpRequester
@@ -3024,11 +3284,303 @@ function createNodeHttpRequester({ agent: userGlobalAgent, httpAgent: userHttpAg
 }
 var agentOptions, defaultHttpAgent, defaultHttpsAgent;
 var init_requester_node_http_esm = __esm({
-  "node_modules/@algolia/requester-node-http/dist/requester-node-http.esm.js"() {
+  "node_modules/@algolia/recommend/node_modules/@algolia/requester-node-http/dist/requester-node-http.esm.js"() {
     "use strict";
     agentOptions = { keepAlive: true };
     defaultHttpAgent = new Agent(agentOptions);
     defaultHttpsAgent = new Agent$1(agentOptions);
+  }
+});
+
+// node_modules/@algolia/recommend/dist/recommend.cjs.js
+var require_recommend_cjs = __commonJS({
+  "node_modules/@algolia/recommend/dist/recommend.cjs.js"(exports, module) {
+    "use strict";
+    var cacheCommon = (init_cache_common_esm(), __toCommonJS(cache_common_esm_exports));
+    var cacheInMemory = (init_cache_in_memory_esm(), __toCommonJS(cache_in_memory_esm_exports));
+    var clientCommon = (init_client_common_esm5(), __toCommonJS(client_common_esm_exports2));
+    var loggerCommon = (init_logger_common_esm(), __toCommonJS(logger_common_esm_exports));
+    var requesterNodeHttp = (init_requester_node_http_esm(), __toCommonJS(requester_node_http_esm_exports));
+    var transporter = (init_transporter_esm(), __toCommonJS(transporter_esm_exports));
+    var requesterCommon = (init_requester_common_esm(), __toCommonJS(requester_common_esm_exports));
+    var createRecommendClient = (options) => {
+      const appId = options.appId;
+      const auth = clientCommon.createAuth(options.authMode !== void 0 ? options.authMode : clientCommon.AuthMode.WithinHeaders, appId, options.apiKey);
+      const transporter$1 = transporter.createTransporter({
+        hosts: [
+          { url: `${appId}-dsn.algolia.net`, accept: transporter.CallEnum.Read },
+          { url: `${appId}.algolia.net`, accept: transporter.CallEnum.Write }
+        ].concat(clientCommon.shuffle([
+          { url: `${appId}-1.algolianet.com` },
+          { url: `${appId}-2.algolianet.com` },
+          { url: `${appId}-3.algolianet.com` }
+        ])),
+        ...options,
+        headers: {
+          ...auth.headers(),
+          ...{ "content-type": "application/x-www-form-urlencoded" },
+          ...options.headers
+        },
+        queryParameters: {
+          ...auth.queryParameters(),
+          ...options.queryParameters
+        }
+      });
+      const base = {
+        transporter: transporter$1,
+        appId,
+        addAlgoliaAgent(segment, version3) {
+          transporter$1.userAgent.add({ segment, version: version3 });
+        },
+        clearCache() {
+          return Promise.all([
+            transporter$1.requestsCache.clear(),
+            transporter$1.responsesCache.clear()
+          ]).then(() => void 0);
+        }
+      };
+      return clientCommon.addMethods(base, options.methods);
+    };
+    var getRecommendations = (base) => {
+      return (queries, requestOptions) => {
+        const requests = queries.map((query) => ({
+          ...query,
+          // The `threshold` param is required by the endpoint to make it easier
+          // to provide a default value later, so we default it in the client
+          // so that users don't have to provide a value.
+          threshold: query.threshold || 0
+        }));
+        return base.transporter.read({
+          method: requesterCommon.MethodEnum.Post,
+          path: "1/indexes/*/recommendations",
+          data: {
+            requests
+          },
+          cacheable: true
+        }, requestOptions);
+      };
+    };
+    var getFrequentlyBoughtTogether = (base) => {
+      return (queries, requestOptions) => {
+        return getRecommendations(base)(queries.map((query) => ({
+          ...query,
+          fallbackParameters: {},
+          model: "bought-together"
+        })), requestOptions);
+      };
+    };
+    var getRelatedProducts = (base) => {
+      return (queries, requestOptions) => {
+        return getRecommendations(base)(queries.map((query) => ({
+          ...query,
+          model: "related-products"
+        })), requestOptions);
+      };
+    };
+    var getTrendingFacets = (base) => {
+      return (queries, requestOptions) => {
+        const requests = queries.map((query) => ({
+          ...query,
+          model: "trending-facets",
+          // The `threshold` param is required by the endpoint to make it easier
+          // to provide a default value later, so we default it in the client
+          // so that users don't have to provide a value.
+          threshold: query.threshold || 0
+        }));
+        return base.transporter.read({
+          method: requesterCommon.MethodEnum.Post,
+          path: "1/indexes/*/recommendations",
+          data: {
+            requests
+          },
+          cacheable: true
+        }, requestOptions);
+      };
+    };
+    var getTrendingItems = (base) => {
+      return (queries, requestOptions) => {
+        const requests = queries.map((query) => ({
+          ...query,
+          model: "trending-items",
+          // The `threshold` param is required by the endpoint to make it easier
+          // to provide a default value later, so we default it in the client
+          // so that users don't have to provide a value.
+          threshold: query.threshold || 0
+        }));
+        return base.transporter.read({
+          method: requesterCommon.MethodEnum.Post,
+          path: "1/indexes/*/recommendations",
+          data: {
+            requests
+          },
+          cacheable: true
+        }, requestOptions);
+      };
+    };
+    var getLookingSimilar = (base) => {
+      return (queries, requestOptions) => {
+        return getRecommendations(base)(queries.map((query) => ({
+          ...query,
+          model: "looking-similar"
+        })), requestOptions);
+      };
+    };
+    var getRecommendedForYou = (base) => {
+      return (queries, requestOptions) => {
+        const requests = queries.map((query) => ({
+          ...query,
+          model: "recommended-for-you",
+          threshold: query.threshold || 0
+        }));
+        return base.transporter.read({
+          method: requesterCommon.MethodEnum.Post,
+          path: "1/indexes/*/recommendations",
+          data: {
+            requests
+          },
+          cacheable: true
+        }, requestOptions);
+      };
+    };
+    function recommend(appId, apiKey, options) {
+      const commonOptions = {
+        appId,
+        apiKey,
+        timeouts: {
+          connect: 2,
+          read: 5,
+          write: 30
+        },
+        requester: requesterNodeHttp.createNodeHttpRequester(),
+        logger: loggerCommon.createNullLogger(),
+        responsesCache: cacheCommon.createNullCache(),
+        requestsCache: cacheCommon.createNullCache(),
+        hostsCache: cacheInMemory.createInMemoryCache(),
+        userAgent: transporter.createUserAgent(clientCommon.version).add({ segment: "Recommend", version: clientCommon.version }).add({ segment: "Node.js", version: process.versions.node })
+      };
+      return createRecommendClient({
+        ...commonOptions,
+        ...options,
+        methods: {
+          destroy: clientCommon.destroy,
+          getFrequentlyBoughtTogether,
+          getRecommendations,
+          getRelatedProducts,
+          getTrendingFacets,
+          getTrendingItems,
+          getLookingSimilar,
+          getRecommendedForYou
+        }
+      });
+    }
+    recommend.version = clientCommon.version;
+    recommend.getFrequentlyBoughtTogether = getFrequentlyBoughtTogether;
+    recommend.getRecommendations = getRecommendations;
+    recommend.getRelatedProducts = getRelatedProducts;
+    recommend.getTrendingFacets = getTrendingFacets;
+    recommend.getTrendingItems = getTrendingItems;
+    recommend.getLookingSimilar = getLookingSimilar;
+    recommend.getRecommendedForYou = getRecommendedForYou;
+    module.exports = recommend;
+  }
+});
+
+// node_modules/@algolia/recommend/index.js
+var require_recommend = __commonJS({
+  "node_modules/@algolia/recommend/index.js"(exports, module) {
+    "use strict";
+    var recommend = require_recommend_cjs();
+    module.exports = recommend;
+    module.exports.default = recommend;
+  }
+});
+
+// node_modules/algoliasearch/node_modules/@algolia/requester-node-http/dist/requester-node-http.esm.js
+var requester_node_http_esm_exports2 = {};
+__export(requester_node_http_esm_exports2, {
+  createNodeHttpRequester: () => createNodeHttpRequester2
+});
+import * as http2 from "http";
+import { Agent as Agent2 } from "http";
+import * as https2 from "https";
+import { Agent as Agent$12 } from "https";
+import { parse as parse3 } from "url";
+function createNodeHttpRequester2({ agent: userGlobalAgent, httpAgent: userHttpAgent, httpsAgent: userHttpsAgent, requesterOptions = {} } = {}) {
+  const httpAgent = userHttpAgent || userGlobalAgent || defaultHttpAgent2;
+  const httpsAgent = userHttpsAgent || userGlobalAgent || defaultHttpsAgent2;
+  return {
+    send(request) {
+      return new Promise((resolve) => {
+        const url = parse3(request.url);
+        const path = url.query === null ? url.pathname : `${url.pathname}?${url.query}`;
+        const options = {
+          ...requesterOptions,
+          agent: url.protocol === "https:" ? httpsAgent : httpAgent,
+          hostname: url.hostname,
+          path,
+          method: request.method,
+          headers: {
+            ...requesterOptions && requesterOptions.headers ? requesterOptions.headers : {},
+            ...request.headers
+          },
+          ...url.port !== void 0 ? { port: url.port || "" } : {}
+        };
+        const req = (url.protocol === "https:" ? https2 : http2).request(options, (response) => {
+          let contentBuffers = [];
+          response.on("data", (chunk) => {
+            contentBuffers = contentBuffers.concat(chunk);
+          });
+          response.on("end", () => {
+            clearTimeout(connectTimeout);
+            clearTimeout(responseTimeout);
+            resolve({
+              status: response.statusCode || 0,
+              content: Buffer.concat(contentBuffers).toString(),
+              isTimedOut: false
+            });
+          });
+        });
+        const createTimeout = (timeout, content) => {
+          return setTimeout(() => {
+            req.abort();
+            resolve({
+              status: 0,
+              content,
+              isTimedOut: true
+            });
+          }, timeout * 1e3);
+        };
+        const connectTimeout = createTimeout(request.connectTimeout, "Connection timeout");
+        let responseTimeout;
+        req.on("error", (error) => {
+          clearTimeout(connectTimeout);
+          clearTimeout(responseTimeout);
+          resolve({ status: 0, content: error.message, isTimedOut: false });
+        });
+        req.once("response", () => {
+          clearTimeout(connectTimeout);
+          responseTimeout = createTimeout(request.responseTimeout, "Socket timeout");
+        });
+        if (request.data !== void 0) {
+          req.write(request.data);
+        }
+        req.end();
+      });
+    },
+    destroy() {
+      httpAgent.destroy();
+      httpsAgent.destroy();
+      return Promise.resolve();
+    }
+  };
+}
+var agentOptions2, defaultHttpAgent2, defaultHttpsAgent2;
+var init_requester_node_http_esm2 = __esm({
+  "node_modules/algoliasearch/node_modules/@algolia/requester-node-http/dist/requester-node-http.esm.js"() {
+    "use strict";
+    agentOptions2 = { keepAlive: true };
+    defaultHttpAgent2 = new Agent2(agentOptions2);
+    defaultHttpsAgent2 = new Agent$12(agentOptions2);
   }
 });
 
@@ -3039,11 +3591,12 @@ var require_algoliasearch_cjs = __commonJS({
     var cacheCommon = (init_cache_common_esm(), __toCommonJS(cache_common_esm_exports));
     var cacheInMemory = (init_cache_in_memory_esm(), __toCommonJS(cache_in_memory_esm_exports));
     var clientAnalytics = (init_client_analytics_esm(), __toCommonJS(client_analytics_esm_exports));
-    var clientCommon = (init_client_common_esm(), __toCommonJS(client_common_esm_exports));
+    var clientCommon = (init_client_common_esm2(), __toCommonJS(client_common_esm_exports));
     var clientPersonalization = (init_client_personalization_esm(), __toCommonJS(client_personalization_esm_exports));
     var clientSearch = (init_client_search_esm(), __toCommonJS(client_search_esm_exports));
     var loggerCommon = (init_logger_common_esm(), __toCommonJS(logger_common_esm_exports));
-    var requesterNodeHttp = (init_requester_node_http_esm(), __toCommonJS(requester_node_http_esm_exports));
+    var recommend = require_recommend();
+    var requesterNodeHttp = (init_requester_node_http_esm2(), __toCommonJS(requester_node_http_esm_exports2));
     var transporter = (init_transporter_esm(), __toCommonJS(transporter_esm_exports));
     function algoliasearch2(appId, apiKey, options) {
       const commonOptions = {
@@ -3181,7 +3734,14 @@ var require_algoliasearch_cjs = __commonJS({
           initRecommendation: () => (clientOptions) => {
             searchClientOptions.logger.info("The `initRecommendation` method is deprecated. Use `initPersonalization` instead.");
             return initPersonalization()(clientOptions);
-          }
+          },
+          getRecommendations: recommend.getRecommendations,
+          getFrequentlyBoughtTogether: recommend.getFrequentlyBoughtTogether,
+          getLookingSimilar: recommend.getLookingSimilar,
+          getRecommendedForYou: recommend.getRecommendedForYou,
+          getRelatedProducts: recommend.getRelatedProducts,
+          getTrendingFacets: recommend.getTrendingFacets,
+          getTrendingItems: recommend.getTrendingItems
         }
       });
     }
@@ -5881,17 +6441,17 @@ var mermaidInit = () => {
 var mermaidInit_default = mermaidInit;
 
 // src/lib/markdown-renderer/styles.module.css
-var styles_module_default = {
-  img: "styles_module_img",
-  heading: "styles_module_heading",
-  code: "styles_module_code",
-  blockquote: "styles_module_blockquote",
-  blockquoteInfo: "styles_module_blockquoteInfo",
-  blockquoteDanger: "styles_module_blockquoteDanger",
-  blockquoteWarning: "styles_module_blockquoteWarning",
-  blockquoteSuccess: "styles_module_blockquoteSuccess",
-  flexWrap: "styles_module_flexWrap",
-  svgContainer: "styles_module_svgContainer"
+var styles_default5 = {
+  img: "styles_img",
+  heading: "styles_heading",
+  code: "styles_code",
+  blockquote: "styles_blockquote",
+  blockquoteInfo: "styles_blockquoteInfo",
+  blockquoteDanger: "styles_blockquoteDanger",
+  blockquoteWarning: "styles_blockquoteWarning",
+  blockquoteSuccess: "styles_blockquoteSuccess",
+  flexWrap: "styles_flexWrap",
+  svgContainer: "styles_svgContainer"
 };
 
 // src/messages/en.json
@@ -5993,7 +6553,7 @@ var ObservableHeading = ({
           onLeaveView(slug, entry, y);
         setY(entry.boundingClientRect.y);
       },
-      children: level === 2 ? /* @__PURE__ */ jsx9("h2", { id: slug, className: styles_module_default.heading, ...headingProps }) : /* @__PURE__ */ jsx9("h3", { id: slug, className: styles_module_default.heading, ...headingProps })
+      children: level === 2 ? /* @__PURE__ */ jsx9("h2", { id: slug, className: styles_default5.heading, ...headingProps }) : /* @__PURE__ */ jsx9("h3", { id: slug, className: styles_default5.heading, ...headingProps })
     }
   );
 };
@@ -6002,7 +6562,7 @@ var Callout = ({ node, icon: icon3, ...props }) => {
   return /* @__PURE__ */ jsx9(
     "blockquote",
     {
-      className: `${styles_module_default.blockquote} ${blockquoteType === "info" ? styles_module_default.blockquoteInfo : blockquoteType === "danger" ? styles_module_default.blockquoteDanger : blockquoteType === "warning" ? styles_module_default.blockquoteWarning : blockquoteType === "success" ? styles_module_default.blockquoteSuccess : ""}`,
+      className: `${styles_default5.blockquote} ${blockquoteType === "info" ? styles_default5.blockquoteInfo : blockquoteType === "danger" ? styles_default5.blockquoteDanger : blockquoteType === "warning" ? styles_default5.blockquoteWarning : blockquoteType === "success" ? styles_default5.blockquoteSuccess : ""}`,
       children: /* @__PURE__ */ jsx9("div", { ...props })
     }
   );
@@ -6030,7 +6590,7 @@ var MermaidDiagram = ({ node, ...props }) => {
     if (ref.current)
       resizeObserver.observe(ref.current);
   }, []);
-  return /* @__PURE__ */ jsx9(Box5, { ref, className: styles_module_default.svgContainer, children: /* @__PURE__ */ jsx9(
+  return /* @__PURE__ */ jsx9(Box5, { ref, className: styles_default5.svgContainer, children: /* @__PURE__ */ jsx9(
     UncontrolledReactSVGPanZoom,
     {
       ref: viewerRef,
@@ -6056,7 +6616,7 @@ var ImageComponent = ({ node, ...props }) => {
     // eslint-disable-next-line @next/next/no-img-element
     /* @__PURE__ */ jsx9("img", { src: props.src, alt: props.alt, onError: () => setSrcHasError(true) })
   );
-  const errorMessage = /* @__PURE__ */ jsxs6("blockquote", { className: `${styles_module_default.blockquote} ${styles_module_default.blockquoteWarning}`, children: [
+  const errorMessage = /* @__PURE__ */ jsxs6("blockquote", { className: `${styles_default5.blockquote} ${styles_default5.blockquoteWarning}`, children: [
     messages[locale]["image.error_loading"],
     " ",
     props.src
@@ -6076,7 +6636,7 @@ var components_default = {
   WhatsNextCard: whats_next_card_default,
   YoutubeFrame: youtube_frame_default,
   Steps: steps_default,
-  Flex: ({ node, ...props }) => /* @__PURE__ */ jsx9(Flex4, { className: styles_module_default.flexWrap, ...props }),
+  Flex: ({ node, ...props }) => /* @__PURE__ */ jsx9(Flex4, { className: styles_default5.flexWrap, ...props }),
   table: ({ node, ...props }) => /* @__PURE__ */ jsx9("table", { ...props }),
   td: ({ node, ...props }) => /* @__PURE__ */ jsx9("td", { ...props }),
   img: ImageComponent,
@@ -6087,12 +6647,12 @@ var components_default = {
     return /* @__PURE__ */ jsx9(Callout, { ...props });
   },
   code: ({ node, ...props }) => {
-    return /* @__PURE__ */ jsx9("code", { className: styles_module_default.code, ...props });
+    return /* @__PURE__ */ jsx9("code", { className: styles_default5.code, ...props });
   },
   pre: ({ ...props }) => {
     if (props.className && props.className === "mermaid")
       return /* @__PURE__ */ jsx9(MermaidDiagram, { ...props });
-    return /* @__PURE__ */ jsx9("pre", { className: styles_module_default.pre, ...props });
+    return /* @__PURE__ */ jsx9("pre", { className: styles_default5.pre, ...props });
   },
   h2: ({ node, ...props }) => {
     const { activeItem, setActiveItem, goToPreviousItem } = useContext(LibraryContext);
@@ -6201,7 +6761,7 @@ var subItemsContainer = {
   ml: "16px",
   borderLeft: "1px solid #E7E9EE"
 };
-var styles_default5 = { itemsContainer, item, subItemsContainer };
+var styles_default6 = { itemsContainer, item, subItemsContainer };
 
 // src/lib/table-of-contents/TableOfContents.tsx
 import { jsx as jsx11, jsxs as jsxs7 } from "react/jsx-runtime";
@@ -6245,11 +6805,11 @@ var TableOfContents = ({ headingList }) => {
             subItem: level === 1 ? "" : slug
           }));
         },
-        children: /* @__PURE__ */ jsx11(Text2, { sx: styles_default5.item(level, active), children: title6 })
+        children: /* @__PURE__ */ jsx11(Text2, { sx: styles_default6.item(level, active), children: title6 })
       }
     );
   };
-  return /* @__PURE__ */ jsx11(Box7, { sx: styles_default5.itemsContainer, "data-cy": "table-of-contents", children: headingItems.map((item2) => /* @__PURE__ */ jsxs7(Box7, { children: [
+  return /* @__PURE__ */ jsx11(Box7, { sx: styles_default6.itemsContainer, "data-cy": "table-of-contents", children: headingItems.map((item2) => /* @__PURE__ */ jsxs7(Box7, { children: [
     /* @__PURE__ */ jsx11(
       Item,
       {
@@ -6264,7 +6824,7 @@ var TableOfContents = ({ headingList }) => {
       {
         duration: 300,
         height: item2.slug === activeItem.item ? "auto" : 0,
-        children: /* @__PURE__ */ jsx11(Box7, { sx: styles_default5.subItemsContainer, children: item2.children.map((subItem) => /* @__PURE__ */ jsx11(
+        children: /* @__PURE__ */ jsx11(Box7, { sx: styles_default6.subItemsContainer, children: item2.children.map((subItem) => /* @__PURE__ */ jsx11(
           Item,
           {
             title: subItem.title,
@@ -6403,7 +6963,7 @@ var iconTooltip = {
     "none !important"
   ]
 };
-var styles_default6 = {
+var styles_default7 = {
   sidebar,
   sidebarIcons,
   sidebarIconsContainer,
@@ -6524,7 +7084,7 @@ var labelStyle = (documentationSection) => {
     return labelDocumentationContainer;
   return labelContibutorsContainer;
 };
-var styles_default7 = { tooltipContainer, caret, labelStyle };
+var styles_default8 = { tooltipContainer, caret, labelStyle };
 
 // src/components/icons/caret.tsx
 import { Icon as Icon3 } from "@vtex/brand-ui";
@@ -6585,7 +7145,7 @@ var Tooltip = ({ children, label: label2, placement, sx, isCard }) => {
     visible && (isCard ?? true) && /* @__PURE__ */ jsxs8(
       Flex5,
       {
-        sx: styles_default7.tooltipContainer(
+        sx: styles_default8.tooltipContainer(
           sx,
           placement || "top",
           boxWidth,
@@ -6594,8 +7154,8 @@ var Tooltip = ({ children, label: label2, placement, sx, isCard }) => {
           boxOffsetTop
         ),
         children: [
-          /* @__PURE__ */ jsx13(caret_default, { sx: styles_default7.caret(placement || "top") }),
-          /* @__PURE__ */ jsx13(Box8, { sx: styles_default7.labelStyle(isCard ?? false), children: label2 })
+          /* @__PURE__ */ jsx13(caret_default, { sx: styles_default8.caret(placement || "top") }),
+          /* @__PURE__ */ jsx13(Box8, { sx: styles_default8.labelStyle(isCard ?? false), children: label2 })
         ]
       }
     )
@@ -6839,7 +7399,7 @@ var previewMode = {
     mr: "10px"
   }
 };
-var styles_default8 = {
+var styles_default9 = {
   sidebarContainer,
   sidebarContainerHamburger,
   sidebarContainerBox,
@@ -6886,7 +7446,7 @@ var closeIcon = {
   width: "12px",
   ml: "4px"
 };
-var styles_default9 = {
+var styles_default10 = {
   container: container3,
   text,
   closeIcon
@@ -6927,7 +7487,7 @@ var categoryStyle = (method, active, sx) => {
     background: "#F8E3E3"
   };
   const categoryStyle2 = active ? {
-    ...styles_default9.container,
+    ...styles_default10.container,
     ...categoryColors,
     ...sx,
     ":hover": {
@@ -6941,7 +7501,7 @@ var categoryStyle = (method, active, sx) => {
       }
     }
   } : {
-    ...styles_default9.container,
+    ...styles_default10.container,
     color: categoryColors.color,
     ...sx
   };
@@ -6956,7 +7516,7 @@ var categoryText = (method, origin) => {
 var closeCategoryStyle = (method) => {
   const categoryColors = methodsColors[method];
   const categoryStyle2 = {
-    ...styles_default9.closeIcon,
+    ...styles_default10.closeIcon,
     rect: {
       fill: "transparent"
     },
@@ -7015,7 +7575,7 @@ var MethodCategory = ({
   sx
 }) => {
   return /* @__PURE__ */ jsxs10(Flex6, { className: "method-category", sx: categoryStyle(method, active, sx), children: [
-    /* @__PURE__ */ jsx15(Text3, { sx: styles_default9.text, children: categoryText(method, origin) }),
+    /* @__PURE__ */ jsx15(Text3, { sx: styles_default10.text, children: categoryText(method, origin) }),
     origin === "filter" && active && /* @__PURE__ */ jsx15(
       close_filter_icon_default,
       {
@@ -7060,7 +7620,7 @@ var clear = {
     color: "#000711"
   }
 };
-var styles_default10 = {
+var styles_default11 = {
   container: container4,
   text: text2,
   category,
@@ -7106,7 +7666,7 @@ var SectionFilter = ({
         children: /* @__PURE__ */ jsx16(
           method_category_default,
           {
-            sx: styles_default10.category,
+            sx: styles_default11.category,
             active: methodFilter.active,
             method: methodFilter.name,
             origin: "filter"
@@ -7116,8 +7676,8 @@ var SectionFilter = ({
       `filter-category-${methodFilter.name}`
     );
   };
-  return /* @__PURE__ */ jsxs11(Box9, { sx: styles_default10.container, children: [
-    /* @__PURE__ */ jsx16(Text4, { sx: styles_default10.text, children: messages[locale]["api_reference_sidebar_filter"] }),
+  return /* @__PURE__ */ jsxs11(Box9, { sx: styles_default11.container, children: [
+    /* @__PURE__ */ jsx16(Text4, { sx: styles_default11.text, children: messages[locale]["api_reference_sidebar_filter"] }),
     /* @__PURE__ */ jsxs11(Flex7, { children: [
       methodFilterList.map((methodFilter) => /* @__PURE__ */ jsx16(
         MethodButton,
@@ -7126,7 +7686,7 @@ var SectionFilter = ({
         },
         `filter-category-${methodFilter.name}`
       )),
-      activeFilters.length > 1 && /* @__PURE__ */ jsx16(Text4, { onClick: () => setFilter(null), sx: styles_default10.clear, children: messages[locale]["api_reference_sidebar_filter_clear"] })
+      activeFilters.length > 1 && /* @__PURE__ */ jsx16(Text4, { onClick: () => setFilter(null), sx: styles_default11.clear, children: messages[locale]["api_reference_sidebar_filter_clear"] })
     ] })
   ] });
 };
@@ -7198,7 +7758,7 @@ var sectionDivider2 = {
 var methodBox = {
   mr: "10px"
 };
-var styles_default11 = {
+var styles_default12 = {
   elementContainer,
   elementText,
   elementActive,
@@ -7223,13 +7783,13 @@ var textStyle = (active, icon3) => {
   const ml = icon3 ? "4px" : "16px";
   if (active) {
     const textStyleActive = {
-      ...styles_default11.elementActive,
+      ...styles_default12.elementActive,
       ml
     };
     return textStyleActive;
   }
   const textStyle2 = {
-    ...styles_default11.elementText,
+    ...styles_default12.elementText,
     ml
   };
   return textStyle2;
@@ -7293,14 +7853,14 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
     const isExpandable = children.length > 0;
     const pathSuffix = method ? `#${method.toLowerCase()}-${endpoint}` : "";
     const activeItem = method ? `${localizedSlug}${pathSuffix}` : localizedSlug;
-    return /* @__PURE__ */ jsx17(Box10, { sx: styles_default11.elementContainer, children: /* @__PURE__ */ jsxs12(Flex8, { sx: styleByLevelNormal(subItemLevel, isExpandable || false), children: [
+    return /* @__PURE__ */ jsx17(Box10, { sx: styles_default12.elementContainer, children: /* @__PURE__ */ jsxs12(Flex8, { sx: styleByLevelNormal(subItemLevel, isExpandable || false), children: [
       isExpandable && /* @__PURE__ */ jsx17(
         Button2,
         {
           "aria-label": sidebarElementStatus.has(localizedSlug) && sidebarElementStatus.get(localizedSlug) ? "Collapse category" : "Expand category",
           size: "regular",
           variant: "tertiary",
-          sx: sidebarElementStatus.has(localizedSlug) && sidebarElementStatus.get(localizedSlug) ? styles_default11.arrowIconActive : styles_default11.arrowIcon,
+          sx: sidebarElementStatus.has(localizedSlug) && sidebarElementStatus.get(localizedSlug) ? styles_default12.arrowIconActive : styles_default12.arrowIcon,
           icon: () => /* @__PURE__ */ jsx17(
             IconCaret2,
             {
@@ -7327,7 +7887,7 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
             method && /* @__PURE__ */ jsx17(
               method_category_default,
               {
-                sx: styles_default11.methodBox,
+                sx: styles_default12.methodBox,
                 active: activeSidebarElement === activeItem,
                 origin: "sidebar",
                 method
@@ -7336,7 +7896,7 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
             localizedName
           ]
         }
-      ) : checkDocumentationType(sidebarDataMaster, localizedSlug, "link") ? /* @__PURE__ */ jsxs12(Link3, { href: localizedSlug, target: "_blank", sx: styles_default11.elementText, children: [
+      ) : checkDocumentationType(sidebarDataMaster, localizedSlug, "link") ? /* @__PURE__ */ jsxs12(Link3, { href: localizedSlug, target: "_blank", sx: styles_default12.elementText, children: [
         /* @__PURE__ */ jsx17(IconExternalLink, { size: 16, sx: { marginRight: "10px" } }),
         localizedName
       ] }) : /* @__PURE__ */ jsxs12(
@@ -7350,7 +7910,7 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
             method && /* @__PURE__ */ jsx17(
               method_category_default,
               {
-                sx: styles_default11.methodBox,
+                sx: styles_default12.methodBox,
                 active: activeSidebarElement === localizedSlug,
                 origin: "sidebar",
                 method
@@ -7381,7 +7941,7 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
     return /* @__PURE__ */ jsxs12(Fragment, { children: [
       /* @__PURE__ */ jsx17(ElementRoot, { ...item2, slug }),
       /* @__PURE__ */ jsx17(Box10, { children: /* @__PURE__ */ jsx17(ElementChildren, { ...item2, slug }) }),
-      subItemLevel == 0 ? /* @__PURE__ */ jsx17(Box10, { sx: styles_default11.sectionDivider, children: /* @__PURE__ */ jsx17("hr", {}) }) : null
+      subItemLevel == 0 ? /* @__PURE__ */ jsx17(Box10, { sx: styles_default12.sectionDivider, children: /* @__PURE__ */ jsx17("hr", {}) }) : null
     ] }, String(key));
   }) });
 };
@@ -7557,18 +8117,18 @@ var SidebarSection = ({
     Box11,
     {
       className: sidebarSectionHidden ? "active" : "",
-      sx: styles_default8.sidebarContainerHamburger,
+      sx: styles_default9.sidebarContainerHamburger,
       children: /* @__PURE__ */ jsxs15(
         Box11,
         {
           className: sidebarSectionHidden ? "sidebarHide" : "",
-          sx: styles_default8.sidebarContainerBoxHamburger,
+          sx: styles_default9.sidebarContainerBoxHamburger,
           children: [
-            /* @__PURE__ */ jsxs15(Flex9, { sx: styles_default8.sidebarContainerTitle, children: [
+            /* @__PURE__ */ jsxs15(Flex9, { sx: styles_default9.sidebarContainerTitle, children: [
               /* @__PURE__ */ jsx21(
                 Button3,
                 {
-                  sx: styles_default8.arrowButton,
+                  sx: styles_default9.arrowButton,
                   "aria-label": "Go back",
                   size: "small",
                   variant: "tertiary",
@@ -7579,15 +8139,15 @@ var SidebarSection = ({
                 }
               ),
               DocIcon && /* @__PURE__ */ jsx21(DocIcon, {}),
-              /* @__PURE__ */ jsx21(Text5, { sx: styles_default8.sidebarTitle, children: documentation2 })
+              /* @__PURE__ */ jsx21(Text5, { sx: styles_default9.sidebarTitle, children: documentation2 })
             ] }),
-            /* @__PURE__ */ jsxs15(Box11, { sx: styles_default8.sidebarContainerBody, children: [
-              /* @__PURE__ */ jsxs15(Flex9, { sx: styles_default8.searchBox, children: [
-                /* @__PURE__ */ jsx21(search_icon_default, { sx: styles_default8.searchIcon }),
+            /* @__PURE__ */ jsxs15(Box11, { sx: styles_default9.sidebarContainerBody, children: [
+              /* @__PURE__ */ jsxs15(Flex9, { sx: styles_default9.searchBox, children: [
+                /* @__PURE__ */ jsx21(search_icon_default, { sx: styles_default9.searchIcon }),
                 /* @__PURE__ */ jsx21(
                   "input",
                   {
-                    style: styles_default8.searchInput,
+                    style: styles_default9.searchInput,
                     className: "searchComponent",
                     type: "text",
                     placeholder: messages[locale]["sidebar_search.placeholder"] + " " + documentation2,
@@ -7604,7 +8164,7 @@ var SidebarSection = ({
                 }
               )
             ] }),
-            /* @__PURE__ */ jsx21(Box11, { sx: styles_default8.sidebarContainerBody, children: /* @__PURE__ */ jsx21(
+            /* @__PURE__ */ jsx21(Box11, { sx: styles_default9.sidebarContainerBody, children: /* @__PURE__ */ jsx21(
               sidebar_elements_default,
               {
                 items: filteredResult,
@@ -7620,17 +8180,17 @@ var SidebarSection = ({
     Box11,
     {
       className: sidebarSectionHidden ? "active" : "",
-      sx: styles_default8.sidebarContainer,
+      sx: styles_default9.sidebarContainer,
       children: [
         /* @__PURE__ */ jsxs15(
           Box11,
           {
             className: sidebarSectionHidden ? "sidebarHide" : "",
-            sx: styles_default8.sidebarContainerBox,
+            sx: styles_default9.sidebarContainerBox,
             "data-cy": "sidebar-section",
             children: [
-              /* @__PURE__ */ jsxs15(Box11, { sx: styles_default8.sidebarContainerHeader, children: [
-                isEditorPreview && /* @__PURE__ */ jsxs15(Text5, { sx: styles_default8.previewMode, children: [
+              /* @__PURE__ */ jsxs15(Box11, { sx: styles_default9.sidebarContainerHeader, children: [
+                isEditorPreview && /* @__PURE__ */ jsxs15(Text5, { sx: styles_default9.previewMode, children: [
                   /* @__PURE__ */ jsxs15(
                     "svg",
                     {
@@ -7660,13 +8220,13 @@ var SidebarSection = ({
                   ),
                   "PREVIEW MODE"
                 ] }),
-                /* @__PURE__ */ jsx21(Text5, { sx: styles_default8.sidebarTitle, children: documentation2 }),
-                /* @__PURE__ */ jsxs15(Flex9, { sx: styles_default8.searchBox, children: [
-                  /* @__PURE__ */ jsx21(search_icon_default, { sx: styles_default8.searchIcon }),
+                /* @__PURE__ */ jsx21(Text5, { sx: styles_default9.sidebarTitle, children: documentation2 }),
+                /* @__PURE__ */ jsxs15(Flex9, { sx: styles_default9.searchBox, children: [
+                  /* @__PURE__ */ jsx21(search_icon_default, { sx: styles_default9.searchIcon }),
                   /* @__PURE__ */ jsx21(
                     "input",
                     {
-                      style: styles_default8.searchInput,
+                      style: styles_default9.searchInput,
                       className: "searchComponent",
                       type: "text",
                       placeholder: messages[locale]["sidebar_search.placeholder"] + " " + documentation2,
@@ -7683,7 +8243,7 @@ var SidebarSection = ({
                   setMethodFilter: setMethodFilterList
                 }
               ),
-              /* @__PURE__ */ jsx21(Box11, { sx: styles_default8.sidebarContainerBody, children: /* @__PURE__ */ jsx21(
+              /* @__PURE__ */ jsx21(Box11, { sx: styles_default9.sidebarContainerBody, children: /* @__PURE__ */ jsx21(
                 sidebar_elements_default,
                 {
                   items: filteredResult,
@@ -7698,7 +8258,7 @@ var SidebarSection = ({
           Flex9,
           {
             className: "toggleIcon",
-            sx: sidebarSectionHidden ? styles_default8.toggleIconBoxActive : styles_default8.toggleIconBox,
+            sx: sidebarSectionHidden ? styles_default9.toggleIconBoxActive : styles_default9.toggleIconBox,
             children: /* @__PURE__ */ jsx21(
               sidebar_toggle_icon_default,
               {
@@ -7707,7 +8267,7 @@ var SidebarSection = ({
                     (sidebarSectionHidden2) => !sidebarSectionHidden2
                   );
                 },
-                sx: sidebarSectionHidden ? styles_default8.toggleIcon : {}
+                sx: sidebarSectionHidden ? styles_default9.toggleIcon : {}
               }
             )
           }
@@ -7778,7 +8338,7 @@ var Sidebar = ({ parentsArray = [] }) => {
         resizeObserver.disconnect;
       };
     }, [titleRef.current]);
-    return /* @__PURE__ */ jsx22(Box12, { sx: styles_default6.linkContainer, children: /* @__PURE__ */ jsx22(
+    return /* @__PURE__ */ jsx22(Box12, { sx: styles_default7.linkContainer, children: /* @__PURE__ */ jsx22(
       tooltip_default,
       {
         sx: iconTooltipStyle(iconTooltip2),
@@ -7799,12 +8359,12 @@ var Sidebar = ({ parentsArray = [] }) => {
             children: /* @__PURE__ */ jsxs16(
               Flex10,
               {
-                sx: activeSectionName === sectionElement.title ? styles_default6.iconBoxActive : styles_default6.iconBox,
+                sx: activeSectionName === sectionElement.title ? styles_default7.iconBoxActive : styles_default7.iconBox,
                 children: [
                   /* @__PURE__ */ jsx22(
                     sectionElement.Icon,
                     {
-                      sx: activeSectionName === sectionElement.title ? styles_default6.iconActive : styles_default6.icon
+                      sx: activeSectionName === sectionElement.title ? styles_default7.iconActive : styles_default7.icon
                     }
                   ),
                   /* @__PURE__ */ jsx22(
@@ -7812,7 +8372,7 @@ var Sidebar = ({ parentsArray = [] }) => {
                     {
                       className: expandDelayStatus ? "iconDescriptionExpanded" : "",
                       ref: titleRef,
-                      sx: styles_default6.iconTitle,
+                      sx: styles_default7.iconTitle,
                       children: sectionElement.title
                     }
                   )
@@ -7824,16 +8384,16 @@ var Sidebar = ({ parentsArray = [] }) => {
       }
     ) });
   };
-  return /* @__PURE__ */ jsxs16(Flex10, { sx: styles_default6.sidebar, children: [
+  return /* @__PURE__ */ jsxs16(Flex10, { sx: styles_default7.sidebar, children: [
     /* @__PURE__ */ jsx22(
       Flex10,
       {
         className: expandDelayStatus ? "iconContainerExpanded" : "",
-        sx: styles_default6.sidebarIcons,
+        sx: styles_default7.sidebarIcons,
         children: sidebarSections.map((section, id) => {
           return /* @__PURE__ */ jsxs16(Fragment3, { children: [
-            id > 0 && /* @__PURE__ */ jsx22(Box12, { sx: styles_default6.sectionDivider, children: /* @__PURE__ */ jsx22("hr", {}) }, `${id}-divider`),
-            /* @__PURE__ */ jsx22(Flex10, { sx: styles_default6.sidebarIconsContainer, children: section.map((element) => /* @__PURE__ */ createElement(
+            id > 0 && /* @__PURE__ */ jsx22(Box12, { sx: styles_default7.sectionDivider, children: /* @__PURE__ */ jsx22("hr", {}) }, `${id}-divider`),
+            /* @__PURE__ */ jsx22(Flex10, { sx: styles_default7.sidebarIconsContainer, children: section.map((element) => /* @__PURE__ */ createElement(
               SideBarIcon,
               {
                 ...element,
@@ -7923,7 +8483,7 @@ var arrowIconActive2 = {
   ...arrowIcon2,
   color: "#D71D55"
 };
-var styles_default12 = {
+var styles_default13 = {
   menuContainer,
   cardContainer,
   sideMenuContainer,
@@ -7976,7 +8536,7 @@ var description2 = {
   lineHeight: "18px",
   color: "muted.1"
 };
-var styles_default13 = {
+var styles_default14 = {
   cardContainer: cardContainer2,
   description: description2,
   title: title2,
@@ -7988,7 +8548,7 @@ var cardContainer3 = (containerType) => {
   const containerWidth = containerType === "dropdown" ? ["308px", "442px", "444px", "480px"] : containerType === "mobile" ? "100%" : ["324px", "544px", "544px", "544px", "544px", "720px", "1400px"];
   const textWidth = containerType === "dropdown" ? ["276px", "410px", "412px", "432px"] : containerType === "mobile" ? "90%" : ["276px", "496px", "496px", "496px", "496px", "672px", "1352px"];
   const cardContainer4 = {
-    ...styles_default13.cardContainer,
+    ...styles_default14.cardContainer,
     width: containerWidth,
     ".title, .description": {
       width: textWidth
@@ -7999,7 +8559,7 @@ var cardContainer3 = (containerType) => {
 var titleContainer2 = (containerType) => {
   const marginBottom = containerType === "dropdown" ? ["5px", "5px", "5px", "1px"] : "8px";
   const titleContainer3 = {
-    ...styles_default13.titleContainer,
+    ...styles_default14.titleContainer,
     marginBottom
   };
   return titleContainer3;
@@ -8016,7 +8576,7 @@ var cardTitle = (containerType) => {
     lineHeight: "22px"
   };
   const cardTitle2 = {
-    ...styles_default13.title,
+    ...styles_default14.title,
     ...titleAttributes
   };
   return cardTitle2;
@@ -8037,7 +8597,7 @@ var DocumentationCard = ({
       /* @__PURE__ */ jsx23(Icon30, { sx: { color: "#4A596B" }, size: 24 }),
       /* @__PURE__ */ jsx23(Text7, { className: "title", sx: cardTitle(containerType), children: title6 })
     ] }),
-    /* @__PURE__ */ jsx23(Text7, { className: "description", sx: styles_default13.description, children: description4 })
+    /* @__PURE__ */ jsx23(Text7, { className: "description", sx: styles_default14.description, children: description4 })
   ] }) }) });
 };
 var documentation_card_default = DocumentationCard;
@@ -8198,7 +8758,7 @@ var hitContentHighlighted = {
   width: "auto",
   background: "#FFE0EF"
 };
-var styles_default14 = {
+var styles_default15 = {
   resultsOuterContainer,
   resultsInnerContainer,
   resultsBox,
@@ -8243,12 +8803,12 @@ var SearchBoxComponent = ({
       changeFocus(false);
     }
   };
-  return /* @__PURE__ */ jsxs18(Flex12, { sx: styles_default14.searchContainer, onClick: handleClick, children: [
-    /* @__PURE__ */ jsx24(search_icon_default, { sx: styles_default14.searchIcon }),
+  return /* @__PURE__ */ jsxs18(Flex12, { sx: styles_default15.searchContainer, onClick: handleClick, children: [
+    /* @__PURE__ */ jsx24(search_icon_default, { sx: styles_default15.searchIcon }),
     /* @__PURE__ */ jsx24(
       "input",
       {
-        style: styles_default14.searchInput,
+        style: styles_default15.searchInput,
         ref: inputRef,
         className: "searchComponent",
         type: "text",
@@ -9030,9 +9590,9 @@ var Highlight = ({
     {
       ref: textContainer,
       className: "hit-content-title",
-      sx: styles_default14.hitContentContainer,
-      children: /* @__PURE__ */ jsx36(Text8, { sx: searchPage ? styles_default14.hitContent : styles_default14.hitContentSmall, children: (searchPage ? ellipsedContent : parsedHit).map(
-        (part, index) => part.isHighlighted ? /* @__PURE__ */ jsx36("mark", { style: styles_default14.hitContentHighlighted, children: part.value }, index) : part.value
+      sx: styles_default15.hitContentContainer,
+      children: /* @__PURE__ */ jsx36(Text8, { sx: searchPage ? styles_default15.hitContent : styles_default15.hitContentSmall, children: (searchPage ? ellipsedContent : parsedHit).map(
+        (part, index) => part.isHighlighted ? /* @__PURE__ */ jsx36("mark", { style: styles_default15.hitContentHighlighted, children: part.value }, index) : part.value
       ) })
     }
   );
@@ -9053,17 +9613,17 @@ var Hit2 = ({ hit, insights }) => {
         eventName: "Search in top bar",
         objectIDs: [hit.objectID]
       }),
-      children: /* @__PURE__ */ jsxs30(Box14, { sx: styles_default14.hitBox, children: [
+      children: /* @__PURE__ */ jsxs30(Box14, { sx: styles_default15.hitBox, children: [
         /* @__PURE__ */ jsxs30(Flex14, { children: [
-          DocIcon && /* @__PURE__ */ jsx37(DocIcon, { className: "hit-icon", sx: styles_default14.hitIcon }),
-          /* @__PURE__ */ jsx37(Text9, { sx: styles_default14.hitContent, children: /* @__PURE__ */ jsx37(customHighlight_default, { hit, attribute: "content" }) })
+          DocIcon && /* @__PURE__ */ jsx37(DocIcon, { className: "hit-icon", sx: styles_default15.hitIcon }),
+          /* @__PURE__ */ jsx37(Text9, { sx: styles_default15.hitContent, children: /* @__PURE__ */ jsx37(customHighlight_default, { hit, attribute: "content" }) })
         ] }),
-        /* @__PURE__ */ jsxs30(Flex14, { sx: styles_default14.alignCenter, children: [
-          /* @__PURE__ */ jsx37(Text9, { sx: styles_default14.hitBreadCrumbIn, children: `In ${hit.doctype}` }),
-          breadcrumbsList.length > 0 && /* @__PURE__ */ jsx37(IconCaret3, { direction: "right", sx: styles_default14.hitBreadCrumbArrow }),
-          breadcrumbsList.map((filter, index) => /* @__PURE__ */ jsxs30(Flex14, { sx: styles_default14.alignCenter, children: [
-            /* @__PURE__ */ jsx37(Text9, { sx: styles_default14.hitBreadCrumb, children: filter }),
-            index < breadcrumbsList.length - 1 ? /* @__PURE__ */ jsx37(IconCaret3, { direction: "right", sx: styles_default14.hitBreadCrumbArrow }) : null
+        /* @__PURE__ */ jsxs30(Flex14, { sx: styles_default15.alignCenter, children: [
+          /* @__PURE__ */ jsx37(Text9, { sx: styles_default15.hitBreadCrumbIn, children: `In ${hit.doctype}` }),
+          breadcrumbsList.length > 0 && /* @__PURE__ */ jsx37(IconCaret3, { direction: "right", sx: styles_default15.hitBreadCrumbArrow }),
+          breadcrumbsList.map((filter, index) => /* @__PURE__ */ jsxs30(Flex14, { sx: styles_default15.alignCenter, children: [
+            /* @__PURE__ */ jsx37(Text9, { sx: styles_default15.hitBreadCrumb, children: filter }),
+            index < breadcrumbsList.length - 1 ? /* @__PURE__ */ jsx37(IconCaret3, { direction: "right", sx: styles_default15.hitBreadCrumbArrow }) : null
           ] }, `${filter}${index}`))
         ] })
       ] })
@@ -9089,8 +9649,8 @@ var HitsBox = connectStateResults(
         __position: searchResults.hitsPerPage * searchResults.page + index + 1
       };
     };
-    return /* @__PURE__ */ jsx37(Fragment4, { children: searchResults && /* @__PURE__ */ jsx37(Box14, { sx: styles_default14.resultsOuterContainer, children: /* @__PURE__ */ jsxs30(Box14, { sx: styles_default14.resultsInnerContainer, children: [
-      /* @__PURE__ */ jsx37(Box14, { sx: searchResults.hits.length && styles_default14.resultsBox, children: searchResults.hits.map(
+    return /* @__PURE__ */ jsx37(Fragment4, { children: searchResults && /* @__PURE__ */ jsx37(Box14, { sx: styles_default15.resultsOuterContainer, children: /* @__PURE__ */ jsxs30(Box14, { sx: styles_default15.resultsInnerContainer, children: [
+      /* @__PURE__ */ jsx37(Box14, { sx: searchResults.hits.length && styles_default15.resultsBox, children: searchResults.hits.map(
         (searchResult, index) => index < 7 && /* @__PURE__ */ jsx37(
           Box14,
           {
@@ -9108,12 +9668,12 @@ var HitsBox = connectStateResults(
       searchResults.hits.length > 7 && /* @__PURE__ */ jsx37(
         Box14,
         {
-          sx: styles_default14.seeAll,
+          sx: styles_default15.seeAll,
           onClick: () => seeAllSubmit(searchState.query || ""),
           children: /* @__PURE__ */ jsx37(Text9, { children: "See all results" })
         }
       ),
-      !searchResults.hits.length && /* @__PURE__ */ jsx37(Flex14, { sx: styles_default14.noResults, children: /* @__PURE__ */ jsx37(Text9, { children: messages[locale]["search_input.empty"] }) })
+      !searchResults.hits.length && /* @__PURE__ */ jsx37(Flex14, { sx: styles_default15.noResults, children: /* @__PURE__ */ jsx37(Text9, { children: messages[locale]["search_input.empty"] }) })
     ] }) }) });
   }
 );
@@ -9214,15 +9774,15 @@ var HamburgerMenu = ({ parentsArray = [] }) => {
     return isDoc;
   };
   updateOpenPage({ parentsArray, context });
-  return /* @__PURE__ */ jsx39(Header.ActionButton, { children: /* @__PURE__ */ jsx39(VtexHamburgerMenu, { sx: styles_default12.hamburgerContainer, children: /* @__PURE__ */ jsx39(VtexHamburgerMenu.Menu, { sx: styles_default12.innerHambugerContainer, children: /* @__PURE__ */ jsxs32(Box16, { sx: styles_default12.menuContainer, children: [
-    /* @__PURE__ */ jsxs32(Box16, { sx: styles_default12.cardContainer, children: [
-      /* @__PURE__ */ jsx39(Box16, { sx: styles_default12.hamburgerSearchContainer, children: /* @__PURE__ */ jsx39(SearchInput, {}) }),
+  return /* @__PURE__ */ jsx39(Header.ActionButton, { children: /* @__PURE__ */ jsx39(VtexHamburgerMenu, { sx: styles_default13.hamburgerContainer, children: /* @__PURE__ */ jsx39(VtexHamburgerMenu.Menu, { sx: styles_default13.innerHambugerContainer, children: /* @__PURE__ */ jsxs32(Box16, { sx: styles_default13.menuContainer, children: [
+    /* @__PURE__ */ jsxs32(Box16, { sx: styles_default13.cardContainer, children: [
+      /* @__PURE__ */ jsx39(Box16, { sx: styles_default13.hamburgerSearchContainer, children: /* @__PURE__ */ jsx39(SearchInput, {}) }),
       hamburguerSections.map((section, id) => /* @__PURE__ */ jsx39(
         Box16,
         {
-          sx: id > 0 ? styles_default12.updatesContainer : styles_default12.documentationContainer,
+          sx: id > 0 ? styles_default13.updatesContainer : styles_default13.documentationContainer,
           "data-cy": "dropdown-menu-first-section",
-          children: section.map((card2) => /* @__PURE__ */ jsxs32(Box16, { sx: styles_default12.innerCardContainer, children: [
+          children: section.map((card2) => /* @__PURE__ */ jsxs32(Box16, { sx: styles_default13.innerCardContainer, children: [
             /* @__PURE__ */ jsx39(documentation_card_default, { containerType: "mobile", ...card2 }),
             isDocument(sidebarDataMaster, card2.id) ? /* @__PURE__ */ jsx39(
               Button4,
@@ -9231,7 +9791,7 @@ var HamburgerMenu = ({ parentsArray = [] }) => {
                 size: "regular",
                 variant: "tertiary",
                 icon: () => /* @__PURE__ */ jsx39(IconCaret4, { direction: "right", size: 32 }),
-                sx: activeSectionName === card2.id && !sidebarSectionHidden ? styles_default12.arrowIconActive : styles_default12.arrowIcon,
+                sx: activeSectionName === card2.id && !sidebarSectionHidden ? styles_default13.arrowIconActive : styles_default13.arrowIcon,
                 onClick: () => {
                   setActiveSectionName(card2.id);
                   setSidebarSectionHidden(false);
@@ -9247,7 +9807,7 @@ var HamburgerMenu = ({ parentsArray = [] }) => {
       Box16,
       {
         className: sidebarSectionHidden || !activeSectionName ? "" : "menuHidden",
-        sx: styles_default12.sideMenuContainer,
+        sx: styles_default13.sideMenuContainer,
         children: activeSectionName ? /* @__PURE__ */ jsx39(
           sidebar_section_default,
           {
@@ -9456,7 +10016,7 @@ var editIcon = { mr: "4px" };
 var shareButton = {
   // ml: ['0', 'auto'],
 };
-var styles_default15 = {
+var styles_default16 = {
   container: container5,
   question,
   likeContainer,
@@ -9473,12 +10033,12 @@ var styles_default15 = {
 
 // src/lib/feedback-section/functions.ts
 var setButtonStyle = (feedback, modalState, like) => {
-  const buttonactive = modalState.modalOpen && like === modalState.liked ? styles_default15.buttonActive : styles_default15.button;
+  const buttonactive = modalState.modalOpen && like === modalState.liked ? styles_default16.buttonActive : styles_default16.button;
   const ml = like ? ["0", "8px"] : feedback === like ? ["0", "8px"] : ["32px", "16px"];
   if (feedback === void 0)
-    return { ...styles_default15.box, ...buttonactive, ml };
+    return { ...styles_default16.box, ...buttonactive, ml };
   if (like === feedback)
-    return { ...styles_default15.box, ...styles_default15.selectedButton, ml };
+    return { ...styles_default16.box, ...styles_default16.selectedButton, ml };
   return { display: "none !important" };
 };
 
@@ -9552,7 +10112,7 @@ var arrow = {
   left: "calc(50% - 12px)",
   height: "14px"
 };
-var styles_default16 = {
+var styles_default17 = {
   container: container6,
   box: box2,
   card,
@@ -9583,7 +10143,7 @@ var modalPositionStyle = (chosenButtonRef) => {
     buttonTop > modalHeight ? `${buttonTop - modalHeight}px` : `${buttonBottom}px`
   ];
   const modalBox = {
-    ...styles_default16.box,
+    ...styles_default17.box,
     position: "absolute",
     left: modalLeft,
     top: modalTop
@@ -9598,7 +10158,7 @@ var arrowDirectionStyle = (chosenButtonRef, element) => {
     return false;
   if (element === "arrow") {
     const arrowDirection = {
-      ...styles_default16.arrow,
+      ...styles_default17.arrow,
       transform: "rotate(180deg)",
       top: "0",
       bottom: "initial"
@@ -9606,7 +10166,7 @@ var arrowDirectionStyle = (chosenButtonRef, element) => {
     return arrowDirection;
   }
   const cardPosition = {
-    ...styles_default16.card,
+    ...styles_default17.card,
     mt: "14px"
   };
   return cardPosition;
@@ -9667,24 +10227,24 @@ var FeedBackModal = ({
     body2.classList.add("modal-open");
   }, []);
   useClickOutside(cardRef, changeModalState);
-  return /* @__PURE__ */ jsx43(Box17, { sx: styles_default16.container, children: /* @__PURE__ */ jsxs36(
+  return /* @__PURE__ */ jsx43(Box17, { sx: styles_default17.container, children: /* @__PURE__ */ jsxs36(
     Box17,
     {
       ref: cardRef,
-      sx: modalPositionStyle(chosenButtonRef.current) || styles_default16.box,
+      sx: modalPositionStyle(chosenButtonRef.current) || styles_default17.box,
       children: [
         /* @__PURE__ */ jsxs36(
           Box17,
           {
-            sx: arrowDirectionStyle(chosenButtonRef.current, "card") || styles_default16.card,
+            sx: arrowDirectionStyle(chosenButtonRef.current, "card") || styles_default17.card,
             "data-cy": "feedback-modal",
             children: [
-              /* @__PURE__ */ jsx43(Text10, { sx: styles_default16.title, children: messages[locale]["feedback_modal.title"] }),
+              /* @__PURE__ */ jsx43(Text10, { sx: styles_default17.title, children: messages[locale]["feedback_modal.title"] }),
               /* @__PURE__ */ jsx43(
                 Textarea,
                 {
                   id: "feedback-modal-input",
-                  sx: styles_default16.textarea,
+                  sx: styles_default17.textarea,
                   label: "",
                   rows: 7,
                   value: comment,
@@ -9695,7 +10255,7 @@ var FeedBackModal = ({
                 Button5,
                 {
                   onClick: async () => await handleClick(),
-                  sx: styles_default16.button,
+                  sx: styles_default17.button,
                   variant: "secondary",
                   children: messages[locale]["feedback_modal.button"]
                 }
@@ -9706,7 +10266,7 @@ var FeedBackModal = ({
         /* @__PURE__ */ jsx43(
           FeedBackModalArrow,
           {
-            sx: arrowDirectionStyle(chosenButtonRef.current, "arrow") || styles_default16.arrow
+            sx: arrowDirectionStyle(chosenButtonRef.current, "arrow") || styles_default17.arrow
           }
         )
       ]
@@ -9870,7 +10430,7 @@ var innerContainer = {
 var divider = {
   borderBottom: "1px solid #E7E9EE"
 };
-var styles_default17 = {
+var styles_default18 = {
   container: container7,
   button: button3,
   shareIcon,
@@ -9952,38 +10512,38 @@ var ShareButton = ({ url, sx = {} }) => {
       console.error("Error copying link to clipboard:", error);
     }
   };
-  return /* @__PURE__ */ jsxs39(Flex15, { sx: { ...styles_default17.container, ...sx }, ref: containerRef, children: [
+  return /* @__PURE__ */ jsxs39(Flex15, { sx: { ...styles_default18.container, ...sx }, ref: containerRef, children: [
     /* @__PURE__ */ jsxs39(
       Button6,
       {
-        sx: styles_default17.button,
+        sx: styles_default18.button,
         variant: "tertiary",
         onClick: () => setIsOpen(!isOpen),
         children: [
-          /* @__PURE__ */ jsx50(share_icon_default, { sx: styles_default17.shareIcon, size: 24 }),
+          /* @__PURE__ */ jsx50(share_icon_default, { sx: styles_default18.shareIcon, size: 24 }),
           " Share"
         ]
       }
     ),
-    isOpen && /* @__PURE__ */ jsxs39(Flex15, { sx: styles_default17.innerContainer, children: [
-      /* @__PURE__ */ jsxs39(Flex15, { sx: styles_default17.innerButton, onClick: handleCopyLink, children: [
+    isOpen && /* @__PURE__ */ jsxs39(Flex15, { sx: styles_default18.innerContainer, children: [
+      /* @__PURE__ */ jsxs39(Flex15, { sx: styles_default18.innerButton, onClick: handleCopyLink, children: [
         /* @__PURE__ */ jsx50(link_icon_default, { size: 16 }),
         /* @__PURE__ */ jsx50(Text11, { children: "Copy link" })
       ] }),
-      /* @__PURE__ */ jsx50(Box18, { sx: styles_default17.divider }),
-      /* @__PURE__ */ jsx50(EmailShareButton, { url, children: /* @__PURE__ */ jsxs39(Flex15, { sx: styles_default17.innerButton, onClick: handleCopyLink, children: [
+      /* @__PURE__ */ jsx50(Box18, { sx: styles_default18.divider }),
+      /* @__PURE__ */ jsx50(EmailShareButton, { url, children: /* @__PURE__ */ jsxs39(Flex15, { sx: styles_default18.innerButton, onClick: handleCopyLink, children: [
         /* @__PURE__ */ jsx50(email_icon_default, { size: 16 }),
         /* @__PURE__ */ jsx50(Text11, { children: "E-mail" })
       ] }) }),
-      /* @__PURE__ */ jsx50(TwitterShareButton, { url, children: /* @__PURE__ */ jsxs39(Flex15, { sx: styles_default17.innerButton, children: [
+      /* @__PURE__ */ jsx50(TwitterShareButton, { url, children: /* @__PURE__ */ jsxs39(Flex15, { sx: styles_default18.innerButton, children: [
         /* @__PURE__ */ jsx50(twitter_icon_default, { size: 16 }),
         /* @__PURE__ */ jsx50(Text11, { children: "Twitter" })
       ] }) }),
-      /* @__PURE__ */ jsx50(FacebookShareButton, { url, children: /* @__PURE__ */ jsxs39(Flex15, { sx: styles_default17.innerButton, children: [
+      /* @__PURE__ */ jsx50(FacebookShareButton, { url, children: /* @__PURE__ */ jsxs39(Flex15, { sx: styles_default18.innerButton, children: [
         /* @__PURE__ */ jsx50(facebook_icon_default, { size: 16 }),
         /* @__PURE__ */ jsx50(Text11, { children: "Facebook" })
       ] }) }),
-      /* @__PURE__ */ jsx50(LinkedinShareButton, { url, children: /* @__PURE__ */ jsxs39(Flex15, { sx: styles_default17.innerButton, children: [
+      /* @__PURE__ */ jsx50(LinkedinShareButton, { url, children: /* @__PURE__ */ jsxs39(Flex15, { sx: styles_default18.innerButton, children: [
         /* @__PURE__ */ jsx50(linkedin_icon_default, { size: 16 }),
         /* @__PURE__ */ jsx50(Text11, { children: "LinkedIn" })
       ] }) })
@@ -10020,9 +10580,9 @@ var FeedbackSection = ({
       liked: choice
     });
   };
-  return /* @__PURE__ */ jsxs40(Flex16, { sx: styles_default15.container, "data-cy": "feedback-section", children: [
-    /* @__PURE__ */ jsxs40(Flex16, { sx: styles_default15.likeContainer, children: [
-      /* @__PURE__ */ jsx51(Text12, { sx: styles_default15.question, children: feedback !== void 0 ? messages[locale]["feedback_section.response"] : messages[locale]["feedback_section.question"] }),
+  return /* @__PURE__ */ jsxs40(Flex16, { sx: styles_default16.container, "data-cy": "feedback-section", children: [
+    /* @__PURE__ */ jsxs40(Flex16, { sx: styles_default16.likeContainer, children: [
+      /* @__PURE__ */ jsx51(Text12, { sx: styles_default16.question, children: feedback !== void 0 ? messages[locale]["feedback_section.response"] : messages[locale]["feedback_section.question"] }),
       /* @__PURE__ */ jsxs40(
         Flex16,
         {
@@ -10031,7 +10591,7 @@ var FeedbackSection = ({
           onClick: feedback === void 0 ? () => openModal(true) : null,
           "data-cy": "feedback-section-like",
           children: [
-            feedback === void 0 || !feedback ? /* @__PURE__ */ jsx51(like_icon_default, { size: 24, sx: styles_default15.likeIcon }) : /* @__PURE__ */ jsx51(like_selected_icon_default, { size: 24, sx: styles_default15.likeIcon }),
+            feedback === void 0 || !feedback ? /* @__PURE__ */ jsx51(like_icon_default, { size: 24, sx: styles_default16.likeIcon }) : /* @__PURE__ */ jsx51(like_selected_icon_default, { size: 24, sx: styles_default16.likeIcon }),
             /* @__PURE__ */ jsx51(Text12, { children: messages[locale]["feedback_section.positive"] })
           ]
         }
@@ -10043,7 +10603,7 @@ var FeedbackSection = ({
           sx: setButtonStyle(feedback, modalState, false),
           onClick: feedback === void 0 ? () => openModal(false) : null,
           children: [
-            feedback === void 0 || feedback ? /* @__PURE__ */ jsx51(like_icon_default, { size: 24, sx: styles_default15.dislikeIcon }) : /* @__PURE__ */ jsx51(like_selected_icon_default, { size: 24, sx: styles_default15.dislikeIcon }),
+            feedback === void 0 || feedback ? /* @__PURE__ */ jsx51(like_icon_default, { size: 24, sx: styles_default16.dislikeIcon }) : /* @__PURE__ */ jsx51(like_selected_icon_default, { size: 24, sx: styles_default16.dislikeIcon }),
             /* @__PURE__ */ jsx51(Text12, { children: messages[locale]["feedback_section.negative"] })
           ]
         }
@@ -10055,14 +10615,14 @@ var FeedbackSection = ({
         target: "_blank",
         rel: "noopener noreferrer",
         href: urlToEdit,
-        sx: styles_default15.editContainer,
+        sx: styles_default16.editContainer,
         children: [
-          /* @__PURE__ */ jsx51(edit_icon_default, { size: 24, sx: styles_default15.editIcon }),
+          /* @__PURE__ */ jsx51(edit_icon_default, { size: 24, sx: styles_default16.editIcon }),
           /* @__PURE__ */ jsx51(Text12, { children: messages[locale]["feedback_section.edit"] })
         ]
       }
     ),
-    shareButton2 && /* @__PURE__ */ jsx51(share_button_default, { url: window.location.href, sx: styles_default15.shareButton }),
+    shareButton2 && /* @__PURE__ */ jsx51(share_button_default, { url: window.location.href, sx: styles_default16.shareButton }),
     modalState.modalOpen ? /* @__PURE__ */ jsx51(
       feedback_modal_default,
       {
@@ -10141,7 +10701,7 @@ var allResultsTextActive = {
   fontWeight: "bold",
   color: "#0C1522"
 };
-var styles_default18 = {
+var styles_default19 = {
   sectionContainer,
   sectionIconTitleBox,
   sectionIcon,
@@ -10200,34 +10760,34 @@ var SearchSection = ({ dataElement, index }) => {
   useEffect11(() => {
     updateFilter("");
   }, [router.query]);
-  return !dataElement ? /* @__PURE__ */ jsxs41(Flex17, { sx: styles_default18.sectionContainer, onClick: () => updateFilter(""), children: [
+  return !dataElement ? /* @__PURE__ */ jsxs41(Flex17, { sx: styles_default19.sectionContainer, onClick: () => updateFilter(""), children: [
     /* @__PURE__ */ jsx53(
       Text13,
       {
         className: "search-section-title",
-        sx: filterSelectedSection ? styles_default18.allResultsText : styles_default18.allResultsTextActive,
+        sx: filterSelectedSection ? styles_default19.allResultsText : styles_default19.allResultsTextActive,
         children: "All results"
       }
     ),
-    /* @__PURE__ */ jsx53(Box19, { className: "search-section-count", sx: styles_default18.sectionCount, children: ocurrenceCount[""] })
+    /* @__PURE__ */ jsx53(Box19, { className: "search-section-count", sx: styles_default19.sectionCount, children: ocurrenceCount[""] })
   ] }) : /* @__PURE__ */ jsxs41(
     Flex17,
     {
-      sx: styles_default18.sectionContainer,
+      sx: styles_default19.sectionContainer,
       onClick: () => updateFilter(dataElement.title),
       children: [
-        /* @__PURE__ */ jsxs41(Flex17, { sx: styles_default18.sectionIconTitleBox, children: [
-          /* @__PURE__ */ jsx53(dataElement.Icon, { sx: styles_default18.sectionIcon }),
+        /* @__PURE__ */ jsxs41(Flex17, { sx: styles_default19.sectionIconTitleBox, children: [
+          /* @__PURE__ */ jsx53(dataElement.Icon, { sx: styles_default19.sectionIcon }),
           /* @__PURE__ */ jsx53(
             Text13,
             {
               className: "search-section-title",
-              sx: filterSelectedSection === dataElement.title ? styles_default18.sectionTitleActive : styles_default18.sectionTitle,
+              sx: filterSelectedSection === dataElement.title ? styles_default19.sectionTitleActive : styles_default19.sectionTitle,
               children: dataElement.title
             }
           )
         ] }),
-        /* @__PURE__ */ jsx53(Box19, { className: "search-section-count", sx: styles_default18.sectionCount, children: ocurrenceCount[dataElement.title] || 0 })
+        /* @__PURE__ */ jsx53(Box19, { className: "search-section-count", sx: styles_default19.sectionCount, children: ocurrenceCount[dataElement.title] || 0 })
       ]
     },
     `search-section-${dataElement.title}${index}`
@@ -10253,7 +10813,7 @@ var docsSection = {
   ...notesSection,
   borderBottom: "1px solid #E7E9EE"
 };
-var styles_default19 = {
+var styles_default20 = {
   container: container8,
   notesSection,
   docsSection
@@ -10264,10 +10824,10 @@ import { useContext as useContext14 } from "react";
 import { jsx as jsx54, jsxs as jsxs42 } from "react/jsx-runtime";
 var SearchSections = () => {
   const { sidebarSections } = useContext14(LibraryContext);
-  return /* @__PURE__ */ jsx54(Box20, { sx: styles_default19.container, children: sidebarSections.map((sections, id) => /* @__PURE__ */ jsxs42(
+  return /* @__PURE__ */ jsx54(Box20, { sx: styles_default20.container, children: sidebarSections.map((sections, id) => /* @__PURE__ */ jsxs42(
     Box20,
     {
-      sx: id < sidebarSections.length - 1 ? styles_default19.docsSection : styles_default19.notesSection,
+      sx: id < sidebarSections.length - 1 ? styles_default20.docsSection : styles_default20.notesSection,
       children: [
         id === 0 && /* @__PURE__ */ jsx54(search_section_default, { dataElement: null }),
         sections.map((section, index) => /* @__PURE__ */ jsx54(
@@ -10411,7 +10971,7 @@ var actionIcon = {
   height: "16px",
   mr: "8px"
 };
-var styles_default20 = {
+var styles_default21 = {
   containerActive,
   title: title4,
   httpMethod,
@@ -10490,14 +11050,14 @@ var SearchCard = ({
 }) => {
   const actionValue = actionType ? getAction(actionType) : null;
   const [toggleChildResults, setToggleChildResults] = useState14(false);
-  return /* @__PURE__ */ jsx56(Link8, { href: url, legacyBehavior: true, children: /* @__PURE__ */ jsxs44(Flex18, { sx: styles_default20.containerActive(method), children: [
+  return /* @__PURE__ */ jsx56(Link8, { href: url, legacyBehavior: true, children: /* @__PURE__ */ jsxs44(Flex18, { sx: styles_default21.containerActive(method), children: [
     /* @__PURE__ */ jsxs44(Box21, { children: [
-      /* @__PURE__ */ jsxs44(Text14, { className: "searchCardTitle", sx: styles_default20.title, children: [
-        Icon30 && /* @__PURE__ */ jsx56(Icon30, { sx: styles_default20.icon }),
+      /* @__PURE__ */ jsxs44(Text14, { className: "searchCardTitle", sx: styles_default21.title, children: [
+        Icon30 && /* @__PURE__ */ jsx56(Icon30, { sx: styles_default21.icon }),
         method ? /* @__PURE__ */ jsx56(
           method_category_default,
           {
-            sx: styles_default20.httpMethod,
+            sx: styles_default21.httpMethod,
             origin: "search",
             method,
             active: false
@@ -10506,7 +11066,7 @@ var SearchCard = ({
         title6 === "overview" && `${hit.doccategory} `,
         title6
       ] }),
-      /* @__PURE__ */ jsxs44(Text14, { className: "searchCardDescription", sx: styles_default20.description, children: [
+      /* @__PURE__ */ jsxs44(Text14, { className: "searchCardDescription", sx: styles_default21.description, children: [
         /* @__PURE__ */ jsx56(Flex18, { children: /* @__PURE__ */ jsx56(
           customHighlight_default,
           {
@@ -10518,7 +11078,7 @@ var SearchCard = ({
         toggleChildResults && hit.filteredMatches?.map((childHit, index) => /* @__PURE__ */ jsx56(
           Box21,
           {
-            sx: styles_default20.descriptionExpandedItem,
+            sx: styles_default21.descriptionExpandedItem,
             children: /* @__PURE__ */ jsx56(
               customHighlight_default,
               {
@@ -10531,22 +11091,22 @@ var SearchCard = ({
           `search-card-${hit.objectID}-${index}`
         ))
       ] }),
-      breadcrumbs ? /* @__PURE__ */ jsxs44(Box21, { sx: styles_default20.breadcrumbsContainer, children: [
-        /* @__PURE__ */ jsx56(Text14, { sx: styles_default20.breadcrumbsIn, children: "In" }),
+      breadcrumbs ? /* @__PURE__ */ jsxs44(Box21, { sx: styles_default21.breadcrumbsContainer, children: [
+        /* @__PURE__ */ jsx56(Text14, { sx: styles_default21.breadcrumbsIn, children: "In" }),
         breadcrumbs.map((breadcrumb2, index) => /* @__PURE__ */ jsxs44(
           Flex18,
           {
-            sx: index === 0 ? styles_default20.documentation : styles_default20.alignCenter,
+            sx: index === 0 ? styles_default21.documentation : styles_default21.alignCenter,
             children: [
-              /* @__PURE__ */ jsx56(Tooltip2, { label: breadcrumb2, placement: "top", children: /* @__PURE__ */ jsx56(Text14, { sx: styles_default20.breadcrumb, children: breadcrumb2 }) }),
-              index < breadcrumbs.length - 1 ? /* @__PURE__ */ jsx56(IconCaret5, { direction: "right", sx: styles_default20.breadcrumbsArrow }) : null
+              /* @__PURE__ */ jsx56(Tooltip2, { label: breadcrumb2, placement: "top", children: /* @__PURE__ */ jsx56(Text14, { sx: styles_default21.breadcrumb, children: breadcrumb2 }) }),
+              index < breadcrumbs.length - 1 ? /* @__PURE__ */ jsx56(IconCaret5, { direction: "right", sx: styles_default21.breadcrumbsArrow }) : null
             ]
           },
           `${breadcrumb2}${index}`
         ))
       ] }) : null,
-      actionValue ? /* @__PURE__ */ jsxs44(Flex18, { sx: styles_default20.actionContainer, children: [
-        /* @__PURE__ */ jsx56(actionValue.Icon, { sx: styles_default20.actionIcon }),
+      actionValue ? /* @__PURE__ */ jsxs44(Flex18, { sx: styles_default21.actionContainer, children: [
+        /* @__PURE__ */ jsx56(actionValue.Icon, { sx: styles_default21.actionIcon }),
         " ",
         /* @__PURE__ */ jsx56(Text14, { children: actionValue?.title })
       ] }) : null
@@ -10554,7 +11114,7 @@ var SearchCard = ({
     hit.filteredMatches && hit.filteredMatches.length > 0 && /* @__PURE__ */ jsx56(
       Box21,
       {
-        sx: styles_default20.descriptionToggle,
+        sx: styles_default21.descriptionToggle,
         onClick: (event) => {
           setToggleChildResults(!toggleChildResults);
           event.stopPropagation();
@@ -10692,7 +11252,7 @@ var noResults2 = {
   alignContent: "center",
   padding: "12px"
 };
-var styles_default21 = {
+var styles_default22 = {
   resultContainer,
   resultText,
   paginationContainer,
@@ -10719,8 +11279,8 @@ var SearchResults = () => {
       page
     });
   };
-  return /* @__PURE__ */ jsxs46(Box23, { sx: styles_default21.resultContainer, children: [
-    /* @__PURE__ */ jsxs46(Text15, { sx: styles_default21.resultText, children: [
+  return /* @__PURE__ */ jsxs46(Box23, { sx: styles_default22.resultContainer, children: [
+    /* @__PURE__ */ jsxs46(Text15, { sx: styles_default22.resultText, children: [
       "Showing ",
       ocurrenceCount[filterSelectedSection],
       ' results for "',
@@ -10796,7 +11356,7 @@ var tabCount = {
   borderRadius: "24px",
   backgroundColor: "#F8F7FC"
 };
-var styles_default22 = { container: container10, tab, tabTitle, tabCount };
+var styles_default23 = { container: container10, tab, tabTitle, tabCount };
 
 // src/components/search-filter-tab-bar/index.tsx
 import { jsx as jsx59, jsxs as jsxs47 } from "react/jsx-runtime";
@@ -10805,18 +11365,18 @@ var SearchFilterTab = ({ filter }) => {
   return /* @__PURE__ */ jsxs47(
     Flex20,
     {
-      sx: styles_default22.tab(filterSelectedSection === filter),
+      sx: styles_default23.tab(filterSelectedSection === filter),
       onClick: () => changeFilterSelectedSection(filter),
       children: [
-        /* @__PURE__ */ jsx59(Text16, { sx: styles_default22.tabTitle(filterSelectedSection === filter), children: filter || "All Results" }),
-        /* @__PURE__ */ jsx59(Text16, { sx: styles_default22.tabCount, children: ocurrenceCount[filter] || 0 })
+        /* @__PURE__ */ jsx59(Text16, { sx: styles_default23.tabTitle(filterSelectedSection === filter), children: filter || "All Results" }),
+        /* @__PURE__ */ jsx59(Text16, { sx: styles_default23.tabCount, children: ocurrenceCount[filter] || 0 })
       ]
     }
   );
 };
 var SearchFilterTabBar = () => {
   const { sidebarSections } = useContext17(LibraryContext);
-  return /* @__PURE__ */ jsxs47(Flex20, { sx: styles_default22.container, children: [
+  return /* @__PURE__ */ jsxs47(Flex20, { sx: styles_default23.container, children: [
     /* @__PURE__ */ jsx59(SearchFilterTab, { filter: "" }),
     sidebarSections.flat().map((section) => {
       return /* @__PURE__ */ jsx59(SearchFilterTab, { filter: section.title }, section.title);
@@ -10835,7 +11395,7 @@ var body = {
   background: "#FFFFFF",
   justifyContent: "center"
 };
-var styles_default23 = {
+var styles_default24 = {
   searchBarContainer,
   body
 };
@@ -10845,10 +11405,10 @@ import { jsx as jsx60, jsxs as jsxs48 } from "react/jsx-runtime";
 var Search = () => {
   return /* @__PURE__ */ jsxs48(search_default, { children: [
     /* @__PURE__ */ jsxs48(Box24, { children: [
-      /* @__PURE__ */ jsx60(Flex21, { sx: styles_default23.searchBarContainer, children: /* @__PURE__ */ jsx60(SearchInput, {}) }),
+      /* @__PURE__ */ jsx60(Flex21, { sx: styles_default24.searchBarContainer, children: /* @__PURE__ */ jsx60(SearchInput, {}) }),
       /* @__PURE__ */ jsx60(search_filter_tab_bar_default, {})
     ] }),
-    /* @__PURE__ */ jsxs48(Flex21, { sx: styles_default23.body, children: [
+    /* @__PURE__ */ jsxs48(Flex21, { sx: styles_default24.body, children: [
       /* @__PURE__ */ jsx60(search_sections_default, {}),
       /* @__PURE__ */ jsx60(search_results_default, {})
     ] })
@@ -10918,7 +11478,7 @@ var declineButton = {
     opacity: "0.7"
   }
 };
-var styles_default24 = {
+var styles_default25 = {
   bar,
   barContent,
   title: title5,
@@ -10940,9 +11500,9 @@ var CookieBar = ({ onAccept }) => {
     CookieConsent,
     {
       enableDeclineButton: true,
-      buttonStyle: styles_default24.acceptButton,
-      declineButtonStyle: styles_default24.declineButton,
-      style: styles_default24.bar,
+      buttonStyle: styles_default25.acceptButton,
+      declineButtonStyle: styles_default25.declineButton,
+      style: styles_default25.bar,
       onAccept: () => {
         aa3("init", {
           partial: true,
@@ -10953,10 +11513,10 @@ var CookieBar = ({ onAccept }) => {
       declineButtonText: messages[locale]["cookie_bar.decline"],
       buttonText: messages[locale]["cookie_bar.accept"],
       ButtonComponent: Button7,
-      customButtonWrapperAttributes: { style: styles_default24.buttonContainer },
-      customContentAttributes: { style: styles_default24.barContent },
+      customButtonWrapperAttributes: { style: styles_default25.buttonContainer },
+      customContentAttributes: { style: styles_default25.barContent },
       children: [
-        /* @__PURE__ */ jsx61(Text17, { sx: styles_default24.title, children: messages[locale]["cookie_bar.title"] }),
+        /* @__PURE__ */ jsx61(Text17, { sx: styles_default25.title, children: messages[locale]["cookie_bar.title"] }),
         /* @__PURE__ */ jsx61(Text17, { children: messages[locale]["cookie_bar.description"] })
       ]
     }
