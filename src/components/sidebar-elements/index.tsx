@@ -194,7 +194,7 @@ const SidebarElements = ({ slugPrefix, items, subItemLevel }: SidebarProps) => {
       </Box>
     )
   }
-
+  
   const ElementChildren = ({ slug, children }: SidebarElement) => {
     const isExpandable = children.length > 0
     // const newPathPrefix =
@@ -209,7 +209,7 @@ const SidebarElements = ({ slugPrefix, items, subItemLevel }: SidebarProps) => {
           slugPrefix={slugPrefix}
           items={children}
           subItemLevel={subItemLevel + 1}
-          key={`${slug}sd`}
+          key={`${localizedSlug}sd`}
         />
       </Box>
     ) : null
@@ -218,10 +218,9 @@ const SidebarElements = ({ slugPrefix, items, subItemLevel }: SidebarProps) => {
   return (
     <Box className="sidebar-component">
       {items?.map((item, index) => {
-
         const key = typeof item.slug === 'string' ? String(item.slug) + String(index) : String(item.slug[locale]) + String(index)
         const slug = typeof item.slug === 'string' ? `${item.slug}` : `${item.slug[locale]}`
-
+  
         return (
           <Fragment key={String(key)}>
             <ElementRoot {...item} slug={slug} />
