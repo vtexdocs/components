@@ -18,7 +18,7 @@ import { LibraryContext } from 'utils/context/libraryContext'
 
 export interface SidebarElement {
   name: string | { en: string; pt: string; es: string }
-  slug: string
+  slug: string | { en: string; pt: string; es: string }
   origin: string
   type: string
   method?: MethodType
@@ -109,51 +109,52 @@ const SidebarElements = ({ slugPrefix, items, subItemLevel }: SidebarProps) => {
     children,
   }: SidebarElement) => {
     const localizedName: string = typeof name === 'string' ? name : name[locale]
+    const localizedSlug: string = typeof slug === 'string' ? slug : slug[locale]
     const isExpandable = children.length > 0
     const pathSuffix = method ? `#${method.toLowerCase()}-${endpoint}` : ''
-    const activeItem = method ? `${slug}${pathSuffix}` : slug
+    const activeItem = method ? `${localizedSlug}${pathSuffix}` : localizedSlug
     return (
       <Box sx={styles.elementContainer}>
         <Flex sx={styleByLevelNormal(subItemLevel, isExpandable || false)}>
           {isExpandable && (
             <Button
               aria-label={
-                sidebarElementStatus.has(slug) && sidebarElementStatus.get(slug)
+                sidebarElementStatus.has(localizedSlug) && sidebarElementStatus.get(localizedSlug)
                   ? 'Collapse category'
                   : 'Expand category'
               }
               size="regular"
               variant="tertiary"
               sx={
-                sidebarElementStatus.has(slug) && sidebarElementStatus.get(slug)
+                sidebarElementStatus.has(localizedSlug) && sidebarElementStatus.get(localizedSlug)
                   ? styles.arrowIconActive
                   : styles.arrowIcon
               }
               icon={() => (
                 <IconCaret
                   direction={
-                    sidebarElementStatus.has(slug) &&
-                    sidebarElementStatus.get(slug)
+                    sidebarElementStatus.has(localizedSlug) &&
+                    sidebarElementStatus.get(localizedSlug)
                       ? 'down'
                       : 'right'
                   }
                   size={24}
                 />
               )}
-              onClick={() => toggleSidebarElementStatus(slug)}
+              onClick={() => toggleSidebarElementStatus(localizedSlug)}
             />
           )}
-          {!checkDocumentationType(sidebarDataMaster, slug, 'category') &&
-          !checkDocumentationType(sidebarDataMaster, slug, 'link') ? (
+          {!checkDocumentationType(sidebarDataMaster, localizedSlug, 'category') &&
+          !checkDocumentationType(sidebarDataMaster, localizedSlug, 'link') ? (
             <Link
               sx={textStyle(activeSidebarElement === activeItem, isExpandable)}
               onClick={(e: { preventDefault: () => void }) => {
                 if (!isEditorPreview) {
-                  handleClick(e, pathSuffix, slug)
+                  handleClick(e, pathSuffix, localizedSlug)
                 }
                 toggleSidebarElementStatus(activeItem)
               }}
-              href={getHref(slugPrefix || '', pathSuffix, slug)}
+              href={getHref(slugPrefix || '', pathSuffix, localizedSlug)}
               target={isEditorPreview === true ? '_blank' : '_self'}
             >
               {method && (
@@ -166,22 +167,22 @@ const SidebarElements = ({ slugPrefix, items, subItemLevel }: SidebarProps) => {
               )}
               {localizedName}
             </Link>
-          ) : checkDocumentationType(sidebarDataMaster, slug, 'link') ? (
-            <Link href={slug} target="_blank" sx={styles.elementText}>
+          ) : checkDocumentationType(sidebarDataMaster, localizedSlug, 'link') ? (
+            <Link href={localizedSlug} target="_blank" sx={styles.elementText}>
               <IconExternalLink size={16} sx={{ marginRight: '10px' }} />
               {localizedName}
             </Link>
           ) : (
             <Box
-              sx={textStyle(activeSidebarElement === slug, isExpandable)}
+              sx={textStyle(activeSidebarElement === localizedSlug, isExpandable)}
               onClick={() => {
-                toggleSidebarElementStatus(slug)
+                toggleSidebarElementStatus(localizedSlug)
               }}
             >
               {method && (
                 <MethodCategory
                   sx={styles.methodBox}
-                  active={activeSidebarElement === slug}
+                  active={activeSidebarElement === localizedSlug}
                   origin="sidebar"
                   method={method}
                 />
@@ -193,20 +194,22 @@ const SidebarElements = ({ slugPrefix, items, subItemLevel }: SidebarProps) => {
       </Box>
     )
   }
-
+  
   const ElementChildren = ({ slug, children }: SidebarElement) => {
     const isExpandable = children.length > 0
     // const newPathPrefix =
     //   slugPrefix === 'api-reference' ? `/api-reference/${slug}` : slugPrefix
+
+    const localizedSlug: string = typeof slug === 'string' ? slug : slug[locale]
     return isExpandable &&
-      sidebarElementStatus.has(slug) &&
-      sidebarElementStatus.get(slug) ? (
+      sidebarElementStatus.has(localizedSlug) &&
+      sidebarElementStatus.get(localizedSlug) ? (
       <Box>
         <SidebarElements
           slugPrefix={slugPrefix}
           items={children}
           subItemLevel={subItemLevel + 1}
-          key={`${slug}sd`}
+          key={`${localizedSlug}sd`}
         />
       </Box>
     ) : null
@@ -215,9 +218,9 @@ const SidebarElements = ({ slugPrefix, items, subItemLevel }: SidebarProps) => {
   return (
     <Box className="sidebar-component">
       {items?.map((item, index) => {
-        const key = String(item.slug) + String(index)
-        const slug = `${item.slug}`
-
+        const key = typeof item.slug === 'string' ? String(item.slug) + String(index) : String(item.slug[locale]) + String(index)
+        const slug = typeof item.slug === 'string' ? `${item.slug}` : `${item.slug[locale]}`
+  
         return (
           <Fragment key={String(key)}>
             <ElementRoot {...item} slug={slug} />
