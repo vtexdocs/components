@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.1](https://github.com/vtexdocs/components/compare/v2.1.0...v2.1.1) (2024-10-11)
+
+
+### Features
+
+* modify sidebar to handle localized slugs ([d87ec3e](https://github.com/vtexdocs/components/commit/d87ec3e30f74d856112982c7f56dad0cfc0b221f))
+
+
+### Bug Fixes
+
+* sidebar-elements localized slug ([547ca86](https://github.com/vtexdocs/components/commit/547ca86e02ad02c506e6e75bbe18d136014e0d7e))
+
 ## [2.1.0](https://github.com/vtexdocs/components/compare/v2.0.7...v2.1.0) (2024-07-22)
 
 
