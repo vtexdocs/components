@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.2.0](https://github.com/vtexdocs/components/compare/v2.1.1...v2.2.0) (2024-10-17)
+
+
+### Features
+
+* markdown links color match vtex brading and underlined links ([39a6629](https://github.com/vtexdocs/components/commit/39a66295c6e469df91807ec20bf69406fe0fcab6))
+
 ### [2.1.1](https://github.com/vtexdocs/components/compare/v2.1.0...v2.1.1) (2024-10-11)
 
 
