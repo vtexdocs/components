@@ -1,3 +1,5 @@
+import pt_default_json from '../src/messages/pt.json' assert { type: 'json' }
+
 var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -6497,7 +6499,7 @@ var es_default = {
 };
 
 // src/messages/pt.json
-var pt_default = src/messages/pt.json;
+var pt_default = pt_default_json;
 
 // src/utils/get-message.ts
 var getMessages = () => {
