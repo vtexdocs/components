@@ -1,4 +1,4 @@
-import pt_default_json from '../src/messages/pt.json' assert { type: 'json' }
+import pt_default_json from '../src/messages/pt.json'
 
 var __create = Object.create;
 var __defProp = Object.defineProperty;
