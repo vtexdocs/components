@@ -17,6 +17,6 @@ const getMessages = (): {
   return messages
 }
 
-console.log(ptMessages)
+console.log('----------------',ptMessages,'----------------')
 
 export const messages = getMessages()
