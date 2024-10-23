@@ -17,4 +17,6 @@ const getMessages = (): {
   return messages
 }
 
+console.log(ptMessages)
+
 export const messages = getMessages()
