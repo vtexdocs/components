@@ -1,6 +1,6 @@
-import enMessages from '../messages/en.json'
-import esMessages from '../messages/es.json'
-import ptMessages from '../messages/pt.json'
+// import enMessages from '../messages/en.json'
+// import esMessages from '../messages/es.json'
+// import ptMessages from '../messages/pt.json'
 
 var __create = Object.create;
 var __defProp = Object.defineProperty;
@@ -6459,13 +6459,67 @@ var styles_default5 = {
 };
 
 // src/messages/en.json
-var en_default = enMessages;
+var en_default = {
+  "feedback_section.question": "Was this helpful?",
+  "feedback_section.response": "Thank you for your feedback.",
+  "feedback_section.positive": "Yes",
+  "feedback_section.negative": "No",
+  "feedback_section.edit": "Suggest Edits (GitHub)",
+  "feedback_modal.title": "Leave a Comment (Optional)",
+  "feedback_modal.button": "Send Feedback",
+  "search_input.empty": "No results found. Try different search terms.",
+  "search_input.placeholder": "Search",
+  "sidebar_search.placeholder": "Search in",
+  "image.error_loading": "An error occurred while loading the image",
+  "api_reference_sidebar_filter_clear": "Clear All",
+  "api_reference_sidebar_filter": "Filter By",
+  "cookie_bar.title": "We use cookies",
+  "cookie_bar.description": "This website uses cookies to improve navigation, analyze usage, and assist with our marketing efforts.",
+  "cookie_bar.accept": "I agree",
+  "cookie_bar.decline": "I decline"
+};
 
 // src/messages/es.json
-var es_default = esMessages;
+var es_default = {
+  "feedback_section.question": "¿Te ha parecido útil?",
+  "feedback_section.response": "Gracias por tu feedback",
+  "feedback_section.positive": "Sí",
+  "feedback_section.negative": "No",
+  "feedback_section.edit": "Sugerir cambios (GitHub)",
+  "feedback_modal.title": "Dar feedback (opcional)",
+  "feedback_modal.button": "Enviar feedback",
+  "search_input.empty": "No se encontraron resultados. Intenta utilizar otros términos.",
+  "search_input.placeholder": "Buscar",
+  "sidebar_search.placeholder": "Buscar en",
+  "image.error_loading": "Se produjo un error al cargar la imagen",
+  "api_reference_sidebar_filter_clear": "Limpiar todo",
+  "api_reference_sidebar_filter": "Filtrar por",
+  "cookie_bar.title": "Utilizamos cookies",
+  "cookie_bar.description": "Este sitio web utiliza cookies para optimizar la navegación, analizar el uso e impulsar nuestros esfuerzos de marketing.",
+  "cookie_bar.accept": "Acepto",
+  "cookie_bar.decline": "Rechazo"
+};
 
 // src/messages/pt.json
-var pt_default = ptMessages;
+var pt_default = {
+  "feedback_section.question": "Isso foi útil?",
+  "feedback_section.response": "Agradecemos pelo seu feedback.",
+  "feedback_section.positive": "Sim",
+  "feedback_section.negative": "Não",
+  "feedback_section.edit": "Sugerir edições (GitHub)",
+  "feedback_modal.title": "Deixe um comentário (opcional)",
+  "feedback_modal.button": "Enviar feedback",
+  "search_input.empty": "Nenhum resultado encontrado. Tente buscar por outros termos.",
+  "search_input.placeholder": "Buscar",
+  "sidebar_search.placeholder": "Buscar em",
+  "image.error_loading": "Ocorreu um erro ao carregar a imagem",
+  "api_reference_sidebar_filter_clear": "Limpar tudo",
+  "api_reference_sidebar_filter": "Filtrar por",
+  "cookie_bar.title": "Nós usamos cookies",
+  "cookie_bar.description": "Este site utiliza cookies para melhorar a navegação, analisar a experiência de uso e auxiliar em nossas ações de marketing.",
+  "cookie_bar.accept": "Concordo",
+  "cookie_bar.decline": "Discordo"
+};
 
 // src/utils/get-message.ts
 var getMessages = () => {
