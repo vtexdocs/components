@@ -1,3 +1,7 @@
+import enMessages from '../messages/en.json'
+import esMessages from '../messages/es.json'
+import ptMessages from '../messages/pt.json'
+
 var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -6455,67 +6459,13 @@ var styles_default5 = {
 };
 
 // src/messages/en.json
-var en_default = {
-  "feedback_section.question": "Was this helpful?",
-  "feedback_section.response": "Thanks for your feedback.",
-  "feedback_section.positive": "Yes",
-  "feedback_section.negative": "No",
-  "feedback_section.edit": "Suggest edits (Github)",
-  "feedback_modal.title": "Leave a comment (optional)",
-  "feedback_modal.button": "Send Feedback",
-  "search_input.empty": "No results found. Try different search terms.",
-  "search_input.placeholder": "Search",
-  "sidebar_search.placeholder": "Search in",
-  "image.error_loading": "An error occurred while trying to load the image.",
-  api_reference_sidebar_filter_clear: "Clear all",
-  api_reference_sidebar_filter: "Filter by",
-  "cookie_bar.title": "We use cookies",
-  "cookie_bar.description": "This website uses cookies to improve site navigation, analyze website usage, and assist in our marketing efforts.",
-  "cookie_bar.accept": "I understand",
-  "cookie_bar.decline": "I decline"
-};
+var en_default = enMessages;
 
 // src/messages/es.json
-var es_default = {
-  "feedback_section.question": "Was this helpful?",
-  "feedback_section.response": "Thanks for your feedback.",
-  "feedback_section.positive": "Yes",
-  "feedback_section.negative": "No",
-  "feedback_section.edit": "Suggest edits (Github)",
-  "feedback_modal.title": "Leave a comment (optional)",
-  "feedback_modal.button": "Send Feedback",
-  "search_input.empty": "No results found. Try different search terms.",
-  "search_input.placeholder": "Search",
-  "sidebar_search.placeholder": "Search in",
-  "image.error_loading": "An error occurred while trying to load the image.",
-  api_reference_sidebar_filter_clear: "Clear all",
-  api_reference_sidebar_filter: "Filter by",
-  "cookie_bar.title": "We use cookies",
-  "cookie_bar.description": "This website uses cookies to improve site navigation, analyze website usage, and assist in our marketing efforts.",
-  "cookie_bar.accept": "I understand",
-  "cookie_bar.decline": "I decline"
-};
+var es_default = esMessages;
 
 // src/messages/pt.json
-var pt_default = {
-  "feedback_section.question": "Was this helpful?",
-  "feedback_section.response": "Thanks for your feedback.",
-  "feedback_section.positive": "Yes",
-  "feedback_section.negative": "No",
-  "feedback_section.edit": "Suggest edits (Github)",
-  "feedback_modal.title": "Leave a comment (optional)",
-  "feedback_modal.button": "Send Feedback",
-  "search_input.empty": "No results found. Try different search terms.",
-  "search_input.placeholder": "TEST",
-  "sidebar_search.placeholder": "TESTTEST in",
-  "image.error_loading": "An error occurred while trying to load the image.",
-  api_reference_sidebar_filter_clear: "Clear all",
-  api_reference_sidebar_filter: "Filter by",
-  "cookie_bar.title": "We use cookies",
-  "cookie_bar.description": "This website uses cookies to improve site navigation, analyze website usage, and assist in our marketing efforts.",
-  "cookie_bar.accept": "I understand",
-  "cookie_bar.decline": "I decline"
-};
+var pt_default = ptMessages;
 
 // src/utils/get-message.ts
 var getMessages = () => {
