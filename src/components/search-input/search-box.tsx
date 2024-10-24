@@ -37,6 +37,10 @@ const SearchBoxComponent = ({
     }
   }
 
+  console.log('----------- search-box.tsx -------------')
+  console.log(locale)
+  console.log('------------------------')
+
   return (
     <Flex sx={styles.searchContainer} onClick={handleClick}>
       <SearchIcon sx={styles.searchIcon} />
@@ -45,7 +49,7 @@ const SearchBoxComponent = ({
         ref={inputRef}
         className="searchComponent"
         type="text"
-        placeholder={`${locale} ${messages[locale]['search_input.placeholder']}`}
+        placeholder={messages[locale]['search_input.placeholder']}
         value={currentRefinement}
         data-cy="search"
         onKeyDown={(e) => keyPressed(e)}
