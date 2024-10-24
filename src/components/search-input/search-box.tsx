@@ -45,7 +45,7 @@ const SearchBoxComponent = ({
         ref={inputRef}
         className="searchComponent"
         type="text"
-        placeholder={messages[locale]['search_input.placeholder']}
+        placeholder={`${locale} ${messages[locale]['search_input.placeholder']}`}
         value={currentRefinement}
         data-cy="search"
         onKeyDown={(e) => keyPressed(e)}
