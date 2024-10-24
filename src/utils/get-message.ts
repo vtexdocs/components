@@ -13,10 +13,8 @@ const getMessages = (): {
     es: esMessages,
     pt: ptMessages,
   }
-
+  
   return messages
 }
-
-console.log('----------------',ptMessages,'----------------')
 
 export const messages = getMessages()
