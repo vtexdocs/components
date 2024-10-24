@@ -1,6 +1,6 @@
-import enMessages from '../src/messages/en.json'
-import esMessages from '../src/messages/es.json'
-import ptMessages from '../src/messages/pt.json'
+import enMessages from '../src/messages/en.json' assert { type: 'json' }
+import esMessages from '../src/messages/es.json' assert { type: 'json' }
+import ptMessages from '../src/messages/pt.json' assert { type: 'json' }
 
 var __create = Object.create;
 var __defProp = Object.defineProperty;
@@ -11441,6 +11441,7 @@ var styles_default25 = {
 import { Flex as Flex22, Text as Text17 } from "@vtex/brand-ui";
 import aa3 from "search-insights";
 import { jsx as jsx61, jsxs as jsxs49 } from "react/jsx-runtime";
+import { assert } from 'console';
 var Button7 = ({ children, style, ...props }) => {
   return /* @__PURE__ */ jsx61(Flex22, { sx: style, ...props, children });
 };
