@@ -49,6 +49,7 @@ export type ContextType = {
   hamburguerSections: Section[][]
   setHamburguerSections: Dispatch<SetStateAction<Section[][]>>
   locale: 'en' | 'pt' | 'es'
+  setLocale: Dispatch<SetStateAction<ContextType["locale"]>>
 }
 
 type ActiveItem = {
@@ -87,6 +88,7 @@ export const LibraryContext = createContext<ContextType>({
   hamburguerSections: [],
   setHamburguerSections: () => undefined,
   locale: 'en',
+  setLocale: () => undefined,
 })
 
 /** Provider for the LibraryContext created with React.createContext. The context is used in the following components: feedback, search, sidebar, hamburger menu, markdown renderer and table of contents. */
@@ -109,7 +111,7 @@ const LibraryContextProvider = ({ children, ...props }: Props) => {
   const [hamburguerSections, setHamburguerSections] = useState(
     props.hamburguerMenuSections
   )
-  const locale = 'en'
+  const [locale, setLocale] = useState<ContextType["locale"]>('en')
 
   useEffect(() => {
     setSidebarDataMaster(props.fallback)
@@ -212,6 +214,7 @@ const LibraryContextProvider = ({ children, ...props }: Props) => {
         hamburguerSections,
         setHamburguerSections,
         locale,
+        setLocale,
         ...props,
       }}
     >
