@@ -11441,7 +11441,6 @@ var styles_default25 = {
 import { Flex as Flex22, Text as Text17 } from "@vtex/brand-ui";
 import aa3 from "search-insights";
 import { jsx as jsx61, jsxs as jsxs49 } from "react/jsx-runtime";
-import { assert } from 'console';
 var Button7 = ({ children, style, ...props }) => {
   return /* @__PURE__ */ jsx61(Flex22, { sx: style, ...props, children });
 };
