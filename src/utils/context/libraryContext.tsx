@@ -123,6 +123,10 @@ const LibraryContextProvider = ({ children, ...props }: Props) => {
       setActiveSectionName(props.sectionSelected)
   }, [props.sectionSelected])
 
+  useEffect(() => {
+    setLocale('en')
+  }, [])
+
   const { fallback } = props
 
   const toggleSidebarElementStatus = (title: string) => {
