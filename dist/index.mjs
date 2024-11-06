@@ -6299,7 +6299,7 @@ var LibraryContextProvider = ({ children, ...props }) => {
   const [hamburguerSections, setHamburguerSections] = useState2(
     props.hamburguerMenuSections
   );
-  const [locale, setLocale] = useState<ContextType["locale"]>('en');
+  const [locale, setLocale] = useState2('en');
   useEffect3(() => {
     setSidebarDataMaster(props.fallback);
   }, [props.fallback]);
