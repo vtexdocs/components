@@ -6278,7 +6278,8 @@ var LibraryContext = createContext({
   setSidebarSections: () => void 0,
   hamburguerSections: [],
   setHamburguerSections: () => void 0,
-  locale: "en"
+  locale: "en",
+  setLocale: () => undefined
 });
 var LibraryContextProvider = ({ children, ...props }) => {
   const [headingItems, setHeadingItems] = useState2([]);
@@ -6298,7 +6299,7 @@ var LibraryContextProvider = ({ children, ...props }) => {
   const [hamburguerSections, setHamburguerSections] = useState2(
     props.hamburguerMenuSections
   );
-  const locale = "en";
+  const [locale, setLocale] = useState<ContextType["locale"]>('en');
   useEffect3(() => {
     setSidebarDataMaster(props.fallback);
   }, [props.fallback]);
@@ -6386,6 +6387,7 @@ var LibraryContextProvider = ({ children, ...props }) => {
         hamburguerSections,
         setHamburguerSections,
         locale,
+        setLocale,
         ...props
       },
       children: /* @__PURE__ */ jsx8(
