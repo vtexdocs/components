@@ -127,6 +127,7 @@ type ContextType = {
     hamburguerSections: Section[][];
     setHamburguerSections: Dispatch<SetStateAction<Section[][]>>;
     locale: 'en' | 'pt' | 'es';
+    setLocale: Dispatch<SetStateAction<ContextType["locale"]>>;
 };
 type ActiveItem = {
     item: string;
