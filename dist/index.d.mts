@@ -148,4 +148,4 @@ interface AlgoliaConfig {
 }
 declare const createAlgoliaClient: (config: AlgoliaConfig) => void;
 
-export { CookieBar, FeedbackSection, HamburgerMenu, type Item, LibraryContext, LibraryContextProvider, MarkdownRenderer, Search, createAlgoliaClient as SearchConfig, SearchInput, ShareButton, Sidebar, TableOfContents };
+export { CookieBar, FeedbackSection, HamburgerMenu, Item, LibraryContext, LibraryContextProvider, MarkdownRenderer, Search, createAlgoliaClient as SearchConfig, SearchInput, ShareButton, Sidebar, TableOfContents };
