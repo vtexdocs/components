@@ -6,6 +6,7 @@ import AppDevelopmentIcon from 'components/icons/app-development-icon'
 import ReleaseNotesIcon from 'components/icons/release-notes-icon'
 import StorefrontDevelopmentIcon from 'components/icons/storefront-development-icon'
 import VTEXIOAppsIcon from 'components/icons/vtex-io-apps-icon'
+import TroubleshootingIcon from 'components/icons/troubleshooting-icon'
 import { IconComponent } from './typings/types'
 import AddedIcon from 'components/icons/added-icon'
 import DeprecatedIcon from 'components/icons/deprecated-icon'
@@ -52,6 +53,10 @@ const iconsMap: IconsI[] = [
   {
     Icon: VTEXIOAppsIcon,
     name: 'VTEX IO Apps',
+  },
+  {
+    Icon: TroubleshootingIcon,
+    name: 'Troubleshooting',
   },
   {
     Icon: ReleaseNotesIcon,

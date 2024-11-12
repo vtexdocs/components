@@ -39,7 +39,7 @@
     "copy-text-to-clipboard": "^3.0.1",
     "html-react-parser": "^3.0.15",
     "mermaid": "^10.1.0",
-    "next": "^14.2.14",
+    "next": "13.2.4",
     "next-mdx-remote": "^4.1.0",
     "react-animate-height": "^3.0.4",
     "react-cookie-consent": "^9.0.0",

@@ -46,7 +46,12 @@ table .styles_code {
   grid-row: 1 / 1;
 }
 .styles_blockquote a {
-  color: #D4084C !important;
+  color: #e31c58 !important;
+  -webkit-text-decoration: underline 1px solid;
+  text-decoration: underline 1px solid;
+}
+.styles_blockquote a:hover {
+  color: #c81e51;
 }
 .styles_blockquoteInfo {
   background: #f8f7fc;
