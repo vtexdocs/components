@@ -11316,7 +11316,6 @@ var styles_default22 = {
 // src/components/search-results/index.tsx
 import { jsx as jsx59, jsxs as jsxs47 } from "react/jsx-runtime";
 var SearchResults = () => {
-  const { locale } = useContext16(LibraryContext);
   const router = useRouter7();
   const { filterSelectedSection, ocurrenceCount } = useContext16(SearchContext);
   const filters = filterSelectedSection ? `doctype: "${filterSelectedSection}"` : "";
@@ -11355,8 +11354,8 @@ var SearchResults = () => {
               filters,
               query: router.query.keyword,
               clickAnalytics: true,
+              hitsPerPage: 6,
               facets: ["doctype"],
-              facetFilters: [`language:${locale}`],
               facetingAfterDistinct: true
             }
           ),
