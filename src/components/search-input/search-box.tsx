@@ -37,10 +37,6 @@ const SearchBoxComponent = ({
     }
   }
 
-  console.log('----------- search-box.tsx -------------')
-  console.log(locale)
-  console.log('------------------------')
-
   return (
     <Flex sx={styles.searchContainer} onClick={handleClick}>
       <SearchIcon sx={styles.searchIcon} />
