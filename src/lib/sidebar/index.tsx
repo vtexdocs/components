@@ -61,8 +61,9 @@ const Sidebar = ({ parentsArray = [] }: SideBarSectionState) => {
   }, [activeSectionName])
 
   const SideBarIcon = (sectionElement: Section) => {
+    const currentSectionName = typeof sectionElement.title === 'string' ? sectionElement.title : sectionElement.title[locale]
     const [iconTooltip, setIconTooltip] = useState(false)
-    const [tooltipLabel, setTooltipLabel] = useState(sectionElement.title)
+    const [tooltipLabel, setTooltipLabel] = useState(currentSectionName)
     const titleRef = useRef<HTMLElement>()
 
     useEffect(() => {
@@ -98,10 +99,10 @@ const Sidebar = ({ parentsArray = [] }: SideBarSectionState) => {
               if (isEditorPreview) {
                 e.preventDefault()
               }
-              setActiveSectionName(sectionElement.title)
+              setActiveSectionName(currentSectionName)
             }}
             passHref
-            aria-label={sectionElement.title}
+            aria-label={currentSectionName}
           >
             <Flex
               sx={
