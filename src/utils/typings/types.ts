@@ -3,7 +3,7 @@ import { IconProps } from '@vtex/brand-ui'
 export type Section = {
   id: string
   link: string
-  title: string
+  title: string | { en: string; pt: string; es: string }
   description: string
   Icon: (props: IconProps) => JSX.Element
 }
