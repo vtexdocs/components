@@ -7,7 +7,7 @@ import { MouseEventHandler } from 'react'
 import { DataElement } from 'utils/typings/types'
 
 export interface DocumentProps extends DataElement {
-  title: string
+  title: string | { en: string; pt: string; es: string }
 }
 export interface CardProps extends DocumentProps {
   containerType: 'dropdown' | 'see-also' | 'mobile'
