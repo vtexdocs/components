@@ -61,7 +61,10 @@ const Sidebar = ({ parentsArray = [] }: SideBarSectionState) => {
   }, [activeSectionName])
 
   const SideBarIcon = (sectionElement: Section) => {
-    const currentSectionName = typeof sectionElement.title === 'string' ? sectionElement.title : sectionElement.title[locale]
+    const currentSectionName = typeof sectionElement.title === 'string' ? sectionElement.title : sectionElement.title['es']
+    console.log('currentSectionName --------------------')
+    console.log('.../sidebar/index.tsx --------------------')
+    console.log(currentSectionName)
     const [iconTooltip, setIconTooltip] = useState(false)
     const [tooltipLabel, setTooltipLabel] = useState(currentSectionName)
     const titleRef = useRef<HTMLElement>()
