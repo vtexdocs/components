@@ -16,6 +16,8 @@ const imageContainer: SxStyleProp = {
     display: 'block',
     padding: '0',
     margin: '0',
+    border: '1px solid #e7e9ed',
+    borderRadius: '4px'
   },
 }
 

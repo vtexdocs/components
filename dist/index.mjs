@@ -3786,24 +3786,33 @@ import { CH } from "@code-hike/mdx/components";
 // src/components/overview-card/styles.ts
 var overviewCard = {
   alignItems: "flex-start",
-  margin: "40px 0px",
+  margin: "20px 0px",
+  border: "1px solid #E7E9EE",
+  borderRadius: "4px",
+  padding: "18px 24px 4px",
+  color: "#4A596B",
+  ":active, :hover": {
+    borderColor: "muted.2",
+    boxShadow: "0px 0px 16px rgba(0, 0, 0, 0.1)",
+    transition: "all 0.3 ease-out",
+    "*": {
+      color: "#000711"
+    }
+  },
   ul: {
     borderLeft: "1px rgb(202, 203, 204) solid",
-    fontSize: "0.875em",
+    fontSize: "0.9em",
+    mt: "0",
     paddingLeft: "1.5em",
     listStyleType: "none",
     display: "block",
     textDecoration: "none"
   },
-  h3: {
+  "h3, h4": {
+    color: "#4A596B",
     fontSize: "1.125em",
-    fontWeight: "600",
-    my: "0"
-  },
-  h4: {
-    fontSize: "1.05em",
     fontWeight: "400",
-    marginBottom: "0"
+    my: "0"
   }
 };
 var overviewIcon = {
@@ -3834,8 +3843,8 @@ var StorageUnit = (props) => /* @__PURE__ */ jsx(
         strokeLinecap: "square",
         strokeLinejoin: "miter",
         strokeWidth: "2",
-        fill: "#f71963",
-        stroke: "#f71963",
+        fill: "#4A596B",
+        stroke: "#4A596B",
         children: [
           /* @__PURE__ */ jsx(
             "rect",
@@ -3845,7 +3854,7 @@ var StorageUnit = (props) => /* @__PURE__ */ jsx(
               width: "18",
               height: "15",
               fill: "none",
-              stroke: "#142032",
+              stroke: "#4A596B",
               strokeMiterlimit: "10"
             }
           ),
@@ -3866,7 +3875,7 @@ var StorageUnit = (props) => /* @__PURE__ */ jsx(
               x2: "24",
               y2: "20",
               fill: "none",
-              stroke: "#142032",
+              stroke: "#4A596B",
               strokeMiterlimit: "10"
             }
           ),
@@ -3878,7 +3887,7 @@ var StorageUnit = (props) => /* @__PURE__ */ jsx(
               width: "18",
               height: "15",
               fill: "none",
-              stroke: "#142032",
+              stroke: "#4A596B",
               strokeMiterlimit: "10"
             }
           ),
@@ -3890,7 +3899,7 @@ var StorageUnit = (props) => /* @__PURE__ */ jsx(
               x2: "15",
               y2: "35",
               fill: "none",
-              stroke: "#142032",
+              stroke: "#4A596B",
               strokeMiterlimit: "10"
             }
           ),
@@ -3902,7 +3911,7 @@ var StorageUnit = (props) => /* @__PURE__ */ jsx(
               width: "18",
               height: "15",
               fill: "none",
-              stroke: "#142032",
+              stroke: "#4A596B",
               strokeMiterlimit: "10"
             }
           ),
@@ -3914,7 +3923,7 @@ var StorageUnit = (props) => /* @__PURE__ */ jsx(
               x2: "33",
               y2: "35",
               fill: "none",
-              stroke: "#142032",
+              stroke: "#4A596B",
               strokeMiterlimit: "10"
             }
           )
@@ -3936,8 +3945,8 @@ var Board = (props) => /* @__PURE__ */ jsx(
         strokeLinecap: "square",
         strokeLinejoin: "miter",
         strokeWidth: "2",
-        fill: "#f71963",
-        stroke: "#f71963",
+        fill: "#4A596B",
+        stroke: "#4A596B",
         children: [
           /* @__PURE__ */ jsx(
             "rect",
@@ -3947,7 +3956,7 @@ var Board = (props) => /* @__PURE__ */ jsx(
               width: "40",
               height: "40",
               fill: "none",
-              stroke: "#142032",
+              stroke: "#4A596B",
               strokeMiterlimit: "10"
             }
           ),
@@ -4004,7 +4013,7 @@ var Integration = (props) => /* @__PURE__ */ jsxs(
           fillRule: "evenodd",
           clipRule: "evenodd",
           d: "M18 17H20C20.552 17 21 17.448 21 18V20C21 20.552 20.552 21 20 21H18C17.448 21 17 20.552 17 20V18C17 17.448 17.448 17 18 17Z",
-          stroke: "#F71963",
+          stroke: "#4A596B",
           strokeWidth: "1.5",
           strokeLinecap: "round",
           strokeLinejoin: "round"
@@ -4016,7 +4025,7 @@ var Integration = (props) => /* @__PURE__ */ jsxs(
           fillRule: "evenodd",
           clipRule: "evenodd",
           d: "M4 3H6C6.552 3 7 3.448 7 4V6C7 6.552 6.552 7 6 7H4C3.448 7 3 6.552 3 6V4C3 3.448 3.448 3 4 3Z",
-          stroke: "#F71963",
+          stroke: "#4A596B",
           strokeWidth: "1.5",
           strokeLinecap: "round",
           strokeLinejoin: "round"
@@ -4028,7 +4037,7 @@ var Integration = (props) => /* @__PURE__ */ jsxs(
           fillRule: "evenodd",
           clipRule: "evenodd",
           d: "M11 10H13C13.552 10 14 10.448 14 11V13C14 13.552 13.552 14 13 14H11C10.448 14 10 13.552 10 13V11C10 10.448 10.448 10 11 10Z",
-          stroke: "#F71963",
+          stroke: "#4A596B",
           strokeWidth: "1.5",
           strokeLinecap: "round",
           strokeLinejoin: "round"
@@ -4070,7 +4079,7 @@ var SearchList = (props) => /* @__PURE__ */ jsxs(
         "path",
         {
           d: "M18.98 6.98L21 9",
-          stroke: "#F71963",
+          stroke: "#4A596B",
           strokeWidth: "1.5",
           strokeLinecap: "round",
           strokeLinejoin: "round"
@@ -4080,7 +4089,7 @@ var SearchList = (props) => /* @__PURE__ */ jsxs(
         "path",
         {
           d: "M18.9796 2.85437C20.1188 3.99353 20.1188 5.84047 18.9796 6.97963C17.8404 8.11879 15.9935 8.11879 14.8543 6.97963C13.7152 5.84047 13.7152 3.99353 14.8543 2.85437C15.9935 1.71521 17.8404 1.71521 18.9796 2.85437",
-          stroke: "#F71963",
+          stroke: "#4A596B",
           strokeWidth: "1.5",
           strokeLinecap: "round",
           strokeLinejoin: "round"
@@ -4102,7 +4111,7 @@ var SearchList = (props) => /* @__PURE__ */ jsxs(
           fillRule: "evenodd",
           clipRule: "evenodd",
           d: "M5.25 14.5H3.75C3.336 14.5 3 14.164 3 13.75V12.25C3 11.836 3.336 11.5 3.75 11.5H5.25C5.664 11.5 6 11.836 6 12.25V13.75C6 14.164 5.664 14.5 5.25 14.5Z",
-          stroke: "#F71963",
+          stroke: "#4A596B",
           strokeWidth: "1.5",
           strokeLinecap: "round",
           strokeLinejoin: "round"
@@ -4124,7 +4133,7 @@ var SearchList = (props) => /* @__PURE__ */ jsxs(
           fillRule: "evenodd",
           clipRule: "evenodd",
           d: "M5.25 21H3.75C3.336 21 3 20.664 3 20.25V18.75C3 18.336 3.336 18 3.75 18H5.25C5.664 18 6 18.336 6 18.75V20.25C6 20.664 5.664 21 5.25 21Z",
-          stroke: "#F71963",
+          stroke: "#4A596B",
           strokeWidth: "1.5",
           strokeLinecap: "round",
           strokeLinejoin: "round"
@@ -4186,7 +4195,7 @@ var SwitchArrows = (props) => /* @__PURE__ */ jsxs(
         "path",
         {
           d: "M17 14.25L19 12.25L21 14.25",
-          stroke: "#F71963",
+          stroke: "#4A596B",
           strokeWidth: "1.5",
           strokeLinecap: "round",
           strokeLinejoin: "round"
@@ -4198,7 +4207,7 @@ var SwitchArrows = (props) => /* @__PURE__ */ jsxs(
           fillRule: "evenodd",
           clipRule: "evenodd",
           d: "M5.5 21C4.119 21 3 19.881 3 18.5C3 17.119 4.119 16 5.5 16C6.881 16 8 17.119 8 18.5C8 19.881 6.881 21 5.5 21Z",
-          stroke: "#F71963",
+          stroke: "#4A596B",
           strokeWidth: "1.5"
         }
       ),
@@ -4206,7 +4215,7 @@ var SwitchArrows = (props) => /* @__PURE__ */ jsxs(
         "path",
         {
           d: "M8 18.5H17C18.105 18.5 19 17.605 19 16.5V12.25",
-          stroke: "#F71963",
+          stroke: "#4A596B",
           strokeWidth: "1.5",
           strokeLinecap: "round",
           strokeLinejoin: "round"
@@ -4228,7 +4237,7 @@ var SearchDetails = (props) => /* @__PURE__ */ jsxs(
         "path",
         {
           d: "M15.456 9.75699L12.037 13.177L9.75703 10.897L7.47803 13.177",
-          stroke: "#F71963",
+          stroke: "#4A596B",
           strokeWidth: "1.5",
           strokeLinecap: "round",
           strokeLinejoin: "round"
@@ -4238,7 +4247,7 @@ var SearchDetails = (props) => /* @__PURE__ */ jsxs(
         "path",
         {
           d: "M16.747 6.18703C19.663 9.10307 19.663 13.8309 16.747 16.7469C13.831 19.663 9.1031 19.663 6.18709 16.7469C3.27105 13.8309 3.27105 9.10304 6.18709 6.18703C9.10313 3.27099 13.831 3.27099 16.747 6.18703",
-          stroke: "#142032",
+          stroke: "#4A596B",
           strokeWidth: "1.5",
           strokeLinecap: "round",
           strokeLinejoin: "round"
@@ -4248,7 +4257,7 @@ var SearchDetails = (props) => /* @__PURE__ */ jsxs(
         "path",
         {
           d: "M20 20L16.75 16.75",
-          stroke: "#142032",
+          stroke: "#4A596B",
           strokeWidth: "1.5",
           strokeLinecap: "round",
           strokeLinejoin: "round"
@@ -4281,7 +4290,7 @@ var List = (props) => /* @__PURE__ */ jsxs(
         "path",
         {
           d: "M11 12H21",
-          stroke: "#F71963",
+          stroke: "#4A596B",
           strokeWidth: "1.5",
           strokeLinecap: "round",
           strokeLinejoin: "round"
@@ -4318,7 +4327,7 @@ var List = (props) => /* @__PURE__ */ jsxs(
           fillRule: "evenodd",
           clipRule: "evenodd",
           d: "M6 14H4C3.448 14 3 13.552 3 13V11C3 10.448 3.448 10 4 10H6C6.552 10 7 10.448 7 11V13C7 13.552 6.552 14 6 14Z",
-          stroke: "#F71963",
+          stroke: "#4A596B",
           strokeWidth: "1.5",
           strokeLinecap: "round",
           strokeLinejoin: "round"
@@ -4388,7 +4397,7 @@ var StoreCart = (props) => /* @__PURE__ */ jsxs(
         "path",
         {
           d: "M4.59999 14.95H11L10.3 18.45H5.29999L4.29999 13.45H3.04999",
-          stroke: "#F71963",
+          stroke: "#4A596B",
           strokeWidth: "1.5",
           strokeLinecap: "round",
           strokeLinejoin: "round"
@@ -4443,7 +4452,7 @@ var GlobeCart = (props) => /* @__PURE__ */ jsxs(
         "path",
         {
           d: "M22 14H20.742L19.736 19.031H14.705L14 15.509H20.44",
-          stroke: "#F71963",
+          stroke: "#4A596B",
           strokeWidth: "1.5",
           strokeLinecap: "round",
           strokeLinejoin: "round"
@@ -4554,7 +4563,7 @@ var PaymentHand = (props) => /* @__PURE__ */ jsxs(
           fillRule: "evenodd",
           clipRule: "evenodd",
           d: "M10.667 10H19.334C20.254 10 21 9.254 21 8.333V3.667C21 2.746 20.254 2 19.333 2H10.666C9.746 2 9 2.746 9 3.667V8.334C9 9.254 9.746 10 10.667 10Z",
-          stroke: "#F71963",
+          stroke: "#4A596B",
           strokeWidth: "1.5",
           strokeLinecap: "round",
           strokeLinejoin: "round"
@@ -4628,7 +4637,7 @@ var ToStore = (props) => /* @__PURE__ */ jsxs(
         "path",
         {
           d: "M16 21H17.5C18.881 21 20 19.881 20 18.5V18.5C20 17.119 18.881 16 17.5 16H13",
-          stroke: "#F71963",
+          stroke: "#4A596B",
           strokeWidth: "1.5",
           strokeLinecap: "round",
           strokeLinejoin: "round"
@@ -4638,7 +4647,7 @@ var ToStore = (props) => /* @__PURE__ */ jsxs(
         "path",
         {
           d: "M15 18L13 16L15 14",
-          stroke: "#F71963",
+          stroke: "#4A596B",
           strokeWidth: "1.5",
           strokeLinecap: "round",
           strokeLinejoin: "round"
@@ -4670,7 +4679,7 @@ var ChangeCart = (props) => /* @__PURE__ */ jsxs(
         "path",
         {
           d: "M22.5 12.75L21 14.25L19.5 12.75",
-          stroke: "#F71963",
+          stroke: "#4A596B",
           strokeWidth: "1.5",
           strokeLinecap: "round",
           strokeLinejoin: "round"
@@ -4690,7 +4699,7 @@ var ChangeCart = (props) => /* @__PURE__ */ jsxs(
         "path",
         {
           d: "M20.765 14.015C20.914 13.366 21 12.694 21 12C21 7.029 16.971 3 12 3C8.94803 3 6.25603 4.522 4.62903 6.845",
-          stroke: "#F71963",
+          stroke: "#4A596B",
           strokeWidth: "1.5",
           strokeLinecap: "round",
           strokeLinejoin: "round"
@@ -4745,8 +4754,8 @@ var Blocks = (props) => /* @__PURE__ */ jsxs(
           strokeLinecap: "square",
           strokeLinejoin: "miter",
           strokeWidth: "2",
-          fill: "#f71963",
-          stroke: "#f71963",
+          fill: "#4A596B",
+          stroke: "#4A596B",
           children: [
             " ",
             /* @__PURE__ */ jsx(
@@ -4757,7 +4766,7 @@ var Blocks = (props) => /* @__PURE__ */ jsxs(
                 width: "40",
                 height: "40",
                 fill: "none",
-                stroke: "#142032",
+                stroke: "#4A596B",
                 strokeMiterlimit: "10"
               }
             ),
@@ -4817,7 +4826,7 @@ var StoreData = (props) => /* @__PURE__ */ jsxs(
         "path",
         {
           d: "M19.576 4.40599C20.236 5.06499 20.236 6.13399 19.576 6.79299C18.916 7.45199 17.847 7.45199 17.187 6.79299C16.527 6.13399 16.527 5.06499 17.187 4.40599C17.847 3.74699 18.916 3.74699 19.576 4.40599",
-          stroke: "#F71963",
+          stroke: "#4A596B",
           strokeWidth: "1.5",
           strokeLinecap: "round",
           strokeLinejoin: "round"
@@ -4847,7 +4856,7 @@ var StoreData = (props) => /* @__PURE__ */ jsxs(
         "path",
         {
           d: "M3.126 13.588C3.032 13.063 3 12.532 3 12C3 9.696 3.88 7.392 5.639 5.634C8.747 2.528 13.56 2.17 17.066 4.552",
-          stroke: "#F71963",
+          stroke: "#4A596B",
           strokeWidth: "1.5",
           strokeLinecap: "round",
           strokeLinejoin: "round"
@@ -4969,7 +4978,7 @@ var FileConfiguration = (props) => /* @__PURE__ */ jsxs(
         "path",
         {
           d: "M17.659 15.167C18.949 15.167 19.993 16.211 19.993 17.501C19.993 18.791 18.949 19.835 17.659 19.835C16.369 19.835 15.325 18.789 15.325 17.501C15.325 16.213 16.369 15.167 17.659 15.167",
-          stroke: "#F71963",
+          stroke: "#4A596B",
           strokeWidth: "1.5",
           strokeLinecap: "round",
           strokeLinejoin: "round"
@@ -4991,7 +5000,7 @@ var Cart = (props) => /* @__PURE__ */ jsxs(
         "path",
         {
           d: "M15.006 16.542C14.88 16.542 14.777 16.644 14.779 16.771C14.779 16.897 14.881 17 15.008 17C15.135 17 15.237 16.898 15.237 16.771C15.235 16.644 15.132 16.542 15.006 16.542",
-          stroke: "#F71963",
+          stroke: "#4A596B",
           strokeWidth: "1.5",
           strokeLinecap: "round",
           strokeLinejoin: "round"
@@ -5001,7 +5010,7 @@ var Cart = (props) => /* @__PURE__ */ jsxs(
         "path",
         {
           d: "M9.74803 16.542C9.62203 16.542 9.51903 16.644 9.52103 16.771C9.52003 16.897 9.62303 17 9.74903 17C9.87503 17 9.97803 16.898 9.97803 16.771C9.97803 16.644 9.87503 16.542 9.74803 16.542",
-          stroke: "#F71963",
+          stroke: "#4A596B",
           strokeWidth: "1.5",
           strokeLinecap: "round",
           strokeLinejoin: "round"
@@ -5013,7 +5022,7 @@ var Cart = (props) => /* @__PURE__ */ jsxs(
           fillRule: "evenodd",
           clipRule: "evenodd",
           d: "M17 21H7C4.791 21 3 19.209 3 17V7C3 4.791 4.791 3 7 3H17C19.209 3 21 4.791 21 7V17C21 19.209 19.209 21 17 21Z",
-          stroke: "#142032",
+          stroke: "#4A596B",
           strokeWidth: "1.5",
           strokeLinecap: "round",
           strokeLinejoin: "round"
@@ -5023,7 +5032,7 @@ var Cart = (props) => /* @__PURE__ */ jsxs(
         "path",
         {
           d: "M7.984 8.875H15.875C16.282 8.875 16.58 9.257 16.481 9.652L15.639 13.022C15.511 13.534 15.076 13.91 14.551 13.963L10.291 14.389C9.656 14.452 9.075 14.028 8.944 13.404L7.578 7H6.5",
-          stroke: "#F71963",
+          stroke: "#4A596B",
           strokeWidth: "1.5",
           strokeLinecap: "round",
           strokeLinejoin: "round"
@@ -5046,7 +5055,7 @@ var Platform = (props) => /* @__PURE__ */ jsx(
         strokeLinecap: "square",
         strokeWidth: "2",
         fill: "none",
-        stroke: "#f71963",
+        stroke: "#4A596B",
         strokeLinejoin: "miter",
         strokeMiterlimit: "10",
         children: [
@@ -5059,7 +5068,7 @@ var Platform = (props) => /* @__PURE__ */ jsx(
               points: "1 7 12 2 23 7",
               "data-cap": "butt",
               strokeLinecap: "butt",
-              stroke: "#142032"
+              stroke: "#4A596B"
             }
           ),
           /* @__PURE__ */ jsx("line", { x1: "12", y1: "8", x2: "12", y2: "10" }),
@@ -5078,27 +5087,27 @@ var RestApis = (props) => /* @__PURE__ */ jsx(
     viewBox: "0 0 24 24",
     width: "25",
     height: "25",
-    children: /* @__PURE__ */ jsxs("g", { fill: "#142032", children: [
+    children: /* @__PURE__ */ jsxs("g", { fill: "#4A596B", children: [
       /* @__PURE__ */ jsx("path", { d: "M17,17H15.858a3.915,3.915,0,0,0-.425-1.019l.81-.81a1,1,0,1,0-1.414-1.414l-.81.81A3.915,3.915,0,0,0,13,14.142V13a1,1,0,0,0-2,0v1.142a3.915,3.915,0,0,0-1.019.425l-.81-.81a1,1,0,1,0-1.414,1.414l.81.81A3.915,3.915,0,0,0,8.142,17H7a1,1,0,0,0,0,2H8.142a3.915,3.915,0,0,0,.425,1.019l-.81.81a1,1,0,1,0,1.414,1.414l.81-.81A3.915,3.915,0,0,0,11,21.858V23a1,1,0,0,0,2,0V21.858a3.915,3.915,0,0,0,1.019-.425l.81.81a1,1,0,1,0,1.414-1.414l-.81-.81A3.915,3.915,0,0,0,15.858,19H17a1,1,0,0,0,0-2Zm-5,3a2,2,0,1,1,2-2A2,2,0,0,1,12,20Z" }),
       /* @__PURE__ */ jsx(
         "path",
         {
           d: "M15,3a3,3,0,1,0-4,2.816V9a1,1,0,0,0,2,0V5.816A3,3,0,0,0,15,3Z",
-          fill: "#f71963"
+          fill: "#4A596B"
         }
       ),
       /* @__PURE__ */ jsx(
         "path",
         {
           d: "M6.271,10.856,4,8.586V5.816a3,3,0,1,0-2,0V9a1,1,0,0,0,.293.707l2.564,2.564a1,1,0,1,0,1.414-1.415Z",
-          fill: "#f71963"
+          fill: "#4A596B"
         }
       ),
       /* @__PURE__ */ jsx(
         "path",
         {
           d: "M24,3a3,3,0,1,0-4,2.816v2.77l-2.271,2.27a1,1,0,0,0,1.414,1.415l2.564-2.564A1,1,0,0,0,22,9V5.816A3,3,0,0,0,24,3Z",
-          fill: "#f71963"
+          fill: "#4A596B"
         }
       )
     ] })
@@ -5207,7 +5216,7 @@ var Orders = (props) => /* @__PURE__ */ jsxs(
         "path",
         {
           d: "M8 11H12",
-          stroke: "#F71963",
+          stroke: "#4A596B",
           strokeWidth: "1.5",
           strokeLinecap: "round",
           strokeLinejoin: "round"
@@ -5253,7 +5262,7 @@ var Checkout = (props) => /* @__PURE__ */ jsxs(
         "path",
         {
           d: "M17.109 19.267C16.907 19.267 16.743 19.431 16.745 19.633C16.745 19.835 16.909 19.999 17.111 19.999C17.313 19.999 17.477 19.835 17.477 19.633C17.476 19.431 17.312 19.267 17.109 19.267",
-          stroke: "#F71963",
+          stroke: "#4A596B",
           strokeWidth: "1.5",
           strokeLinecap: "round",
           strokeLinejoin: "round"
@@ -5264,7 +5273,7 @@ var Checkout = (props) => /* @__PURE__ */ jsxs(
         "path",
         {
           d: "M8.697 19.267C8.495 19.267 8.331 19.431 8.333 19.633C8.331 19.836 8.496 20 8.698 20C8.9 20 9.064 19.836 9.064 19.634C9.064 19.431 8.9 19.267 8.697 19.267",
-          stroke: "#F71963",
+          stroke: "#4A596B",
           strokeWidth: "1.5",
           strokeLinecap: "round",
           strokeLinejoin: "round"
@@ -5308,7 +5317,7 @@ var Payments = (props) => /* @__PURE__ */ jsxs(
         "path",
         {
           d: "M9 15H1",
-          stroke: "#F71963",
+          stroke: "#4A596B",
           strokeWidth: "1.5",
           strokeLinecap: "round",
           strokeLinejoin: "round"
@@ -5319,7 +5328,7 @@ var Payments = (props) => /* @__PURE__ */ jsxs(
         "path",
         {
           d: "M7 13L9 15L7 17",
-          stroke: "#F71963",
+          stroke: "#4A596B",
           strokeWidth: "1.5",
           strokeLinecap: "round",
           strokeLinejoin: "round"
@@ -5365,7 +5374,7 @@ var Promotions = (props) => /* @__PURE__ */ jsxs(
         "path",
         {
           d: "M9 15L15 9",
-          stroke: "#F71963",
+          stroke: "#4A596B",
           strokeWidth: "1.5",
           strokeLinecap: "round",
           strokeLinejoin: "round"
@@ -5376,7 +5385,7 @@ var Promotions = (props) => /* @__PURE__ */ jsxs(
         "path",
         {
           d: "M9.249 9C9.111 9 8.999 9.112 9 9.25C9 9.388 9.112 9.5 9.25 9.5C9.388 9.5 9.5 9.388 9.5 9.25C9.5 9.112 9.388 9 9.249 9",
-          stroke: "#F71963",
+          stroke: "#4A596B",
           strokeWidth: "1.5",
           strokeLinecap: "round",
           strokeLinejoin: "round"
@@ -5387,7 +5396,7 @@ var Promotions = (props) => /* @__PURE__ */ jsxs(
         "path",
         {
           d: "M14.749 14.5C14.611 14.5 14.499 14.612 14.5 14.75C14.5 14.888 14.612 15 14.75 15C14.888 15 15 14.888 15 14.75C15 14.612 14.888 14.5 14.749 14.5",
-          stroke: "#F71963",
+          stroke: "#4A596B",
           strokeWidth: "1.5",
           strokeLinecap: "round",
           strokeLinejoin: "round"
@@ -5409,7 +5418,7 @@ var Pricing = (props) => /* @__PURE__ */ jsxs(
         "path",
         {
           d: "M11.89 12.11L12.44 11.56",
-          stroke: "#F71963",
+          stroke: "#4A596B",
           strokeWidth: "1.5",
           strokeLinecap: "round",
           strokeLinejoin: "round"
@@ -5420,7 +5429,7 @@ var Pricing = (props) => /* @__PURE__ */ jsxs(
         "path",
         {
           d: "M8.57 15.43L8.02 15.98",
-          stroke: "#F71963",
+          stroke: "#4A596B",
           strokeWidth: "1.5",
           strokeLinecap: "round",
           strokeLinejoin: "round"
@@ -5431,7 +5440,7 @@ var Pricing = (props) => /* @__PURE__ */ jsxs(
         "path",
         {
           d: "M8.013 14.071C7.922 14.448 8.004 14.854 8.299 15.149L8.575 15.425L8.904 15.754C9.332 16.182 10.026 16.182 10.454 15.754C10.809 15.399 10.878 14.847 10.619 14.416L9.844 13.122C9.586 12.691 9.654 12.139 10.009 11.784C10.437 11.356 11.131 11.356 11.559 11.784L11.888 12.113L12.164 12.389C12.458 12.683 12.54 13.088 12.451 13.464",
-          stroke: "#F71963",
+          stroke: "#4A596B",
           strokeWidth: "1.5",
           strokeLinecap: "round",
           strokeLinejoin: "round"
@@ -5499,7 +5508,7 @@ var AccountManagement = (props) => /* @__PURE__ */ jsxs(
         "path",
         {
           d: "M19 17.6V16.5C19 15.7 18.3 15 17.5 15C16.7 15 16 15.7 16 16.5V17.6",
-          stroke: "#F71963",
+          stroke: "#4A596B",
           strokeWidth: "1.5",
           strokeLinecap: "round",
           strokeLinejoin: "round"
@@ -5512,7 +5521,7 @@ var AccountManagement = (props) => /* @__PURE__ */ jsxs(
           fillRule: "evenodd",
           clipRule: "evenodd",
           d: "M19 17.6H16C15.4 17.6 15 18 15 18.6V20C15 20.6 15.4 21 16 21H19C19.6 21 20 20.6 20 20V18.6C20 18 19.6 17.6 19 17.6Z",
-          stroke: "#F71963",
+          stroke: "#4A596B",
           strokeWidth: "1.5",
           strokeLinecap: "round",
           strokeLinejoin: "round"
@@ -5545,7 +5554,7 @@ var StoreSearch = (props) => /* @__PURE__ */ jsxs(
         "path",
         {
           d: "M18.853 15.006C20.336 16.489 20.176 18.99 18.375 20.255C17.229 21.059 15.628 21.059 14.482 20.255C12.68 18.991 12.521 16.489 14.004 15.006C15.344 13.667 17.515 13.667 18.853 15.006",
-          stroke: "#F71963",
+          stroke: "#4A596B",
           strokeWidth: "1.5",
           strokeLinecap: "round",
           strokeLinejoin: "round"
@@ -5556,7 +5565,7 @@ var StoreSearch = (props) => /* @__PURE__ */ jsxs(
         "path",
         {
           d: "M21 22L18.852 19.852",
-          stroke: "#F71963",
+          stroke: "#4A596B",
           strokeWidth: "1.5",
           strokeLinecap: "round",
           strokeLinejoin: "round"
@@ -5642,7 +5651,7 @@ var Subscriptions = (props) => /* @__PURE__ */ jsx(
         "path",
         {
           d: "M13.706 9.091V8.315C13.706 7.317 12.938 6.5 12 6.5C11.062 6.5 10.294 7.317 10.294 8.315V9.091",
-          stroke: "#F71963",
+          stroke: "#4A596B",
           strokeWidth: "1.5",
           strokeLinecap: "round",
           strokeLinejoin: "round"
@@ -5654,7 +5663,7 @@ var Subscriptions = (props) => /* @__PURE__ */ jsx(
           fillRule: "evenodd",
           clipRule: "evenodd",
           d: "M14.669 9.091H9.331C8.886 9.091 8.514 9.429 8.471 9.873L7.976 15.055C7.927 15.561 8.326 16 8.836 16H15.165C15.674 16 16.073 15.561 16.025 15.054L15.53 9.872C15.487 9.429 15.115 9.091 14.669 9.091Z",
-          stroke: "#F71963",
+          stroke: "#4A596B",
           strokeWidth: "1.5",
           strokeLinecap: "round",
           strokeLinejoin: "round"
@@ -5746,7 +5755,7 @@ var Fulfillment = (props) => /* @__PURE__ */ jsx(
         "path",
         {
           d: "M2 4H7",
-          stroke: "#F71963",
+          stroke: "#4A596B",
           strokeWidth: "1.5",
           strokeLinecap: "round",
           strokeLinejoin: "round"
@@ -5756,7 +5765,7 @@ var Fulfillment = (props) => /* @__PURE__ */ jsx(
         "path",
         {
           d: "M2 7H5",
-          stroke: "#F71963",
+          stroke: "#4A596B",
           strokeWidth: "1.5",
           strokeLinecap: "round",
           strokeLinejoin: "round"
@@ -5766,7 +5775,7 @@ var Fulfillment = (props) => /* @__PURE__ */ jsx(
         "path",
         {
           d: "M3 10H2",
-          stroke: "#F71963",
+          stroke: "#4A596B",
           strokeWidth: "1.5",
           strokeLinecap: "round",
           strokeLinejoin: "round"
@@ -5777,6 +5786,7 @@ var Fulfillment = (props) => /* @__PURE__ */ jsx(
 );
 
 // src/components/overview-card/index.tsx
+import Link from "next/link.js";
 import { jsx as jsx2, jsxs as jsxs2 } from "react/jsx-runtime";
 var IconsMap = [
   {
@@ -5895,12 +5905,12 @@ var IconsMap = [
 var getIcon = (name) => {
   return IconsMap.find((icon3) => icon3.name === name)?.Icon;
 };
-var OverviewCard = ({ icon: icon3, children }) => {
+var OverviewCard = ({ icon: icon3, link: link2, children }) => {
   const Icon31 = getIcon(icon3);
-  return /* @__PURE__ */ jsxs2(Flex, { sx: styles_default.overviewCard, children: [
+  return /* @__PURE__ */ jsx2(Link, { href: link2, children: /* @__PURE__ */ jsxs2(Flex, { sx: styles_default.overviewCard, children: [
     Icon31 && /* @__PURE__ */ jsx2(Icon31, { sx: styles_default.overviewIcon }),
     /* @__PURE__ */ jsx2(Box, { children })
-  ] });
+  ] }) });
 };
 var overview_card_default = OverviewCard;
 
@@ -6043,7 +6053,9 @@ var imageContainer = {
     maxWidth: "100%",
     display: "block",
     padding: "0",
-    margin: "0"
+    margin: "0",
+    border: "1px solid #e7e9ed",
+    borderRadius: "4px"
   }
 };
 var container = {
@@ -6128,7 +6140,7 @@ function LightBox({ children }) {
 }
 
 // src/components/whats-next-card/index.tsx
-import { Box as Box4, Flex as Flex3, IconCaret, Text, Link } from "@vtex/brand-ui";
+import { Box as Box4, Flex as Flex3, IconCaret, Text, Link as Link2 } from "@vtex/brand-ui";
 
 // src/components/whats-next-card/styles.ts
 var container2 = {
@@ -6208,7 +6220,7 @@ var WhatsNextCard = ({
   linkTo,
   image
 }) => {
-  return /* @__PURE__ */ jsx7(Link, { href: linkTo, sx: styles_default4.container, children: image ? /* @__PURE__ */ jsxs5(Box4, { children: [
+  return /* @__PURE__ */ jsx7(Link2, { href: linkTo, sx: styles_default4.container, children: image ? /* @__PURE__ */ jsxs5(Box4, { children: [
     /* @__PURE__ */ jsx7(
       Image,
       {
@@ -6723,7 +6735,7 @@ var MarkdownRenderer_default = MarkdownRenderer;
 
 // src/lib/table-of-contents/TableOfContents.tsx
 import { useContext as useContext2, useEffect as useEffect5 } from "react";
-import Link2 from "next/link.js";
+import Link3 from "next/link.js";
 import { useRouter } from "next/router.js";
 import { Box as Box7, Text as Text2 } from "@vtex/brand-ui";
 import AnimateHeight from "react-animate-height";
@@ -6796,7 +6808,7 @@ var TableOfContents = ({ headingList }) => {
     active
   }) => {
     return /* @__PURE__ */ jsx11(
-      Link2,
+      Link3,
       {
         href: `#${slug}`,
         onClick: () => {
@@ -6843,7 +6855,7 @@ var TableOfContents_default = TableOfContents;
 // src/lib/sidebar/index.tsx
 import { useEffect as useEffect8, useRef as useRef4, useState as useState7, useContext as useContext6 } from "react";
 import { Flex as Flex10, Text as Text6, Box as Box12 } from "@vtex/brand-ui";
-import Link4 from "next/link.js";
+import Link5 from "next/link.js";
 
 // src/lib/sidebar/styles.ts
 var sidebar = {
@@ -7698,7 +7710,7 @@ import { Fragment, useContext as useContext4 } from "react";
 import {
   Box as Box10,
   Flex as Flex8,
-  Link as Link3,
+  Link as Link4,
   Button as Button2,
   IconCaret as IconCaret2,
   IconExternalLink
@@ -7872,7 +7884,7 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
         }
       ),
       !checkDocumentationType(sidebarDataMaster, localizedSlug, "category") && !checkDocumentationType(sidebarDataMaster, localizedSlug, "link") ? /* @__PURE__ */ jsxs12(
-        Link3,
+        Link4,
         {
           sx: textStyle(activeSidebarElement === activeItem, isExpandable),
           onClick: (e) => {
@@ -7896,7 +7908,7 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
             localizedName
           ]
         }
-      ) : checkDocumentationType(sidebarDataMaster, localizedSlug, "link") ? /* @__PURE__ */ jsxs12(Link3, { href: localizedSlug, target: "_blank", sx: styles_default12.elementText, children: [
+      ) : checkDocumentationType(sidebarDataMaster, localizedSlug, "link") ? /* @__PURE__ */ jsxs12(Link4, { href: localizedSlug, target: "_blank", sx: styles_default12.elementText, children: [
         /* @__PURE__ */ jsx17(IconExternalLink, { size: 16, sx: { marginRight: "10px" } }),
         localizedName
       ] }) : /* @__PURE__ */ jsxs12(
@@ -8345,7 +8357,7 @@ var Sidebar = ({ parentsArray = [] }) => {
         placement: "right",
         label: tooltipLabel,
         children: /* @__PURE__ */ jsx22(
-          Link4,
+          Link5,
           {
             href: !isEditorPreview ? sectionElement.link : "/",
             onClick: (e) => {
@@ -8501,7 +8513,7 @@ var styles_default13 = {
 import { useContext as useContext10 } from "react";
 
 // src/components/documentation-card/index.tsx
-import Link5 from "next/link.js";
+import Link6 from "next/link.js";
 import { Box as Box13, Flex as Flex11, Text as Text7 } from "@vtex/brand-ui";
 
 // src/components/documentation-card/styles.ts
@@ -8592,7 +8604,7 @@ var DocumentationCard = ({
   Icon: Icon31,
   onClick
 }) => {
-  return /* @__PURE__ */ jsx23(Link5, { href: link2, legacyBehavior: true, children: /* @__PURE__ */ jsx23("a", { onClick, style: { width: "100%" }, children: /* @__PURE__ */ jsxs17(Box13, { sx: cardContainer3(containerType), children: [
+  return /* @__PURE__ */ jsx23(Link6, { href: link2, legacyBehavior: true, children: /* @__PURE__ */ jsx23("a", { onClick, style: { width: "100%" }, children: /* @__PURE__ */ jsxs17(Box13, { sx: cardContainer3(containerType), children: [
     /* @__PURE__ */ jsxs17(Flex11, { sx: titleContainer2(containerType), children: [
       /* @__PURE__ */ jsx23(Icon31, { sx: { color: "#4A596B" }, size: 24 }),
       /* @__PURE__ */ jsx23(Text7, { className: "title", sx: cardTitle(containerType), children: title6 })
@@ -8826,7 +8838,7 @@ var search_box_default = SearchBox;
 
 // src/components/search-input/results-box.tsx
 import { useRouter as useRouter5 } from "next/router.js";
-import Link6 from "next/link.js";
+import Link7 from "next/link.js";
 import {
   connectStateResults,
   connectHitInsights
@@ -9656,7 +9668,7 @@ import { Fragment as Fragment4, jsx as jsx38, jsxs as jsxs31 } from "react/jsx-r
 var Hit2 = ({ hit, insights }) => {
   const breadcrumbsList = getBreadcrumbs(hit);
   const DocIcon = getIcon3(hit.doctype);
-  return /* @__PURE__ */ jsx38(Link6, { href: getRelativeURL(hit.url), legacyBehavior: true, children: /* @__PURE__ */ jsx38(
+  return /* @__PURE__ */ jsx38(Link7, { href: getRelativeURL(hit.url), legacyBehavior: true, children: /* @__PURE__ */ jsx38(
     "a",
     {
       onClick: () => insights("clickedObjectIDsAfterSearch", {
@@ -9874,7 +9886,7 @@ var HamburgerMenu = ({ parentsArray = [] }) => {
 var hamburger_menu_default = HamburgerMenu;
 
 // src/lib/feedback-section/index.tsx
-import { Flex as Flex16, Text as Text12, Link as Link7 } from "@vtex/brand-ui";
+import { Flex as Flex16, Text as Text12, Link as Link8 } from "@vtex/brand-ui";
 
 // src/components/icons/edit-icon.tsx
 import { Icon as Icon20 } from "@vtex/brand-ui";
@@ -10660,7 +10672,7 @@ var FeedbackSection = ({
       )
     ] }),
     suggestEdits && /* @__PURE__ */ jsxs41(
-      Link7,
+      Link8,
       {
         target: "_blank",
         rel: "noopener noreferrer",
@@ -11041,7 +11053,7 @@ var styles_default21 = {
 };
 
 // src/components/search-card/index.tsx
-import Link8 from "next/link.js";
+import Link9 from "next/link.js";
 import { useState as useState14 } from "react";
 
 // src/components/icons/expanded-results-icon.tsx
@@ -11100,7 +11112,7 @@ var SearchCard = ({
 }) => {
   const actionValue = actionType ? getAction(actionType) : null;
   const [toggleChildResults, setToggleChildResults] = useState14(false);
-  return /* @__PURE__ */ jsx57(Link8, { href: url, legacyBehavior: true, children: /* @__PURE__ */ jsxs45(Flex18, { sx: styles_default21.containerActive(method), children: [
+  return /* @__PURE__ */ jsx57(Link9, { href: url, legacyBehavior: true, children: /* @__PURE__ */ jsxs45(Flex18, { sx: styles_default21.containerActive(method), children: [
     /* @__PURE__ */ jsxs45(Box21, { children: [
       /* @__PURE__ */ jsxs45(Text14, { className: "searchCardTitle", sx: styles_default21.title, children: [
         Icon31 && /* @__PURE__ */ jsx57(Icon31, { sx: styles_default21.icon }),

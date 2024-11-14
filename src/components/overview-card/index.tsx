@@ -1,8 +1,8 @@
-import React from 'react'
 import styles from './styles'
 import { Flex, Box } from '@vtex/brand-ui'
 import * as Icons from './icons'
 import { IconComponent } from 'utils/typings/types'
+import Link from 'next/link.js'
 
 interface IconsI {
   name: string
@@ -131,16 +131,19 @@ const getIcon = (name: string) => {
 //Interfaces
 export interface OverviewCardProps {
   icon: string
+  link: string
   children: string
 }
 
-const OverviewCard = ({ icon, children }: OverviewCardProps) => {
+const OverviewCard = ({ icon, link, children }: OverviewCardProps) => {
   const Icon = getIcon(icon)
   return (
-    <Flex sx={styles.overviewCard}>
-      {Icon && <Icon sx={styles.overviewIcon} />}
-      <Box>{children}</Box>
-    </Flex>
+    <Link href={link}>
+      <Flex sx={styles.overviewCard}>
+        {Icon && <Icon sx={styles.overviewIcon} />}
+        <Box>{children}</Box>
+      </Flex>
+    </Link>
   )
 }
 
