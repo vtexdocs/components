@@ -8320,7 +8320,10 @@ var Sidebar = ({ parentsArray = [] }) => {
     };
   }, [activeSectionName]);
   const SideBarIcon = (sectionElement) => {
-    const currentSectionName = typeof sectionElement.title === "string" ? sectionElement.title : sectionElement.title[locale];
+    const currentSectionName = typeof sectionElement.title === "string" ? sectionElement.title : sectionElement.title["es"];
+    console.log("currentSectionName --------------------");
+    console.log(".../sidebar/index.tsx --------------------");
+    console.log(currentSectionName);
     const [iconTooltip2, setIconTooltip] = useState7(false);
     const [tooltipLabel, setTooltipLabel] = useState7(currentSectionName);
     const titleRef = useRef4();
@@ -8810,9 +8813,6 @@ var SearchBoxComponent = ({
       changeFocus(false);
     }
   };
-  console.log("----------- search-box.tsx -------------");
-  console.log(locale);
-  console.log("------------------------");
   return /* @__PURE__ */ jsxs18(Flex12, { sx: styles_default15.searchContainer, onClick: handleClick, children: [
     /* @__PURE__ */ jsx24(search_icon_default, { sx: styles_default15.searchIcon }),
     /* @__PURE__ */ jsx24(
