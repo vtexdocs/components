@@ -8369,12 +8369,12 @@ var Sidebar = ({ parentsArray = [] }) => {
             children: /* @__PURE__ */ jsxs16(
               Flex10,
               {
-                sx: activeSectionName === sectionElement.title ? styles_default7.iconBoxActive : styles_default7.iconBox,
+                sx: activeSectionName === currentSectionName ? styles_default7.iconBoxActive : styles_default7.iconBox,
                 children: [
                   /* @__PURE__ */ jsx22(
                     sectionElement.Icon,
                     {
-                      sx: activeSectionName === sectionElement.title ? styles_default7.iconActive : styles_default7.icon
+                      sx: activeSectionName === currentSectionName ? styles_default7.iconActive : styles_default7.icon
                     }
                   ),
                   /* @__PURE__ */ jsx22(
@@ -8383,7 +8383,7 @@ var Sidebar = ({ parentsArray = [] }) => {
                       className: expandDelayStatus ? "iconDescriptionExpanded" : "",
                       ref: titleRef,
                       sx: styles_default7.iconTitle,
-                      children: sectionElement.title
+                      children: currentSectionName
                     }
                   )
                 ]
