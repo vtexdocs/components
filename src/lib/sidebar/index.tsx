@@ -109,14 +109,14 @@ const Sidebar = ({ parentsArray = [] }: SideBarSectionState) => {
           >
             <Flex
               sx={
-                activeSectionName === sectionElement.title
+                activeSectionName === currentSectionName
                   ? styles.iconBoxActive
                   : styles.iconBox
               }
             >
               <sectionElement.Icon
                 sx={
-                  activeSectionName === sectionElement.title
+                  activeSectionName === currentSectionName
                     ? styles.iconActive
                     : styles.icon
                 }
@@ -126,7 +126,7 @@ const Sidebar = ({ parentsArray = [] }: SideBarSectionState) => {
                 ref={titleRef}
                 sx={styles.iconTitle}
               >
-                {sectionElement.title}
+                {currentSectionName}
               </Text>
             </Flex>
           </Link>
