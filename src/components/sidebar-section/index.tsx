@@ -14,6 +14,11 @@ import { messages } from 'utils/get-message'
 
 export interface SidebarSectionProps {
   documentation: string
+  name: {
+    en: string
+    es: string
+    pt: string
+  }
   categories: SidebarElement[]
   slugPrefix: string
   isHamburgerMenu: boolean
