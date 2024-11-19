@@ -8299,7 +8299,7 @@ var Sidebar = ({ parentsArray = [] }) => {
   } = context;
   const sidebarSectionContent = {
     ...Array.isArray(sidebarDataMaster) ? sidebarDataMaster?.find(
-      (section) => section.documentation === activeSectionName
+      (section) => section.name[locale] === activeSectionName
     ) : null
   };
   updateOpenPage({
