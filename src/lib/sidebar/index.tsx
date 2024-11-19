@@ -36,7 +36,7 @@ const Sidebar = ({ parentsArray = [] }: SideBarSectionState) => {
     ...(Array.isArray(sidebarDataMaster)
       ? sidebarDataMaster?.find(
           (section: SidebarSectionProps) =>
-            section.documentation === activeSectionName
+            section.name[locale] === activeSectionName
         )
       : null),
   }
