@@ -8363,6 +8363,8 @@ var Sidebar = ({ parentsArray = [] }) => {
                 e.preventDefault();
               }
               setActiveSectionName(currentSectionName);
+              console.log("**************activeSectionName");
+              console.log(activeSectionName);
             },
             passHref: true,
             "aria-label": currentSectionName,
@@ -9804,9 +9806,6 @@ var HamburgerMenu = ({ parentsArray = [] }) => {
                 sx: activeSectionName === card2.id && !sidebarSectionHidden ? styles_default13.arrowIconActive : styles_default13.arrowIcon,
                 onClick: () => {
                   setActiveSectionName(card2.id);
-                  console.log("------------- hamburger-menu/index.tsx");
-                  console.log("activeSectionName");
-                  console.log(activeSectionName);
                   setSidebarSectionHidden(false);
                 }
               }
