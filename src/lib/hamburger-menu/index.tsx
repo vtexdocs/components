@@ -80,6 +80,8 @@ const HamburgerMenu = ({ parentsArray = [] }: HamburgerMenuProps) => {
                           }
                           onClick={() => {
                             setActiveSectionName(card.id)
+                            console.log('------------- hamburger-menu/index.tsx')
+                            console.log('activeSectionName')
                             console.log(activeSectionName)
                             setSidebarSectionHidden(false)
                           }}
