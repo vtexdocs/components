@@ -80,6 +80,7 @@ const HamburgerMenu = ({ parentsArray = [] }: HamburgerMenuProps) => {
                           }
                           onClick={() => {
                             setActiveSectionName(card.id)
+                            console.log(activeSectionName)
                             setSidebarSectionHidden(false)
                           }}
                         />
