@@ -103,6 +103,8 @@ const Sidebar = ({ parentsArray = [] }: SideBarSectionState) => {
                 e.preventDefault()
               }
               setActiveSectionName(currentSectionName)
+              console.log('**************activeSectionName')
+              console.log(activeSectionName)
             }}
             passHref
             aria-label={currentSectionName}
