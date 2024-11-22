@@ -8363,8 +8363,6 @@ var Sidebar = ({ parentsArray = [] }) => {
                 e.preventDefault();
               }
               setActiveSectionName(currentSectionName);
-              console.log("**************activeSectionName");
-              console.log(activeSectionName);
             },
             passHref: true,
             "aria-label": currentSectionName,
