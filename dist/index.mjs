@@ -8302,6 +8302,11 @@ var Sidebar = ({ parentsArray = [] }) => {
       (section) => section.name[locale] === activeSectionName
     ) : null
   };
+  const currentSectionName = typeof sidebarSectionContent.name === "string" ? sidebarSectionContent.name : sidebarSectionContent.name[locale];
+  console.log("------------- sidebarSectionContent");
+  console.log(sidebarSectionContent);
+  console.log("------------- currentSectionName");
+  console.log(currentSectionName);
   updateOpenPage({
     parentsArray,
     context
@@ -8320,10 +8325,6 @@ var Sidebar = ({ parentsArray = [] }) => {
     };
   }, [activeSectionName]);
   const SideBarIcon = (sectionElement) => {
-    const currentSectionName = typeof sectionElement.title === "string" ? sectionElement.title : sectionElement.title[locale];
-    console.log("currentSectionName --------------------");
-    console.log(".../sidebar/index.tsx --------------------");
-    console.log(currentSectionName);
     const [iconTooltip2, setIconTooltip] = useState7(false);
     const [tooltipLabel, setTooltipLabel] = useState7(currentSectionName);
     const titleRef = useRef4();
