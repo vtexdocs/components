@@ -41,7 +41,7 @@ const Sidebar = ({ parentsArray = [] }: SideBarSectionState) => {
       : null),
   }
 
-  const currentSectionName = typeof sidebarSectionContent.name === 'string' ? sidebarSectionContent.name : sidebarSectionContent.name[locale]
+  const currentSectionName = typeof sidebarSectionContent.name === 'string' ? sidebarSectionContent.name : sidebarSectionContent.name
   console.log('------------- sidebarSectionContent')
   console.log(sidebarSectionContent)
   console.log('------------- currentSectionName')
