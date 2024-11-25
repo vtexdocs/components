@@ -29,16 +29,23 @@ const Sidebar = ({ parentsArray = [] }: SideBarSectionState) => {
     activeSectionName,
     sidebarSections,
     sidebarDataMaster,
+    locale
   } = context
 
   const sidebarSectionContent = {
     ...(Array.isArray(sidebarDataMaster)
       ? sidebarDataMaster?.find(
           (section: SidebarSectionProps) =>
-            section.documentation === activeSectionName
+            section.name[locale] === activeSectionName
         )
       : null),
   }
+
+  const currentSectionName = typeof sidebarSectionContent.name === 'string' ? sidebarSectionContent.name : sidebarSectionContent.name[locale]
+  console.log('------------- sidebarSectionContent')
+  console.log(sidebarSectionContent)
+  console.log('------------- currentSectionName')
+  console.log(currentSectionName)
 
   updateOpenPage({
     parentsArray,
@@ -61,7 +68,7 @@ const Sidebar = ({ parentsArray = [] }: SideBarSectionState) => {
 
   const SideBarIcon = (sectionElement: Section) => {
     const [iconTooltip, setIconTooltip] = useState(false)
-    const [tooltipLabel, setTooltipLabel] = useState(sectionElement.title)
+    const [tooltipLabel, setTooltipLabel] = useState(currentSectionName)
     const titleRef = useRef<HTMLElement>()
 
     useEffect(() => {
@@ -97,21 +104,21 @@ const Sidebar = ({ parentsArray = [] }: SideBarSectionState) => {
               if (isEditorPreview) {
                 e.preventDefault()
               }
-              setActiveSectionName(sectionElement.title)
+              setActiveSectionName(currentSectionName)
             }}
             passHref
-            aria-label={sectionElement.title}
+            aria-label={currentSectionName}
           >
             <Flex
               sx={
-                activeSectionName === sectionElement.title
+                activeSectionName === currentSectionName
                   ? styles.iconBoxActive
                   : styles.iconBox
               }
             >
               <sectionElement.Icon
                 sx={
-                  activeSectionName === sectionElement.title
+                  activeSectionName === currentSectionName
                     ? styles.iconActive
                     : styles.icon
                 }
@@ -121,7 +128,7 @@ const Sidebar = ({ parentsArray = [] }: SideBarSectionState) => {
                 ref={titleRef}
                 sx={styles.iconTitle}
               >
-                {sectionElement.title}
+                {currentSectionName}
               </Text>
             </Flex>
           </Link>
