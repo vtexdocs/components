@@ -8302,7 +8302,7 @@ var Sidebar = ({ parentsArray = [] }) => {
       (section) => section.name[locale] === activeSectionName
     ) : null
   };
-  const currentSectionName = typeof sidebarSectionContent.name === "string" ? sidebarSectionContent.name : sidebarSectionContent.name[locale];
+  const currentSectionName = typeof sidebarSectionContent.name === "string" ? sidebarSectionContent.name : sidebarSectionContent.name;
   console.log("------------- sidebarSectionContent");
   console.log(sidebarSectionContent);
   console.log("------------- currentSectionName");
