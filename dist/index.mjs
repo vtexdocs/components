@@ -8299,10 +8299,12 @@ var Sidebar = ({ parentsArray = [] }) => {
   } = context;
   const sidebarSectionContent = {
     ...Array.isArray(sidebarDataMaster) ? sidebarDataMaster?.find(
-      (section) => section.name[locale] === activeSectionName
+      (section) => section.documentation === activeSectionName
     ) : null
   };
   const currentSectionName = typeof sidebarSectionContent.name === "string" ? sidebarSectionContent.name : sidebarSectionContent.name;
+  console.log("------------- activeSectionName");
+  console.log(activeSectionName);
   console.log("------------- sidebarSectionContent");
   console.log(sidebarSectionContent);
   console.log("------------- currentSectionName");
