@@ -36,12 +36,14 @@ const Sidebar = ({ parentsArray = [] }: SideBarSectionState) => {
     ...(Array.isArray(sidebarDataMaster)
       ? sidebarDataMaster?.find(
           (section: SidebarSectionProps) =>
-            section.name[locale] === activeSectionName
+            section.documentation === activeSectionName
         )
       : null),
   }
 
   const currentSectionName = typeof sidebarSectionContent.name === 'string' ? sidebarSectionContent.name : sidebarSectionContent.name
+  console.log('------------- activeSectionName')
+  console.log(activeSectionName)
   console.log('------------- sidebarSectionContent')
   console.log(sidebarSectionContent)
   console.log('------------- currentSectionName')
