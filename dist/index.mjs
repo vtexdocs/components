@@ -8072,6 +8072,7 @@ var arrow_left_icon_default = ArrowLeftIcon;
 import { Fragment as Fragment2, jsx as jsx21, jsxs as jsxs15 } from "react/jsx-runtime";
 var SidebarSection = ({
   documentation: documentation2,
+  name,
   categories,
   slugPrefix,
   isHamburgerMenu = false
@@ -8091,6 +8092,7 @@ var SidebarSection = ({
     { name: "DELETE", active: false },
     { name: "PATCH", active: false }
   ]);
+  const sectionTitle2 = name ? name[locale] : documentation2;
   const filterStatus = methodFilterList.some(
     (methodFilter) => methodFilter.active
   );
@@ -8144,7 +8146,7 @@ var SidebarSection = ({
                 }
               ),
               DocIcon && /* @__PURE__ */ jsx21(DocIcon, {}),
-              /* @__PURE__ */ jsx21(Text5, { sx: styles_default9.sidebarTitle, children: documentation2 })
+              /* @__PURE__ */ jsx21(Text5, { sx: styles_default9.sidebarTitle, children: sectionTitle2 })
             ] }),
             /* @__PURE__ */ jsxs15(Box11, { sx: styles_default9.sidebarContainerBody, children: [
               /* @__PURE__ */ jsxs15(Flex9, { sx: styles_default9.searchBox, children: [
@@ -8155,7 +8157,7 @@ var SidebarSection = ({
                     style: styles_default9.searchInput,
                     className: "searchComponent",
                     type: "text",
-                    placeholder: messages[locale]["sidebar_search.placeholder"] + " " + documentation2,
+                    placeholder: messages[locale]["sidebar_search.placeholder"] + " " + sectionTitle2,
                     value: searchValue,
                     onChange: (e) => setSearchValue(e.currentTarget.value)
                   }
@@ -8225,7 +8227,7 @@ var SidebarSection = ({
                   ),
                   "PREVIEW MODE"
                 ] }),
-                /* @__PURE__ */ jsx21(Text5, { sx: styles_default9.sidebarTitle, children: documentation2 }),
+                /* @__PURE__ */ jsx21(Text5, { sx: styles_default9.sidebarTitle, children: sectionTitle2 }),
                 /* @__PURE__ */ jsxs15(Flex9, { sx: styles_default9.searchBox, children: [
                   /* @__PURE__ */ jsx21(search_icon_default, { sx: styles_default9.searchIcon }),
                   /* @__PURE__ */ jsx21(
@@ -8234,7 +8236,7 @@ var SidebarSection = ({
                       style: styles_default9.searchInput,
                       className: "searchComponent",
                       type: "text",
-                      placeholder: messages[locale]["sidebar_search.placeholder"] + " " + documentation2,
+                      placeholder: messages[locale]["sidebar_search.placeholder"] + " " + sectionTitle2,
                       value: searchValue,
                       onChange: (e) => setSearchValue(e.currentTarget.value)
                     }
@@ -8303,12 +8305,6 @@ var Sidebar = ({ parentsArray = [] }) => {
     ) : null
   };
   const currentSectionName = typeof sidebarSectionContent.name === "string" ? sidebarSectionContent.name : sidebarSectionContent.name;
-  console.log("------------- activeSectionName");
-  console.log(activeSectionName);
-  console.log("------------- sidebarSectionContent");
-  console.log(sidebarSectionContent);
-  console.log("------------- currentSectionName");
-  console.log(currentSectionName);
   updateOpenPage({
     parentsArray,
     context
