@@ -41,7 +41,7 @@ const Sidebar = ({ parentsArray = [] }: SideBarSectionState) => {
       : null),
   }
 
-  const currentSectionName = typeof sidebarSectionContent.name === 'string' ? sidebarSectionContent.name : sidebarSectionContent.name
+  const currentSectionName = typeof sidebarSectionContent.name === 'string' ? sidebarSectionContent.documentation : sidebarSectionContent.name[locale]
 
   updateOpenPage({
     parentsArray,
