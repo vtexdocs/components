@@ -8092,7 +8092,7 @@ var SidebarSection = ({
     { name: "DELETE", active: false },
     { name: "PATCH", active: false }
   ]);
-  const sectionTitle2 = name ? name[locale] : documentation2;
+  const sectionTitle2 = typeof name == "string" ? documentation2 : name[locale];
   console.log(sectionTitle2);
   const filterStatus = methodFilterList.some(
     (methodFilter) => methodFilter.active
@@ -8305,7 +8305,7 @@ var Sidebar = ({ parentsArray = [] }) => {
       (section) => section.documentation === activeSectionName
     ) : null
   };
-  const currentSectionName = typeof sidebarSectionContent.name === "string" ? sidebarSectionContent.name : sidebarSectionContent.name;
+  const currentSectionName = typeof sidebarSectionContent.name === "string" ? sidebarSectionContent.documentation : sidebarSectionContent.name[locale];
   updateOpenPage({
     parentsArray,
     context
