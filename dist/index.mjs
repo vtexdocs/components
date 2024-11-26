@@ -8093,6 +8093,7 @@ var SidebarSection = ({
     { name: "PATCH", active: false }
   ]);
   const sectionTitle2 = name ? name[locale] : documentation2;
+  console.log(sectionTitle2);
   const filterStatus = methodFilterList.some(
     (methodFilter) => methodFilter.active
   );
