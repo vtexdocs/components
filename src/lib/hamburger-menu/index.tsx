@@ -43,9 +43,6 @@ const HamburgerMenu = ({ parentsArray = [] }: HamburgerMenuProps) => {
   }
 
   updateOpenPage({ parentsArray, context })
-  console.log('activeSectionName --------------------')
-  console.log('.../hamburger-menu/index.tsx --------------------')
-  console.log(activeSectionName)
 
   return (
     <Header.ActionButton>
