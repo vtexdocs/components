@@ -14,11 +14,7 @@ import { messages } from 'utils/get-message'
 
 export interface SidebarSectionProps {
   documentation: string
-  name: {
-    en: string
-    es: string
-    pt: string
-  }
+  name: string | { en: string, es: string, pt: string }
   categories: SidebarElement[]
   slugPrefix: string
   isHamburgerMenu: boolean
@@ -47,7 +43,7 @@ const SidebarSection = ({
     { name: 'PATCH', active: false },
   ])
 
-  const sectionTitle = name ? name[locale] : documentation
+  const sectionTitle = typeof(name) == 'string' ? documentation : name[locale]
   console.log(sectionTitle)
 
   const filterStatus = methodFilterList.some(
