@@ -48,6 +48,7 @@ const SidebarSection = ({
   ])
 
   const sectionTitle = name ? name[locale] : documentation
+  console.log(sectionTitle)
 
   const filterStatus = methodFilterList.some(
     (methodFilter) => methodFilter.active
