@@ -26,6 +26,7 @@ export interface SidebarSectionProps {
 
 const SidebarSection = ({
   documentation,
+  name,
   categories,
   slugPrefix,
   isHamburgerMenu = false,
@@ -45,6 +46,8 @@ const SidebarSection = ({
     { name: 'DELETE', active: false },
     { name: 'PATCH', active: false },
   ])
+
+  const sectionTitle = name ? name[locale] : documentation
 
   const filterStatus = methodFilterList.some(
     (methodFilter) => methodFilter.active
@@ -119,7 +122,7 @@ const SidebarSection = ({
             }}
           />
           {DocIcon && <DocIcon />}
-          <Text sx={styles.sidebarTitle}>{documentation}</Text>
+          <Text sx={styles.sidebarTitle}>{sectionTitle}</Text>
         </Flex>
         <Box sx={styles.sidebarContainerBody}>
           <Flex sx={styles.searchBox}>
@@ -131,7 +134,7 @@ const SidebarSection = ({
               placeholder={
                 messages[locale]['sidebar_search.placeholder'] +
                 ' ' +
-                documentation
+                sectionTitle
               }
               value={searchValue}
               onChange={(e) => setSearchValue(e.currentTarget.value)}
@@ -186,7 +189,7 @@ const SidebarSection = ({
               PREVIEW MODE
             </Text>
           )}
-          <Text sx={styles.sidebarTitle}>{documentation}</Text>
+          <Text sx={styles.sidebarTitle}>{sectionTitle}</Text>
           <Flex sx={styles.searchBox}>
             <SearchIcon sx={styles.searchIcon} />
             <input
@@ -196,7 +199,7 @@ const SidebarSection = ({
               placeholder={
                 messages[locale]['sidebar_search.placeholder'] +
                 ' ' +
-                documentation
+                sectionTitle
               }
               value={searchValue}
               onChange={(e) => setSearchValue(e.currentTarget.value)}
