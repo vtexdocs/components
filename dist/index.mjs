@@ -9787,9 +9787,6 @@ var HamburgerMenu = ({ parentsArray = [] }) => {
     return isDoc;
   };
   updateOpenPage({ parentsArray, context });
-  console.log("activeSectionName --------------------");
-  console.log(".../hamburger-menu/index.tsx --------------------");
-  console.log(activeSectionName);
   return /* @__PURE__ */ jsx39(Header.ActionButton, { children: /* @__PURE__ */ jsx39(VtexHamburgerMenu, { sx: styles_default13.hamburgerContainer, children: /* @__PURE__ */ jsx39(VtexHamburgerMenu.Menu, { sx: styles_default13.innerHambugerContainer, children: /* @__PURE__ */ jsxs32(Box16, { sx: styles_default13.menuContainer, children: [
     /* @__PURE__ */ jsxs32(Box16, { sx: styles_default13.cardContainer, children: [
       /* @__PURE__ */ jsx39(Box16, { sx: styles_default13.hamburgerSearchContainer, children: /* @__PURE__ */ jsx39(SearchInput, {}) }),
