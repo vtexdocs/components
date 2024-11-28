@@ -62,12 +62,7 @@ const Sidebar = ({ parentsArray = [] }: SideBarSectionState) => {
 
   const SideBarIcon = (sectionElement: Section) => {
     const [iconTooltip, setIconTooltip] = useState(false)
-    const sectionElementTitle = typeof sectionElement.title === 'string' ? sectionElement.title : sectionElement.title[locale]
-    console.log('-------- typeof sectionElement.title -------')
-    console.log(typeof sectionElement.title)
-    console.log('-------- sectionElementTitle -------')
-    console.log(sectionElementTitle)
-    const [tooltipLabel, setTooltipLabel] = useState(sectionElementTitle)
+    const [tooltipLabel, setTooltipLabel] = useState(sectionElement.title)
     const titleRef = useRef<HTMLElement>()
 
     useEffect(() => {
@@ -103,21 +98,21 @@ const Sidebar = ({ parentsArray = [] }: SideBarSectionState) => {
               if (isEditorPreview) {
                 e.preventDefault()
               }
-              setActiveSectionName(sectionElementTitle)
+              setActiveSectionName(sectionElement.title)
             }}
             passHref
-            aria-label={sectionElementTitle}
+            aria-label={sectionElement.title}
           >
             <Flex
               sx={
-                activeSectionName === sectionElementTitle
+                activeSectionName === sectionElement.title
                   ? styles.iconBoxActive
                   : styles.iconBox
               }
             >
               <sectionElement.Icon
                 sx={
-                  activeSectionName === sectionElementTitle
+                  activeSectionName === sectionElement.title
                     ? styles.iconActive
                     : styles.icon
                 }
@@ -127,7 +122,7 @@ const Sidebar = ({ parentsArray = [] }: SideBarSectionState) => {
                 ref={titleRef}
                 sx={styles.iconTitle}
               >
-                {sectionElementTitle}
+                {sectionElement.title}
               </Text>
             </Flex>
           </Link>
