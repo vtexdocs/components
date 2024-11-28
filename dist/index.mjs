@@ -8324,12 +8324,7 @@ var Sidebar = ({ parentsArray = [] }) => {
   }, [activeSectionName]);
   const SideBarIcon = (sectionElement) => {
     const [iconTooltip2, setIconTooltip] = useState7(false);
-    const sectionElementTitle = typeof sectionElement.title === "string" ? sectionElement.title : sectionElement.title[locale];
-    console.log("-------- typeof sectionElement.title -------");
-    console.log(typeof sectionElement.title);
-    console.log("-------- sectionElementTitle -------");
-    console.log(sectionElementTitle);
-    const [tooltipLabel, setTooltipLabel] = useState7(sectionElementTitle);
+    const [tooltipLabel, setTooltipLabel] = useState7(sectionElement.title);
     const titleRef = useRef4();
     useEffect8(() => {
       const resizeObserver = new MutationObserver(function(entries) {
@@ -8366,19 +8361,19 @@ var Sidebar = ({ parentsArray = [] }) => {
               if (isEditorPreview) {
                 e.preventDefault();
               }
-              setActiveSectionName(sectionElementTitle);
+              setActiveSectionName(sectionElement.title);
             },
             passHref: true,
-            "aria-label": sectionElementTitle,
+            "aria-label": sectionElement.title,
             children: /* @__PURE__ */ jsxs16(
               Flex10,
               {
-                sx: activeSectionName === sectionElementTitle ? styles_default7.iconBoxActive : styles_default7.iconBox,
+                sx: activeSectionName === sectionElement.title ? styles_default7.iconBoxActive : styles_default7.iconBox,
                 children: [
                   /* @__PURE__ */ jsx22(
                     sectionElement.Icon,
                     {
-                      sx: activeSectionName === sectionElementTitle ? styles_default7.iconActive : styles_default7.icon
+                      sx: activeSectionName === sectionElement.title ? styles_default7.iconActive : styles_default7.icon
                     }
                   ),
                   /* @__PURE__ */ jsx22(
@@ -8387,7 +8382,7 @@ var Sidebar = ({ parentsArray = [] }) => {
                       className: expandDelayStatus ? "iconDescriptionExpanded" : "",
                       ref: titleRef,
                       sx: styles_default7.iconTitle,
-                      children: sectionElementTitle
+                      children: sectionElement.title
                     }
                   )
                 ]

@@ -81,11 +81,7 @@ declare const ShareButton: ({ url, sx }: Props$1) => react_jsx_runtime.JSX.Eleme
 type Section = {
     id: string;
     link: string;
-    title: string | {
-        en: string;
-        pt: string;
-        es: string;
-    };
+    title: string;
     description: string;
     Icon: (props: IconProps) => JSX.Element;
 };
