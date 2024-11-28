@@ -63,6 +63,10 @@ const Sidebar = ({ parentsArray = [] }: SideBarSectionState) => {
   const SideBarIcon = (sectionElement: Section) => {
     const [iconTooltip, setIconTooltip] = useState(false)
     const sectionElementTitle = typeof sectionElement.title === 'string' ? sectionElement.title : sectionElement.title[locale]
+    console.log('-------- typeof sectionElement.title -------')
+    console.log(typeof sectionElement.title)
+    console.log('-------- sectionElementTitle -------')
+    console.log(sectionElementTitle)
     const [tooltipLabel, setTooltipLabel] = useState(sectionElementTitle)
     const titleRef = useRef<HTMLElement>()
 
