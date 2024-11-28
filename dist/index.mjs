@@ -8324,8 +8324,8 @@ var Sidebar = ({ parentsArray = [] }) => {
   }, [activeSectionName]);
   const SideBarIcon = (sectionElement) => {
     const [iconTooltip2, setIconTooltip] = useState7(false);
-    const sectionTitle2 = typeof sidebarSectionContent.name === "string" ? sidebarSectionContent.documentation : sidebarSectionContent.name[locale];
-    const [tooltipLabel, setTooltipLabel] = useState7(sectionTitle2);
+    const sectionElementTitle = typeof sectionElement.title === "string" ? sectionElement.title : sectionElement.title[locale];
+    const [tooltipLabel, setTooltipLabel] = useState7(sectionElementTitle);
     const titleRef = useRef4();
     useEffect8(() => {
       const resizeObserver = new MutationObserver(function(entries) {
@@ -8362,19 +8362,19 @@ var Sidebar = ({ parentsArray = [] }) => {
               if (isEditorPreview) {
                 e.preventDefault();
               }
-              setActiveSectionName(sectionTitle2);
+              setActiveSectionName(sectionElementTitle);
             },
             passHref: true,
-            "aria-label": sectionTitle2,
+            "aria-label": sectionElementTitle,
             children: /* @__PURE__ */ jsxs16(
               Flex10,
               {
-                sx: activeSectionName === sectionTitle2 ? styles_default7.iconBoxActive : styles_default7.iconBox,
+                sx: activeSectionName === sectionElementTitle ? styles_default7.iconBoxActive : styles_default7.iconBox,
                 children: [
                   /* @__PURE__ */ jsx22(
                     sectionElement.Icon,
                     {
-                      sx: activeSectionName === sectionTitle2 ? styles_default7.iconActive : styles_default7.icon
+                      sx: activeSectionName === sectionElementTitle ? styles_default7.iconActive : styles_default7.icon
                     }
                   ),
                   /* @__PURE__ */ jsx22(
@@ -8383,7 +8383,7 @@ var Sidebar = ({ parentsArray = [] }) => {
                       className: expandDelayStatus ? "iconDescriptionExpanded" : "",
                       ref: titleRef,
                       sx: styles_default7.iconTitle,
-                      children: sectionTitle2
+                      children: sectionElementTitle
                     }
                   )
                 ]
