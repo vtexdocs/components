@@ -8305,6 +8305,9 @@ var Sidebar = ({ parentsArray = [] }) => {
       (section) => section.documentation === activeSectionName
     ) : null
   };
+  const sectionName = sidebarSectionContent.name;
+  console.log("---------------(sidebar) sidebarSectionContent.name");
+  console.log(sidebarSectionContent.name);
   updateOpenPage({
     parentsArray,
     context
@@ -8326,6 +8329,8 @@ var Sidebar = ({ parentsArray = [] }) => {
     const [iconTooltip2, setIconTooltip] = useState7(false);
     const [tooltipLabel, setTooltipLabel] = useState7(sectionElement.title);
     const titleRef = useRef4();
+    console.log("---------------(sidebar) sectionElement.title");
+    console.log(sectionElement.title);
     useEffect8(() => {
       const resizeObserver = new MutationObserver(function(entries) {
         const target = entries[0].target;
