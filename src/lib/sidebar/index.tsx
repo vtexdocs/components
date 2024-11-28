@@ -62,8 +62,8 @@ const Sidebar = ({ parentsArray = [] }: SideBarSectionState) => {
 
   const SideBarIcon = (sectionElement: Section) => {
     const [iconTooltip, setIconTooltip] = useState(false)
-    const sectionTitle = typeof sidebarSectionContent.name === 'string' ? sidebarSectionContent.documentation : sidebarSectionContent.name[locale]
-    const [tooltipLabel, setTooltipLabel] = useState(sectionTitle)
+    const sectionElementTitle = typeof sectionElement.title === 'string' ? sectionElement.title : sectionElement.title[locale]
+    const [tooltipLabel, setTooltipLabel] = useState(sectionElementTitle)
     const titleRef = useRef<HTMLElement>()
 
     useEffect(() => {
@@ -99,21 +99,21 @@ const Sidebar = ({ parentsArray = [] }: SideBarSectionState) => {
               if (isEditorPreview) {
                 e.preventDefault()
               }
-              setActiveSectionName(sectionTitle)
+              setActiveSectionName(sectionElementTitle)
             }}
             passHref
-            aria-label={sectionTitle}
+            aria-label={sectionElementTitle}
           >
             <Flex
               sx={
-                activeSectionName === sectionTitle
+                activeSectionName === sectionElementTitle
                   ? styles.iconBoxActive
                   : styles.iconBox
               }
             >
               <sectionElement.Icon
                 sx={
-                  activeSectionName === sectionTitle
+                  activeSectionName === sectionElementTitle
                     ? styles.iconActive
                     : styles.icon
                 }
@@ -123,7 +123,7 @@ const Sidebar = ({ parentsArray = [] }: SideBarSectionState) => {
                 ref={titleRef}
                 sx={styles.iconTitle}
               >
-                {sectionTitle}
+                {sectionElementTitle}
               </Text>
             </Flex>
           </Link>
