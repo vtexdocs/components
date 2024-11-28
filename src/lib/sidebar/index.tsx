@@ -41,8 +41,6 @@ const Sidebar = ({ parentsArray = [] }: SideBarSectionState) => {
       : null),
   }
 
-  const currentSectionName = typeof sidebarSectionContent.name === 'string' ? sidebarSectionContent.documentation : sidebarSectionContent.name[locale]
-
   updateOpenPage({
     parentsArray,
     context,
@@ -64,7 +62,8 @@ const Sidebar = ({ parentsArray = [] }: SideBarSectionState) => {
 
   const SideBarIcon = (sectionElement: Section) => {
     const [iconTooltip, setIconTooltip] = useState(false)
-    const [tooltipLabel, setTooltipLabel] = useState(currentSectionName)
+    const sectionTitle = typeof sidebarSectionContent.name === 'string' ? sidebarSectionContent.documentation : sidebarSectionContent.name[locale]
+    const [tooltipLabel, setTooltipLabel] = useState(sectionTitle)
     const titleRef = useRef<HTMLElement>()
 
     useEffect(() => {
@@ -100,21 +99,21 @@ const Sidebar = ({ parentsArray = [] }: SideBarSectionState) => {
               if (isEditorPreview) {
                 e.preventDefault()
               }
-              setActiveSectionName(currentSectionName)
+              setActiveSectionName(sectionTitle)
             }}
             passHref
-            aria-label={currentSectionName}
+            aria-label={sectionTitle}
           >
             <Flex
               sx={
-                activeSectionName === currentSectionName
+                activeSectionName === sectionTitle
                   ? styles.iconBoxActive
                   : styles.iconBox
               }
             >
               <sectionElement.Icon
                 sx={
-                  activeSectionName === currentSectionName
+                  activeSectionName === sectionTitle
                     ? styles.iconActive
                     : styles.icon
                 }
@@ -124,7 +123,7 @@ const Sidebar = ({ parentsArray = [] }: SideBarSectionState) => {
                 ref={titleRef}
                 sx={styles.iconTitle}
               >
-                {currentSectionName}
+                {sectionTitle}
               </Text>
             </Flex>
           </Link>
