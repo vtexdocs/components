@@ -8325,6 +8325,10 @@ var Sidebar = ({ parentsArray = [] }) => {
   const SideBarIcon = (sectionElement) => {
     const [iconTooltip2, setIconTooltip] = useState7(false);
     const sectionElementTitle = typeof sectionElement.title === "string" ? sectionElement.title : sectionElement.title[locale];
+    console.log("-------- typeof sectionElement.title -------");
+    console.log(typeof sectionElement.title);
+    console.log("-------- sectionElementTitle -------");
+    console.log(sectionElementTitle);
     const [tooltipLabel, setTooltipLabel] = useState7(sectionElementTitle);
     const titleRef = useRef4();
     useEffect8(() => {
