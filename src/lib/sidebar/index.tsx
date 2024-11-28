@@ -41,6 +41,10 @@ const Sidebar = ({ parentsArray = [] }: SideBarSectionState) => {
       : null),
   }
 
+  const sectionName = sidebarSectionContent.name
+  console.log('---------------(sidebar) sidebarSectionContent.name')
+  console.log(sidebarSectionContent.name)
+
   updateOpenPage({
     parentsArray,
     context,
@@ -64,6 +68,9 @@ const Sidebar = ({ parentsArray = [] }: SideBarSectionState) => {
     const [iconTooltip, setIconTooltip] = useState(false)
     const [tooltipLabel, setTooltipLabel] = useState(sectionElement.title)
     const titleRef = useRef<HTMLElement>()
+
+    console.log('---------------(sidebar) sectionElement.title')
+    console.log(sectionElement.title)
 
     useEffect(() => {
       const resizeObserver = new MutationObserver(function (entries) {
