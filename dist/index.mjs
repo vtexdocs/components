@@ -8092,8 +8092,9 @@ var SidebarSection = ({
     { name: "DELETE", active: false },
     { name: "PATCH", active: false }
   ]);
-  const sectionTitle2 = typeof name == "string" ? documentation2 : name[locale];
-  console.log(sectionTitle2);
+  const localizedSectionTitle = typeof name === "string" ? name : name[locale];
+  console.log("------------(sidebar-section) sectionTitle");
+  console.log(localizedSectionTitle);
   const filterStatus = methodFilterList.some(
     (methodFilter) => methodFilter.active
   );
@@ -8147,7 +8148,7 @@ var SidebarSection = ({
                 }
               ),
               DocIcon && /* @__PURE__ */ jsx21(DocIcon, {}),
-              /* @__PURE__ */ jsx21(Text5, { sx: styles_default9.sidebarTitle, children: sectionTitle2 })
+              /* @__PURE__ */ jsx21(Text5, { sx: styles_default9.sidebarTitle, children: localizedSectionTitle })
             ] }),
             /* @__PURE__ */ jsxs15(Box11, { sx: styles_default9.sidebarContainerBody, children: [
               /* @__PURE__ */ jsxs15(Flex9, { sx: styles_default9.searchBox, children: [
@@ -8158,7 +8159,7 @@ var SidebarSection = ({
                     style: styles_default9.searchInput,
                     className: "searchComponent",
                     type: "text",
-                    placeholder: messages[locale]["sidebar_search.placeholder"] + " " + sectionTitle2,
+                    placeholder: messages[locale]["sidebar_search.placeholder"] + " " + localizedSectionTitle,
                     value: searchValue,
                     onChange: (e) => setSearchValue(e.currentTarget.value)
                   }
@@ -8228,7 +8229,7 @@ var SidebarSection = ({
                   ),
                   "PREVIEW MODE"
                 ] }),
-                /* @__PURE__ */ jsx21(Text5, { sx: styles_default9.sidebarTitle, children: sectionTitle2 }),
+                /* @__PURE__ */ jsx21(Text5, { sx: styles_default9.sidebarTitle, children: localizedSectionTitle }),
                 /* @__PURE__ */ jsxs15(Flex9, { sx: styles_default9.searchBox, children: [
                   /* @__PURE__ */ jsx21(search_icon_default, { sx: styles_default9.searchIcon }),
                   /* @__PURE__ */ jsx21(
@@ -8237,7 +8238,7 @@ var SidebarSection = ({
                       style: styles_default9.searchInput,
                       className: "searchComponent",
                       type: "text",
-                      placeholder: messages[locale]["sidebar_search.placeholder"] + " " + sectionTitle2,
+                      placeholder: messages[locale]["sidebar_search.placeholder"] + " " + localizedSectionTitle,
                       value: searchValue,
                       onChange: (e) => setSearchValue(e.currentTarget.value)
                     }
@@ -8305,9 +8306,8 @@ var Sidebar = ({ parentsArray = [] }) => {
       (section) => section.documentation === activeSectionName
     ) : null
   };
-  const sectionName = sidebarSectionContent.name;
   console.log("---------------(sidebar) sidebarSectionContent.name");
-  console.log(sidebarSectionContent.name);
+  console.log(sidebarSectionContent.name[locale]);
   updateOpenPage({
     parentsArray,
     context
