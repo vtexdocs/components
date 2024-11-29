@@ -44,6 +44,8 @@ const SidebarSection = ({
   ])
 
   const localizedSectionTitle = typeof(name) === 'string' ? name : name[locale]
+  console.log('------------(sidebar-section) locale')
+  console.log(locale)
   console.log('------------(sidebar-section) sectionTitle')
   console.log(localizedSectionTitle)
 
