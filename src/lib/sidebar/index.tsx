@@ -41,9 +41,8 @@ const Sidebar = ({ parentsArray = [] }: SideBarSectionState) => {
       : null),
   }
 
-  const sectionName = sidebarSectionContent.name
   console.log('---------------(sidebar) sidebarSectionContent.name')
-  console.log(sidebarSectionContent.name)
+  console.log(sidebarSectionContent.name[locale])
 
   updateOpenPage({
     parentsArray,
