@@ -43,8 +43,9 @@ const SidebarSection = ({
     { name: 'PATCH', active: false },
   ])
 
-  const sectionTitle = typeof(name) == 'string' ? documentation : name[locale]
-  console.log(sectionTitle)
+  const localizedSectionTitle = typeof(name) === 'string' ? name : name[locale]
+  console.log('------------(sidebar-section) sectionTitle')
+  console.log(localizedSectionTitle)
 
   const filterStatus = methodFilterList.some(
     (methodFilter) => methodFilter.active
@@ -119,7 +120,7 @@ const SidebarSection = ({
             }}
           />
           {DocIcon && <DocIcon />}
-          <Text sx={styles.sidebarTitle}>{sectionTitle}</Text>
+          <Text sx={styles.sidebarTitle}>{localizedSectionTitle}</Text>
         </Flex>
         <Box sx={styles.sidebarContainerBody}>
           <Flex sx={styles.searchBox}>
@@ -131,7 +132,7 @@ const SidebarSection = ({
               placeholder={
                 messages[locale]['sidebar_search.placeholder'] +
                 ' ' +
-                sectionTitle
+                localizedSectionTitle
               }
               value={searchValue}
               onChange={(e) => setSearchValue(e.currentTarget.value)}
@@ -186,7 +187,7 @@ const SidebarSection = ({
               PREVIEW MODE
             </Text>
           )}
-          <Text sx={styles.sidebarTitle}>{sectionTitle}</Text>
+          <Text sx={styles.sidebarTitle}>{localizedSectionTitle}</Text>
           <Flex sx={styles.searchBox}>
             <SearchIcon sx={styles.searchIcon} />
             <input
@@ -196,7 +197,7 @@ const SidebarSection = ({
               placeholder={
                 messages[locale]['sidebar_search.placeholder'] +
                 ' ' +
-                sectionTitle
+                localizedSectionTitle
               }
               value={searchValue}
               onChange={(e) => setSearchValue(e.currentTarget.value)}
