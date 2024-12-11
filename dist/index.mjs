@@ -8150,7 +8150,7 @@ var SidebarSection = ({
                 }
               ),
               DocIcon && /* @__PURE__ */ jsx21(DocIcon, {}),
-              /* @__PURE__ */ jsx21(Text5, { sx: styles_default9.sidebarTitle, children: localizedSectionTitle })
+              /* @__PURE__ */ jsx21(Text5, { sx: styles_default9.sidebarTitle, children: "T E S T E" })
             ] }),
             /* @__PURE__ */ jsxs15(Box11, { sx: styles_default9.sidebarContainerBody, children: [
               /* @__PURE__ */ jsxs15(Flex9, { sx: styles_default9.searchBox, children: [
@@ -8161,7 +8161,7 @@ var SidebarSection = ({
                     style: styles_default9.searchInput,
                     className: "searchComponent",
                     type: "text",
-                    placeholder: messages[locale]["sidebar_search.placeholder"] + " " + localizedSectionTitle,
+                    placeholder: messages[locale]["sidebar_search.placeholder"] + " T E S T E",
                     value: searchValue,
                     onChange: (e) => setSearchValue(e.currentTarget.value)
                   }
@@ -8231,7 +8231,7 @@ var SidebarSection = ({
                   ),
                   "PREVIEW MODE"
                 ] }),
-                /* @__PURE__ */ jsx21(Text5, { sx: styles_default9.sidebarTitle, children: localizedSectionTitle }),
+                /* @__PURE__ */ jsx21(Text5, { sx: styles_default9.sidebarTitle, children: "T E S T E" }),
                 /* @__PURE__ */ jsxs15(Flex9, { sx: styles_default9.searchBox, children: [
                   /* @__PURE__ */ jsx21(search_icon_default, { sx: styles_default9.searchIcon }),
                   /* @__PURE__ */ jsx21(
@@ -8240,7 +8240,7 @@ var SidebarSection = ({
                       style: styles_default9.searchInput,
                       className: "searchComponent",
                       type: "text",
-                      placeholder: messages[locale]["sidebar_search.placeholder"] + " " + localizedSectionTitle,
+                      placeholder: messages[locale]["sidebar_search.placeholder"] + " T E S T E",
                       value: searchValue,
                       onChange: (e) => setSearchValue(e.currentTarget.value)
                     }
