@@ -68,8 +68,8 @@ const Sidebar = ({ parentsArray = [] }: SideBarSectionState) => {
     const [tooltipLabel, setTooltipLabel] = useState(sectionElement.title)
     const titleRef = useRef<HTMLElement>()
 
-    console.log('---------------(sidebar) sectionElement.title')
-    console.log(sectionElement.title)
+    console.log('---------------(sidebar) titleRef.current')
+    console.log(titleRef.current)
 
     useEffect(() => {
       const resizeObserver = new MutationObserver(function (entries) {
