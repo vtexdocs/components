@@ -122,7 +122,7 @@ const SidebarSection = ({
             }}
           />
           {DocIcon && <DocIcon />}
-          <Text sx={styles.sidebarTitle}>{localizedSectionTitle}</Text>
+          <Text sx={styles.sidebarTitle}>{'T E S T E'}</Text>
         </Flex>
         <Box sx={styles.sidebarContainerBody}>
           <Flex sx={styles.searchBox}>
@@ -134,7 +134,7 @@ const SidebarSection = ({
               placeholder={
                 messages[locale]['sidebar_search.placeholder'] +
                 ' ' +
-                localizedSectionTitle
+                'T E S T E'
               }
               value={searchValue}
               onChange={(e) => setSearchValue(e.currentTarget.value)}
@@ -189,7 +189,7 @@ const SidebarSection = ({
               PREVIEW MODE
             </Text>
           )}
-          <Text sx={styles.sidebarTitle}>{localizedSectionTitle}</Text>
+          <Text sx={styles.sidebarTitle}>{'T E S T E'}</Text>
           <Flex sx={styles.searchBox}>
             <SearchIcon sx={styles.searchIcon} />
             <input
@@ -199,7 +199,7 @@ const SidebarSection = ({
               placeholder={
                 messages[locale]['sidebar_search.placeholder'] +
                 ' ' +
-                localizedSectionTitle
+                'T E S T E'
               }
               value={searchValue}
               onChange={(e) => setSearchValue(e.currentTarget.value)}
