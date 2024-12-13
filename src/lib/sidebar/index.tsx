@@ -28,8 +28,7 @@ const Sidebar = ({ parentsArray = [] }: SideBarSectionState) => {
     setActiveSectionName,
     activeSectionName,
     sidebarSections,
-    sidebarDataMaster,
-    locale
+    sidebarDataMaster
   } = context
 
   const sidebarSectionContent = {
