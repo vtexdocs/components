@@ -1,5 +1,5 @@
 import { Flex, Box, Text, Button } from '@vtex/brand-ui'
-import { useContext, useMemo, useState } from 'react'
+import { useContext, useMemo, useState, useEffect } from 'react'
 
 import styles from './styles'
 import { SidebarElement } from '../sidebar-elements'
@@ -101,6 +101,10 @@ const SidebarSection = ({
 
   if (!categories || categories.length <= 0) return <></>
 
+  useEffect(() => {
+    console.log('---(sidebar-section) Component successfully mounted on the client');
+  }, []); 
+
   return isHamburgerMenu ? (
     <Box
       className={sidebarSectionHidden ? 'active' : ''}
@@ -122,7 +126,7 @@ const SidebarSection = ({
             }}
           />
           {DocIcon && <DocIcon />}
-          <Text sx={styles.sidebarTitle}>{'T E S T E'}</Text>
+          <Text sx={styles.sidebarTitle}>{localizedSectionTitle}</Text>
         </Flex>
         <Box sx={styles.sidebarContainerBody}>
           <Flex sx={styles.searchBox}>
@@ -134,7 +138,7 @@ const SidebarSection = ({
               placeholder={
                 messages[locale]['sidebar_search.placeholder'] +
                 ' ' +
-                'T E S T E'
+                localizedSectionTitle
               }
               value={searchValue}
               onChange={(e) => setSearchValue(e.currentTarget.value)}
@@ -189,7 +193,7 @@ const SidebarSection = ({
               PREVIEW MODE
             </Text>
           )}
-          <Text sx={styles.sidebarTitle}>{'T E S T E'}</Text>
+          <Text sx={styles.sidebarTitle}>{localizedSectionTitle}</Text>
           <Flex sx={styles.searchBox}>
             <SearchIcon sx={styles.searchIcon} />
             <input
@@ -199,7 +203,7 @@ const SidebarSection = ({
               placeholder={
                 messages[locale]['sidebar_search.placeholder'] +
                 ' ' +
-                'T E S T E'
+                localizedSectionTitle
               }
               value={searchValue}
               onChange={(e) => setSearchValue(e.currentTarget.value)}
