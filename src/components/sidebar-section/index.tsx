@@ -97,10 +97,6 @@ const SidebarSection = ({
 
   if (!categories || categories.length <= 0) return <></>
 
-  useEffect(() => {
-    console.log('---(sidebar-section) Component successfully mounted on the client');
-  }, []); 
-
   return isHamburgerMenu ? (
     <Box
       className={sidebarSectionHidden ? 'active' : ''}
