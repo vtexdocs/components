@@ -7268,7 +7268,7 @@ var updateOpenPage = ({
 
 // src/components/sidebar-section/index.tsx
 import { Flex as Flex9, Box as Box11, Text as Text5, Button as Button3 } from "@vtex/brand-ui";
-import { useContext as useContext5, useMemo, useState as useState6, useEffect as useEffect8 } from "react";
+import { useContext as useContext5, useMemo, useState as useState6 } from "react";
 
 // src/components/sidebar-section/styles.ts
 var sidebarContainer = {
@@ -8093,10 +8093,6 @@ var SidebarSection = ({
     { name: "PATCH", active: false }
   ]);
   const localizedSectionTitle = typeof name === "string" ? name : name[locale];
-  console.log("------------(sidebar-section) locale");
-  console.log(locale);
-  console.log("------------(sidebar-section) sectionTitle");
-  console.log(localizedSectionTitle);
   const filterStatus = methodFilterList.some(
     (methodFilter) => methodFilter.active
   );
@@ -8124,9 +8120,6 @@ var SidebarSection = ({
   const DocIcon = getIcon2(documentation2, sidebarSections);
   if (!categories || categories.length <= 0)
     return /* @__PURE__ */ jsx21(Fragment2, {});
-  useEffect8(() => {
-    console.log("---(sidebar-section) Component successfully mounted on the client");
-  }, []);
   return isHamburgerMenu ? /* @__PURE__ */ jsx21(
     Box11,
     {
@@ -8303,16 +8296,13 @@ var Sidebar = ({ parentsArray = [] }) => {
     setActiveSectionName,
     activeSectionName,
     sidebarSections,
-    sidebarDataMaster,
-    locale
+    sidebarDataMaster
   } = context;
   const sidebarSectionContent = {
     ...Array.isArray(sidebarDataMaster) ? sidebarDataMaster?.find(
       (section) => section.documentation === activeSectionName
     ) : null
   };
-  console.log("---------------(sidebar) sidebarSectionContent.name");
-  console.log(sidebarSectionContent.name[locale]);
   updateOpenPage({
     parentsArray,
     context
@@ -8334,8 +8324,6 @@ var Sidebar = ({ parentsArray = [] }) => {
     const [iconTooltip2, setIconTooltip] = useState7(false);
     const [tooltipLabel, setTooltipLabel] = useState7(sectionElement.title);
     const titleRef = useRef4();
-    console.log("---------------(sidebar) titleRef.current");
-    console.log(titleRef.current);
     useEffect9(() => {
       const resizeObserver = new MutationObserver(function(entries) {
         const target = entries[0].target;
