@@ -6846,7 +6846,7 @@ var TableOfContents = ({ headingList }) => {
 var TableOfContents_default = TableOfContents;
 
 // src/lib/sidebar/index.tsx
-import { useEffect as useEffect8, useRef as useRef4, useState as useState7, useContext as useContext6 } from "react";
+import { useEffect as useEffect9, useRef as useRef4, useState as useState7, useContext as useContext6 } from "react";
 import { Flex as Flex10, Text as Text6, Box as Box12 } from "@vtex/brand-ui";
 import Link4 from "next/link.js";
 
@@ -7268,7 +7268,7 @@ var updateOpenPage = ({
 
 // src/components/sidebar-section/index.tsx
 import { Flex as Flex9, Box as Box11, Text as Text5, Button as Button3 } from "@vtex/brand-ui";
-import { useContext as useContext5, useMemo, useState as useState6 } from "react";
+import { useContext as useContext5, useMemo, useState as useState6, useEffect as useEffect8 } from "react";
 
 // src/components/sidebar-section/styles.ts
 var sidebarContainer = {
@@ -8124,6 +8124,9 @@ var SidebarSection = ({
   const DocIcon = getIcon2(documentation2, sidebarSections);
   if (!categories || categories.length <= 0)
     return /* @__PURE__ */ jsx21(Fragment2, {});
+  useEffect8(() => {
+    console.log("---(sidebar-section) Component successfully mounted on the client");
+  }, []);
   return isHamburgerMenu ? /* @__PURE__ */ jsx21(
     Box11,
     {
@@ -8150,7 +8153,7 @@ var SidebarSection = ({
                 }
               ),
               DocIcon && /* @__PURE__ */ jsx21(DocIcon, {}),
-              /* @__PURE__ */ jsx21(Text5, { sx: styles_default9.sidebarTitle, children: "T E S T E" })
+              /* @__PURE__ */ jsx21(Text5, { sx: styles_default9.sidebarTitle, children: localizedSectionTitle })
             ] }),
             /* @__PURE__ */ jsxs15(Box11, { sx: styles_default9.sidebarContainerBody, children: [
               /* @__PURE__ */ jsxs15(Flex9, { sx: styles_default9.searchBox, children: [
@@ -8161,7 +8164,7 @@ var SidebarSection = ({
                     style: styles_default9.searchInput,
                     className: "searchComponent",
                     type: "text",
-                    placeholder: messages[locale]["sidebar_search.placeholder"] + " T E S T E",
+                    placeholder: messages[locale]["sidebar_search.placeholder"] + " " + localizedSectionTitle,
                     value: searchValue,
                     onChange: (e) => setSearchValue(e.currentTarget.value)
                   }
@@ -8231,7 +8234,7 @@ var SidebarSection = ({
                   ),
                   "PREVIEW MODE"
                 ] }),
-                /* @__PURE__ */ jsx21(Text5, { sx: styles_default9.sidebarTitle, children: "T E S T E" }),
+                /* @__PURE__ */ jsx21(Text5, { sx: styles_default9.sidebarTitle, children: localizedSectionTitle }),
                 /* @__PURE__ */ jsxs15(Flex9, { sx: styles_default9.searchBox, children: [
                   /* @__PURE__ */ jsx21(search_icon_default, { sx: styles_default9.searchIcon }),
                   /* @__PURE__ */ jsx21(
@@ -8240,7 +8243,7 @@ var SidebarSection = ({
                       style: styles_default9.searchInput,
                       className: "searchComponent",
                       type: "text",
-                      placeholder: messages[locale]["sidebar_search.placeholder"] + " T E S T E",
+                      placeholder: messages[locale]["sidebar_search.placeholder"] + " " + localizedSectionTitle,
                       value: searchValue,
                       onChange: (e) => setSearchValue(e.currentTarget.value)
                     }
@@ -8314,7 +8317,7 @@ var Sidebar = ({ parentsArray = [] }) => {
     parentsArray,
     context
   });
-  useEffect8(() => {
+  useEffect9(() => {
     let timer = void 0;
     if (sidebarSectionContent.categories?.length > 0)
       timer = setTimeout(
@@ -8331,9 +8334,9 @@ var Sidebar = ({ parentsArray = [] }) => {
     const [iconTooltip2, setIconTooltip] = useState7(false);
     const [tooltipLabel, setTooltipLabel] = useState7(sectionElement.title);
     const titleRef = useRef4();
-    console.log("---------------(sidebar) sectionElement.title");
-    console.log(sectionElement.title);
-    useEffect8(() => {
+    console.log("---------------(sidebar) titleRef.current");
+    console.log(titleRef.current);
+    useEffect9(() => {
       const resizeObserver = new MutationObserver(function(entries) {
         const target = entries[0].target;
         if (target.offsetWidth < target.scrollWidth)
@@ -9516,7 +9519,7 @@ var getAction = (actionType) => {
 };
 
 // src/components/search-input/customHighlight.tsx
-import { useEffect as useEffect9, useRef as useRef6, useState as useState8 } from "react";
+import { useEffect as useEffect10, useRef as useRef6, useState as useState8 } from "react";
 import { connectHighlight } from "react-instantsearch-dom";
 import { Flex as Flex13, Text as Text8 } from "@vtex/brand-ui";
 import { jsx as jsx36 } from "react/jsx-runtime";
@@ -9547,7 +9550,7 @@ var Highlight = ({
       ellipsedContent.push(part);
     });
   }
-  useEffect9(() => {
+  useEffect10(() => {
     if (searchPage)
       return;
     const titleSize = textContainer.current ? textContainer.current.offsetWidth / 7.75 : 40;
@@ -10062,7 +10065,7 @@ var setButtonStyle = (feedback, modalState, like) => {
 import { Box as Box17, Button as Button5, Textarea, Text as Text10, Icon as Icon22 } from "@vtex/brand-ui";
 import {
   useContext as useContext11,
-  useEffect as useEffect10,
+  useEffect as useEffect11,
   useRef as useRef8,
   useState as useState10
 } from "react";
@@ -10237,7 +10240,7 @@ var FeedBackModal = ({
     onSubmit(comment);
     closeModal();
   };
-  useEffect10(() => {
+  useEffect11(() => {
     const scrollTop = body2.getBoundingClientRect().top * -1;
     body2.style.top = `-${scrollTop}px`;
     body2.classList.add("modal-open");
@@ -10661,7 +10664,7 @@ import { Box as Box20 } from "@vtex/brand-ui";
 
 // src/components/search-section/index.tsx
 import { Box as Box19, Flex as Flex17, Text as Text13 } from "@vtex/brand-ui";
-import { useContext as useContext13, useEffect as useEffect11 } from "react";
+import { useContext as useContext13, useEffect as useEffect12 } from "react";
 
 // src/components/search-section/styles.ts
 var sectionContainer = {
@@ -10773,7 +10776,7 @@ var SearchSection = ({ dataElement, index }) => {
     router.query.filter = value;
     changeFilterSelectedSection(value);
   };
-  useEffect11(() => {
+  useEffect12(() => {
     updateFilter("");
   }, [router.query]);
   return !dataElement ? /* @__PURE__ */ jsxs41(Flex17, { sx: styles_default19.sectionContainer, onClick: () => updateFilter(""), children: [
@@ -10867,7 +10870,7 @@ import { Box as Box23, Text as Text15 } from "@vtex/brand-ui";
 import { Configure as Configure2, InstantSearch as InstantSearch2 } from "react-instantsearch-dom";
 
 // src/components/search-results/infiniteHits.tsx
-import { useContext as useContext15, useEffect as useEffect12, useMemo as useMemo2, useRef as useRef11 } from "react";
+import { useContext as useContext15, useEffect as useEffect13, useMemo as useMemo2, useRef as useRef11 } from "react";
 import {
   connectInfiniteHits,
   connectStateResults as connectStateResults2
@@ -11170,7 +11173,7 @@ var HitCard = ({ hit }) => {
 var StateResults = connectStateResults2(
   ({ searchResults }) => {
     const { updateOcurrenceCount } = useContext15(SearchContext);
-    useEffect12(() => {
+    useEffect13(() => {
       const results = searchResults;
       if (results && results._state.filters === "") {
         const facets = searchResults?.facets[0];
@@ -11203,7 +11206,7 @@ var InfiniteHits = ({ hits, hasMore, refineNext }) => {
     });
     return mergeHits;
   }, [hits]);
-  useEffect12(() => {
+  useEffect13(() => {
     const observer = new IntersectionObserver(onSentinelIntersection, {});
     if (scrollRef.current)
       observer.observe(scrollRef.current);
