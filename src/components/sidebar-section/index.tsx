@@ -14,6 +14,7 @@ import { messages } from 'utils/get-message'
 
 export interface SidebarSectionProps {
   documentation: string
+  name: string | { en: string, es: string, pt: string }
   categories: SidebarElement[]
   slugPrefix: string
   isHamburgerMenu: boolean
@@ -21,6 +22,7 @@ export interface SidebarSectionProps {
 
 const SidebarSection = ({
   documentation,
+  name,
   categories,
   slugPrefix,
   isHamburgerMenu = false,
@@ -44,6 +46,8 @@ const SidebarSection = ({
   const filterStatus = methodFilterList.some(
     (methodFilter) => methodFilter.active
   )
+
+  const localizedSectionTitle = typeof(name) === 'string' ? name : name[locale]
 
   const filteredResult = useMemo(() => {
     if (!filterStatus && searchValue === '') return categories
@@ -114,7 +118,7 @@ const SidebarSection = ({
             }}
           />
           {DocIcon && <DocIcon />}
-          <Text sx={styles.sidebarTitle}>{documentation}</Text>
+          <Text sx={styles.sidebarTitle}>{localizedSectionTitle}</Text>
         </Flex>
         <Box sx={styles.sidebarContainerBody}>
           <Flex sx={styles.searchBox}>
@@ -126,7 +130,7 @@ const SidebarSection = ({
               placeholder={
                 messages[locale]['sidebar_search.placeholder'] +
                 ' ' +
-                documentation
+                localizedSectionTitle
               }
               value={searchValue}
               onChange={(e) => setSearchValue(e.currentTarget.value)}
@@ -181,7 +185,7 @@ const SidebarSection = ({
               PREVIEW MODE
             </Text>
           )}
-          <Text sx={styles.sidebarTitle}>{documentation}</Text>
+          <Text sx={styles.sidebarTitle}>{localizedSectionTitle}</Text>
           <Flex sx={styles.searchBox}>
             <SearchIcon sx={styles.searchIcon} />
             <input
@@ -191,7 +195,7 @@ const SidebarSection = ({
               placeholder={
                 messages[locale]['sidebar_search.placeholder'] +
                 ' ' +
-                documentation
+                localizedSectionTitle
               }
               value={searchValue}
               onChange={(e) => setSearchValue(e.currentTarget.value)}
