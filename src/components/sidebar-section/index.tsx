@@ -43,6 +43,12 @@ const SidebarSection = ({
     { name: 'PATCH', active: false },
   ])
 
+  console.log('/////////------- sidebar-section')
+  console.log('documentation')
+  console.log(documentation)
+  console.log('name')
+  console.log(name)
+
   const filterStatus = methodFilterList.some(
     (methodFilter) => methodFilter.active
   )
