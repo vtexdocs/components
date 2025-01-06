@@ -8099,6 +8099,11 @@ var SidebarSection = ({
     { name: "DELETE", active: false },
     { name: "PATCH", active: false }
   ]);
+  console.log("/////////------- sidebar-section");
+  console.log("documentation");
+  console.log(documentation2);
+  console.log("name");
+  console.log(name);
   const filterStatus = methodFilterList.some(
     (methodFilter) => methodFilter.active
   );
@@ -8310,6 +8315,11 @@ var Sidebar = ({ parentsArray = [] }) => {
       (section) => section.documentation === activeSectionName
     ) : null
   };
+  console.log("/////////------- sidebar");
+  console.log("activeSectionName");
+  console.log(activeSectionName);
+  console.log("sidebarSectionContent");
+  console.log(sidebarSectionContent);
   updateOpenPage({
     parentsArray,
     context
