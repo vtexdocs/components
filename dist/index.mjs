@@ -8102,7 +8102,7 @@ var SidebarSection = ({
   const filterStatus = methodFilterList.some(
     (methodFilter) => methodFilter.active
   );
-  const localizedSectionTitle = typeof name === "string" ? name : name[locale];
+  const localizedSectionTitle = typeof name === "string" ? name : name?.[locale];
   const filteredResult = useMemo(() => {
     if (!filterStatus && searchValue === "")
       return categories;
