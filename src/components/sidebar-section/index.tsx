@@ -44,7 +44,7 @@ const SidebarSection = ({
     { name: 'PATCH', active: false },
   ])
 
-  console.log('/////////------- sidebar-section')
+  console.log('/////////------- sidebar-section -*/-*/')
   console.log('documentation')
   console.log(documentation)
   console.log('name')
