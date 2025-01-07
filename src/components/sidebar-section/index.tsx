@@ -51,6 +51,8 @@ const SidebarSection = ({
   console.log(name)
   console.log('activeSectionName')
   console.log(activeSectionName)
+  console.log('categories')
+  console.log(categories)
 
   const filterStatus = methodFilterList.some(
     (methodFilter) => methodFilter.active
