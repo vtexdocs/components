@@ -34,6 +34,7 @@ const SidebarSection = ({
     setSidebarSectionHidden,
     sidebarSections,
     locale,
+    activeSectionName
   } = useContext(LibraryContext)
   const [methodFilterList, setMethodFilterList] = useState([
     { name: 'POST', active: false },
@@ -48,12 +49,12 @@ const SidebarSection = ({
   console.log(documentation)
   console.log('name')
   console.log(name)
+  console.log('activeSectionName')
+  console.log(activeSectionName)
 
   const filterStatus = methodFilterList.some(
     (methodFilter) => methodFilter.active
   )
-
-  const localizedSectionTitle = typeof(name) === 'string' ? name : name[locale]
 
   const filteredResult = useMemo(() => {
     if (!filterStatus && searchValue === '') return categories
@@ -101,7 +102,13 @@ const SidebarSection = ({
 
   const DocIcon = getIcon(documentation, sidebarSections)
 
-  if (!categories || categories.length <= 0) return <></>
+  let localizedSectionTitle = ''
+
+  if (!categories || categories.length <= 0) {
+    return <></>
+  } else {
+    localizedSectionTitle = typeof(name) === 'string' ? name : name[locale]
+  }
 
   return isHamburgerMenu ? (
     <Box
