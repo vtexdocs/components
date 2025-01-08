@@ -45,14 +45,14 @@ const SidebarSection = ({
   ])
 
   console.log('/////////------- sidebar-section -*/-*/')
-  console.log('documentation')
-  console.log(documentation)
-  console.log('name')
-  console.log(name)
-  console.log('activeSectionName')
-  console.log(activeSectionName)
-  console.log('categories')
-  console.log(categories)
+  //console.log('documentation')
+  //console.log(documentation)
+  //console.log('name')
+  //console.log(name)
+  //console.log('activeSectionName')
+  //console.log(activeSectionName)
+  //console.log('categories')
+  //console.log(categories)
 
   const filterStatus = methodFilterList.some(
     (methodFilter) => methodFilter.active
@@ -107,9 +107,11 @@ const SidebarSection = ({
   let localizedSectionTitle = ''
 
   if (!categories || categories.length <= 0) {
+    console.log('if')
     return <></>
   } else {
     localizedSectionTitle = typeof(name) === 'string' ? name : name[locale]
+    console.log('else')
   }
 
   return isHamburgerMenu ? (
