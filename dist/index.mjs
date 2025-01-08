@@ -8090,7 +8090,8 @@ var SidebarSection = ({
     sidebarSectionHidden,
     setSidebarSectionHidden,
     sidebarSections,
-    locale
+    locale,
+    activeSectionName
   } = useContext5(LibraryContext);
   const [methodFilterList, setMethodFilterList] = useState6([
     { name: "POST", active: false },
@@ -8099,15 +8100,18 @@ var SidebarSection = ({
     { name: "DELETE", active: false },
     { name: "PATCH", active: false }
   ]);
-  console.log("/////////------- sidebar-section");
+  console.log("/////////------- sidebar-section -*/-*/");
   console.log("documentation");
   console.log(documentation2);
   console.log("name");
   console.log(name);
+  console.log("activeSectionName");
+  console.log(activeSectionName);
+  console.log("categories");
+  console.log(categories);
   const filterStatus = methodFilterList.some(
     (methodFilter) => methodFilter.active
   );
-  const localizedSectionTitle = typeof name === "string" ? name : name[locale];
   const filteredResult = useMemo(() => {
     if (!filterStatus && searchValue === "")
       return categories;
@@ -8130,8 +8134,12 @@ var SidebarSection = ({
     return filteredCategories;
   }, [filterStatus, methodFilterList, categories, searchValue]);
   const DocIcon = getIcon2(documentation2, sidebarSections);
-  if (!categories || categories.length <= 0)
+  let localizedSectionTitle = "";
+  if (!categories || categories.length <= 0) {
     return /* @__PURE__ */ jsx21(Fragment2, {});
+  } else {
+    localizedSectionTitle = typeof name === "string" ? name : name[locale];
+  }
   return isHamburgerMenu ? /* @__PURE__ */ jsx21(
     Box11,
     {
