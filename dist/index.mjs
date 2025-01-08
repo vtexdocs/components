@@ -8101,14 +8101,6 @@ var SidebarSection = ({
     { name: "PATCH", active: false }
   ]);
   console.log("/////////------- sidebar-section -*/-*/");
-  console.log("documentation");
-  console.log(documentation2);
-  console.log("name");
-  console.log(name);
-  console.log("activeSectionName");
-  console.log(activeSectionName);
-  console.log("categories");
-  console.log(categories);
   const filterStatus = methodFilterList.some(
     (methodFilter) => methodFilter.active
   );
@@ -8136,9 +8128,11 @@ var SidebarSection = ({
   const DocIcon = getIcon2(documentation2, sidebarSections);
   let localizedSectionTitle = "";
   if (!categories || categories.length <= 0) {
+    console.log("if");
     return /* @__PURE__ */ jsx21(Fragment2, {});
   } else {
     localizedSectionTitle = typeof name === "string" ? name : name[locale];
+    console.log("else");
   }
   return isHamburgerMenu ? /* @__PURE__ */ jsx21(
     Box11,
