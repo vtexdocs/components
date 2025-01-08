@@ -40,14 +40,6 @@ const Sidebar = ({ parentsArray = [] }: SideBarSectionState) => {
       : null),
   }
 
-  console.log('/////////------- sidebar')
-  console.log('activeSectionName')
-  console.log(activeSectionName)
-  console.log('sidebarSectionContent')
-  console.log(sidebarSectionContent)
-  console.log('sidebarDataMaster')
-  console.log(sidebarDataMaster)
-
   updateOpenPage({
     parentsArray,
     context,
