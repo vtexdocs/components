@@ -8079,6 +8079,7 @@ var arrow_left_icon_default = ArrowLeftIcon;
 import { Fragment as Fragment2, jsx as jsx21, jsxs as jsxs15 } from "react/jsx-runtime";
 var SidebarSection = ({
   documentation: documentation2,
+  name,
   categories,
   slugPrefix,
   isHamburgerMenu = false
@@ -8089,7 +8090,8 @@ var SidebarSection = ({
     sidebarSectionHidden,
     setSidebarSectionHidden,
     sidebarSections,
-    locale
+    locale,
+    activeSectionName
   } = useContext5(LibraryContext);
   const [methodFilterList, setMethodFilterList] = useState6([
     { name: "POST", active: false },
@@ -8098,6 +8100,7 @@ var SidebarSection = ({
     { name: "DELETE", active: false },
     { name: "PATCH", active: false }
   ]);
+  console.log("/////////------- sidebar-section -*/-*/");
   const filterStatus = methodFilterList.some(
     (methodFilter) => methodFilter.active
   );
@@ -8123,8 +8126,14 @@ var SidebarSection = ({
     return filteredCategories;
   }, [filterStatus, methodFilterList, categories, searchValue]);
   const DocIcon = getIcon2(documentation2, sidebarSections);
-  if (!categories || categories.length <= 0)
+  let localizedSectionTitle = "";
+  if (!categories || categories.length <= 0) {
+    console.log("if");
     return /* @__PURE__ */ jsx21(Fragment2, {});
+  } else {
+    localizedSectionTitle = typeof name === "string" ? name : name[locale];
+    console.log("else");
+  }
   return isHamburgerMenu ? /* @__PURE__ */ jsx21(
     Box11,
     {
@@ -8151,7 +8160,7 @@ var SidebarSection = ({
                 }
               ),
               DocIcon && /* @__PURE__ */ jsx21(DocIcon, {}),
-              /* @__PURE__ */ jsx21(Text5, { sx: styles_default9.sidebarTitle, children: documentation2 })
+              /* @__PURE__ */ jsx21(Text5, { sx: styles_default9.sidebarTitle, children: localizedSectionTitle })
             ] }),
             /* @__PURE__ */ jsxs15(Box11, { sx: styles_default9.sidebarContainerBody, children: [
               /* @__PURE__ */ jsxs15(Flex9, { sx: styles_default9.searchBox, children: [
@@ -8162,7 +8171,7 @@ var SidebarSection = ({
                     style: styles_default9.searchInput,
                     className: "searchComponent",
                     type: "text",
-                    placeholder: messages[locale]["sidebar_search.placeholder"] + " " + documentation2,
+                    placeholder: messages[locale]["sidebar_search.placeholder"] + " " + localizedSectionTitle,
                     value: searchValue,
                     onChange: (e) => setSearchValue(e.currentTarget.value)
                   }
@@ -8232,7 +8241,7 @@ var SidebarSection = ({
                   ),
                   "PREVIEW MODE"
                 ] }),
-                /* @__PURE__ */ jsx21(Text5, { sx: styles_default9.sidebarTitle, children: documentation2 }),
+                /* @__PURE__ */ jsx21(Text5, { sx: styles_default9.sidebarTitle, children: localizedSectionTitle }),
                 /* @__PURE__ */ jsxs15(Flex9, { sx: styles_default9.searchBox, children: [
                   /* @__PURE__ */ jsx21(search_icon_default, { sx: styles_default9.searchIcon }),
                   /* @__PURE__ */ jsx21(
@@ -8241,7 +8250,7 @@ var SidebarSection = ({
                       style: styles_default9.searchInput,
                       className: "searchComponent",
                       type: "text",
-                      placeholder: messages[locale]["sidebar_search.placeholder"] + " " + documentation2,
+                      placeholder: messages[locale]["sidebar_search.placeholder"] + " " + localizedSectionTitle,
                       value: searchValue,
                       onChange: (e) => setSearchValue(e.currentTarget.value)
                     }
@@ -8308,6 +8317,13 @@ var Sidebar = ({ parentsArray = [] }) => {
       (section) => section.documentation === activeSectionName
     ) : null
   };
+  console.log("/////////------- sidebar");
+  console.log("activeSectionName");
+  console.log(activeSectionName);
+  console.log("sidebarSectionContent");
+  console.log(sidebarSectionContent);
+  console.log("sidebarDataMaster");
+  console.log(sidebarDataMaster);
   updateOpenPage({
     parentsArray,
     context

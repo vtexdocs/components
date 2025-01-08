@@ -14,6 +14,7 @@ import { messages } from 'utils/get-message'
 
 export interface SidebarSectionProps {
   documentation: string
+  name: string | { en: string, es: string, pt: string }
   categories: SidebarElement[]
   slugPrefix: string
   isHamburgerMenu: boolean
@@ -21,6 +22,7 @@ export interface SidebarSectionProps {
 
 const SidebarSection = ({
   documentation,
+  name,
   categories,
   slugPrefix,
   isHamburgerMenu = false,
@@ -32,6 +34,7 @@ const SidebarSection = ({
     setSidebarSectionHidden,
     sidebarSections,
     locale,
+    activeSectionName
   } = useContext(LibraryContext)
   const [methodFilterList, setMethodFilterList] = useState([
     { name: 'POST', active: false },
@@ -91,7 +94,13 @@ const SidebarSection = ({
 
   const DocIcon = getIcon(documentation, sidebarSections)
 
-  if (!categories || categories.length <= 0) return <></>
+  let localizedSectionTitle = ''
+
+  if (!categories || categories.length <= 0) {
+    return <></>
+  } else {
+    localizedSectionTitle = typeof(name) === 'string' ? name : name[locale]
+  }
 
   return isHamburgerMenu ? (
     <Box
@@ -114,7 +123,7 @@ const SidebarSection = ({
             }}
           />
           {DocIcon && <DocIcon />}
-          <Text sx={styles.sidebarTitle}>{documentation}</Text>
+          <Text sx={styles.sidebarTitle}>{localizedSectionTitle}</Text>
         </Flex>
         <Box sx={styles.sidebarContainerBody}>
           <Flex sx={styles.searchBox}>
@@ -126,7 +135,7 @@ const SidebarSection = ({
               placeholder={
                 messages[locale]['sidebar_search.placeholder'] +
                 ' ' +
-                documentation
+                localizedSectionTitle
               }
               value={searchValue}
               onChange={(e) => setSearchValue(e.currentTarget.value)}
@@ -181,7 +190,7 @@ const SidebarSection = ({
               PREVIEW MODE
             </Text>
           )}
-          <Text sx={styles.sidebarTitle}>{documentation}</Text>
+          <Text sx={styles.sidebarTitle}>{localizedSectionTitle}</Text>
           <Flex sx={styles.searchBox}>
             <SearchIcon sx={styles.searchIcon} />
             <input
@@ -191,7 +200,7 @@ const SidebarSection = ({
               placeholder={
                 messages[locale]['sidebar_search.placeholder'] +
                 ' ' +
-                documentation
+                localizedSectionTitle
               }
               value={searchValue}
               onChange={(e) => setSearchValue(e.currentTarget.value)}
