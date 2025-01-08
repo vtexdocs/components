@@ -8322,6 +8322,8 @@ var Sidebar = ({ parentsArray = [] }) => {
   console.log(activeSectionName);
   console.log("sidebarSectionContent");
   console.log(sidebarSectionContent);
+  console.log("sidebarDataMaster");
+  console.log(sidebarDataMaster);
   updateOpenPage({
     parentsArray,
     context
