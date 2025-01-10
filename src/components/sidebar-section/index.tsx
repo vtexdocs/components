@@ -33,8 +33,7 @@ const SidebarSection = ({
     sidebarSectionHidden,
     setSidebarSectionHidden,
     sidebarSections,
-    locale,
-    activeSectionName
+    locale
   } = useContext(LibraryContext)
   const [methodFilterList, setMethodFilterList] = useState([
     { name: 'POST', active: false },
