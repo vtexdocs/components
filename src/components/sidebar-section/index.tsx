@@ -1,3 +1,4 @@
+// Sidebar Section Component
 import { Flex, Box, Text, Button } from '@vtex/brand-ui'
 import { useContext, useMemo, useState } from 'react'
 
