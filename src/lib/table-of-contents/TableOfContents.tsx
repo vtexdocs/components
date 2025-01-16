@@ -4,7 +4,7 @@ import { useRouter } from 'next/router.js'
 import { Box, Text } from '@vtex/brand-ui'
 import AnimateHeight from 'react-animate-height'
 
-import { removeHTML } from 'utils/string-utils'
+import { slugify, removeHTML } from 'utils/string-utils'
 import { Item } from './TableOfContents.types'
 
 import { LibraryContext } from 'utils/context/libraryContext'
@@ -26,7 +26,9 @@ const TableOfContents = ({ headingList }: Props) => {
     const headings: Item[] = headingList ?? []
     if (!headings.length) {
       document.querySelectorAll('h2, h3').forEach((heading) => {
-        const headingSlug = heading.id
+        const headingSlug = slugify(heading.innerHTML)
+        heading.id = headingSlug
+        console.log('Assigned ID:', headingSlug)
         const item = {
           title: removeHTML(heading.innerHTML).replace(':', ''),
           slug: headingSlug,
@@ -40,8 +42,19 @@ const TableOfContents = ({ headingList }: Props) => {
           headings.push({ ...item, children: [] })
         }
       })
-      setHeadingItems(headings)
-    } else setHeadingItems(headings)
+    }
+    // Ensure headings have normalized slugs before updating the state
+    const normalizedHeadings = headings.map((heading) => ({
+      ...heading,
+      slug: slugify(heading.title), // Normalize the slug
+      children: heading.children.map((child) => ({
+        ...child,
+        slug: slugify(child.title), // Normalize child slugs
+      })),
+    }))
+    
+    setHeadingItems(normalizedHeadings) // Update state with normalized headings
+
   }, [router.asPath, headingList])
 
   const Item = ({
