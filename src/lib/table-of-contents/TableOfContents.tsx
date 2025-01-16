@@ -26,7 +26,7 @@ const TableOfContents = ({ headingList }: Props) => {
     const headings: Item[] = headingList ?? []
     if (!headings.length) {
       document.querySelectorAll('h2, h3').forEach((heading) => {
-        const headingSlug = slugify(heading.id)
+        const headingSlug = slugify(heading.innerHTML)
         const item = {
           title: removeHTML(heading.innerHTML).replace(':', ''),
           slug: headingSlug,
