@@ -4,7 +4,7 @@ import { useRouter } from 'next/router.js'
 import { Box, Text } from '@vtex/brand-ui'
 import AnimateHeight from 'react-animate-height'
 
-import { removeHTML } from 'utils/string-utils'
+import { slugify, removeHTML } from 'utils/string-utils'
 import { Item } from './TableOfContents.types'
 
 import { LibraryContext } from 'utils/context/libraryContext'
@@ -26,7 +26,7 @@ const TableOfContents = ({ headingList }: Props) => {
     const headings: Item[] = headingList ?? []
     if (!headings.length) {
       document.querySelectorAll('h2, h3').forEach((heading) => {
-        const headingSlug = heading.id
+        const headingSlug = slugify(heading.id)
         const item = {
           title: removeHTML(heading.innerHTML).replace(':', ''),
           slug: headingSlug,
