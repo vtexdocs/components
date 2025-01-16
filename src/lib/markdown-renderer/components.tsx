@@ -48,9 +48,9 @@ const ObservableHeading = ({
       }}
     >
       {level === 2 ? (
-        <h2 id='test' className={styles.heading} {...headingProps} />
+        <h2 id={slug} className={styles.heading} {...headingProps} />
       ) : (
-        <h3 id='test' className={styles.heading} {...headingProps} />
+        <h3 id={slug} className={styles.heading} {...headingProps} />
       )}
     </InView>
   )
