@@ -28,7 +28,6 @@ const TableOfContents = ({ headingList }: Props) => {
       document.querySelectorAll('h2, h3').forEach((heading) => {
         const headingSlug = slugify(heading.innerHTML)
         heading.id = headingSlug
-        heading.removeAttribute('id'); // Clear any pre-existing id
         console.log('Assigned ID:', headingSlug)
         const item = {
           title: removeHTML(heading.innerHTML).replace(':', ''),
@@ -44,7 +43,7 @@ const TableOfContents = ({ headingList }: Props) => {
         }
       })
     }
-      // Ensure headings have normalized slugs before updating the state
+    // Ensure headings have normalized slugs before updating the state
     const normalizedHeadings = headings.map((heading) => ({
       ...heading,
       slug: slugify(heading.title), // Normalize the slug
@@ -52,9 +51,9 @@ const TableOfContents = ({ headingList }: Props) => {
         ...child,
         slug: slugify(child.title), // Normalize child slugs
       })),
-    }));
+    }))
     
-    setHeadingItems(normalizedHeadings); // Update state with normalized headings
+    setHeadingItems(normalizedHeadings) // Update state with normalized headings
 
   }, [router.asPath, headingList])
 
