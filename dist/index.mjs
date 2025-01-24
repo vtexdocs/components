@@ -8090,8 +8090,7 @@ var SidebarSection = ({
     sidebarSectionHidden,
     setSidebarSectionHidden,
     sidebarSections,
-    locale,
-    activeSectionName
+    locale
   } = useContext5(LibraryContext);
   const [methodFilterList, setMethodFilterList] = useState6([
     { name: "POST", active: false },
@@ -8100,7 +8099,6 @@ var SidebarSection = ({
     { name: "DELETE", active: false },
     { name: "PATCH", active: false }
   ]);
-  console.log("/////////------- sidebar-section -*/-*/");
   const filterStatus = methodFilterList.some(
     (methodFilter) => methodFilter.active
   );
@@ -8128,11 +8126,9 @@ var SidebarSection = ({
   const DocIcon = getIcon2(documentation2, sidebarSections);
   let localizedSectionTitle = "";
   if (!categories || categories.length <= 0) {
-    console.log("if");
     return /* @__PURE__ */ jsx21(Fragment2, {});
   } else {
     localizedSectionTitle = typeof name === "string" ? name : name[locale];
-    console.log("else");
   }
   return isHamburgerMenu ? /* @__PURE__ */ jsx21(
     Box11,
@@ -8317,13 +8313,6 @@ var Sidebar = ({ parentsArray = [] }) => {
       (section) => section.documentation === activeSectionName
     ) : null
   };
-  console.log("/////////------- sidebar");
-  console.log("activeSectionName");
-  console.log(activeSectionName);
-  console.log("sidebarSectionContent");
-  console.log(sidebarSectionContent);
-  console.log("sidebarDataMaster");
-  console.log(sidebarDataMaster);
   updateOpenPage({
     parentsArray,
     context
