@@ -11,11 +11,14 @@ export const toCamelCase = (str: string) => {
 
 export const slugify = (str: string) => {
   return str
+    .toString()
     .toLowerCase()
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .replace(/\s+/g, '-')
-    .replace(/\-+/g, '-')
+    .normalize('NFKD') // Normalize to decompose combined characters
+    .replace(/[^\w\s-]/g, '') // Remove all non-word characters except spaces and hyphens
+    .replace(/\s+/g, '-') // Replace spaces with -
+    .replace(/-+/g, '-') // Replace multiple - with single -
+    .replace(/^-+/, '') // Trim - from start of text
+    .replace(/-+$/, ''); // Trim - from end of text
 }
 
 type Child = string | { props: { children: Child[] } }
