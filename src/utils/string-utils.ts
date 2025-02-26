@@ -13,10 +13,11 @@ export const slugify = (str: string) => {
   return str
     .toString()
     .toLowerCase()
-    .normalize('NFKD') // Normalize to decompose combined characters
-    .replace(/[^\w\s-]/g, '') // Remove all non-word characters except spaces and hyphens
+    .normalize('NFD') // Normalize to decompose combined characters
+    .replace(/[\u0300-\u036f]/g, '') // Remove diacritical marks
     .replace(/\s+/g, '-') // Replace spaces with -
-    .replace(/-+/g, '-') // Replace multiple - with single -
+    .replace(/[^\w\-]+/g, '') // Remove all non-word characters
+    .replace(/\-\-+/g, '-') // Replace multiple - with single -
     .replace(/^-+/, '') // Trim - from start of text
     .replace(/-+$/, ''); // Trim - from end of text
 }
