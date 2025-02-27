@@ -43,18 +43,8 @@ const TableOfContents = ({ headingList }: Props) => {
           headings.push({ ...item, children: [] })
         }
       })
-    }
-    // Ensure headings have normalized slugs before updating the state
-    const normalizedHeadings = headings.map((heading) => ({
-      ...heading,
-      slug: slugify(heading.title), // Normalize the slug
-      children: heading.children.map((child) => ({
-        ...child,
-        slug: slugify(child.title), // Normalize child slugs
-      })),
-    }))
-    
-    setHeadingItems(normalizedHeadings) // Update state with normalized headings
+    setHeadingItems(headings)
+  } else setHeadingItems(headings)
 
   }, [router.asPath, headingList])
 
