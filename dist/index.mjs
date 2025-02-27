@@ -6788,18 +6788,9 @@ var TableOfContents = ({ headingList }) => {
           headings.push({ ...item2, children: [] });
         }
       });
-    }
-    const normalizedHeadings = headings.map((heading) => ({
-      ...heading,
-      slug: slugify(heading.title),
-      // Normalize the slug
-      children: heading.children.map((child) => ({
-        ...child,
-        slug: slugify(child.title)
-        // Normalize child slugs
-      }))
-    }));
-    setHeadingItems(normalizedHeadings);
+      setHeadingItems(headings);
+    } else
+      setHeadingItems(headings);
   }, [router.asPath, headingList]);
   const Item = ({
     title: title6,
