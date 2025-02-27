@@ -137,7 +137,7 @@ If the branch is already in use:
 1. Remove the branch reference in the `package.json` file in the target repository:
 
    ```json
-   "@vtexdocs/components": "https://github.com/vtexdocs/components.git
+   "@vtexdocs/components": "https://github.com/vtexdocs/components.git"
    ```
 
 2. Install dependencies:
@@ -157,7 +157,7 @@ If the branch is already in use:
    ```bash
    yarn
    ```
-
+   
 5. Start the development server:
 
    ```bash
