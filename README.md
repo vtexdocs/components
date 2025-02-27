@@ -10,6 +10,7 @@
   - [Styling](#styling)
   - [Context](#context)
   - [Search](#search)
+  - [Testing](#testing)
 
 ## About
 
@@ -93,4 +94,74 @@ const libraryConfig = {
 export default SearchConfig(libraryConfig)
 ```
 
+### Testing with a repository
+
+When testing changes to the component library in another repository (e.g., a documentation portal like helpcenter or devportal), follow these steps to ensure that your updates are correctly integrated. This process involves updating the components repository, applying the changes in the target repository, and verifying them in a local development environment.
+
+#### Updating the components repository
+
+1. Make the necessary changes to the components.
+2. Commit your changes.
+3. Build the project:
+
+   ```bash
+   yarn run build
+   ```
+
+4. Commit the generated build files.
+5. Push your changes to the remote repository.
+
+#### Updating a target repository
+
+If the branch is not yet in use in the `package.json` file in the target repository:
+
+1. Update the `package.json` file in the target repository to reference the branch:
+
+   ```json
+   "@vtexdocs/components": "https://github.com/vtexdocs/components.git#fix/slugify"
+   ```
+
+2. Install dependencies:
+
+   ```bash
+   yarn
+   ```
+3. Start the development server:
+
+   ```bash
+   yarn dev
+   ```
+
+If the branch is already in use:
+
+1. Remove the branch reference in the `package.json` file in the target repository:
+
+   ```json
+   "@vtexdocs/components": "https://github.com/vtexdocs/components.git
+   ```
+
+2. Install dependencies:
+
+   ```bash
+   yarn
+   ```
+
+3. Re-add the branch reference to the `package.json` file:
+
+   ```json
+   "@vtexdocs/components": "https://github.com/vtexdocs/components.git#fix/slugify"
+   ```
+
+4. Reinstall dependencies:
+
+   ```bash
+   yarn
+   ```
+
+5. Start the development server:
+
+   ```bash
+   yarn dev
+   ```
+   
 Feel free to explore and integrate these components into your project. If you encounter any issues, please refer to the documentation or reach out to our community for assistance.
