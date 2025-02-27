@@ -6403,7 +6403,7 @@ var libraryContext_default = LibraryContextProvider;
 // src/utils/string-utils.ts
 var removeHTML = (str) => str.replace(/<\/?[^>]+>/g, "");
 var slugify = (str) => {
-  return str.toLowerCase().replace(/\s+/g, "-").replace(/\-+/g, "-").replace(/[^a-z0-9\-]/g, "");
+  return str.toString().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, "-").replace(/[^\w\-]+/g, "").replace(/\-\-+/g, "-").replace(/^-+/, "").replace(/-+$/, "");
 };
 var childrenToString = (children) => {
   if (!children)
@@ -6457,64 +6457,64 @@ var styles_default5 = {
 // src/messages/en.json
 var en_default = {
   "feedback_section.question": "Was this helpful?",
-  "feedback_section.response": "Thanks for your feedback.",
+  "feedback_section.response": "Thank you for your feedback.",
   "feedback_section.positive": "Yes",
   "feedback_section.negative": "No",
-  "feedback_section.edit": "Suggest edits (Github)",
-  "feedback_modal.title": "Leave a comment (optional)",
+  "feedback_section.edit": "Suggest Edits (GitHub)",
+  "feedback_modal.title": "Leave a Comment (Optional)",
   "feedback_modal.button": "Send Feedback",
   "search_input.empty": "No results found. Try different search terms.",
   "search_input.placeholder": "Search",
   "sidebar_search.placeholder": "Search in",
-  "image.error_loading": "An error occurred while trying to load the image.",
-  api_reference_sidebar_filter_clear: "Clear all",
-  api_reference_sidebar_filter: "Filter by",
+  "image.error_loading": "An error occurred while loading the image",
+  api_reference_sidebar_filter_clear: "Clear All",
+  api_reference_sidebar_filter: "Filter By",
   "cookie_bar.title": "We use cookies",
-  "cookie_bar.description": "This website uses cookies to improve site navigation, analyze website usage, and assist in our marketing efforts.",
-  "cookie_bar.accept": "I understand",
+  "cookie_bar.description": "This website uses cookies to improve navigation, analyze usage, and assist with our marketing efforts.",
+  "cookie_bar.accept": "I agree",
   "cookie_bar.decline": "I decline"
 };
 
 // src/messages/es.json
 var es_default = {
-  "feedback_section.question": "Was this helpful?",
-  "feedback_section.response": "Thanks for your feedback.",
-  "feedback_section.positive": "Yes",
+  "feedback_section.question": "\xBFTe ha parecido \xFAtil?",
+  "feedback_section.response": "Gracias por tu feedback",
+  "feedback_section.positive": "S\xED",
   "feedback_section.negative": "No",
-  "feedback_section.edit": "Suggest edits (Github)",
-  "feedback_modal.title": "Leave a comment (optional)",
-  "feedback_modal.button": "Send Feedback",
-  "search_input.empty": "No results found. Try different search terms.",
-  "search_input.placeholder": "Search",
-  "sidebar_search.placeholder": "Search in",
-  "image.error_loading": "An error occurred while trying to load the image.",
-  api_reference_sidebar_filter_clear: "Clear all",
-  api_reference_sidebar_filter: "Filter by",
-  "cookie_bar.title": "We use cookies",
-  "cookie_bar.description": "This website uses cookies to improve site navigation, analyze website usage, and assist in our marketing efforts.",
-  "cookie_bar.accept": "I understand",
-  "cookie_bar.decline": "I decline"
+  "feedback_section.edit": "Sugerir cambios (GitHub)",
+  "feedback_modal.title": "Dar feedback (opcional)",
+  "feedback_modal.button": "Enviar feedback",
+  "search_input.empty": "No se encontraron resultados. Intenta utilizar otros t\xE9rminos.",
+  "search_input.placeholder": "Buscar",
+  "sidebar_search.placeholder": "Buscar en",
+  "image.error_loading": "Se produjo un error al cargar la imagen",
+  api_reference_sidebar_filter_clear: "Limpiar todo",
+  api_reference_sidebar_filter: "Filtrar por",
+  "cookie_bar.title": "Utilizamos cookies",
+  "cookie_bar.description": "Este sitio web utiliza cookies para optimizar la navegaci\xF3n, analizar el uso e impulsar nuestros esfuerzos de marketing.",
+  "cookie_bar.accept": "Acepto",
+  "cookie_bar.decline": "Rechazo"
 };
 
 // src/messages/pt.json
 var pt_default = {
-  "feedback_section.question": "Was this helpful?",
-  "feedback_section.response": "Thanks for your feedback.",
-  "feedback_section.positive": "Yes",
-  "feedback_section.negative": "No",
-  "feedback_section.edit": "Suggest edits (Github)",
-  "feedback_modal.title": "Leave a comment (optional)",
-  "feedback_modal.button": "Send Feedback",
-  "search_input.empty": "No results found. Try different search terms.",
-  "search_input.placeholder": "Search",
-  "sidebar_search.placeholder": "Search in",
-  "image.error_loading": "An error occurred while trying to load the image.",
-  api_reference_sidebar_filter_clear: "Clear all",
-  api_reference_sidebar_filter: "Filter by",
-  "cookie_bar.title": "We use cookies",
-  "cookie_bar.description": "This website uses cookies to improve site navigation, analyze website usage, and assist in our marketing efforts.",
-  "cookie_bar.accept": "I understand",
-  "cookie_bar.decline": "I decline"
+  "feedback_section.question": "Isso foi \xFAtil?",
+  "feedback_section.response": "Agradecemos pelo seu feedback.",
+  "feedback_section.positive": "Sim",
+  "feedback_section.negative": "N\xE3o",
+  "feedback_section.edit": "Sugerir edi\xE7\xF5es (GitHub)",
+  "feedback_modal.title": "Deixe um coment\xE1rio (opcional)",
+  "feedback_modal.button": "Enviar feedback",
+  "search_input.empty": "Nenhum resultado encontrado. Tente buscar por outros termos.",
+  "search_input.placeholder": "Buscar",
+  "sidebar_search.placeholder": "Buscar em",
+  "image.error_loading": "Ocorreu um erro ao carregar a imagem",
+  api_reference_sidebar_filter_clear: "Limpar tudo",
+  api_reference_sidebar_filter: "Filtrar por",
+  "cookie_bar.title": "N\xF3s usamos cookies",
+  "cookie_bar.description": "Este site utiliza cookies para melhorar a navega\xE7\xE3o, analisar a experi\xEAncia de uso e auxiliar em nossas a\xE7\xF5es de marketing.",
+  "cookie_bar.accept": "Concordo",
+  "cookie_bar.decline": "Discordo"
 };
 
 // src/utils/get-message.ts
@@ -6553,7 +6553,7 @@ var ObservableHeading = ({
           onLeaveView(slug, entry, y);
         setY(entry.boundingClientRect.y);
       },
-      children: level === 2 ? /* @__PURE__ */ jsx9("h2", { id: slug, className: styles_default5.heading, ...headingProps }) : /* @__PURE__ */ jsx9("h3", { id: slug, className: styles_default5.heading, ...headingProps })
+      children: level === 2 ? /* @__PURE__ */ jsx9("h2", { id: "teste", className: styles_default5.heading, ...headingProps }) : /* @__PURE__ */ jsx9("h3", { id: "teste", className: styles_default5.heading, ...headingProps })
     }
   );
 };
@@ -6772,7 +6772,10 @@ var TableOfContents = ({ headingList }) => {
     const headings = headingList ?? [];
     if (!headings.length) {
       document.querySelectorAll("h2, h3").forEach((heading) => {
-        const headingSlug = heading.id;
+        const headingSlug = slugify(heading.id);
+        heading.removeAttribute("id");
+        heading.id = headingSlug;
+        console.log("Assigned ID:", headingSlug);
         const item2 = {
           title: removeHTML(heading.innerHTML).replace(":", ""),
           slug: headingSlug
@@ -6785,9 +6788,18 @@ var TableOfContents = ({ headingList }) => {
           headings.push({ ...item2, children: [] });
         }
       });
-      setHeadingItems(headings);
-    } else
-      setHeadingItems(headings);
+    }
+    const normalizedHeadings = headings.map((heading) => ({
+      ...heading,
+      slug: slugify(heading.title),
+      // Normalize the slug
+      children: heading.children.map((child) => ({
+        ...child,
+        slug: slugify(child.title)
+        // Normalize child slugs
+      }))
+    }));
+    setHeadingItems(normalizedHeadings);
   }, [router.asPath, headingList]);
   const Item = ({
     title: title6,
