@@ -6415,7 +6415,7 @@ var libraryContext_default = LibraryContextProvider;
 // src/utils/string-utils.ts
 var removeHTML = (str) => str.replace(/<\/?[^>]+>/g, "");
 var slugify = (str) => {
-  return str.toLowerCase().replace(/\s+/g, "-").replace(/\-+/g, "-").replace(/[^a-z0-9\-]/g, "");
+  return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^\w\s-]/g, "").replace(/\s+/g, "-").replace(/-+/g, "-").trim();
 };
 var childrenToString = (children) => {
   if (!children)
