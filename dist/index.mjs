@@ -9763,7 +9763,7 @@ var createAlgoliaClient = (config) => {
     algoliaOptions,
     customOptions,
     instantSearchConfigs,
-    useLanguageFilter = true
+    useLanguageFilter = false
   } = config;
   searchIndex = index;
   aa2("init", {
