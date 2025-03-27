@@ -26,7 +26,7 @@ const createAlgoliaClient = (config: AlgoliaConfig) => {
     algoliaOptions,
     customOptions,
     instantSearchConfigs,
-    useLanguageFilter = false,
+    useLanguageFilter = true,
   } = config
   searchIndex = index
 

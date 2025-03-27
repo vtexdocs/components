@@ -9774,7 +9774,7 @@ var createAlgoliaClient = (config) => {
     algoliaOptions,
     customOptions,
     instantSearchConfigs,
-    useLanguageFilter = false
+    useLanguageFilter = true
   } = config;
   searchIndex = index;
   aa2("init", {
