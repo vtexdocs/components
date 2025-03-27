@@ -24,20 +24,28 @@ export const getBreadcrumbs = (hit: Hit) => {
 }
 
 export const getRelativeURL = (url: string, locale: string) => {
+  // Remove protocol and domain, leaving only the relative path
   const relativeURL = url.replace(/^(?:\/\/|[^/]+)*\//, '').replace(/^\/+/, '');
 
   // Extract the first segment of the relative URL (e.g., "en" from "en/docs/page")
   const firstSegment = relativeURL.split('/')[0];
 
-  // If the first segment is a locale different from the current locale, return the relative URL as is
-  if (firstSegment === locale) {
-    return '/' + relativeURL;
-  } else if (['en', 'pt', 'es'].includes(firstSegment)) {
-    return '/' + relativeURL; // Keep the existing locale in the URL
-  }
+  // List of supported locales
+  const supportedLocales = ['en', 'pt', 'es'];
 
-  // Otherwise, prepend the current locale
-  return `/${locale}/${relativeURL}`;
+  // If the first segment is a locale
+  if (supportedLocales.includes(firstSegment)) {
+    // If the locale in the URL matches the current locale, return the URL as is
+    if (firstSegment === locale) {
+      return '/' + relativeURL;
+    } else {
+      // If the locale in the URL is different, replace the current locale with the new one
+      return '/' + relativeURL;
+    }
+  } else {
+    // If no locale is present in the URL, prepend the current locale
+    return `/${locale}/${relativeURL}`;
+  }
 };
 
 interface IconsI {

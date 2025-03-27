@@ -9501,12 +9501,17 @@ var getBreadcrumbs = (hit) => {
 var getRelativeURL = (url, locale) => {
   const relativeURL = url.replace(/^(?:\/\/|[^/]+)*\//, '').replace(/^\/+/, '');
   const firstSegment = relativeURL.split('/')[0];
-  if (firstSegment === locale) {
-    return '/' + relativeURL;
-  } else if (['en', 'pt', 'es'].includes(firstSegment)) {
-    return '/' + relativeURL;
+  const supportedLocales = ['en', 'pt', 'es'];
+
+  if (supportedLocales.includes(firstSegment)) {
+    if (firstSegment === locale) {
+      return '/' + relativeURL;
+    } else {
+      return '/' + relativeURL;
+    }
+  } else {
+    return `/${locale}/${relativeURL}`;
   }
-  return `/${locale}/${relativeURL}`;
 };
 var iconsMap = [
   {
