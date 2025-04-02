@@ -12,6 +12,7 @@ import SearchCard from 'components/search-card'
 import { ActionType, getIcon, getRelativeURL } from 'utils/search-utils'
 import { Box, Flex } from '@vtex/brand-ui'
 import { MethodType } from 'utils/typings/types'
+import { LibraryContext } from 'utils/context/libraryContext'
 import { SearchContext } from 'utils/context/search'
 
 export type FilteredHit2 = Hit & { filteredMatches?: Hit[] }
@@ -28,6 +29,7 @@ const HitCard = ({ hit }: HitProps) => {
     hit.doctitle,
   ]
   const DocIcon = getIcon(hit.doctype)
+  const { locale } = useContext(LibraryContext);
 
   return (
     <SearchCard
@@ -37,7 +39,7 @@ const HitCard = ({ hit }: HitProps) => {
       method={(hit.method as MethodType) || undefined}
       breadcrumbs={(breadcrumbs as string[]) || []}
       actionType={(hit.actiontype as ActionType) || undefined}
-      url={getRelativeURL(hit.url)}
+      url={getRelativeURL(hit.url, locale)}
       hit={hit}
     />
   )

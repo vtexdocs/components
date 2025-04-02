@@ -9498,9 +9498,20 @@ var getBreadcrumbs = (hit) => {
   breadcrumbs.push(hit.doctitle);
   return breadcrumbs;
 };
-var getRelativeURL = (url) => {
-  const relativeURL = url.replace(/^(?:\/\/|[^/]+)*\//, "");
-  return "/" + relativeURL;
+var getRelativeURL = (url, locale) => {
+  const relativeURL = url.replace(/^(?:\/\/|[^/]+)*\//, '').replace(/^\/+/, '');
+  const firstSegment = relativeURL.split('/')[0];
+  const supportedLocales = ['en', 'pt', 'es'];
+
+  if (supportedLocales.includes(firstSegment)) {
+    if (firstSegment === locale) {
+      return '/' + relativeURL;
+    } else {
+      return '/' + relativeURL;
+    }
+  } else {
+    return `/${locale}/${relativeURL}`;
+  }
 };
 var iconsMap = [
   {
@@ -9673,7 +9684,7 @@ import { Fragment as Fragment4, jsx as jsx38, jsxs as jsxs31 } from "react/jsx-r
 var Hit2 = ({ hit, insights }) => {
   const breadcrumbsList = getBreadcrumbs(hit);
   const DocIcon = getIcon3(hit.doctype);
-  return /* @__PURE__ */ jsx38(Link7, { href: getRelativeURL(hit.url), legacyBehavior: true, children: /* @__PURE__ */ jsx38(
+  return /* @__PURE__ */ jsx38(Link7, { href: getRelativeURL(hit.url,locale), legacyBehavior: true, children: /* @__PURE__ */ jsx38(
     "a",
     {
       onClick: () => insights("clickedObjectIDsAfterSearch", {
@@ -9763,7 +9774,7 @@ var createAlgoliaClient = (config) => {
     algoliaOptions,
     customOptions,
     instantSearchConfigs,
-    useLanguageFilter = false
+    useLanguageFilter = true
   } = config;
   searchIndex = index;
   aa2("init", {
@@ -11213,7 +11224,7 @@ var HitCard = ({ hit }) => {
       method: hit.method || void 0,
       breadcrumbs: breadcrumbs || [],
       actionType: hit.actiontype || void 0,
-      url: getRelativeURL(hit.url),
+      url: getRelativeURL(hit.url,locale),
       hit
     }
   );
