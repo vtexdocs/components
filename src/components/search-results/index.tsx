@@ -38,24 +38,24 @@ const SearchResults = () => {
       </Text>
       <hr />
       <Box>
-         <InstantSearch
-           searchClient={searchClient}
-           indexName={searchIndex}
-           searchState={searchState}
-           onSearchStateChange={(currentState) =>
-             updateSearchState(currentState)
-           }
-         >
-           <Configure
-             filters={filters}
-             query={router.query.keyword}
-             clickAnalytics={true}
-             hitsPerPage={6}
-             facets={['doctype']}
-             facetingAfterDistinct={true}
-           />
-           <InfiniteHits />
-         </InstantSearch>
+          <InstantSearch
+            searchClient={searchClient}
+            indexName={searchIndex}
+            searchState={searchState}
+            onSearchStateChange={(currentState) =>
+              updateSearchState(currentState)
+            }
+          >
+            <Configure
+              filters={filters}
+              query={router.query.keyword}
+              clickAnalytics={true}
+              hitsPerPage={6}
+              facets={['doctype']}
+              facetingAfterDistinct={true}
+            />
+            <InfiniteHits />
+          </InstantSearch>
       </Box>
     </Box>
   )
