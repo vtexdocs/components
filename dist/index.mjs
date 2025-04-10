@@ -9673,9 +9673,12 @@ import { Fragment as Fragment4, jsx as jsx38, jsxs as jsxs31 } from "react/jsx-r
 var Hit2 = ({ hit, insights }) => {
   const breadcrumbsList = getBreadcrumbs(hit);
   const DocIcon = getIcon3(hit.doctype);
-  return /* @__PURE__ */ jsx38(Link7, { href: getRelativeURL(hit.url), legacyBehavior: true, children: /* @__PURE__ */ jsx38(
-    "a",
+  return /* @__PURE__ */ jsx38(
+    Link7,
     {
+      href: getRelativeURL(hit.url),
+      legacyBehavior: true,
+      passHref: true,
       onClick: () => insights("clickedObjectIDsAfterSearch", {
         eventName: "Search in top bar",
         objectIDs: [hit.objectID]
@@ -9695,7 +9698,7 @@ var Hit2 = ({ hit, insights }) => {
         ] })
       ] })
     }
-  ) });
+  );
 };
 var HitWithInsights = connectHitInsights(aa)(Hit2);
 var HitsBox = connectStateResults(
