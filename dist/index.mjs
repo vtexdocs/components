@@ -9676,7 +9676,7 @@ var Hit2 = ({ hit, insights }) => {
   return /* @__PURE__ */ jsx38(
     Link7,
     {
-      href: getRelativeURL(hit.url).replace(/^\/[a-z]{2}\/([a-z]{2})\//, "/$1/"),
+      href: getRelativeURL(hit.url),
       legacyBehavior: true,
       children: /* @__PURE__ */ jsx38(
         "a",
