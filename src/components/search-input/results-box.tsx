@@ -32,7 +32,7 @@ const Hit2 = ({ hit, insights }: HitProps) => {
   const breadcrumbsList = getBreadcrumbs(hit)
   const DocIcon = getIcon(hit.doctype)
 
-  const href = '/docs/tutorials/[slug]'
+  const href = '/[locale]/docs/tutorials/[slug]'
   const as = getRelativeURL(hit.url) // Ensure this resolves to the correct path
 
   return (
