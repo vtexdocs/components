@@ -9676,27 +9676,31 @@ var Hit2 = ({ hit, insights }) => {
   return /* @__PURE__ */ jsx38(
     Link7,
     {
-      href: getRelativeURL(hit.url),
+      href: getRelativeURL(hit.url).replace(/^\/[a-z]{2}\/([a-z]{2})\//, "/$1/"),
       legacyBehavior: true,
-      passHref: true,
-      onClick: () => insights("clickedObjectIDsAfterSearch", {
-        eventName: "Search in top bar",
-        objectIDs: [hit.objectID]
-      }),
-      children: /* @__PURE__ */ jsxs31(Box14, { sx: styles_default15.hitBox, children: [
-        /* @__PURE__ */ jsxs31(Flex14, { children: [
-          DocIcon && /* @__PURE__ */ jsx38(DocIcon, { className: "hit-icon", sx: styles_default15.hitIcon }),
-          /* @__PURE__ */ jsx38(Text9, { sx: styles_default15.hitContent, children: /* @__PURE__ */ jsx38(customHighlight_default, { hit, attribute: "content" }) })
-        ] }),
-        /* @__PURE__ */ jsxs31(Flex14, { sx: styles_default15.alignCenter, children: [
-          /* @__PURE__ */ jsx38(Text9, { sx: styles_default15.hitBreadCrumbIn, children: `In ${hit.doctype}` }),
-          breadcrumbsList.length > 0 && /* @__PURE__ */ jsx38(IconCaret3, { direction: "right", sx: styles_default15.hitBreadCrumbArrow }),
-          breadcrumbsList.map((filter, index) => /* @__PURE__ */ jsxs31(Flex14, { sx: styles_default15.alignCenter, children: [
-            /* @__PURE__ */ jsx38(Text9, { sx: styles_default15.hitBreadCrumb, children: filter }),
-            index < breadcrumbsList.length - 1 ? /* @__PURE__ */ jsx38(IconCaret3, { direction: "right", sx: styles_default15.hitBreadCrumbArrow }) : null
-          ] }, `${filter}${index}`))
-        ] })
-      ] })
+      children: /* @__PURE__ */ jsx38(
+        "a",
+        {
+          onClick: () => insights("clickedObjectIDsAfterSearch", {
+            eventName: "Search in top bar",
+            objectIDs: [hit.objectID]
+          }),
+          children: /* @__PURE__ */ jsxs31(Box14, { sx: styles_default15.hitBox, children: [
+            /* @__PURE__ */ jsxs31(Flex14, { children: [
+              DocIcon && /* @__PURE__ */ jsx38(DocIcon, { className: "hit-icon", sx: styles_default15.hitIcon }),
+              /* @__PURE__ */ jsx38(Text9, { sx: styles_default15.hitContent, children: /* @__PURE__ */ jsx38(customHighlight_default, { hit, attribute: "content" }) })
+            ] }),
+            /* @__PURE__ */ jsxs31(Flex14, { sx: styles_default15.alignCenter, children: [
+              /* @__PURE__ */ jsx38(Text9, { sx: styles_default15.hitBreadCrumbIn, children: `In ${hit.doctype}` }),
+              breadcrumbsList.length > 0 && /* @__PURE__ */ jsx38(IconCaret3, { direction: "right", sx: styles_default15.hitBreadCrumbArrow }),
+              breadcrumbsList.map((filter, index) => /* @__PURE__ */ jsxs31(Flex14, { sx: styles_default15.alignCenter, children: [
+                /* @__PURE__ */ jsx38(Text9, { sx: styles_default15.hitBreadCrumb, children: filter }),
+                index < breadcrumbsList.length - 1 ? /* @__PURE__ */ jsx38(IconCaret3, { direction: "right", sx: styles_default15.hitBreadCrumbArrow }) : null
+              ] }, `${filter}${index}`))
+            ] })
+          ] })
+        }
+      )
     }
   );
 };
