@@ -9673,10 +9673,13 @@ import { Fragment as Fragment4, jsx as jsx38, jsxs as jsxs31 } from "react/jsx-r
 var Hit2 = ({ hit, insights }) => {
   const breadcrumbsList = getBreadcrumbs(hit);
   const DocIcon = getIcon3(hit.doctype);
+  const href = "/[locale]/docs/tutorials/[slug]";
+  const as = getRelativeURL(hit.url);
   return /* @__PURE__ */ jsx38(
     Link7,
     {
-      href: getRelativeURL(hit.url),
+      href,
+      as,
       legacyBehavior: true,
       passHref: true,
       onClick: () => insights("clickedObjectIDsAfterSearch", {
