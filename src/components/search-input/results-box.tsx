@@ -31,9 +31,14 @@ interface HitsBoxProps extends StateResultsProvided {
 const Hit2 = ({ hit, insights }: HitProps) => {
   const breadcrumbsList = getBreadcrumbs(hit)
   const DocIcon = getIcon(hit.doctype)
+
+  const href = '/docs/tutorials/[slug]'
+  const as = getRelativeURL(hit.url) // Ensure this resolves to the correct path
+
   return (
     <Link
-      href={getRelativeURL(hit.url)}
+      href={href}
+      as={as}
       legacyBehavior
       passHref
       onClick={() =>
