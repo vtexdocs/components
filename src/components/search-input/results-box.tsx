@@ -32,38 +32,39 @@ const Hit2 = ({ hit, insights }: HitProps) => {
   const breadcrumbsList = getBreadcrumbs(hit)
   const DocIcon = getIcon(hit.doctype)
   return (
-    <Link href={getRelativeURL(hit.url)} legacyBehavior>
-      <a
-        onClick={() =>
-          insights('clickedObjectIDsAfterSearch', {
-            eventName: 'Search in top bar',
-            objectIDs: [hit.objectID],
-          })
-        }
-      >
-        <Box sx={styles.hitBox}>
-          <Flex>
-            {DocIcon && <DocIcon className="hit-icon" sx={styles.hitIcon} />}
-            <Text sx={styles.hitContent}>
-              <CustomHighlight hit={hit} attribute="content" />
-            </Text>
-          </Flex>
-          <Flex sx={styles.alignCenter}>
-            <Text sx={styles.hitBreadCrumbIn}>{`In ${hit.doctype}`}</Text>
-            {breadcrumbsList.length > 0 && (
-              <IconCaret direction="right" sx={styles.hitBreadCrumbArrow} />
-            )}
-            {breadcrumbsList.map((filter: string, index: number) => (
-              <Flex sx={styles.alignCenter} key={`${filter}${index}`}>
-                <Text sx={styles.hitBreadCrumb}>{filter}</Text>
-                {index < breadcrumbsList.length - 1 ? (
-                  <IconCaret direction="right" sx={styles.hitBreadCrumbArrow} />
-                ) : null}
-              </Flex>
-            ))}
-          </Flex>
-        </Box>
-      </a>
+    <Link
+      href={getRelativeURL(hit.url)}
+      legacyBehavior
+      passHref
+      onClick={() =>
+        insights('clickedObjectIDsAfterSearch', {
+          eventName: 'Search in top bar',
+          objectIDs: [hit.objectID],
+        })
+      }
+    >
+      <Box sx={styles.hitBox}>
+        <Flex>
+          {DocIcon && <DocIcon className="hit-icon" sx={styles.hitIcon} />}
+          <Text sx={styles.hitContent}>
+            <CustomHighlight hit={hit} attribute="content" />
+          </Text>
+        </Flex>
+        <Flex sx={styles.alignCenter}>
+          <Text sx={styles.hitBreadCrumbIn}>{`In ${hit.doctype}`}</Text>
+          {breadcrumbsList.length > 0 && (
+            <IconCaret direction="right" sx={styles.hitBreadCrumbArrow} />
+          )}
+          {breadcrumbsList.map((filter: string, index: number) => (
+            <Flex sx={styles.alignCenter} key={`${filter}${index}`}>
+              <Text sx={styles.hitBreadCrumb}>{filter}</Text>
+              {index < breadcrumbsList.length - 1 ? (
+                <IconCaret direction="right" sx={styles.hitBreadCrumbArrow} />
+              ) : null}
+            </Flex>
+          ))}
+        </Flex>
+      </Box>
     </Link>
   )
 }
