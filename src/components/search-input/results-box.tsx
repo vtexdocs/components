@@ -34,7 +34,7 @@ const Hit2 = ({ hit, insights }: HitProps) => {
 
   return (
     <Link
-      href={getRelativeURL(hit.url).replace(/^\/[a-z]{2}\/([a-z]{2})\//, '/$1/')}
+      href={getRelativeURL(hit.url)}
       legacyBehavior
     >
       <a
