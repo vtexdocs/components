@@ -32,13 +32,9 @@ const Hit2 = ({ hit, insights }: HitProps) => {
   const breadcrumbsList = getBreadcrumbs(hit)
   const DocIcon = getIcon(hit.doctype)
 
-  const href = '/[locale]/docs/tutorials/[slug]'
-  const as = getRelativeURL(hit.url) // Ensure this resolves to the correct path
-
   return (
     <Link
-      href={href}
-      as={as}
+      href={getRelativeURL(hit.url)}
       legacyBehavior
       passHref
       onClick={() =>
