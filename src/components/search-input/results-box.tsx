@@ -31,8 +31,12 @@ interface HitsBoxProps extends StateResultsProvided {
 const Hit2 = ({ hit, insights }: HitProps) => {
   const breadcrumbsList = getBreadcrumbs(hit)
   const DocIcon = getIcon(hit.doctype)
+
   return (
-    <Link href={getRelativeURL(hit.url)} legacyBehavior>
+    <Link
+      href={getRelativeURL(hit.url)}
+      legacyBehavior
+    >
       <a
         onClick={() =>
           insights('clickedObjectIDsAfterSearch', {
