@@ -37,7 +37,6 @@ const Hit2 = ({ hit, insights }: HitProps) => {
       href={getRelativeURL(hit.url)}
       legacyBehavior
     >
-      <Text>TEST</Text>
       <a
         onClick={() =>
           insights('clickedObjectIDsAfterSearch', {
