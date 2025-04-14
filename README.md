@@ -163,5 +163,7 @@ If the branch is already in use:
    ```bash
    yarn dev
    ```
-   
+
+>⚠️ If the local development environment isn't refreshing the components version properly, try erasing the `.next` folder locally before running `yarn` and `yarn dev` again.
+
 Feel free to explore and integrate these components into your project. If you encounter any issues, please refer to the documentation or reach out to our community for assistance.
