@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [6.0.4](https://github.com/vtexdocs/components/compare/v6.0.3...v6.0.4) (2025-04-15)
+
+
+### Bug Fixes
+
+* set useLanguageFilter to true ([040b94c](https://github.com/vtexdocs/components/commit/040b94c81cd88d374984b2dec0e5b3d2d5ee6026))
+
 ### [6.0.3](https://github.com/vtexdocs/components/compare/v6.0.2...v6.0.3) (2025-02-27)
 
 
