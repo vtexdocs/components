@@ -1,5 +1,6 @@
 import { Box, Flex, Text } from '@vtex/brand-ui'
 import { useContext, useEffect } from 'react'
+import { useIntl } from 'react-intl'
 
 import styles from './styles'
 import { useRouter } from 'next/router.js'
@@ -15,6 +16,7 @@ const SearchSection = ({ dataElement, index }: SearchSectionProps) => {
   const router = useRouter()
   const { filterSelectedSection, ocurrenceCount, changeFilterSelectedSection } =
     useContext(SearchContext)
+  const intl = useIntl()
 
   const updateFilter = (value: FilterType) => {
     router.query.filter = value
@@ -35,7 +37,7 @@ const SearchSection = ({ dataElement, index }: SearchSectionProps) => {
             : styles.allResultsTextActive
         }
       >
-        All results
+        {intl.formatMessage({ id: 'search_results.all', defaultMessage: 'All results' })}
       </Text>
       <Box className="search-section-count" sx={styles.sectionCount}>
         {ocurrenceCount['']}

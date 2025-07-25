@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router.js'
 import { useContext, useState } from 'react'
+import { useIntl } from 'react-intl'
 
 import { Box, Text } from '@vtex/brand-ui'
 
@@ -14,6 +15,7 @@ import { searchClient, searchIndex } from 'utils/config/search-config'
 const SearchResults = () => {
   const router = useRouter()
   const { filterSelectedSection, ocurrenceCount } = useContext(SearchContext)
+  const intl = useIntl()
   const filters = filterSelectedSection
     ? `doctype: "${filterSelectedSection}"`
     : ''
@@ -32,9 +34,20 @@ const SearchResults = () => {
   return (
     <Box sx={styles.resultContainer}>
       <Text sx={styles.resultText}>
-        Showing {ocurrenceCount[filterSelectedSection]} results for "
-        {router.query.keyword}" in{' '}
-        {!filterSelectedSection ? `all results` : filterSelectedSection}
+        {intl.formatMessage(
+          {
+            id: 'search_results.summary',
+            defaultMessage:
+              'Showing {count} results for "{keyword}" in {section}',
+          },
+          {
+            count: ocurrenceCount[filterSelectedSection],
+            keyword: router.query.keyword,
+            section: !filterSelectedSection
+              ? intl.formatMessage({ id: 'search_results.all', defaultMessage: 'all results' })
+              : filterSelectedSection,
+          }
+        )}
       </Text>
       <hr />
       <Box>
