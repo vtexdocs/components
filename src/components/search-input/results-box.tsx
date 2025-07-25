@@ -116,7 +116,7 @@ const HitsBox = connectStateResults<HitsBoxProps>(
                   onClick={() => seeAllSubmit(searchState.query || '')}
                 >
                   <Text>
-                    {intl.formatMessage({ id: 'search_input.see_all' })}
+                    {intl.formatMessage({ id: 'search_input.see_all', defaultMessage: 'See all results' })}
                   </Text>
                 </Box>
               )}
