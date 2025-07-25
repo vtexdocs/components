@@ -9750,7 +9750,7 @@ var HitsBox = connectStateResults(
         {
           sx: styles_default15.seeAll,
           onClick: () => seeAllSubmit(searchState.query || ""),
-          children: /* @__PURE__ */ jsx38(Text9, { children: intl.formatMessage({ id: "search_input.see_all", defaultMessage: "See all results" }) })
+          children: /* @__PURE__ */ jsx38(Text9, { children: intl.formatMessage({ id: "search_input.see_all" }) })
         }
       ),
       !searchResults.hits.length && /* @__PURE__ */ jsx38(Flex14, { sx: styles_default15.noResults, children: /* @__PURE__ */ jsx38(Text9, { children: intl.formatMessage({ id: "search_input.empty", defaultMessage: "No results found. Try different search terms." }) }) })
