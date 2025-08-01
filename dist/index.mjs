@@ -9749,10 +9749,10 @@ var HitsBox = connectStateResults(
         {
           sx: styles_default15.seeAll,
           onClick: () => seeAllSubmit(searchState.query || ""),
-          children: /* @__PURE__ */ jsx38(Text9, { children: messages[locale]["search_input.see_all"] })
+          children: /* @__PURE__ */ jsx38(Text9, { children: messages[locale]["search_input.see_all"] || "See all results" })
         }
       ),
-      !searchResults.hits.length && /* @__PURE__ */ jsx38(Flex14, { sx: styles_default15.noResults, children: /* @__PURE__ */ jsx38(Text9, { children: messages[locale]["search_input.empty"] }) })
+      !searchResults.hits.length && /* @__PURE__ */ jsx38(Flex14, { sx: styles_default15.noResults, children: /* @__PURE__ */ jsx38(Text9, { children: messages[locale]["search_input.empty"] || "No results found. Try different search terms." }) })
     ] }) }) });
   }
 );
@@ -10725,7 +10725,6 @@ import { Box as Box20 } from "@vtex/brand-ui";
 // src/components/search-section/index.tsx
 import { Box as Box19, Flex as Flex17, Text as Text13 } from "@vtex/brand-ui";
 import { useContext as useContext13, useEffect as useEffect11 } from "react";
-import { useIntl } from "react-intl";
 
 // src/components/search-section/styles.ts
 var sectionContainer = {
@@ -10833,7 +10832,7 @@ import { jsx as jsx54, jsxs as jsxs42 } from "react/jsx-runtime";
 var SearchSection = ({ dataElement, index }) => {
   const router = useRouter6();
   const { filterSelectedSection, ocurrenceCount, changeFilterSelectedSection } = useContext13(SearchContext);
-  const intl = useIntl();
+  const { locale } = useContext13(LibraryContext);
   const updateFilter = (value) => {
     router.query.filter = value;
     changeFilterSelectedSection(value);
@@ -10847,7 +10846,7 @@ var SearchSection = ({ dataElement, index }) => {
       {
         className: "search-section-title",
         sx: filterSelectedSection ? styles_default19.allResultsText : styles_default19.allResultsTextActive,
-        children: intl.formatMessage({ id: "search_results.all", defaultMessage: "All results" })
+        children: messages[locale]["search_results.all"] || "All results"
       }
     ),
     /* @__PURE__ */ jsx54(Box19, { className: "search-section-count", sx: styles_default19.sectionCount, children: ocurrenceCount[""] })
@@ -10927,13 +10926,12 @@ var search_sections_default = SearchSections;
 
 // src/components/search-results/index.tsx
 import { useRouter as useRouter7 } from "next/router.js";
-import { useContext as useContext16, useState as useState15 } from "react";
-import { useIntl as useIntl3 } from "react-intl";
+import { useContext as useContext17, useState as useState15 } from "react";
 import { Box as Box23, Text as Text15 } from "@vtex/brand-ui";
 import { Configure as Configure2, InstantSearch as InstantSearch2 } from "react-instantsearch-dom";
 
 // src/components/search-results/infiniteHits.tsx
-import { useContext as useContext15, useEffect as useEffect12, useMemo as useMemo2, useRef as useRef11 } from "react";
+import { useContext as useContext16, useEffect as useEffect12, useMemo as useMemo2, useRef as useRef11 } from "react";
 import {
   connectInfiniteHits,
   connectStateResults as connectStateResults2
@@ -11075,7 +11073,7 @@ var styles_default21 = {
 // src/components/search-card/index.tsx
 import Link9 from "next/link.js";
 import { useState as useState14 } from "react";
-import { useIntl as useIntl2 } from "react-intl";
+import { useContext as useContext15 } from "react";
 
 // src/components/icons/expanded-results-icon.tsx
 import { Icon as Icon30 } from "@vtex/brand-ui";
@@ -11133,7 +11131,7 @@ var SearchCard = ({
 }) => {
   const actionValue = actionType ? getAction(actionType) : null;
   const [toggleChildResults, setToggleChildResults] = useState14(false);
-  const intl = useIntl2();
+  const { locale } = useContext15(LibraryContext);
   return /* @__PURE__ */ jsx57(Link9, { href: url, legacyBehavior: true, children: /* @__PURE__ */ jsxs45(Flex18, { sx: styles_default21.containerActive(method), children: [
     /* @__PURE__ */ jsxs45(Box21, { children: [
       /* @__PURE__ */ jsxs45(Text14, { className: "searchCardTitle", sx: styles_default21.title, children: [
@@ -11176,7 +11174,7 @@ var SearchCard = ({
         ))
       ] }),
       breadcrumbs ? /* @__PURE__ */ jsxs45(Box21, { sx: styles_default21.breadcrumbsContainer, children: [
-        /* @__PURE__ */ jsx57(Text14, { sx: styles_default21.breadcrumbsIn, children: intl.formatMessage({ id: "search_card.in", defaultMessage: "In" }) }),
+        /* @__PURE__ */ jsx57(Text14, { sx: styles_default21.breadcrumbsIn, children: messages[locale]["search_card.in"] || "In" }),
         breadcrumbs.map((breadcrumb2, index) => /* @__PURE__ */ jsxs45(
           Flex18,
           {
@@ -11237,7 +11235,7 @@ var HitCard = ({ hit }) => {
 };
 var StateResults = connectStateResults2(
   ({ searchResults }) => {
-    const { updateOcurrenceCount } = useContext15(SearchContext);
+    const { updateOcurrenceCount } = useContext16(SearchContext);
     useEffect12(() => {
       const results = searchResults;
       if (results && results._state.filters === "") {
@@ -11351,8 +11349,8 @@ var styles_default22 = {
 import { jsx as jsx59, jsxs as jsxs47 } from "react/jsx-runtime";
 var SearchResults = () => {
   const router = useRouter7();
-  const { filterSelectedSection, ocurrenceCount } = useContext16(SearchContext);
-  const intl = useIntl3();
+  const { filterSelectedSection, ocurrenceCount } = useContext17(SearchContext);
+  const { locale } = useContext17(LibraryContext);
   const filters = filterSelectedSection ? `doctype: "${filterSelectedSection}"` : "";
   const [prevFilter, setPrevFilter] = useState15("");
   const [searchState, setSearchState] = useState15({});
@@ -11365,17 +11363,10 @@ var SearchResults = () => {
     });
   };
   return /* @__PURE__ */ jsxs47(Box23, { sx: styles_default22.resultContainer, children: [
-    /* @__PURE__ */ jsx59(Text15, { sx: styles_default22.resultText, children: intl.formatMessage(
-      {
-        id: "search_results.summary",
-        defaultMessage: 'Showing {count} results for "{keyword}" in {section}'
-      },
-      {
-        count: ocurrenceCount[filterSelectedSection],
-        keyword: router.query.keyword,
-        section: !filterSelectedSection ? intl.formatMessage({ id: "search_results.all", defaultMessage: "all results" }) : filterSelectedSection
-      }
-    ) }),
+    /* @__PURE__ */ jsx59(Text15, { sx: styles_default22.resultText, children: messages[locale]["search_results.summary"] ? messages[locale]["search_results.summary"].replace("{count}", ocurrenceCount[filterSelectedSection].toString()).replace("{keyword}", router.query.keyword).replace(
+      "{section}",
+      !filterSelectedSection ? messages[locale]["search_results.all"] || "all results" : filterSelectedSection
+    ) : `Showing ${ocurrenceCount[filterSelectedSection]} results for "${router.query.keyword}" in ${!filterSelectedSection ? messages[locale]["search_results.all"] || "all results" : filterSelectedSection}` }),
     /* @__PURE__ */ jsx59("hr", {}),
     /* @__PURE__ */ jsx59(Box23, { children: /* @__PURE__ */ jsxs47(
       InstantSearch2,
@@ -11405,8 +11396,7 @@ var SearchResults = () => {
 var search_results_default = SearchResults;
 
 // src/components/search-filter-tab-bar/index.tsx
-import { useContext as useContext17 } from "react";
-import { useIntl as useIntl4 } from "react-intl";
+import { useContext as useContext18 } from "react";
 import { Flex as Flex20, Text as Text16 } from "@vtex/brand-ui";
 
 // src/components/search-filter-tab-bar/styles.ts
@@ -11449,22 +11439,22 @@ var styles_default23 = { container: container10, tab, tabTitle, tabCount };
 // src/components/search-filter-tab-bar/index.tsx
 import { jsx as jsx60, jsxs as jsxs48 } from "react/jsx-runtime";
 var SearchFilterTab = ({ filter }) => {
-  const { filterSelectedSection, changeFilterSelectedSection, ocurrenceCount } = useContext17(SearchContext);
-  const intl = useIntl4();
+  const { filterSelectedSection, changeFilterSelectedSection, ocurrenceCount } = useContext18(SearchContext);
+  const { locale } = useContext18(LibraryContext);
   return /* @__PURE__ */ jsxs48(
     Flex20,
     {
       sx: styles_default23.tab(filterSelectedSection === filter),
       onClick: () => changeFilterSelectedSection(filter),
       children: [
-        /* @__PURE__ */ jsx60(Text16, { sx: styles_default23.tabTitle(filterSelectedSection === filter), children: filter || intl.formatMessage({ id: "search_results.all", defaultMessage: "All Results" }) }),
+        /* @__PURE__ */ jsx60(Text16, { sx: styles_default23.tabTitle(filterSelectedSection === filter), children: filter || messages[locale]["search_results.all"] || "All results" }),
         /* @__PURE__ */ jsx60(Text16, { sx: styles_default23.tabCount, children: ocurrenceCount[filter] || 0 })
       ]
     }
   );
 };
 var SearchFilterTabBar = () => {
-  const { sidebarSections } = useContext17(LibraryContext);
+  const { sidebarSections } = useContext18(LibraryContext);
   return /* @__PURE__ */ jsxs48(Flex20, { sx: styles_default23.container, children: [
     /* @__PURE__ */ jsx60(SearchFilterTab, { filter: "" }),
     sidebarSections.flat().map((section) => {
@@ -11506,7 +11496,7 @@ var Search = () => {
 var search_default2 = Search;
 
 // src/lib/cookie-bar/index.tsx
-import { useContext as useContext18 } from "react";
+import { useContext as useContext19 } from "react";
 import { CookieConsent } from "react-cookie-consent";
 
 // src/lib/cookie-bar/styles.ts
@@ -11584,7 +11574,7 @@ var Button7 = ({ children, style, ...props }) => {
   return /* @__PURE__ */ jsx62(Flex22, { sx: style, ...props, children });
 };
 var CookieBar = ({ onAccept }) => {
-  const { locale } = useContext18(LibraryContext);
+  const { locale } = useContext19(LibraryContext);
   return /* @__PURE__ */ jsxs50(
     CookieConsent,
     {
