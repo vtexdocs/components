@@ -34,21 +34,20 @@ const SearchResults = () => {
   return (
     <Box sx={styles.resultContainer}>
       <Text sx={styles.resultText}>
-        {messages[locale]['search_results.summary']
-          ? messages[locale]['search_results.summary']
-              .replace('{count}', ocurrenceCount[filterSelectedSection].toString())
-              .replace('{keyword}', router.query.keyword as string)
-              .replace(
-                '{section}',
-                !filterSelectedSection
-                  ? messages[locale]['search_results.all'] || 'all results'
-                  : filterSelectedSection
-              )
-          : `Showing ${ocurrenceCount[filterSelectedSection]} results for "${router.query.keyword}" in ${
-              !filterSelectedSection
-                ? messages[locale]['search_results.all'] || 'all results'
-                : filterSelectedSection
-            }`}
+        {(() => {
+          const count = ocurrenceCount[filterSelectedSection] || 0
+          const keyword = router.query.keyword as string
+          const section = !filterSelectedSection
+            ? messages[locale]['search_results.all'] || 'all results'
+            : filterSelectedSection
+          
+          return messages[locale]['search_results.summary']
+            ? `${messages[locale]['search_results.summary']
+                .split('{count}').join(count.toString())
+                .split('{keyword}').join(keyword)
+                .split('{section}').join(section)}`
+            : `Showing ${count} results for "${keyword}" in ${section}`
+        })()}
       </Text>
       <hr />
       <Box>
