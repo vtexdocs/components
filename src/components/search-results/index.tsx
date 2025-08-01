@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router.js'
 import { useContext, useState } from 'react'
+
 import { LibraryContext } from 'utils/context/libraryContext'
 import { messages } from 'utils/get-message'
 import { Box, Text } from '@vtex/brand-ui'
@@ -34,9 +35,7 @@ const SearchResults = () => {
   return (
     <Box sx={styles.resultContainer}>
       <Text sx={styles.resultText}>
-        Showing {ocurrenceCount[filterSelectedSection]} results for "
-        {router.query.keyword}" in{' '}
-        {!filterSelectedSection ? `all results` : filterSelectedSection}
+        {`${messages[locale]['search_results.showing'] || 'Showing'} ${ocurrenceCount[filterSelectedSection]} ${messages[locale]['search_results.results_for'] || 'results for'} "${router.query.keyword}" ${messages[locale]['search_results.in'] || 'in'} ${!filterSelectedSection ? (messages[locale]['search_results.all_lowercase'] || 'all results') : filterSelectedSection}`}
       </Text>
       <hr />
       <Box>
