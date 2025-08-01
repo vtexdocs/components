@@ -8527,7 +8527,7 @@ var styles_default13 = {
 };
 
 // src/lib/hamburger-menu/index.tsx
-import { useContext as useContext9 } from "react";
+import { useContext as useContext10 } from "react";
 
 // src/components/documentation-card/index.tsx
 import Link6 from "next/link.js";
@@ -9680,7 +9680,7 @@ var connectedHighlight = connectHighlight(Highlight);
 var customHighlight_default = connectedHighlight;
 
 // src/components/search-input/results-box.tsx
-import { useIntl } from "react-intl";
+import { useContext as useContext8 } from "react";
 import { Fragment as Fragment4, jsx as jsx38, jsxs as jsxs31 } from "react/jsx-runtime";
 var Hit2 = ({ hit, insights }) => {
   const breadcrumbsList = getBreadcrumbs(hit);
@@ -9713,7 +9713,7 @@ var HitWithInsights = connectHitInsights(aa)(Hit2);
 var HitsBox = connectStateResults(
   ({ searchState, searchResults, changeFocus }) => {
     const router = useRouter5();
-    const intl = useIntl();
+    const { locale } = useContext8(LibraryContext);
     const seeAllSubmit = (keyword) => {
       router.push({
         pathname: "/search",
@@ -9749,10 +9749,10 @@ var HitsBox = connectStateResults(
         {
           sx: styles_default15.seeAll,
           onClick: () => seeAllSubmit(searchState.query || ""),
-          children: /* @__PURE__ */ jsx38(Text9, { children: intl.formatMessage({ id: "search_input.see_all", defaultMessage: "See all results" }) })
+          children: /* @__PURE__ */ jsx38(Text9, { children: messages[locale]["search_input.see_all"] })
         }
       ),
-      !searchResults.hits.length && /* @__PURE__ */ jsx38(Flex14, { sx: styles_default15.noResults, children: /* @__PURE__ */ jsx38(Text9, { children: intl.formatMessage({ id: "search_input.empty", defaultMessage: "No results found. Try different search terms." }) }) })
+      !searchResults.hits.length && /* @__PURE__ */ jsx38(Flex14, { sx: styles_default15.noResults, children: /* @__PURE__ */ jsx38(Text9, { children: messages[locale]["search_input.empty"] }) })
     ] }) }) });
   }
 );
@@ -9760,7 +9760,7 @@ var results_box_default = HitsBox;
 
 // src/components/search-input/index.tsx
 import { Box as Box15 } from "@vtex/brand-ui";
-import { useContext as useContext8, useRef as useRef7, useState as useState9 } from "react";
+import { useContext as useContext9, useRef as useRef7, useState as useState9 } from "react";
 
 // src/utils/config/search-config.ts
 var import_lite = __toESM(require_lite());
@@ -9807,7 +9807,7 @@ var search_config_default = createAlgoliaClient;
 // src/components/search-input/index.tsx
 import { jsx as jsx39, jsxs as jsxs32 } from "react/jsx-runtime";
 function SearchInput() {
-  const { locale } = useContext8(LibraryContext);
+  const { locale } = useContext9(LibraryContext);
   const [focusOut, setfocusOut] = useState9({
     modaltoggle: true
   });
@@ -9836,7 +9836,7 @@ function SearchInput() {
 // src/lib/hamburger-menu/index.tsx
 import { jsx as jsx40, jsxs as jsxs33 } from "react/jsx-runtime";
 var HamburgerMenu = ({ parentsArray = [] }) => {
-  const context = useContext9(LibraryContext);
+  const context = useContext10(LibraryContext);
   const {
     sidebarDataMaster,
     sidebarSectionHidden,
@@ -10023,7 +10023,7 @@ var LikeSelectedIcon = (props) => /* @__PURE__ */ jsxs36(
 var like_selected_icon_default = LikeSelectedIcon;
 
 // src/lib/feedback-section/index.tsx
-import { useContext as useContext11, useRef as useRef10, useState as useState12 } from "react";
+import { useContext as useContext12, useRef as useRef10, useState as useState12 } from "react";
 
 // src/lib/feedback-section/styles.ts
 var container5 = {
@@ -10124,7 +10124,7 @@ var setButtonStyle = (feedback, modalState, like) => {
 // src/components/feedback-modal/index.tsx
 import { Box as Box17, Button as Button5, Textarea, Text as Text10, Icon as Icon23 } from "@vtex/brand-ui";
 import {
-  useContext as useContext10,
+  useContext as useContext11,
   useEffect as useEffect10,
   useRef as useRef8,
   useState as useState10
@@ -10286,7 +10286,7 @@ var FeedBackModal = ({
   const cardRef = useRef8();
   const { body: body2, documentElement } = document;
   const [comment, setComment] = useState10("");
-  const { locale } = useContext10(LibraryContext);
+  const { locale } = useContext11(LibraryContext);
   const closeModal = () => {
     const feedback = modalState?.liked;
     const scrollTop = body2.getBoundingClientRect().top * -1;
@@ -10647,7 +10647,7 @@ var FeedbackSection = ({
   });
   const likeButton = useRef10();
   const dislikeButton = useRef10();
-  const { locale } = useContext11(LibraryContext);
+  const { locale } = useContext12(LibraryContext);
   if (slug !== prevSlug) {
     setPrevSlug(slug);
     changeModalState({ modalOpen: false });
@@ -10724,8 +10724,8 @@ import { Box as Box20 } from "@vtex/brand-ui";
 
 // src/components/search-section/index.tsx
 import { Box as Box19, Flex as Flex17, Text as Text13 } from "@vtex/brand-ui";
-import { useContext as useContext12, useEffect as useEffect11 } from "react";
-import { useIntl as useIntl2 } from "react-intl";
+import { useContext as useContext13, useEffect as useEffect11 } from "react";
+import { useIntl } from "react-intl";
 
 // src/components/search-section/styles.ts
 var sectionContainer = {
@@ -10832,8 +10832,8 @@ var search_default = SearchContextProvider;
 import { jsx as jsx54, jsxs as jsxs42 } from "react/jsx-runtime";
 var SearchSection = ({ dataElement, index }) => {
   const router = useRouter6();
-  const { filterSelectedSection, ocurrenceCount, changeFilterSelectedSection } = useContext12(SearchContext);
-  const intl = useIntl2();
+  const { filterSelectedSection, ocurrenceCount, changeFilterSelectedSection } = useContext13(SearchContext);
+  const intl = useIntl();
   const updateFilter = (value) => {
     router.query.filter = value;
     changeFilterSelectedSection(value);
@@ -10901,10 +10901,10 @@ var styles_default20 = {
 };
 
 // src/components/search-sections/index.tsx
-import { useContext as useContext13 } from "react";
+import { useContext as useContext14 } from "react";
 import { jsx as jsx55, jsxs as jsxs43 } from "react/jsx-runtime";
 var SearchSections = () => {
-  const { sidebarSections } = useContext13(LibraryContext);
+  const { sidebarSections } = useContext14(LibraryContext);
   return /* @__PURE__ */ jsx55(Box20, { sx: styles_default20.container, children: sidebarSections.map((sections, id) => /* @__PURE__ */ jsxs43(
     Box20,
     {
@@ -10927,13 +10927,13 @@ var search_sections_default = SearchSections;
 
 // src/components/search-results/index.tsx
 import { useRouter as useRouter7 } from "next/router.js";
-import { useContext as useContext15, useState as useState15 } from "react";
-import { useIntl as useIntl4 } from "react-intl";
+import { useContext as useContext16, useState as useState15 } from "react";
+import { useIntl as useIntl3 } from "react-intl";
 import { Box as Box23, Text as Text15 } from "@vtex/brand-ui";
 import { Configure as Configure2, InstantSearch as InstantSearch2 } from "react-instantsearch-dom";
 
 // src/components/search-results/infiniteHits.tsx
-import { useContext as useContext14, useEffect as useEffect12, useMemo as useMemo2, useRef as useRef11 } from "react";
+import { useContext as useContext15, useEffect as useEffect12, useMemo as useMemo2, useRef as useRef11 } from "react";
 import {
   connectInfiniteHits,
   connectStateResults as connectStateResults2
@@ -11075,7 +11075,7 @@ var styles_default21 = {
 // src/components/search-card/index.tsx
 import Link9 from "next/link.js";
 import { useState as useState14 } from "react";
-import { useIntl as useIntl3 } from "react-intl";
+import { useIntl as useIntl2 } from "react-intl";
 
 // src/components/icons/expanded-results-icon.tsx
 import { Icon as Icon30 } from "@vtex/brand-ui";
@@ -11133,7 +11133,7 @@ var SearchCard = ({
 }) => {
   const actionValue = actionType ? getAction(actionType) : null;
   const [toggleChildResults, setToggleChildResults] = useState14(false);
-  const intl = useIntl3();
+  const intl = useIntl2();
   return /* @__PURE__ */ jsx57(Link9, { href: url, legacyBehavior: true, children: /* @__PURE__ */ jsxs45(Flex18, { sx: styles_default21.containerActive(method), children: [
     /* @__PURE__ */ jsxs45(Box21, { children: [
       /* @__PURE__ */ jsxs45(Text14, { className: "searchCardTitle", sx: styles_default21.title, children: [
@@ -11237,7 +11237,7 @@ var HitCard = ({ hit }) => {
 };
 var StateResults = connectStateResults2(
   ({ searchResults }) => {
-    const { updateOcurrenceCount } = useContext14(SearchContext);
+    const { updateOcurrenceCount } = useContext15(SearchContext);
     useEffect12(() => {
       const results = searchResults;
       if (results && results._state.filters === "") {
@@ -11351,8 +11351,8 @@ var styles_default22 = {
 import { jsx as jsx59, jsxs as jsxs47 } from "react/jsx-runtime";
 var SearchResults = () => {
   const router = useRouter7();
-  const { filterSelectedSection, ocurrenceCount } = useContext15(SearchContext);
-  const intl = useIntl4();
+  const { filterSelectedSection, ocurrenceCount } = useContext16(SearchContext);
+  const intl = useIntl3();
   const filters = filterSelectedSection ? `doctype: "${filterSelectedSection}"` : "";
   const [prevFilter, setPrevFilter] = useState15("");
   const [searchState, setSearchState] = useState15({});
@@ -11405,8 +11405,8 @@ var SearchResults = () => {
 var search_results_default = SearchResults;
 
 // src/components/search-filter-tab-bar/index.tsx
-import { useContext as useContext16 } from "react";
-import { useIntl as useIntl5 } from "react-intl";
+import { useContext as useContext17 } from "react";
+import { useIntl as useIntl4 } from "react-intl";
 import { Flex as Flex20, Text as Text16 } from "@vtex/brand-ui";
 
 // src/components/search-filter-tab-bar/styles.ts
@@ -11449,8 +11449,8 @@ var styles_default23 = { container: container10, tab, tabTitle, tabCount };
 // src/components/search-filter-tab-bar/index.tsx
 import { jsx as jsx60, jsxs as jsxs48 } from "react/jsx-runtime";
 var SearchFilterTab = ({ filter }) => {
-  const { filterSelectedSection, changeFilterSelectedSection, ocurrenceCount } = useContext16(SearchContext);
-  const intl = useIntl5();
+  const { filterSelectedSection, changeFilterSelectedSection, ocurrenceCount } = useContext17(SearchContext);
+  const intl = useIntl4();
   return /* @__PURE__ */ jsxs48(
     Flex20,
     {
@@ -11464,7 +11464,7 @@ var SearchFilterTab = ({ filter }) => {
   );
 };
 var SearchFilterTabBar = () => {
-  const { sidebarSections } = useContext16(LibraryContext);
+  const { sidebarSections } = useContext17(LibraryContext);
   return /* @__PURE__ */ jsxs48(Flex20, { sx: styles_default23.container, children: [
     /* @__PURE__ */ jsx60(SearchFilterTab, { filter: "" }),
     sidebarSections.flat().map((section) => {
@@ -11506,7 +11506,7 @@ var Search = () => {
 var search_default2 = Search;
 
 // src/lib/cookie-bar/index.tsx
-import { useContext as useContext17 } from "react";
+import { useContext as useContext18 } from "react";
 import { CookieConsent } from "react-cookie-consent";
 
 // src/lib/cookie-bar/styles.ts
@@ -11584,7 +11584,7 @@ var Button7 = ({ children, style, ...props }) => {
   return /* @__PURE__ */ jsx62(Flex22, { sx: style, ...props, children });
 };
 var CookieBar = ({ onAccept }) => {
-  const { locale } = useContext17(LibraryContext);
+  const { locale } = useContext18(LibraryContext);
   return /* @__PURE__ */ jsxs50(
     CookieConsent,
     {
