@@ -11367,7 +11367,7 @@ var SearchResults = () => {
       const count = ocurrenceCount[filterSelectedSection] || 0;
       const keyword = router.query.keyword;
       const section = !filterSelectedSection ? messages[locale]["search_results.all"] || "all results" : filterSelectedSection;
-      return messages[locale]["search_results.summary"] ? `${messages[locale]["search_results.summary"].split("{count}").join(count.toString()).split("{keyword}").join(keyword).split("{section}").join(section)}` : `Showing ${count} results for "${keyword}" in ${section}`;
+      return messages[locale]["search_results.summary"] || `Showing ${count} results for "${keyword}" in ${section}`;
     })() }),
     /* @__PURE__ */ jsx59("hr", {}),
     /* @__PURE__ */ jsx59(Box23, { children: /* @__PURE__ */ jsxs47(
