@@ -11363,10 +11363,12 @@ var SearchResults = () => {
     });
   };
   return /* @__PURE__ */ jsxs47(Box23, { sx: styles_default22.resultContainer, children: [
-    /* @__PURE__ */ jsx59(Text15, { sx: styles_default22.resultText, children: messages[locale]["search_results.summary"] ? messages[locale]["search_results.summary"].replace("{count}", ocurrenceCount[filterSelectedSection].toString()).replace("{keyword}", router.query.keyword).replace(
-      "{section}",
-      !filterSelectedSection ? messages[locale]["search_results.all"] || "all results" : filterSelectedSection
-    ) : `Showing ${ocurrenceCount[filterSelectedSection]} results for "${router.query.keyword}" in ${!filterSelectedSection ? messages[locale]["search_results.all"] || "all results" : filterSelectedSection}` }),
+    /* @__PURE__ */ jsx59(Text15, { sx: styles_default22.resultText, children: (() => {
+      const count = ocurrenceCount[filterSelectedSection] || 0;
+      const keyword = router.query.keyword;
+      const section = !filterSelectedSection ? messages[locale]["search_results.all"] || "all results" : filterSelectedSection;
+      return messages[locale]["search_results.summary"] ? `${messages[locale]["search_results.summary"].split("{count}").join(count.toString()).split("{keyword}").join(keyword).split("{section}").join(section)}` : `Showing ${count} results for "${keyword}" in ${section}`;
+    })() }),
     /* @__PURE__ */ jsx59("hr", {}),
     /* @__PURE__ */ jsx59(Box23, { children: /* @__PURE__ */ jsxs47(
       InstantSearch2,
