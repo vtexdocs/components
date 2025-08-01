@@ -34,15 +34,9 @@ const SearchResults = () => {
   return (
     <Box sx={styles.resultContainer}>
       <Text sx={styles.resultText}>
-        {(() => {
-          const count = ocurrenceCount[filterSelectedSection] || 0
-          const keyword = router.query.keyword as string
-          const section = !filterSelectedSection 
-            ? messages[locale]['search_results.all'] || 'all results'
-            : filterSelectedSection
-
-          return messages[locale]['search_results.summary'] || `Showing ${count} results for "${keyword}" in ${section}`
-        })()}
+        Showing {ocurrenceCount[filterSelectedSection]} results for "
+        {router.query.keyword}" in{' '}
+        {!filterSelectedSection ? `all results` : filterSelectedSection}
       </Text>
       <hr />
       <Box>
