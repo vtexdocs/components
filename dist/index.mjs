@@ -11375,7 +11375,7 @@ var SearchResults = () => {
     });
   };
   return /* @__PURE__ */ jsxs47(Box23, { sx: styles_default22.resultContainer, children: [
-    /* @__PURE__ */ jsx59(Text15, { sx: styles_default22.resultText, children: `${messages[locale]["search_results.showing"] || "Showing"} ${ocurrenceCount[filterSelectedSection] || ""} ${messages[locale]["search_results.results_for"] || "results for"} "${router.query.keyword}" ${messages[locale]["search_results.in"] || "in"} ${!filterSelectedSection ? messages[locale]["search_results.all_lowercase"] || "all results" : filterSelectedSection}` }),
+    /* @__PURE__ */ jsx59(Text15, { sx: styles_default22.resultText, children: `${messages[locale]["search_results.showing"] || "Showing"} ${(ocurrenceCount && ocurrenceCount[filterSelectedSection]) ?? ""} ${messages[locale]["search_results.results_for"] || "results for"} ${router.query.keyword} ${messages[locale]["search_results.in"] || "in"} ${!filterSelectedSection ? messages[locale]["search_results.all_lowercase"] || "all results" : filterSelectedSection}` }),
     /* @__PURE__ */ jsx59("hr", {}),
     /* @__PURE__ */ jsx59(Box23, { children: /* @__PURE__ */ jsxs47(
       InstantSearch2,
