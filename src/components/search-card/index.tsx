@@ -4,7 +4,9 @@ import styles from './styles'
 import Link from 'next/link.js'
 import CustomHighlight from 'components/search-input/customHighlight'
 import { useState } from 'react'
-import { useIntl } from 'react-intl'
+import { useContext } from 'react'
+import { LibraryContext } from 'utils/context/libraryContext'
+import { messages } from 'utils/get-message'
 import ExpandedResultsIcon from 'components/icons/expanded-results-icon'
 import { Hit } from 'react-instantsearch-core'
 import MethodCategory from 'components/method-category'
@@ -34,7 +36,7 @@ const SearchCard = ({
 }: SearchCardProps) => {
   const actionValue = actionType ? getAction(actionType) : null
   const [toggleChildResults, setToggleChildResults] = useState<boolean>(false)
-  const intl = useIntl()
+  const { locale } = useContext(LibraryContext)
   return (
     <Link href={url} legacyBehavior>
       <Flex sx={styles.containerActive(method)}>
@@ -77,7 +79,7 @@ const SearchCard = ({
           {breadcrumbs ? (
             <Box sx={styles.breadcrumbsContainer}>
               <Text sx={styles.breadcrumbsIn}>
-                {intl.formatMessage({ id: 'search_card.in', defaultMessage: 'In' })}
+                {messages[locale]['search_card.in'] || 'In'}
               </Text>
               {breadcrumbs.map((breadcrumb, index) => (
                 <Flex

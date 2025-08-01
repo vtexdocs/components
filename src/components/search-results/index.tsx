@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router.js'
 import { useContext, useState } from 'react'
-import { useIntl } from 'react-intl'
-
+import { LibraryContext } from 'utils/context/libraryContext'
+import { messages } from 'utils/get-message'
 import { Box, Text } from '@vtex/brand-ui'
 
 import { Configure, InstantSearch } from 'react-instantsearch-dom'
@@ -15,7 +15,7 @@ import { searchClient, searchIndex } from 'utils/config/search-config'
 const SearchResults = () => {
   const router = useRouter()
   const { filterSelectedSection, ocurrenceCount } = useContext(SearchContext)
-  const intl = useIntl()
+  const { locale } = useContext(LibraryContext)
   const filters = filterSelectedSection
     ? `doctype: "${filterSelectedSection}"`
     : ''
@@ -34,20 +34,21 @@ const SearchResults = () => {
   return (
     <Box sx={styles.resultContainer}>
       <Text sx={styles.resultText}>
-        {intl.formatMessage(
-          {
-            id: 'search_results.summary',
-            defaultMessage:
-              'Showing {count} results for "{keyword}" in {section}',
-          },
-          {
-            count: ocurrenceCount[filterSelectedSection],
-            keyword: router.query.keyword,
-            section: !filterSelectedSection
-              ? intl.formatMessage({ id: 'search_results.all', defaultMessage: 'all results' })
-              : filterSelectedSection,
-          }
-        )}
+        {messages[locale]['search_results.summary']
+          ? messages[locale]['search_results.summary']
+              .replace('{count}', ocurrenceCount[filterSelectedSection].toString())
+              .replace('{keyword}', router.query.keyword as string)
+              .replace(
+                '{section}',
+                !filterSelectedSection
+                  ? messages[locale]['search_results.all'] || 'all results'
+                  : filterSelectedSection
+              )
+          : `Showing ${ocurrenceCount[filterSelectedSection]} results for "${router.query.keyword}" in ${
+              !filterSelectedSection
+                ? messages[locale]['search_results.all'] || 'all results'
+                : filterSelectedSection
+            }`}
       </Text>
       <hr />
       <Box>

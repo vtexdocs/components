@@ -1,15 +1,15 @@
 import { useContext } from 'react'
-import { useIntl } from 'react-intl'
 import { Flex, Text } from '@vtex/brand-ui'
 
 import styles from './styles'
 import { SearchContext } from 'utils/context/search'
 import { LibraryContext } from 'utils/context/libraryContext'
+import { messages } from 'utils/get-message'
 
 const SearchFilterTab = ({ filter }: { filter: string }) => {
   const { filterSelectedSection, changeFilterSelectedSection, ocurrenceCount } =
     useContext(SearchContext)
-  const intl = useIntl()
+  const { locale } = useContext(LibraryContext)
 
   return (
     <Flex
@@ -17,7 +17,7 @@ const SearchFilterTab = ({ filter }: { filter: string }) => {
       onClick={() => changeFilterSelectedSection(filter)}
     >
       <Text sx={styles.tabTitle(filterSelectedSection === filter)}>
-        {filter || intl.formatMessage({ id: 'search_results.all', defaultMessage: 'All Results' })}
+        {filter || messages[locale]['search_results.all'] || 'All results'}
       </Text>
       <Text sx={styles.tabCount}>{ocurrenceCount[filter] || 0}</Text>
     </Flex>
