@@ -35,7 +35,7 @@ const SearchResults = () => {
   return (
     <Box sx={styles.resultContainer}>
       <Text sx={styles.resultText}>
-        {`${messages[locale]['search_results.showing'] || 'Showing'} ${ocurrenceCount[filterSelectedSection] || ''} ${messages[locale]['search_results.results_for'] || 'results for'} "${router.query.keyword}" ${messages[locale]['search_results.in'] || 'in'} ${!filterSelectedSection ? (messages[locale]['search_results.all_lowercase'] || 'all results') : filterSelectedSection}`}
+        {`${messages[locale]['search_results.showing'] || 'Showing'} ${(ocurrenceCount && ocurrenceCount[filterSelectedSection]) ?? ''} ${messages[locale]['search_results.results_for'] || 'results for'} ${router.query.keyword} ${messages[locale]['search_results.in'] || 'in'} ${!filterSelectedSection ? (messages[locale]['search_results.all_lowercase'] || 'all results') : filterSelectedSection}`}
       </Text>
       <hr />
       <Box>
