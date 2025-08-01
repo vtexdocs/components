@@ -6477,6 +6477,10 @@ var en_default = {
   "feedback_modal.button": "Send Feedback",
   "search_input.empty": "No results found. Try different search terms.",
   "search_input.placeholder": "Search",
+  "search_results.showing": "Showing",
+  "search_results.results_for": "results for",
+  "search_results.in": "in",
+  "search_results.all_lowercase": "all results",
   "sidebar_search.placeholder": "Search in",
   "search_input.see_all": "See all results",
   "search_results.summary": 'Showing {count} results for "{keyword}" in {section}',
@@ -6503,6 +6507,10 @@ var es_default = {
   "search_input.empty": "No se encontraron resultados. Intenta utilizar otros t\xE9rminos.",
   "search_input.placeholder": "Buscar",
   "sidebar_search.placeholder": "Buscar en",
+  "search_results.showing": "Mostrando",
+  "search_results.results_for": "resultados para",
+  "search_results.in": "en",
+  "search_results.all_lowercase": "todos los resultados",
   "search_input.see_all": "Ver todos los resultados",
   "search_results.summary": 'Mostrando {count} resultados para "{keyword}" en {section}',
   "search_results.all": "Todos los resultados",
@@ -6528,6 +6536,10 @@ var pt_default = {
   "search_input.empty": "Nenhum resultado encontrado. Tente buscar por outros termos.",
   "search_input.placeholder": "Buscar",
   "sidebar_search.placeholder": "Buscar em",
+  "search_results.showing": "Mostrando",
+  "search_results.results_for": "resultados para",
+  "search_results.in": "em",
+  "search_results.all_lowercase": "todos os resultados",
   "search_input.see_all": "Ver todos os resultados",
   "search_results.summary": 'Mostrando {count} resultados para "{keyword}" em {section}',
   "search_results.all": "Todos os resultados",
@@ -11363,12 +11375,7 @@ var SearchResults = () => {
     });
   };
   return /* @__PURE__ */ jsxs47(Box23, { sx: styles_default22.resultContainer, children: [
-    /* @__PURE__ */ jsx59(Text15, { sx: styles_default22.resultText, children: (() => {
-      const count = ocurrenceCount[filterSelectedSection] || 0;
-      const keyword = router.query.keyword;
-      const section = !filterSelectedSection ? messages[locale]["search_results.all"] || "all results" : filterSelectedSection;
-      return messages[locale]["search_results.summary"] || `Showing ${count} results for "${keyword}" in ${section}`;
-    })() }),
+    /* @__PURE__ */ jsx59(Text15, { sx: styles_default22.resultText, children: `${messages[locale]["search_results.showing"] || "Showing"} ${ocurrenceCount[filterSelectedSection]} ${messages[locale]["search_results.results_for"] || "results for"} "${router.query.keyword}" ${messages[locale]["search_results.in"] || "in"} ${!filterSelectedSection ? messages[locale]["search_results.all_lowercase"] || "all results" : filterSelectedSection}` }),
     /* @__PURE__ */ jsx59("hr", {}),
     /* @__PURE__ */ jsx59(Box23, { children: /* @__PURE__ */ jsxs47(
       InstantSearch2,
