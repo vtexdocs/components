@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [6.0.5](https://github.com/vtexdocs/components/compare/v6.0.4...v6.0.5) (2025-08-04)
+
+
+### Bug Fixes
+
+* (sidebar) section selected and external links behavior ([2545626](https://github.com/vtexdocs/components/commit/254562688a1c8420c8fb13fce0433f1f3dc2ceed))
+
 ### [6.0.4](https://github.com/vtexdocs/components/compare/v6.0.3...v6.0.4) (2025-04-15)
 
 
