@@ -93,25 +93,26 @@ const Sidebar = ({ parentsArray = [] }: SideBarSectionState) => {
         >
           <Link
             href={!isEditorPreview ? sectionElement.link : '/'}
+            target={sectionElement?.isExternalLink == true ? '_blank' : '_self'}
             onClick={(e) => {
               if (isEditorPreview) {
                 e.preventDefault()
               }
-              setActiveSectionName(sectionElement.title)
+              setActiveSectionName(sectionElement.id)
             }}
             passHref
             aria-label={sectionElement.title}
           >
             <Flex
               sx={
-                activeSectionName === sectionElement.title
+                activeSectionName === sectionElement.id
                   ? styles.iconBoxActive
                   : styles.iconBox
               }
             >
               <sectionElement.Icon
                 sx={
-                  activeSectionName === sectionElement.title
+                  activeSectionName === sectionElement.id
                     ? styles.iconActive
                     : styles.icon
                 }
