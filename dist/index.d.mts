@@ -84,6 +84,7 @@ type Section = {
     title: string;
     description: string;
     Icon: (props: IconProps) => JSX.Element;
+    isExternalLink?: boolean;
 };
 
 interface Props extends Partial<ContextType> {

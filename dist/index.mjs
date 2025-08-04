@@ -8365,23 +8365,24 @@ var Sidebar = ({ parentsArray = [] }) => {
           Link5,
           {
             href: !isEditorPreview ? sectionElement.link : "/",
+            target: sectionElement?.isExternalLink == true ? "_blank" : "_self",
             onClick: (e) => {
               if (isEditorPreview) {
                 e.preventDefault();
               }
-              setActiveSectionName(sectionElement.title);
+              setActiveSectionName(sectionElement.id);
             },
             passHref: true,
             "aria-label": sectionElement.title,
             children: /* @__PURE__ */ jsxs16(
               Flex10,
               {
-                sx: activeSectionName === sectionElement.title ? styles_default7.iconBoxActive : styles_default7.iconBox,
+                sx: activeSectionName === sectionElement.id ? styles_default7.iconBoxActive : styles_default7.iconBox,
                 children: [
                   /* @__PURE__ */ jsx22(
                     sectionElement.Icon,
                     {
-                      sx: activeSectionName === sectionElement.title ? styles_default7.iconActive : styles_default7.icon
+                      sx: activeSectionName === sectionElement.id ? styles_default7.iconActive : styles_default7.icon
                     }
                   ),
                   /* @__PURE__ */ jsx22(
