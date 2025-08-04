@@ -33,7 +33,7 @@ interface Props {
 const SearchContextProvider = ({ children }: Props) => {
   const [filterSelectedSection, changeFilterSelectedSection] =
     useState<FilterType>('')
-  const [ocurrenceCount, changeOcurrenceCount] = useState({})
+  const [ocurrenceCount, changeOcurrenceCount] = useState<OcurrenceType>({})
 
   const updateOcurrenceCount = (resultsData: OcurrenceType) => {
     changeOcurrenceCount(resultsData)
