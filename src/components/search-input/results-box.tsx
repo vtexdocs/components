@@ -12,7 +12,11 @@ import {
 import aa from 'search-insights'
 import { Box, Flex, IconCaret, Text } from '@vtex/brand-ui'
 
-import { getBreadcrumbs, getIcon, getRelativeURL } from 'utils/search-utils'
+import {
+  getBreadcrumbs,
+  getIconFromSection,
+  getRelativeURL,
+} from 'utils/search-utils'
 import CustomHighlight from './customHighlight'
 import styles from './styles'
 import { useContext } from 'react'
@@ -29,8 +33,9 @@ interface HitsBoxProps extends StateResultsProvided {
 }
 
 const Hit2 = ({ hit, insights }: HitProps) => {
+  const { sidebarSections } = useContext(LibraryContext)
   const breadcrumbsList = getBreadcrumbs(hit)
-  const DocIcon = getIcon(hit.doctype)
+  const DocIcon = getIconFromSection(sidebarSections, hit.doctype)
   return (
     <Link href={getRelativeURL(hit.url)} legacyBehavior>
       <a

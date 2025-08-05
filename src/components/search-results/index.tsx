@@ -10,13 +10,18 @@ import InfiniteHits from './infiniteHits'
 import styles from './styles'
 import { SearchContext } from 'utils/context/search'
 import { searchClient, searchIndex } from 'utils/config/search-config'
+import { LibraryContext } from 'utils/context/libraryContext'
 
 const SearchResults = () => {
   const router = useRouter()
+  const { locale } = useContext(LibraryContext)
   const { filterSelectedSection, ocurrenceCount } = useContext(SearchContext)
-  const filters = filterSelectedSection
-    ? `doctype: "${filterSelectedSection}"`
-    : ''
+  const filters = [
+    `language:${locale}`,
+    filterSelectedSection ? `doctype:"${filterSelectedSection}"` : '',
+  ]
+    .filter(Boolean)
+    .join(' AND ')
   const [prevFilter, setPrevFilter] = useState('')
   const [searchState, setSearchState] = useState({})
 
@@ -51,7 +56,7 @@ const SearchResults = () => {
             query={router.query.keyword}
             clickAnalytics={true}
             hitsPerPage={6}
-            facets={['doctype']}
+            facets={['doctype', 'language']}
             facetingAfterDistinct={true}
           />
           <InfiniteHits />
