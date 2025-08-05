@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [6.0.7](https://github.com/vtexdocs/components/compare/v6.0.6...v6.0.7) (2025-08-05)
+
+
+### Features
+
+* localize search results ([3c6d4aa](https://github.com/vtexdocs/components/commit/3c6d4aa32332276b875d6d8b7a2a790ebb90b1af))
+
 ### [6.0.6](https://github.com/vtexdocs/components/compare/v6.0.5...v6.0.6) (2025-08-05)
 
 
