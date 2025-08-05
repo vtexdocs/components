@@ -7,7 +7,7 @@ import ReleaseNotesIcon from 'components/icons/release-notes-icon'
 import StorefrontDevelopmentIcon from 'components/icons/storefront-development-icon'
 import VTEXIOAppsIcon from 'components/icons/vtex-io-apps-icon'
 import TroubleshootingIcon from 'components/icons/troubleshooting-icon'
-import { IconComponent } from './typings/types'
+import { IconComponent, Section } from './typings/types'
 import AddedIcon from 'components/icons/added-icon'
 import DeprecatedIcon from 'components/icons/deprecated-icon'
 import FixedIcon from 'components/icons/fixed-icon'
@@ -16,7 +16,6 @@ import RemovedIcon from 'components/icons/removed-icon'
 
 export const getBreadcrumbs = (hit: Hit) => {
   const breadcrumbs: string[] = []
-  breadcrumbs.push(hit.doctype)
   if (hit.doctype === 'API Reference' && hit.doccategory)
     breadcrumbs.push(hit.doccategory)
   breadcrumbs.push(hit.doctitle)
@@ -68,6 +67,10 @@ export const getIcon = (name: string) => {
   return iconsMap.find((icon) => icon.name === name)?.Icon
 }
 
+export const getIconFromSection = (sections: Section[][], id: string) => {
+  return sections.flat().find((section) => section.id === id)?.Icon
+}
+
 export type ActionType =
   | 'added'
   | 'deprecated'
@@ -110,4 +113,8 @@ const actions: Action[] = [
 
 export const getAction = (actionType: ActionType): Action => {
   return actions.find((action) => action.type === actionType) as Action
+}
+
+export const getTitleById = (sections: Section[][], id: string) => {
+  return sections.flat().find((item) => item.id === id)?.title || id
 }

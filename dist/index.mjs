@@ -9493,7 +9493,6 @@ var removed_icon_default = RemovedIcon;
 // src/utils/search-utils.ts
 var getBreadcrumbs = (hit) => {
   const breadcrumbs = [];
-  breadcrumbs.push(hit.doctype);
   if (hit.doctype === "API Reference" && hit.doccategory)
     breadcrumbs.push(hit.doccategory);
   breadcrumbs.push(hit.doctitle);
@@ -9535,6 +9534,9 @@ var iconsMap = [
 ];
 var getIcon3 = (name) => {
   return iconsMap.find((icon3) => icon3.name === name)?.Icon;
+};
+var getIconFromSection = (sections, id) => {
+  return sections.flat().find((section) => section.id === id)?.Icon;
 };
 var actions = [
   {
@@ -9672,8 +9674,9 @@ var customHighlight_default = connectedHighlight;
 import { useContext as useContext8 } from "react";
 import { Fragment as Fragment4, jsx as jsx38, jsxs as jsxs31 } from "react/jsx-runtime";
 var Hit2 = ({ hit, insights }) => {
+  const { sidebarSections } = useContext8(LibraryContext);
   const breadcrumbsList = getBreadcrumbs(hit);
-  const DocIcon = getIcon3(hit.doctype);
+  const DocIcon = getIconFromSection(sidebarSections, hit.doctype);
   return /* @__PURE__ */ jsx38(Link7, { href: getRelativeURL(hit.url), legacyBehavior: true, children: /* @__PURE__ */ jsx38(
     "a",
     {
@@ -11340,8 +11343,12 @@ var styles_default22 = {
 import { jsx as jsx59, jsxs as jsxs47 } from "react/jsx-runtime";
 var SearchResults = () => {
   const router = useRouter7();
+  const { locale } = useContext16(LibraryContext);
   const { filterSelectedSection, ocurrenceCount } = useContext16(SearchContext);
-  const filters = filterSelectedSection ? `doctype: "${filterSelectedSection}"` : "";
+  const filters = [
+    `language:${locale}`,
+    filterSelectedSection ? `doctype:"${filterSelectedSection}"` : ""
+  ].filter(Boolean).join(" AND ");
   const [prevFilter, setPrevFilter] = useState15("");
   const [searchState, setSearchState] = useState15({});
   const updateSearchState = (currentState) => {
@@ -11378,7 +11385,7 @@ var SearchResults = () => {
               query: router.query.keyword,
               clickAnalytics: true,
               hitsPerPage: 6,
-              facets: ["doctype"],
+              facets: ["doctype", "language"],
               facetingAfterDistinct: true
             }
           ),
