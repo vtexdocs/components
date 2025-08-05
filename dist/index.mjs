@@ -10842,7 +10842,7 @@ var SearchSection = ({ dataElement, index }) => {
     Flex17,
     {
       sx: styles_default19.sectionContainer,
-      onClick: () => updateFilter(dataElement.title),
+      onClick: () => updateFilter(dataElement.id),
       children: [
         /* @__PURE__ */ jsxs42(Flex17, { sx: styles_default19.sectionIconTitleBox, children: [
           /* @__PURE__ */ jsx54(dataElement.Icon, { sx: styles_default19.sectionIcon }),
@@ -10850,15 +10850,15 @@ var SearchSection = ({ dataElement, index }) => {
             Text13,
             {
               className: "search-section-title",
-              sx: filterSelectedSection === dataElement.title ? styles_default19.sectionTitleActive : styles_default19.sectionTitle,
+              sx: filterSelectedSection === dataElement.id ? styles_default19.sectionTitleActive : styles_default19.sectionTitle,
               children: dataElement.title
             }
           )
         ] }),
-        /* @__PURE__ */ jsx54(Box19, { className: "search-section-count", sx: styles_default19.sectionCount, children: ocurrenceCount[dataElement.title] || 0 })
+        /* @__PURE__ */ jsx54(Box19, { className: "search-section-count", sx: styles_default19.sectionCount, children: ocurrenceCount[dataElement.id] || 0 })
       ]
     },
-    `search-section-${dataElement.title}${index}`
+    `search-section-${dataElement.id}${index}`
   );
 };
 var search_section_default = SearchSection;
@@ -10904,7 +10904,7 @@ var SearchSections = () => {
             dataElement: section,
             index
           },
-          `search-section-docs-${section.title}`
+          `search-section-docs-${section.id}`
         ))
       ]
     }
@@ -11197,9 +11197,14 @@ var search_card_default = SearchCard;
 // src/components/search-results/infiniteHits.tsx
 import { Box as Box22, Flex as Flex19 } from "@vtex/brand-ui";
 import { jsx as jsx58, jsxs as jsxs46 } from "react/jsx-runtime";
+var getTitleById = (sections, id) => {
+  return sections.flat().find((item2) => item2.id === id)?.title || id;
+};
 var HitCard = ({ hit }) => {
+  const { sidebarSections } = useContext15(LibraryContext);
+  const breadcrumbTitle = getTitleById(sidebarSections, hit.doctype);
   const breadcrumbs = [
-    hit.doctype,
+    breadcrumbTitle,
     ...hit.doccategory ? [hit.doccategory] : [],
     ,
     hit.doctitle
@@ -11447,7 +11452,7 @@ var SearchFilterTabBar = () => {
   return /* @__PURE__ */ jsxs48(Flex20, { sx: styles_default23.container, children: [
     /* @__PURE__ */ jsx60(SearchFilterTab, { filter: "" }),
     sidebarSections.flat().map((section) => {
-      return /* @__PURE__ */ jsx60(SearchFilterTab, { filter: section.title }, section.title);
+      return /* @__PURE__ */ jsx60(SearchFilterTab, { filter: section.id }, section.id);
     })
   ] });
 };
