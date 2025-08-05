@@ -21,7 +21,7 @@ const SearchSections = () => {
           {id === 0 && <SearchSection dataElement={null} />}
           {sections.map((section, index) => (
             <SearchSection
-              key={`search-section-docs-${section.title}`}
+              key={`search-section-docs-${section.id}`}
               dataElement={section}
               index={index}
             />

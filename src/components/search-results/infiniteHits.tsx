@@ -11,8 +11,9 @@ import {
 import SearchCard from 'components/search-card'
 import { ActionType, getIcon, getRelativeURL } from 'utils/search-utils'
 import { Box, Flex } from '@vtex/brand-ui'
-import { MethodType } from 'utils/typings/types'
+import { MethodType, Section } from 'utils/typings/types'
 import { SearchContext } from 'utils/context/search'
+import { LibraryContext } from 'utils/context/libraryContext'
 
 export type FilteredHit2 = Hit & { filteredMatches?: Hit[] }
 
@@ -20,9 +21,16 @@ interface HitProps {
   hit: FilteredHit2
 }
 
+const getTitleById = (sections: Section[][], id: string) => {
+  return sections.flat().find((item) => item.id === id)?.title || id
+}
+
 const HitCard = ({ hit }: HitProps) => {
+  const { sidebarSections } = useContext(LibraryContext)
+  const breadcrumbTitle = getTitleById(sidebarSections, hit.doctype)
+
   const breadcrumbs = [
-    hit.doctype,
+    breadcrumbTitle,
     ...(hit.doccategory ? [hit.doccategory] : []),
     ,
     hit.doctitle,
