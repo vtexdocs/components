@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [6.0.6](https://github.com/vtexdocs/components/compare/v6.0.5...v6.0.6) (2025-08-05)
+
+
+### Features
+
+* get breadcrumbTitle ([383e4f7](https://github.com/vtexdocs/components/commit/383e4f7a8e370772e6e9e22397b941acc41b44e0))
+
 ### [6.0.5](https://github.com/vtexdocs/components/compare/v6.0.4...v6.0.5) (2025-08-04)
 
 
