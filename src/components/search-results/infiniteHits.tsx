@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo, useRef } from 'react'
+import { useContext, useEffect, useMemo, useRef } from 'react'
 import {
   connectInfiniteHits,
   connectStateResults,
@@ -9,9 +9,14 @@ import {
   StateResultsProvided,
 } from 'react-instantsearch-core'
 import SearchCard from 'components/search-card'
-import { ActionType, getIcon, getRelativeURL } from 'utils/search-utils'
+import {
+  ActionType,
+  getIconFromSection,
+  getRelativeURL,
+  getTitleById,
+} from 'utils/search-utils'
 import { Box, Flex } from '@vtex/brand-ui'
-import { MethodType, Section } from 'utils/typings/types'
+import { MethodType } from 'utils/typings/types'
 import { SearchContext } from 'utils/context/search'
 import { LibraryContext } from 'utils/context/libraryContext'
 
@@ -19,10 +24,6 @@ export type FilteredHit2 = Hit & { filteredMatches?: Hit[] }
 
 interface HitProps {
   hit: FilteredHit2
-}
-
-const getTitleById = (sections: Section[][], id: string) => {
-  return sections.flat().find((item) => item.id === id)?.title || id
 }
 
 const HitCard = ({ hit }: HitProps) => {
@@ -35,7 +36,7 @@ const HitCard = ({ hit }: HitProps) => {
     ,
     hit.doctitle,
   ]
-  const DocIcon = getIcon(hit.doctype)
+  const DocIcon = getIconFromSection(sidebarSections, breadcrumbTitle)
 
   return (
     <SearchCard
