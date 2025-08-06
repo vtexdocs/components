@@ -60,23 +60,13 @@ const StateResults = connectStateResults(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const results = searchResults as any
       const facets = results?.facets?.doctype || {}
-      const nbHits = results?.nbHits || 0
+      const filters = results?._state?.filters || ''
+      const isFilteringByDoctype = filters.includes('doctype:')
 
-      const formattedFacets = Object.entries(facets).reduce(
-        (acc, [key, value]) => {
-          if (typeof value === 'number' && key) {
-            acc[key] = value
-          }
-          return acc
-        },
-        {} as Record<string, number>
-      )
-
-      formattedFacets[''] = nbHits
-
-      updateOcurrenceCount(formattedFacets)
+      if (results && !isFilteringByDoctype) {
+        updateOcurrenceCount({ ...facets, '': results?.nbHits })
+      }
     }, [searchResults?.queryID])
-
     return null
   }
 )
