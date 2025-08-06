@@ -10800,7 +10800,8 @@ var StateResults = connectStateResults2(
     useEffect12(() => {
       const results = searchResults;
       if (results && results._state.filters === "") {
-        const facets = searchResults?.facets[0].doctype;
+        const facets = searchResults?.facets?.doctype;
+        console.log("facets", facets);
         updateOcurrenceCount({ ...facets?.data, "": searchResults?.nbHits });
       }
     }, [searchResults?.queryID]);
