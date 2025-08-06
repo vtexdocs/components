@@ -61,6 +61,7 @@ const StateResults = connectStateResults(
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const results = searchResults as any
+      console.log('searchResults:', results)
       const facetsObj = results?.facets?.doctype || {}
       const filters = results?._state?.filters || ''
       const isFilteringByDoctype = filters.includes('doctype:')
