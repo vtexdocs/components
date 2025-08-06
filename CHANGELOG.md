@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [6.0.15](https://github.com/vtexdocs/components/compare/v6.0.14...v6.0.15) (2025-08-06)
+
+
+### Bug Fixes
+
+* facets count ([98b95d1](https://github.com/vtexdocs/components/commit/98b95d1db547a3fe09ed9114d95d0db6528049a8))
+
 ### [6.0.14](https://github.com/vtexdocs/components/compare/v6.0.13...v6.0.14) (2025-08-06)
 
 ### [6.0.13](https://github.com/vtexdocs/components/compare/v6.0.12...v6.0.13) (2025-08-06)
