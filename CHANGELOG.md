@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [6.0.8](https://github.com/vtexdocs/components/compare/v6.0.7...v6.0.8) (2025-08-06)
+
+
+### Features
+
+* show doc type icon in search results card ([60767f4](https://github.com/vtexdocs/components/commit/60767f4acdaf0c2b6d34729addf4fbb128e44f8c))
+
 ### [6.0.7](https://github.com/vtexdocs/components/compare/v6.0.6...v6.0.7) (2025-08-05)
 
 
