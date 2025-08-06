@@ -59,7 +59,8 @@ const StateResults = connectStateResults(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const results = searchResults as any
       if (results && results._state.filters === '') {
-        const facets = searchResults?.facets[0].doctype
+        const facets = searchResults?.facets?.doctype
+        console.log('facets', facets)
         updateOcurrenceCount({ ...facets?.data, '': searchResults?.nbHits })
       }
     }, [searchResults?.queryID])
