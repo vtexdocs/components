@@ -55,18 +55,26 @@ const HitCard = ({ hit }: HitProps) => {
 const StateResults = connectStateResults(
   ({ searchResults }: StateResultsProvided) => {
     const { updateOcurrenceCount } = useContext(SearchContext)
+
     useEffect(() => {
       if (!searchResults) return
+
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const results = searchResults as any
-      const facets = results?.facets?.doctype || {}
+      const facetsObj = results?.facets?.doctype || {}
       const filters = results?._state?.filters || ''
       const isFilteringByDoctype = filters.includes('doctype:')
 
       if (results && !isFilteringByDoctype) {
-        updateOcurrenceCount({ ...facets, '': results?.nbHits })
+        const occurrenceCount: { [key: string]: number } = {}
+        Object.entries(facetsObj).forEach(([key, value]) => {
+          occurrenceCount[key] = typeof value === 'number' ? value : 0
+        })
+        occurrenceCount[''] = results?.nbHits
+        updateOcurrenceCount(occurrenceCount)
       }
     }, [searchResults?.queryID])
+
     return null
   }
 )

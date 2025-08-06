@@ -10804,11 +10804,16 @@ var StateResults = connectStateResults2(
       if (!searchResults)
         return;
       const results = searchResults;
-      const facets = results?.facets?.doctype || {};
+      const facetsObj = results?.facets?.doctype || {};
       const filters = results?._state?.filters || "";
       const isFilteringByDoctype = filters.includes("doctype:");
       if (results && !isFilteringByDoctype) {
-        updateOcurrenceCount({ ...facets, "": results?.nbHits });
+        const occurrenceCount = {};
+        Object.entries(facetsObj).forEach(([key, value]) => {
+          occurrenceCount[key] = typeof value === "number" ? value : 0;
+        });
+        occurrenceCount[""] = results?.nbHits;
+        updateOcurrenceCount(occurrenceCount);
       }
     }, [searchResults?.queryID]);
     return null;
@@ -11016,6 +11021,9 @@ var styles_default23 = { container: container10, tab, tabTitle, tabCount };
 import { jsx as jsx60, jsxs as jsxs48 } from "react/jsx-runtime";
 var SearchFilterTab = ({ filter }) => {
   const { filterSelectedSection, changeFilterSelectedSection, ocurrenceCount } = useContext17(SearchContext);
+  console.log("filter", filter);
+  console.log("filterSelectedSection", filterSelectedSection);
+  console.log("ocurrenceCount", ocurrenceCount);
   return /* @__PURE__ */ jsxs48(
     Flex20,
     {

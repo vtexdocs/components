@@ -8,6 +8,9 @@ import { LibraryContext } from 'utils/context/libraryContext'
 const SearchFilterTab = ({ filter }: { filter: string }) => {
   const { filterSelectedSection, changeFilterSelectedSection, ocurrenceCount } =
     useContext(SearchContext)
+  console.log('filter', filter)
+  console.log('filterSelectedSection', filterSelectedSection)
+  console.log('ocurrenceCount', ocurrenceCount)
 
   return (
     <Flex
