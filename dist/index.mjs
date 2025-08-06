@@ -10804,6 +10804,7 @@ var StateResults = connectStateResults2(
       if (!searchResults)
         return;
       const results = searchResults;
+      const isFilteringByDoctype = typeof results?.filters === "string" && results.filters.includes("doctype:");
       const facets = results?.facets;
       const doctypeFacet = facets?.find((facet) => facet.name === "doctype");
       const nbHits = results?.nbHits ?? 0;
@@ -10816,7 +10817,9 @@ var StateResults = connectStateResults2(
         });
       }
       formattedFacets[""] = nbHits;
-      updateOcurrenceCount(formattedFacets);
+      if (!isFilteringByDoctype) {
+        updateOcurrenceCount(formattedFacets);
+      }
     }, [searchResults?.queryID]);
     return null;
   }
@@ -11023,7 +11026,6 @@ var styles_default23 = { container: container10, tab, tabTitle, tabCount };
 import { jsx as jsx60, jsxs as jsxs48 } from "react/jsx-runtime";
 var SearchFilterTab = ({ filter }) => {
   const { filterSelectedSection, changeFilterSelectedSection, ocurrenceCount } = useContext17(SearchContext);
-  console.log("ocurrenceCount", ocurrenceCount);
   return /* @__PURE__ */ jsxs48(
     Flex20,
     {

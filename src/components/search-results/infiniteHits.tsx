@@ -61,6 +61,9 @@ const StateResults = connectStateResults(
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const results = searchResults as any
+      const isFilteringByDoctype =
+        typeof results?.filters === 'string' &&
+        results.filters.includes('doctype:')
 
       const facets = results?.facets as
         | Array<{
@@ -85,7 +88,9 @@ const StateResults = connectStateResults(
 
       formattedFacets[''] = nbHits
 
-      updateOcurrenceCount(formattedFacets)
+      if (!isFilteringByDoctype) {
+        updateOcurrenceCount(formattedFacets)
+      }
     }, [searchResults?.queryID])
 
     return null
