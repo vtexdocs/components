@@ -36,7 +36,7 @@ const HitCard = ({ hit }: HitProps) => {
     ,
     hit.doctitle,
   ]
-  const DocIcon = getIconFromSection(sidebarSections, breadcrumbTitle)
+  const DocIcon = getIconFromSection(sidebarSections, hit.doctype)
 
   return (
     <SearchCard
@@ -59,7 +59,7 @@ const StateResults = connectStateResults(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const results = searchResults as any
       if (results && results._state.filters === '') {
-        const facets = searchResults?.facets[0]
+        const facets = searchResults?.facets[0].doctype
         updateOcurrenceCount({ ...facets?.data, '': searchResults?.nbHits })
       }
     }, [searchResults?.queryID])
