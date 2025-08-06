@@ -10465,10 +10465,13 @@ import { useContext as useContext14 } from "react";
 import { jsx as jsx55, jsxs as jsxs43 } from "react/jsx-runtime";
 var SearchSections = () => {
   const { sidebarSections } = useContext14(LibraryContext);
-  return /* @__PURE__ */ jsx55(Box20, { sx: styles_default20.container, children: sidebarSections.map((sections, id) => /* @__PURE__ */ jsxs43(
+  const internalOnlySections = sidebarSections.map(
+    (section) => section.filter((item2) => !item2.isExternalLink)
+  );
+  return /* @__PURE__ */ jsx55(Box20, { sx: styles_default20.container, children: internalOnlySections.map((sections, id) => /* @__PURE__ */ jsxs43(
     Box20,
     {
-      sx: id < sidebarSections.length - 1 ? styles_default20.docsSection : styles_default20.notesSection,
+      sx: id < internalOnlySections.length - 1 ? styles_default20.docsSection : styles_default20.notesSection,
       children: [
         id === 0 && /* @__PURE__ */ jsx55(search_section_default, { dataElement: null }),
         sections.map((section, index) => /* @__PURE__ */ jsx55(
@@ -10799,10 +10802,9 @@ var StateResults = connectStateResults2(
     const { updateOcurrenceCount } = useContext15(SearchContext);
     useEffect12(() => {
       const results = searchResults;
-      if (results && results._state.filters === "") {
-        const facets = searchResults?.facets?.doctype;
-        console.log("facets", facets);
-        updateOcurrenceCount({ ...facets?.data, "": searchResults?.nbHits });
+      if (results) {
+        const facets = searchResults?.facets.doctype;
+        updateOcurrenceCount({ ...facets, "": searchResults?.nbHits });
       }
     }, [searchResults?.queryID]);
     return null;
