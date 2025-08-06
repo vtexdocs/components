@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [6.0.20](https://github.com/vtexdocs/components/compare/v6.0.19...v6.0.20) (2025-08-06)
+
+
+### Bug Fixes
+
+* path to filters ([bde0026](https://github.com/vtexdocs/components/commit/bde0026a676c3db70b140293b5038c4e51c08a77))
+
 ### [6.0.19](https://github.com/vtexdocs/components/compare/v6.0.18...v6.0.19) (2025-08-06)
 
 
