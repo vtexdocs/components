@@ -61,19 +61,31 @@ const StateResults = connectStateResults(
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const results = searchResults as any
-      console.log('searchResults:', results)
-      const facetsObj = results?.facets?.doctype || {}
-      const filters = results?._state?.filters || ''
-      const isFilteringByDoctype = filters.includes('doctype:')
 
-      if (results && !isFilteringByDoctype) {
-        const occurrenceCount: { [key: string]: number } = {}
-        Object.entries(facetsObj).forEach(([key, value]) => {
-          occurrenceCount[key] = typeof value === 'number' ? value : 0
+      const facets = results?.facets as
+        | Array<{
+            name: string
+            data: Record<string, number>
+            exhaustive?: boolean
+          }>
+        | undefined
+
+      const doctypeFacet = facets?.find((facet) => facet.name === 'doctype')
+      const nbHits = results?.nbHits ?? 0
+
+      const formattedFacets: Record<string, number> = {}
+
+      if (doctypeFacet?.data) {
+        Object.entries(doctypeFacet.data).forEach(([key, value]) => {
+          if (typeof value === 'number') {
+            formattedFacets[key] = value
+          }
         })
-        occurrenceCount[''] = results?.nbHits
-        updateOcurrenceCount(occurrenceCount)
       }
+
+      formattedFacets[''] = nbHits
+
+      updateOcurrenceCount(formattedFacets)
     }, [searchResults?.queryID])
 
     return null
