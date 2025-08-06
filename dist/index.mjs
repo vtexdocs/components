@@ -10804,18 +10804,19 @@ var StateResults = connectStateResults2(
       if (!searchResults)
         return;
       const results = searchResults;
-      console.log("searchResults:", results);
-      const facetsObj = results?.facets?.doctype || {};
-      const filters = results?._state?.filters || "";
-      const isFilteringByDoctype = filters.includes("doctype:");
-      if (results && !isFilteringByDoctype) {
-        const occurrenceCount = {};
-        Object.entries(facetsObj).forEach(([key, value]) => {
-          occurrenceCount[key] = typeof value === "number" ? value : 0;
+      const facets = results?.facets;
+      const doctypeFacet = facets?.find((facet) => facet.name === "doctype");
+      const nbHits = results?.nbHits ?? 0;
+      const formattedFacets = {};
+      if (doctypeFacet?.data) {
+        Object.entries(doctypeFacet.data).forEach(([key, value]) => {
+          if (typeof value === "number") {
+            formattedFacets[key] = value;
+          }
         });
-        occurrenceCount[""] = results?.nbHits;
-        updateOcurrenceCount(occurrenceCount);
       }
+      formattedFacets[""] = nbHits;
+      updateOcurrenceCount(formattedFacets);
     }, [searchResults?.queryID]);
     return null;
   }
