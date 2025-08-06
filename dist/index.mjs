@@ -10779,7 +10779,7 @@ var HitCard = ({ hit }) => {
     ,
     hit.doctitle
   ];
-  const DocIcon = getIconFromSection(sidebarSections, breadcrumbTitle);
+  const DocIcon = getIconFromSection(sidebarSections, hit.doctype);
   return /* @__PURE__ */ jsx58(
     search_card_default,
     {
@@ -10800,7 +10800,7 @@ var StateResults = connectStateResults2(
     useEffect12(() => {
       const results = searchResults;
       if (results && results._state.filters === "") {
-        const facets = searchResults?.facets[0];
+        const facets = searchResults?.facets[0].doctype;
         updateOcurrenceCount({ ...facets?.data, "": searchResults?.nbHits });
       }
     }, [searchResults?.queryID]);
