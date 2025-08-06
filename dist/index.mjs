@@ -10805,18 +10805,11 @@ var StateResults = connectStateResults2(
         return;
       const results = searchResults;
       const facets = results?.facets?.doctype || {};
-      const nbHits = results?.nbHits || 0;
-      const formattedFacets = Object.entries(facets).reduce(
-        (acc, [key, value]) => {
-          if (typeof value === "number" && key) {
-            acc[key] = value;
-          }
-          return acc;
-        },
-        {}
-      );
-      formattedFacets[""] = nbHits;
-      updateOcurrenceCount(formattedFacets);
+      const filters = results?._state?.filters || "";
+      const isFilteringByDoctype = filters.includes("doctype:");
+      if (results && !isFilteringByDoctype) {
+        updateOcurrenceCount({ ...facets, "": results?.nbHits });
+      }
     }, [searchResults?.queryID]);
     return null;
   }
