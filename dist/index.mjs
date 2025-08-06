@@ -10802,7 +10802,7 @@ var StateResults = connectStateResults2(
     const { updateOcurrenceCount } = useContext15(SearchContext);
     useEffect12(() => {
       const results = searchResults;
-      if (results) {
+      if (results && results._state.filters === "") {
         const facets = searchResults?.facets.doctype;
         updateOcurrenceCount({ ...facets, "": searchResults?.nbHits });
       }
