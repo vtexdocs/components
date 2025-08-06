@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [6.0.19](https://github.com/vtexdocs/components/compare/v6.0.18...v6.0.19) (2025-08-06)
+
+
+### Bug Fixes
+
+* update conditional for updating search count ([d0623a5](https://github.com/vtexdocs/components/commit/d0623a5042807b80c4a113fddd1415a991986930))
+
 ### [6.0.18](https://github.com/vtexdocs/components/compare/v6.0.16...v6.0.18) (2025-08-06)
 
 
