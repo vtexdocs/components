@@ -56,13 +56,27 @@ const StateResults = connectStateResults(
   ({ searchResults }: StateResultsProvided) => {
     const { updateOcurrenceCount } = useContext(SearchContext)
     useEffect(() => {
+      if (!searchResults) return
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const results = searchResults as any
-      if (results && results._state.filters === '') {
-        const facets = searchResults?.facets.doctype
-        updateOcurrenceCount({ ...facets, '': searchResults?.nbHits })
-      }
+      const facets = results?.facets?.doctype || {}
+      const nbHits = results?.nbHits || 0
+
+      const formattedFacets = Object.entries(facets).reduce(
+        (acc, [key, value]) => {
+          if (typeof value === 'number' && key) {
+            acc[key] = value
+          }
+          return acc
+        },
+        {} as Record<string, number>
+      )
+
+      formattedFacets[''] = nbHits
+
+      updateOcurrenceCount(formattedFacets)
     }, [searchResults?.queryID])
+
     return null
   }
 )

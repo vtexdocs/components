@@ -10801,11 +10801,22 @@ var StateResults = connectStateResults2(
   ({ searchResults }) => {
     const { updateOcurrenceCount } = useContext15(SearchContext);
     useEffect12(() => {
+      if (!searchResults)
+        return;
       const results = searchResults;
-      if (results && results._state.filters === "") {
-        const facets = searchResults?.facets.doctype;
-        updateOcurrenceCount({ ...facets, "": searchResults?.nbHits });
-      }
+      const facets = results?.facets?.doctype || {};
+      const nbHits = results?.nbHits || 0;
+      const formattedFacets = Object.entries(facets).reduce(
+        (acc, [key, value]) => {
+          if (typeof value === "number" && key) {
+            acc[key] = value;
+          }
+          return acc;
+        },
+        {}
+      );
+      formattedFacets[""] = nbHits;
+      updateOcurrenceCount(formattedFacets);
     }, [searchResults?.queryID]);
     return null;
   }
