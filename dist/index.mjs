@@ -10804,7 +10804,7 @@ var StateResults = connectStateResults2(
       if (!searchResults)
         return;
       const results = searchResults;
-      const isFilteringByDoctype = typeof results?.filters === "string" && results.filters.includes("doctype:");
+      const isFilteringByDoctype = typeof results?._state.filters === "string" && results._state.filters.includes("doctype:");
       const facets = results?.facets;
       const doctypeFacet = facets?.find((facet) => facet.name === "doctype");
       const nbHits = results?.nbHits ?? 0;
