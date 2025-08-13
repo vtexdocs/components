@@ -8,12 +8,16 @@ import { LibraryContext } from 'utils/context/libraryContext'
 const SearchSections = () => {
   const { sidebarSections } = useContext(LibraryContext)
 
+  const internalOnlySections = sidebarSections.map((section) =>
+    section.filter((item) => !item.isExternalLink)
+  )
+
   return (
     <Box sx={styles.container}>
-      {sidebarSections.map((sections, id) => (
+      {internalOnlySections.map((sections, id) => (
         <Box
           sx={
-            id < sidebarSections.length - 1
+            id < internalOnlySections.length - 1
               ? styles.docsSection
               : styles.notesSection
           }
@@ -21,7 +25,7 @@ const SearchSections = () => {
           {id === 0 && <SearchSection dataElement={null} />}
           {sections.map((section, index) => (
             <SearchSection
-              key={`search-section-docs-${section.title}`}
+              key={`search-section-docs-${section.id}`}
               dataElement={section}
               index={index}
             />

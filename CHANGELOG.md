@@ -2,6 +2,91 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [6.0.20](https://github.com/vtexdocs/components/compare/v6.0.19...v6.0.20) (2025-08-06)
+
+
+### Bug Fixes
+
+* path to filters ([bde0026](https://github.com/vtexdocs/components/commit/bde0026a676c3db70b140293b5038c4e51c08a77))
+
+### [6.0.19](https://github.com/vtexdocs/components/compare/v6.0.18...v6.0.19) (2025-08-06)
+
+
+### Bug Fixes
+
+* update conditional for updating search count ([d0623a5](https://github.com/vtexdocs/components/commit/d0623a5042807b80c4a113fddd1415a991986930))
+
+### [6.0.18](https://github.com/vtexdocs/components/compare/v6.0.16...v6.0.18) (2025-08-06)
+
+
+### Features
+
+* final fix facet count ([3e95011](https://github.com/vtexdocs/components/commit/3e95011b6ddbf60929aa0961fdf14e756f7a6ccb))
+
+### [6.0.17](https://github.com/vtexdocs/components/compare/v6.0.16...v6.0.17) (2025-08-06)
+
+
+### Features
+
+* final fix facet count ([3e95011](https://github.com/vtexdocs/components/commit/3e95011b6ddbf60929aa0961fdf14e756f7a6ccb))
+
+### [6.0.16](https://github.com/vtexdocs/components/compare/v6.0.15...v6.0.16) (2025-08-06)
+
+
+### Bug Fixes
+
+* add log ([070bf9e](https://github.com/vtexdocs/components/commit/070bf9e914ecbf8a618e11cd24446e94a57525c0))
+
+### [6.0.15](https://github.com/vtexdocs/components/compare/v6.0.14...v6.0.15) (2025-08-06)
+
+
+### Bug Fixes
+
+* facets count ([98b95d1](https://github.com/vtexdocs/components/commit/98b95d1db547a3fe09ed9114d95d0db6528049a8))
+
+### [6.0.14](https://github.com/vtexdocs/components/compare/v6.0.13...v6.0.14) (2025-08-06)
+
+### [6.0.13](https://github.com/vtexdocs/components/compare/v6.0.12...v6.0.13) (2025-08-06)
+
+### [6.0.12](https://github.com/vtexdocs/components/compare/v6.0.11...v6.0.12) (2025-08-06)
+
+
+### Bug Fixes
+
+* occurencecount for facets ([f883211](https://github.com/vtexdocs/components/commit/f883211bd0b37d279e1f099a735a5610f58fe7bd))
+
+### [6.0.11](https://github.com/vtexdocs/components/compare/v6.0.10...v6.0.11) (2025-08-06)
+
+### [6.0.10](https://github.com/vtexdocs/components/compare/v6.0.9...v6.0.10) (2025-08-06)
+
+### [6.0.9](https://github.com/vtexdocs/components/compare/v6.0.8...v6.0.9) (2025-08-06)
+
+
+### Bug Fixes
+
+* facets occurenceCount ([92dd149](https://github.com/vtexdocs/components/commit/92dd149300e6db47e5dab54c9774b49a5672e05b))
+
+### [6.0.8](https://github.com/vtexdocs/components/compare/v6.0.7...v6.0.8) (2025-08-06)
+
+
+### Features
+
+* show doc type icon in search results card ([60767f4](https://github.com/vtexdocs/components/commit/60767f4acdaf0c2b6d34729addf4fbb128e44f8c))
+
+### [6.0.7](https://github.com/vtexdocs/components/compare/v6.0.6...v6.0.7) (2025-08-05)
+
+
+### Features
+
+* localize search results ([3c6d4aa](https://github.com/vtexdocs/components/commit/3c6d4aa32332276b875d6d8b7a2a790ebb90b1af))
+
+### [6.0.6](https://github.com/vtexdocs/components/compare/v6.0.5...v6.0.6) (2025-08-05)
+
+
+### Features
+
+* get breadcrumbTitle ([383e4f7](https://github.com/vtexdocs/components/commit/383e4f7a8e370772e6e9e22397b941acc41b44e0))
+
 ### [6.0.5](https://github.com/vtexdocs/components/compare/v6.0.4...v6.0.5) (2025-08-04)
 
 

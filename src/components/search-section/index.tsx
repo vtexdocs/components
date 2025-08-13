@@ -46,15 +46,15 @@ const SearchSection = ({ dataElement, index }: SearchSectionProps) => {
   ) : (
     <Flex
       sx={styles.sectionContainer}
-      key={`search-section-${dataElement.title}${index}`}
-      onClick={() => updateFilter(dataElement.title)}
+      key={`search-section-${dataElement.id}${index}`}
+      onClick={() => updateFilter(dataElement.id)}
     >
       <Flex sx={styles.sectionIconTitleBox}>
         <dataElement.Icon sx={styles.sectionIcon} />
         <Text
           className="search-section-title"
           sx={
-            filterSelectedSection === dataElement.title
+            filterSelectedSection === dataElement.id
               ? styles.sectionTitleActive
               : styles.sectionTitle
           }
@@ -63,7 +63,7 @@ const SearchSection = ({ dataElement, index }: SearchSectionProps) => {
         </Text>
       </Flex>
       <Box className="search-section-count" sx={styles.sectionCount}>
-        {ocurrenceCount[dataElement.title] || 0}
+        {ocurrenceCount[dataElement.id] || 0}
       </Box>
     </Flex>
   )

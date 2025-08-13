@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo, useRef } from 'react'
+import { useContext, useEffect, useMemo, useRef } from 'react'
 import {
   connectInfiniteHits,
   connectStateResults,
@@ -9,10 +9,16 @@ import {
   StateResultsProvided,
 } from 'react-instantsearch-core'
 import SearchCard from 'components/search-card'
-import { ActionType, getIcon, getRelativeURL } from 'utils/search-utils'
+import {
+  ActionType,
+  getIconFromSection,
+  getRelativeURL,
+  getTitleById,
+} from 'utils/search-utils'
 import { Box, Flex } from '@vtex/brand-ui'
 import { MethodType } from 'utils/typings/types'
 import { SearchContext } from 'utils/context/search'
+import { LibraryContext } from 'utils/context/libraryContext'
 
 export type FilteredHit2 = Hit & { filteredMatches?: Hit[] }
 
@@ -21,13 +27,16 @@ interface HitProps {
 }
 
 const HitCard = ({ hit }: HitProps) => {
+  const { sidebarSections } = useContext(LibraryContext)
+  const breadcrumbTitle = getTitleById(sidebarSections, hit.doctype)
+
   const breadcrumbs = [
-    hit.doctype,
+    breadcrumbTitle,
     ...(hit.doccategory ? [hit.doccategory] : []),
     ,
     hit.doctitle,
   ]
-  const DocIcon = getIcon(hit.doctype)
+  const DocIcon = getIconFromSection(sidebarSections, hit.doctype)
 
   return (
     <SearchCard
@@ -46,14 +55,44 @@ const HitCard = ({ hit }: HitProps) => {
 const StateResults = connectStateResults(
   ({ searchResults }: StateResultsProvided) => {
     const { updateOcurrenceCount } = useContext(SearchContext)
+
     useEffect(() => {
+      if (!searchResults) return
+
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const results = searchResults as any
-      if (results && results._state.filters === '') {
-        const facets = searchResults?.facets[0]
-        updateOcurrenceCount({ ...facets?.data, '': searchResults?.nbHits })
+      const isFilteringByDoctype =
+        typeof results?._state.filters === 'string' &&
+        results._state.filters.includes('doctype:')
+
+      const facets = results?.facets as
+        | Array<{
+            name: string
+            data: Record<string, number>
+            exhaustive?: boolean
+          }>
+        | undefined
+
+      const doctypeFacet = facets?.find((facet) => facet.name === 'doctype')
+      const nbHits = results?.nbHits ?? 0
+
+      const formattedFacets: Record<string, number> = {}
+
+      if (doctypeFacet?.data) {
+        Object.entries(doctypeFacet.data).forEach(([key, value]) => {
+          if (typeof value === 'number') {
+            formattedFacets[key] = value
+          }
+        })
+      }
+
+      formattedFacets[''] = nbHits
+
+      if (!isFilteringByDoctype) {
+        updateOcurrenceCount(formattedFacets)
       }
     }, [searchResults?.queryID])
+
     return null
   }
 )
