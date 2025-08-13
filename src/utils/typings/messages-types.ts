@@ -9,6 +9,14 @@ export type MessagesType = {
   'search_input.empty': string
   'search_input.placeholder': string
   'sidebar_search.placeholder': string
+  "search_results.showing": string
+  "search_results.results_for": string
+  "search_results.in": string
+  "search_results.all_lowercase": string
+  'search_input.see_all': string
+  'search_results.summary': string
+  'search_results.all': string
+  'search_card.in': string
   'image.error_loading': string
   api_reference_sidebar_filter_clear: string
   api_reference_sidebar_filter: string

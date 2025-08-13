@@ -122,12 +122,16 @@ const HitsBox = connectStateResults<HitsBoxProps>(
                   sx={styles.seeAll}
                   onClick={() => seeAllSubmit(searchState.query || '')}
                 >
-                  <Text>See all results</Text>
+                  <Text>
+                    {messages[locale]['search_input.see_all'] || 'See all results'}
+                  </Text>
                 </Box>
               )}
               {!searchResults.hits.length && (
                 <Flex sx={styles.noResults}>
-                  <Text>{messages[locale]['search_input.empty']}</Text>
+                  <Text>
+                    {messages[locale]['search_input.empty'] || 'No results found. Try different search terms.'}
+                  </Text>
                 </Flex>
               )}
             </Box>
