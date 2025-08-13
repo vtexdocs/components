@@ -17,9 +17,12 @@ const SearchResults = () => {
   const router = useRouter()
   const { filterSelectedSection, ocurrenceCount } = useContext(SearchContext)
   const { locale } = useContext(LibraryContext)
-  const filters = filterSelectedSection
-    ? `doctype: "${filterSelectedSection}"`
-    : ''
+  const filters = [
+    `language:${locale}`,
+    filterSelectedSection ? `doctype:"${filterSelectedSection}"` : '',
+  ]
+    .filter(Boolean)
+    .join(' AND ')
   const [prevFilter, setPrevFilter] = useState('')
   const [searchState, setSearchState] = useState({})
 
@@ -35,7 +38,17 @@ const SearchResults = () => {
   return (
     <Box sx={styles.resultContainer}>
       <Text sx={styles.resultText}>
-        {`${messages[locale]['search_results.showing'] || 'Showing'} ${ocurrenceCount[filterSelectedSection] === undefined ? '' : ocurrenceCount[filterSelectedSection]} ${messages[locale]['search_results.results_for'] || 'results for'} ${router.query.keyword} ${messages[locale]['search_results.in'] || 'in'} ${!filterSelectedSection ? (messages[locale]['search_results.all_lowercase'] || 'all results') : filterSelectedSection}`}
+        {`${messages[locale]['search_results.showing'] || 'Showing'} ${
+          ocurrenceCount[filterSelectedSection] === undefined
+            ? ''
+            : ocurrenceCount[filterSelectedSection]
+        } ${messages[locale]['search_results.results_for'] || 'results for'} ${
+          router.query.keyword
+        } ${messages[locale]['search_results.in'] || 'in'} ${
+          !filterSelectedSection
+            ? messages[locale]['search_results.all_lowercase'] || 'all results'
+            : filterSelectedSection
+        }`}
       </Text>
       <hr />
       <Box>
