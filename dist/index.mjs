@@ -8879,430 +8879,30 @@ import { Box as Box14, Flex as Flex14, IconCaret as IconCaret3, Text as Text9 } 
 // src/components/icons/api-guides-icon.tsx
 import { Icon as Icon8 } from "@vtex/brand-ui";
 import { jsx as jsx25, jsxs as jsxs19 } from "react/jsx-runtime";
-var APIGuidesIcon = (props) => /* @__PURE__ */ jsxs19(
-  Icon8,
-  {
-    ...props,
-    viewBox: "0 0 32 32",
-    fill: "none",
-    xmlns: "http://www.w3.org/2000/svg",
-    children: [
-      /* @__PURE__ */ jsx25(
-        "path",
-        {
-          fillRule: "evenodd",
-          clipRule: "evenodd",
-          d: "M24.5518 8.552L20.7812 4.78133C20.2812 4.28133 19.6025 4 18.8958 4H9.33317C7.85984 4 6.6665 5.19333 6.6665 6.66667V25.3333C6.6665 26.8067 7.85984 28 9.33317 28H22.6665C24.1398 28 25.3332 26.8067 25.3332 25.3333V10.4373C25.3332 9.73067 25.0518 9.052 24.5518 8.552V8.552Z",
-          stroke: "#4A596B",
-          strokeWidth: "2",
-          strokeLinecap: "round",
-          strokeLinejoin: "round"
-        }
-      ),
-      /* @__PURE__ */ jsx25(
-        "path",
-        {
-          d: "M25.3332 10.6667H19.9998C19.2638 10.6667 18.6665 10.0693 18.6665 9.33333V4",
-          stroke: "#4A596B",
-          strokeWidth: "2",
-          strokeLinecap: "round",
-          strokeLinejoin: "round"
-        }
-      ),
-      /* @__PURE__ */ jsx25(
-        "path",
-        {
-          d: "M10.6665 14.6667H18.6665",
-          stroke: "#4A596B",
-          strokeWidth: "2",
-          strokeLinecap: "round",
-          strokeLinejoin: "round"
-        }
-      ),
-      /* @__PURE__ */ jsx25(
-        "path",
-        {
-          d: "M10.6665 18.6667H18.6665",
-          stroke: "#4A596B",
-          strokeWidth: "2",
-          strokeLinecap: "round",
-          strokeLinejoin: "round"
-        }
-      ),
-      /* @__PURE__ */ jsx25(
-        "path",
-        {
-          d: "M10.6665 22.6667H16.4398",
-          stroke: "#4A596B",
-          strokeWidth: "2",
-          strokeLinecap: "round",
-          strokeLinejoin: "round"
-        }
-      )
-    ]
-  }
-);
-var api_guides_icon_default = APIGuidesIcon;
 
 // src/components/icons/api-reference-icon.tsx
 import { Icon as Icon9 } from "@vtex/brand-ui";
 import { jsx as jsx26, jsxs as jsxs20 } from "react/jsx-runtime";
-var APIReferenceIcon = (props) => /* @__PURE__ */ jsxs20(
-  Icon9,
-  {
-    ...props,
-    viewBox: "0 0 32 32",
-    fill: "none",
-    xmlns: "http://www.w3.org/2000/svg",
-    children: [
-      /* @__PURE__ */ jsx26(
-        "path",
-        {
-          d: "M24.7612 26.6668C26.4439 26.6668 27.8092 25.3028 27.8092 23.6188V17.5242L29.3332 16.0002L27.8092 14.4762V8.3815C27.8092 6.6975 26.4452 5.3335 24.7612 5.3335",
-          stroke: "#4A596B",
-          strokeWidth: "2",
-          strokeLinecap: "round",
-          strokeLinejoin: "round"
-        }
-      ),
-      /* @__PURE__ */ jsx26(
-        "path",
-        {
-          d: "M12 22.6668L20 9.3335",
-          stroke: "#4A596B",
-          strokeWidth: "2",
-          strokeLinecap: "round",
-          strokeLinejoin: "round"
-        }
-      ),
-      /* @__PURE__ */ jsx26(
-        "path",
-        {
-          d: "M7.2385 5.3335C5.5545 5.3335 4.1905 6.6975 4.1905 8.3815V14.4762L2.6665 16.0002L4.1905 17.5242V23.6188C4.1905 25.3028 5.5545 26.6668 7.2385 26.6668",
-          stroke: "#4A596B",
-          strokeWidth: "2",
-          strokeLinecap: "round",
-          strokeLinejoin: "round"
-        }
-      )
-    ]
-  }
-);
-var api_reference_icon_default = APIReferenceIcon;
 
 // src/components/icons/app-development-icon.tsx
 import { Icon as Icon10 } from "@vtex/brand-ui";
 import { jsx as jsx27, jsxs as jsxs21 } from "react/jsx-runtime";
-var AppDevelopmentIcon = (props) => /* @__PURE__ */ jsxs21(
-  Icon10,
-  {
-    ...props,
-    viewBox: "0 0 32 32",
-    fill: "none",
-    xmlns: "http://www.w3.org/2000/svg",
-    children: [
-      /* @__PURE__ */ jsx27(
-        "path",
-        {
-          fillRule: "evenodd",
-          clipRule: "evenodd",
-          d: "M4 9.36533L15.9827 14.732L28 9.36533L16.0173 4L4 9.36533Z",
-          stroke: "#4A596B",
-          strokeWidth: "2",
-          strokeLinecap: "round",
-          strokeLinejoin: "round"
-        }
-      ),
-      /* @__PURE__ */ jsx27(
-        "path",
-        {
-          d: "M20.5813 19.312L28 22.6347L15.9827 28L4 22.6347L11.4187 19.3213",
-          stroke: "#4A596B",
-          strokeWidth: "2",
-          strokeLinecap: "round",
-          strokeLinejoin: "round"
-        }
-      ),
-      /* @__PURE__ */ jsx27(
-        "path",
-        {
-          d: "M20.5813 12.6787L28 16L15.9827 21.3654L4 16L11.4187 12.688",
-          stroke: "#4A596B",
-          strokeWidth: "2",
-          strokeLinecap: "round",
-          strokeLinejoin: "round"
-        }
-      )
-    ]
-  }
-);
-var app_development_icon_default = AppDevelopmentIcon;
 
 // src/components/icons/release-notes-icon.tsx
 import { Icon as Icon11 } from "@vtex/brand-ui";
 import { jsx as jsx28, jsxs as jsxs22 } from "react/jsx-runtime";
-var ReleaseNotesIcon = (props) => /* @__PURE__ */ jsxs22(
-  Icon11,
-  {
-    ...props,
-    viewBox: "0 0 24 25",
-    fill: "none",
-    xmlns: "http://www.w3.org/2000/svg",
-    children: [
-      /* @__PURE__ */ jsx28(
-        "path",
-        {
-          d: "M10 8.5V16.5",
-          stroke: "#4A596B",
-          strokeWidth: "1.5",
-          strokeLinecap: "round",
-          strokeLinejoin: "round"
-        }
-      ),
-      /* @__PURE__ */ jsx28(
-        "path",
-        {
-          d: "M14 8.5V16.5",
-          stroke: "#4A596B",
-          strokeWidth: "1.5",
-          strokeLinecap: "round",
-          strokeLinejoin: "round"
-        }
-      ),
-      /* @__PURE__ */ jsx28(
-        "path",
-        {
-          d: "M8 14.5H16",
-          stroke: "#4A596B",
-          strokeWidth: "1.5",
-          strokeLinecap: "round",
-          strokeLinejoin: "round"
-        }
-      ),
-      /* @__PURE__ */ jsx28(
-        "path",
-        {
-          d: "M8 10.5H16",
-          stroke: "#4A596B",
-          strokeWidth: "1.5",
-          strokeLinecap: "round",
-          strokeLinejoin: "round"
-        }
-      ),
-      /* @__PURE__ */ jsx28(
-        "path",
-        {
-          fillRule: "evenodd",
-          clipRule: "evenodd",
-          d: "M21 7.5V17.5C21 19.709 19.209 21.5 17 21.5H7C4.791 21.5 3 19.709 3 17.5V7.5C3 5.291 4.791 3.5 7 3.5H17C19.209 3.5 21 5.291 21 7.5Z",
-          stroke: "#4A596B",
-          strokeWidth: "1.5",
-          strokeLinecap: "round",
-          strokeLinejoin: "round"
-        }
-      )
-    ]
-  }
-);
-var release_notes_icon_default = ReleaseNotesIcon;
 
 // src/components/icons/storefront-development-icon.tsx
 import { Icon as Icon12 } from "@vtex/brand-ui";
 import { jsx as jsx29, jsxs as jsxs23 } from "react/jsx-runtime";
-var StorefrontDevelopmentIcon = (props) => /* @__PURE__ */ jsxs23(
-  Icon12,
-  {
-    ...props,
-    viewBox: "0 0 32 32",
-    fill: "none",
-    xmlns: "http://www.w3.org/2000/svg",
-    children: [
-      /* @__PURE__ */ jsx29(
-        "path",
-        {
-          fillRule: "evenodd",
-          clipRule: "evenodd",
-          d: "M29.3332 6.67107V25.3324C29.3332 26.8057 28.1398 27.9991 26.6665 27.9991H5.33317C3.85984 27.9991 2.6665 26.8057 2.6665 25.3324V6.7164C2.6665 5.24573 3.85717 4.0524 5.32784 4.04973L26.6612 4.0044C28.1358 4.00173 29.3332 5.1964 29.3332 6.67107Z",
-          stroke: "#4A596B",
-          strokeWidth: "2",
-          strokeLinecap: "round",
-          strokeLinejoin: "round"
-        }
-      ),
-      /* @__PURE__ */ jsx29(
-        "path",
-        {
-          d: "M10.6667 7.98568C10.6627 7.98568 10.66 7.98835 10.66 7.99235C10.66 7.99635 10.6627 7.99902 10.6667 7.99902C10.6707 7.99902 10.6733 7.99635 10.6733 7.99235C10.6733 7.98835 10.6707 7.98568 10.6667 7.98568",
-          stroke: "#4A596B",
-          strokeWidth: "2",
-          strokeLinecap: "round",
-          strokeLinejoin: "round"
-        }
-      ),
-      /* @__PURE__ */ jsx29(
-        "path",
-        {
-          d: "M14.673 7.99252C14.669 7.99252 14.6663 7.99519 14.6663 7.99919C14.6663 8.00319 14.669 8.00585 14.673 8.00585C14.677 8.00585 14.6797 8.00319 14.6797 7.99919C14.6797 7.99519 14.677 7.99252 14.673 7.99252",
-          stroke: "#4A596B",
-          strokeWidth: "2",
-          strokeLinecap: "round",
-          strokeLinejoin: "round"
-        }
-      ),
-      /* @__PURE__ */ jsx29(
-        "path",
-        {
-          d: "M6.66667 7.99887C6.66267 7.99887 6.66 8.00153 6.66 8.00553C6.66 8.00953 6.66267 8.0122 6.66667 8.0122C6.67067 8.0122 6.67333 8.00953 6.67333 8.00553C6.67333 8.00153 6.67067 7.99887 6.66667 7.99887",
-          stroke: "#4A596B",
-          strokeWidth: "2",
-          strokeLinecap: "round",
-          strokeLinejoin: "round"
-        }
-      ),
-      /* @__PURE__ */ jsx29(
-        "path",
-        {
-          d: "M12.0667 14.999H20.6L19.6667 19.6657H13L11.6667 12.999H10",
-          stroke: "#4A596B",
-          strokeWidth: "2",
-          strokeLinecap: "round",
-          strokeLinejoin: "round"
-        }
-      ),
-      /* @__PURE__ */ jsx29(
-        "path",
-        {
-          d: "M19.0468 22.952C19.0728 22.9781 19.0728 23.0203 19.0468 23.0463C19.0208 23.0724 18.9786 23.0724 18.9525 23.0463C18.9265 23.0203 18.9265 22.9781 18.9525 22.952C18.9786 22.926 19.0208 22.926 19.0468 22.952",
-          stroke: "#4A596B",
-          strokeWidth: "2",
-          strokeLinecap: "round",
-          strokeLinejoin: "round"
-        }
-      ),
-      /* @__PURE__ */ jsx29(
-        "path",
-        {
-          d: "M13.7138 22.952C13.7398 22.9781 13.7398 23.0203 13.7138 23.0463C13.6878 23.0724 13.6456 23.0724 13.6195 23.0463C13.5935 23.0203 13.5935 22.9781 13.6195 22.952C13.6456 22.926 13.6878 22.926 13.7138 22.952",
-          stroke: "#4A596B",
-          strokeWidth: "2",
-          strokeLinecap: "round",
-          strokeLinejoin: "round"
-        }
-      )
-    ]
-  }
-);
-var storefront_development_icon_default = StorefrontDevelopmentIcon;
 
 // src/components/icons/vtex-io-apps-icon.tsx
 import { Icon as Icon13 } from "@vtex/brand-ui";
 import { jsx as jsx30, jsxs as jsxs24 } from "react/jsx-runtime";
-var VTEXIOAppsIcon = (props) => /* @__PURE__ */ jsxs24(
-  Icon13,
-  {
-    ...props,
-    viewBox: "0 0 32 32",
-    fill: "none",
-    xmlns: "http://www.w3.org/2000/svg",
-    children: [
-      /* @__PURE__ */ jsx30(
-        "path",
-        {
-          fillRule: "evenodd",
-          clipRule: "evenodd",
-          d: "M10.3333 15.999H6.66667C5.19333 15.999 4 14.8057 4 13.3324V6.66569C4 5.19236 5.19333 3.99902 6.66667 3.99902H10.3333C11.8067 3.99902 13 5.19236 13 6.66569V13.3324C13 14.8057 11.8067 15.999 10.3333 15.999Z",
-          stroke: "#4A596B",
-          strokeWidth: "2",
-          strokeLinecap: "round",
-          strokeLinejoin: "round"
-        }
-      ),
-      /* @__PURE__ */ jsx30(
-        "path",
-        {
-          fillRule: "evenodd",
-          clipRule: "evenodd",
-          d: "M10.3333 27.999H6.66667C5.19333 27.999 4 26.8057 4 25.3324V24.6657C4 23.1924 5.19333 21.999 6.66667 21.999H10.3333C11.8067 21.999 13 23.1924 13 24.6657V25.3324C13 26.8057 11.8067 27.999 10.3333 27.999Z",
-          stroke: "#4A596B",
-          strokeWidth: "2",
-          strokeLinecap: "round",
-          strokeLinejoin: "round"
-        }
-      ),
-      /* @__PURE__ */ jsx30(
-        "path",
-        {
-          fillRule: "evenodd",
-          clipRule: "evenodd",
-          d: "M21.6667 15.999H25.3333C26.8067 15.999 28 17.1924 28 18.6657V25.3324C28 26.8057 26.8067 27.999 25.3333 27.999H21.6667C20.1933 27.999 19 26.8057 19 25.3324V18.6657C19 17.1924 20.1933 15.999 21.6667 15.999Z",
-          stroke: "#4A596B",
-          strokeWidth: "2",
-          strokeLinecap: "round",
-          strokeLinejoin: "round"
-        }
-      ),
-      /* @__PURE__ */ jsx30(
-        "path",
-        {
-          fillRule: "evenodd",
-          clipRule: "evenodd",
-          d: "M21.6667 3.99902H25.3333C26.8067 3.99902 28 5.19236 28 6.66569V7.33236C28 8.80569 26.8067 9.99902 25.3333 9.99902H21.6667C20.1933 9.99902 19 8.80569 19 7.33236V6.66569C19 5.19236 20.1933 3.99902 21.6667 3.99902Z",
-          stroke: "#4A596B",
-          strokeWidth: "2",
-          strokeLinecap: "round",
-          strokeLinejoin: "round"
-        }
-      )
-    ]
-  }
-);
-var vtex_io_apps_icon_default = VTEXIOAppsIcon;
 
 // src/components/icons/troubleshooting-icon.tsx
 import { Icon as Icon14 } from "@vtex/brand-ui";
 import { jsx as jsx31, jsxs as jsxs25 } from "react/jsx-runtime";
-var TroubleshootingIcon = (props) => /* @__PURE__ */ jsxs25(
-  Icon14,
-  {
-    ...props,
-    viewBox: "0 0 36 36",
-    fill: "none",
-    xmlns: "http://www.w3.org/2000/svg",
-    children: [
-      /* @__PURE__ */ jsx31(
-        "path",
-        {
-          d: "M16,11.4,13.734,9.331A6.487,6.487,0,0,0,5.366,1.366L9,5,5,9,1.366,5.366a6.49,6.49,0,0,0,7.965,8.368L11.2,15.779",
-          fillRule: "evenodd",
-          clipRule: "evenodd",
-          stroke: "#4A596B",
-          strokeWidth: "2"
-        }
-      ),
-      /* @__PURE__ */ jsx31(
-        "path",
-        {
-          d: "M18.642,23.943l5.842,6.4a2,2,0,0,0,2.892.066l3.038-3.038a2,2,0,0,0-.066-2.892L23.6,18.325",
-          fillRule: "evenodd",
-          clipRule: "evenodd",
-          stroke: "#4A596B",
-          strokeWidth: "2"
-        }
-      ),
-      /* @__PURE__ */ jsx31(
-        "path",
-        {
-          fillRule: "evenodd",
-          clipRule: "evenodd",
-          stroke: "#4A596B",
-          strokeWidth: "2",
-          d: "M30.634,5.366,27,9,23,5l3.634-3.634a6.49,6.49,0,0,0-8.368,7.965L1.652,24.484a2,2,0,0,0-.066,2.892l3.038,3.038a2,2,0,0,0,2.892-.066L22.669,13.734a6.487,6.487,0,0,0,7.965-8.368Z"
-        }
-      )
-    ]
-  }
-);
-var troubleshooting_icon_default = TroubleshootingIcon;
 
 // src/components/icons/added-icon.tsx
 import { Icon as Icon15 } from "@vtex/brand-ui";
@@ -9517,7 +9117,6 @@ var removed_icon_default = RemovedIcon;
 // src/utils/search-utils.ts
 var getBreadcrumbs = (hit) => {
   const breadcrumbs = [];
-  breadcrumbs.push(hit.doctype);
   if (hit.doctype === "API Reference" && hit.doccategory)
     breadcrumbs.push(hit.doccategory);
   breadcrumbs.push(hit.doctitle);
@@ -9527,38 +9126,8 @@ var getRelativeURL = (url) => {
   const relativeURL = url.replace(/^(?:\/\/|[^/]+)*\//, "");
   return "/" + relativeURL;
 };
-var iconsMap = [
-  {
-    Icon: api_guides_icon_default,
-    name: "Guides"
-  },
-  {
-    Icon: api_reference_icon_default,
-    name: "API Reference"
-  },
-  {
-    Icon: app_development_icon_default,
-    name: "App Development"
-  },
-  {
-    Icon: storefront_development_icon_default,
-    name: "Storefront Development"
-  },
-  {
-    Icon: vtex_io_apps_icon_default,
-    name: "VTEX IO Apps"
-  },
-  {
-    Icon: troubleshooting_icon_default,
-    name: "Troubleshooting"
-  },
-  {
-    Icon: release_notes_icon_default,
-    name: "Release Notes"
-  }
-];
-var getIcon3 = (name) => {
-  return iconsMap.find((icon3) => icon3.name === name)?.Icon;
+var getIconFromSection = (sections, id) => {
+  return sections.flat().find((section) => section.id === id)?.Icon;
 };
 var actions = [
   {
@@ -9589,6 +9158,9 @@ var actions = [
 ];
 var getAction = (actionType) => {
   return actions.find((action) => action.type === actionType);
+};
+var getTitleById = (sections, id) => {
+  return sections.flat().find((item2) => item2.id === id)?.title || id;
 };
 
 // src/components/search-input/customHighlight.tsx
@@ -9696,8 +9268,9 @@ var customHighlight_default = connectedHighlight;
 import { useContext as useContext8 } from "react";
 import { Fragment as Fragment4, jsx as jsx38, jsxs as jsxs31 } from "react/jsx-runtime";
 var Hit2 = ({ hit, insights }) => {
+  const { sidebarSections } = useContext8(LibraryContext);
   const breadcrumbsList = getBreadcrumbs(hit);
-  const DocIcon = getIcon3(hit.doctype);
+  const DocIcon = getIconFromSection(sidebarSections, hit.doctype);
   return /* @__PURE__ */ jsx38(Link7, { href: getRelativeURL(hit.url), legacyBehavior: true, children: /* @__PURE__ */ jsx38(
     "a",
     {
@@ -10867,7 +10440,7 @@ var SearchSection = ({ dataElement, index }) => {
     Flex17,
     {
       sx: styles_default19.sectionContainer,
-      onClick: () => updateFilter(dataElement.title),
+      onClick: () => updateFilter(dataElement.id),
       children: [
         /* @__PURE__ */ jsxs42(Flex17, { sx: styles_default19.sectionIconTitleBox, children: [
           /* @__PURE__ */ jsx54(dataElement.Icon, { sx: styles_default19.sectionIcon }),
@@ -10875,15 +10448,15 @@ var SearchSection = ({ dataElement, index }) => {
             Text13,
             {
               className: "search-section-title",
-              sx: filterSelectedSection === dataElement.title ? styles_default19.sectionTitleActive : styles_default19.sectionTitle,
+              sx: filterSelectedSection === dataElement.id ? styles_default19.sectionTitleActive : styles_default19.sectionTitle,
               children: dataElement.title
             }
           )
         ] }),
-        /* @__PURE__ */ jsx54(Box19, { className: "search-section-count", sx: styles_default19.sectionCount, children: ocurrenceCount[dataElement.title] || 0 })
+        /* @__PURE__ */ jsx54(Box19, { className: "search-section-count", sx: styles_default19.sectionCount, children: ocurrenceCount[dataElement.id] || 0 })
       ]
     },
-    `search-section-${dataElement.title}${index}`
+    `search-section-${dataElement.id}${index}`
   );
 };
 var search_section_default = SearchSection;
@@ -10917,10 +10490,13 @@ import { useContext as useContext14 } from "react";
 import { jsx as jsx55, jsxs as jsxs43 } from "react/jsx-runtime";
 var SearchSections = () => {
   const { sidebarSections } = useContext14(LibraryContext);
-  return /* @__PURE__ */ jsx55(Box20, { sx: styles_default20.container, children: sidebarSections.map((sections, id) => /* @__PURE__ */ jsxs43(
+  const internalOnlySections = sidebarSections.map(
+    (section) => section.filter((item2) => !item2.isExternalLink)
+  );
+  return /* @__PURE__ */ jsx55(Box20, { sx: styles_default20.container, children: internalOnlySections.map((sections, id) => /* @__PURE__ */ jsxs43(
     Box20,
     {
-      sx: id < sidebarSections.length - 1 ? styles_default20.docsSection : styles_default20.notesSection,
+      sx: id < internalOnlySections.length - 1 ? styles_default20.docsSection : styles_default20.notesSection,
       children: [
         id === 0 && /* @__PURE__ */ jsx55(search_section_default, { dataElement: null }),
         sections.map((section, index) => /* @__PURE__ */ jsx55(
@@ -10929,7 +10505,7 @@ var SearchSections = () => {
             dataElement: section,
             index
           },
-          `search-section-docs-${section.title}`
+          `search-section-docs-${section.id}`
         ))
       ]
     }
@@ -11225,13 +10801,15 @@ var search_card_default = SearchCard;
 import { Box as Box22, Flex as Flex19 } from "@vtex/brand-ui";
 import { jsx as jsx58, jsxs as jsxs46 } from "react/jsx-runtime";
 var HitCard = ({ hit }) => {
+  const { sidebarSections } = useContext16(LibraryContext);
+  const breadcrumbTitle = getTitleById(sidebarSections, hit.doctype);
   const breadcrumbs = [
-    hit.doctype,
+    breadcrumbTitle,
     ...hit.doccategory ? [hit.doccategory] : [],
     ,
     hit.doctitle
   ];
-  const DocIcon = getIcon3(hit.doctype);
+  const DocIcon = getIconFromSection(sidebarSections, hit.doctype);
   return /* @__PURE__ */ jsx58(
     search_card_default,
     {
@@ -11250,10 +10828,24 @@ var StateResults = connectStateResults2(
   ({ searchResults }) => {
     const { updateOcurrenceCount } = useContext16(SearchContext);
     useEffect12(() => {
+      if (!searchResults)
+        return;
       const results = searchResults;
-      if (results && results._state.filters === "") {
-        const facets = searchResults?.facets[0];
-        updateOcurrenceCount({ ...facets?.data, "": searchResults?.nbHits });
+      const isFilteringByDoctype = typeof results?._state.filters === "string" && results._state.filters.includes("doctype:");
+      const facets = results?.facets;
+      const doctypeFacet = facets?.find((facet) => facet.name === "doctype");
+      const nbHits = results?.nbHits ?? 0;
+      const formattedFacets = {};
+      if (doctypeFacet?.data) {
+        Object.entries(doctypeFacet.data).forEach(([key, value]) => {
+          if (typeof value === "number") {
+            formattedFacets[key] = value;
+          }
+        });
+      }
+      formattedFacets[""] = nbHits;
+      if (!isFilteringByDoctype) {
+        updateOcurrenceCount(formattedFacets);
       }
     }, [searchResults?.queryID]);
     return null;
@@ -11396,7 +10988,7 @@ var SearchResults = () => {
               query: router.query.keyword,
               clickAnalytics: true,
               hitsPerPage: 6,
-              facets: ["doctype"],
+              facets: ["doctype", "language"],
               facetingAfterDistinct: true
             }
           ),
@@ -11471,7 +11063,7 @@ var SearchFilterTabBar = () => {
   return /* @__PURE__ */ jsxs48(Flex20, { sx: styles_default23.container, children: [
     /* @__PURE__ */ jsx60(SearchFilterTab, { filter: "" }),
     sidebarSections.flat().map((section) => {
-      return /* @__PURE__ */ jsx60(SearchFilterTab, { filter: section.title }, section.title);
+      return /* @__PURE__ */ jsx60(SearchFilterTab, { filter: section.id }, section.id);
     })
   ] });
 };
