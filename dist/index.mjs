@@ -11238,12 +11238,82 @@ import { Button as Button8 } from "@vtex/brand-ui";
 // src/components/icons/copy-icon.tsx
 import { Icon as Icon31 } from "@vtex/brand-ui";
 import { jsx as jsx63, jsxs as jsxs51 } from "react/jsx-runtime";
+var CopyIcon = (props) => /* @__PURE__ */ jsxs51(
+  Icon31,
+  {
+    ...props,
+    viewBox: "0 0 15 15",
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg",
+    children: [
+      /* @__PURE__ */ jsx63(
+        "path",
+        {
+          d: "M12.5 5.625H6.875C6.18464 5.625 5.625 6.18464 5.625 6.875V12.5C5.625 13.1904 6.18464 13.75 6.875 13.75H12.5C13.1904 13.75 13.75 13.1904 13.75 12.5V6.875C13.75 6.18464 13.1904 5.625 12.5 5.625Z",
+          stroke: "currentcolor",
+          strokeWidth: "1.5",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx63(
+        "path",
+        {
+          d: "M3.125 9.375H2.5C2.16848 9.375 1.85054 9.2433 1.61612 9.00888C1.3817 8.77446 1.25 8.45652 1.25 8.125V2.5C1.25 2.16848 1.3817 1.85054 1.61612 1.61612C1.85054 1.3817 2.16848 1.25 2.5 1.25H8.125C8.45652 1.25 8.77446 1.3817 9.00888 1.61612C9.2433 1.85054 9.375 2.16848 9.375 2.5V3.125",
+          stroke: "currentcolor",
+          strokeWidth: "1.5",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      )
+    ]
+  }
+);
+var copy_icon_default = CopyIcon;
 
 // src/components/copy-link-button/index.tsx
 import { useState as useState16 } from "react";
+
+// src/components/copy-link-button/styles.ts
+var copyIcon = {
+  marginRight: "4px"
+};
+var copyLinkButton = {
+  textTransform: "none",
+  color: "#3F3F3F",
+  fontWeight: "100",
+  fontSize: "12px",
+  lineHeight: "18px",
+  height: "none",
+  padding: "8px 5px 8px 8px",
+  border: "1px solid #A1AAB7",
+  backgroundColor: "white",
+  ":hover": {
+    backgroundColor: "#EFEFEF"
+  }
+};
+var styles_default26 = {
+  copyIcon,
+  copyLinkButton
+};
+
+// src/components/copy-link-button/index.tsx
 import { jsx as jsx64 } from "react/jsx-runtime";
+var CopyLinkButton = () => {
+  const [tooltipText, setTooltipText] = useState16("Copy");
+  const handleCopy = () => {
+    navigator.clipboard.writeText(window.location.href);
+    setTooltipText("Copy");
+    setTimeout(() => {
+      setTooltipText("Copied!");
+    }, 2e3);
+  };
+  return /* @__PURE__ */ jsx64(tooltip_default, { label: tooltipText, placement: "bottom", children: /* @__PURE__ */ jsx64(Button8, { onClick: handleCopy, sx: styles_default26.copyLinkButton, children: /* @__PURE__ */ jsx64(copy_icon_default, { sx: styles_default26.copyIcon, size: 16 }) }) });
+};
+var copy_link_button_default = CopyLinkButton;
 export {
   cookie_bar_default as CookieBar,
+  copy_link_button_default as CopyLinkButton,
   feedback_section_default as FeedbackSection,
   hamburger_menu_default as HamburgerMenu,
   LibraryContext,

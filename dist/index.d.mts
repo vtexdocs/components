@@ -81,6 +81,8 @@ interface Props$1 {
 }
 declare const ShareButton: ({ url, sx }: Props$1) => react_jsx_runtime.JSX.Element;
 
+declare const CopyLinkButton: () => react_jsx_runtime.JSX.Element;
+
 type Section = {
     id: string;
     link: string;
@@ -151,4 +153,4 @@ interface AlgoliaConfig {
 }
 declare const createAlgoliaClient: (config: AlgoliaConfig) => void;
 
-export { CookieBar, FeedbackSection, HamburgerMenu, type Item, LibraryContext, LibraryContextProvider, MarkdownRenderer, Search, createAlgoliaClient as SearchConfig, SearchInput, ShareButton, Sidebar, TableOfContents };
+export { CookieBar, CopyLinkButton, FeedbackSection, HamburgerMenu, type Item, LibraryContext, LibraryContextProvider, MarkdownRenderer, Search, createAlgoliaClient as SearchConfig, SearchInput, ShareButton, Sidebar, TableOfContents };
