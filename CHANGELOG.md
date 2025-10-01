@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [6.0.22](https://github.com/vtexdocs/components/compare/v6.0.21...v6.0.22) (2025-10-01)
+
+
+### Features
+
+* CopyLinkButton - components migration ([0e37961](https://github.com/vtexdocs/components/commit/0e379614dca82169412bb362ea9698643de797c6))
+
 ### [6.0.21](https://github.com/vtexdocs/components/compare/v6.0.20...v6.0.21) (2025-10-01)
 
 
