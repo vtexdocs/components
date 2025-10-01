@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [6.0.21](https://github.com/vtexdocs/components/compare/v6.0.20...v6.0.21) (2025-10-01)
+
+
+### Features
+
+* add message types ([98569c3](https://github.com/vtexdocs/components/commit/98569c3bab5b97d7e38b826e480f1ef054e518e6))
+* add react-intl as as dependency ([6347ada](https://github.com/vtexdocs/components/commit/6347ada71a1bfe76faeffb71a95cbd8ba2ba35e2))
+* add support for localized strings in search components ([80fb79d](https://github.com/vtexdocs/components/commit/80fb79ddfe5fdf7d9a0a153ebf4b1f530a3d8a9b))
+
+
+### Bug Fixes
+
+* add fallback for occurence count ([c1f4bce](https://github.com/vtexdocs/components/commit/c1f4bceb3a3e726f9658b4247961bcbb29e1cd5c))
+* break search-results messages ([df5231a](https://github.com/vtexdocs/components/commit/df5231aa795ef6d3c8de3aedf858203f0af1884b))
+* fallback for occurence count ([7deecd0](https://github.com/vtexdocs/components/commit/7deecd0ca7cd9ee861230a2981ee956345cba79e))
+* search undefined results message ([6c1c373](https://github.com/vtexdocs/components/commit/6c1c373c0597879eb36ff0b456da7f0907b4192e))
+* search-results component ([3fb5182](https://github.com/vtexdocs/components/commit/3fb51824a573f51e302463f25ba7661d282d230e))
+* use libraryContext ([d5ac89e](https://github.com/vtexdocs/components/commit/d5ac89ed9d03f1456d2551e0f91b4bba84fbc42a))
+* use libraryContext ([55a033d](https://github.com/vtexdocs/components/commit/55a033dc1230f5af125138f57aa517e053aa978e))
+
 ### [6.0.20](https://github.com/vtexdocs/components/compare/v6.0.19...v6.0.20) (2025-08-06)
 
 
