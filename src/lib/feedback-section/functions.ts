@@ -11,12 +11,7 @@ export const setButtonStyle = (
     modalState.modalOpen && like === modalState.liked
       ? styles.buttonActive
       : styles.button
-  const ml = like
-    ? ['0', '8px']
-    : feedback === like
-    ? ['0', '8px']
-    : ['32px', '16px']
-  if (feedback === undefined) return { ...styles.box, ...buttonactive, ml }
-  if (like === feedback) return { ...styles.box, ...styles.selectedButton, ml }
+  if (feedback === undefined) return { ...styles.box, ...buttonactive }
+  if (like === feedback) return { ...styles.box, ...styles.selectedButton }
   return { display: 'none !important' }
 }

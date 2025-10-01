@@ -9,7 +9,7 @@ const meta = {
   },
   tags: ['autodocs'],
   argTypes: {
-    sendFeedback: () => alert('Send feedback')
+    sendFeedback: () => alert('Send feedback'),
   },
 } satisfies Meta<typeof FeedbackSection>
 
@@ -18,6 +18,7 @@ type Story = StoryObj<typeof meta>
 
 export const SimpleFeedbackSection: Story = {
   args: {
-    sendFeedback: async () => alert('Send feedback')
+    sendFeedback: async () => alert('Send feedback'),
+    small: true,
   },
 }

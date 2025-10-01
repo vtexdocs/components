@@ -14,10 +14,11 @@ import styles from './styles'
 interface Props {
   /** List of headings in the current documentation page */
   headingList?: Item[]
+  children?: React.ReactNode
 }
 
 /** Table of contents for documentation pages. */
-const TableOfContents = ({ headingList }: Props) => {
+const TableOfContents = ({ headingList, children }: Props) => {
   const router = useRouter()
   const { headingItems, activeItem, setHeadingItems, setActiveItem } =
     useContext(LibraryContext)
@@ -72,32 +73,35 @@ const TableOfContents = ({ headingList }: Props) => {
 
   return (
     <Box sx={styles.itemsContainer} data-cy="table-of-contents">
-      {headingItems.map((item) => (
-        <Box key={item.slug}>
-          <Item
-            title={item.title}
-            slug={item.slug}
-            level={1}
-            active={item.slug === activeItem.item}
-          />
-          <AnimateHeight
-            duration={300}
-            height={item.slug === activeItem.item ? 'auto' : 0}
-          >
-            <Box sx={styles.subItemsContainer}>
-              {item.children.map((subItem) => (
-                <Item
-                  key={subItem.slug}
-                  title={subItem.title}
-                  slug={subItem.slug}
-                  level={2}
-                  active={subItem.slug === activeItem.subItem}
-                />
-              ))}
-            </Box>
-          </AnimateHeight>
-        </Box>
-      ))}
+      <Box sx={styles.headings}>
+        {headingItems.map((item) => (
+          <Box key={item.slug}>
+            <Item
+              title={item.title}
+              slug={item.slug}
+              level={1}
+              active={item.slug === activeItem.item}
+            />
+            <AnimateHeight
+              duration={300}
+              height={item.slug === activeItem.item ? 'auto' : 0}
+            >
+              <Box sx={styles.subItemsContainer}>
+                {item.children.map((subItem) => (
+                  <Item
+                    key={subItem.slug}
+                    title={subItem.title}
+                    slug={subItem.slug}
+                    level={2}
+                    active={subItem.slug === activeItem.subItem}
+                  />
+                ))}
+              </Box>
+            </AnimateHeight>
+          </Box>
+        ))}
+      </Box>
+      {children}
     </Box>
   )
 }

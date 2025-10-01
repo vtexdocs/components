@@ -6767,8 +6767,11 @@ import AnimateHeight from "react-animate-height";
 // src/lib/table-of-contents/styles.ts
 var itemsContainer = {
   position: "sticky",
-  top: "calc(5rem + 32px)",
-  borderLeft: "1px solid #E7E9EE"
+  top: "calc(5rem + 32px)"
+};
+var headings = {
+  borderLeft: "1px solid #E7E9EE",
+  mb: "16px"
 };
 var item = (level, active) => {
   const defaultLineHeight = `${level === 1 ? 18 : 22}px`;
@@ -6797,16 +6800,16 @@ var subItemsContainer = {
   ml: "16px",
   borderLeft: "1px solid #E7E9EE"
 };
-var styles_default6 = { itemsContainer, item, subItemsContainer };
+var styles_default6 = { itemsContainer, item, subItemsContainer, headings };
 
 // src/lib/table-of-contents/TableOfContents.tsx
 import { jsx as jsx11, jsxs as jsxs7 } from "react/jsx-runtime";
-var TableOfContents = ({ headingList }) => {
+var TableOfContents = ({ headingList, children }) => {
   const router = useRouter();
   const { headingItems, activeItem, setHeadingItems, setActiveItem } = useContext2(LibraryContext);
   useEffect5(() => {
-    const headings = headingList ?? [];
-    if (!headings.length) {
+    const headings2 = headingList ?? [];
+    if (!headings2.length) {
       document.querySelectorAll("h2, h3").forEach((heading) => {
         const headingSlug = heading.id;
         const item2 = {
@@ -6814,16 +6817,16 @@ var TableOfContents = ({ headingList }) => {
           slug: headingSlug
         };
         if (heading.tagName === "H2") {
-          headings.push({ ...item2, children: [] });
-        } else if (headings.length > 0) {
-          headings[headings.length - 1].children.push({ ...item2 });
+          headings2.push({ ...item2, children: [] });
+        } else if (headings2.length > 0) {
+          headings2[headings2.length - 1].children.push({ ...item2 });
         } else {
-          headings.push({ ...item2, children: [] });
+          headings2.push({ ...item2, children: [] });
         }
       });
-      setHeadingItems(headings);
+      setHeadingItems(headings2);
     } else
-      setHeadingItems(headings);
+      setHeadingItems(headings2);
   }, [router.asPath, headingList]);
   const Item = ({
     title: title6,
@@ -6845,34 +6848,37 @@ var TableOfContents = ({ headingList }) => {
       }
     );
   };
-  return /* @__PURE__ */ jsx11(Box7, { sx: styles_default6.itemsContainer, "data-cy": "table-of-contents", children: headingItems.map((item2) => /* @__PURE__ */ jsxs7(Box7, { children: [
-    /* @__PURE__ */ jsx11(
-      Item,
-      {
-        title: item2.title,
-        slug: item2.slug,
-        level: 1,
-        active: item2.slug === activeItem.item
-      }
-    ),
-    /* @__PURE__ */ jsx11(
-      AnimateHeight,
-      {
-        duration: 300,
-        height: item2.slug === activeItem.item ? "auto" : 0,
-        children: /* @__PURE__ */ jsx11(Box7, { sx: styles_default6.subItemsContainer, children: item2.children.map((subItem) => /* @__PURE__ */ jsx11(
-          Item,
-          {
-            title: subItem.title,
-            slug: subItem.slug,
-            level: 2,
-            active: subItem.slug === activeItem.subItem
-          },
-          subItem.slug
-        )) })
-      }
-    )
-  ] }, item2.slug)) });
+  return /* @__PURE__ */ jsxs7(Box7, { sx: styles_default6.itemsContainer, "data-cy": "table-of-contents", children: [
+    /* @__PURE__ */ jsx11(Box7, { sx: styles_default6.headings, children: headingItems.map((item2) => /* @__PURE__ */ jsxs7(Box7, { children: [
+      /* @__PURE__ */ jsx11(
+        Item,
+        {
+          title: item2.title,
+          slug: item2.slug,
+          level: 1,
+          active: item2.slug === activeItem.item
+        }
+      ),
+      /* @__PURE__ */ jsx11(
+        AnimateHeight,
+        {
+          duration: 300,
+          height: item2.slug === activeItem.item ? "auto" : 0,
+          children: /* @__PURE__ */ jsx11(Box7, { sx: styles_default6.subItemsContainer, children: item2.children.map((subItem) => /* @__PURE__ */ jsx11(
+            Item,
+            {
+              title: subItem.title,
+              slug: subItem.slug,
+              level: 2,
+              active: subItem.slug === activeItem.subItem
+            },
+            subItem.slug
+          )) })
+        }
+      )
+    ] }, item2.slug)) }),
+    children
+  ] });
 };
 var TableOfContents_default = TableOfContents;
 
@@ -9612,28 +9618,37 @@ var like_selected_icon_default = LikeSelectedIcon;
 import { useContext as useContext12, useRef as useRef10, useState as useState12 } from "react";
 
 // src/lib/feedback-section/styles.ts
-var container5 = {
+var container5 = ({ small } = {}) => ({
   width: "100%",
   paddingBottom: "16px",
-  borderBottom: ["none", "1px solid #E7E9EE"],
-  flexDirection: ["column", "row"],
-  alignItems: "center",
+  borderBottom: small ? "none" : ["none", "1px solid #E7E9EE"],
+  flexDirection: small ? "column" : ["column", "row"],
+  alignItems: small ? "flex-start" : "center",
   alignContent: ["initial", "space-between"],
   justifyContent: ["initial", "space-between"],
-  marginTop: "32px",
-  marginBottom: "16px"
-};
-var question = {
-  fontSize: "16px",
-  lineHeight: "18px"
-};
+  marginTop: small ? "0px" : "32px",
+  marginBottom: "16px",
+  gap: small ? "8px" : "0px"
+});
+var question = ({ small } = {}) => ({
+  fontSize: small ? "12px" : "16px",
+  lineHeight: "18px",
+  color: "#4A596B"
+});
+var iconsContainer = ({ small } = {}) => ({
+  display: "flex",
+  alignItems: "center",
+  gap: small ? "2px" : "4px",
+  ml: small ? "3px" : "6px"
+});
 var likeContainer = {
   paddingBottom: ["16px", "0"],
   borderBottom: ["1px solid #E7E9EE", "none"],
   mt: ["8px", "0"],
   mb: ["16px", "0"],
   width: ["100%", "auto"],
-  justifyContent: ["center", "initial"]
+  justifyContent: ["center", "initial"],
+  alignItems: "center"
 };
 var likeIcon = {
   mr: "2px"
@@ -9661,14 +9676,14 @@ var buttonActive = {
 var selectedButton = {
   color: "muted.1"
 };
-var box = {
+var box = ({ small } = {}) => ({
   alignItems: "center",
   color: "muted.0",
-  fontSize: "16px",
+  fontSize: small ? "12px" : "16px",
   lineHeight: "22px"
-};
-var editContainer = {
-  ...box,
+});
+var editContainer = ({ small } = {}) => ({
+  ...box({ small }),
   ...button,
   ":hover": {
     color: "#000711 !important"
@@ -9676,7 +9691,7 @@ var editContainer = {
   // ml: ['0', 'auto'],
   color: "#4A596B !important",
   display: "flex"
-};
+});
 var editIcon = { mr: "4px" };
 var shareButton = {
   // ml: ['0', 'auto'],
@@ -9693,17 +9708,17 @@ var styles_default16 = {
   button,
   buttonActive,
   selectedButton,
-  shareButton
+  shareButton,
+  iconsContainer
 };
 
 // src/lib/feedback-section/functions.ts
 var setButtonStyle = (feedback, modalState, like) => {
   const buttonactive = modalState.modalOpen && like === modalState.liked ? styles_default16.buttonActive : styles_default16.button;
-  const ml = like ? ["0", "8px"] : feedback === like ? ["0", "8px"] : ["32px", "16px"];
   if (feedback === void 0)
-    return { ...styles_default16.box, ...buttonactive, ml };
+    return { ...styles_default16.box, ...buttonactive };
   if (like === feedback)
-    return { ...styles_default16.box, ...styles_default16.selectedButton, ml };
+    return { ...styles_default16.box, ...styles_default16.selectedButton };
   return { display: "none !important" };
 };
 
@@ -10224,7 +10239,8 @@ var FeedbackSection = ({
   urlToEdit,
   suggestEdits = true,
   shareButton: shareButton2 = false,
-  sendFeedback
+  sendFeedback,
+  small = false
 }) => {
   const [feedback, changeFeedback] = useState12(void 0);
   const [prevSlug, setPrevSlug] = useState12(slug);
@@ -10245,34 +10261,42 @@ var FeedbackSection = ({
       liked: choice
     });
   };
-  return /* @__PURE__ */ jsxs41(Flex16, { sx: styles_default16.container, "data-cy": "feedback-section", children: [
+  return /* @__PURE__ */ jsxs41(Flex16, { sx: styles_default16.container({ small }), "data-cy": "feedback-section", children: [
     /* @__PURE__ */ jsxs41(Flex16, { sx: styles_default16.likeContainer, children: [
-      /* @__PURE__ */ jsx52(Text12, { sx: styles_default16.question, children: feedback !== void 0 ? messages[locale]["feedback_section.response"] : messages[locale]["feedback_section.question"] }),
-      /* @__PURE__ */ jsxs41(
-        Flex16,
-        {
-          ref: likeButton,
-          sx: setButtonStyle(feedback, modalState, true),
-          onClick: feedback === void 0 ? () => openModal(true) : null,
-          "data-cy": "feedback-section-like",
-          children: [
-            feedback === void 0 || !feedback ? /* @__PURE__ */ jsx52(like_icon_default, { size: 24, sx: styles_default16.likeIcon }) : /* @__PURE__ */ jsx52(like_selected_icon_default, { size: 24, sx: styles_default16.likeIcon }),
-            /* @__PURE__ */ jsx52(Text12, { children: messages[locale]["feedback_section.positive"] })
-          ]
-        }
-      ),
-      /* @__PURE__ */ jsxs41(
-        Flex16,
-        {
-          ref: dislikeButton,
-          sx: setButtonStyle(feedback, modalState, false),
-          onClick: feedback === void 0 ? () => openModal(false) : null,
-          children: [
-            feedback === void 0 || feedback ? /* @__PURE__ */ jsx52(like_icon_default, { size: 24, sx: styles_default16.dislikeIcon }) : /* @__PURE__ */ jsx52(like_selected_icon_default, { size: 24, sx: styles_default16.dislikeIcon }),
-            /* @__PURE__ */ jsx52(Text12, { children: messages[locale]["feedback_section.negative"] })
-          ]
-        }
-      )
+      /* @__PURE__ */ jsx52(Text12, { sx: styles_default16.question({ small }), children: feedback !== void 0 ? messages[locale]["feedback_section.response"] : messages[locale]["feedback_section.question"] }),
+      /* @__PURE__ */ jsxs41(Flex16, { sx: styles_default16.iconsContainer, children: [
+        /* @__PURE__ */ jsxs41(
+          Flex16,
+          {
+            ref: likeButton,
+            sx: setButtonStyle(feedback, modalState, true),
+            onClick: feedback === void 0 ? () => openModal(true) : null,
+            "data-cy": "feedback-section-like",
+            children: [
+              feedback === void 0 || !feedback ? /* @__PURE__ */ jsx52(like_icon_default, { size: small ? 18 : 24, sx: styles_default16.likeIcon }) : /* @__PURE__ */ jsx52(like_selected_icon_default, { size: small ? 18 : 24, sx: styles_default16.likeIcon }),
+              !small && /* @__PURE__ */ jsx52(Text12, { children: messages[locale]["feedback_section.positive"] })
+            ]
+          }
+        ),
+        /* @__PURE__ */ jsxs41(
+          Flex16,
+          {
+            ref: dislikeButton,
+            sx: setButtonStyle(feedback, modalState, false),
+            onClick: feedback === void 0 ? () => openModal(false) : null,
+            children: [
+              feedback === void 0 || feedback ? /* @__PURE__ */ jsx52(like_icon_default, { size: small ? 18 : 24, sx: styles_default16.dislikeIcon }) : /* @__PURE__ */ jsx52(
+                like_selected_icon_default,
+                {
+                  size: small ? 18 : 24,
+                  sx: styles_default16.dislikeIcon
+                }
+              ),
+              !small && /* @__PURE__ */ jsx52(Text12, { children: messages[locale]["feedback_section.negative"] })
+            ]
+          }
+        )
+      ] })
     ] }),
     suggestEdits && /* @__PURE__ */ jsxs41(
       Link8,
@@ -10280,9 +10304,9 @@ var FeedbackSection = ({
         target: "_blank",
         rel: "noopener noreferrer",
         href: urlToEdit,
-        sx: styles_default16.editContainer,
+        sx: styles_default16.editContainer({ small }),
         children: [
-          /* @__PURE__ */ jsx52(edit_icon_default, { size: 24, sx: styles_default16.editIcon }),
+          /* @__PURE__ */ jsx52(edit_icon_default, { size: small ? 18 : 24, sx: styles_default16.editIcon }),
           /* @__PURE__ */ jsx52(Text12, { children: messages[locale]["feedback_section.edit"] })
         ]
       }

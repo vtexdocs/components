@@ -3,7 +3,11 @@ import type { SxStyleProp } from '@vtex/brand-ui'
 const itemsContainer: SxStyleProp = {
   position: 'sticky',
   top: 'calc(5rem + 32px)',
+}
+
+const headings: SxStyleProp = {
   borderLeft: '1px solid #E7E9EE',
+  mb: '16px',
 }
 
 const item: (level: number, active: boolean) => SxStyleProp = (
@@ -39,4 +43,4 @@ const subItemsContainer: SxStyleProp = {
   borderLeft: '1px solid #E7E9EE',
 }
 
-export default { itemsContainer, item, subItemsContainer }
+export default { itemsContainer, item, subItemsContainer, headings }

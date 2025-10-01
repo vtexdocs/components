@@ -28,9 +28,10 @@ interface Item extends SubItem {
 interface Props$3 {
     /** List of headings in the current documentation page */
     headingList?: Item[];
+    children?: React.ReactNode;
 }
 /** Table of contents for documentation pages. */
-declare const TableOfContents: ({ headingList }: Props$3) => react_jsx_runtime.JSX.Element;
+declare const TableOfContents: ({ headingList, children }: Props$3) => react_jsx_runtime.JSX.Element;
 
 interface SideBarSectionState {
     /** Array containing the name of the parents of the expanded page in the menu. */
@@ -59,9 +60,11 @@ interface DocPath {
     shareButton?: boolean;
     /** Function that executes when the user sends the feedback. The function receives the user comment and whether it was a positive (liked = true) or negative feedback. */
     sendFeedback: (comment: string, liked: boolean) => Promise<void>;
+    /** Whether to render the small version of the component or not. */
+    small?: boolean;
 }
 /** Component that can be used on each documentation page, so the user can give feedback of whether or not it has helpful. When liked or disliked it opens a modal with a field to add a comment and send feedback. */
-declare const FeedbackSection: ({ slug, urlToEdit, suggestEdits, shareButton, sendFeedback, }: DocPath) => react_jsx_runtime.JSX.Element;
+declare const FeedbackSection: ({ slug, urlToEdit, suggestEdits, shareButton, sendFeedback, small, }: DocPath) => react_jsx_runtime.JSX.Element;
 
 declare const Search: () => react_jsx_runtime.JSX.Element;
 
