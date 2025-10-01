@@ -4,7 +4,7 @@ import CopyIcon from '../icons/copy-icon'
 import { useState } from 'react'
 import styles from './styles'
 
-export default function CopyLinkButton() {
+const CopyLinkButton = () => {
   const [tooltipText, setTooltipText] = useState('Copy')
 
   const handleCopy = () => {
@@ -24,3 +24,5 @@ export default function CopyLinkButton() {
     </Tooltip>
   )
 }
+
+export default CopyLinkButton
