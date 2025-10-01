@@ -1,21 +1,32 @@
 import { SxStyleProp } from '@vtex/brand-ui'
 
-const container: SxStyleProp = {
+type StyleFn = (opts?: { small?: boolean }) => SxStyleProp
+
+const container: StyleFn = ({ small } = {}) => ({
   width: '100%',
   paddingBottom: '16px',
-  borderBottom: ['none', '1px solid #E7E9EE'],
-  flexDirection: ['column', 'row'],
-  alignItems: 'center',
+  borderBottom: small ? 'none' : ['none', '1px solid #E7E9EE'],
+  flexDirection: small ? 'column' : ['column', 'row'],
+  alignItems: small ? 'flex-start' : 'center',
   alignContent: ['initial', 'space-between'],
   justifyContent: ['initial', 'space-between'],
-  marginTop: '32px',
+  marginTop: small ? '0px' : '32px',
   marginBottom: '16px',
-}
+  gap: small ? '8px' : '0px',
+})
 
-const question: SxStyleProp = {
-  fontSize: '16px',
+const question: StyleFn = ({ small } = {}) => ({
+  fontSize: small ? '12px' : '16px',
   lineHeight: '18px',
-}
+  color: '#4A596B',
+})
+
+const iconsContainer: StyleFn = ({ small } = {}) => ({
+  display: 'flex',
+  alignItems: 'center',
+  gap: small ? '2px' : '4px',
+  ml: small ? '3px' : '6px',
+})
 
 const likeContainer: SxStyleProp = {
   paddingBottom: ['16px', '0'],
@@ -24,6 +35,7 @@ const likeContainer: SxStyleProp = {
   mb: ['16px', '0'],
   width: ['100%', 'auto'],
   justifyContent: ['center', 'initial'],
+  alignItems: 'center',
 }
 
 const likeIcon: SxStyleProp = {
@@ -57,15 +69,15 @@ const selectedButton: SxStyleProp = {
   color: 'muted.1',
 }
 
-const box: SxStyleProp = {
+const box: StyleFn = ({ small } = {}) => ({
   alignItems: 'center',
   color: 'muted.0',
-  fontSize: '16px',
+  fontSize: small ? '12px' : '16px',
   lineHeight: '22px',
-}
+})
 
-const editContainer: SxStyleProp = {
-  ...box,
+const editContainer: StyleFn = ({ small } = {}) => ({
+  ...box({ small }),
   ...button,
   ':hover': {
     color: '#000711 !important',
@@ -73,7 +85,7 @@ const editContainer: SxStyleProp = {
   // ml: ['0', 'auto'],
   color: '#4A596B !important',
   display: 'flex',
-}
+})
 
 const editIcon: SxStyleProp = { mr: '4px' }
 
@@ -93,5 +105,6 @@ export default {
   button,
   buttonActive,
   selectedButton,
-  shareButton
+  shareButton,
+  iconsContainer,
 }

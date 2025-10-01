@@ -22,6 +22,8 @@ export interface DocPath {
   shareButton?: boolean
   /** Function that executes when the user sends the feedback. The function receives the user comment and whether it was a positive (liked = true) or negative feedback. */
   sendFeedback: (comment: string, liked: boolean) => Promise<void>
+  /** Whether to render the small version of the component or not. */
+  small?: boolean
 }
 
 /** Component that can be used on each documentation page, so the user can give feedback of whether or not it has helpful. When liked or disliked it opens a modal with a field to add a comment and send feedback. */
@@ -31,6 +33,7 @@ const FeedbackSection = ({
   suggestEdits = true,
   shareButton = false,
   sendFeedback,
+  small = false,
 }: DocPath) => {
   const [feedback, changeFeedback] = useState<boolean | undefined>(undefined)
   const [prevSlug, setPrevSlug] = useState(slug)
@@ -55,37 +58,46 @@ const FeedbackSection = ({
   }
 
   return (
-    <Flex sx={styles.container} data-cy="feedback-section">
+    <Flex sx={styles.container({ small })} data-cy="feedback-section">
       <Flex sx={styles.likeContainer}>
-        <Text sx={styles.question}>
+        <Text sx={styles.question({ small })}>
           {feedback !== undefined
             ? messages[locale]['feedback_section.response']
             : messages[locale]['feedback_section.question']}
         </Text>
-        <Flex
-          ref={likeButton}
-          sx={setButtonStyle(feedback, modalState, true)}
-          onClick={feedback === undefined ? () => openModal(true) : null}
-          data-cy="feedback-section-like"
-        >
-          {feedback === undefined || !feedback ? (
-            <LikeIcon size={24} sx={styles.likeIcon} />
-          ) : (
-            <LikeSelectedIcon size={24} sx={styles.likeIcon} />
-          )}
-          <Text>{messages[locale]['feedback_section.positive']}</Text>
-        </Flex>
-        <Flex
-          ref={dislikeButton}
-          sx={setButtonStyle(feedback, modalState, false)}
-          onClick={feedback === undefined ? () => openModal(false) : null}
-        >
-          {feedback === undefined || feedback ? (
-            <LikeIcon size={24} sx={styles.dislikeIcon} />
-          ) : (
-            <LikeSelectedIcon size={24} sx={styles.dislikeIcon} />
-          )}
-          <Text>{messages[locale]['feedback_section.negative']}</Text>
+        <Flex sx={styles.iconsContainer}>
+          <Flex
+            ref={likeButton}
+            sx={setButtonStyle(feedback, modalState, true)}
+            onClick={feedback === undefined ? () => openModal(true) : null}
+            data-cy="feedback-section-like"
+          >
+            {feedback === undefined || !feedback ? (
+              <LikeIcon size={small ? 18 : 24} sx={styles.likeIcon} />
+            ) : (
+              <LikeSelectedIcon size={small ? 18 : 24} sx={styles.likeIcon} />
+            )}
+            {!small && (
+              <Text>{messages[locale]['feedback_section.positive']}</Text>
+            )}
+          </Flex>
+          <Flex
+            ref={dislikeButton}
+            sx={setButtonStyle(feedback, modalState, false)}
+            onClick={feedback === undefined ? () => openModal(false) : null}
+          >
+            {feedback === undefined || feedback ? (
+              <LikeIcon size={small ? 18 : 24} sx={styles.dislikeIcon} />
+            ) : (
+              <LikeSelectedIcon
+                size={small ? 18 : 24}
+                sx={styles.dislikeIcon}
+              />
+            )}
+            {!small && (
+              <Text>{messages[locale]['feedback_section.negative']}</Text>
+            )}
+          </Flex>
         </Flex>
       </Flex>
       {suggestEdits && (
@@ -93,9 +105,9 @@ const FeedbackSection = ({
           target="_blank"
           rel="noopener noreferrer"
           href={urlToEdit}
-          sx={styles.editContainer}
+          sx={styles.editContainer({ small })}
         >
-          <EditIcon size={24} sx={styles.editIcon} />
+          <EditIcon size={small ? 18 : 24} sx={styles.editIcon} />
           <Text>{messages[locale]['feedback_section.edit']}</Text>
         </Link>
       )}

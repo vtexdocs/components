@@ -3,6 +3,7 @@ import TableOfContents from './index'
 import LibraryContextProvider from 'utils/context/libraryContext'
 import { exampleContextProps } from 'utils/storybook-constants'
 import { ThemeProvider } from '@vtex/brand-ui'
+import FeedbackSection from 'lib/feedback-section'
 
 const meta = {
   title: 'Example/TableOfContents',
@@ -40,5 +41,11 @@ export const SimpleTableOfContents: Story = {
         children: [],
       },
     ],
+    children: (
+      <FeedbackSection
+        sendFeedback={async () => alert('Send feedback')}
+        small
+      />
+    ),
   },
 }
