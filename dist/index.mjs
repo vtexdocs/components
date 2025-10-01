@@ -5903,10 +5903,10 @@ var IconsMap = [
   }
 ];
 var getIcon = (name) => {
-  return IconsMap.find((icon3) => icon3.name === name)?.Icon;
+  return IconsMap.find((icon4) => icon4.name === name)?.Icon;
 };
-var OverviewCard = ({ icon: icon3, link: link2, children }) => {
-  const Icon32 = getIcon(icon3);
+var OverviewCard = ({ icon: icon4, link: link2, children }) => {
+  const Icon32 = getIcon(icon4);
   return /* @__PURE__ */ jsx2(Link, { href: link2, children: /* @__PURE__ */ jsxs2(Flex, { sx: styles_default.overviewCard, children: [
     Icon32 && /* @__PURE__ */ jsx2(Icon32, { sx: styles_default.overviewIcon }),
     /* @__PURE__ */ jsx2(Box, { children })
@@ -6593,8 +6593,8 @@ var ObservableHeading = ({
     }
   );
 };
-var Callout = ({ node, icon: icon3, ...props }) => {
-  const blockquoteType = icon3 ? icon3 : "info";
+var Callout = ({ node, icon: icon4, ...props }) => {
+  const blockquoteType = icon4 ? icon4 : "info";
   return /* @__PURE__ */ jsx9(
     "blockquote",
     {
@@ -7255,7 +7255,7 @@ import { useRouter as useRouter2 } from "next/router.js";
 import { useEffect as useEffect7 } from "react";
 var getIcon2 = (doc, sections) => {
   for (const section of sections) {
-    return section.find((icon3) => icon3.title === doc)?.Icon;
+    return section.find((icon4) => icon4.title === doc)?.Icon;
   }
 };
 var updateOpenPage = ({
@@ -7812,17 +7812,17 @@ var styles_default12 = {
 };
 
 // src/components/sidebar-elements/functions.tsx
-var styleByLevelNormal = (level, icon3) => {
-  const ml = 8 + (icon3 ? (level - 1) * 20 + 6 : (level - 1) * 20 + 14);
-  const borderLeft = icon3 ? "none" : level >= 2 ? "1px solid #E7E9EE" : "";
+var styleByLevelNormal = (level, icon4) => {
+  const ml = 8 + (icon4 ? (level - 1) * 20 + 6 : (level - 1) * 20 + 14);
+  const borderLeft = icon4 ? "none" : level >= 2 ? "1px solid #E7E9EE" : "";
   const normal = {
     marginLeft: `${ml}px`,
     borderLeft
   };
   return normal;
 };
-var textStyle = (active, icon3) => {
-  const ml = icon3 ? "4px" : "16px";
+var textStyle = (active, icon4) => {
+  const ml = icon4 ? "4px" : "16px";
   if (active) {
     const textStyleActive = {
       ...styles_default12.elementActive,
@@ -9620,8 +9620,6 @@ import { useContext as useContext12, useRef as useRef10, useState as useState12 
 // src/lib/feedback-section/styles.ts
 var container5 = ({ small } = {}) => ({
   width: "100%",
-  paddingBottom: "16px",
-  borderBottom: small ? "none" : ["none", "1px solid #E7E9EE"],
   flexDirection: small ? "column" : ["column", "row"],
   alignItems: small ? "flex-start" : "center",
   alignContent: ["initial", "space-between"],
@@ -11311,11 +11309,78 @@ var CopyLinkButton = () => {
   return /* @__PURE__ */ jsx64(tooltip_default, { label: tooltipText, placement: "bottom", children: /* @__PURE__ */ jsx64(Button8, { onClick: handleCopy, sx: styles_default26.copyLinkButton, children: /* @__PURE__ */ jsx64(copy_icon_default, { sx: styles_default26.copyIcon, size: 16 }) }) });
 };
 var copy_link_button_default = CopyLinkButton;
+
+// src/components/input/index.tsx
+import { useState as useState17, useEffect as useEffect13 } from "react";
+
+// src/components/input/styles.ts
+var input = {
+  background: "none",
+  border: "#F4F4F4",
+  color: "#545454",
+  fontSize: ["14px"],
+  width: "100%",
+  transition: "flex 0.3s",
+  outline: "none"
+};
+var icon3 = {
+  minWidth: "16px",
+  minHeight: "16px",
+  width: "16px",
+  mr: "8px",
+  flex: 0,
+  maxWidth: "fit-content"
+};
+var container11 = {
+  paddingLeft: "12px",
+  alignItems: "center",
+  justifyContent: "center",
+  background: "#F4F4F4",
+  width: "100%",
+  height: "40px",
+  borderRadius: "4px",
+  transition: "all 0.3s ease-out",
+  cursor: "pointer",
+  border: "1px solid #F4F4F4",
+  ":hover": {
+    transition: "all 0.3s ease-out",
+    border: "1px solid #3B3B3B"
+  }
+};
+var styles_default27 = { container: container11, input, icon: icon3 };
+
+// src/components/input/index.tsx
+import { Flex as Flex23 } from "@vtex/brand-ui";
+import { jsx as jsx65, jsxs as jsxs52 } from "react/jsx-runtime";
+var Input = ({ value, onChange, placeholder = "", Icon: Icon32 }) => {
+  const [inputValue, setInputValue] = useState17(value ?? "");
+  useEffect13(() => {
+    if (inputValue !== value)
+      setInputValue(value);
+  }, [value]);
+  return /* @__PURE__ */ jsxs52(Flex23, { sx: styles_default27.container, children: [
+    Icon32 && /* @__PURE__ */ jsx65(Icon32, { sx: styles_default27.icon }),
+    /* @__PURE__ */ jsx65(
+      "input",
+      {
+        style: styles_default27.input,
+        value: inputValue,
+        placeholder,
+        onChange: (e) => {
+          setInputValue(e.currentTarget.value);
+          onChange(e.currentTarget.value);
+        }
+      }
+    )
+  ] });
+};
+var input_default = Input;
 export {
   cookie_bar_default as CookieBar,
   copy_link_button_default as CopyLinkButton,
   feedback_section_default as FeedbackSection,
   hamburger_menu_default as HamburgerMenu,
+  input_default as Input,
   LibraryContext,
   libraryContext_default as LibraryContextProvider,
   MarkdownRenderer_default as MarkdownRenderer,

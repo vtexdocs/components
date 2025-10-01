@@ -4,8 +4,6 @@ type StyleFn = (opts?: { small?: boolean }) => SxStyleProp
 
 const container: StyleFn = ({ small } = {}) => ({
   width: '100%',
-  paddingBottom: '16px',
-  borderBottom: small ? 'none' : ['none', '1px solid #E7E9EE'],
   flexDirection: small ? 'column' : ['column', 'row'],
   alignItems: small ? 'flex-start' : 'center',
   alignContent: ['initial', 'space-between'],

@@ -9,6 +9,7 @@ export {
   CookieBar,
   ShareButton,
   CopyLinkButton,
+  Input,
   type Item,
 } from './lib'
 export { default as LibraryContextProvider } from 'utils/context/libraryContext'
