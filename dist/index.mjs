@@ -5906,9 +5906,9 @@ var getIcon = (name) => {
   return IconsMap.find((icon3) => icon3.name === name)?.Icon;
 };
 var OverviewCard = ({ icon: icon3, link: link2, children }) => {
-  const Icon31 = getIcon(icon3);
+  const Icon32 = getIcon(icon3);
   return /* @__PURE__ */ jsx2(Link, { href: link2, children: /* @__PURE__ */ jsxs2(Flex, { sx: styles_default.overviewCard, children: [
-    Icon31 && /* @__PURE__ */ jsx2(Icon31, { sx: styles_default.overviewIcon }),
+    Icon32 && /* @__PURE__ */ jsx2(Icon32, { sx: styles_default.overviewIcon }),
     /* @__PURE__ */ jsx2(Box, { children })
   ] }) });
 };
@@ -8637,12 +8637,12 @@ var DocumentationCard = ({
   description: description4,
   link: link2,
   containerType,
-  Icon: Icon31,
+  Icon: Icon32,
   onClick
 }) => {
   return /* @__PURE__ */ jsx23(Link6, { href: link2, legacyBehavior: true, children: /* @__PURE__ */ jsx23("a", { onClick, style: { width: "100%" }, children: /* @__PURE__ */ jsxs17(Box13, { sx: cardContainer3(containerType), children: [
     /* @__PURE__ */ jsxs17(Flex11, { sx: titleContainer2(containerType), children: [
-      /* @__PURE__ */ jsx23(Icon31, { sx: { color: "#4A596B" }, size: 24 }),
+      /* @__PURE__ */ jsx23(Icon32, { sx: { color: "#4A596B" }, size: 24 }),
       /* @__PURE__ */ jsx23(Text7, { className: "title", sx: cardTitle(containerType), children: title6 })
     ] }),
     /* @__PURE__ */ jsx23(Text7, { className: "description", sx: styles_default14.description, children: description4 })
@@ -10734,7 +10734,7 @@ var expanded_results_icon_default = ExpandedResultsIcon;
 // src/components/search-card/index.tsx
 import { jsx as jsx57, jsxs as jsxs45 } from "react/jsx-runtime";
 var SearchCard = ({
-  Icon: Icon31,
+  Icon: Icon32,
   title: title6,
   method,
   breadcrumbs,
@@ -10748,7 +10748,7 @@ var SearchCard = ({
   return /* @__PURE__ */ jsx57(Link9, { href: url, legacyBehavior: true, children: /* @__PURE__ */ jsxs45(Flex18, { sx: styles_default21.containerActive(method), children: [
     /* @__PURE__ */ jsxs45(Box21, { children: [
       /* @__PURE__ */ jsxs45(Text14, { className: "searchCardTitle", sx: styles_default21.title, children: [
-        Icon31 && /* @__PURE__ */ jsx57(Icon31, { sx: styles_default21.icon }),
+        Icon32 && /* @__PURE__ */ jsx57(Icon32, { sx: styles_default21.icon }),
         method ? /* @__PURE__ */ jsx57(
           method_category_default,
           {
@@ -11231,6 +11231,17 @@ var CookieBar = ({ onAccept }) => {
   );
 };
 var cookie_bar_default = CookieBar;
+
+// src/components/copy-link-button/index.tsx
+import { Button as Button8 } from "@vtex/brand-ui";
+
+// src/components/icons/copy-icon.tsx
+import { Icon as Icon31 } from "@vtex/brand-ui";
+import { jsx as jsx63, jsxs as jsxs51 } from "react/jsx-runtime";
+
+// src/components/copy-link-button/index.tsx
+import { useState as useState16 } from "react";
+import { jsx as jsx64 } from "react/jsx-runtime";
 export {
   cookie_bar_default as CookieBar,
   feedback_section_default as FeedbackSection,
