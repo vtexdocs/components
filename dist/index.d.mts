@@ -91,6 +91,15 @@ type Section = {
     Icon: (props: IconProps) => JSX.Element;
     isExternalLink?: boolean;
 };
+type IconComponent = (props: IconProps) => JSX.Element;
+
+interface InputProps {
+    value: string;
+    Icon?: IconComponent;
+    placeholder?: string;
+    onChange: (value: string) => void;
+}
+declare const Input: ({ value, onChange, placeholder, Icon }: InputProps) => react_jsx_runtime.JSX.Element;
 
 interface Props extends Partial<ContextType> {
     children: ReactNode;
@@ -153,4 +162,4 @@ interface AlgoliaConfig {
 }
 declare const createAlgoliaClient: (config: AlgoliaConfig) => void;
 
-export { CookieBar, CopyLinkButton, FeedbackSection, HamburgerMenu, type Item, LibraryContext, LibraryContextProvider, MarkdownRenderer, Search, createAlgoliaClient as SearchConfig, SearchInput, ShareButton, Sidebar, TableOfContents };
+export { CookieBar, CopyLinkButton, FeedbackSection, HamburgerMenu, Input, type Item, LibraryContext, LibraryContextProvider, MarkdownRenderer, Search, createAlgoliaClient as SearchConfig, SearchInput, ShareButton, Sidebar, TableOfContents };
