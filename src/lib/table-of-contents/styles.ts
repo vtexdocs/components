@@ -5,6 +5,14 @@ const itemsContainer: SxStyleProp = {
   top: 'calc(5rem + 32px)',
 }
 
+const tocTitle: SxStyleProp = {
+  fontSize: '10px',
+  fontWeight: '600',
+  textTransform: 'uppercase',
+  mb: '6px',
+  color: 'muted.0',
+}
+
 const headings: SxStyleProp = {
   borderLeft: '1px solid #E7E9EE',
   mb: '16px',
@@ -43,4 +51,4 @@ const subItemsContainer: SxStyleProp = {
   borderLeft: '1px solid #E7E9EE',
 }
 
-export default { itemsContainer, item, subItemsContainer, headings }
+export default { tocTitle, itemsContainer, item, subItemsContainer, headings }
