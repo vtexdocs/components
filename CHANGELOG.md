@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [6.0.26](https://github.com/vtexdocs/components/compare/v6.0.25...v6.0.26) (2025-10-07)
+
+
+### Bug Fixes
+
+* new feedback section behavior ([0652dce](https://github.com/vtexdocs/components/commit/0652dce64dc3d7486e1d89800ab4df8344498d7f))
+
 ### [6.0.25](https://github.com/vtexdocs/components/compare/v6.0.24...v6.0.25) (2025-10-01)
 
 
