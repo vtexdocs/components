@@ -73,7 +73,9 @@ const TableOfContents = ({ headingList, children }: Props) => {
 
   return (
     <Box sx={styles.itemsContainer} data-cy="table-of-contents">
-      <Text sx={styles.tocTitle}>ON THIS PAGE</Text>
+      {headingItems.length > 0 && (
+        <Text sx={styles.tocTitle}>ON THIS PAGE</Text>
+      )}
       <Box sx={styles.headings}>
         {headingItems.map((item) => (
           <Box key={item.slug}>
