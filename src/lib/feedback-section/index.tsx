@@ -2,10 +2,7 @@ import { Flex, Text, Link } from '@vtex/brand-ui'
 import EditIcon from 'components/icons/edit-icon'
 import LikeIcon from 'components/icons/like-icon'
 import LikeSelectedIcon from 'components/icons/like-selected-icon'
-import { useContext, useRef, useState } from 'react'
-import { setButtonStyle } from './functions'
-import FeedbackModal, { ModalProps } from 'components/feedback-modal'
-
+import { useContext, useEffect, useRef, useState } from 'react'
 import styles from './styles'
 import { LibraryContext } from 'utils/context/libraryContext'
 import { messages } from 'utils/get-message'
@@ -14,19 +11,18 @@ import ShareButton from 'components/share-button'
 export interface DocPath {
   /** Slug that corresponds to the current page. */
   slug?: string
-  /** Github edit URL to the correspoding documentation file. */
+  /** Github edit URL to the corresponding documentation file. */
   urlToEdit?: string
   /** Whether is possible for the user to suggest edits or not. */
   suggestEdits?: boolean
   /** Include or not a share button. */
   shareButton?: boolean
-  /** Function that executes when the user sends the feedback. The function receives the user comment and whether it was a positive (liked = true) or negative feedback. */
-  sendFeedback: (comment: string, liked: boolean) => Promise<void>
+  /** Executes when the user sends the feedback. Receives whether it was positive (liked). */
+  sendFeedback: (liked: boolean) => Promise<void>
   /** Whether to render the small version of the component or not. */
   small?: boolean
 }
 
-/** Component that can be used on each documentation page, so the user can give feedback of whether or not it has helpful. When liked or disliked it opens a modal with a field to add a comment and send feedback. */
 const FeedbackSection = ({
   slug,
   urlToEdit,
@@ -35,26 +31,22 @@ const FeedbackSection = ({
   sendFeedback,
   small = false,
 }: DocPath) => {
-  const [feedback, changeFeedback] = useState<boolean | undefined>(undefined)
-  const [prevSlug, setPrevSlug] = useState(slug)
-  const [modalState, changeModalState] = useState<ModalProps>({
-    modalOpen: false,
-  })
-  const likeButton = useRef<HTMLElement>()
-  const dislikeButton = useRef<HTMLElement>()
+  const [feedback, setFeedback] = useState<boolean | undefined>(undefined)
   const { locale } = useContext(LibraryContext)
 
-  if (slug !== prevSlug) {
-    setPrevSlug(slug)
-    changeModalState({ modalOpen: false })
-    changeFeedback(undefined)
-  }
+  // Reset feedback selection whenever the page (slug) changes
+  useEffect(() => {
+    setFeedback(undefined)
+  }, [slug])
 
-  const openModal = (choice: boolean) => {
-    changeModalState({
-      modalOpen: true,
-      liked: choice,
-    })
+  const handleSend = async (liked: boolean) => {
+    if (feedback !== undefined) return
+    setFeedback(liked)
+    try {
+      await sendFeedback(liked)
+    } catch (e) {
+      setFeedback(undefined)
+    }
   }
 
   return (
@@ -65,34 +57,53 @@ const FeedbackSection = ({
             ? messages[locale]['feedback_section.response']
             : messages[locale]['feedback_section.question']}
         </Text>
-        <Flex sx={styles.iconsContainer}>
+
+        <Flex sx={styles.iconsContainer({ small })}>
+          {/* LIKE */}
           <Flex
-            ref={likeButton}
-            sx={setButtonStyle(feedback, modalState, true)}
-            onClick={feedback === undefined ? () => openModal(true) : null}
+            sx={
+              feedback === undefined
+                ? styles.button
+                : feedback === true
+                ? styles.selectedButton
+                : styles.disabled
+            }
+            onClick={() => handleSend(true)}
+            role="button"
+            aria-pressed={feedback === true}
             data-cy="feedback-section-like"
           >
-            {feedback === undefined || !feedback ? (
-              <LikeIcon size={small ? 18 : 24} sx={styles.likeIcon} />
-            ) : (
+            {feedback === true ? (
               <LikeSelectedIcon size={small ? 18 : 24} sx={styles.likeIcon} />
+            ) : (
+              <LikeIcon size={small ? 18 : 24} sx={styles.likeIcon} />
             )}
             {!small && (
               <Text>{messages[locale]['feedback_section.positive']}</Text>
             )}
           </Flex>
+
+          {/* DISLIKE */}
           <Flex
-            ref={dislikeButton}
-            sx={setButtonStyle(feedback, modalState, false)}
-            onClick={feedback === undefined ? () => openModal(false) : null}
+            sx={
+              feedback === undefined
+                ? styles.button
+                : feedback === false
+                ? styles.selectedButton
+                : styles.disabled
+            }
+            onClick={() => handleSend(false)}
+            role="button"
+            aria-pressed={feedback === false}
+            data-cy="feedback-section-dislike"
           >
-            {feedback === undefined || feedback ? (
-              <LikeIcon size={small ? 18 : 24} sx={styles.dislikeIcon} />
-            ) : (
+            {feedback === false ? (
               <LikeSelectedIcon
                 size={small ? 18 : 24}
                 sx={styles.dislikeIcon}
               />
+            ) : (
+              <LikeIcon size={small ? 18 : 24} sx={styles.dislikeIcon} />
             )}
             {!small && (
               <Text>{messages[locale]['feedback_section.negative']}</Text>
@@ -114,17 +125,6 @@ const FeedbackSection = ({
       {shareButton && (
         <ShareButton url={window.location.href} sx={styles.shareButton} />
       )}
-      {modalState.modalOpen ? (
-        <FeedbackModal
-          changeFeedBack={changeFeedback}
-          changeModalState={changeModalState}
-          modalState={modalState}
-          chosenButtonRef={modalState.liked ? likeButton : dislikeButton}
-          onSubmit={(comment) =>
-            sendFeedback(comment, modalState.liked ?? false)
-          }
-        />
-      ) : null}
     </Flex>
   )
 }

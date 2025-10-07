@@ -16,6 +16,7 @@ const SearchSections = () => {
     <Box sx={styles.container}>
       {internalOnlySections.map((sections, id) => (
         <Box
+          key={`search-section-${id}`}
           sx={
             id < internalOnlySections.length - 1
               ? styles.docsSection

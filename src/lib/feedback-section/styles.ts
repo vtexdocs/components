@@ -9,7 +9,7 @@ const container: StyleFn = ({ small } = {}) => ({
   alignContent: ['initial', 'space-between'],
   justifyContent: ['initial', 'space-between'],
   marginTop: small ? '0px' : '32px',
-  marginBottom: '16px',
+  marginBottom: small ? '0px' : '16px',
   gap: small ? '8px' : '0px',
 })
 
@@ -22,7 +22,7 @@ const question: StyleFn = ({ small } = {}) => ({
 const iconsContainer: StyleFn = ({ small } = {}) => ({
   display: 'flex',
   alignItems: 'center',
-  gap: small ? '2px' : '4px',
+  gap: small ? '0px' : '4px',
   ml: small ? '3px' : '6px',
 })
 
@@ -74,6 +74,11 @@ const box: StyleFn = ({ small } = {}) => ({
   lineHeight: '22px',
 })
 
+const disabled: SxStyleProp = {
+  cursor: 'default',
+  pointerEvents: 'none',
+}
+
 const editContainer: StyleFn = ({ small } = {}) => ({
   ...box({ small }),
   ...button,
@@ -92,6 +97,7 @@ const shareButton: SxStyleProp = {
 }
 
 export default {
+  disabled,
   container,
   question,
   likeContainer,

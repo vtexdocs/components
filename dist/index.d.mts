@@ -52,18 +52,17 @@ declare const HamburgerMenu: ({ parentsArray }: HamburgerMenuProps) => react_jsx
 interface DocPath {
     /** Slug that corresponds to the current page. */
     slug?: string;
-    /** Github edit URL to the correspoding documentation file. */
+    /** Github edit URL to the corresponding documentation file. */
     urlToEdit?: string;
     /** Whether is possible for the user to suggest edits or not. */
     suggestEdits?: boolean;
     /** Include or not a share button. */
     shareButton?: boolean;
-    /** Function that executes when the user sends the feedback. The function receives the user comment and whether it was a positive (liked = true) or negative feedback. */
-    sendFeedback: (comment: string, liked: boolean) => Promise<void>;
+    /** Executes when the user sends the feedback. Receives whether it was positive (liked). */
+    sendFeedback: (liked: boolean) => Promise<void>;
     /** Whether to render the small version of the component or not. */
     small?: boolean;
 }
-/** Component that can be used on each documentation page, so the user can give feedback of whether or not it has helpful. When liked or disliked it opens a modal with a field to add a comment and send feedback. */
 declare const FeedbackSection: ({ slug, urlToEdit, suggestEdits, shareButton, sendFeedback, small, }: DocPath) => react_jsx_runtime.JSX.Element;
 
 declare const Search: () => react_jsx_runtime.JSX.Element;
