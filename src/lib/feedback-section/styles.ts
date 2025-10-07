@@ -75,8 +75,7 @@ const box: StyleFn = ({ small } = {}) => ({
 })
 
 const disabled: SxStyleProp = {
-  cursor: 'default',
-  pointerEvents: 'none',
+  display: 'none !important',
 }
 
 const editContainer: StyleFn = ({ small } = {}) => ({

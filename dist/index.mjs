@@ -6856,7 +6856,7 @@ var TableOfContents = ({ headingList, children }) => {
     );
   };
   return /* @__PURE__ */ jsxs7(Box7, { sx: styles_default6.itemsContainer, "data-cy": "table-of-contents", children: [
-    /* @__PURE__ */ jsx11(Text2, { sx: styles_default6.tocTitle, children: "ON THIS PAGE" }),
+    headingItems.length > 0 && /* @__PURE__ */ jsx11(Text2, { sx: styles_default6.tocTitle, children: "ON THIS PAGE" }),
     /* @__PURE__ */ jsx11(Box7, { sx: styles_default6.headings, children: headingItems.map((item2) => /* @__PURE__ */ jsxs7(Box7, { children: [
       /* @__PURE__ */ jsx11(
         Item,
@@ -9689,8 +9689,7 @@ var box = ({ small } = {}) => ({
   lineHeight: "22px"
 });
 var disabled = {
-  cursor: "default",
-  pointerEvents: "none"
+  display: "none !important"
 };
 var editContainer = ({ small } = {}) => ({
   ...box({ small }),
