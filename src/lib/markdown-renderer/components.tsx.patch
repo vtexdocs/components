@@ -1,0 +1,19 @@
+--- a/src/lib/markdown-renderer/components.tsx
++++ b/src/lib/markdown-renderer/components.tsx
+@@ -8,7 +8,7 @@ import {
+ import mermaid from 'mermaid'
+ import parse from 'html-react-parser'
+ import { InView } from 'react-intersection-observer'
+-import Image from 'next/image.js'
++import NextImage from 'next/image.js'
+ 
+ import { CH } from '@code-hike/mdx/components'
+ import OverviewCard from 'components/overview-card'
+@@ -26,6 +26,9 @@ import { messages } from 'utils/get-message'
+ 
+ mermaidInit()
+ 
++// Handle CommonJS default export
++const Image = (NextImage as any).default || NextImage
++
+ const ObservableHeading = ({

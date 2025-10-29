@@ -1,4 +1,4 @@
-import { useRouter } from 'next/router.js'
+import { useRouter } from 'next/compat/router.js'
 import { useContext, useState } from 'react'
 
 import { LibraryContext } from 'utils/context/libraryContext'
@@ -43,7 +43,7 @@ const SearchResults = () => {
             ? ''
             : ocurrenceCount[filterSelectedSection]
         } ${messages[locale]['search_results.results_for'] || 'results for'} ${
-          router.query.keyword
+          router?.query?.keyword
         } ${messages[locale]['search_results.in'] || 'in'} ${
           !filterSelectedSection
             ? messages[locale]['search_results.all_lowercase'] || 'all results'
@@ -62,7 +62,7 @@ const SearchResults = () => {
         >
           <Configure
             filters={filters}
-            query={router.query.keyword}
+            query={router?.query?.keyword}
             clickAnalytics={true}
             hitsPerPage={6}
             facets={['doctype', 'language']}

@@ -1,6 +1,6 @@
 import { Section } from './typings/types'
 import { flattenJSON, getKeyByEndpoint, getParents } from './navigation-utils'
-import { useRouter } from 'next/router.js'
+import { useRouter } from 'next/compat/router.js'
 import { useEffect } from 'react'
 import { ContextType } from './context/libraryContext'
 
@@ -14,6 +14,7 @@ interface updateOpenPageProps {
   parentsArray?: string[]
   context: ContextType
 }
+
 export const updateOpenPage = ({
   parentsArray = [],
   context,
@@ -25,41 +26,52 @@ export const updateOpenPage = ({
     openSidebarElement,
     closeSidebarElements,
   } = context
+  
   const flattenedSidebar = flattenJSON(sidebarDataMaster)
   const router = useRouter()
+  const isClient = typeof window !== 'undefined'
 
   let activeSlug = ''
-  const querySlug = router.query.slug
+  
+  // Only use router if we're on the client side
+  if (isClient && router && router.query) {
+    const querySlug = router.query.slug
 
-  if (querySlug && router.pathname === '/docs/api-reference/[slug]') {
-    activeSlug = router.asPath.replace('/docs/api-reference/', '')
-    const docPath = activeSlug.split('/')
-    const hasHashTag = router.asPath.indexOf('#') > -1
-    const apiSlug = docPath[0].split(hasHashTag ? '#' : '?endpoint=')[0]
-    const endpoint = '/' + docPath.splice(1, docPath.length).join('/')
-    let keyPath
-    if (endpoint == '/') {
-      activeSlug = apiSlug
-      keyPath = getKeyByEndpoint(flattenedSidebar, '', apiSlug)
+    if (querySlug && router.pathname === '/docs/api-reference/[slug]') {
+      activeSlug = router.asPath.replace('/docs/api-reference/', '')
+      const docPath = activeSlug.split('/')
+      const hasHashTag = router.asPath.indexOf('#') > -1
+      const apiSlug = docPath[0].split(hasHashTag ? '#' : '?endpoint=')[0]
+      const endpoint = '/' + docPath.splice(1, docPath.length).join('/')
+      let keyPath
+      if (endpoint == '/') {
+        activeSlug = apiSlug
+        keyPath = getKeyByEndpoint(flattenedSidebar, '', apiSlug)
+      } else {
+        const method = docPath[0]
+          .split(hasHashTag ? '#' : '?endpoint=')[1]
+          .split('-')[0]
+        keyPath = getKeyByEndpoint(flattenedSidebar, endpoint, apiSlug, method)
+      }
+      parentsArray.push(activeSlug)
+      if (keyPath) {
+        getParents(keyPath, 'slug', flattenedSidebar, parentsArray)
+      }
     } else {
-      const method = docPath[0]
-        .split(hasHashTag ? '#' : '?endpoint=')[1]
-        .split('-')[0]
-      keyPath = getKeyByEndpoint(flattenedSidebar, endpoint, apiSlug, method)
-    }
-    parentsArray.push(activeSlug)
-    if (keyPath) {
-      getParents(keyPath, 'slug', flattenedSidebar, parentsArray)
+      activeSlug = parentsArray[parentsArray.length - 1]
     }
   } else {
-    activeSlug = parentsArray[parentsArray.length - 1]
+    // On server, just use the last parent
+    activeSlug = parentsArray[parentsArray.length - 1] || ''
   }
 
   useEffect(() => {
-    closeSidebarElements(parentsArray)
-    parentsArray.forEach((slug: string) => {
-      openSidebarElement(slug)
-    })
-    setActiveSidebarElement(activeSlug?.replace('?endpoint=', '#'))
-  }, [activeSidebarElement, router])
+    if (isClient) {
+      closeSidebarElements(parentsArray)
+      parentsArray.forEach((slug: string) => {
+        openSidebarElement(slug)
+      })
+      setActiveSidebarElement(activeSlug?.replace('?endpoint=', '#'))
+    }
+  }, [activeSidebarElement, router, isClient])
 }

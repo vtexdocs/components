@@ -24,7 +24,6 @@ import mermaidInit from 'utils/mermaidInit'
 import { Component, ObservableHeadingProps } from './MarkdownRenderer.types'
 import styles from './styles.module.css'
 import { messages } from 'utils/get-message'
-const Image = (NextImage as any).default || NextImage
 
 mermaidInit()
 

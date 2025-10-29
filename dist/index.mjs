@@ -3781,6 +3781,7 @@ import {
 import mermaid2 from "mermaid";
 import parse from "html-react-parser";
 import { InView } from "react-intersection-observer";
+import NextImage2 from "next/image.js";
 import { CH } from "@code-hike/mdx/components";
 
 // src/components/overview-card/styles.ts
@@ -6049,7 +6050,7 @@ var imageContainer = {
   ":hover": {
     boxShadow: "2px 4px 8px 2px rgb(0 0 0 / 10%)"
   },
-  "> img": {
+  "> img, img": {
     maxWidth: "100%",
     display: "block",
     padding: "0",
@@ -6078,7 +6079,7 @@ var modal = {
   position: "relative",
   zIndex: "10001",
   padding: "0",
-  "> img": {
+  "> img, img": {
     display: "block",
     maxHeight: "calc(100vh - 50px)",
     maxWidth: "calc(100vw - 50px)",
@@ -6211,8 +6212,9 @@ var styles_default4 = {
 };
 
 // src/components/whats-next-card/index.tsx
-import Image from "next/image.js";
+import NextImage from "next/image.js";
 import { jsx as jsx7, jsxs as jsxs5 } from "react/jsx-runtime";
+var Image = NextImage.default || NextImage;
 var WhatsNextCard = ({
   title: title5,
   description: description4,
@@ -6566,6 +6568,7 @@ var messages = getMessages();
 
 // src/lib/markdown-renderer/components.tsx
 import { jsx as jsx9, jsxs as jsxs6 } from "react/jsx-runtime";
+var Image2 = NextImage2.default || NextImage2;
 mermaidInit_default();
 var ObservableHeading = ({
   level,
@@ -6648,23 +6651,39 @@ var MermaidDiagram = ({ node, ...props }) => {
 var ImageComponent = ({ node, ...props }) => {
   const [srcHasError, setSrcHasError] = useState3(false);
   const { locale } = useContext(LibraryContext);
-  const regularImg = (
-    // eslint-disable-next-line @next/next/no-img-element
-    /* @__PURE__ */ jsx9("img", { src: props.src, alt: props.alt, onError: () => setSrcHasError(true) })
-  );
   const errorMessage = /* @__PURE__ */ jsxs6("blockquote", { className: `${styles_default5.blockquote} ${styles_default5.blockquoteWarning}`, children: [
     messages[locale]["image.error_loading"],
     " ",
     props.src
   ] });
-  let data = { base64: "", img: {} };
+  let data = {
+    base64: "",
+    img: { src: "", width: 800, height: 600 }
+  };
   try {
     data = JSON.parse(props.alt);
   } catch (error) {
-    console.log(`Error parsing`, error);
+    console.log(`Error parsing image metadata:`, error);
     return errorMessage;
   }
-  return !srcHasError ? /* @__PURE__ */ jsx9(LightBox, { children: regularImg }) : errorMessage;
+  const imgWidth = data.img.width || 800;
+  const imgHeight = data.img.height || 600;
+  const hasBlurData = Boolean(data.base64 && data.base64.trim());
+  const optimizedImg = /* @__PURE__ */ jsx9(
+    Image2,
+    {
+      src: props.src,
+      alt: "",
+      width: imgWidth,
+      height: imgHeight,
+      placeholder: hasBlurData ? "blur" : "empty",
+      blurDataURL: hasBlurData ? data.base64 : void 0,
+      sizes: "100vw",
+      style: { maxWidth: "100%", height: "auto" },
+      onError: () => setSrcHasError(true)
+    }
+  );
+  return !srcHasError ? /* @__PURE__ */ jsx9(LightBox, { children: optimizedImg }) : errorMessage;
 };
 var components_default = {
   CH,
@@ -6760,7 +6779,7 @@ var MarkdownRenderer_default = MarkdownRenderer;
 // src/lib/table-of-contents/TableOfContents.tsx
 import { useContext as useContext2, useEffect as useEffect5 } from "react";
 import Link3 from "next/link.js";
-import { useRouter } from "next/router.js";
+import { useRouter } from "next/compat/router.js";
 import { Box as Box7, Text as Text2 } from "@vtex/brand-ui";
 import AnimateHeight from "react-animate-height";
 
@@ -6834,7 +6853,7 @@ var TableOfContents = ({ headingList, children }) => {
       setHeadingItems(headings2);
     } else
       setHeadingItems(headings2);
-  }, [router.asPath, headingList]);
+  }, [router?.asPath, headingList]);
   const Item = ({
     title: title5,
     slug,
@@ -7259,7 +7278,7 @@ var getParents = (path, data, flattenedSidebar, parentsArray, parent) => {
 };
 
 // src/utils/sidebar-utils.ts
-import { useRouter as useRouter2 } from "next/router.js";
+import { useRouter as useRouter2 } from "next/compat/router.js";
 import { useEffect as useEffect7 } from "react";
 var getIcon2 = (doc, sections) => {
   for (const section of sections) {
@@ -7279,36 +7298,43 @@ var updateOpenPage = ({
   } = context;
   const flattenedSidebar = flattenJSON(sidebarDataMaster);
   const router = useRouter2();
+  const isClient = typeof window !== "undefined";
   let activeSlug = "";
-  const querySlug = router.query.slug;
-  if (querySlug && router.pathname === "/docs/api-reference/[slug]") {
-    activeSlug = router.asPath.replace("/docs/api-reference/", "");
-    const docPath = activeSlug.split("/");
-    const hasHashTag = router.asPath.indexOf("#") > -1;
-    const apiSlug = docPath[0].split(hasHashTag ? "#" : "?endpoint=")[0];
-    const endpoint = "/" + docPath.splice(1, docPath.length).join("/");
-    let keyPath;
-    if (endpoint == "/") {
-      activeSlug = apiSlug;
-      keyPath = getKeyByEndpoint(flattenedSidebar, "", apiSlug);
+  if (isClient && router && router.query) {
+    const querySlug = router.query.slug;
+    if (querySlug && router.pathname === "/docs/api-reference/[slug]") {
+      activeSlug = router.asPath.replace("/docs/api-reference/", "");
+      const docPath = activeSlug.split("/");
+      const hasHashTag = router.asPath.indexOf("#") > -1;
+      const apiSlug = docPath[0].split(hasHashTag ? "#" : "?endpoint=")[0];
+      const endpoint = "/" + docPath.splice(1, docPath.length).join("/");
+      let keyPath;
+      if (endpoint == "/") {
+        activeSlug = apiSlug;
+        keyPath = getKeyByEndpoint(flattenedSidebar, "", apiSlug);
+      } else {
+        const method = docPath[0].split(hasHashTag ? "#" : "?endpoint=")[1].split("-")[0];
+        keyPath = getKeyByEndpoint(flattenedSidebar, endpoint, apiSlug, method);
+      }
+      parentsArray.push(activeSlug);
+      if (keyPath) {
+        getParents(keyPath, "slug", flattenedSidebar, parentsArray);
+      }
     } else {
-      const method = docPath[0].split(hasHashTag ? "#" : "?endpoint=")[1].split("-")[0];
-      keyPath = getKeyByEndpoint(flattenedSidebar, endpoint, apiSlug, method);
-    }
-    parentsArray.push(activeSlug);
-    if (keyPath) {
-      getParents(keyPath, "slug", flattenedSidebar, parentsArray);
+      activeSlug = parentsArray[parentsArray.length - 1];
     }
   } else {
-    activeSlug = parentsArray[parentsArray.length - 1];
+    activeSlug = parentsArray[parentsArray.length - 1] || "";
   }
   useEffect7(() => {
-    closeSidebarElements(parentsArray);
-    parentsArray.forEach((slug) => {
-      openSidebarElement(slug);
-    });
-    setActiveSidebarElement(activeSlug?.replace("?endpoint=", "#"));
-  }, [activeSidebarElement, router]);
+    if (isClient) {
+      closeSidebarElements(parentsArray);
+      parentsArray.forEach((slug) => {
+        openSidebarElement(slug);
+      });
+      setActiveSidebarElement(activeSlug?.replace("?endpoint=", "#"));
+    }
+  }, [activeSidebarElement, router, isClient]);
 };
 
 // src/components/sidebar-section/index.tsx
@@ -7743,7 +7769,7 @@ var SectionFilter = ({
 var sidebar_section_filter_default = SectionFilter;
 
 // src/components/sidebar-elements/index.tsx
-import { useRouter as useRouter3 } from "next/router.js";
+import { useRouter as useRouter3 } from "next/compat/router.js";
 import { Fragment, useContext as useContext4 } from "react";
 import {
   Box as Box10,
@@ -8663,7 +8689,7 @@ import { Configure, InstantSearch } from "react-instantsearch-dom";
 
 // src/components/search-input/search-box.tsx
 import { useRef as useRef5, useContext as useContext7 } from "react";
-import { useRouter as useRouter4 } from "next/router.js";
+import { useRouter as useRouter4 } from "next/compat/router.js";
 import { Flex as Flex12 } from "@vtex/brand-ui";
 import { connectSearchBox } from "react-instantsearch-dom";
 
@@ -8845,12 +8871,13 @@ var SearchBoxComponent = ({
   const router = useRouter4();
   const inputRef = useRef5(null);
   const { locale } = useContext7(LibraryContext);
+  const isClient = typeof window !== "undefined";
   const handleClick = () => {
     if (inputRef.current != null)
       inputRef.current.focus();
   };
   const keyPressed = (e) => {
-    if (e.key === "Enter") {
+    if (e.key === "Enter" && isClient && router) {
       router.push({
         pathname: "/search",
         query: { keyword: inputRef.current?.value }
@@ -8881,7 +8908,7 @@ var SearchBox = connectSearchBox(SearchBoxComponent);
 var search_box_default = SearchBox;
 
 // src/components/search-input/results-box.tsx
-import { useRouter as useRouter5 } from "next/router.js";
+import { useRouter as useRouter5 } from "next/compat/router.js";
 import Link7 from "next/link.js";
 import {
   connectStateResults,
@@ -10158,7 +10185,7 @@ var styles_default18 = {
 };
 
 // src/components/search-section/index.tsx
-import { useRouter as useRouter6 } from "next/router.js";
+import { useRouter as useRouter6 } from "next/compat/router.js";
 
 // src/utils/context/search.tsx
 import {
@@ -10295,7 +10322,7 @@ var SearchSections = () => {
 var search_sections_default = SearchSections;
 
 // src/components/search-results/index.tsx
-import { useRouter as useRouter7 } from "next/router.js";
+import { useRouter as useRouter7 } from "next/compat/router.js";
 import { useContext as useContext16, useState as useState14 } from "react";
 import { Box as Box22, Text as Text14 } from "@vtex/brand-ui";
 import { Configure as Configure2, InstantSearch as InstantSearch2 } from "react-instantsearch-dom";
@@ -10752,7 +10779,7 @@ var SearchResults = () => {
     });
   };
   return /* @__PURE__ */ jsxs46(Box22, { sx: styles_default21.resultContainer, children: [
-    /* @__PURE__ */ jsx58(Text14, { sx: styles_default21.resultText, children: `${messages[locale]["search_results.showing"] || "Showing"} ${ocurrenceCount[filterSelectedSection] === void 0 ? "" : ocurrenceCount[filterSelectedSection]} ${messages[locale]["search_results.results_for"] || "results for"} ${router.query.keyword} ${messages[locale]["search_results.in"] || "in"} ${!filterSelectedSection ? messages[locale]["search_results.all_lowercase"] || "all results" : filterSelectedSection}` }),
+    /* @__PURE__ */ jsx58(Text14, { sx: styles_default21.resultText, children: `${messages[locale]["search_results.showing"] || "Showing"} ${ocurrenceCount[filterSelectedSection] === void 0 ? "" : ocurrenceCount[filterSelectedSection]} ${messages[locale]["search_results.results_for"] || "results for"} ${router?.query?.keyword} ${messages[locale]["search_results.in"] || "in"} ${!filterSelectedSection ? messages[locale]["search_results.all_lowercase"] || "all results" : filterSelectedSection}` }),
     /* @__PURE__ */ jsx58("hr", {}),
     /* @__PURE__ */ jsx58(Box22, { children: /* @__PURE__ */ jsxs46(
       InstantSearch2,
@@ -10766,7 +10793,7 @@ var SearchResults = () => {
             Configure2,
             {
               filters,
-              query: router.query.keyword,
+              query: router?.query?.keyword,
               clickAnalytics: true,
               hitsPerPage: 6,
               facets: ["doctype", "language"],

@@ -11,7 +11,7 @@ const imageContainer: SxStyleProp = {
     boxShadow: '2px 4px 8px 2px rgb(0 0 0 / 10%)',
   },
 
-  '> img': {
+  '> img, img': {
     maxWidth: '100%',
     display: 'block',
     padding: '0',
@@ -43,7 +43,7 @@ const modal: SxStyleProp = {
   zIndex: '10001',
   padding: '0',
 
-  '> img': {
+  '> img, img': {
     display: 'block',
     maxHeight: 'calc(100vh - 50px)',
     maxWidth: 'calc(100vw - 50px)',
