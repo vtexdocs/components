@@ -2,7 +2,8 @@ import { SxStyleProp } from '@vtex/brand-ui'
 
 const sidebarContainer: SxStyleProp = {
   position: 'relative',
-  width: 'auto',
+  width: ['auto', 'auto', 'auto', 'auto', '300px', '300px'],
+  minWidth: ['auto', 'auto', 'auto', 'auto', '300px', '300px'],
   height: 'inherit',
   borderRight: '1px solid #E7E9EE',
   zIndex: '1',
@@ -86,7 +87,8 @@ const searchBox: SxStyleProp = {
   alignItems: 'center',
   borderRadius: '4px',
   background: '#F4F4F4',
-  width: '265px',
+  width: '100%',
+  maxWidth: '265px',
   height: '40px',
   paddingLeft: '12px',
 }
