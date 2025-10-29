@@ -6777,7 +6777,7 @@ var MarkdownRenderer_default = MarkdownRenderer;
 // src/lib/table-of-contents/TableOfContents.tsx
 import { useContext as useContext2, useEffect as useEffect5 } from "react";
 import Link3 from "next/link.js";
-import { useRouter } from "next/router.js";
+import { useRouter } from "next/compat/router";
 import { Box as Box7, Text as Text2 } from "@vtex/brand-ui";
 import AnimateHeight from "react-animate-height";
 
@@ -6851,7 +6851,7 @@ var TableOfContents = ({ headingList, children }) => {
       setHeadingItems(headings2);
     } else
       setHeadingItems(headings2);
-  }, [router.asPath, headingList]);
+  }, [router?.asPath, headingList]);
   const Item = ({
     title: title5,
     slug,
@@ -7276,7 +7276,7 @@ var getParents = (path, data, flattenedSidebar, parentsArray, parent) => {
 };
 
 // src/utils/sidebar-utils.ts
-import { useRouter as useRouter2 } from "next/router.js";
+import { useRouter as useRouter2 } from "next/compat/router";
 import { useEffect as useEffect7 } from "react";
 var getIcon2 = (doc, sections) => {
   for (const section of sections) {
@@ -7767,7 +7767,7 @@ var SectionFilter = ({
 var sidebar_section_filter_default = SectionFilter;
 
 // src/components/sidebar-elements/index.tsx
-import { useRouter as useRouter3 } from "next/router.js";
+import { useRouter as useRouter3 } from "next/compat/router";
 import { Fragment, useContext as useContext4 } from "react";
 import {
   Box as Box10,
@@ -8687,7 +8687,7 @@ import { Configure, InstantSearch } from "react-instantsearch-dom";
 
 // src/components/search-input/search-box.tsx
 import { useRef as useRef5, useContext as useContext7 } from "react";
-import { useRouter as useRouter4 } from "next/router.js";
+import { useRouter as useRouter4 } from "next/compat/router";
 import { Flex as Flex12 } from "@vtex/brand-ui";
 import { connectSearchBox } from "react-instantsearch-dom";
 
@@ -8869,12 +8869,13 @@ var SearchBoxComponent = ({
   const router = useRouter4();
   const inputRef = useRef5(null);
   const { locale } = useContext7(LibraryContext);
+  const isClient = typeof window !== "undefined";
   const handleClick = () => {
     if (inputRef.current != null)
       inputRef.current.focus();
   };
   const keyPressed = (e) => {
-    if (e.key === "Enter") {
+    if (e.key === "Enter" && isClient && router) {
       router.push({
         pathname: "/search",
         query: { keyword: inputRef.current?.value }
@@ -8905,7 +8906,7 @@ var SearchBox = connectSearchBox(SearchBoxComponent);
 var search_box_default = SearchBox;
 
 // src/components/search-input/results-box.tsx
-import { useRouter as useRouter5 } from "next/router.js";
+import { useRouter as useRouter5 } from "next/compat/router";
 import Link7 from "next/link.js";
 import {
   connectStateResults,
@@ -10182,7 +10183,7 @@ var styles_default18 = {
 };
 
 // src/components/search-section/index.tsx
-import { useRouter as useRouter6 } from "next/router.js";
+import { useRouter as useRouter6 } from "next/compat/router";
 
 // src/utils/context/search.tsx
 import {
@@ -10319,7 +10320,7 @@ var SearchSections = () => {
 var search_sections_default = SearchSections;
 
 // src/components/search-results/index.tsx
-import { useRouter as useRouter7 } from "next/router.js";
+import { useRouter as useRouter7 } from "next/compat/router";
 import { useContext as useContext16, useState as useState14 } from "react";
 import { Box as Box22, Text as Text14 } from "@vtex/brand-ui";
 import { Configure as Configure2, InstantSearch as InstantSearch2 } from "react-instantsearch-dom";
@@ -10776,7 +10777,7 @@ var SearchResults = () => {
     });
   };
   return /* @__PURE__ */ jsxs46(Box22, { sx: styles_default21.resultContainer, children: [
-    /* @__PURE__ */ jsx58(Text14, { sx: styles_default21.resultText, children: `${messages[locale]["search_results.showing"] || "Showing"} ${ocurrenceCount[filterSelectedSection] === void 0 ? "" : ocurrenceCount[filterSelectedSection]} ${messages[locale]["search_results.results_for"] || "results for"} ${router.query.keyword} ${messages[locale]["search_results.in"] || "in"} ${!filterSelectedSection ? messages[locale]["search_results.all_lowercase"] || "all results" : filterSelectedSection}` }),
+    /* @__PURE__ */ jsx58(Text14, { sx: styles_default21.resultText, children: `${messages[locale]["search_results.showing"] || "Showing"} ${ocurrenceCount[filterSelectedSection] === void 0 ? "" : ocurrenceCount[filterSelectedSection]} ${messages[locale]["search_results.results_for"] || "results for"} ${router?.query?.keyword} ${messages[locale]["search_results.in"] || "in"} ${!filterSelectedSection ? messages[locale]["search_results.all_lowercase"] || "all results" : filterSelectedSection}` }),
     /* @__PURE__ */ jsx58("hr", {}),
     /* @__PURE__ */ jsx58(Box22, { children: /* @__PURE__ */ jsxs46(
       InstantSearch2,
@@ -10790,7 +10791,7 @@ var SearchResults = () => {
             Configure2,
             {
               filters,
-              query: router.query.keyword,
+              query: router?.query?.keyword,
               clickAnalytics: true,
               hitsPerPage: 6,
               facets: ["doctype", "language"],

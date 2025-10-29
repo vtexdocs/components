@@ -3,7 +3,7 @@ import { useContext, useEffect } from 'react'
 import { LibraryContext } from 'utils/context/libraryContext'
 import { messages } from 'utils/get-message'
 import styles from './styles'
-import { useRouter } from 'next/router.js'
+import { useRouter } from 'next/compat/router'
 import { FilterType, SearchContext } from 'utils/context/search'
 import { Section } from 'utils/typings/types'
 

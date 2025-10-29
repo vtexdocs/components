@@ -1,6 +1,6 @@
 import { Section } from './typings/types'
 import { flattenJSON, getKeyByEndpoint, getParents } from './navigation-utils'
-import { useRouter } from 'next/router.js'
+import { useRouter } from 'next/compat/router'
 import { useEffect } from 'react'
 import { ContextType } from './context/libraryContext'
 

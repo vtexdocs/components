@@ -1,5 +1,5 @@
 import { useRef, KeyboardEvent, useContext } from 'react'
-import { useRouter } from 'next/router.js'
+import { useRouter } from 'next/compat/router'
 import { Flex } from '@vtex/brand-ui'
 import { connectSearchBox } from 'react-instantsearch-dom'
 import { SearchBoxProvided } from 'react-instantsearch-core'
@@ -21,13 +21,14 @@ const SearchBoxComponent = ({
   const router = useRouter()
   const inputRef = useRef<HTMLInputElement>(null)
   const { locale } = useContext(LibraryContext)
+  const isClient = typeof window !== 'undefined'
 
   const handleClick = () => {
     if (inputRef.current != null) inputRef.current.focus()
   }
 
   const keyPressed = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' && isClient && router) {
       router.push({
         pathname: '/search',
         query: { keyword: inputRef.current?.value },

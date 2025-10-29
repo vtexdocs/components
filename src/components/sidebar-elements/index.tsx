@@ -1,4 +1,4 @@
-import { useRouter } from 'next/router.js'
+import { useRouter } from 'next/compat/router'
 import React, { Fragment, useContext } from 'react'
 import {
   Box,

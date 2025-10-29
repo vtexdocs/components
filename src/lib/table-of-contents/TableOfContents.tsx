@@ -1,6 +1,6 @@
 import { useContext, useEffect } from 'react'
 import Link from 'next/link.js'
-import { useRouter } from 'next/router.js'
+import { useRouter } from 'next/compat/router'
 import { Box, Text } from '@vtex/brand-ui'
 import AnimateHeight from 'react-animate-height'
 
@@ -43,7 +43,7 @@ const TableOfContents = ({ headingList, children }: Props) => {
       })
       setHeadingItems(headings)
     } else setHeadingItems(headings)
-  }, [router.asPath, headingList])
+  }, [router?.asPath, headingList])
 
   const Item = ({
     title,
