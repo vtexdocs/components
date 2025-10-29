@@ -9,4 +9,5 @@ export default defineConfig({
   loader: {
     '.css': 'local-css',
   },
+  external: ['next', 'next/image', 'next/router', 'next/image.js', 'next/router.js'],
 })
