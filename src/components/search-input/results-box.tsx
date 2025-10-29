@@ -1,4 +1,4 @@
-import { useRouter } from 'next/compat/router'
+import { useRouter } from 'next/compat/router.js'
 import Link from 'next/link.js'
 import {
   connectStateResults,

@@ -6777,7 +6777,7 @@ var MarkdownRenderer_default = MarkdownRenderer;
 // src/lib/table-of-contents/TableOfContents.tsx
 import { useContext as useContext2, useEffect as useEffect5 } from "react";
 import Link3 from "next/link.js";
-import { useRouter } from "next/compat/router";
+import { useRouter } from "next/compat/router.js";
 import { Box as Box7, Text as Text2 } from "@vtex/brand-ui";
 import AnimateHeight from "react-animate-height";
 
@@ -7276,7 +7276,7 @@ var getParents = (path, data, flattenedSidebar, parentsArray, parent) => {
 };
 
 // src/utils/sidebar-utils.ts
-import { useRouter as useRouter2 } from "next/compat/router";
+import { useRouter as useRouter2 } from "next/compat/router.js";
 import { useEffect as useEffect7 } from "react";
 var getIcon2 = (doc, sections) => {
   for (const section of sections) {
@@ -7767,7 +7767,7 @@ var SectionFilter = ({
 var sidebar_section_filter_default = SectionFilter;
 
 // src/components/sidebar-elements/index.tsx
-import { useRouter as useRouter3 } from "next/compat/router";
+import { useRouter as useRouter3 } from "next/compat/router.js";
 import { Fragment, useContext as useContext4 } from "react";
 import {
   Box as Box10,
@@ -8687,7 +8687,7 @@ import { Configure, InstantSearch } from "react-instantsearch-dom";
 
 // src/components/search-input/search-box.tsx
 import { useRef as useRef5, useContext as useContext7 } from "react";
-import { useRouter as useRouter4 } from "next/compat/router";
+import { useRouter as useRouter4 } from "next/compat/router.js";
 import { Flex as Flex12 } from "@vtex/brand-ui";
 import { connectSearchBox } from "react-instantsearch-dom";
 
@@ -8906,7 +8906,7 @@ var SearchBox = connectSearchBox(SearchBoxComponent);
 var search_box_default = SearchBox;
 
 // src/components/search-input/results-box.tsx
-import { useRouter as useRouter5 } from "next/compat/router";
+import { useRouter as useRouter5 } from "next/compat/router.js";
 import Link7 from "next/link.js";
 import {
   connectStateResults,
@@ -10183,7 +10183,7 @@ var styles_default18 = {
 };
 
 // src/components/search-section/index.tsx
-import { useRouter as useRouter6 } from "next/compat/router";
+import { useRouter as useRouter6 } from "next/compat/router.js";
 
 // src/utils/context/search.tsx
 import {
@@ -10320,7 +10320,7 @@ var SearchSections = () => {
 var search_sections_default = SearchSections;
 
 // src/components/search-results/index.tsx
-import { useRouter as useRouter7 } from "next/compat/router";
+import { useRouter as useRouter7 } from "next/compat/router.js";
 import { useContext as useContext16, useState as useState14 } from "react";
 import { Box as Box22, Text as Text14 } from "@vtex/brand-ui";
 import { Configure as Configure2, InstantSearch as InstantSearch2 } from "react-instantsearch-dom";

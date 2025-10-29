@@ -1,4 +1,4 @@
-import { useRouter } from 'next/compat/router'
+import { useRouter } from 'next/compat/router.js'
 import { useContext, useState } from 'react'
 
 import { LibraryContext } from 'utils/context/libraryContext'

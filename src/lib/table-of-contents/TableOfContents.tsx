@@ -1,6 +1,6 @@
 import { useContext, useEffect } from 'react'
 import Link from 'next/link.js'
-import { useRouter } from 'next/compat/router'
+import { useRouter } from 'next/compat/router.js'
 import { Box, Text } from '@vtex/brand-ui'
 import AnimateHeight from 'react-animate-height'
 
