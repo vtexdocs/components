@@ -8,6 +8,7 @@ import {
 import mermaid from 'mermaid'
 import parse from 'html-react-parser'
 import { InView } from 'react-intersection-observer'
+import Image from 'next/image.js'
 
 import { CH } from '@code-hike/mdx/components'
 import OverviewCard from 'components/overview-card'
@@ -130,24 +131,44 @@ const MermaidDiagram = ({ node, ...props }: Component) => {
 const ImageComponent = ({ node, ...props }: Component) => {
   const [srcHasError, setSrcHasError] = useState(false)
   const { locale } = useContext(LibraryContext)
-  const regularImg = (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img src={props.src} alt={props.alt} onError={() => setSrcHasError(true)} />
-  )
+  
   const errorMessage = (
     <blockquote className={`${styles.blockquote} ${styles.blockquoteWarning}`}>
       {messages[locale]['image.error_loading']} {props.src}
     </blockquote>
   )
 
-  let data: { base64: string; img: object } = { base64: '', img: {} }
+  let data: { base64: string; img: { src: string; width: number; height: number; type?: string } } = { 
+    base64: '', 
+    img: { src: '', width: 800, height: 600 } 
+  }
+  
   try {
     data = JSON.parse(props.alt)
   } catch (error) {
-    console.log(`Error parsing`, error)
+    console.log(`Error parsing image metadata:`, error)
     return errorMessage
   }
-  return !srcHasError ? <LightBox>{regularImg}</LightBox> : errorMessage
+
+  const imgWidth = data.img.width || 800
+  const imgHeight = data.img.height || 600
+  const hasBlurData = Boolean(data.base64 && data.base64.trim())
+
+  const optimizedImg = (
+    <Image
+      src={props.src}
+      alt=""
+      width={imgWidth}
+      height={imgHeight}
+      placeholder={hasBlurData ? 'blur' : 'empty'}
+      blurDataURL={hasBlurData ? data.base64 : undefined}
+      sizes="100vw"
+      style={{ maxWidth: '100%', height: 'auto' }}
+      onError={() => setSrcHasError(true)}
+    />
+  )
+  
+  return !srcHasError ? <LightBox>{optimizedImg}</LightBox> : errorMessage
 }
 
 export default {

@@ -3781,6 +3781,7 @@ import {
 import mermaid2 from "mermaid";
 import parse from "html-react-parser";
 import { InView } from "react-intersection-observer";
+import Image2 from "next/image.js";
 import { CH } from "@code-hike/mdx/components";
 
 // src/components/overview-card/styles.ts
@@ -6049,7 +6050,7 @@ var imageContainer = {
   ":hover": {
     boxShadow: "2px 4px 8px 2px rgb(0 0 0 / 10%)"
   },
-  "> img": {
+  "> img, img": {
     maxWidth: "100%",
     display: "block",
     padding: "0",
@@ -6078,7 +6079,7 @@ var modal = {
   position: "relative",
   zIndex: "10001",
   padding: "0",
-  "> img": {
+  "> img, img": {
     display: "block",
     maxHeight: "calc(100vh - 50px)",
     maxWidth: "calc(100vw - 50px)",
@@ -6648,23 +6649,39 @@ var MermaidDiagram = ({ node, ...props }) => {
 var ImageComponent = ({ node, ...props }) => {
   const [srcHasError, setSrcHasError] = useState3(false);
   const { locale } = useContext(LibraryContext);
-  const regularImg = (
-    // eslint-disable-next-line @next/next/no-img-element
-    /* @__PURE__ */ jsx9("img", { src: props.src, alt: props.alt, onError: () => setSrcHasError(true) })
-  );
   const errorMessage = /* @__PURE__ */ jsxs6("blockquote", { className: `${styles_default5.blockquote} ${styles_default5.blockquoteWarning}`, children: [
     messages[locale]["image.error_loading"],
     " ",
     props.src
   ] });
-  let data = { base64: "", img: {} };
+  let data = {
+    base64: "",
+    img: { src: "", width: 800, height: 600 }
+  };
   try {
     data = JSON.parse(props.alt);
   } catch (error) {
-    console.log(`Error parsing`, error);
+    console.log(`Error parsing image metadata:`, error);
     return errorMessage;
   }
-  return !srcHasError ? /* @__PURE__ */ jsx9(LightBox, { children: regularImg }) : errorMessage;
+  const imgWidth = data.img.width || 800;
+  const imgHeight = data.img.height || 600;
+  const hasBlurData = Boolean(data.base64 && data.base64.trim());
+  const optimizedImg = /* @__PURE__ */ jsx9(
+    Image2,
+    {
+      src: props.src,
+      alt: "",
+      width: imgWidth,
+      height: imgHeight,
+      placeholder: hasBlurData ? "blur" : "empty",
+      blurDataURL: hasBlurData ? data.base64 : void 0,
+      sizes: "100vw",
+      style: { maxWidth: "100%", height: "auto" },
+      onError: () => setSrcHasError(true)
+    }
+  );
+  return !srcHasError ? /* @__PURE__ */ jsx9(LightBox, { children: optimizedImg }) : errorMessage;
 };
 var components_default = {
   CH,
