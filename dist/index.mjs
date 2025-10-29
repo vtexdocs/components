@@ -7296,36 +7296,43 @@ var updateOpenPage = ({
   } = context;
   const flattenedSidebar = flattenJSON(sidebarDataMaster);
   const router = useRouter2();
+  const isClient = typeof window !== "undefined";
   let activeSlug = "";
-  const querySlug = router.query.slug;
-  if (querySlug && router.pathname === "/docs/api-reference/[slug]") {
-    activeSlug = router.asPath.replace("/docs/api-reference/", "");
-    const docPath = activeSlug.split("/");
-    const hasHashTag = router.asPath.indexOf("#") > -1;
-    const apiSlug = docPath[0].split(hasHashTag ? "#" : "?endpoint=")[0];
-    const endpoint = "/" + docPath.splice(1, docPath.length).join("/");
-    let keyPath;
-    if (endpoint == "/") {
-      activeSlug = apiSlug;
-      keyPath = getKeyByEndpoint(flattenedSidebar, "", apiSlug);
+  if (isClient && router && router.query) {
+    const querySlug = router.query.slug;
+    if (querySlug && router.pathname === "/docs/api-reference/[slug]") {
+      activeSlug = router.asPath.replace("/docs/api-reference/", "");
+      const docPath = activeSlug.split("/");
+      const hasHashTag = router.asPath.indexOf("#") > -1;
+      const apiSlug = docPath[0].split(hasHashTag ? "#" : "?endpoint=")[0];
+      const endpoint = "/" + docPath.splice(1, docPath.length).join("/");
+      let keyPath;
+      if (endpoint == "/") {
+        activeSlug = apiSlug;
+        keyPath = getKeyByEndpoint(flattenedSidebar, "", apiSlug);
+      } else {
+        const method = docPath[0].split(hasHashTag ? "#" : "?endpoint=")[1].split("-")[0];
+        keyPath = getKeyByEndpoint(flattenedSidebar, endpoint, apiSlug, method);
+      }
+      parentsArray.push(activeSlug);
+      if (keyPath) {
+        getParents(keyPath, "slug", flattenedSidebar, parentsArray);
+      }
     } else {
-      const method = docPath[0].split(hasHashTag ? "#" : "?endpoint=")[1].split("-")[0];
-      keyPath = getKeyByEndpoint(flattenedSidebar, endpoint, apiSlug, method);
-    }
-    parentsArray.push(activeSlug);
-    if (keyPath) {
-      getParents(keyPath, "slug", flattenedSidebar, parentsArray);
+      activeSlug = parentsArray[parentsArray.length - 1];
     }
   } else {
-    activeSlug = parentsArray[parentsArray.length - 1];
+    activeSlug = parentsArray[parentsArray.length - 1] || "";
   }
   useEffect7(() => {
-    closeSidebarElements(parentsArray);
-    parentsArray.forEach((slug) => {
-      openSidebarElement(slug);
-    });
-    setActiveSidebarElement(activeSlug?.replace("?endpoint=", "#"));
-  }, [activeSidebarElement, router]);
+    if (isClient) {
+      closeSidebarElements(parentsArray);
+      parentsArray.forEach((slug) => {
+        openSidebarElement(slug);
+      });
+      setActiveSidebarElement(activeSlug?.replace("?endpoint=", "#"));
+    }
+  }, [activeSidebarElement, router, isClient]);
 };
 
 // src/components/sidebar-section/index.tsx
