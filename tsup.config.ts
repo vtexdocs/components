@@ -9,5 +9,8 @@ export default defineConfig({
   loader: {
     '.css': 'local-css',
   },
-  external: ['next', 'next/image', 'next/router', 'next/image.js', 'next/router.js'],
+  external: ['next', 'next/image.js', 'next/router.js', 'next/compat/router.js'],
+  esbuildOptions(options) {
+    options.mainFields = ['module', 'main']
+  },
 })

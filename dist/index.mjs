@@ -3781,7 +3781,7 @@ import {
 import mermaid2 from "mermaid";
 import parse from "html-react-parser";
 import { InView } from "react-intersection-observer";
-import Image2 from "next/image";
+import NextImage2 from "next/image.js";
 import { CH } from "@code-hike/mdx/components";
 
 // src/components/overview-card/styles.ts
@@ -6212,8 +6212,9 @@ var styles_default4 = {
 };
 
 // src/components/whats-next-card/index.tsx
-import Image from "next/image";
+import NextImage from "next/image.js";
 import { jsx as jsx7, jsxs as jsxs5 } from "react/jsx-runtime";
+var Image = NextImage.default || NextImage;
 var WhatsNextCard = ({
   title: title5,
   description: description4,
@@ -6567,6 +6568,7 @@ var messages = getMessages();
 
 // src/lib/markdown-renderer/components.tsx
 import { jsx as jsx9, jsxs as jsxs6 } from "react/jsx-runtime";
+var Image2 = NextImage2.default || NextImage2;
 mermaidInit_default();
 var ObservableHeading = ({
   level,

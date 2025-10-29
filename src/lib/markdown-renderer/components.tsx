@@ -8,7 +8,7 @@ import {
 import mermaid from 'mermaid'
 import parse from 'html-react-parser'
 import { InView } from 'react-intersection-observer'
-import Image from 'next/image'
+import NextImage from 'next/image.js'
 
 import { CH } from '@code-hike/mdx/components'
 import OverviewCard from 'components/overview-card'
@@ -24,6 +24,7 @@ import mermaidInit from 'utils/mermaidInit'
 import { Component, ObservableHeadingProps } from './MarkdownRenderer.types'
 import styles from './styles.module.css'
 import { messages } from 'utils/get-message'
+const Image = (NextImage as any).default || NextImage
 
 mermaidInit()
 
