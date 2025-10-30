@@ -29,7 +29,7 @@ const sidebar: SxStyleProp = {
 }
 
 const sidebarIcons: SxStyleProp = {
-  width: ['56px', '56px', '56px', '56px', '56px', '160px'],
+  width: ['56px', '56px', '56px', '56px', '160px', '160px'],
   minWidth: 'max-content',
   transition: 'all 0.3s ease-in-out',
   flexDirection: 'column',
@@ -37,6 +37,8 @@ const sidebarIcons: SxStyleProp = {
   background: '#FFFFFF',
   zIndex: '2',
   paddingBottom: '32px',
+  overflowY: 'auto',
+  height: '100%',
 }
 
 const linkContainer: SxStyleProp = {
@@ -48,8 +50,8 @@ const iconBox: SxStyleProp = {
   width: '100%',
   maxWidth: '144px',
   paddingLeft: ['0', '0', '0', '8px'],
-  paddingRight: ['0', '0', '0', '8px', '8px', '0'],
-  py: ['0', '0', '0', '8px', '8px', '10px'],
+  paddingRight: ['0', '0', '0', '8px', '0', '0'],
+  py: ['0', '0', '0', '8px', '10px', '10px'],
   height: '40px',
   borderRadius: '4px',
   alignItems: 'center',
@@ -66,7 +68,7 @@ const iconBox: SxStyleProp = {
         '#000711',
         '#000711',
         '#000711',
-        '#000711',
+        '#4A596B',
         '#4A596B',
       ],
     },
@@ -108,10 +110,10 @@ const sectionDivider: SxStyleProp = {
 }
 
 const iconTitle: SxStyleProp = {
-  display: ['none', 'none', 'none', 'none', 'none', 'block'],
+  display: ['none', 'none', 'none', 'none', 'block', 'block'],
   width: '100%',
   fontSize: '14px',
-  ml: ['8px', '8px', '8px', '8px', '8px', '12px'],
+  ml: ['8px', '8px', '8px', '8px', '12px', '12px'],
   whiteSpace: 'nowrap',
   overflow: 'hidden',
   textOverflow: 'ellipsis',
@@ -123,7 +125,7 @@ const iconTooltip: SxStyleProp = {
     'flex !important',
     'flex !important',
     'flex !important',
-    'flex !important',
+    'none !important',
     'none !important',
   ],
 }
