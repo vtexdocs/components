@@ -22,6 +22,7 @@ const sidebar: SxStyleProp = {
   '.iconContainerExpanded': {
     transition: 'all 0.3s ease-in-out',
     width: '160px',
+    overflowY: 'auto',
   },
   '.iconDescriptionExpanded': {
     display: 'block',

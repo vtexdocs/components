@@ -1,7 +1,7 @@
 import { SxStyleProp } from '@vtex/brand-ui'
 
 const elementContainer: SxStyleProp = {
-  maxWidth: '265px',
+  maxWidth: '315px',
   background: '#FFFFFF',
   ':hover': {
     background: '#F8F7FC',
