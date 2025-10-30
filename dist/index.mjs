@@ -6357,7 +6357,8 @@ var sidebar = {
   },
   ".iconContainerExpanded": {
     transition: "all 0.3s ease-in-out",
-    width: "160px"
+    width: "160px",
+    overflowY: "auto"
   },
   ".iconDescriptionExpanded": {
     display: "block"
@@ -6834,7 +6835,7 @@ var searchBox = {
   borderRadius: "4px",
   background: "#F4F4F4",
   width: "100%",
-  maxWidth: "265px",
+  maxWidth: "315px",
   height: "40px",
   paddingLeft: "12px"
 };
@@ -7198,7 +7199,7 @@ import {
 
 // src/components/sidebar-elements/styles.ts
 var elementContainer = {
-  maxWidth: "265px",
+  maxWidth: "315px",
   background: "#FFFFFF",
   ":hover": {
     background: "#F8F7FC",
