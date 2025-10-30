@@ -88,7 +88,7 @@ const searchBox: SxStyleProp = {
   borderRadius: '4px',
   background: '#F4F4F4',
   width: '100%',
-  maxWidth: '265px',
+  maxWidth: '315px',
   height: '40px',
   paddingLeft: '12px',
 }
