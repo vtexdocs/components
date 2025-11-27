@@ -27,6 +27,7 @@ export {
   StorefrontDevelopmentIcon,
   TroubleshootingIcon,
   VTEXIOAppsIcon,
+  DocumentationUpdatesIcon,
 } from './components/icons'
 
 // Status/Change Icons
@@ -36,6 +37,7 @@ export {
   FixedIcon,
   ImprovedIcon,
   RemovedIcon,
+  InfoIcon,
 } from './components/icons'
 
 // Social Media & Sharing Icons

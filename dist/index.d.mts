@@ -177,6 +177,8 @@ declare const TroubleshootingIcon: (props: IconProps) => react_jsx_runtime.JSX.E
 
 declare const VTEXIOAppsIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
 
+declare const DocumentationUpdatesIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
 declare const AddedIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
 
 declare const DeprecatedIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
@@ -186,6 +188,8 @@ declare const FixedIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
 declare const ImprovedIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
 
 declare const RemovedIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const InfoIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
 
 declare const EmailIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
 
@@ -228,4 +232,4 @@ declare const LikeIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
 
 declare const LikeSelectedIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
 
-export { APIGuidesIcon, APIReferenceIcon, AddedIcon, AppDevelopmentIcon, ArrowLeftIcon, CaretIcon, CloseFilterIcon, CloseIcon, CookieBar, CopyIcon, CopyLinkButton, DeprecatedIcon, EditIcon, EmailIcon, ExpandedResultsIcon, FacebookIcon, FeedbackSection, FixedIcon, GridIcon, HamburgerMenu, ImprovedIcon, Input, type Item, LibraryContext, LibraryContextProvider, LikeIcon, LikeSelectedIcon, LinkIcon, LinkedinIcon, LongArrowIcon, MarkdownRenderer, ReleaseNotesIcon, RemovedIcon, Search, createAlgoliaClient as SearchConfig, SearchIcon, SearchInput, ShareButton, ShareIcon, SideBarToggleIcon, Sidebar, StorefrontDevelopmentIcon, TableOfContents, TroubleshootingIcon, TwitterIcon, VTEXIOAppsIcon, getDaysElapsed };
+export { APIGuidesIcon, APIReferenceIcon, AddedIcon, AppDevelopmentIcon, ArrowLeftIcon, CaretIcon, CloseFilterIcon, CloseIcon, CookieBar, CopyIcon, CopyLinkButton, DeprecatedIcon, DocumentationUpdatesIcon, EditIcon, EmailIcon, ExpandedResultsIcon, FacebookIcon, FeedbackSection, FixedIcon, GridIcon, HamburgerMenu, ImprovedIcon, InfoIcon, Input, type Item, LibraryContext, LibraryContextProvider, LikeIcon, LikeSelectedIcon, LinkIcon, LinkedinIcon, LongArrowIcon, MarkdownRenderer, ReleaseNotesIcon, RemovedIcon, Search, createAlgoliaClient as SearchConfig, SearchIcon, SearchInput, ShareButton, ShareIcon, SideBarToggleIcon, Sidebar, StorefrontDevelopmentIcon, TableOfContents, TroubleshootingIcon, TwitterIcon, VTEXIOAppsIcon, getDaysElapsed };

@@ -5906,9 +5906,9 @@ var getIcon = (name) => {
   return IconsMap.find((icon4) => icon4.name === name)?.Icon;
 };
 var OverviewCard = ({ icon: icon4, link: link2, children }) => {
-  const Icon33 = getIcon(icon4);
+  const Icon35 = getIcon(icon4);
   return /* @__PURE__ */ jsx2(Link, { href: link2, children: /* @__PURE__ */ jsxs2(Flex, { sx: styles_default.overviewCard, children: [
-    Icon33 && /* @__PURE__ */ jsx2(Icon33, { sx: styles_default.overviewIcon }),
+    Icon35 && /* @__PURE__ */ jsx2(Icon35, { sx: styles_default.overviewIcon }),
     /* @__PURE__ */ jsx2(Box, { children })
   ] }) });
 };
@@ -8645,12 +8645,12 @@ var DocumentationCard = ({
   description: description4,
   link: link2,
   containerType,
-  Icon: Icon33,
+  Icon: Icon35,
   onClick
 }) => {
   return /* @__PURE__ */ jsx23(Link6, { href: link2, legacyBehavior: true, children: /* @__PURE__ */ jsx23("a", { onClick, style: { width: "100%" }, children: /* @__PURE__ */ jsxs17(Box13, { sx: cardContainer3(containerType), children: [
     /* @__PURE__ */ jsxs17(Flex11, { sx: titleContainer2(containerType), children: [
-      /* @__PURE__ */ jsx23(Icon33, { sx: { color: "#4A596B" }, size: 24 }),
+      /* @__PURE__ */ jsx23(Icon35, { sx: { color: "#4A596B" }, size: 24 }),
       /* @__PURE__ */ jsx23(Text7, { className: "title", sx: cardTitle(containerType), children: title5 })
     ] }),
     /* @__PURE__ */ jsx23(Text7, { className: "description", sx: styles_default14.description, children: description4 })
@@ -10891,7 +10891,7 @@ var expanded_results_icon_default = ExpandedResultsIcon;
 // src/components/search-card/index.tsx
 import { jsx as jsx56, jsxs as jsxs44 } from "react/jsx-runtime";
 var SearchCard = ({
-  Icon: Icon33,
+  Icon: Icon35,
   title: title5,
   method,
   breadcrumbs,
@@ -10905,7 +10905,7 @@ var SearchCard = ({
   return /* @__PURE__ */ jsx56(Link9, { href: url, legacyBehavior: true, children: /* @__PURE__ */ jsxs44(Flex18, { sx: styles_default20.containerActive(method), children: [
     /* @__PURE__ */ jsxs44(Box20, { children: [
       /* @__PURE__ */ jsxs44(Text13, { className: "searchCardTitle", sx: styles_default20.title, children: [
-        Icon33 && /* @__PURE__ */ jsx56(Icon33, { sx: styles_default20.icon }),
+        Icon35 && /* @__PURE__ */ jsx56(Icon35, { sx: styles_default20.icon }),
         method ? /* @__PURE__ */ jsx56(
           method_category_default,
           {
@@ -11511,14 +11511,14 @@ var styles_default26 = { container: container10, input, icon: icon3 };
 // src/components/input/index.tsx
 import { Flex as Flex23 } from "@vtex/brand-ui";
 import { jsx as jsx64, jsxs as jsxs51 } from "react/jsx-runtime";
-var Input = ({ value, onChange, placeholder = "", Icon: Icon33 }) => {
+var Input = ({ value, onChange, placeholder = "", Icon: Icon35 }) => {
   const [inputValue, setInputValue] = useState16(value ?? "");
   useEffect13(() => {
     if (inputValue !== value)
       setInputValue(value);
   }, [value]);
   return /* @__PURE__ */ jsxs51(Flex23, { sx: styles_default26.container, children: [
-    Icon33 && /* @__PURE__ */ jsx64(Icon33, { sx: styles_default26.icon }),
+    Icon35 && /* @__PURE__ */ jsx64(Icon35, { sx: styles_default26.icon }),
     /* @__PURE__ */ jsx64(
       "input",
       {
@@ -11542,14 +11542,14 @@ var getDaysElapsed = (date) => {
   return Math.floor(msElapsed / msInDay);
 };
 
-// src/components/icons/grid-icon.tsx
+// src/components/icons/documentation-updates-icon.tsx
 import { Icon as Icon31 } from "@vtex/brand-ui";
 import { jsx as jsx65, jsxs as jsxs52 } from "react/jsx-runtime";
-var GridIcon = (props) => /* @__PURE__ */ jsxs52(
+var DocumentationUpdatesIcon = (props) => /* @__PURE__ */ jsxs52(
   Icon31,
   {
     ...props,
-    viewBox: "0 0 24 24",
+    viewBox: "0 0 24 25",
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg",
     children: [
@@ -11558,11 +11558,106 @@ var GridIcon = (props) => /* @__PURE__ */ jsxs52(
         {
           fillRule: "evenodd",
           clipRule: "evenodd",
+          d: "M18.414 6.91205L15.586 4.08405C15.211 3.70905 14.702 3.49805 14.172 3.49805H7C5.895 3.49805 5 4.39305 5 5.49805V19.498C5 20.603 5.895 21.498 7 21.498H17C18.105 21.498 19 20.603 19 19.498V8.32605C19 7.79605 18.789 7.28705 18.414 6.91205V6.91205Z",
+          stroke: "#4A596B",
+          strokeWidth: "1.5",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx65(
+        "path",
+        {
+          d: "M19 8.49805H15C14.448 8.49805 14 8.05005 14 7.49805V3.49805",
+          stroke: "#4A596B",
+          strokeWidth: "1.5",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx65(
+        "path",
+        {
+          d: "M9.5 17.498H14.5",
+          stroke: "#4A596B",
+          strokeWidth: "1.5",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx65(
+        "path",
+        {
+          d: "M14 11.998L11.5 14.498L10 12.998",
+          stroke: "#4A596B",
+          strokeWidth: "1.5",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      )
+    ]
+  }
+);
+var documentation_updates_icon_default = DocumentationUpdatesIcon;
+
+// src/components/icons/info-icon.tsx
+import { Icon as Icon32 } from "@vtex/brand-ui";
+import { jsx as jsx66, jsxs as jsxs53 } from "react/jsx-runtime";
+var InfoIcon = (props) => /* @__PURE__ */ jsxs53(
+  Icon32,
+  {
+    ...props,
+    viewBox: "0 0 16 16",
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg",
+    children: [
+      /* @__PURE__ */ jsx66(
+        "path",
+        {
+          d: "M8 16C12.4183 16 16 12.4183 16 8C16 3.58172 12.4183 0 8 0C3.58172 0 0 3.58172 0 8C0 12.4183 3.58172 16 8 16Z",
+          fill: "#ECEFF2"
+        }
+      ),
+      /* @__PURE__ */ jsx66(
+        "path",
+        {
+          d: "M9.5 12.2231C9.5 12.3615 9.35714 12.5 9.21429 12.5H6.78571C6.64286 12.5 6.5 12.3615 6.5 12.2231V11.6692C6.5 11.5307 6.64286 11.3923 6.78571 11.3923H7.21429V8.06901H6.78571C6.64286 8.06901 6.5 7.93054 6.5 7.79207V7.09973C6.5 6.96126 6.64286 6.82279 6.78571 6.82279H8.5C8.64286 6.82279 8.78571 6.96126 8.78571 7.09973V11.2538H9.21429C9.35714 11.2538 9.5 11.3923 9.5 11.5307V12.2231V12.2231Z",
+          fill: "#5B6E84"
+        }
+      ),
+      /* @__PURE__ */ jsx66(
+        "path",
+        {
+          d: "M8.0714 5.43856C8.62368 5.43856 9.0714 5.0046 9.0714 4.46928C9.0714 3.93396 8.62368 3.5 8.0714 3.5C7.51911 3.5 7.0714 3.93396 7.0714 4.46928C7.0714 5.0046 7.51911 5.43856 8.0714 5.43856Z",
+          fill: "#5B6E84"
+        }
+      )
+    ]
+  }
+);
+var info_icon_default = InfoIcon;
+
+// src/components/icons/grid-icon.tsx
+import { Icon as Icon33 } from "@vtex/brand-ui";
+import { jsx as jsx67, jsxs as jsxs54 } from "react/jsx-runtime";
+var GridIcon = (props) => /* @__PURE__ */ jsxs54(
+  Icon33,
+  {
+    ...props,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg",
+    children: [
+      /* @__PURE__ */ jsx67(
+        "path",
+        {
+          fillRule: "evenodd",
+          clipRule: "evenodd",
           d: "M5 14C3.895 14 3 13.105 3 12C3 10.895 3.895 10 5 10C6.105 10 7 10.895 7 12C7 13.105 6.105 14 5 14Z",
           fill: "#4A596B"
         }
       ),
-      /* @__PURE__ */ jsx65(
+      /* @__PURE__ */ jsx67(
         "path",
         {
           fillRule: "evenodd",
@@ -11571,7 +11666,7 @@ var GridIcon = (props) => /* @__PURE__ */ jsxs52(
           fill: "#4A596B"
         }
       ),
-      /* @__PURE__ */ jsx65(
+      /* @__PURE__ */ jsx67(
         "path",
         {
           fillRule: "evenodd",
@@ -11580,7 +11675,7 @@ var GridIcon = (props) => /* @__PURE__ */ jsxs52(
           fill: "#4A596B"
         }
       ),
-      /* @__PURE__ */ jsx65(
+      /* @__PURE__ */ jsx67(
         "path",
         {
           fillRule: "evenodd",
@@ -11589,7 +11684,7 @@ var GridIcon = (props) => /* @__PURE__ */ jsxs52(
           fill: "#4A596B"
         }
       ),
-      /* @__PURE__ */ jsx65(
+      /* @__PURE__ */ jsx67(
         "path",
         {
           fillRule: "evenodd",
@@ -11598,7 +11693,7 @@ var GridIcon = (props) => /* @__PURE__ */ jsxs52(
           fill: "#4A596B"
         }
       ),
-      /* @__PURE__ */ jsx65(
+      /* @__PURE__ */ jsx67(
         "path",
         {
           fillRule: "evenodd",
@@ -11607,7 +11702,7 @@ var GridIcon = (props) => /* @__PURE__ */ jsxs52(
           fill: "#4A596B"
         }
       ),
-      /* @__PURE__ */ jsx65(
+      /* @__PURE__ */ jsx67(
         "path",
         {
           fillRule: "evenodd",
@@ -11616,7 +11711,7 @@ var GridIcon = (props) => /* @__PURE__ */ jsxs52(
           fill: "#4A596B"
         }
       ),
-      /* @__PURE__ */ jsx65(
+      /* @__PURE__ */ jsx67(
         "path",
         {
           fillRule: "evenodd",
@@ -11625,7 +11720,7 @@ var GridIcon = (props) => /* @__PURE__ */ jsxs52(
           fill: "#4A596B"
         }
       ),
-      /* @__PURE__ */ jsx65(
+      /* @__PURE__ */ jsx67(
         "path",
         {
           fillRule: "evenodd",
@@ -11640,17 +11735,17 @@ var GridIcon = (props) => /* @__PURE__ */ jsxs52(
 var grid_icon_default = GridIcon;
 
 // src/components/icons/long-arrow-icon.tsx
-import { Icon as Icon32 } from "@vtex/brand-ui";
-import { jsx as jsx66, jsxs as jsxs53 } from "react/jsx-runtime";
-var LongArrowIcon = (props) => /* @__PURE__ */ jsxs53(
-  Icon32,
+import { Icon as Icon34 } from "@vtex/brand-ui";
+import { jsx as jsx68, jsxs as jsxs55 } from "react/jsx-runtime";
+var LongArrowIcon = (props) => /* @__PURE__ */ jsxs55(
+  Icon34,
   {
     ...props,
     viewBox: "0 0 24 24",
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg",
     children: [
-      /* @__PURE__ */ jsx66(
+      /* @__PURE__ */ jsx68(
         "path",
         {
           d: "M17.4431 6.05859L6 17.5017",
@@ -11660,7 +11755,7 @@ var LongArrowIcon = (props) => /* @__PURE__ */ jsxs53(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx66(
+      /* @__PURE__ */ jsx68(
         "path",
         {
           d: "M9.4082 6L17.4415 6.05664L17.4993 14.0911",
@@ -11687,6 +11782,7 @@ export {
   copy_icon_default as CopyIcon,
   copy_link_button_default as CopyLinkButton,
   deprecated_icon_default as DeprecatedIcon,
+  documentation_updates_icon_default as DocumentationUpdatesIcon,
   edit_icon_default as EditIcon,
   email_icon_default as EmailIcon,
   expanded_results_icon_default as ExpandedResultsIcon,
@@ -11696,6 +11792,7 @@ export {
   grid_icon_default as GridIcon,
   hamburger_menu_default as HamburgerMenu,
   improved_icon_default as ImprovedIcon,
+  info_icon_default as InfoIcon,
   input_default as Input,
   LibraryContext,
   libraryContext_default as LibraryContextProvider,

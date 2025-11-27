@@ -6,6 +6,7 @@ export { default as ReleaseNotesIcon } from './release-notes-icon'
 export { default as StorefrontDevelopmentIcon } from './storefront-development-icon'
 export { default as TroubleshootingIcon } from './troubleshooting-icon'
 export { default as VTEXIOAppsIcon } from './vtex-io-apps-icon'
+export { default as DocumentationUpdatesIcon } from './documentation-updates-icon'
 
 // Status/Change Icons
 export { default as AddedIcon } from './added-icon'
@@ -13,6 +14,7 @@ export { default as DeprecatedIcon } from './deprecated-icon'
 export { default as FixedIcon } from './fixed-icon'
 export { default as ImprovedIcon } from './improved-icon'
 export { default as RemovedIcon } from './removed-icon'
+export { default as InfoIcon } from './info-icon'
 
 // Social Media & Sharing Icons
 export { default as EmailIcon } from './email-icon'
