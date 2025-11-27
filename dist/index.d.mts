@@ -100,6 +100,8 @@ interface InputProps {
 }
 declare const Input: ({ value, onChange, placeholder, Icon }: InputProps) => react_jsx_runtime.JSX.Element;
 
+declare const getDaysElapsed: (date: Date) => number;
+
 interface Props extends Partial<ContextType> {
     children: ReactNode;
     /** The navigation array containing the list of documentations shown in the sidebar. */
@@ -161,4 +163,73 @@ interface AlgoliaConfig {
 }
 declare const createAlgoliaClient: (config: AlgoliaConfig) => void;
 
-export { CookieBar, CopyLinkButton, FeedbackSection, HamburgerMenu, Input, type Item, LibraryContext, LibraryContextProvider, MarkdownRenderer, Search, createAlgoliaClient as SearchConfig, SearchInput, ShareButton, Sidebar, TableOfContents };
+declare const APIGuidesIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const APIReferenceIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const AppDevelopmentIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const ReleaseNotesIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const StorefrontDevelopmentIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const TroubleshootingIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const VTEXIOAppsIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const DocumentationUpdatesIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const AddedIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const DeprecatedIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const FixedIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const ImprovedIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const RemovedIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const InfoIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const EmailIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const FacebookIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const LinkedinIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const LinkIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const ShareIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const TwitterIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const CloseFilterIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const CloseIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const CopyIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const EditIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+interface ExpandedResultsProps extends IconProps {
+    active: boolean;
+}
+declare const ExpandedResultsIcon: ({ active }: ExpandedResultsProps) => react_jsx_runtime.JSX.Element;
+
+declare const SearchIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const SideBarToggleIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const GridIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const ArrowLeftIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const CaretIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const LongArrowIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const LikeIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const LikeSelectedIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+export { APIGuidesIcon, APIReferenceIcon, AddedIcon, AppDevelopmentIcon, ArrowLeftIcon, CaretIcon, CloseFilterIcon, CloseIcon, CookieBar, CopyIcon, CopyLinkButton, DeprecatedIcon, DocumentationUpdatesIcon, EditIcon, EmailIcon, ExpandedResultsIcon, FacebookIcon, FeedbackSection, FixedIcon, GridIcon, HamburgerMenu, ImprovedIcon, InfoIcon, Input, type Item, LibraryContext, LibraryContextProvider, LikeIcon, LikeSelectedIcon, LinkIcon, LinkedinIcon, LongArrowIcon, MarkdownRenderer, ReleaseNotesIcon, RemovedIcon, Search, createAlgoliaClient as SearchConfig, SearchIcon, SearchInput, ShareButton, ShareIcon, SideBarToggleIcon, Sidebar, StorefrontDevelopmentIcon, TableOfContents, TroubleshootingIcon, TwitterIcon, VTEXIOAppsIcon, getDaysElapsed };
