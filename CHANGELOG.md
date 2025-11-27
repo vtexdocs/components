@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [6.0.28](https://github.com/vtexdocs/components/compare/v6.0.27...v6.0.28) (2025-11-27)
+
+
+### Features
+
+* export icons ([9ca19ac](https://github.com/vtexdocs/components/commit/9ca19ac4058b52236266221d47bb1fcd42e45f68))
+* InfoIcon and DocumentationUpdatesIcon ([eb77cd7](https://github.com/vtexdocs/components/commit/eb77cd7c832688879c191c77760698ef1b0fdeb6))
+
 ### [6.0.27](https://github.com/vtexdocs/components/compare/v6.0.26...v6.0.27) (2025-10-07)
 
 ### [6.0.26](https://github.com/vtexdocs/components/compare/v6.0.25...v6.0.26) (2025-10-07)
