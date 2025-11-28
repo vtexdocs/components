@@ -26,8 +26,22 @@ export {
   ReleaseNotesIcon,
   StorefrontDevelopmentIcon,
   TroubleshootingIcon,
+  GearTroubleshootingIcon,
   VTEXIOAppsIcon,
   DocumentationUpdatesIcon,
+  HelpCenterIcon,
+  VTEXDevPortalIcon,
+  VTEXHelpCenterIcon,
+  DeveloperPortalIcon,
+  FAQIcon,
+  KnownIssuesIcon,
+  MegaphoneIcon,
+  GraphIcon,
+  WarningIcon,
+  PaperIcon,
+  StartHereIcon,
+  TutorialsIcon,
+  AnnouncementIcon,
 } from './components/icons'
 
 // Status/Change Icons
@@ -38,6 +52,7 @@ export {
   ImprovedIcon,
   RemovedIcon,
   InfoIcon,
+  NewIcon,
 } from './components/icons'
 
 // Social Media & Sharing Icons
@@ -48,6 +63,17 @@ export {
   LinkIcon,
   ShareIcon,
   TwitterIcon,
+  GithubIcon,
+  CommunityIcon,
+  InstagramIcon,
+  YoutubeIcon,
+  FacebookCircleIcon,
+  LinkedinCircleIcon,
+  TwitterCircleIcon,
+  ChatGPTIcon,
+  ClaudeIcon,
+  GeminiIcon,
+  CopilotIcon,
 } from './components/icons'
 
 // UI Action Icons
@@ -59,14 +85,21 @@ export {
   ExpandedResultsIcon,
   SearchIcon,
   SideBarToggleIcon,
+  TrashcanIcon,
+  FilterIcon,
+  CheckboxIcon,
+  ResizeIcon,
+  MenuIcon,
 } from './components/icons'
 
 // Navigation Icons
 export {
   ArrowLeftIcon,
+  ArrowRightIcon,
   CaretIcon,
   LongArrowIcon,
   GridIcon,
+  VTEXLogoFooter,
 } from './components/icons'
 
 // Feedback Icons

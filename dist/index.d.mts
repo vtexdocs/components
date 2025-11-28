@@ -173,11 +173,39 @@ declare const ReleaseNotesIcon: (props: IconProps) => react_jsx_runtime.JSX.Elem
 
 declare const StorefrontDevelopmentIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
 
+declare const TroubleshootingIcon$1: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
 declare const TroubleshootingIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
 
 declare const VTEXIOAppsIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
 
 declare const DocumentationUpdatesIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const HelpCenterIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const DeveloperPortalIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const FAQIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const KnownIssueIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const MegaphoneIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const GraphIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const WarningIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const PaperIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const StartHereIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const TutorialsIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const AnnouncementIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const VTEXDevportalIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const VTEXHelpCenterIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
 
 declare const AddedIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
 
@@ -191,6 +219,8 @@ declare const RemovedIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
 
 declare const InfoIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
 
+declare const NewIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
 declare const EmailIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
 
 declare const FacebookIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
@@ -202,6 +232,28 @@ declare const LinkIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
 declare const ShareIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
 
 declare const TwitterIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const GithubIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const CommunityIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const FacebookCircleIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const LinkedinCircleIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const TwitterCircleIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const YoutubeIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const IgIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const ChatGPTIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const ClaudeIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const GeminiIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const CopilotIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
 
 declare const CloseFilterIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
 
@@ -222,14 +274,31 @@ declare const SideBarToggleIcon: (props: IconProps) => react_jsx_runtime.JSX.Ele
 
 declare const GridIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
 
+declare const TrashcanIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const FilterIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const MenuIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+interface CheckboxProps extends IconProps {
+    checked: boolean;
+}
+declare const CheckboxIcon: (props: CheckboxProps) => react_jsx_runtime.JSX.Element;
+
+declare const ResizeIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
 declare const ArrowLeftIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const ArrowRightIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
 
 declare const CaretIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
 
 declare const LongArrowIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
 
+declare const VtexLogoFooter: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
 declare const LikeIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
 
 declare const LikeSelectedIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
 
-export { APIGuidesIcon, APIReferenceIcon, AddedIcon, AppDevelopmentIcon, ArrowLeftIcon, CaretIcon, CloseFilterIcon, CloseIcon, CookieBar, CopyIcon, CopyLinkButton, DeprecatedIcon, DocumentationUpdatesIcon, EditIcon, EmailIcon, ExpandedResultsIcon, FacebookIcon, FeedbackSection, FixedIcon, GridIcon, HamburgerMenu, ImprovedIcon, InfoIcon, Input, type Item, LibraryContext, LibraryContextProvider, LikeIcon, LikeSelectedIcon, LinkIcon, LinkedinIcon, LongArrowIcon, MarkdownRenderer, ReleaseNotesIcon, RemovedIcon, Search, createAlgoliaClient as SearchConfig, SearchIcon, SearchInput, ShareButton, ShareIcon, SideBarToggleIcon, Sidebar, StorefrontDevelopmentIcon, TableOfContents, TroubleshootingIcon, TwitterIcon, VTEXIOAppsIcon, getDaysElapsed };
+export { APIGuidesIcon, APIReferenceIcon, AddedIcon, AnnouncementIcon, AppDevelopmentIcon, ArrowLeftIcon, ArrowRightIcon, CaretIcon, ChatGPTIcon, CheckboxIcon, ClaudeIcon, CloseFilterIcon, CloseIcon, CommunityIcon, CookieBar, CopilotIcon, CopyIcon, CopyLinkButton, DeprecatedIcon, DeveloperPortalIcon, DocumentationUpdatesIcon, EditIcon, EmailIcon, ExpandedResultsIcon, FAQIcon, FacebookCircleIcon, FacebookIcon, FeedbackSection, FilterIcon, FixedIcon, TroubleshootingIcon as GearTroubleshootingIcon, GeminiIcon, GithubIcon, GraphIcon, GridIcon, HamburgerMenu, HelpCenterIcon, ImprovedIcon, InfoIcon, Input, IgIcon as InstagramIcon, type Item, KnownIssueIcon as KnownIssuesIcon, LibraryContext, LibraryContextProvider, LikeIcon, LikeSelectedIcon, LinkIcon, LinkedinCircleIcon, LinkedinIcon, LongArrowIcon, MarkdownRenderer, MegaphoneIcon, MenuIcon, NewIcon, PaperIcon, ReleaseNotesIcon, RemovedIcon, ResizeIcon, Search, createAlgoliaClient as SearchConfig, SearchIcon, SearchInput, ShareButton, ShareIcon, SideBarToggleIcon, Sidebar, StartHereIcon, StorefrontDevelopmentIcon, TableOfContents, TrashcanIcon, TroubleshootingIcon$1 as TroubleshootingIcon, TutorialsIcon, TwitterCircleIcon, TwitterIcon, VTEXDevportalIcon as VTEXDevPortalIcon, VTEXHelpCenterIcon, VTEXIOAppsIcon, VtexLogoFooter as VTEXLogoFooter, WarningIcon, YoutubeIcon, getDaysElapsed };
