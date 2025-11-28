@@ -12255,7 +12255,7 @@ var announcement_icon_default = AnnouncementIcon;
 // src/components/icons/vtex-devportal-icon.tsx
 import { Icon as Icon44 } from "@vtex/brand-ui";
 import { jsx as jsx78, jsxs as jsxs65 } from "react/jsx-runtime";
-var VTEXDevportalIcon = (props) => /* @__PURE__ */ jsxs65(
+var VTEXDevPortalIcon = (props) => /* @__PURE__ */ jsxs65(
   Icon44,
   {
     ...props,
@@ -12296,7 +12296,7 @@ var VTEXDevportalIcon = (props) => /* @__PURE__ */ jsxs65(
     ]
   }
 );
-var vtex_devportal_icon_default = VTEXDevportalIcon;
+var vtex_devportal_icon_default = VTEXDevPortalIcon;
 
 // src/components/icons/vtex-helpcenter-icon.tsx
 import { Icon as Icon45 } from "@vtex/brand-ui";
