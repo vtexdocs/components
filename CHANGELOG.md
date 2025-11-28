@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [6.0.32](https://github.com/vtexdocs/components/compare/v6.0.31...v6.0.32) (2025-11-28)
+
+
+### Bug Fixes
+
+* VTEXLogoFooter ([c61918c](https://github.com/vtexdocs/components/commit/c61918cec2b8a8b91781ebb85223efd2a4107218))
+
 ### [6.0.31](https://github.com/vtexdocs/components/compare/v6.0.30...v6.0.31) (2025-11-28)
 
 
