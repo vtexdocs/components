@@ -214,7 +214,7 @@ var require_react_is_development = __commonJS({
         var ContextProvider = REACT_PROVIDER_TYPE;
         var Element = REACT_ELEMENT_TYPE;
         var ForwardRef = REACT_FORWARD_REF_TYPE;
-        var Fragment5 = REACT_FRAGMENT_TYPE;
+        var Fragment6 = REACT_FRAGMENT_TYPE;
         var Lazy = REACT_LAZY_TYPE;
         var Memo = REACT_MEMO_TYPE;
         var Portal = REACT_PORTAL_TYPE;
@@ -273,7 +273,7 @@ var require_react_is_development = __commonJS({
         exports.ContextProvider = ContextProvider;
         exports.Element = Element;
         exports.ForwardRef = ForwardRef;
-        exports.Fragment = Fragment5;
+        exports.Fragment = Fragment6;
         exports.Lazy = Lazy;
         exports.Memo = Memo;
         exports.Portal = Portal;
@@ -5906,9 +5906,9 @@ var getIcon = (name) => {
   return IconsMap.find((icon4) => icon4.name === name)?.Icon;
 };
 var OverviewCard = ({ icon: icon4, link: link2, children }) => {
-  const Icon35 = getIcon(icon4);
+  const Icon68 = getIcon(icon4);
   return /* @__PURE__ */ jsx2(Link, { href: link2, children: /* @__PURE__ */ jsxs2(Flex, { sx: styles_default.overviewCard, children: [
-    Icon35 && /* @__PURE__ */ jsx2(Icon35, { sx: styles_default.overviewIcon }),
+    Icon68 && /* @__PURE__ */ jsx2(Icon68, { sx: styles_default.overviewIcon }),
     /* @__PURE__ */ jsx2(Box, { children })
   ] }) });
 };
@@ -8645,12 +8645,12 @@ var DocumentationCard = ({
   description: description4,
   link: link2,
   containerType,
-  Icon: Icon35,
+  Icon: Icon68,
   onClick
 }) => {
   return /* @__PURE__ */ jsx23(Link6, { href: link2, legacyBehavior: true, children: /* @__PURE__ */ jsx23("a", { onClick, style: { width: "100%" }, children: /* @__PURE__ */ jsxs17(Box13, { sx: cardContainer3(containerType), children: [
     /* @__PURE__ */ jsxs17(Flex11, { sx: titleContainer2(containerType), children: [
-      /* @__PURE__ */ jsx23(Icon35, { sx: { color: "#4A596B" }, size: 24 }),
+      /* @__PURE__ */ jsx23(Icon68, { sx: { color: "#4A596B" }, size: 24 }),
       /* @__PURE__ */ jsx23(Text7, { className: "title", sx: cardTitle(containerType), children: title5 })
     ] }),
     /* @__PURE__ */ jsx23(Text7, { className: "description", sx: styles_default14.description, children: description4 })
@@ -10891,7 +10891,7 @@ var expanded_results_icon_default = ExpandedResultsIcon;
 // src/components/search-card/index.tsx
 import { jsx as jsx56, jsxs as jsxs44 } from "react/jsx-runtime";
 var SearchCard = ({
-  Icon: Icon35,
+  Icon: Icon68,
   title: title5,
   method,
   breadcrumbs,
@@ -10905,7 +10905,7 @@ var SearchCard = ({
   return /* @__PURE__ */ jsx56(Link9, { href: url, legacyBehavior: true, children: /* @__PURE__ */ jsxs44(Flex18, { sx: styles_default20.containerActive(method), children: [
     /* @__PURE__ */ jsxs44(Box20, { children: [
       /* @__PURE__ */ jsxs44(Text13, { className: "searchCardTitle", sx: styles_default20.title, children: [
-        Icon35 && /* @__PURE__ */ jsx56(Icon35, { sx: styles_default20.icon }),
+        Icon68 && /* @__PURE__ */ jsx56(Icon68, { sx: styles_default20.icon }),
         method ? /* @__PURE__ */ jsx56(
           method_category_default,
           {
@@ -11511,14 +11511,14 @@ var styles_default26 = { container: container10, input, icon: icon3 };
 // src/components/input/index.tsx
 import { Flex as Flex23 } from "@vtex/brand-ui";
 import { jsx as jsx64, jsxs as jsxs51 } from "react/jsx-runtime";
-var Input = ({ value, onChange, placeholder = "", Icon: Icon35 }) => {
+var Input = ({ value, onChange, placeholder = "", Icon: Icon68 }) => {
   const [inputValue, setInputValue] = useState16(value ?? "");
   useEffect13(() => {
     if (inputValue !== value)
       setInputValue(value);
   }, [value]);
   return /* @__PURE__ */ jsxs51(Flex23, { sx: styles_default26.container, children: [
-    Icon35 && /* @__PURE__ */ jsx64(Icon35, { sx: styles_default26.icon }),
+    Icon68 && /* @__PURE__ */ jsx64(Icon68, { sx: styles_default26.icon }),
     /* @__PURE__ */ jsx64(
       "input",
       {
@@ -11542,18 +11542,93 @@ var getDaysElapsed = (date) => {
   return Math.floor(msElapsed / msInDay);
 };
 
-// src/components/icons/documentation-updates-icon.tsx
+// src/components/icons/gear-troubleshooting-icon.tsx
 import { Icon as Icon31 } from "@vtex/brand-ui";
 import { jsx as jsx65, jsxs as jsxs52 } from "react/jsx-runtime";
-var DocumentationUpdatesIcon = (props) => /* @__PURE__ */ jsxs52(
-  Icon31,
+var TroubleshootingIcon2 = (props) => {
+  return /* @__PURE__ */ jsxs52(
+    Icon31,
+    {
+      ...props,
+      viewBox: "0 0 24 24",
+      fill: "none",
+      xmlns: "http://www.w3.org/2000/svg",
+      children: [
+        /* @__PURE__ */ jsx65(
+          "path",
+          {
+            d: "M17.8404 9.42954C18.2229 9.00197 18.9342 8.46816 18.9962 7.87786C19.063 7.2423 17.8607 5.16896 17.2775 4.93176C16.6221 4.66521 15.5159 5.22824 14.8633 5.41204C13.9538 5.62179 12.9047 5.05365 12.5708 4.18302C12.373 3.59238 12.2403 2.55197 11.7172 2.17424C11.1959 1.79774 8.80418 1.79774 8.28284 2.17424C7.75979 2.55197 7.62703 3.59238 7.42927 4.18302C7.09533 5.05365 6.04632 5.62179 5.13676 5.41204C4.48421 5.22824 3.37798 4.66521 2.72262 4.93176C2.13942 5.16896 0.937071 7.2423 1.00384 7.87786C1.0817 8.61902 2.16084 9.43088 2.63551 9.96156C3.17336 10.6425 3.17338 11.819 2.63554 12.4999C2.16086 13.0306 1.0817 13.8425 1.00384 14.5836C0.93707 15.2192 2.13942 17.2925 2.72262 17.5297C3.37797 17.7963 4.48418 17.2332 5.13672 17.0494C6.0463 16.8396 7.0953 17.4078 7.42924 18.2785C7.62701 18.8691 7.75977 19.9096 8.28284 20.2873C8.46309 20.4175 8.68756 20.4504 9.05686 20.4587",
+            stroke: "currentcolor",
+            strokeWidth: "2",
+            strokeLinecap: "round",
+            strokeLinejoin: "round"
+          }
+        ),
+        /* @__PURE__ */ jsx65(
+          "path",
+          {
+            d: "M12.201 8.86537C9.28547 6.15174 4.92127 10.5159 7.63491 13.4314",
+            stroke: "currentcolor",
+            strokeWidth: "2",
+            strokeLinecap: "round",
+            strokeLinejoin: "round"
+          }
+        ),
+        /* @__PURE__ */ jsx65(
+          "path",
+          {
+            d: "M20.25 20.2499L22.8462 22.846",
+            stroke: "currentcolor",
+            strokeWidth: "1.5",
+            strokeLinecap: "round",
+            strokeLinejoin: "round"
+          }
+        ),
+        /* @__PURE__ */ jsx65(
+          "path",
+          {
+            d: "M21.6922 16.4999C21.6922 13.6323 19.3676 11.3076 16.4999 11.3076C13.6323 11.3076 11.3076 13.6323 11.3076 16.4999C11.3076 19.3676 13.6323 21.6922 16.4999 21.6922C19.3676 21.6922 21.6922 19.3676 21.6922 16.4999Z",
+            stroke: "currentcolor",
+            strokeWidth: "1.5",
+            strokeLinejoin: "round"
+          }
+        ),
+        /* @__PURE__ */ jsx65(
+          "path",
+          {
+            d: "M16.4089 13.4053V17.0653",
+            stroke: "currentcolor",
+            strokeWidth: "1.5",
+            strokeLinecap: "round"
+          }
+        ),
+        /* @__PURE__ */ jsx65(
+          "path",
+          {
+            d: "M16.4089 19.0988V19.0989",
+            stroke: "currentcolor",
+            strokeWidth: "1.5",
+            strokeLinecap: "round"
+          }
+        )
+      ]
+    }
+  );
+};
+var gear_troubleshooting_icon_default = TroubleshootingIcon2;
+
+// src/components/icons/documentation-updates-icon.tsx
+import { Icon as Icon32 } from "@vtex/brand-ui";
+import { jsx as jsx66, jsxs as jsxs53 } from "react/jsx-runtime";
+var DocumentationUpdatesIcon = (props) => /* @__PURE__ */ jsxs53(
+  Icon32,
   {
     ...props,
     viewBox: "0 0 24 25",
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg",
     children: [
-      /* @__PURE__ */ jsx65(
+      /* @__PURE__ */ jsx66(
         "path",
         {
           fillRule: "evenodd",
@@ -11565,7 +11640,7 @@ var DocumentationUpdatesIcon = (props) => /* @__PURE__ */ jsxs52(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx65(
+      /* @__PURE__ */ jsx66(
         "path",
         {
           d: "M19 8.49805H15C14.448 8.49805 14 8.05005 14 7.49805V3.49805",
@@ -11575,7 +11650,7 @@ var DocumentationUpdatesIcon = (props) => /* @__PURE__ */ jsxs52(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx65(
+      /* @__PURE__ */ jsx66(
         "path",
         {
           d: "M9.5 17.498H14.5",
@@ -11585,7 +11660,7 @@ var DocumentationUpdatesIcon = (props) => /* @__PURE__ */ jsxs52(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx65(
+      /* @__PURE__ */ jsx66(
         "path",
         {
           d: "M14 11.998L11.5 14.498L10 12.998",
@@ -11600,32 +11675,686 @@ var DocumentationUpdatesIcon = (props) => /* @__PURE__ */ jsxs52(
 );
 var documentation_updates_icon_default = DocumentationUpdatesIcon;
 
+// src/components/icons/helpcenter-icon.tsx
+import { Icon as Icon33 } from "@vtex/brand-ui";
+import { jsx as jsx67, jsxs as jsxs54 } from "react/jsx-runtime";
+var HelpCenterIcon = (props) => /* @__PURE__ */ jsxs54(
+  Icon33,
+  {
+    ...props,
+    viewBox: "0 0 64 65",
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg",
+    children: [
+      " ",
+      /* @__PURE__ */ jsx67(
+        "path",
+        {
+          fillRule: "evenodd",
+          clipRule: "evenodd",
+          d: "M53.3332 54.3317V16.4064C53.3332 13.7877 51.2105 11.665 48.5918 11.665H15.4078C12.7892 11.665 10.6665 13.7877 10.6665 16.4064V44.8517C10.6665 47.4704 12.7892 49.593 15.4078 49.593H44.4452L53.3332 54.3317Z",
+          stroke: "#4A596B",
+          strokeWidth: "3",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx67(
+        "path",
+        {
+          d: "M42.3575 35.665C36.5522 41.4704 27.1388 41.4704 21.3335 35.665",
+          stroke: "#4A596B",
+          strokeWidth: "3",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx67(
+        "path",
+        {
+          d: "M26.6668 22.3311V24.9977",
+          stroke: "#4A596B",
+          strokeWidth: "3",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx67(
+        "path",
+        {
+          d: "M37.3333 22.3311V24.9977",
+          stroke: "#4A596B",
+          strokeWidth: "3",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      )
+    ]
+  }
+);
+var helpcenter_icon_default = HelpCenterIcon;
+
+// src/components/icons/developer-portal-icon.tsx
+import { Icon as Icon34 } from "@vtex/brand-ui";
+import { jsx as jsx68, jsxs as jsxs55 } from "react/jsx-runtime";
+var DeveloperPortalIcon = (props) => /* @__PURE__ */ jsxs55(
+  Icon34,
+  {
+    ...props,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg",
+    children: [
+      /* @__PURE__ */ jsx68(
+        "rect",
+        {
+          x: "3",
+          y: "3",
+          width: "18",
+          height: "19",
+          rx: "2",
+          stroke: "currentcolor",
+          strokeWidth: "1.5"
+        }
+      ),
+      /* @__PURE__ */ jsx68("path", { d: "M3 7L21 7", stroke: "#4A596B", strokeWidth: "1.5" }),
+      /* @__PURE__ */ jsx68(
+        "path",
+        {
+          d: "M15 16.375L17 14.875L15 13.375",
+          stroke: "currentcolor",
+          strokeWidth: "1.5",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx68(
+        "path",
+        {
+          d: "M9 13.375L7 14.875L9 16.375",
+          stroke: "currentcolor",
+          strokeWidth: "1.5",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx68(
+        "path",
+        {
+          d: "M10.5644 17.8947L13.5 11.5",
+          stroke: "currentcolor",
+          strokeWidth: "1.5",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      )
+    ]
+  }
+);
+var developer_portal_icon_default = DeveloperPortalIcon;
+
+// src/components/icons/faq-icon.tsx
+import { Icon as Icon35 } from "@vtex/brand-ui";
+import { jsx as jsx69, jsxs as jsxs56 } from "react/jsx-runtime";
+var FAQIcon = (props) => /* @__PURE__ */ jsxs56(
+  Icon35,
+  {
+    ...props,
+    viewBox: "0 0 24 25",
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg",
+    children: [
+      /* @__PURE__ */ jsx69(
+        "path",
+        {
+          d: "M22 11.5667C22 16.8499 17.5222 21.1334 12 21.1334C11.3507 21.1343 10.7032 21.0742 10.0654 20.9545C9.60633 20.8682 9.37678 20.8251 9.21653 20.8496C9.05627 20.8741 8.82918 20.9948 8.37499 21.2364C7.09014 21.9197 5.59195 22.161 4.15111 21.893C4.69874 21.2194 5.07275 20.4112 5.23778 19.5448C5.33778 19.0148 5.09 18.5 4.71889 18.1231C3.03333 16.4115 2 14.1051 2 11.5667C2 6.28357 6.47778 2 12 2C17.5222 2 22 6.28357 22 11.5667Z",
+          stroke: "currentcolor",
+          strokeWidth: "2",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx69(
+        "path",
+        {
+          d: "M10 9.84615C10 8.82655 10.8954 8 12 8C13.1046 8 14 8.82655 14 9.84615C14 10.2137 13.8837 10.5561 13.6831 10.8438C13.0854 11.7012 12 12.5189 12 13.5385V14",
+          stroke: "currentcolor",
+          strokeWidth: "2",
+          strokeLinecap: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx69(
+        "path",
+        {
+          d: "M12 16.5H12.009",
+          stroke: "currentcolor",
+          strokeWidth: "2",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      )
+    ]
+  }
+);
+var faq_icon_default = FAQIcon;
+
+// src/components/icons/known-issues-icon.tsx
+import { Icon as Icon36 } from "@vtex/brand-ui";
+import { jsx as jsx70, jsxs as jsxs57 } from "react/jsx-runtime";
+var KnownIssueIcon = (props) => /* @__PURE__ */ jsxs57(
+  Icon36,
+  {
+    ...props,
+    viewBox: "0 0 256 256",
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg",
+    children: [
+      /* @__PURE__ */ jsx70("rect", { width: "16rem", height: "16rem", fill: "none" }),
+      /* @__PURE__ */ jsx70(
+        "line",
+        {
+          x1: "104",
+          y1: "104",
+          x2: "104",
+          y2: "208",
+          fill: "none",
+          stroke: "#4A596B",
+          strokeLinecap: "round",
+          strokeLinejoin: "round",
+          strokeWidth: "18"
+        }
+      ),
+      /* @__PURE__ */ jsx70(
+        "line",
+        {
+          x1: "32",
+          y1: "104",
+          x2: "224",
+          y2: "104",
+          fill: "none",
+          stroke: "#4A596B",
+          strokeLinecap: "round",
+          strokeLinejoin: "round",
+          strokeWidth: "18"
+        }
+      ),
+      /* @__PURE__ */ jsx70(
+        "rect",
+        {
+          x: "32",
+          y: "48",
+          width: "192",
+          height: "160",
+          rx: "8",
+          strokeWidth: "18",
+          stroke: "#4A596B",
+          strokeLinecap: "round",
+          strokeLinejoin: "round",
+          fill: "none"
+        }
+      )
+    ]
+  }
+);
+var known_issues_icon_default = KnownIssueIcon;
+
+// src/components/icons/megaphone-icon.tsx
+import { Icon as Icon37 } from "@vtex/brand-ui";
+import { jsx as jsx71, jsxs as jsxs58 } from "react/jsx-runtime";
+var MegaphoneIcon = (props) => /* @__PURE__ */ jsxs58(
+  Icon37,
+  {
+    ...props,
+    viewBox: "0 0 24 20",
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg",
+    children: [
+      /* @__PURE__ */ jsx71(
+        "path",
+        {
+          d: "M8.39317 5.82935H5.00293C4.72679 5.82935 4.50293 6.0532 4.50293 6.32935V12.3537C4.50293 12.6299 4.72679 12.8537 5.00293 12.8537H8.39317C8.66932 12.8537 8.89317 12.6299 8.89317 12.3537V6.32935C8.89317 6.0532 8.66932 5.82935 8.39317 5.82935Z",
+          stroke: "#4A596B",
+          strokeWidth: "1.5"
+        }
+      ),
+      /* @__PURE__ */ jsx71(
+        "path",
+        {
+          d: "M15.5853 1.49929L8.89355 5.82927V12.8537L15.5853 17.1836C15.918 17.3989 16.357 17.1601 16.357 16.7639V1.91907C16.357 1.52282 15.918 1.28402 15.5853 1.49929Z",
+          stroke: "#4A596B",
+          strokeWidth: "1.5"
+        }
+      ),
+      /* @__PURE__ */ jsx71(
+        "path",
+        {
+          d: "M2.36914 6.70728H4.00329C4.27943 6.70728 4.50329 6.93113 4.50329 7.20728V11.4756C4.50329 11.7517 4.27943 11.9756 4.00329 11.9756H2.36914C2.093 11.9756 1.86914 11.7517 1.86914 11.4756V7.20728C1.86914 6.93113 2.093 6.70728 2.36914 6.70728Z",
+          stroke: "#4A596B",
+          strokeWidth: "1.5"
+        }
+      ),
+      /* @__PURE__ */ jsx71(
+        "path",
+        {
+          d: "M2.90474 16.9811L5.38122 12.8536H8.47085C8.85476 12.8536 9.09544 13.2684 8.90497 13.6017L5.96908 18.7395C5.88688 18.8834 5.70362 18.9333 5.55977 18.8511L3.01314 17.3959C2.86712 17.3125 2.81821 17.1253 2.90474 16.9811Z",
+          stroke: "#4A596B",
+          strokeWidth: "1.5"
+        }
+      ),
+      /* @__PURE__ */ jsx71(
+        "path",
+        {
+          d: "M20.789 5C21.8086 6.16449 22.3813 7.74366 22.3813 9.39024C22.3813 11.0368 21.8086 12.616 20.789 13.7805M18.8691 7.19202C19.3789 7.77426 19.6653 8.56385 19.6653 9.38714C19.6653 10.2104 19.3789 11 18.8691 11.5823",
+          stroke: "#4A596B",
+          strokeWidth: "1.5",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      )
+    ]
+  }
+);
+var megaphone_icon_default = MegaphoneIcon;
+
+// src/components/icons/graph-icon.tsx
+import { Icon as Icon38 } from "@vtex/brand-ui";
+import { jsx as jsx72, jsxs as jsxs59 } from "react/jsx-runtime";
+var GraphIcon = (props) => /* @__PURE__ */ jsxs59(
+  Icon38,
+  {
+    ...props,
+    viewBox: "0 0 20 20",
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg",
+    children: [
+      /* @__PURE__ */ jsx72(
+        "path",
+        {
+          d: "M15.5993 9.03607H12.749L10.6112 11.2461L6.33574 6.82608L4.19799 9.03607H1.34766",
+          stroke: "currentcolor",
+          strokeWidth: "1.5",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx72(
+        "path",
+        {
+          d: "M1 14V3C1 1.89543 1.89543 1 3 1H14C15.1046 1 16 1.89543 16 3V14C16 15.1046 15.1046 16 14 16H3C1.89543 16 1 15.1046 1 14Z",
+          stroke: "currentcolor",
+          strokeWidth: "1.5"
+        }
+      )
+    ]
+  }
+);
+var graph_icon_default = GraphIcon;
+
+// src/components/icons/warning-icon.tsx
+import { Icon as Icon39 } from "@vtex/brand-ui";
+import { jsx as jsx73, jsxs as jsxs60 } from "react/jsx-runtime";
+var WarningIcon = (props) => /* @__PURE__ */ jsxs60(
+  Icon39,
+  {
+    ...props,
+    viewBox: "0 0 18 16",
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg",
+    children: [
+      /* @__PURE__ */ jsx73(
+        "path",
+        {
+          d: "M7.71758 1.89497L1.36508 12.5C1.2341 12.7268 1.1648 12.9839 1.16407 13.2459C1.16334 13.5078 1.23119 13.7653 1.3609 13.9929C1.4906 14.2204 1.67762 14.41 1.90336 14.5429C2.12909 14.6757 2.38568 14.7471 2.64758 14.75H15.3526C15.6145 14.7471 15.8711 14.6757 16.0968 14.5429C16.3225 14.41 16.5096 14.2204 16.6393 13.9929C16.769 13.7653 16.8368 13.5078 16.8361 13.2459C16.8354 12.9839 16.766 12.7268 16.6351 12.5L10.2826 1.89497C10.1489 1.67455 9.96062 1.49231 9.73597 1.36583C9.51133 1.23936 9.25788 1.17291 9.00008 1.17291C8.74227 1.17291 8.48882 1.23936 8.26418 1.36583C8.03953 1.49231 7.85128 1.67455 7.71758 1.89497Z",
+          stroke: "currentcolor",
+          strokeWidth: "1.5",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx73(
+        "path",
+        {
+          d: "M9 5.75V8.75",
+          stroke: "currentcolor",
+          strokeWidth: "1.5",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx73(
+        "path",
+        {
+          d: "M9 11.75H9.0075",
+          stroke: "currentcolor",
+          strokeWidth: "1.5",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      )
+    ]
+  }
+);
+var warning_icon_default = WarningIcon;
+
+// src/components/icons/paper-icon.tsx
+import { Icon as Icon40 } from "@vtex/brand-ui";
+import { jsx as jsx74, jsxs as jsxs61 } from "react/jsx-runtime";
+var PaperIcon = (props) => /* @__PURE__ */ jsxs61(
+  Icon40,
+  {
+    ...props,
+    viewBox: "0 0 18 18",
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg",
+    children: [
+      /* @__PURE__ */ jsx74(
+        "path",
+        {
+          d: "M10.5 1.5H4.5C4.10218 1.5 3.72064 1.65804 3.43934 1.93934C3.15804 2.22064 3 2.60218 3 3V15C3 15.3978 3.15804 15.7794 3.43934 16.0607C3.72064 16.342 4.10218 16.5 4.5 16.5H13.5C13.8978 16.5 14.2794 16.342 14.5607 16.0607C14.842 15.7794 15 15.3978 15 15V6L10.5 1.5Z",
+          stroke: "currentcolor",
+          strokeWidth: "1.5",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx74(
+        "path",
+        {
+          d: "M10.5 1.5V6H15",
+          stroke: "currentcolor",
+          strokeWidth: "1.5",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx74(
+        "path",
+        {
+          d: "M12 9.75H6",
+          stroke: "currentcolor",
+          strokeWidth: "1.5",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx74(
+        "path",
+        {
+          d: "M12 12.75H6",
+          stroke: "currentcolor",
+          strokeWidth: "1.5",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx74(
+        "path",
+        {
+          d: "M7.5 6.75H6.75H6",
+          stroke: "currentcolor",
+          strokeWidth: "1.5",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      )
+    ]
+  }
+);
+var paper_icon_default = PaperIcon;
+
+// src/components/icons/start-here-icon.tsx
+import { Icon as Icon41 } from "@vtex/brand-ui";
+import { jsx as jsx75, jsxs as jsxs62 } from "react/jsx-runtime";
+var StartHereIcon = (props) => /* @__PURE__ */ jsxs62(
+  Icon41,
+  {
+    ...props,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg",
+    children: [
+      /* @__PURE__ */ jsx75(
+        "path",
+        {
+          d: "M4 15.35C4 15.35 4.95 14.4 7.8 14.4C10.65 14.4 12.55 16.3 15.4 16.3C18.25 16.3 19.2 15.35 19.2 15.35V3.95C19.2 3.95 18.25 4.9 15.4 4.9C12.55 4.9 10.65 3 7.8 3C4.95 3 4 3.95 4 3.95V15.35Z",
+          stroke: "#4A596B",
+          strokeWidth: "2",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx75(
+        "path",
+        {
+          d: "M4 22V15.35",
+          stroke: "#4A596B",
+          strokeWidth: "2",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      )
+    ]
+  }
+);
+var start_here_icon_default = StartHereIcon;
+
+// src/components/icons/tutorials-icon.tsx
+import { Icon as Icon42 } from "@vtex/brand-ui";
+import { jsx as jsx76, jsxs as jsxs63 } from "react/jsx-runtime";
+var TutorialsIcon = (props) => /* @__PURE__ */ jsxs63(
+  Icon42,
+  {
+    ...props,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg",
+    children: [
+      /* @__PURE__ */ jsx76(
+        "path",
+        {
+          d: "M4 19.5C4 18.837 4.26339 18.2011 4.73223 17.7322C5.20107 17.2634 5.83696 17 6.5 17H20",
+          stroke: "#4A596B",
+          strokeWidth: "2",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx76(
+        "path",
+        {
+          d: "M6.5 2H20V22H6.5C5.83696 22 5.20107 21.7366 4.73223 21.2678C4.26339 20.7989 4 20.163 4 19.5V4.5C4 3.83696 4.26339 3.20107 4.73223 2.73223C5.20107 2.26339 5.83696 2 6.5 2Z",
+          stroke: "#4A596B",
+          strokeWidth: "2",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx76(
+        "path",
+        {
+          d: "M17 9H8",
+          stroke: "#4A596B",
+          strokeWidth: "2",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx76(
+        "path",
+        {
+          d: "M15 13H8",
+          stroke: "#4A596B",
+          strokeWidth: "2",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx76(
+        "path",
+        {
+          d: "M12 5H10H8",
+          stroke: "#4A596B",
+          strokeWidth: "2",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx76(
+        "path",
+        {
+          d: "M16 5H15.5H15",
+          stroke: "#4A596B",
+          strokeWidth: "2",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      )
+    ]
+  }
+);
+var tutorials_icon_default = TutorialsIcon;
+
+// src/components/icons/announcement-icon.tsx
+import { Icon as Icon43 } from "@vtex/brand-ui";
+import { jsx as jsx77, jsxs as jsxs64 } from "react/jsx-runtime";
+var AnnouncementIcon = (props) => /* @__PURE__ */ jsxs64(
+  Icon43,
+  {
+    ...props,
+    viewBox: "0 0 256 256",
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg",
+    children: [
+      /* @__PURE__ */ jsx77("rect", { width: "16rem", height: "16rem", fill: "none" }),
+      /* @__PURE__ */ jsx77(
+        "path",
+        {
+          d: "M56.20305,104A71.899,71.899,0,0,1,128.5484,32.002c39.58967.29432,71.25651,33.20133,71.25651,72.90185V112c0,35.81563,7.49325,56.59893,14.093,67.95814A7.999,7.999,0,0,1,207.01628,192H48.98365A7.99908,7.99908,0,0,1,42.103,179.95641c6.60328-11.35959,14.1-32.1426,14.1-67.95641Z",
+          fill: "none",
+          stroke: "#4A596B",
+          strokeLinecap: "round",
+          strokeLinejoin: "round",
+          strokeWidth: "18"
+        }
+      ),
+      /* @__PURE__ */ jsx77(
+        "path",
+        {
+          d: "M96,192v8a32,32,0,0,0,64,0v-8",
+          fill: "none",
+          stroke: "#4A596B",
+          strokeLinecap: "round",
+          strokeLinejoin: "round",
+          strokeWidth: "18"
+        }
+      )
+    ]
+  }
+);
+var announcement_icon_default = AnnouncementIcon;
+
+// src/components/icons/vtex-devportal-icon.tsx
+import { Icon as Icon44 } from "@vtex/brand-ui";
+import { jsx as jsx78, jsxs as jsxs65 } from "react/jsx-runtime";
+var VTEXDevportalIcon = (props) => /* @__PURE__ */ jsxs65(
+  Icon44,
+  {
+    ...props,
+    viewBox: "0 0 204 32",
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg",
+    children: [
+      /* @__PURE__ */ jsx78("g", { clipPath: "url(#clip0_2044_123231)", children: /* @__PURE__ */ jsx78(
+        "path",
+        {
+          d: "M33.5348 0.751221H6.47098C4.37195 0.751221 3.01813 2.95123 3.99934 4.77234L6.70696 9.82013H1.80094C0.80732 9.82013 0 10.6146 0 11.5924C0 11.8857 0.0745218 12.1668 0.211145 12.4235L8.91778 28.6424C9.38975 29.5102 10.4827 29.8402 11.3522 29.3757C11.6751 29.2046 11.9359 28.9479 12.0974 28.6424L14.4572 24.2668L17.4257 29.7913C18.469 31.7346 21.3008 31.7346 22.3441 29.7913L35.9319 4.67456C36.8883 2.89011 35.5718 0.751221 33.5348 0.751221ZM21.3753 11.4824L15.5254 22.3235C15.2149 22.8979 14.4821 23.1179 13.8983 22.8124C13.6872 22.7024 13.5133 22.5313 13.4015 22.3235L7.61365 11.5312C7.30314 10.9568 7.5267 10.2357 8.11046 9.93013C8.28434 9.84457 8.47065 9.79568 8.66937 9.79568H20.3445C20.9903 9.79568 21.512 10.309 21.512 10.9446C21.512 11.1279 21.4623 11.3235 21.3753 11.4824ZM62.3251 12.4112H59.3691V22.3968C59.3691 22.5802 59.2076 22.739 59.0213 22.739H56.7359C56.5496 22.739 56.3882 22.5802 56.3882 22.3968V12.4112H53.4073C53.221 12.4235 53.072 12.2768 53.0595 12.0935V12.0812V10.309C53.0595 10.1257 53.2086 9.97902 53.3949 9.97902H53.4073H62.3251C62.5114 9.96679 62.6853 10.1135 62.6853 10.309V12.0812C62.6729 12.2646 62.5114 12.4112 62.3251 12.4112ZM71.8266 22.6657C71.218 22.7513 70.1871 22.8857 68.3117 22.8857C66.0636 22.8857 64.0764 22.3235 64.0764 19.1946V13.499C64.0764 10.3824 66.076 9.83235 68.3241 9.83235C70.1996 9.83235 71.218 9.96679 71.8266 10.0524C72.075 10.089 72.1744 10.1746 72.1744 10.3946V11.9957C72.1744 12.179 72.0129 12.3379 71.8266 12.3379H68.1502C67.3305 12.3379 67.0324 12.6068 67.0324 13.499V15.0635H71.6776C71.8639 15.0635 72.0253 15.2224 72.0253 15.4057V17.0313C72.0253 17.2146 71.8639 17.3735 71.6776 17.3735H67.0324V19.1946C67.0324 20.0868 67.3305 20.3557 68.1502 20.3557H71.8266C72.0129 20.3557 72.1744 20.5146 72.1744 20.6979V22.299C72.1744 22.519 72.075 22.629 71.8266 22.6657ZM84.9797 22.7268H82.21C81.9864 22.7268 81.8746 22.6535 81.7629 22.4702L79.3533 18.7179L77.1798 22.3846C77.0556 22.5924 76.9314 22.7268 76.7451 22.7268H74.1616C73.9877 22.7268 73.9008 22.629 73.9008 22.5068C73.9008 22.4702 73.9132 22.4213 73.9381 22.3846L77.7138 16.1879L73.9008 10.309C73.876 10.2724 73.8635 10.2479 73.8635 10.2112C73.876 10.0768 73.9877 9.97902 74.1244 9.99124H76.9314C77.1177 9.99124 77.2667 10.1624 77.3661 10.3212L79.6017 13.7801L81.7629 10.3212C81.8498 10.1624 82.0113 9.99124 82.1976 9.99124H84.781C84.9176 9.99124 85.0294 10.089 85.0418 10.2112C85.0418 10.2479 85.0294 10.2846 85.0046 10.309L81.2039 16.2246L85.166 22.3846C85.1909 22.4335 85.2157 22.4946 85.2157 22.5557C85.2033 22.6657 85.1163 22.7268 84.9797 22.7268ZM51.3455 10.0157C51.3704 10.0157 51.3828 10.0157 51.4076 10.0279C51.5567 10.0646 51.6436 10.199 51.6064 10.3457C51.6064 10.3457 48.5882 20.8813 48.5385 21.0157C48.1287 22.2379 47.0605 22.8735 45.8558 22.8735C44.5765 22.8735 43.5828 22.2746 43.173 21.0157C43.1357 20.9057 40.0431 10.3457 40.0431 10.3457C40.0431 10.3212 40.0306 10.309 40.0306 10.2846C40.0306 10.1379 40.1548 10.0157 40.3039 10.0157H42.8004C42.9246 10.0157 43.0364 10.1012 43.0612 10.2235L45.5949 19.439C45.6322 19.6224 45.6819 19.6957 45.8433 19.6957C46.0048 19.6957 46.0545 19.6224 46.0918 19.439L48.6255 10.2235C48.6503 10.1012 48.7621 10.0157 48.8863 10.0157H51.3455Z",
+          fill: "#E31C58"
+        }
+      ) }),
+      /* @__PURE__ */ jsx78(
+        "path",
+        {
+          d: "M98.7088 0.751221H97.2158V31.2488H98.7088V0.751221Z",
+          fill: "#E31C58"
+        }
+      ),
+      /* @__PURE__ */ jsx78(
+        "path",
+        {
+          d: "M112.221 21.5H116.037C120.393 21.5 122.661 19.34 122.661 15.362C122.661 11.402 120.393 9.26 116.037 9.26H112.221V21.5ZM114.003 19.988V10.772H115.947C119.385 10.772 120.789 12.464 120.789 15.362C120.789 18.278 119.385 19.988 115.947 19.988H114.003ZM128.357 21.68C130.481 21.68 131.885 20.618 132.227 18.89L130.697 18.512C130.463 19.736 129.581 20.294 128.411 20.294C126.683 20.294 125.891 19.088 125.855 17.162H132.263C132.263 17.072 132.281 17.036 132.281 16.73C132.281 13.958 130.841 12.41 128.429 12.41C125.693 12.41 124.127 14.39 124.127 17.18C124.127 19.88 125.603 21.68 128.357 21.68ZM125.945 16.01C126.197 14.552 127.025 13.76 128.339 13.76C129.707 13.76 130.463 14.624 130.517 16.01H125.945ZM136.207 21.5H138.817L141.805 12.608H140.023L137.575 20.366L135.145 12.608H133.255L136.207 21.5ZM147.025 21.68C149.149 21.68 150.553 20.618 150.895 18.89L149.365 18.512C149.131 19.736 148.249 20.294 147.079 20.294C145.351 20.294 144.559 19.088 144.523 17.162H150.931C150.931 17.072 150.949 17.036 150.949 16.73C150.949 13.958 149.509 12.41 147.097 12.41C144.361 12.41 142.795 14.39 142.795 17.18C142.795 19.88 144.271 21.68 147.025 21.68ZM144.613 16.01C144.865 14.552 145.693 13.76 147.007 13.76C148.375 13.76 149.131 14.624 149.185 16.01H144.613ZM153.102 21.5H154.758V9.26H153.102V21.5ZM161.425 21.68C163.873 21.68 165.799 20.078 165.799 17.054C165.799 14.012 163.873 12.41 161.425 12.41C158.995 12.41 157.033 14.012 157.033 17.054C157.033 20.078 158.995 21.68 161.425 21.68ZM158.779 17.054C158.779 15.02 159.841 13.886 161.425 13.886C163.027 13.886 164.071 15.02 164.071 17.054C164.071 19.07 163.027 20.222 161.425 20.222C159.841 20.222 158.779 19.07 158.779 17.054ZM167.991 24.848H169.647V18.854H169.665C170.061 21.032 171.195 21.68 172.761 21.68C174.813 21.68 176.433 20.186 176.433 17.108C176.433 14.012 174.741 12.446 172.653 12.446C171.051 12.446 170.133 13.346 169.665 14.984H169.629V12.608H167.991V24.848ZM169.683 17.108C169.683 14.966 170.745 13.886 172.185 13.886C173.643 13.886 174.687 14.948 174.687 17.108C174.687 19.196 173.679 20.222 172.185 20.222C170.709 20.222 169.683 19.196 169.683 17.108ZM182.427 21.68C184.551 21.68 185.955 20.618 186.297 18.89L184.767 18.512C184.533 19.736 183.651 20.294 182.481 20.294C180.753 20.294 179.961 19.088 179.925 17.162H186.333C186.333 17.072 186.351 17.036 186.351 16.73C186.351 13.958 184.911 12.41 182.499 12.41C179.763 12.41 178.197 14.39 178.197 17.18C178.197 19.88 179.673 21.68 182.427 21.68ZM180.015 16.01C180.267 14.552 181.095 13.76 182.409 13.76C183.777 13.76 184.533 14.624 184.587 16.01H180.015ZM188.505 21.5H190.161V16.784C190.161 15.056 191.079 14.084 192.717 14.084C193.059 14.084 193.473 14.12 193.725 14.174L193.635 12.518C193.383 12.464 193.005 12.428 192.717 12.428C191.421 12.428 190.593 13.004 190.107 15.182H190.053V12.608H188.505V21.5ZM198.692 21.68C200.996 21.68 202.454 20.636 202.454 18.71C202.454 16.892 200.942 16.532 199.448 16.28L198.134 16.082C197.27 15.938 196.676 15.722 196.676 14.966C196.676 14.156 197.396 13.724 198.404 13.724C199.556 13.724 200.33 14.282 200.474 15.452L202.112 15.092C201.896 13.328 200.348 12.428 198.476 12.428C196.478 12.428 195.002 13.418 195.002 15.092C195.002 16.694 196.28 17.216 197.504 17.414L198.944 17.63C200.078 17.81 200.762 18.062 200.762 18.908C200.762 19.808 200.042 20.348 198.656 20.348C197.414 20.348 196.55 19.736 196.406 18.368L194.696 18.728C194.84 20.672 196.442 21.68 198.692 21.68Z",
+          fill: "#E31C58"
+        }
+      ),
+      /* @__PURE__ */ jsx78("defs", { children: /* @__PURE__ */ jsx78("clipPath", { id: "clip0_2044_123231", children: /* @__PURE__ */ jsx78(
+        "rect",
+        {
+          width: "85.2157",
+          height: "30.4976",
+          fill: "white",
+          transform: "translate(0 0.751221)"
+        }
+      ) }) })
+    ]
+  }
+);
+var vtex_devportal_icon_default = VTEXDevportalIcon;
+
+// src/components/icons/vtex-helpcenter-icon.tsx
+import { Icon as Icon45 } from "@vtex/brand-ui";
+import { jsx as jsx79, jsxs as jsxs66 } from "react/jsx-runtime";
+var VTEXHelpCenterIcon = (props) => /* @__PURE__ */ jsxs66(
+  Icon45,
+  {
+    ...props,
+    viewBox: "0 0 208 32",
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg",
+    children: [
+      /* @__PURE__ */ jsx79(
+        "path",
+        {
+          d: "M33.5348 0H6.47098C4.37195 0 3.01813 2.2 3.99934 4.02112L6.70696 9.06891H1.80094C0.80732 9.06891 0 9.86335 0 10.8411C0 11.1345 0.0745218 11.4156 0.211145 11.6722L8.91778 27.8912C9.38975 28.7589 10.4827 29.0889 11.3522 28.6245C11.6751 28.4534 11.9359 28.1967 12.0974 27.8912L14.4572 23.5156L17.4257 29.0401C18.469 30.9834 21.3008 30.9834 22.3441 29.0401L35.9319 3.92334C36.8883 2.13889 35.5718 0 33.5348 0ZM21.3753 10.7311L15.5254 21.5723C15.2149 22.1467 14.4821 22.3667 13.8983 22.0612C13.6872 21.9512 13.5133 21.78 13.4015 21.5723L7.61365 10.78C7.30314 10.2056 7.5267 9.48446 8.11046 9.17891C8.28434 9.09335 8.47065 9.04446 8.66937 9.04446H20.3445C20.9903 9.04446 21.512 9.5578 21.512 10.1934C21.512 10.3767 21.4623 10.5722 21.3753 10.7311ZM62.3251 11.66H59.3691V21.6456C59.3691 21.8289 59.2076 21.9878 59.0213 21.9878H56.7359C56.5496 21.9878 56.3882 21.8289 56.3882 21.6456V11.66H53.4073C53.221 11.6722 53.072 11.5256 53.0595 11.3422V11.33V9.5578C53.0595 9.37446 53.2086 9.2278 53.3949 9.2278H53.4073H62.3251C62.5114 9.21557 62.6853 9.36224 62.6853 9.5578V11.33C62.6729 11.5134 62.5114 11.66 62.3251 11.66ZM71.8266 21.9145C71.218 22 70.1871 22.1345 68.3117 22.1345C66.0636 22.1345 64.0764 21.5723 64.0764 18.4434V12.7478C64.0764 9.63113 66.076 9.08113 68.3241 9.08113C70.1996 9.08113 71.218 9.21557 71.8266 9.30113C72.075 9.3378 72.1744 9.42335 72.1744 9.64335V11.2445C72.1744 11.4278 72.0129 11.5867 71.8266 11.5867H68.1502C67.3305 11.5867 67.0324 11.8556 67.0324 12.7478V14.3123H71.6776C71.8639 14.3123 72.0253 14.4711 72.0253 14.6545V16.28C72.0253 16.4634 71.8639 16.6223 71.6776 16.6223H67.0324V18.4434C67.0324 19.3356 67.3305 19.6045 68.1502 19.6045H71.8266C72.0129 19.6045 72.1744 19.7634 72.1744 19.9467V21.5478C72.1744 21.7678 72.075 21.8778 71.8266 21.9145ZM84.9797 21.9756H82.21C81.9864 21.9756 81.8746 21.9023 81.7629 21.7189L79.3533 17.9667L77.1798 21.6334C77.0556 21.8412 76.9314 21.9756 76.7451 21.9756H74.1616C73.9877 21.9756 73.9008 21.8778 73.9008 21.7556C73.9008 21.7189 73.9132 21.67 73.9381 21.6334L77.7138 15.4367L73.9008 9.5578C73.876 9.52113 73.8636 9.49669 73.8636 9.46002C73.876 9.32557 73.9878 9.2278 74.1244 9.24002H76.9314C77.1177 9.24002 77.2667 9.41113 77.3661 9.57002L79.6017 13.0289L81.7629 9.57002C81.8498 9.41113 82.0113 9.24002 82.1976 9.24002H84.781C84.9176 9.24002 85.0294 9.3378 85.0418 9.46002C85.0418 9.49669 85.0294 9.53335 85.0046 9.5578L81.2039 15.4734L85.166 21.6334C85.1909 21.6823 85.2157 21.7434 85.2157 21.8045C85.2033 21.9145 85.1163 21.9756 84.9797 21.9756ZM51.3455 9.26446C51.3704 9.26446 51.3828 9.26446 51.4076 9.27669C51.5567 9.31335 51.6436 9.4478 51.6064 9.59446C51.6064 9.59446 48.5882 20.13 48.5385 20.2645C48.1287 21.4867 47.0605 22.1223 45.8558 22.1223C44.5765 22.1223 43.5828 21.5234 43.173 20.2645C43.1357 20.1545 40.0431 9.59446 40.0431 9.59446C40.0431 9.57002 40.0306 9.5578 40.0306 9.53335C40.0306 9.38669 40.1548 9.26446 40.3039 9.26446H42.8004C42.9246 9.26446 43.0364 9.35002 43.0612 9.47224L45.5949 18.6878C45.6322 18.8711 45.6819 18.9445 45.8433 18.9445C46.0048 18.9445 46.0545 18.8711 46.0917 18.6878L48.6255 9.47224C48.6503 9.35002 48.7621 9.26446 48.8863 9.26446H51.3455Z",
+          fill: "#E31C58"
+        }
+      ),
+      /* @__PURE__ */ jsx79("path", { d: "M98.7078 0H97.2148V30.4976H98.7078V0Z", fill: "#E31C58" }),
+      /* @__PURE__ */ jsx79(
+        "path",
+        {
+          d: "M120.139 20.748V8.50805H121.921V20.748H120.139ZM112.219 20.748V8.50805H114.001V20.748H112.219ZM112.741 15.222V13.746H120.931V15.222H112.741ZM128.144 20.928C127.46 20.928 126.854 20.82 126.326 20.604C125.798 20.388 125.354 20.082 124.994 19.686C124.634 19.29 124.364 18.816 124.184 18.264C124.004 17.712 123.914 17.1 123.914 16.428C123.914 15.492 124.082 14.67 124.418 13.962C124.754 13.242 125.24 12.678 125.876 12.27C126.524 11.862 127.304 11.658 128.216 11.658C129.02 11.658 129.71 11.826 130.286 12.162C130.862 12.498 131.3 12.99 131.6 13.638C131.912 14.274 132.068 15.054 132.068 15.978C132.068 16.134 132.062 16.236 132.05 16.284C132.05 16.32 132.05 16.362 132.05 16.41H125.408V15.258H130.754L130.304 15.708C130.34 15.156 130.28 14.682 130.124 14.286C129.968 13.878 129.722 13.566 129.386 13.35C129.05 13.122 128.63 13.008 128.126 13.008C127.586 13.008 127.13 13.14 126.758 13.404C126.398 13.656 126.122 14.028 125.93 14.52C125.738 15 125.642 15.594 125.642 16.302C125.642 16.806 125.69 17.256 125.786 17.652C125.894 18.048 126.05 18.39 126.254 18.678C126.47 18.954 126.734 19.17 127.046 19.326C127.37 19.47 127.754 19.542 128.198 19.542C128.594 19.542 128.948 19.482 129.26 19.362C129.572 19.23 129.836 19.032 130.052 18.768C130.268 18.504 130.412 18.168 130.484 17.76L132.014 18.138C131.906 18.714 131.678 19.212 131.33 19.632C130.994 20.04 130.556 20.358 130.016 20.586C129.476 20.814 128.852 20.928 128.144 20.928ZM134.221 20.748V8.50805H135.877V20.748H134.221ZM138.44 24.096V11.856H140.078V14.232H140.114C140.354 13.416 140.708 12.792 141.176 12.36C141.656 11.916 142.298 11.694 143.102 11.694C143.63 11.694 144.122 11.796 144.578 12C145.034 12.192 145.43 12.48 145.766 12.864C146.114 13.248 146.384 13.734 146.576 14.322C146.78 14.898 146.882 15.576 146.882 16.356C146.882 17.376 146.72 18.228 146.396 18.912C146.072 19.584 145.628 20.088 145.064 20.424C144.512 20.76 143.894 20.928 143.21 20.928C142.694 20.928 142.226 20.844 141.806 20.676C141.386 20.508 141.032 20.22 140.744 19.812C140.456 19.392 140.246 18.822 140.114 18.102H140.096V24.096H138.44ZM142.634 19.47C143.138 19.47 143.576 19.356 143.948 19.128C144.32 18.9 144.608 18.558 144.812 18.102C145.028 17.634 145.136 17.052 145.136 16.356C145.136 15.816 145.076 15.348 144.956 14.952C144.836 14.544 144.662 14.208 144.434 13.944C144.206 13.668 143.936 13.464 143.624 13.332C143.324 13.2 142.994 13.134 142.634 13.134C142.154 13.134 141.722 13.254 141.338 13.494C140.966 13.734 140.672 14.094 140.456 14.574C140.24 15.042 140.132 15.636 140.132 16.356C140.132 16.872 140.192 17.328 140.312 17.724C140.432 18.108 140.6 18.432 140.816 18.696C141.044 18.96 141.308 19.158 141.608 19.29C141.92 19.41 142.262 19.47 142.634 19.47ZM158.704 20.946C157.888 20.946 157.138 20.808 156.454 20.532C155.782 20.256 155.194 19.848 154.69 19.308C154.198 18.768 153.814 18.108 153.538 17.328C153.274 16.548 153.142 15.654 153.142 14.646C153.142 13.638 153.28 12.744 153.556 11.964C153.832 11.172 154.222 10.512 154.726 9.98405C155.242 9.44405 155.848 9.03605 156.544 8.76005C157.24 8.48405 158.008 8.34605 158.848 8.34605C159.748 8.34605 160.558 8.52605 161.278 8.88605C161.998 9.23405 162.598 9.74405 163.078 10.416C163.558 11.076 163.876 11.88 164.032 12.828L162.25 13.188C162.118 12.456 161.896 11.85 161.584 11.37C161.284 10.89 160.894 10.536 160.414 10.308C159.934 10.068 159.376 9.94805 158.74 9.94805C157.972 9.94805 157.306 10.134 156.742 10.506C156.178 10.878 155.74 11.412 155.428 12.108C155.116 12.804 154.96 13.65 154.96 14.646C154.96 15.618 155.116 16.458 155.428 17.166C155.74 17.862 156.178 18.402 156.742 18.786C157.318 19.158 157.984 19.344 158.74 19.344C159.376 19.344 159.946 19.218 160.45 18.966C160.954 18.702 161.362 18.306 161.674 17.778C161.998 17.25 162.202 16.584 162.286 15.78L164.086 16.194C163.966 17.214 163.654 18.078 163.15 18.786C162.658 19.494 162.028 20.034 161.26 20.406C160.492 20.766 159.64 20.946 158.704 20.946ZM169.751 20.928C169.067 20.928 168.461 20.82 167.933 20.604C167.405 20.388 166.961 20.082 166.601 19.686C166.241 19.29 165.971 18.816 165.791 18.264C165.611 17.712 165.521 17.1 165.521 16.428C165.521 15.492 165.689 14.67 166.025 13.962C166.361 13.242 166.847 12.678 167.483 12.27C168.131 11.862 168.911 11.658 169.823 11.658C170.627 11.658 171.317 11.826 171.893 12.162C172.469 12.498 172.907 12.99 173.207 13.638C173.519 14.274 173.675 15.054 173.675 15.978C173.675 16.134 173.669 16.236 173.657 16.284C173.657 16.32 173.657 16.362 173.657 16.41H167.015V15.258H172.361L171.911 15.708C171.947 15.156 171.887 14.682 171.731 14.286C171.575 13.878 171.329 13.566 170.993 13.35C170.657 13.122 170.237 13.008 169.733 13.008C169.193 13.008 168.737 13.14 168.365 13.404C168.005 13.656 167.729 14.028 167.537 14.52C167.345 15 167.249 15.594 167.249 16.302C167.249 16.806 167.297 17.256 167.393 17.652C167.501 18.048 167.657 18.39 167.861 18.678C168.077 18.954 168.341 19.17 168.653 19.326C168.977 19.47 169.361 19.542 169.805 19.542C170.201 19.542 170.555 19.482 170.867 19.362C171.179 19.23 171.443 19.032 171.659 18.768C171.875 18.504 172.019 18.168 172.091 17.76L173.621 18.138C173.513 18.714 173.285 19.212 172.937 19.632C172.601 20.04 172.163 20.358 171.623 20.586C171.083 20.814 170.459 20.928 169.751 20.928ZM175.829 20.748V11.856H177.395V14.106H177.449C177.569 13.554 177.755 13.098 178.007 12.738C178.259 12.378 178.577 12.108 178.961 11.928C179.345 11.748 179.783 11.658 180.275 11.658C180.767 11.658 181.205 11.73 181.589 11.874C181.973 12.018 182.297 12.24 182.561 12.54C182.825 12.828 183.023 13.2 183.155 13.656C183.299 14.1 183.371 14.628 183.371 15.24V20.748H181.715V15.33C181.715 14.874 181.637 14.484 181.481 14.16C181.337 13.824 181.115 13.572 180.815 13.404C180.515 13.224 180.137 13.134 179.681 13.134C178.949 13.134 178.397 13.332 178.025 13.728C177.665 14.112 177.485 14.646 177.485 15.33V20.748H175.829ZM188.749 20.928C188.269 20.928 187.849 20.862 187.489 20.73C187.141 20.598 186.871 20.376 186.679 20.064C186.487 19.74 186.391 19.302 186.391 18.75V12.9L187.687 11.856H190.549V13.242H184.897V12.234C185.233 12.138 185.521 12.018 185.761 11.874C186.001 11.73 186.199 11.55 186.355 11.334C186.523 11.106 186.655 10.836 186.751 10.524C186.847 10.2 186.913 9.82205 186.949 9.39005H188.047V18.39C188.047 18.822 188.143 19.116 188.335 19.272C188.527 19.416 188.809 19.488 189.181 19.488C189.469 19.488 189.739 19.464 189.991 19.416C190.255 19.356 190.477 19.302 190.657 19.254L190.441 20.712C190.213 20.772 189.949 20.82 189.649 20.856C189.361 20.904 189.061 20.928 188.749 20.928ZM196.259 20.928C195.575 20.928 194.969 20.82 194.441 20.604C193.913 20.388 193.469 20.082 193.109 19.686C192.749 19.29 192.479 18.816 192.299 18.264C192.119 17.712 192.029 17.1 192.029 16.428C192.029 15.492 192.197 14.67 192.533 13.962C192.869 13.242 193.355 12.678 193.991 12.27C194.639 11.862 195.419 11.658 196.331 11.658C197.135 11.658 197.825 11.826 198.401 12.162C198.977 12.498 199.415 12.99 199.715 13.638C200.027 14.274 200.183 15.054 200.183 15.978C200.183 16.134 200.177 16.236 200.165 16.284C200.165 16.32 200.165 16.362 200.165 16.41H193.523V15.258H198.869L198.419 15.708C198.455 15.156 198.395 14.682 198.239 14.286C198.083 13.878 197.837 13.566 197.501 13.35C197.165 13.122 196.745 13.008 196.241 13.008C195.701 13.008 195.245 13.14 194.873 13.404C194.513 13.656 194.237 14.028 194.045 14.52C193.853 15 193.757 15.594 193.757 16.302C193.757 16.806 193.805 17.256 193.901 17.652C194.009 18.048 194.165 18.39 194.369 18.678C194.585 18.954 194.849 19.17 195.161 19.326C195.485 19.47 195.869 19.542 196.313 19.542C196.709 19.542 197.063 19.482 197.375 19.362C197.687 19.23 197.951 19.032 198.167 18.768C198.383 18.504 198.527 18.168 198.599 17.76L200.129 18.138C200.021 18.714 199.793 19.212 199.445 19.632C199.109 20.04 198.671 20.358 198.131 20.586C197.591 20.814 196.967 20.928 196.259 20.928ZM202.337 20.748V11.856H203.885V14.43H203.939C204.107 13.698 204.311 13.134 204.551 12.738C204.791 12.342 205.073 12.066 205.397 11.91C205.733 11.754 206.117 11.676 206.549 11.676C206.693 11.676 206.849 11.688 207.017 11.712C207.197 11.724 207.347 11.742 207.467 11.766L207.557 13.422C207.437 13.398 207.281 13.38 207.089 13.368C206.897 13.344 206.717 13.332 206.549 13.332C206.009 13.332 205.547 13.44 205.163 13.656C204.779 13.86 204.485 14.166 204.281 14.574C204.089 14.97 203.993 15.456 203.993 16.032V20.748H202.337Z",
+          fill: "#E31D58"
+        }
+      )
+    ]
+  }
+);
+var vtex_helpcenter_icon_default = VTEXHelpCenterIcon;
+
 // src/components/icons/info-icon.tsx
-import { Icon as Icon32 } from "@vtex/brand-ui";
-import { jsx as jsx66, jsxs as jsxs53 } from "react/jsx-runtime";
-var InfoIcon = (props) => /* @__PURE__ */ jsxs53(
-  Icon32,
+import { Icon as Icon46 } from "@vtex/brand-ui";
+import { jsx as jsx80, jsxs as jsxs67 } from "react/jsx-runtime";
+var InfoIcon = (props) => /* @__PURE__ */ jsxs67(
+  Icon46,
   {
     ...props,
     viewBox: "0 0 16 16",
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg",
     children: [
-      /* @__PURE__ */ jsx66(
+      /* @__PURE__ */ jsx80(
         "path",
         {
           d: "M8 16C12.4183 16 16 12.4183 16 8C16 3.58172 12.4183 0 8 0C3.58172 0 0 3.58172 0 8C0 12.4183 3.58172 16 8 16Z",
           fill: "#ECEFF2"
         }
       ),
-      /* @__PURE__ */ jsx66(
+      /* @__PURE__ */ jsx80(
         "path",
         {
           d: "M9.5 12.2231C9.5 12.3615 9.35714 12.5 9.21429 12.5H6.78571C6.64286 12.5 6.5 12.3615 6.5 12.2231V11.6692C6.5 11.5307 6.64286 11.3923 6.78571 11.3923H7.21429V8.06901H6.78571C6.64286 8.06901 6.5 7.93054 6.5 7.79207V7.09973C6.5 6.96126 6.64286 6.82279 6.78571 6.82279H8.5C8.64286 6.82279 8.78571 6.96126 8.78571 7.09973V11.2538H9.21429C9.35714 11.2538 9.5 11.3923 9.5 11.5307V12.2231V12.2231Z",
           fill: "#5B6E84"
         }
       ),
-      /* @__PURE__ */ jsx66(
+      /* @__PURE__ */ jsx80(
         "path",
         {
           d: "M8.0714 5.43856C8.62368 5.43856 9.0714 5.0046 9.0714 4.46928C9.0714 3.93396 8.62368 3.5 8.0714 3.5C7.51911 3.5 7.0714 3.93396 7.0714 4.46928C7.0714 5.0046 7.51911 5.43856 8.0714 5.43856Z",
@@ -11637,18 +12366,399 @@ var InfoIcon = (props) => /* @__PURE__ */ jsxs53(
 );
 var info_icon_default = InfoIcon;
 
+// src/components/icons/new-icon.tsx
+import { Icon as Icon47 } from "@vtex/brand-ui";
+import { jsx as jsx81, jsxs as jsxs68 } from "react/jsx-runtime";
+var NewIcon = (props) => /* @__PURE__ */ jsxs68(
+  Icon47,
+  {
+    ...props,
+    viewBox: "0 0 17 16",
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg",
+    children: [
+      /* @__PURE__ */ jsx81("circle", { cx: "8.50146", cy: "8", r: "8", fill: "#F71963" }),
+      /* @__PURE__ */ jsxs68("g", { clipPath: "url(#clip0_462_17766)", children: [
+        /* @__PURE__ */ jsx81(
+          "path",
+          {
+            d: "M12.6681 6L8.7098 9.95833L6.62646 7.875L3.50146 11",
+            stroke: "#FFF3F6",
+            strokeLinecap: "round",
+            strokeLinejoin: "round"
+          }
+        ),
+        /* @__PURE__ */ jsx81(
+          "path",
+          {
+            d: "M10.1685 6H12.6685V8.5",
+            stroke: "#FFF3F6",
+            strokeLinecap: "round",
+            strokeLinejoin: "round"
+          }
+        )
+      ] }),
+      /* @__PURE__ */ jsx81("defs", { children: /* @__PURE__ */ jsx81("clipPath", { id: "clip0_462_17766", children: /* @__PURE__ */ jsx81(
+        "rect",
+        {
+          width: "11",
+          height: "9",
+          fill: "white",
+          transform: "translate(2.50146 4)"
+        }
+      ) }) })
+    ]
+  }
+);
+var new_icon_default = NewIcon;
+
+// src/components/icons/github-icon.tsx
+import { Icon as Icon48 } from "@vtex/brand-ui";
+import { jsx as jsx82 } from "react/jsx-runtime";
+var GithubIcon = (props) => /* @__PURE__ */ jsx82(
+  Icon48,
+  {
+    ...props,
+    viewBox: "0 0 64 65",
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg",
+    children: /* @__PURE__ */ jsx82(
+      "path",
+      {
+        fillRule: "evenodd",
+        clipRule: "evenodd",
+        d: "M14.4 16.7314C10.6667 20.7314 8 26.3314 8 33.5314C8 38.8647 9.86667 43.9314 12.8 47.9314C16.2667 52.4647 21.3333 55.1314 24 56.198V54.3314C24 54.3314 24 50.0647 26.4 46.3314C21.0667 46.0647 16.8 40.998 16.8 35.1314C16.8 32.998 17.6 31.1314 18.9333 29.5314L19.2 24.4647C19.2 23.1314 20.5333 22.3314 21.8667 22.598L27.4667 24.7314C29.0667 24.4647 30.6667 24.198 32.5333 24.198C34.4 24.198 36 24.4647 37.6 24.7314L42.4 22.3314C43.7333 21.798 45.0667 22.8647 45.0667 24.198L45.3333 29.2647C46.6667 30.8647 47.4667 32.998 47.4667 34.8647C47.4667 40.7314 43.2 45.5314 37.8667 46.0647C40.2667 49.798 40.2667 54.0647 40.2667 54.0647V55.9314C42.9333 54.8647 48 52.198 51.4667 47.6647C54.4 43.9314 56.2667 38.598 56.2667 33.2647C56.2667 26.0647 53.6 20.4647 49.8667 16.4647C44.8 11.398 37.8667 8.99805 32 8.99805C26.1333 8.99805 19.2 11.398 14.4 16.7314V16.7314Z",
+        stroke: "#4A596B",
+        strokeWidth: "3",
+        strokeLinecap: "round",
+        strokeLinejoin: "round"
+      }
+    )
+  }
+);
+var github_icon_default = GithubIcon;
+
+// src/components/icons/community-icon.tsx
+import { Icon as Icon49 } from "@vtex/brand-ui";
+import { jsx as jsx83, jsxs as jsxs69 } from "react/jsx-runtime";
+var CommunityIcon = (props) => /* @__PURE__ */ jsxs69(
+  Icon49,
+  {
+    ...props,
+    viewBox: "0 0 64 65",
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg",
+    children: [
+      " ",
+      /* @__PURE__ */ jsx83(
+        "path",
+        {
+          fillRule: "evenodd",
+          clipRule: "evenodd",
+          d: "M50.6667 56.998H29.3333C26.3867 56.998 24 54.6114 24 51.6647V30.3314C24 27.3847 26.3867 24.998 29.3333 24.998H50.6667C53.6133 24.998 56 27.3847 56 30.3314V51.6647C56 54.6114 53.6133 56.998 50.6667 56.998Z",
+          stroke: "#4A596B",
+          strokeWidth: "3",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx83(
+        "path",
+        {
+          fillRule: "evenodd",
+          clipRule: "evenodd",
+          d: "M34.6667 40.998H13.3333C10.3867 40.998 8 38.6114 8 35.6647V14.3314C8 11.3847 10.3867 8.99805 13.3333 8.99805H34.6667C37.6133 8.99805 40 11.3847 40 14.3314V35.6647C40 38.6114 37.6133 40.998 34.6667 40.998Z",
+          stroke: "#4A596B",
+          strokeWidth: "3",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      )
+    ]
+  }
+);
+var community_icon_default = CommunityIcon;
+
+// src/components/icons/facebook-circle-icon.tsx
+import { Icon as Icon50 } from "@vtex/brand-ui";
+import { jsx as jsx84, jsxs as jsxs70 } from "react/jsx-runtime";
+var FacebookCircleIcon = (props) => /* @__PURE__ */ jsxs70(
+  Icon50,
+  {
+    ...props,
+    viewBox: "0 0 33 33",
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg",
+    children: [
+      /* @__PURE__ */ jsx84(
+        "path",
+        {
+          d: "M31.5501 16.8379C31.5501 25.3976 24.6 32.3379 16.025 32.3379C7.45006 32.3379 0.5 25.3976 0.5 16.8379C0.5 8.27821 7.45006 1.33789 16.025 1.33789C24.6 1.33789 31.5501 8.27821 31.5501 16.8379Z",
+          stroke: "#4D596A"
+        }
+      ),
+      /* @__PURE__ */ jsx84("g", { clipPath: "url(#clip0_311_37415)", children: /* @__PURE__ */ jsx84(
+        "path",
+        {
+          d: "M17.5268 17.9629H19.4047L20.1559 14.9629H17.5268V13.4629C17.5268 12.6904 17.5268 11.9629 19.0291 11.9629H20.1559V9.44289C19.911 9.41064 18.9863 9.33789 18.0098 9.33789C15.9703 9.33789 14.5221 10.5806 14.5221 12.8629V14.9629H12.2686V17.9629H14.5221V24.3379H17.5268V17.9629Z",
+          fill: "#CCCED7"
+        }
+      ) }),
+      /* @__PURE__ */ jsx84("defs", { children: /* @__PURE__ */ jsx84("clipPath", { id: "clip0_311_37415", children: /* @__PURE__ */ jsx84(
+        "rect",
+        {
+          width: "18.0282",
+          height: "18",
+          fill: "white",
+          transform: "translate(7.01074 7.83789)"
+        }
+      ) }) })
+    ]
+  }
+);
+var facebook_circle_icon_default = FacebookCircleIcon;
+
+// src/components/icons/linkedin-circle-icon.tsx
+import { Icon as Icon51 } from "@vtex/brand-ui";
+import { jsx as jsx85, jsxs as jsxs71 } from "react/jsx-runtime";
+var LinkedinCircleIcon = (props) => /* @__PURE__ */ jsxs71(
+  Icon51,
+  {
+    ...props,
+    viewBox: "0 0 33 33",
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg",
+    children: [
+      /* @__PURE__ */ jsx85(
+        "path",
+        {
+          d: "M31.7005 16.8379C31.7005 25.3976 24.7504 32.3379 16.1754 32.3379C7.60045 32.3379 0.650391 25.3976 0.650391 16.8379C0.650391 8.27821 7.60045 1.33789 16.1754 1.33789C24.7504 1.33789 31.7005 8.27821 31.7005 16.8379Z",
+          stroke: "#4D596A"
+        }
+      ),
+      /* @__PURE__ */ jsx85("g", { clipPath: "url(#clip0_311_37418)", children: /* @__PURE__ */ jsx85(
+        "path",
+        {
+          d: "M20.9353 21.5921H18.9334V18.4594C18.9334 17.7124 18.9184 16.7509 17.8893 16.7509C16.8459 16.7509 16.6866 17.5639 16.6866 18.4046V21.5921H14.684V15.1504H16.607V16.0279H16.6333C16.9022 15.5224 17.5557 14.9876 18.5323 14.9876C20.5604 14.9876 20.936 16.3211 20.936 18.0559V21.5921H20.9353ZM12.423 14.2691C12.2701 14.2693 12.1188 14.2394 11.9776 14.1811C11.8363 14.1228 11.708 14.0372 11.6 13.9293C11.492 13.8213 11.4064 13.6932 11.348 13.5521C11.2897 13.4111 11.2599 13.26 11.2601 13.1074C11.2603 12.8778 11.3286 12.6533 11.4565 12.4625C11.5844 12.2717 11.7661 12.123 11.9787 12.0352C12.1912 11.9475 12.425 11.9247 12.6506 11.9696C12.8761 12.0145 13.0832 12.1252 13.2457 12.2877C13.4082 12.4502 13.5189 12.6571 13.5636 12.8824C13.6083 13.1076 13.5851 13.341 13.497 13.5531C13.4088 13.7652 13.2597 13.9464 13.0684 14.0739C12.8771 14.2013 12.6529 14.2693 12.423 14.2691ZM13.4265 21.5921H11.4186V15.1504H13.4273V21.5921H13.4265ZM21.9381 10.0879H10.4143C9.86146 10.0879 9.41602 10.5229 9.41602 11.0606V22.6151C9.41602 23.1529 9.86221 23.5879 10.4136 23.5879H21.9351C22.4864 23.5879 22.9371 23.1529 22.9371 22.6151V11.0606C22.9371 10.5229 22.4864 10.0879 21.9351 10.0879H21.9381Z",
+          fill: "#C5C7D1"
+        }
+      ) }),
+      /* @__PURE__ */ jsx85("defs", { children: /* @__PURE__ */ jsx85("clipPath", { id: "clip0_311_37418", children: /* @__PURE__ */ jsx85(
+        "rect",
+        {
+          width: "18.0282",
+          height: "18",
+          fill: "white",
+          transform: "translate(7.16211 7.83789)"
+        }
+      ) }) })
+    ]
+  }
+);
+var linkedin_circle_icon_default = LinkedinCircleIcon;
+
+// src/components/icons/twitter-circle-icon.tsx
+import { Icon as Icon52 } from "@vtex/brand-ui";
+import { jsx as jsx86, jsxs as jsxs72 } from "react/jsx-runtime";
+var TwitterCircleIcon = (props) => /* @__PURE__ */ jsxs72(
+  Icon52,
+  {
+    ...props,
+    viewBox: "0 0 33 33",
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg",
+    children: [
+      /* @__PURE__ */ jsx86(
+        "path",
+        {
+          d: "M9.95605 9.54247C9.95868 9.54614 10.0339 9.65531 10.1232 9.78548C10.2126 9.91512 10.3477 10.1114 10.4234 10.2211C10.5874 10.4594 10.9296 10.9554 11.2356 11.3995C11.3581 11.5769 11.5463 11.8498 11.6535 12.0057C11.8307 12.2629 11.9773 12.4754 12.3842 13.0659C12.4599 13.1756 12.6245 13.4139 12.7496 13.596C12.8752 13.7776 12.9872 13.9409 12.9993 13.9582C13.0214 13.9902 13.0524 14.0348 13.607 14.84C13.7762 15.0851 14.0433 15.4724 14.2005 15.7008C14.3582 15.9285 14.5006 16.1359 14.518 16.1611C14.5469 16.2036 14.5485 16.2078 14.5411 16.2162C14.5364 16.2214 14.3713 16.4135 14.1742 16.6429C13.9771 16.8723 13.6816 17.216 13.5176 17.4061C13.3541 17.5966 13.1323 17.8538 13.0256 17.9782C12.9183 18.1026 12.708 18.3471 12.5577 18.5219C12.2191 18.915 11.0747 20.2451 10.6316 20.76C10.4507 20.9704 10.2215 21.2371 10.1227 21.352C10.0233 21.467 9.94238 21.562 9.94238 21.5635C9.94238 21.5651 10.1674 21.5656 10.4428 21.5651L10.9433 21.5635L11.1541 21.3189C11.7402 20.6382 11.8911 20.4629 12.084 20.2382C12.1997 20.1039 12.3369 19.9443 12.3895 19.884C12.4415 19.8231 12.9409 19.2436 13.4987 18.5954C14.0564 17.9472 14.621 17.2916 14.7524 17.1389C14.8844 16.9856 14.9943 16.8612 14.9974 16.8618C15 16.8623 15.0163 16.8838 15.0337 16.909C15.0742 16.9673 15.3391 17.352 15.6645 17.8238C15.8028 18.0243 16.0562 18.3918 16.227 18.64C16.3984 18.8883 16.6113 19.1974 16.7012 19.3276C16.7905 19.4572 16.9793 19.7312 17.1207 19.9364C17.2621 20.1411 17.3872 20.3233 17.3993 20.3406C17.4114 20.3579 17.5239 20.5206 17.649 20.7028C17.7741 20.8844 17.9134 21.0864 17.9581 21.1515C18.0033 21.2166 18.0764 21.3226 18.1211 21.3877C18.1663 21.4528 18.212 21.5194 18.2241 21.5362L18.2451 21.5662H19.9794H21.7136L21.7042 21.552C21.6994 21.5436 21.6069 21.4098 21.4997 21.2539C21.3924 21.098 21.2279 20.8592 21.1343 20.7237C20.7537 20.1716 20.5051 19.811 20.3784 19.6268C20.3043 19.5197 20.1529 19.3003 20.0414 19.1386C19.8233 18.8216 19.8054 18.7959 19.4179 18.2343C19.2765 18.0285 19.143 17.8354 19.1215 17.8039C19.1004 17.7729 19.0442 17.6921 18.9974 17.6244C18.9506 17.5567 18.8492 17.4087 18.7713 17.2964C18.6941 17.1835 18.6184 17.0738 18.6031 17.0523C18.5879 17.0308 18.5232 16.9363 18.4586 16.8423C18.3939 16.7484 18.3313 16.6576 18.3193 16.6403C18.3072 16.6229 18.2083 16.4802 18.1 16.3227C17.9918 16.1653 17.803 15.8913 17.6805 15.7139C17.3367 15.2158 17.2384 15.073 17.0755 14.8358L16.9241 14.6164L17.0834 14.4316C17.1706 14.3298 17.4335 14.0248 17.6669 13.7535C17.9008 13.4821 18.2115 13.1205 18.3582 12.9504C18.7955 12.4429 19.4116 11.727 20.3668 10.6174C20.8625 10.0416 21.2752 9.56241 21.2836 9.55349L21.2983 9.53617H20.7963H20.2948L19.869 10.028C19.4879 10.4683 19.0999 10.9192 17.0408 13.3126C16.7327 13.6706 16.4788 13.964 16.4772 13.9645C16.4757 13.965 16.4552 13.9377 16.4326 13.9041C16.4094 13.8705 16.2549 13.6454 16.0882 13.4045C15.9221 13.1635 15.7108 12.8565 15.6183 12.7221C15.5257 12.5878 15.4011 12.4072 15.3412 12.3206C15.2818 12.234 15.1041 11.9763 14.947 11.7485C14.7898 11.5202 14.6515 11.3197 14.6394 11.3024C14.6273 11.285 14.5285 11.1423 14.4202 10.9848C14.1463 10.5875 13.7994 10.0836 13.6679 9.89308C13.607 9.8049 13.5271 9.68891 13.4897 9.63432L13.4219 9.53617H11.6871C10.3004 9.53617 9.9529 9.53774 9.95605 9.54247ZM13.1917 10.587C13.2937 10.735 13.3867 10.8704 13.3988 10.8877C13.4203 10.9187 13.5581 11.1186 13.8472 11.5385C13.9271 11.654 14.0018 11.7627 14.0139 11.78C14.0259 11.7973 14.1248 11.9401 14.2331 12.0975C14.4507 12.414 14.7114 12.7919 15.3796 13.7614C15.6256 14.1177 15.8832 14.492 15.9526 14.5933C16.0667 14.7591 16.2796 15.0678 16.4741 15.3491C16.514 15.4068 16.6618 15.6204 16.8016 15.8241C16.9419 16.0277 17.0665 16.2083 17.0786 16.2256C17.0907 16.2429 17.2164 16.4245 17.3572 16.6298C17.4987 16.8345 17.7005 17.1273 17.8057 17.2806C18.1847 17.8296 18.611 18.4484 19.0557 19.094C19.1803 19.2746 19.3953 19.5864 19.5336 19.7869C19.6719 19.9874 19.8364 20.2262 19.899 20.317C19.9615 20.4078 20.0577 20.5474 20.1124 20.6266C20.1676 20.7059 20.2138 20.7741 20.2159 20.7778C20.2196 20.7825 20.063 20.7841 19.44 20.7841H18.6599L18.5742 20.6592C18.499 20.5505 18.252 20.1921 17.741 19.4509C17.6621 19.337 17.4745 19.0641 17.3231 18.8447C16.9362 18.2836 16.7984 18.0837 16.5976 17.7924C16.5014 17.6522 16.4126 17.5236 16.4005 17.5063C16.3705 17.4633 15.8548 16.7148 15.6624 16.4356C15.5005 16.1999 15.1467 15.6871 14.9785 15.4436C14.8413 15.2452 14.589 14.8793 14.2562 14.3965C14.1006 14.1697 13.9629 13.9703 13.9508 13.9529C13.9387 13.9356 13.8525 13.8102 13.7589 13.6748C13.3925 13.1425 12.8079 12.2954 12.7785 12.2524C12.7664 12.235 12.6933 12.1285 12.6155 12.0162C12.5382 11.9033 12.4625 11.7936 12.4473 11.7721C12.391 11.6913 12.0083 11.1354 11.715 10.7093C11.6351 10.5938 11.5626 10.4888 11.5536 10.4757C11.5447 10.4626 11.5163 10.4221 11.4911 10.3849L11.4453 10.3182H12.226H13.0061L13.1917 10.587Z",
+          fill: "#C5C7D1"
+        }
+      ),
+      /* @__PURE__ */ jsx86(
+        "path",
+        {
+          d: "M31.7002 15.8379C31.7002 23.9917 24.7819 30.6394 16.2002 30.6394C7.61851 30.6394 0.700195 23.9917 0.700195 15.8379C0.700195 7.68404 7.61851 1.03638 16.2002 1.03638C24.7819 1.03638 31.7002 7.68404 31.7002 15.8379Z",
+          stroke: "#4D596A"
+        }
+      )
+    ]
+  }
+);
+var twitter_circle_icon_default = TwitterCircleIcon;
+
+// src/components/icons/youtube-icon.tsx
+import { Icon as Icon53 } from "@vtex/brand-ui";
+import { jsx as jsx87, jsxs as jsxs73 } from "react/jsx-runtime";
+var YoutubeIcon = (props) => /* @__PURE__ */ jsxs73(
+  Icon53,
+  {
+    ...props,
+    viewBox: "0 0 33 33",
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg",
+    children: [
+      /* @__PURE__ */ jsx87(
+        "path",
+        {
+          d: "M31.6507 16.8379C31.6507 25.3976 24.7006 32.3379 16.1256 32.3379C7.55065 32.3379 0.600586 25.3976 0.600586 16.8379C0.600586 8.27821 7.55065 1.33789 16.1256 1.33789C24.7006 1.33789 31.6507 8.27821 31.6507 16.8379Z",
+          stroke: "#4D596A"
+        }
+      ),
+      /* @__PURE__ */ jsx87(
+        "path",
+        {
+          d: "M31.6507 16.8379C31.6507 25.3976 24.7006 32.3379 16.1256 32.3379C7.55065 32.3379 0.600586 25.3976 0.600586 16.8379C0.600586 8.27821 7.55065 1.33789 16.1256 1.33789C24.7006 1.33789 31.6507 8.27821 31.6507 16.8379Z",
+          stroke: "#4D596A"
+        }
+      ),
+      /* @__PURE__ */ jsx87("g", { clipPath: "url(#clip0_311_37417)", children: /* @__PURE__ */ jsx87(
+        "path",
+        {
+          d: "M22.4973 13.17C22.8024 14.358 22.8024 16.838 22.8024 16.838C22.8024 16.838 22.8024 19.318 22.4973 20.506C22.3277 21.1626 21.8316 21.6793 21.2033 21.854C20.0622 22.1713 16.1253 22.1713 16.1253 22.1713C16.1253 22.1713 12.1905 22.1713 11.0474 21.854C10.4164 21.6766 9.92098 21.1606 9.75339 20.506C9.44824 19.318 9.44824 16.838 9.44824 16.838C9.44824 16.838 9.44824 14.358 9.75339 13.17C9.92298 12.5133 10.4191 11.9966 11.0474 11.822C12.1905 11.5046 16.1253 11.5046 16.1253 11.5046C16.1253 11.5046 20.0622 11.5046 21.2033 11.822C21.8343 11.9993 22.3297 12.5153 22.4973 13.17ZM14.7899 19.1713L18.7962 16.838L14.7899 14.5046V19.1713Z",
+          fill: "#C5C7D1"
+        }
+      ) }),
+      /* @__PURE__ */ jsx87("defs", { children: /* @__PURE__ */ jsx87("clipPath", { id: "clip0_311_37417", children: /* @__PURE__ */ jsx87(
+        "rect",
+        {
+          width: "16.025",
+          height: "16",
+          fill: "white",
+          transform: "translate(8.11328 8.83789)"
+        }
+      ) }) })
+    ]
+  }
+);
+var youtube_icon_default = YoutubeIcon;
+
+// src/components/icons/instagram-icon.tsx
+import { Icon as Icon54 } from "@vtex/brand-ui";
+import { jsx as jsx88, jsxs as jsxs74 } from "react/jsx-runtime";
+var IgIcon = (props) => /* @__PURE__ */ jsxs74(
+  Icon54,
+  {
+    ...props,
+    viewBox: "0 0 33 33",
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg",
+    children: [
+      /* @__PURE__ */ jsx88(
+        "path",
+        {
+          d: "M31.5999 16.8379C31.5999 25.3976 24.6498 32.3379 16.0748 32.3379C7.49986 32.3379 0.549805 25.3976 0.549805 16.8379C0.549805 8.27821 7.49986 1.33789 16.0748 1.33789C24.6498 1.33789 31.5999 8.27821 31.5999 16.8379Z",
+          stroke: "#4D596A"
+        }
+      ),
+      /* @__PURE__ */ jsx88("g", { clipPath: "url(#clip0_311_37416)", children: /* @__PURE__ */ jsx88(
+        "path",
+        {
+          d: "M16.0742 14.5879C15.4766 14.5879 14.9034 14.8249 14.4808 15.2469C14.0581 15.6689 13.8207 16.2412 13.8207 16.8379C13.8207 17.4346 14.0581 18.0069 14.4808 18.4289C14.9034 18.8508 15.4766 19.0879 16.0742 19.0879C16.6719 19.0879 17.2451 18.8508 17.6677 18.4289C18.0903 18.0069 18.3278 17.4346 18.3278 16.8379C18.3278 16.2412 18.0903 15.6689 17.6677 15.2469C17.2451 14.8249 16.6719 14.5879 16.0742 14.5879ZM16.0742 13.0879C17.0704 13.0879 18.0257 13.483 18.73 14.1862C19.4344 14.8895 19.8301 15.8433 19.8301 16.8379C19.8301 17.8325 19.4344 18.7863 18.73 19.4895C18.0257 20.1928 17.0704 20.5879 16.0742 20.5879C15.0781 20.5879 14.1228 20.1928 13.4184 19.4895C12.7141 18.7863 12.3184 17.8325 12.3184 16.8379C12.3184 15.8433 12.7141 14.8895 13.4184 14.1862C14.1228 13.483 15.0781 13.0879 16.0742 13.0879ZM20.9569 12.9004C20.9569 13.149 20.8579 13.3875 20.6819 13.5633C20.5058 13.7391 20.2669 13.8379 20.0179 13.8379C19.7689 13.8379 19.53 13.7391 19.3539 13.5633C19.1779 13.3875 19.0789 13.149 19.0789 12.9004C19.0789 12.6518 19.1779 12.4133 19.3539 12.2375C19.53 12.0617 19.7689 11.9629 20.0179 11.9629C20.2669 11.9629 20.5058 12.0617 20.6819 12.2375C20.8579 12.4133 20.9569 12.6518 20.9569 12.9004ZM16.0742 10.8379C14.2158 10.8379 13.9124 10.8431 13.0478 10.8814C12.4588 10.9091 12.0637 10.9879 11.6971 11.1304C11.3711 11.2564 11.136 11.4071 10.8859 11.6576C10.6508 11.8844 10.47 12.1613 10.3571 12.4676C10.2143 12.8351 10.1355 13.2289 10.1084 13.8161C10.0694 14.6441 10.0648 14.9336 10.0648 16.8379C10.0648 18.6934 10.0701 18.9964 10.1084 19.8596C10.1362 20.4469 10.2151 20.8421 10.3571 21.2074C10.4848 21.5336 10.635 21.7684 10.8844 22.0174C11.1375 22.2694 11.3726 22.4201 11.6956 22.5446C12.0667 22.6879 12.4618 22.7674 13.0478 22.7944C13.8771 22.8334 14.167 22.8379 16.0742 22.8379C17.9326 22.8379 18.2361 22.8326 19.1007 22.7944C19.6881 22.7666 20.084 22.6879 20.4506 22.5461C20.7758 22.4194 21.0125 22.2686 21.2618 22.0196C21.515 21.7669 21.666 21.5321 21.7907 21.2096C21.9334 20.8399 22.013 20.4446 22.0401 19.8596C22.0791 19.0316 22.0836 18.7421 22.0836 16.8379C22.0836 14.9824 22.0784 14.6794 22.0401 13.8161C22.0123 13.2296 21.9334 12.8336 21.7907 12.4676C21.6775 12.1616 21.497 11.8849 21.2626 11.6576C21.0355 11.4228 20.7582 11.2423 20.4513 11.1296C20.0833 10.9871 19.6881 10.9084 19.1007 10.8814C18.2714 10.8424 17.9815 10.8379 16.0742 10.8379ZM16.0742 9.33789C18.1152 9.33789 18.3698 9.34539 19.1706 9.38289C19.9706 9.42039 20.5152 9.54564 20.9944 9.73164C21.4902 9.92214 21.9079 10.1801 22.3255 10.5964C22.7075 10.9713 23.003 11.4248 23.1916 11.9254C23.3771 12.4031 23.5033 12.9476 23.5409 13.7464C23.5762 14.5459 23.586 14.8001 23.586 16.8379C23.586 18.8756 23.5785 19.1299 23.5409 19.9294C23.5033 20.7281 23.3771 21.2719 23.1916 21.7504C23.0036 22.2512 22.7079 22.7049 22.3255 23.0794C21.9499 23.4606 21.4957 23.7557 20.9944 23.9441C20.5159 24.1294 19.9706 24.2554 19.1706 24.2929C18.3698 24.3281 18.1152 24.3379 16.0742 24.3379C14.0333 24.3379 13.7787 24.3304 12.9779 24.2929C12.1779 24.2554 11.6333 24.1294 11.154 23.9441C10.6525 23.7562 10.1982 23.4611 9.82297 23.0794C9.44093 22.7045 9.14536 22.251 8.95687 21.7504C8.77058 21.2726 8.64513 20.7281 8.60757 19.9294C8.57227 19.1299 8.5625 18.8756 8.5625 16.8379C8.5625 14.8001 8.57001 14.5459 8.60757 13.7464C8.64513 12.9469 8.77058 12.4039 8.95687 11.9254C9.14484 11.4245 9.44047 10.9709 9.82297 10.5964C10.1983 10.2148 10.6526 9.91969 11.154 9.73164C11.6333 9.54564 12.1771 9.42039 12.9779 9.38289C13.7787 9.34764 14.0333 9.33789 16.0742 9.33789Z",
+          fill: "#C5C7D1"
+        }
+      ) }),
+      /* @__PURE__ */ jsx88("defs", { children: /* @__PURE__ */ jsx88("clipPath", { id: "clip0_311_37416", children: /* @__PURE__ */ jsx88(
+        "rect",
+        {
+          width: "18.0282",
+          height: "18",
+          fill: "white",
+          transform: "translate(7.06055 7.83789)"
+        }
+      ) }) })
+    ]
+  }
+);
+var instagram_icon_default = IgIcon;
+
+// src/components/icons/chatgpt-icon.tsx
+import { Icon as Icon55 } from "@vtex/brand-ui";
+import { jsx as jsx89 } from "react/jsx-runtime";
+var ChatGPTIcon = (props) => /* @__PURE__ */ jsx89(
+  Icon55,
+  {
+    ...props,
+    fill: "currentColor",
+    "fill-rule": "evenodd",
+    height: "64",
+    viewBox: "0 0 24 24",
+    width: "64",
+    xmlns: "http://www.w3.org/2000/svg",
+    children: /* @__PURE__ */ jsx89("path", { d: "M21.55 10.004a5.416 5.416 0 00-.478-4.501c-1.217-2.09-3.662-3.166-6.05-2.66A5.59 5.59 0 0010.831 1C8.39.995 6.224 2.546 5.473 4.838A5.553 5.553 0 001.76 7.496a5.487 5.487 0 00.691 6.5 5.416 5.416 0 00.477 4.502c1.217 2.09 3.662 3.165 6.05 2.66A5.586 5.586 0 0013.168 23c2.443.006 4.61-1.546 5.361-3.84a5.553 5.553 0 003.715-2.66 5.488 5.488 0 00-.693-6.497v.001zm-8.381 11.558a4.199 4.199 0 01-2.675-.954c.034-.018.093-.05.132-.074l4.44-2.53a.71.71 0 00.364-.623v-6.176l1.877 1.069c.02.01.033.029.036.05v5.115c-.003 2.274-1.87 4.118-4.174 4.123zM4.192 17.78a4.059 4.059 0 01-.498-2.763c.032.02.09.055.131.078l4.44 2.53c.225.13.504.13.73 0l5.42-3.088v2.138a.068.068 0 01-.027.057L9.9 19.288c-1.999 1.136-4.552.46-5.707-1.51h-.001zM3.023 8.216A4.15 4.15 0 015.198 6.41l-.002.151v5.06a.711.711 0 00.364.624l5.42 3.087-1.876 1.07a.067.067 0 01-.063.005l-4.489-2.559c-1.995-1.14-2.679-3.658-1.53-5.63h.001zm15.417 3.54l-5.42-3.088L14.896 7.6a.067.067 0 01.063-.006l4.489 2.557c1.998 1.14 2.683 3.662 1.529 5.633a4.163 4.163 0 01-2.174 1.807V12.38a.71.71 0 00-.363-.623zm1.867-2.773a6.04 6.04 0 00-.132-.078l-4.44-2.53a.731.731 0 00-.729 0l-5.42 3.088V7.325a.068.068 0 01.027-.057L14.1 4.713c2-1.137 4.555-.46 5.707 1.513.487.833.664 1.809.499 2.757h.001zm-11.741 3.81l-1.877-1.068a.065.065 0 01-.036-.051V6.559c.001-2.277 1.873-4.122 4.181-4.12.976 0 1.92.338 2.671.954-.034.018-.092.05-.131.073l-4.44 2.53a.71.71 0 00-.365.623l-.003 6.173v.002zm1.02-2.168L12 9.25l2.414 1.375v2.75L12 14.75l-2.415-1.375v-2.75z" })
+  }
+);
+var chatgpt_icon_default = ChatGPTIcon;
+
+// src/components/icons/claude-icon.tsx
+import { Icon as Icon56 } from "@vtex/brand-ui";
+import { jsx as jsx90, jsxs as jsxs75 } from "react/jsx-runtime";
+var ClaudeIcon = (props) => /* @__PURE__ */ jsxs75(
+  Icon56,
+  {
+    ...props,
+    fill: "currentColor",
+    "fill-rule": "evenodd",
+    height: "64",
+    viewBox: "0 0 24 24",
+    width: "64",
+    xmlns: "http://www.w3.org/2000/svg",
+    children: [
+      /* @__PURE__ */ jsx90("title", { children: "Claude" }),
+      /* @__PURE__ */ jsx90("path", { d: "M4.709 15.955l4.72-2.647.08-.23-.08-.128H9.2l-.79-.048-2.698-.073-2.339-.097-2.266-.122-.571-.121L0 11.784l.055-.352.48-.321.686.06 1.52.103 2.278.158 1.652.097 2.449.255h.389l.055-.157-.134-.098-.103-.097-2.358-1.596-2.552-1.688-1.336-.972-.724-.491-.364-.462-.158-1.008.656-.722.881.06.225.061.893.686 1.908 1.476 2.491 1.833.365.304.145-.103.019-.073-.164-.274-1.355-2.446-1.446-2.49-.644-1.032-.17-.619a2.97 2.97 0 01-.104-.729L6.283.134 6.696 0l.996.134.42.364.62 1.414 1.002 2.229 1.555 3.03.456.898.243.832.091.255h.158V9.01l.128-1.706.237-2.095.23-2.695.08-.76.376-.91.747-.492.584.28.48.685-.067.444-.286 1.851-.559 2.903-.364 1.942h.212l.243-.242.985-1.306 1.652-2.064.73-.82.85-.904.547-.431h1.033l.76 1.129-.34 1.166-1.064 1.347-.881 1.142-1.264 1.7-.79 1.36.073.11.188-.02 2.856-.606 1.543-.28 1.841-.315.833.388.091.395-.328.807-1.969.486-2.309.462-3.439.813-.042.03.049.061 1.549.146.662.036h1.622l3.02.225.79.522.474.638-.079.485-1.215.62-1.64-.389-3.829-.91-1.312-.329h-.182v.11l1.093 1.068 2.006 1.81 2.509 2.33.127.578-.322.455-.34-.049-2.205-1.657-.851-.747-1.926-1.62h-.128v.17l.444.649 2.345 3.521.122 1.08-.17.353-.608.213-.668-.122-1.374-1.925-1.415-2.167-1.143-1.943-.14.08-.674 7.254-.316.37-.729.28-.607-.461-.322-.747.322-1.476.389-1.924.315-1.53.286-1.9.17-.632-.012-.042-.14.018-1.434 1.967-2.18 2.945-1.726 1.845-.414.164-.717-.37.067-.662.401-.589 2.388-3.036 1.44-1.882.93-1.086-.006-.158h-.055L4.132 18.56l-1.13.146-.487-.456.061-.746.231-.243 1.908-1.312-.006.006z" })
+    ]
+  }
+);
+var claude_icon_default = ClaudeIcon;
+
+// src/components/icons/gemini-icon.tsx
+import { Icon as Icon57 } from "@vtex/brand-ui";
+import { jsx as jsx91 } from "react/jsx-runtime";
+var GeminiIcon = (props) => /* @__PURE__ */ jsx91(
+  Icon57,
+  {
+    ...props,
+    fill: "currentColor",
+    "fill-rule": "evenodd",
+    height: "64",
+    viewBox: "0 0 24 24",
+    width: "64",
+    xmlns: "http://www.w3.org/2000/svg",
+    children: /* @__PURE__ */ jsx91("path", { d: "M20.616 10.835a14.147 14.147 0 01-4.45-3.001 14.111 14.111 0 01-3.678-6.452.503.503 0 00-.975 0 14.134 14.134 0 01-3.679 6.452 14.155 14.155 0 01-4.45 3.001c-.65.28-1.318.505-2.002.678a.502.502 0 000 .975c.684.172 1.35.397 2.002.677a14.147 14.147 0 014.45 3.001 14.112 14.112 0 013.679 6.453.502.502 0 00.975 0c.172-.685.397-1.351.677-2.003a14.145 14.145 0 013.001-4.45 14.113 14.113 0 016.453-3.678.503.503 0 000-.975 13.245 13.245 0 01-2.003-.678z" })
+  }
+);
+var gemini_icon_default = GeminiIcon;
+
+// src/components/icons/copilot-icon.tsx
+import { Icon as Icon58 } from "@vtex/brand-ui";
+import { jsx as jsx92 } from "react/jsx-runtime";
+var CopilotIcon = (props) => /* @__PURE__ */ jsx92(
+  Icon58,
+  {
+    ...props,
+    fill: "currentColor",
+    "fill-rule": "evenodd",
+    height: "64",
+    viewBox: "0 0 24 24",
+    width: "64",
+    xmlns: "http://www.w3.org/2000/svg",
+    children: /* @__PURE__ */ jsx92("path", { d: "M9 23l.073-.001a2.53 2.53 0 01-2.347-1.838l-.697-2.433a2.529 2.529 0 00-2.426-1.839h-.497l-.104-.002c-4.485 0-2.935-5.278-1.75-9.225l.162-.525C2.412 3.99 3.883 1 6.25 1h8.86c1.12 0 2.106.745 2.422 1.829l.715 2.453a2.53 2.53 0 002.247 1.823l.147.005.534.001c3.557.115 3.088 3.745 2.156 7.206l-.113.413c-.154.548-.315 1.089-.47 1.607l-.163.525C21.588 20.01 20.116 23 17.75 23h-8.75zm8.22-15.89l-3.856.001a2.526 2.526 0 00-2.35 1.615L9.21 15.04a2.529 2.529 0 01-2.43 1.847l3.853.002c1.056 0 1.992-.661 2.361-1.644l1.796-6.287a2.529 2.529 0 012.43-1.848z" })
+  }
+);
+var copilot_icon_default = CopilotIcon;
+
 // src/components/icons/grid-icon.tsx
-import { Icon as Icon33 } from "@vtex/brand-ui";
-import { jsx as jsx67, jsxs as jsxs54 } from "react/jsx-runtime";
-var GridIcon = (props) => /* @__PURE__ */ jsxs54(
-  Icon33,
+import { Icon as Icon59 } from "@vtex/brand-ui";
+import { jsx as jsx93, jsxs as jsxs76 } from "react/jsx-runtime";
+var GridIcon = (props) => /* @__PURE__ */ jsxs76(
+  Icon59,
   {
     ...props,
     viewBox: "0 0 24 24",
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg",
     children: [
-      /* @__PURE__ */ jsx67(
+      /* @__PURE__ */ jsx93(
         "path",
         {
           fillRule: "evenodd",
@@ -11657,7 +12767,7 @@ var GridIcon = (props) => /* @__PURE__ */ jsxs54(
           fill: "#4A596B"
         }
       ),
-      /* @__PURE__ */ jsx67(
+      /* @__PURE__ */ jsx93(
         "path",
         {
           fillRule: "evenodd",
@@ -11666,7 +12776,7 @@ var GridIcon = (props) => /* @__PURE__ */ jsxs54(
           fill: "#4A596B"
         }
       ),
-      /* @__PURE__ */ jsx67(
+      /* @__PURE__ */ jsx93(
         "path",
         {
           fillRule: "evenodd",
@@ -11675,7 +12785,7 @@ var GridIcon = (props) => /* @__PURE__ */ jsxs54(
           fill: "#4A596B"
         }
       ),
-      /* @__PURE__ */ jsx67(
+      /* @__PURE__ */ jsx93(
         "path",
         {
           fillRule: "evenodd",
@@ -11684,7 +12794,7 @@ var GridIcon = (props) => /* @__PURE__ */ jsxs54(
           fill: "#4A596B"
         }
       ),
-      /* @__PURE__ */ jsx67(
+      /* @__PURE__ */ jsx93(
         "path",
         {
           fillRule: "evenodd",
@@ -11693,7 +12803,7 @@ var GridIcon = (props) => /* @__PURE__ */ jsxs54(
           fill: "#4A596B"
         }
       ),
-      /* @__PURE__ */ jsx67(
+      /* @__PURE__ */ jsx93(
         "path",
         {
           fillRule: "evenodd",
@@ -11702,7 +12812,7 @@ var GridIcon = (props) => /* @__PURE__ */ jsxs54(
           fill: "#4A596B"
         }
       ),
-      /* @__PURE__ */ jsx67(
+      /* @__PURE__ */ jsx93(
         "path",
         {
           fillRule: "evenodd",
@@ -11711,7 +12821,7 @@ var GridIcon = (props) => /* @__PURE__ */ jsxs54(
           fill: "#4A596B"
         }
       ),
-      /* @__PURE__ */ jsx67(
+      /* @__PURE__ */ jsx93(
         "path",
         {
           fillRule: "evenodd",
@@ -11720,7 +12830,7 @@ var GridIcon = (props) => /* @__PURE__ */ jsxs54(
           fill: "#4A596B"
         }
       ),
-      /* @__PURE__ */ jsx67(
+      /* @__PURE__ */ jsx93(
         "path",
         {
           fillRule: "evenodd",
@@ -11734,18 +12844,379 @@ var GridIcon = (props) => /* @__PURE__ */ jsxs54(
 );
 var grid_icon_default = GridIcon;
 
+// src/components/icons/trashcan-icon.tsx
+import { Icon as Icon60 } from "@vtex/brand-ui";
+import { jsx as jsx94, jsxs as jsxs77 } from "react/jsx-runtime";
+var TrashcanIcon = (props) => /* @__PURE__ */ jsxs77(
+  Icon60,
+  {
+    ...props,
+    viewBox: "0 0 19 18",
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg",
+    children: [
+      /* @__PURE__ */ jsx94(
+        "path",
+        {
+          d: "M4.25 5.25H14.75",
+          stroke: "currentcolor",
+          strokeWidth: "1.5",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx94(
+        "path",
+        {
+          d: "M14 5.25V13.5C14 14.3288 13.3288 15 12.5 15H6.5C5.67125 15 5 14.3288 5 13.5V5.25",
+          stroke: "currentcolor",
+          strokeWidth: "1.5",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx94(
+        "path",
+        {
+          d: "M11.75 2.8125H7.25",
+          stroke: "currentcolor",
+          strokeWidth: "1.5",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx94(
+        "path",
+        {
+          d: "M8 8.25V12",
+          stroke: "currentcolor",
+          strokeWidth: "1.5",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx94(
+        "path",
+        {
+          d: "M11 8.25V12",
+          stroke: "currentcolor",
+          strokeWidth: "1.5",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      )
+    ]
+  }
+);
+var trashcan_icon_default = TrashcanIcon;
+
+// src/components/icons/filter-icon.tsx
+import { Icon as Icon61 } from "@vtex/brand-ui";
+import { jsx as jsx95, jsxs as jsxs78 } from "react/jsx-runtime";
+var FilterIcon = (props) => /* @__PURE__ */ jsxs78(
+  Icon61,
+  {
+    ...props,
+    viewBox: "0 0 16 17",
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg",
+    children: [
+      /* @__PURE__ */ jsx95(
+        "path",
+        {
+          d: "M3.33333 4.5V2.5",
+          stroke: "currentcolor",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx95(
+        "path",
+        {
+          d: "M3.33333 14.4998V7.1665",
+          stroke: "currentcolor",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx95(
+        "path",
+        {
+          d: "M7.99984 9.83333V2.5",
+          stroke: "currentcolor",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx95(
+        "path",
+        {
+          d: "M7.99984 14.5V12.5",
+          stroke: "currentcolor",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx95(
+        "path",
+        {
+          d: "M12.6668 4.5V2.5",
+          stroke: "currentcolor",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx95(
+        "path",
+        {
+          d: "M12.6668 14.4998V7.1665",
+          stroke: "currentcolor",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx95(
+        "path",
+        {
+          d: "M4.27614 4.89052C4.79684 5.41122 4.79684 6.25544 4.27614 6.77614C3.75545 7.29684 2.91122 7.29684 2.39052 6.77614C1.86983 6.25545 1.86983 5.41122 2.39052 4.89052C2.91122 4.36983 3.75544 4.36983 4.27614 4.89052",
+          stroke: "currentcolor",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx95(
+        "path",
+        {
+          d: "M8.94265 10.224C9.46335 10.7447 9.46335 11.5889 8.94265 12.1096C8.42195 12.6303 7.57773 12.6303 7.05703 12.1096C6.53633 11.5889 6.53633 10.7447 7.05703 10.224C7.57773 9.70332 8.42195 9.70332 8.94265 10.224",
+          stroke: "currentcolor",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx95(
+        "path",
+        {
+          d: "M13.6096 4.89052C14.1303 5.41122 14.1303 6.25544 13.6096 6.77614C13.0889 7.29684 12.2447 7.29684 11.724 6.77614C11.2033 6.25545 11.2033 5.41122 11.724 4.89052C12.2447 4.36983 13.0889 4.36983 13.6096 4.89052",
+          stroke: "currentcolor",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      )
+    ]
+  }
+);
+var filter_icon_default = FilterIcon;
+
+// src/components/icons/menu-icon.tsx
+import { Icon as Icon62 } from "@vtex/brand-ui";
+import { jsx as jsx96, jsxs as jsxs79 } from "react/jsx-runtime";
+var MenuIcon = (props) => /* @__PURE__ */ jsxs79(
+  Icon62,
+  {
+    ...props,
+    width: "25",
+    height: "24",
+    viewBox: "0 0 25 24",
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg",
+    children: [
+      /* @__PURE__ */ jsx96(
+        "path",
+        {
+          d: "M10.002 12H17.501",
+          stroke: "currentColor",
+          strokeWidth: "1.5",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx96(
+        "path",
+        {
+          d: "M10.002 15.484H17.501",
+          stroke: "currentColor",
+          strokeWidth: "1.5",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx96(
+        "path",
+        {
+          d: "M10.002 8.48401H17.501",
+          stroke: "currentColor",
+          strokeWidth: "1.5",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx96(
+        "path",
+        {
+          d: "M7.54978 8.434C7.52178 8.434 7.49978 8.457 7.49978 8.485C7.49978 8.513 7.52278 8.535 7.55078 8.535C7.57878 8.535 7.60178 8.512 7.60178 8.485C7.60078 8.457 7.57778 8.434 7.54978 8.434",
+          stroke: "#323232",
+          strokeWidth: "1.5",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx96(
+        "path",
+        {
+          d: "M7.54978 11.949C7.52178 11.949 7.49978 11.972 7.49978 12C7.49978 12.028 7.52278 12.051 7.55078 12.051C7.57878 12.051 7.60178 12.028 7.60178 12C7.60178 11.972 7.57778 11.949 7.54978 11.949",
+          stroke: "#323232",
+          strokeWidth: "1.5",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx96(
+        "path",
+        {
+          d: "M7.54978 15.434C7.52178 15.434 7.49978 15.457 7.49978 15.485C7.49978 15.513 7.52278 15.535 7.55078 15.535C7.57878 15.535 7.60178 15.512 7.60178 15.485C7.60078 15.457 7.57778 15.434 7.54978 15.434",
+          stroke: "#323232",
+          strokeWidth: "1.5",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx96(
+        "path",
+        {
+          fillRule: "evenodd",
+          clipRule: "evenodd",
+          d: "M21.5 7V17C21.5 19.209 19.709 21 17.5 21H7.5C5.291 21 3.5 19.209 3.5 17V7C3.5 4.791 5.291 3 7.5 3H17.5C19.709 3 21.5 4.791 21.5 7Z",
+          stroke: "#323232",
+          strokeWidth: "1.5",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      )
+    ]
+  }
+);
+var menu_icon_default = MenuIcon;
+
+// src/components/icons/checkbox.tsx
+import { Icon as Icon63 } from "@vtex/brand-ui";
+import { Fragment as Fragment5, jsx as jsx97, jsxs as jsxs80 } from "react/jsx-runtime";
+var CheckboxIcon = (props) => /* @__PURE__ */ jsx97(
+  Icon63,
+  {
+    ...props,
+    viewBox: "0 0 20 20",
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg",
+    children: !props.checked ? /* @__PURE__ */ jsxs80(Fragment5, { children: [
+      /* @__PURE__ */ jsx97(
+        "rect",
+        {
+          x: "0.5",
+          y: "0.5",
+          width: "19",
+          height: "19",
+          rx: "3.5",
+          fill: "white",
+          fillOpacity: "0.01"
+        }
+      ),
+      /* @__PURE__ */ jsx97(
+        "rect",
+        {
+          x: "0.5",
+          y: "0.5",
+          width: "19",
+          height: "19",
+          rx: "3.5",
+          stroke: "#B9B9B9"
+        }
+      )
+    ] }) : /* @__PURE__ */ jsxs80(Fragment5, { children: [
+      /* @__PURE__ */ jsx97("rect", { width: "20", height: "20", rx: "4", fill: "#0C1522" }),
+      /* @__PURE__ */ jsx97(
+        "path",
+        {
+          fillRule: "evenodd",
+          clipRule: "evenodd",
+          d: "M16.0303 5.96968C16.3232 6.26258 16.3232 6.73746 16.0303 7.03034L9.03032 14.03C8.73743 14.3229 8.26259 14.3229 7.96969 14.03L4.46969 10.5304C4.17679 10.2375 4.17677 9.7626 4.46965 9.46969C4.76253 9.17679 5.2374 9.17677 5.53031 9.46965L8.49999 12.4391L14.9697 5.96966C15.2626 5.67677 15.7375 5.67678 16.0303 5.96968Z",
+          fill: "white"
+        }
+      )
+    ] })
+  }
+);
+var checkbox_default = CheckboxIcon;
+
+// src/components/icons/resize-icon.tsx
+import { Icon as Icon64 } from "@vtex/brand-ui";
+import { jsx as jsx98 } from "react/jsx-runtime";
+var ResizeIcon = (props) => /* @__PURE__ */ jsx98(
+  Icon64,
+  {
+    ...props,
+    viewBox: "0 0 29.96 122.88",
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg",
+    children: /* @__PURE__ */ jsx98(
+      "path",
+      {
+        fillRule: "evenodd",
+        d: "M15,0A15,15,0,1,1,0,15,15,15,0,0,1,15,0Zm0,92.93a15,15,0,1,1-15,15,15,15,0,0,1,15-15Zm0-46.47a15,15,0,1,1-15,15,15,15,0,0,1,15-15Z"
+      }
+    )
+  }
+);
+var resize_icon_default = ResizeIcon;
+
+// src/components/icons/arrow-right-icon.tsx
+import { Icon as Icon65 } from "@vtex/brand-ui";
+import { jsx as jsx99, jsxs as jsxs81 } from "react/jsx-runtime";
+var ArrowRightIcon = (props) => /* @__PURE__ */ jsxs81(
+  Icon65,
+  {
+    ...props,
+    viewBox: "0 0 17 17",
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg",
+    children: [
+      " ",
+      /* @__PURE__ */ jsx99(
+        "path",
+        {
+          d: "M3.48682 8.9847H13.4801",
+          stroke: "#4A596B",
+          strokeWidth: "1.5",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx99(
+        "path",
+        {
+          d: "M9.48877 4.99023L13.5134 8.99823L9.48877 13.0062",
+          stroke: "#4A596B",
+          strokeWidth: "1.5",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      )
+    ]
+  }
+);
+var arrow_right_icon_default = ArrowRightIcon;
+
 // src/components/icons/long-arrow-icon.tsx
-import { Icon as Icon34 } from "@vtex/brand-ui";
-import { jsx as jsx68, jsxs as jsxs55 } from "react/jsx-runtime";
-var LongArrowIcon = (props) => /* @__PURE__ */ jsxs55(
-  Icon34,
+import { Icon as Icon66 } from "@vtex/brand-ui";
+import { jsx as jsx100, jsxs as jsxs82 } from "react/jsx-runtime";
+var LongArrowIcon = (props) => /* @__PURE__ */ jsxs82(
+  Icon66,
   {
     ...props,
     viewBox: "0 0 24 24",
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg",
     children: [
-      /* @__PURE__ */ jsx68(
+      /* @__PURE__ */ jsx100(
         "path",
         {
           d: "M17.4431 6.05859L6 17.5017",
@@ -11755,7 +13226,7 @@ var LongArrowIcon = (props) => /* @__PURE__ */ jsxs55(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx68(
+      /* @__PURE__ */ jsx100(
         "path",
         {
           d: "M9.4082 6L17.4415 6.05664L17.4993 14.0911",
@@ -11769,41 +13240,116 @@ var LongArrowIcon = (props) => /* @__PURE__ */ jsxs55(
   }
 );
 var long_arrow_icon_default = LongArrowIcon;
+
+// src/components/icons/vtex-logo-footer.tsx
+import { Icon as Icon67 } from "@vtex/brand-ui";
+import { jsx as jsx101, jsxs as jsxs83 } from "react/jsx-runtime";
+var VtexLogoFooter = (props) => /* @__PURE__ */ jsxs83(
+  Icon67,
+  {
+    ...props,
+    viewBox: "0 0 61 22",
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg",
+    children: [
+      /* @__PURE__ */ jsx101(
+        "path",
+        {
+          d: "M23.667 0.000165906H4.55235C3.47417 -0.0137423 2.59101 0.848566 2.57987 1.92506C2.57708 2.25886 2.65788 2.58709 2.81668 2.87916L4.72787 6.49529H1.2621C0.560025 6.50086 -0.00553116 7.07387 4.08212e-05 7.77763C0.00282681 7.98069 0.0529747 8.18097 0.147698 8.36177L6.28245 19.9723C6.6112 20.5926 7.38013 20.8291 8.0042 20.5008C8.22986 20.3812 8.41374 20.1976 8.53354 19.9723L10.2051 16.8374L12.3002 20.7957C12.81 21.7526 13.9997 22.117 14.9608 21.6079C15.3063 21.4243 15.5905 21.1406 15.7743 20.7957L25.3386 2.80684C25.8345 1.87499 25.4779 0.717829 24.5446 0.222697C24.2744 0.0808334 23.9735 0.00294754 23.667 0.000165906ZM15.075 7.68583L10.9462 15.4466C10.7428 15.8611 10.2413 16.0308 9.82624 15.8249C9.66186 15.7442 9.52813 15.6107 9.44734 15.4466L5.3575 7.71921C5.13184 7.31866 5.27392 6.80962 5.67511 6.58152C5.80884 6.50642 5.96206 6.47026 6.11529 6.47582H14.3451C14.8076 6.48417 15.1726 6.86525 15.1642 7.327C15.1614 7.45218 15.1308 7.57457 15.075 7.68583Z",
+          fill: "white"
+        }
+      ),
+      /* @__PURE__ */ jsx101(
+        "path",
+        {
+          d: "M43.5224 8.27831H41.3772V15.6246C41.3772 15.7637 41.263 15.8777 41.1237 15.8777H39.466C39.3267 15.8777 39.2125 15.7637 39.2125 15.6246V8.27831H37.0533C36.9196 8.28387 36.8054 8.18095 36.7998 8.04743C36.7998 8.04465 36.7998 8.04187 36.7998 8.03908V6.73728C36.8026 6.60376 36.9112 6.49527 37.045 6.49806C37.0478 6.49806 37.0505 6.49806 37.0533 6.49806H43.5224C43.6645 6.48415 43.7871 6.58985 43.801 6.72893C43.801 6.73171 43.801 6.7345 43.801 6.73728V8.03908C43.7926 8.18095 43.6701 8.28665 43.5308 8.27831C43.528 8.27831 43.5252 8.27831 43.5224 8.27831Z",
+          fill: "white"
+        }
+      ),
+      /* @__PURE__ */ jsx101(
+        "path",
+        {
+          d: "M50.3883 15.8056C49.5442 15.9252 48.6944 15.9808 47.8419 15.9697C46.2149 15.9697 44.7773 15.5524 44.7773 13.2604V9.08791C44.7773 6.79584 46.2288 6.39251 47.8559 6.39251C48.7028 6.38138 49.5525 6.43701 50.3911 6.55662C50.5666 6.58166 50.6419 6.64563 50.6419 6.80975V7.98082C50.6391 8.11712 50.5276 8.22839 50.3911 8.23117H47.7305C47.1371 8.23117 46.9226 8.43423 46.9226 9.08791V10.234H50.288C50.4273 10.234 50.5416 10.348 50.5416 10.4871V11.6832C50.5416 11.8223 50.4301 11.9335 50.2908 11.9335H50.288H46.9198V13.2687C46.9198 13.9252 47.1343 14.1255 47.7277 14.1255H50.3883C50.5276 14.1282 50.6391 14.2395 50.6391 14.3786V15.5497C50.6391 15.7054 50.5638 15.7805 50.3883 15.8056Z",
+          fill: "white"
+        }
+      ),
+      /* @__PURE__ */ jsx101(
+        "path",
+        {
+          d: "M59.93 15.8833H57.9185C57.7792 15.8945 57.6483 15.8194 57.587 15.6942L55.8429 12.9292L54.2633 15.633C54.1741 15.7832 54.0878 15.8833 53.9485 15.8833H52.0846C51.9927 15.8945 51.9091 15.8305 51.898 15.7415C51.898 15.7359 51.8952 15.7276 51.8952 15.7192C51.898 15.6886 51.9063 15.6608 51.9203 15.633L54.6645 11.0711L51.8952 6.73732C51.8813 6.71507 51.8729 6.69004 51.8701 6.66222C51.8785 6.56486 51.9621 6.49254 52.0596 6.4981H54.0989C54.2382 6.4981 54.3385 6.62328 54.4137 6.73732L56.0324 9.29087L57.5981 6.73732C57.6566 6.60937 57.7764 6.51757 57.9157 6.4981H59.7879C59.8854 6.49254 59.969 6.56486 59.9774 6.66222C59.9746 6.69004 59.9662 6.71507 59.9523 6.73732L57.1858 11.0989L60.0554 15.633C60.0777 15.6719 60.0916 15.7137 60.0944 15.7582C60.0944 15.8333 60.0303 15.8833 59.93 15.8833Z",
+          fill: "white"
+        }
+      ),
+      /* @__PURE__ */ jsx101(
+        "path",
+        {
+          d: "M33.7975 6.49536C33.7056 6.49536 33.6248 6.55934 33.6053 6.65113L31.7666 13.4383C31.7415 13.5774 31.7053 13.6275 31.591 13.6275C31.4768 13.6275 31.4378 13.5774 31.4127 13.4383L29.5768 6.65113C29.5573 6.55934 29.4765 6.49536 29.3845 6.49536H27.5681C27.4594 6.49536 27.373 6.58159 27.373 6.69008C27.373 6.70398 27.3758 6.72067 27.3786 6.73458C27.3786 6.73458 29.6213 14.5232 29.6464 14.5927C29.8916 15.4522 30.7051 16.0225 31.5966 15.9641C32.4826 16.0002 33.2794 15.4383 33.5468 14.5955C33.583 14.4898 35.7756 6.73458 35.7756 6.73458C35.8007 6.62888 35.7338 6.52596 35.6307 6.50092C35.6168 6.49814 35.6001 6.49536 35.5862 6.49536H33.7975Z",
+          fill: "white"
+        }
+      )
+    ]
+  }
+);
+var vtex_logo_footer_default = VtexLogoFooter;
 export {
   api_guides_icon_default as APIGuidesIcon,
   api_reference_icon_default as APIReferenceIcon,
   added_icon_default as AddedIcon,
+  announcement_icon_default as AnnouncementIcon,
   app_development_icon_default as AppDevelopmentIcon,
   arrow_left_icon_default as ArrowLeftIcon,
+  arrow_right_icon_default as ArrowRightIcon,
   caret_default as CaretIcon,
+  chatgpt_icon_default as ChatGPTIcon,
+  checkbox_default as CheckboxIcon,
+  claude_icon_default as ClaudeIcon,
   close_filter_icon_default as CloseFilterIcon,
   close_icon_default as CloseIcon,
+  community_icon_default as CommunityIcon,
   cookie_bar_default as CookieBar,
+  copilot_icon_default as CopilotIcon,
   copy_icon_default as CopyIcon,
   copy_link_button_default as CopyLinkButton,
   deprecated_icon_default as DeprecatedIcon,
+  developer_portal_icon_default as DeveloperPortalIcon,
   documentation_updates_icon_default as DocumentationUpdatesIcon,
   edit_icon_default as EditIcon,
   email_icon_default as EmailIcon,
   expanded_results_icon_default as ExpandedResultsIcon,
+  faq_icon_default as FAQIcon,
+  facebook_circle_icon_default as FacebookCircleIcon,
   facebook_icon_default as FacebookIcon,
   feedback_section_default as FeedbackSection,
+  filter_icon_default as FilterIcon,
   fixed_icon_default as FixedIcon,
+  gear_troubleshooting_icon_default as GearTroubleshootingIcon,
+  gemini_icon_default as GeminiIcon,
+  github_icon_default as GithubIcon,
+  graph_icon_default as GraphIcon,
   grid_icon_default as GridIcon,
   hamburger_menu_default as HamburgerMenu,
+  helpcenter_icon_default as HelpCenterIcon,
   improved_icon_default as ImprovedIcon,
   info_icon_default as InfoIcon,
   input_default as Input,
+  instagram_icon_default as InstagramIcon,
+  known_issues_icon_default as KnownIssuesIcon,
   LibraryContext,
   libraryContext_default as LibraryContextProvider,
   like_icon_default as LikeIcon,
   like_selected_icon_default as LikeSelectedIcon,
   link_icon_default as LinkIcon,
+  linkedin_circle_icon_default as LinkedinCircleIcon,
   linkedin_icon_default as LinkedinIcon,
   long_arrow_icon_default as LongArrowIcon,
   MarkdownRenderer_default as MarkdownRenderer,
+  megaphone_icon_default as MegaphoneIcon,
+  menu_icon_default as MenuIcon,
+  new_icon_default as NewIcon,
+  paper_icon_default as PaperIcon,
   release_notes_icon_default as ReleaseNotesIcon,
   removed_icon_default as RemovedIcon,
+  resize_icon_default as ResizeIcon,
   search_default2 as Search,
   search_config_default as SearchConfig,
   search_icon_default as SearchIcon,
@@ -11812,11 +13358,20 @@ export {
   share_icon_default as ShareIcon,
   sidebar_toggle_icon_default as SideBarToggleIcon,
   sidebar_default as Sidebar,
+  start_here_icon_default as StartHereIcon,
   storefront_development_icon_default as StorefrontDevelopmentIcon,
   TableOfContents_default as TableOfContents,
+  trashcan_icon_default as TrashcanIcon,
   troubleshooting_icon_default as TroubleshootingIcon,
+  tutorials_icon_default as TutorialsIcon,
+  twitter_circle_icon_default as TwitterCircleIcon,
   twitter_icon_default as TwitterIcon,
+  vtex_devportal_icon_default as VTEXDevPortalIcon,
+  vtex_helpcenter_icon_default as VTEXHelpCenterIcon,
   vtex_io_apps_icon_default as VTEXIOAppsIcon,
+  vtex_logo_footer_default as VTEXLogoFooter,
+  warning_icon_default as WarningIcon,
+  youtube_icon_default as YoutubeIcon,
   getDaysElapsed
 };
 /*! Bundled license information:
