@@ -13244,7 +13244,7 @@ var long_arrow_icon_default = LongArrowIcon;
 // src/components/icons/vtex-logo-footer.tsx
 import { Icon as Icon67 } from "@vtex/brand-ui";
 import { jsx as jsx101, jsxs as jsxs83 } from "react/jsx-runtime";
-var VtexLogoFooter = (props) => /* @__PURE__ */ jsxs83(
+var VTEXLogoFooter = (props) => /* @__PURE__ */ jsxs83(
   Icon67,
   {
     ...props,
@@ -13290,7 +13290,7 @@ var VtexLogoFooter = (props) => /* @__PURE__ */ jsxs83(
     ]
   }
 );
-var vtex_logo_footer_default = VtexLogoFooter;
+var vtex_logo_footer_default = VTEXLogoFooter;
 export {
   api_guides_icon_default as APIGuidesIcon,
   api_reference_icon_default as APIReferenceIcon,
