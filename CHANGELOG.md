@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [6.0.31](https://github.com/vtexdocs/components/compare/v6.0.30...v6.0.31) (2025-11-28)
+
+
+### Bug Fixes
+
+* VTEXDevPortalIcon ([5f20e2a](https://github.com/vtexdocs/components/commit/5f20e2a806a05ab50fbc7f7de33319a0d1949b17))
+
 ### [6.0.30](https://github.com/vtexdocs/components/compare/v6.0.29...v6.0.30) (2025-11-28)
 
 
