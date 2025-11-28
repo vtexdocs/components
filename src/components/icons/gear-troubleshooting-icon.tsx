@@ -1,7 +1,7 @@
 import { Icon } from '@vtex/brand-ui'
 import type { IconProps } from '@vtex/brand-ui'
 
-const TroubleshootingIcon = (props: IconProps) => {
+const GearTroubleshootingIcon = (props: IconProps) => {
   return (
     <Icon
       {...props}
@@ -52,4 +52,4 @@ const TroubleshootingIcon = (props: IconProps) => {
   )
 }
 
-export default TroubleshootingIcon
+export default GearTroubleshootingIcon
