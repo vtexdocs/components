@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [6.0.30](https://github.com/vtexdocs/components/compare/v6.0.29...v6.0.30) (2025-11-28)
+
+
+### Bug Fixes
+
+* GearTroubleshootingIcon ([34c78b9](https://github.com/vtexdocs/components/commit/34c78b943b1cab1f7ca51cd49ccb68a324711260))
+
 ### [6.0.29](https://github.com/vtexdocs/components/compare/v6.0.28...v6.0.29) (2025-11-28)
 
 
