@@ -1,7 +1,7 @@
 import type { IconProps } from '@vtex/brand-ui'
 import { Icon } from '@vtex/brand-ui'
 
-const VtexLogoFooter = (props: IconProps) => (
+const VTEXLogoFooter = (props: IconProps) => (
   <Icon
     {...props}
     viewBox="0 0 61 22"
@@ -31,4 +31,4 @@ const VtexLogoFooter = (props: IconProps) => (
   </Icon>
 )
 
-export default VtexLogoFooter
+export default VTEXLogoFooter
