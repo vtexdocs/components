@@ -11545,7 +11545,7 @@ var getDaysElapsed = (date) => {
 // src/components/icons/gear-troubleshooting-icon.tsx
 import { Icon as Icon31 } from "@vtex/brand-ui";
 import { jsx as jsx65, jsxs as jsxs52 } from "react/jsx-runtime";
-var TroubleshootingIcon2 = (props) => {
+var GearTroubleshootingIcon = (props) => {
   return /* @__PURE__ */ jsxs52(
     Icon31,
     {
@@ -11615,7 +11615,7 @@ var TroubleshootingIcon2 = (props) => {
     }
   );
 };
-var gear_troubleshooting_icon_default = TroubleshootingIcon2;
+var gear_troubleshooting_icon_default = GearTroubleshootingIcon;
 
 // src/components/icons/documentation-updates-icon.tsx
 import { Icon as Icon32 } from "@vtex/brand-ui";
