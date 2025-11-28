@@ -173,9 +173,9 @@ declare const ReleaseNotesIcon: (props: IconProps) => react_jsx_runtime.JSX.Elem
 
 declare const StorefrontDevelopmentIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
 
-declare const TroubleshootingIcon$1: (props: IconProps) => react_jsx_runtime.JSX.Element;
-
 declare const TroubleshootingIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const GearTroubleshootingIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
 
 declare const VTEXIOAppsIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
 
@@ -301,4 +301,4 @@ declare const LikeIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
 
 declare const LikeSelectedIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
 
-export { APIGuidesIcon, APIReferenceIcon, AddedIcon, AnnouncementIcon, AppDevelopmentIcon, ArrowLeftIcon, ArrowRightIcon, CaretIcon, ChatGPTIcon, CheckboxIcon, ClaudeIcon, CloseFilterIcon, CloseIcon, CommunityIcon, CookieBar, CopilotIcon, CopyIcon, CopyLinkButton, DeprecatedIcon, DeveloperPortalIcon, DocumentationUpdatesIcon, EditIcon, EmailIcon, ExpandedResultsIcon, FAQIcon, FacebookCircleIcon, FacebookIcon, FeedbackSection, FilterIcon, FixedIcon, TroubleshootingIcon as GearTroubleshootingIcon, GeminiIcon, GithubIcon, GraphIcon, GridIcon, HamburgerMenu, HelpCenterIcon, ImprovedIcon, InfoIcon, Input, IgIcon as InstagramIcon, type Item, KnownIssueIcon as KnownIssuesIcon, LibraryContext, LibraryContextProvider, LikeIcon, LikeSelectedIcon, LinkIcon, LinkedinCircleIcon, LinkedinIcon, LongArrowIcon, MarkdownRenderer, MegaphoneIcon, MenuIcon, NewIcon, PaperIcon, ReleaseNotesIcon, RemovedIcon, ResizeIcon, Search, createAlgoliaClient as SearchConfig, SearchIcon, SearchInput, ShareButton, ShareIcon, SideBarToggleIcon, Sidebar, StartHereIcon, StorefrontDevelopmentIcon, TableOfContents, TrashcanIcon, TroubleshootingIcon$1 as TroubleshootingIcon, TutorialsIcon, TwitterCircleIcon, TwitterIcon, VTEXDevportalIcon as VTEXDevPortalIcon, VTEXHelpCenterIcon, VTEXIOAppsIcon, VtexLogoFooter as VTEXLogoFooter, WarningIcon, YoutubeIcon, getDaysElapsed };
+export { APIGuidesIcon, APIReferenceIcon, AddedIcon, AnnouncementIcon, AppDevelopmentIcon, ArrowLeftIcon, ArrowRightIcon, CaretIcon, ChatGPTIcon, CheckboxIcon, ClaudeIcon, CloseFilterIcon, CloseIcon, CommunityIcon, CookieBar, CopilotIcon, CopyIcon, CopyLinkButton, DeprecatedIcon, DeveloperPortalIcon, DocumentationUpdatesIcon, EditIcon, EmailIcon, ExpandedResultsIcon, FAQIcon, FacebookCircleIcon, FacebookIcon, FeedbackSection, FilterIcon, FixedIcon, GearTroubleshootingIcon, GeminiIcon, GithubIcon, GraphIcon, GridIcon, HamburgerMenu, HelpCenterIcon, ImprovedIcon, InfoIcon, Input, IgIcon as InstagramIcon, type Item, KnownIssueIcon as KnownIssuesIcon, LibraryContext, LibraryContextProvider, LikeIcon, LikeSelectedIcon, LinkIcon, LinkedinCircleIcon, LinkedinIcon, LongArrowIcon, MarkdownRenderer, MegaphoneIcon, MenuIcon, NewIcon, PaperIcon, ReleaseNotesIcon, RemovedIcon, ResizeIcon, Search, createAlgoliaClient as SearchConfig, SearchIcon, SearchInput, ShareButton, ShareIcon, SideBarToggleIcon, Sidebar, StartHereIcon, StorefrontDevelopmentIcon, TableOfContents, TrashcanIcon, TroubleshootingIcon, TutorialsIcon, TwitterCircleIcon, TwitterIcon, VTEXDevportalIcon as VTEXDevPortalIcon, VTEXHelpCenterIcon, VTEXIOAppsIcon, VtexLogoFooter as VTEXLogoFooter, WarningIcon, YoutubeIcon, getDaysElapsed };
