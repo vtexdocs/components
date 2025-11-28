@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [6.0.29](https://github.com/vtexdocs/components/compare/v6.0.28...v6.0.29) (2025-11-28)
+
+
+### Features
+
+* migrate icons from helpcenter and devportal ([6f71134](https://github.com/vtexdocs/components/commit/6f71134a99673437ab08755bdbd4cb1a253b4bd3))
+
 ### [6.0.28](https://github.com/vtexdocs/components/compare/v6.0.27...v6.0.28) (2025-11-27)
 
 
