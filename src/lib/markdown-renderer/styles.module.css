@@ -19,7 +19,8 @@
   margin: 0;
   padding: 0.2em 0.4em;
   font-size: 0.875em;
-  word-break: break-all;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 table .code {
@@ -41,21 +42,23 @@ table .code {
 }
 
 .blockquote a {
-  word-break: break-all;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
-.blockquote p, .blockquote div{
+.blockquote p,
+.blockquote div {
   margin: 0px;
   grid-column: 2 / -1;
   grid-row: 1 / 1;
 }
 
-.blockquote a{
+.blockquote a {
   color: #e31c58 !important;
   text-decoration: underline 1px solid;
 }
 
-.blockquote a:hover{
+.blockquote a:hover {
   color: #c81e51;
 }
 
