@@ -18,7 +18,8 @@
   margin: 0;
   padding: 0.2em 0.4em;
   font-size: 0.875em;
-  word-break: break-all;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 table .styles_code {
   word-break: normal;
@@ -37,7 +38,8 @@ table .styles_code {
   word-break: break-word;
 }
 .styles_blockquote a {
-  word-break: break-all;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 .styles_blockquote p,
 .styles_blockquote div {
