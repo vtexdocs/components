@@ -6364,7 +6364,7 @@ var sidebar = {
   }
 };
 var sidebarIcons = {
-  width: ["56px", "56px", "160px", "160px", "160px", "160px"],
+  width: "160px",
   minWidth: "max-content",
   transition: "all 0.3s ease-in-out",
   flexDirection: "column",
