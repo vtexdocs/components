@@ -10348,12 +10348,17 @@ var SearchCard = ({
   return /* @__PURE__ */ jsx56(Link9, { href: url, legacyBehavior: true, children: /* @__PURE__ */ jsxs44(Flex18, { sx: styles_default19.containerActive(method), children: [
     /* @__PURE__ */ jsxs44(Box20, { children: [
 <<<<<<< HEAD
+<<<<<<< HEAD
       /* @__PURE__ */ jsxs44(Text13, { className: "searchCardTitle", sx: styles_default20.title, children: [
         Icon68 && /* @__PURE__ */ jsx56(Icon68, { sx: styles_default20.icon }),
 =======
       /* @__PURE__ */ jsxs44(Text13, { className: "searchCardTitle", sx: styles_default19.title, children: [
         Icon31 && /* @__PURE__ */ jsx56(Icon31, { sx: styles_default19.icon }),
 >>>>>>> 168317c (build: update dist files)
+=======
+      /* @__PURE__ */ jsxs44(Text13, { className: "searchCardTitle", sx: styles_default19.title, children: [
+        Icon31 && /* @__PURE__ */ jsx56(Icon31, { sx: styles_default19.icon }),
+>>>>>>> 6c18c92718b344c5dce8e17537513ead66107609
         method ? /* @__PURE__ */ jsx56(
           method_category_default,
           {
@@ -10966,12 +10971,17 @@ var Input = ({ value, onChange, placeholder = "", Icon: Icon68 }) => {
       setInputValue(value);
   }, [value]);
 <<<<<<< HEAD
+<<<<<<< HEAD
   return /* @__PURE__ */ jsxs51(Flex23, { sx: styles_default26.container, children: [
     Icon68 && /* @__PURE__ */ jsx64(Icon68, { sx: styles_default26.icon }),
 =======
   return /* @__PURE__ */ jsxs51(Flex23, { sx: styles_default25.container, children: [
     Icon31 && /* @__PURE__ */ jsx64(Icon31, { sx: styles_default25.icon }),
 >>>>>>> 168317c (build: update dist files)
+=======
+  return /* @__PURE__ */ jsxs51(Flex23, { sx: styles_default25.container, children: [
+    Icon31 && /* @__PURE__ */ jsx64(Icon31, { sx: styles_default25.icon }),
+>>>>>>> 6c18c92718b344c5dce8e17537513ead66107609
     /* @__PURE__ */ jsx64(
       "input",
       {

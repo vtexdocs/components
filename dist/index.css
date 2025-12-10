@@ -38,10 +38,13 @@ table .styles_module_code {
   word-break: break-word;
 }
 <<<<<<< HEAD
+<<<<<<< HEAD
 .styles_blockquote a {
   word-break: break-word;
   overflow-wrap: break-word;
 =======
+=======
+>>>>>>> 6c18c92718b344c5dce8e17537513ead66107609
 .styles_module_blockquote a {
   word-break: break-all;
 >>>>>>> 168317c (build: update dist files)

@@ -164,6 +164,7 @@ interface AlgoliaConfig {
 declare const createAlgoliaClient: (config: AlgoliaConfig) => void;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 declare const APIGuidesIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
 
 declare const APIReferenceIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
@@ -306,3 +307,6 @@ export { APIGuidesIcon, APIReferenceIcon, AddedIcon, AnnouncementIcon, AppDevelo
 =======
 export { CookieBar, CopyLinkButton, FeedbackSection, HamburgerMenu, Input, Item, LibraryContext, LibraryContextProvider, MarkdownRenderer, Search, createAlgoliaClient as SearchConfig, SearchInput, ShareButton, Sidebar, TableOfContents };
 >>>>>>> 168317c (build: update dist files)
+=======
+export { CookieBar, CopyLinkButton, FeedbackSection, HamburgerMenu, Input, Item, LibraryContext, LibraryContextProvider, MarkdownRenderer, Search, createAlgoliaClient as SearchConfig, SearchInput, ShareButton, Sidebar, TableOfContents };
+>>>>>>> 6c18c92718b344c5dce8e17537513ead66107609
