@@ -29,7 +29,7 @@ const sidebar: SxStyleProp = {
 }
 
 const sidebarIcons: SxStyleProp = {
-  width: ['56px', '56px', '56px', '56px', '56px', '160px'],
+  width: ['56px', '56px', '56px', '56px', '160px', '160px'],
   minWidth: 'max-content',
   transition: 'all 0.3s ease-in-out',
   flexDirection: 'column',
@@ -37,6 +37,8 @@ const sidebarIcons: SxStyleProp = {
   background: '#FFFFFF',
   zIndex: '2',
   paddingBottom: '32px',
+  overflowY: 'auto',
+  height: '100%',
 }
 
 const linkContainer: SxStyleProp = {
