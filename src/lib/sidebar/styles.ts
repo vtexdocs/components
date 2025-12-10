@@ -29,7 +29,7 @@ const sidebar: SxStyleProp = {
 }
 
 const sidebarIcons: SxStyleProp = {
-  width: ['56px', '56px', '56px', '160px', '160px', '160px'],
+  width: ['56px', '56px', '160px', '160px', '160px', '160px'],
   minWidth: 'max-content',
   transition: 'all 0.3s ease-in-out',
   flexDirection: 'column',
