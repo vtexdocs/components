@@ -21,7 +21,7 @@
     "./styles.css": "./dist/index.css",
     "./dist/index.css": "./dist/index.css"
   },
-  "version": "6.0.33",
+  "version": "6.0.34",
   "description": "",
   "repository": "https://github.com/vtexdocs/components",
   "scripts": {

@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [6.0.34](https://github.com/vtexdocs/components/compare/v6.0.33...v6.0.34) (2026-01-13)
+
+
+### Features
+
+* add locale to sidebar links ([d10964f](https://github.com/vtexdocs/components/commit/d10964fabd477289be8b11e4ae4d8602d33a6416))
+
 ### [6.0.33](https://github.com/vtexdocs/components/compare/v6.0.32...v6.0.33) (2025-12-05)
 
 ### [6.0.32](https://github.com/vtexdocs/components/compare/v6.0.31...v6.0.32) (2025-11-28)
