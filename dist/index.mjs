@@ -7939,6 +7939,7 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
           },
           href: getHref(slugPrefix || "", pathSuffix, localizedSlug),
           target: isEditorPreview === true ? "_blank" : "_self",
+          locale: false,
           children: [
             method && /* @__PURE__ */ jsx17(
               method_category_default,

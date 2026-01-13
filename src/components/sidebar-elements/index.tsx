@@ -165,6 +165,7 @@ const SidebarElements = ({ slugPrefix, items, subItemLevel }: SidebarProps) => {
               }}
               href={getHref(slugPrefix || '', pathSuffix, localizedSlug)}
               target={isEditorPreview === true ? '_blank' : '_self'}
+              locale={false}
             >
               {method && (
                 <MethodCategory
