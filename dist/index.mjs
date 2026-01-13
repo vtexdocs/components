@@ -7888,7 +7888,9 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
     return false;
   };
   const getHref = (slugPrefix2, pathSuffix, slug) => {
-    const href = slugPrefix2 === "docs/api-reference" ? `/${slugPrefix2}/${slug}/${pathSuffix}` : `/${slugPrefix2}/${slug}`;
+    const validLocales = ["pt", "es"];
+    const localePrefix = locale && validLocales.includes(locale) ? `/${locale}` : "";
+    const href = slugPrefix2 === "docs/api-reference" ? `/${slugPrefix2}/${slug}/${pathSuffix}` : `${localePrefix}/${slugPrefix2}/${slug}`;
     return href.replaceAll("//", "/");
   };
   const ElementRoot = ({
@@ -7921,7 +7923,11 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
           onClick: () => toggleSidebarElementStatus(localizedSlug)
         }
       ),
-      !checkDocumentationType(sidebarDataMaster, localizedSlug, "category") && !checkDocumentationType(sidebarDataMaster, localizedSlug, "link") ? /* @__PURE__ */ jsxs12(
+      !checkDocumentationType(
+        sidebarDataMaster,
+        localizedSlug,
+        "category"
+      ) && !checkDocumentationType(sidebarDataMaster, localizedSlug, "link") ? /* @__PURE__ */ jsxs12(
         Link4,
         {
           sx: textStyle(activeSidebarElement === activeItem, isExpandable),
@@ -7946,13 +7952,20 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
             localizedName
           ]
         }
-      ) : checkDocumentationType(sidebarDataMaster, localizedSlug, "link") ? /* @__PURE__ */ jsxs12(Link4, { href: localizedSlug, target: "_blank", sx: styles_default12.elementText, children: [
+      ) : checkDocumentationType(
+        sidebarDataMaster,
+        localizedSlug,
+        "link"
+      ) ? /* @__PURE__ */ jsxs12(Link4, { href: localizedSlug, target: "_blank", sx: styles_default12.elementText, children: [
         /* @__PURE__ */ jsx17(IconExternalLink, { size: 16, sx: { marginRight: "10px" } }),
         localizedName
       ] }) : /* @__PURE__ */ jsxs12(
         Box10,
         {
-          sx: textStyle(activeSidebarElement === localizedSlug, isExpandable),
+          sx: textStyle(
+            activeSidebarElement === localizedSlug,
+            isExpandable
+          ),
           onClick: () => {
             toggleSidebarElementStatus(localizedSlug);
           },
