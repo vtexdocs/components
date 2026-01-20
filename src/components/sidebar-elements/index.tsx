@@ -51,7 +51,7 @@ const SidebarElements = ({ slugPrefix, items, subItemLevel }: SidebarProps) => {
     e.preventDefault()
     const hasEndpointQuery = router.query.endpoint
     const href = getHref(slugPrefix || '', pathSuffix, slug)
-    router.push(href, href, { locale }).then(() => {
+    router.push(href, href, { locale: router.locale }).then(() => {
       if (hasEndpointQuery) router.reload()
     })
   }
@@ -95,7 +95,7 @@ const SidebarElements = ({ slugPrefix, items, subItemLevel }: SidebarProps) => {
   }
 
   const getHref = (slugPrefix: string, pathSuffix: string, slug: string) => {
-    const validLocales = ['pt', 'es']
+    const validLocales = ['en', 'pt', 'es']
     const localePrefix =
       locale && validLocales.includes(locale) ? `/${locale}` : ''
     const href =
