@@ -109,7 +109,9 @@ const LibraryContextProvider = ({ children, ...props }: Props) => {
   const [hamburguerSections, setHamburguerSections] = useState(
     props.hamburguerMenuSections
   )
-  const locale = 'en'
+  const { locale: propsLocale, ...restProps } = props
+  const locale = propsLocale ?? 'en'
+  const fallback = restProps.fallback
 
   useEffect(() => {
     setSidebarDataMaster(props.fallback)
@@ -120,8 +122,6 @@ const LibraryContextProvider = ({ children, ...props }: Props) => {
     else if (props.sectionSelected !== activeSectionName)
       setActiveSectionName(props.sectionSelected)
   }, [props.sectionSelected])
-
-  const { fallback } = props
 
   const toggleSidebarElementStatus = (title: string) => {
     setSidebarElementStatus((sidebarElementStatus) => {
@@ -212,7 +212,7 @@ const LibraryContextProvider = ({ children, ...props }: Props) => {
         hamburguerSections,
         setHamburguerSections,
         locale,
-        ...props,
+        ...restProps,
       }}
     >
       <SWRConfig

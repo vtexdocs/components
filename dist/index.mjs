@@ -6306,7 +6306,9 @@ var LibraryContextProvider = ({ children, ...props }) => {
   const [hamburguerSections, setHamburguerSections] = useState2(
     props.hamburguerMenuSections
   );
-  const locale = "en";
+  const { locale: propsLocale, ...restProps } = props;
+  const locale = propsLocale ?? "en";
+  const fallback = restProps.fallback;
   useEffect3(() => {
     setSidebarDataMaster(props.fallback);
   }, [props.fallback]);
@@ -6316,7 +6318,6 @@ var LibraryContextProvider = ({ children, ...props }) => {
     else if (props.sectionSelected !== activeSectionName)
       setActiveSectionName(props.sectionSelected);
   }, [props.sectionSelected]);
-  const { fallback } = props;
   const toggleSidebarElementStatus = (title5) => {
     setSidebarElementStatus((sidebarElementStatus2) => {
       const open = sidebarElementStatus2.has(title5) === false ? true : !sidebarElementStatus2.get(title5);
@@ -6394,7 +6395,7 @@ var LibraryContextProvider = ({ children, ...props }) => {
         hamburguerSections,
         setHamburguerSections,
         locale,
-        ...props
+        ...restProps
       },
       children: /* @__PURE__ */ jsx8(
         SWRConfig,
