@@ -52,7 +52,7 @@ const SidebarElements = ({ slugPrefix, items, subItemLevel }: SidebarProps) => {
     e.preventDefault()
     const hasEndpointQuery = router.query.endpoint
     const href = getHref(slugPrefix || '', pathSuffix, slug)
-    router.push(href, href, { locale: router.locale }).then(() => {
+    router.push(href).then(() => {
       if (hasEndpointQuery) router.reload()
     })
   }
