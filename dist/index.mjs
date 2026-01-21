@@ -7344,8 +7344,8 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
     endpoint,
     children
   }) => {
-    const localizedName = typeof name === "string" ? name : name[locale];
-    const localizedSlug = typeof slug === "string" ? slug : slug[locale];
+    const localizedName = typeof name === "string" ? name : name[router.locale || "en"];
+    const localizedSlug = typeof slug === "string" ? slug : slug[router.locale || "en"];
     const isExpandable = children.length > 0;
     const pathSuffix = method ? `#${method.toLowerCase()}-${endpoint}` : "";
     const activeItem = method ? `${localizedSlug}${pathSuffix}` : localizedSlug;
@@ -7431,7 +7431,7 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
   };
   const ElementChildren = ({ slug, children }) => {
     const isExpandable = children.length > 0;
-    const localizedSlug = typeof slug === "string" ? slug : slug[locale];
+    const localizedSlug = typeof slug === "string" ? slug : slug[router.locale || "en"];
     return isExpandable && sidebarElementStatus.has(localizedSlug) && sidebarElementStatus.get(localizedSlug) ? /* @__PURE__ */ jsx17(Box10, { children: /* @__PURE__ */ jsx17(
       SidebarElements,
       {
@@ -7443,8 +7443,8 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
     ) }) : null;
   };
   return /* @__PURE__ */ jsx17(Box10, { className: "sidebar-component", children: items?.map((item2, index) => {
-    const key = typeof item2.slug === "string" ? String(item2.slug) + String(index) : String(item2.slug[locale]) + String(index);
-    const slug = typeof item2.slug === "string" ? `${item2.slug}` : `${item2.slug[locale]}`;
+    const key = typeof item2.slug === "string" ? String(item2.slug) + String(index) : String(item2.slug[router.locale || "en"]) + String(index);
+    const slug = typeof item2.slug === "string" ? `${item2.slug}` : `${item2.slug[router.locale || "en"]}`;
     return /* @__PURE__ */ jsxs12(Fragment, { children: [
       /* @__PURE__ */ jsx17(ElementRoot, { ...item2, slug }),
       /* @__PURE__ */ jsx17(Box10, { children: /* @__PURE__ */ jsx17(ElementChildren, { ...item2, slug }) }),

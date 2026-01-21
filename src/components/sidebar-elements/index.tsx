@@ -116,8 +116,8 @@ const SidebarElements = ({ slugPrefix, items, subItemLevel }: SidebarProps) => {
     endpoint,
     children,
   }: SidebarElement) => {
-    const localizedName: string = typeof name === 'string' ? name : name[locale]
-    const localizedSlug: string = typeof slug === 'string' ? slug : slug[locale]
+    const localizedName: string = typeof name === 'string' ? name : name[router.locale || 'en']
+    const localizedSlug: string = typeof slug === 'string' ? slug : slug[router.locale || 'en']
     const isExpandable = children.length > 0
     const pathSuffix = method ? `#${method.toLowerCase()}-${endpoint}` : ''
     const activeItem = method ? `${localizedSlug}${pathSuffix}` : localizedSlug
@@ -221,7 +221,7 @@ const SidebarElements = ({ slugPrefix, items, subItemLevel }: SidebarProps) => {
     // const newPathPrefix =
     //   slugPrefix === 'api-reference' ? `/api-reference/${slug}` : slugPrefix
 
-    const localizedSlug: string = typeof slug === 'string' ? slug : slug[locale]
+    const localizedSlug: string = typeof slug === 'string' ? slug : slug[router.locale || 'en']
     return isExpandable &&
       sidebarElementStatus.has(localizedSlug) &&
       sidebarElementStatus.get(localizedSlug) ? (
@@ -242,11 +242,11 @@ const SidebarElements = ({ slugPrefix, items, subItemLevel }: SidebarProps) => {
         const key =
           typeof item.slug === 'string'
             ? String(item.slug) + String(index)
-            : String(item.slug[locale]) + String(index)
+            : String(item.slug[router.locale || 'en']) + String(index)
         const slug =
           typeof item.slug === 'string'
             ? `${item.slug}`
-            : `${item.slug[locale]}`
+            : `${item.slug[router.locale || 'en']}`
 
         return (
           <Fragment key={String(key)}>
