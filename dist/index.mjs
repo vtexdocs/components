@@ -7302,7 +7302,8 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
     e.preventDefault();
     const hasEndpointQuery = router.query.endpoint;
     const href = getHref(slugPrefix || "", pathSuffix, slug);
-    router.push(href).then(() => {
+    console.log("[SIDEBAR FIX v2] handleClick:", { href, currentLocale: router.locale, localeOption: false });
+    router.push(href, href, { locale: false }).then(() => {
       if (hasEndpointQuery)
         router.reload();
     });
@@ -7381,6 +7382,7 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
           },
           href: getHref(slugPrefix || "", pathSuffix, localizedSlug),
           target: isEditorPreview === true ? "_blank" : "_self",
+          locale: false,
           children: [
             method && /* @__PURE__ */ jsx17(
               method_category_default,

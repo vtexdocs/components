@@ -52,7 +52,8 @@ const SidebarElements = ({ slugPrefix, items, subItemLevel }: SidebarProps) => {
     e.preventDefault()
     const hasEndpointQuery = router.query.endpoint
     const href = getHref(slugPrefix || '', pathSuffix, slug)
-    router.push(href).then(() => {
+    console.log('[SIDEBAR FIX v2] handleClick:', { href, currentLocale: router.locale, localeOption: false })
+    router.push(href, href, { locale: false }).then(() => {
       if (hasEndpointQuery) router.reload()
     })
   }
@@ -167,6 +168,7 @@ const SidebarElements = ({ slugPrefix, items, subItemLevel }: SidebarProps) => {
               }}
               href={getHref(slugPrefix || '', pathSuffix, localizedSlug)}
               target={isEditorPreview === true ? '_blank' : '_self'}
+              locale={false}
             >
               {method && (
                 <MethodCategory
