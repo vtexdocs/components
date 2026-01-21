@@ -32,9 +32,9 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 ));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
-// node_modules/react-is/cjs/react-is.production.min.js
+// node_modules/prop-types/node_modules/react-is/cjs/react-is.production.min.js
 var require_react_is_production_min = __commonJS({
-  "node_modules/react-is/cjs/react-is.production.min.js"(exports) {
+  "node_modules/prop-types/node_modules/react-is/cjs/react-is.production.min.js"(exports) {
     "use strict";
     var b = "function" === typeof Symbol && Symbol.for;
     var c = b ? Symbol.for("react.element") : 60103;
@@ -145,9 +145,9 @@ var require_react_is_production_min = __commonJS({
   }
 });
 
-// node_modules/react-is/cjs/react-is.development.js
+// node_modules/prop-types/node_modules/react-is/cjs/react-is.development.js
 var require_react_is_development = __commonJS({
-  "node_modules/react-is/cjs/react-is.development.js"(exports) {
+  "node_modules/prop-types/node_modules/react-is/cjs/react-is.development.js"(exports) {
     "use strict";
     if (process.env.NODE_ENV !== "production") {
       (function() {
@@ -300,9 +300,9 @@ var require_react_is_development = __commonJS({
   }
 });
 
-// node_modules/react-is/index.js
+// node_modules/prop-types/node_modules/react-is/index.js
 var require_react_is = __commonJS({
-  "node_modules/react-is/index.js"(exports, module) {
+  "node_modules/prop-types/node_modules/react-is/index.js"(exports, module) {
     "use strict";
     if (process.env.NODE_ENV === "production") {
       module.exports = require_react_is_production_min();
@@ -7302,7 +7302,7 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
     e.preventDefault();
     const hasEndpointQuery = router.query.endpoint;
     const href = getHref(slugPrefix || "", pathSuffix, slug);
-    router.push(href, href, { locale: router.locale }).then(() => {
+    router.push(href).then(() => {
       if (hasEndpointQuery)
         router.reload();
     });
@@ -7331,7 +7331,7 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
   };
   const getHref = (slugPrefix2, pathSuffix, slug) => {
     const validLocales = ["en", "pt", "es"];
-    const localePrefix = locale && validLocales.includes(locale) ? `/${locale}` : "";
+    const localePrefix = router.locale && validLocales.includes(router.locale) ? `/${router.locale}` : "";
     const href = slugPrefix2 === "docs/api-reference" ? `/${slugPrefix2}/${slug}/${pathSuffix}` : `${localePrefix}/${slugPrefix2}/${slug}`;
     return href.replaceAll("//", "/");
   };
@@ -7381,7 +7381,6 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
           },
           href: getHref(slugPrefix || "", pathSuffix, localizedSlug),
           target: isEditorPreview === true ? "_blank" : "_self",
-          locale,
           children: [
             method && /* @__PURE__ */ jsx17(
               method_category_default,
