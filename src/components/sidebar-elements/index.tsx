@@ -98,7 +98,7 @@ const SidebarElements = ({ slugPrefix, items, subItemLevel }: SidebarProps) => {
   const getHref = (slugPrefix: string, pathSuffix: string, slug: string) => {
     const validLocales = ['en', 'pt', 'es']
     const localePrefix =
-      locale && validLocales.includes(locale) ? `/${locale}` : ''
+      router.locale && validLocales.includes(router.locale) ? `/${router.locale}` : ''
     const href =
       slugPrefix === 'docs/api-reference'
         ? `/${slugPrefix}/${slug}/${pathSuffix}`
