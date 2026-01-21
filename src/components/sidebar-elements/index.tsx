@@ -1,3 +1,4 @@
+// Fixed: use router.locale instead of context locale
 import { useRouter } from 'next/router.js'
 import React, { Fragment, useContext } from 'react'
 import {
