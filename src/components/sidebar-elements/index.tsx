@@ -39,10 +39,13 @@ const SidebarElements = ({ slugPrefix, items, subItemLevel }: SidebarProps) => {
     sidebarElementStatus,
     toggleSidebarElementStatus,
     sidebarDataMaster,
+    locale: contextLocale,
   } = useContext(LibraryContext)
   const router = useRouter()
-  // Use router.locale for consistent locale handling across client-side navigation
-  const currentLocale = router.locale || 'en'
+  // Use LibraryContext locale as the source of truth for sidebar navigation.
+  // This prevents issues where router.locale might temporarily change during navigation,
+  // causing the sidebar to re-render with wrong locale slugs and trigger unwanted redirects.
+  const currentLocale = contextLocale || router.locale || 'en'
 
   const handleClick = (
     e: { preventDefault: () => void },

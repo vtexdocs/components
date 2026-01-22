@@ -7294,10 +7294,11 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
     activeSidebarElement,
     sidebarElementStatus,
     toggleSidebarElementStatus,
-    sidebarDataMaster
+    sidebarDataMaster,
+    locale: contextLocale
   } = useContext4(LibraryContext);
   const router = useRouter3();
-  const currentLocale = router.locale || "en";
+  const currentLocale = contextLocale || router.locale || "en";
   const handleClick = (e, pathSuffix, slug) => {
     e.preventDefault();
     const hasEndpointQuery = router.query.endpoint;
