@@ -39,9 +39,10 @@ const SidebarElements = ({ slugPrefix, items, subItemLevel }: SidebarProps) => {
     sidebarElementStatus,
     toggleSidebarElementStatus,
     sidebarDataMaster,
-    locale,
   } = useContext(LibraryContext)
   const router = useRouter()
+  // Use router.locale for consistent locale handling across client-side navigation
+  const currentLocale = router.locale || 'en'
 
   const handleClick = (
     e: { preventDefault: () => void },
@@ -51,7 +52,10 @@ const SidebarElements = ({ slugPrefix, items, subItemLevel }: SidebarProps) => {
     e.preventDefault()
     const hasEndpointQuery = router.query.endpoint
     const href = getHref(slugPrefix || '', pathSuffix, slug)
-    router.push(href, href, { locale }).then(() => {
+    // Use locale: false because href already contains the locale prefix
+    // This bypasses Next.js i18n routing which causes issues with Netlify's i18n plugin
+    // when navigating to URLs with locale-specific slugs (e.g., diacritics in PT slugs)
+    router.push(href, href, { locale: false }).then(() => {
       if (hasEndpointQuery) router.reload()
     })
   }
@@ -95,9 +99,11 @@ const SidebarElements = ({ slugPrefix, items, subItemLevel }: SidebarProps) => {
   }
 
   const getHref = (slugPrefix: string, pathSuffix: string, slug: string) => {
-    const validLocales = ['pt', 'es']
+    const validLocales = ['en', 'pt', 'es']
     const localePrefix =
-      locale && validLocales.includes(locale) ? `/${locale}` : ''
+      currentLocale && validLocales.includes(currentLocale)
+        ? `/${currentLocale}`
+        : ''
     const href =
       slugPrefix === 'docs/api-reference'
         ? `/${slugPrefix}/${slug}/${pathSuffix}`
@@ -112,8 +118,14 @@ const SidebarElements = ({ slugPrefix, items, subItemLevel }: SidebarProps) => {
     endpoint,
     children,
   }: SidebarElement) => {
-    const localizedName: string = typeof name === 'string' ? name : name[locale]
-    const localizedSlug: string = typeof slug === 'string' ? slug : slug[locale]
+    const localizedName: string =
+      typeof name === 'string'
+        ? name
+        : name[currentLocale as 'en' | 'pt' | 'es']
+    const localizedSlug: string =
+      typeof slug === 'string'
+        ? slug
+        : slug[currentLocale as 'en' | 'pt' | 'es']
     const isExpandable = children.length > 0
     const pathSuffix = method ? `#${method.toLowerCase()}-${endpoint}` : ''
     const activeItem = method ? `${localizedSlug}${pathSuffix}` : localizedSlug
@@ -166,7 +178,7 @@ const SidebarElements = ({ slugPrefix, items, subItemLevel }: SidebarProps) => {
               }}
               href={getHref(slugPrefix || '', pathSuffix, localizedSlug)}
               target={isEditorPreview === true ? '_blank' : '_self'}
-              locale={locale}
+              locale={false}
             >
               {method && (
                 <MethodCategory
@@ -215,10 +227,11 @@ const SidebarElements = ({ slugPrefix, items, subItemLevel }: SidebarProps) => {
 
   const ElementChildren = ({ slug, children }: SidebarElement) => {
     const isExpandable = children.length > 0
-    // const newPathPrefix =
-    //   slugPrefix === 'api-reference' ? `/api-reference/${slug}` : slugPrefix
 
-    const localizedSlug: string = typeof slug === 'string' ? slug : slug[locale]
+    const localizedSlug: string =
+      typeof slug === 'string'
+        ? slug
+        : slug[currentLocale as 'en' | 'pt' | 'es']
     return isExpandable &&
       sidebarElementStatus.has(localizedSlug) &&
       sidebarElementStatus.get(localizedSlug) ? (
@@ -239,11 +252,12 @@ const SidebarElements = ({ slugPrefix, items, subItemLevel }: SidebarProps) => {
         const key =
           typeof item.slug === 'string'
             ? String(item.slug) + String(index)
-            : String(item.slug[locale]) + String(index)
+            : String(item.slug[currentLocale as 'en' | 'pt' | 'es']) +
+              String(index)
         const slug =
           typeof item.slug === 'string'
             ? `${item.slug}`
-            : `${item.slug[locale]}`
+            : `${item.slug[currentLocale as 'en' | 'pt' | 'es']}`
 
         return (
           <Fragment key={String(key)}>
