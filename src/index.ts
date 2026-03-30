@@ -10,6 +10,7 @@ export {
   ShareButton,
   CopyLinkButton,
   Input,
+  SubscriptionList,
   type Item,
 } from './lib'
 export { getDaysElapsed } from 'utils/get-days-elapsed'
