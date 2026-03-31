@@ -115,9 +115,9 @@ const SubscriptionList: React.FC = () => {
         <div>
           <Text sx={styles.description}>
             {
-              localizedMessages[
-                'landing_page_subscription.description'
-              ].split('newsletter')[0]
+              localizedMessages['landing_page_subscription.description'].split(
+                'newsletter'
+              )[0]
             }
             <a
               href={getNewsletterURL(locale)}
@@ -127,9 +127,9 @@ const SubscriptionList: React.FC = () => {
               newsletter
             </a>
             {
-              localizedMessages[
-                'landing_page_subscription.description'
-              ].split('newsletter')[1]
+              localizedMessages['landing_page_subscription.description'].split(
+                'newsletter'
+              )[1]
             }
           </Text>
           <Flex sx={styles.inputContainer}>
