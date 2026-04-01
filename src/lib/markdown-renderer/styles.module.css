@@ -39,6 +39,7 @@ table .code {
   grid-template-columns: 20px 1fr;
   grid-template-rows: 1fr;
   word-break: break-word;
+  overflow: hidden;
 }
 
 .blockquote a {
@@ -51,6 +52,27 @@ table .code {
   margin: 0px;
   grid-column: 2 / -1;
   grid-row: 1 / 1;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.blockquote pre,
+.blockquote code {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.blockquote .ch-codeblock,
+.blockquote .ch-code-wrapper,
+.blockquote .ch-code {
+  max-width: 100% !important;
+  width: 100% !important;
+  overflow-x: auto !important;
+}
+
+.blockquote .ch-code-scroll-parent {
+  max-width: 100% !important;
+  width: auto !important;
 }
 
 .blockquote a {

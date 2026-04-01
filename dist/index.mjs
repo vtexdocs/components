@@ -6459,6 +6459,10 @@ var styles_default5 = {
   heading: "styles_heading",
   code: "styles_code",
   blockquote: "styles_blockquote",
+  "ch-codeblock": "styles_ch-codeblock",
+  "ch-code-wrapper": "styles_ch-code-wrapper",
+  "ch-code": "styles_ch-code",
+  "ch-code-scroll-parent": "styles_ch-code-scroll-parent",
   blockquoteInfo: "styles_blockquoteInfo",
   blockquoteDanger: "styles_blockquoteDanger",
   blockquoteWarning: "styles_blockquoteWarning",
@@ -7861,7 +7865,8 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
   const handleClick = (e, pathSuffix, slug) => {
     e.preventDefault();
     const hasEndpointQuery = router.query.endpoint;
-    router.push(getHref(slugPrefix || "", pathSuffix, slug)).then(() => {
+    const href = getHref(slugPrefix || "", pathSuffix, slug);
+    router.push(href, href, { locale }).then(() => {
       if (hasEndpointQuery)
         router.reload();
     });
@@ -7940,7 +7945,7 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
           },
           href: getHref(slugPrefix || "", pathSuffix, localizedSlug),
           target: isEditorPreview === true ? "_blank" : "_self",
-          locale: false,
+          locale,
           children: [
             method && /* @__PURE__ */ jsx17(
               method_category_default,

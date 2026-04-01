@@ -36,6 +36,7 @@ table .styles_code {
   grid-template-columns: 20px 1fr;
   grid-template-rows: 1fr;
   word-break: break-word;
+  overflow: hidden;
 }
 .styles_blockquote a {
   word-break: break-word;
@@ -46,6 +47,24 @@ table .styles_code {
   margin: 0px;
   grid-column: 2 / -1;
   grid-row: 1 / 1;
+  max-width: 100%;
+  overflow: hidden;
+}
+.styles_blockquote pre,
+.styles_blockquote code {
+  max-width: 100%;
+  overflow-x: auto;
+}
+.styles_blockquote .styles_ch-codeblock,
+.styles_blockquote .styles_ch-code-wrapper,
+.styles_blockquote .styles_ch-code {
+  max-width: 100% !important;
+  width: 100% !important;
+  overflow-x: auto !important;
+}
+.styles_blockquote .styles_ch-code-scroll-parent {
+  max-width: 100% !important;
+  width: auto !important;
 }
 .styles_blockquote a {
   color: #e31c58 !important;
