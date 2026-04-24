@@ -34,9 +34,9 @@ table .styles_code {
   align-items: start;
   border: 1px solid #ccced8;
   grid-template-columns: 20px 1fr;
-  grid-template-rows: auto;
+  grid-template-rows: 1fr;
   word-break: break-word;
-  overflow-wrap: break-word;
+  overflow: hidden;
 }
 .styles_blockquote a {
   word-break: break-word;
@@ -46,10 +46,9 @@ table .styles_code {
 .styles_blockquote div {
   margin: 0px;
   grid-column: 2 / -1;
-  grid-row: 1 / auto;
-  width: 100%;
-  word-break: break-word;
-  overflow-wrap: break-word;
+  grid-row: 1 / 1;
+  max-width: 100%;
+  overflow: hidden;
 }
 .styles_blockquote pre,
 .styles_blockquote code {
