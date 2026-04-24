@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [6.0.39](https://github.com/vtexdocs/components/compare/v6.0.37...v6.0.39) (2026-04-24)
+
 ### [6.0.38](https://github.com/vtexdocs/components/compare/v6.0.37...v6.0.38) (2026-04-24)
 
 ### [6.0.37](https://github.com/vtexdocs/components/compare/v6.0.36...v6.0.37) (2026-01-20)
