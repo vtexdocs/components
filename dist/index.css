@@ -33,15 +33,27 @@ table .styles_code {
   border-radius: 4px;
   align-items: start;
   border: 1px solid #ccced8;
-  grid-template-columns: 20px 1fr;
+  grid-template-columns: 20px minmax(0, 1fr);
   grid-template-rows: 1fr;
   word-break: break-word;
   overflow: hidden;
   min-width: 0;
 }
+.styles_blockquote > div {
+  grid-column: 2 / -1;
+  overflow: hidden;
+  min-width: 0;
+  max-width: 100%;
+  width: 100%;
+}
 .styles_blockquote a {
-  word-break: break-word;
+  color: #e31c58 !important;
+  -webkit-text-decoration: underline 1px solid;
+  text-decoration: underline 1px solid;
+  word-break: break-all;
   overflow-wrap: break-word;
+  display: inline-block;
+  max-width: 100%;
 }
 .styles_blockquote p,
 .styles_blockquote div {
@@ -53,6 +65,7 @@ table .styles_code {
   overflow: hidden;
   min-width: 0;
   word-break: break-word;
+  display: block;
 }
 .styles_blockquote pre {
   max-width: 100%;
@@ -89,18 +102,6 @@ table .styles_code {
   width: 100% !important;
   overflow-x: auto !important;
   min-width: 0 !important;
-}
-.styles_blockquote a {
-  color: #e31c58 !important;
-  -webkit-text-decoration: underline 1px solid;
-  text-decoration: underline 1px solid;
-  word-break: break-all;
-  overflow-wrap: break-word;
-  display: inline-block;
-  max-width: 100%;
-}
-.styles_blockquote a:hover {
-  color: #c81e51;
 }
 .styles_blockquoteInfo {
   background: #f8f7fc;
