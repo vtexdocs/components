@@ -40,6 +40,7 @@ table .code {
   grid-template-rows: 1fr;
   word-break: break-word;
   overflow: hidden;
+  min-width: 0;
 }
 
 .blockquote a {
@@ -54,12 +55,16 @@ table .code {
   grid-row: 1 / 1;
   width: 100%;
   overflow: hidden;
+  min-width: 0;
+  word-break: break-word;
 }
 
 .blockquote pre,
 .blockquote code {
   max-width: 100%;
   overflow-x: auto;
+  word-break: break-word;
+  white-space: pre-wrap;
 }
 
 .blockquote .ch-codeblock,
@@ -68,11 +73,14 @@ table .code {
   max-width: 100% !important;
   width: 100% !important;
   overflow-x: auto !important;
+  min-width: 0 !important;
 }
 
 .blockquote .ch-code-scroll-parent {
   max-width: 100% !important;
-  width: auto !important;
+  width: 100% !important;
+  overflow-x: auto !important;
+  min-width: 0 !important;
 }
 
 .blockquote a {
