@@ -52,7 +52,7 @@ table .code {
   margin: 0px;
   grid-column: 2 / -1;
   grid-row: 1 / 1;
-  max-width: 100%;
+  width: 100%;
   overflow: hidden;
 }
 
