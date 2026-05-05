@@ -99,7 +99,8 @@ const createHybridClient = (config: HybridSearchConfig) => {
       }
 
       try {
-        const request = requests[0]
+        // Find the first request with a non-empty query
+        const request = requests.find(({ params }) => params?.query) || requests[0]
         const query = request.params?.query || ''
         const limit = request.params?.hitsPerPage || defaultLimit
 
