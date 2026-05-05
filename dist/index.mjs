@@ -7861,7 +7861,8 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
   const handleClick = (e, pathSuffix, slug) => {
     e.preventDefault();
     const hasEndpointQuery = router.query.endpoint;
-    router.push(getHref(slugPrefix || "", pathSuffix, slug)).then(() => {
+    const href = getHref(slugPrefix || "", pathSuffix, slug);
+    router.push(href, href, { locale }).then(() => {
       if (hasEndpointQuery)
         router.reload();
     });
@@ -7940,7 +7941,7 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
           },
           href: getHref(slugPrefix || "", pathSuffix, localizedSlug),
           target: isEditorPreview === true ? "_blank" : "_self",
-          locale: false,
+          locale,
           children: [
             method && /* @__PURE__ */ jsx17(
               method_category_default,
@@ -9817,7 +9818,187 @@ var createAlgoliaClient = (config) => {
     }
   };
 };
-var search_config_default = createAlgoliaClient;
+var createHybridClient = (config) => {
+  const {
+    apiEndpoint,
+    defaultLimit = 10,
+    useLanguageFilter = true
+  } = config;
+  aa2("init", {
+    appId: "hybrid-search",
+    apiKey: "none",
+    useCookie: false
+  });
+  searchClient = {
+    appId: "hybrid-search",
+    apiKey: "hybrid",
+    useLanguageFilter,
+    instantSearchConfigs: null,
+    async search(requests) {
+      if (requests.every(({ params }) => !params?.query)) {
+        return void 0;
+      }
+      try {
+        const request = requests[0];
+        const query = request.params?.query || "";
+        const limit = request.params?.hitsPerPage || defaultLimit;
+        let locale = "";
+        const facetFilters = request.params?.facetFilters || [];
+        if (Array.isArray(facetFilters)) {
+          const langFilter = facetFilters.find(
+            (f) => typeof f === "string" && f.startsWith("language:")
+          );
+          if (langFilter && typeof langFilter === "string") {
+            locale = langFilter.replace("language:", "");
+          }
+        }
+        const url = new URL(apiEndpoint, window.location.origin);
+        url.searchParams.set("q", query);
+        url.searchParams.set("limit", String(limit));
+        if (locale) {
+          url.searchParams.set("locale", locale);
+        }
+        const response = await fetch(url.toString());
+        if (!response.ok) {
+          throw new Error(`Hybrid search failed: ${response.status}`);
+        }
+        const data = await response.json();
+        const hits = (data.results || []).map(transformHybridToAlgolia);
+        const facets = extractFacetsFromHits(hits);
+        return {
+          results: [
+            {
+              hits,
+              nbHits: data.total || hits.length,
+              page: request.params?.page || 0,
+              nbPages: Math.ceil((data.total || hits.length) / limit),
+              hitsPerPage: limit,
+              exhaustiveNbHits: true,
+              query,
+              params: "",
+              index: request.indexName || "",
+              processingTimeMS: 0,
+              facets: facets.facets,
+              facets_stats: {},
+              exhaustiveFacetsCount: true,
+              queryID: generateQueryID()
+            }
+          ]
+        };
+      } catch (error) {
+        console.error("Hybrid search error:", error);
+        return {
+          results: [
+            {
+              hits: [],
+              nbHits: 0,
+              page: 0,
+              nbPages: 0,
+              hitsPerPage: defaultLimit,
+              exhaustiveNbHits: true,
+              query: requests[0]?.params?.query || "",
+              params: "",
+              index: requests[0]?.indexName || "",
+              processingTimeMS: 0
+            }
+          ]
+        };
+      }
+    }
+  };
+};
+function transformHybridToAlgolia(result) {
+  const filePath = result.filePath || "";
+  const pathParts = filePath.split("/").filter(Boolean);
+  let doctype = "Documentation";
+  let hierarchy = {
+    lvl0: "Documentation",
+    lvl1: result.title || "Untitled",
+    lvl2: null
+  };
+  if (pathParts.length > 2) {
+    doctype = pathParts[2] || "Documentation";
+    hierarchy = {
+      lvl0: doctype,
+      lvl1: result.title || "Untitled",
+      lvl2: pathParts[3] || null
+    };
+  }
+  const url = buildUrlFromFilePath(filePath);
+  return {
+    objectID: String(result.id),
+    ...result,
+    url,
+    url_without_anchor: url.split("#")[0],
+    doctype,
+    doctitle: result.title || "Untitled",
+    content: result.snippet || result.content || "",
+    hierarchy,
+    language: result.metadata?.locale || "en",
+    type: "content",
+    _highlightResult: {
+      content: {
+        value: result.snippet || result.content || "",
+        matchLevel: "full",
+        fullyHighlighted: false,
+        matchedWords: []
+      },
+      hierarchy: {
+        lvl0: {
+          value: hierarchy.lvl0,
+          matchLevel: "none"
+        },
+        lvl1: {
+          value: hierarchy.lvl1,
+          matchLevel: result.title ? "partial" : "none"
+        }
+      }
+    },
+    _snippetResult: {
+      content: {
+        value: result.snippet || "",
+        matchLevel: "full"
+      }
+    }
+  };
+}
+function buildUrlFromFilePath(filePath) {
+  const parts = filePath.split("/");
+  if (parts[0] === "docs" && parts.length > 2) {
+    const pathWithoutDocs = parts.slice(2);
+    const pathWithoutExt = pathWithoutDocs.join("/").replace(/\.mdx?$/, "");
+    return `/docs/${pathWithoutExt}`;
+  }
+  return "/" + filePath.replace(/\.mdx?$/, "");
+}
+function extractFacetsFromHits(hits) {
+  const facets = {
+    doctype: {},
+    language: {}
+  };
+  hits.forEach((hit) => {
+    const doctype = hit.doctype || "Other";
+    facets.doctype[doctype] = (facets.doctype[doctype] || 0) + 1;
+    const language = hit.language || "en";
+    facets.language[language] = (facets.language[language] || 0) + 1;
+  });
+  return { facets };
+}
+function generateQueryID() {
+  return `hybrid_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+}
+function SearchConfig(config) {
+  if ("backend" in config) {
+    if (config.backend === "hybrid") {
+      searchIndex = config.index;
+      createHybridClient(config.hybrid);
+    } else {
+      createAlgoliaClient(config.algolia);
+    }
+  } else {
+    createAlgoliaClient(config);
+  }
+}
 
 // src/components/search-input/index.tsx
 import { jsx as jsx39, jsxs as jsxs32 } from "react/jsx-runtime";
@@ -13366,7 +13547,7 @@ export {
   removed_icon_default as RemovedIcon,
   resize_icon_default as ResizeIcon,
   search_default2 as Search,
-  search_config_default as SearchConfig,
+  SearchConfig,
   search_icon_default as SearchIcon,
   SearchInput,
   share_button_default as ShareButton,
