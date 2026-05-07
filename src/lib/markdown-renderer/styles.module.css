@@ -51,7 +51,8 @@ table .code {
 .blockquote div {
   margin: 0px;
   grid-column: 2 / -1;
-  grid-row: 1 / 1;
+  grid-row: auto;
+  min-width: 0;
 }
 
 .blockquote a {
@@ -69,12 +70,16 @@ table .code {
   overflow-y: visible;
   white-space: pre;
   -webkit-overflow-scrolling: touch;
+  margin: 0;
+  min-width: 0;
 }
 
 .blockquote pre code {
   word-break: normal;
   overflow-wrap: normal;
   white-space: pre;
+  display: inline-block;
+  min-width: 100%;
 }
 
 .blockquoteInfo {
