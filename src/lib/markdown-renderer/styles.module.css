@@ -56,6 +56,17 @@ table .code {
   overflow: hidden;
 }
 
+.blockquote > div {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.blockquote ch-code-scroll-parent {
+  width: 100% !important;
+  overflow: scroll !important;
+  }
+
 .blockquote a {
   color: #e31c58 !important;
   text-decoration: underline 1px solid;
@@ -63,25 +74,6 @@ table .code {
 
 .blockquote a:hover {
   color: #c81e51;
-}
-
-.blockquote pre {
-  max-width: 100%;
-  width: 100%;
-  overflow-x: auto;
-  overflow-y: visible;
-  white-space: pre;
-  -webkit-overflow-scrolling: touch;
-  margin: 0;
-  min-width: 0;
-  box-sizing: border-box;
-}
-
-.blockquote pre code {
-  word-break: normal;
-  overflow-wrap: normal;
-  white-space: pre;
-  display: block;
 }
 
 .blockquoteInfo {
