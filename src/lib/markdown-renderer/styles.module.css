@@ -34,10 +34,10 @@ table .code {
   width: 100%;
   margin: 16px 0px 24px;
   border-radius: 4px;
-  align-items: center;
+  align-items: start;
   border: 1px solid #ccced8;
   grid-template-columns: 20px 1fr;
-  grid-template-rows: 1fr;
+  grid-template-rows: auto;
   word-break: break-word;
 }
 
@@ -50,7 +50,9 @@ table .code {
 .blockquote div {
   margin: 0px;
   grid-column: 2 / -1;
-  grid-row: 1 / 1;
+  grid-row: auto;
+  min-width: 0;
+  max-width: 100%;
   overflow: hidden;
 }
 
@@ -61,6 +63,25 @@ table .code {
 
 .blockquote a:hover {
   color: #c81e51;
+}
+
+.blockquote pre {
+  max-width: 100%;
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: visible;
+  white-space: pre;
+  -webkit-overflow-scrolling: touch;
+  margin: 0;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.blockquote pre code {
+  word-break: normal;
+  overflow-wrap: normal;
+  white-space: pre;
+  display: block;
 }
 
 .blockquoteInfo {
