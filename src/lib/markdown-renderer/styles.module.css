@@ -39,7 +39,6 @@ table .code {
   grid-template-columns: 20px 1fr;
   grid-template-rows: 1fr;
   word-break: break-word;
-  overflow: hidden;
 }
 
 .blockquote a {
@@ -51,8 +50,8 @@ table .code {
 .blockquote div {
   margin: 0px;
   grid-column: 2 / -1;
-  grid-row: auto;
-  min-width: 0;
+  grid-row: 1 / 1;
+  overflow: hidden;
 }
 
 .blockquote a {
@@ -62,24 +61,6 @@ table .code {
 
 .blockquote a:hover {
   color: #c81e51;
-}
-
-.blockquote pre {
-  max-width: 100%;
-  overflow-x: auto;
-  overflow-y: visible;
-  white-space: pre;
-  -webkit-overflow-scrolling: touch;
-  margin: 0;
-  min-width: 0;
-}
-
-.blockquote pre code {
-  word-break: normal;
-  overflow-wrap: normal;
-  white-space: pre;
-  display: inline-block;
-  min-width: 100%;
 }
 
 .blockquoteInfo {
