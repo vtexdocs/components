@@ -61,26 +61,8 @@ table .code {
 
 .blockquote ch-code-scroll-parent {
   width: 100% !important;
-  overflow-x: auto !important;
-  overflow-y: hidden !important;
-}
-
-.blockquote ch-code-scroll-parent::-webkit-scrollbar {
-  height: 8px;
-}
-
-.blockquote ch-code-scroll-parent::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.blockquote ch-code-scroll-parent::-webkit-scrollbar-thumb {
-  background: #d0d2d8;
-  border-radius: 4px;
-}
-
-.blockquote ch-code-scroll-parent::-webkit-scrollbar-thumb:hover {
-  background: #a0a2a8;
-}
+  overflow: scroll !important;
+  }
 
 .blockquote a {
   color: #e31c58 !important;
