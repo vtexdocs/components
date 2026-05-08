@@ -62,15 +62,25 @@ table .code {
 .blockquote ch-code-scroll-parent {
   width: 100% !important;
   overflow: auto !important;
+  scrollbar-width: thin;
+  scrollbar-color: #d0d2d8 transparent;
 }
 
-.blockquote ch-code-wrapper::-webkit-scrollbar-thumb {
-  background: #b8bcc8;
-  border-radius: 999px;
+.blockquote ch-code-scroll-parent::-webkit-scrollbar {
+  height: 8px;
 }
 
-.blockquote ch-code-wrapper::-webkit-scrollbar-track {
-  background: #eef0f4;
+.blockquote ch-code-scroll-parent::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.blockquote ch-code-scroll-parent::-webkit-scrollbar-thumb {
+  background: #d0d2d8;
+  border-radius: 4px;
+}
+
+.blockquote ch-code-scroll-parent::-webkit-scrollbar-thumb:hover {
+  background: #a0a2a8;
 }
 
 .blockquote a {
