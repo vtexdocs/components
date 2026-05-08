@@ -61,8 +61,18 @@ table .code {
 
 .blockquote ch-code-scroll-parent {
   width: 100% !important;
-  overflow: scroll !important;
-  }
+  overflow: auto !important;
+  scrollbar-color: #b8bcc8 #eef0f4;
+}
+
+.blockquote ch-code-scroll-parent::-webkit-scrollbar-thumb {
+  background: #b8bcc8;
+  border-radius: 999px;
+}
+
+.blockquote ch-code-scroll-parent::-webkit-scrollbar-track {
+  background: #eef0f4;
+}
 
 .blockquote a {
   color: #e31c58 !important;
