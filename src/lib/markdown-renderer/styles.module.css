@@ -61,8 +61,10 @@ table .code {
 
 .blockquote ch-code-scroll-parent {
   width: 100% !important;
-  overflow: scroll !important;
-  }
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  color-scheme: light;
+}
 
 .blockquote a {
   color: #e31c58 !important;

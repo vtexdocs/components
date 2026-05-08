@@ -54,7 +54,9 @@ table .styles_code {
 }
 .styles_blockquote ch-code-scroll-parent {
   width: 100% !important;
-  overflow: scroll !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  color-scheme: light;
 }
 .styles_blockquote a {
   color: #e31c58 !important;
