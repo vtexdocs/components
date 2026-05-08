@@ -55,13 +55,12 @@ table .styles_code {
 .styles_blockquote ch-code-scroll-parent {
   width: 100% !important;
   overflow: auto !important;
-  scrollbar-color: #b8bcc8 #eef0f4;
 }
-.styles_blockquote ch-code-scroll-parent::-webkit-scrollbar-thumb {
+.styles_blockquote ch-code-wrapper::-webkit-scrollbar-thumb {
   background: #b8bcc8;
   border-radius: 999px;
 }
-.styles_blockquote ch-code-scroll-parent::-webkit-scrollbar-track {
+.styles_blockquote ch-code-wrapper::-webkit-scrollbar-track {
   background: #eef0f4;
 }
 .styles_blockquote a {
