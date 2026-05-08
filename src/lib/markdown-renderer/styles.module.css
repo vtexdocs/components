@@ -50,10 +50,7 @@ table .code {
 .blockquote div {
   margin: 0px;
   grid-column: 2 / -1;
-  grid-row: auto;
-  min-width: 0;
-  max-width: 100%;
-  overflow: hidden;
+  grid-row: 1 / 1;
 }
 
 .blockquote > div {
