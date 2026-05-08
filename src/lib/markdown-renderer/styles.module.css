@@ -61,9 +61,8 @@ table .code {
 
 .blockquote ch-code-scroll-parent {
   width: 100% !important;
-  overflow: auto !important;
-  scrollbar-width: thin;
-  scrollbar-color: #d0d2d8 transparent;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
 }
 
 .blockquote ch-code-scroll-parent::-webkit-scrollbar {
