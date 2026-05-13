@@ -9818,12 +9818,31 @@ var createAlgoliaClient = (config) => {
     }
   };
 };
+var HYBRID_UPSTREAM_MAX_LIMIT = 100;
 var createHybridClient = (config) => {
   const {
     apiEndpoint,
     defaultLimit = 10,
-    useLanguageFilter = true
+    useLanguageFilter = true,
+    upstreamFetchSize = HYBRID_UPSTREAM_MAX_LIMIT,
+    cacheTtlMs = 6e4
   } = config;
+  const effectiveUpstreamLimit = clampUpstreamLimit(upstreamFetchSize);
+  const cache = [];
+  const getCached = (key) => {
+    const now = Date.now();
+    for (let i = cache.length - 1; i >= 0; i--) {
+      if (now - cache[i].ts > cacheTtlMs) {
+        cache.splice(i, 1);
+      }
+    }
+    return cache.find((e) => e.key === key)?.hits;
+  };
+  const setCached = (key, hits) => {
+    cache.push({ key, ts: Date.now(), hits });
+    while (cache.length > 20)
+      cache.shift();
+  };
   aa2("init", {
     appId: "hybrid-search",
     apiKey: "none",
@@ -9839,40 +9858,51 @@ var createHybridClient = (config) => {
         return void 0;
       }
       try {
-        const request = requests[0];
-        const query = request.params?.query || "";
-        const limit = request.params?.hitsPerPage || defaultLimit;
-        let locale = "";
-        const facetFilters = request.params?.facetFilters || [];
-        if (Array.isArray(facetFilters)) {
-          const langFilter = facetFilters.find(
-            (f) => typeof f === "string" && f.startsWith("language:")
-          );
-          if (langFilter && typeof langFilter === "string") {
-            locale = langFilter.replace("language:", "");
+        const request = requests.find(({ params: params2 }) => params2?.query) || requests[0];
+        const params = request.params || {};
+        const query = params.query || "";
+        const hitsPerPage = params.hitsPerPage || defaultLimit;
+        const page = params.page || 0;
+        const { locale, doctypes } = extractHybridFilters(params);
+        const cacheKey = JSON.stringify({
+          q: query,
+          locale: useLanguageFilter ? locale || "" : "",
+          limit: effectiveUpstreamLimit
+        });
+        const cachedHits = getCached(cacheKey);
+        let allHits;
+        if (cachedHits) {
+          allHits = cachedHits;
+        } else {
+          const url = new URL(apiEndpoint, window.location.origin);
+          url.searchParams.set("q", query);
+          url.searchParams.set("limit", String(effectiveUpstreamLimit));
+          if (useLanguageFilter && locale) {
+            url.searchParams.set("locale", locale);
           }
+          const response = await fetch(url.toString());
+          if (!response.ok) {
+            throw new Error(`Hybrid search failed: ${response.status}`);
+          }
+          const data = await response.json();
+          const rawResults = Array.isArray(data?.results) ? data.results : [];
+          allHits = rawResults.map(transformHybridToAlgolia);
+          setCached(cacheKey, allHits);
         }
-        const url = new URL(apiEndpoint, window.location.origin);
-        url.searchParams.set("q", query);
-        url.searchParams.set("limit", String(limit));
-        if (locale) {
-          url.searchParams.set("locale", locale);
-        }
-        const response = await fetch(url.toString());
-        if (!response.ok) {
-          throw new Error(`Hybrid search failed: ${response.status}`);
-        }
-        const data = await response.json();
-        const hits = (data.results || []).map(transformHybridToAlgolia);
-        const facets = extractFacetsFromHits(hits);
+        const filteredHits = filterHitsByDoctype(allHits, doctypes);
+        const nbHits = filteredHits.length;
+        const nbPages = Math.max(1, Math.ceil(nbHits / hitsPerPage));
+        const start = page * hitsPerPage;
+        const pageHits = filteredHits.slice(start, start + hitsPerPage);
+        const facets = extractFacetsFromHits(allHits);
         return {
           results: [
             {
-              hits,
-              nbHits: data.total || hits.length,
-              page: request.params?.page || 0,
-              nbPages: Math.ceil((data.total || hits.length) / limit),
-              hitsPerPage: limit,
+              hits: pageHits,
+              nbHits,
+              page,
+              nbPages,
+              hitsPerPage,
               exhaustiveNbHits: true,
               query,
               params: "",
@@ -9907,23 +9937,61 @@ var createHybridClient = (config) => {
     }
   };
 };
+function clampUpstreamLimit(raw) {
+  if (!Number.isFinite(raw) || raw <= 0)
+    return HYBRID_UPSTREAM_MAX_LIMIT;
+  return Math.min(HYBRID_UPSTREAM_MAX_LIMIT, Math.max(1, Math.floor(raw)));
+}
+function extractHybridFilters(params) {
+  let locale = "";
+  const doctypes = [];
+  const pushDoctype = (raw) => {
+    const value = raw.replace(/^"|"$/g, "").trim();
+    if (value && !doctypes.includes(value))
+      doctypes.push(value);
+  };
+  const filtersStr = typeof params?.filters === "string" ? params.filters : "";
+  if (filtersStr) {
+    const langMatch = filtersStr.match(/language\s*:\s*([\w-]+)/i);
+    if (langMatch)
+      locale = langMatch[1];
+    const doctypeRegex = /doctype\s*:\s*(?:"([^"]+)"|([^\s)]+))/gi;
+    let m;
+    while ((m = doctypeRegex.exec(filtersStr)) !== null) {
+      pushDoctype(m[1] || m[2] || "");
+    }
+  }
+  const facetFilters = params?.facetFilters;
+  const visit = (entry) => {
+    if (typeof entry === "string") {
+      if (!locale && entry.startsWith("language:")) {
+        locale = entry.slice("language:".length);
+      } else if (entry.startsWith("doctype:")) {
+        pushDoctype(entry.slice("doctype:".length));
+      }
+    } else if (Array.isArray(entry)) {
+      entry.forEach(visit);
+    }
+  };
+  visit(facetFilters);
+  return { locale, doctypes };
+}
+function filterHitsByDoctype(hits, doctypes) {
+  if (!doctypes.length)
+    return hits;
+  const wanted = new Set(doctypes.map((d) => d.toLowerCase()));
+  return hits.filter(
+    (h) => wanted.has(String(h.doctype || "").toLowerCase())
+  );
+}
 function transformHybridToAlgolia(result) {
   const filePath = result.filePath || "";
-  const pathParts = filePath.split("/").filter(Boolean);
-  let doctype = "Documentation";
-  let hierarchy = {
-    lvl0: "Documentation",
+  const doctype = deriveDoctypeFromFilePath(filePath);
+  const hierarchy = {
+    lvl0: doctype,
     lvl1: result.title || "Untitled",
-    lvl2: null
+    lvl2: deriveCategoryFromFilePath(filePath)
   };
-  if (pathParts.length > 2) {
-    doctype = pathParts[2] || "Documentation";
-    hierarchy = {
-      lvl0: doctype,
-      lvl1: result.title || "Untitled",
-      lvl2: pathParts[3] || null
-    };
-  }
   const url = buildUrlFromFilePath(filePath);
   return {
     objectID: String(result.id),
@@ -9962,14 +10030,41 @@ function transformHybridToAlgolia(result) {
     }
   };
 }
-function buildUrlFromFilePath(filePath) {
-  const parts = filePath.split("/");
+var LOCALE_SEGMENT = /^(en|es|pt)$/i;
+function deriveDoctypeFromFilePath(filePath) {
+  const parts = filePath.split("/").filter(Boolean);
+  if (parts.length === 0)
+    return "documentation";
   if (parts[0] === "docs" && parts.length > 2) {
-    const pathWithoutDocs = parts.slice(2);
-    const pathWithoutExt = pathWithoutDocs.join("/").replace(/\.mdx?$/, "");
-    return `/docs/${pathWithoutExt}`;
+    return parts[2].toLowerCase();
   }
-  return "/" + filePath.replace(/\.mdx?$/, "");
+  if (parts.length > 1 && LOCALE_SEGMENT.test(parts[1])) {
+    return parts[0].toLowerCase();
+  }
+  return parts[0].toLowerCase();
+}
+function deriveCategoryFromFilePath(filePath) {
+  const parts = filePath.split("/").filter(Boolean);
+  if (parts[0] === "docs" && parts.length > 3)
+    return parts[3];
+  if (parts.length > 2 && LOCALE_SEGMENT.test(parts[1]))
+    return parts[2];
+  if (parts.length > 1)
+    return parts[1];
+  return null;
+}
+function buildUrlFromFilePath(filePath) {
+  const parts = filePath.split("/").filter(Boolean);
+  if (parts.length === 0)
+    return "/";
+  const stripExt = (s) => s.replace(/\.mdx?$/, "");
+  if (parts[0] === "docs" && parts.length > 2) {
+    return `/docs/${stripExt(parts.slice(2).join("/"))}`;
+  }
+  if (parts.length > 2 && LOCALE_SEGMENT.test(parts[1])) {
+    return `/${parts[0]}/${stripExt(parts.slice(2).join("/"))}`;
+  }
+  return "/" + stripExt(parts.join("/"));
 }
 function extractFacetsFromHits(hits) {
   const facets = {

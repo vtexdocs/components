@@ -166,6 +166,20 @@ interface HybridSearchConfig {
     source: 'help-center' | 'dev-portal';
     defaultLimit?: number;
     useLanguageFilter?: boolean;
+    /**
+     * Max number of results to request from the upstream API in a single call.
+     * The Hybrid Search upstream does not support pagination, so the adapter
+     * fetches a large slice once and paginates / filters client-side.
+     * Defaults to 100 (the upstream HS_MAX_LIMIT).
+     */
+    upstreamFetchSize?: number;
+    /**
+     * TTL (ms) for the in-memory response cache keyed by query+locale.
+     * A short TTL is enough to let `connectInfiniteHits` page through the
+     * results without re-fetching the upstream on every refineNext call.
+     * Defaults to 60_000 ms.
+     */
+    cacheTtlMs?: number;
 }
 type SearchBackendConfig = {
     backend: 'algolia';
