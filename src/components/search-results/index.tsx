@@ -64,7 +64,7 @@ const SearchResults = () => {
             filters={filters}
             query={router.query.keyword}
             clickAnalytics={true}
-            hitsPerPage={6}
+            hitsPerPage={10}
             facets={['doctype', 'language']}
             facetingAfterDistinct={true}
           />

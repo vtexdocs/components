@@ -1657,7 +1657,7 @@ var version, destroy, AuthMode2;
 var init_client_common_esm2 = __esm({
   "node_modules/algoliasearch/node_modules/@algolia/client-common/dist/client-common.esm.js"() {
     "use strict";
-    version = "4.24.0";
+    version = "4.26.0";
     destroy = (base) => {
       return () => {
         return base.transporter.requester.destroy();
@@ -2874,6 +2874,15 @@ var init_client_search_esm = __esm({
             objectIDs: saveObjectsResponse.objectIDs,
             taskIDs: [copyResponse.taskID, ...saveObjectsResponse.taskIDs, moveResponse.taskID]
           };
+        }).catch((error) => {
+          return deleteIndex({
+            appId: base.appId,
+            transporter: base.transporter,
+            indexName: temporaryIndexName
+          })().catch(() => {
+          }).then(() => {
+            throw error;
+          });
         });
         return createWaitablePromise2(result, (_, waitRequestOptions) => {
           return Promise.all(responses.map((response) => response.wait(waitRequestOptions)));
@@ -3184,7 +3193,7 @@ var version2, destroy2, AuthMode5;
 var init_client_common_esm5 = __esm({
   "node_modules/@algolia/recommend/node_modules/@algolia/client-common/dist/client-common.esm.js"() {
     "use strict";
-    version2 = "4.24.0";
+    version2 = "4.26.0";
     destroy2 = (base) => {
       return () => {
         return base.transporter.requester.destroy();
@@ -3213,6 +3222,7 @@ import { Agent } from "http";
 import * as https from "https";
 import { Agent as Agent$1 } from "https";
 import { parse as parse2 } from "url";
+import { createGunzip, gzip } from "zlib";
 function createNodeHttpRequester({ agent: userGlobalAgent, httpAgent: userHttpAgent, httpsAgent: userHttpsAgent, requesterOptions = {} } = {}) {
   const httpAgent = userHttpAgent || userGlobalAgent || defaultHttpAgent;
   const httpsAgent = userHttpsAgent || userGlobalAgent || defaultHttpsAgent;
@@ -3221,6 +3231,9 @@ function createNodeHttpRequester({ agent: userGlobalAgent, httpAgent: userHttpAg
       return new Promise((resolve) => {
         const url = parse2(request.url);
         const path = url.query === null ? url.pathname : `${url.pathname}?${url.query}`;
+        const COMPRESSION_THRESHOLD = 750;
+        const acceptEncoding = request.headers["accept-encoding"];
+        const shouldCompress = request.data !== void 0 && Buffer.byteLength(request.data) >= COMPRESSION_THRESHOLD && acceptEncoding !== void 0 && acceptEncoding.toLowerCase().includes("gzip");
         const options = {
           ...requesterOptions,
           agent: url.protocol === "https:" ? httpsAgent : httpAgent,
@@ -3229,28 +3242,58 @@ function createNodeHttpRequester({ agent: userGlobalAgent, httpAgent: userHttpAg
           method: request.method,
           headers: {
             ...requesterOptions && requesterOptions.headers ? requesterOptions.headers : {},
-            ...request.headers
+            ...request.headers,
+            ...shouldCompress ? { "content-encoding": "gzip" } : {}
           },
           ...url.port !== void 0 ? { port: url.port || "" } : {}
         };
+        let connectTimeout;
+        let responseTimeout;
+        let gunzip;
+        const cleanup = () => {
+          clearTimeout(connectTimeout);
+          clearTimeout(responseTimeout);
+          if (gunzip) {
+            gunzip.destroy();
+          }
+        };
+        const onError = (error) => {
+          cleanup();
+          resolve({ status: 0, content: error.message, isTimedOut: false });
+        };
         const req = (url.protocol === "https:" ? https : http).request(options, (response) => {
+          const contentEncoding = response.headers["content-encoding"];
+          const isGzipResponse = contentEncoding !== void 0 && contentEncoding.toLowerCase().includes("gzip");
           let contentBuffers = [];
-          response.on("data", (chunk) => {
+          const onData = (chunk) => {
             contentBuffers = contentBuffers.concat(chunk);
-          });
-          response.on("end", () => {
-            clearTimeout(connectTimeout);
-            clearTimeout(responseTimeout);
+          };
+          const onEnd = () => {
+            cleanup();
             resolve({
               status: response.statusCode || 0,
               content: Buffer.concat(contentBuffers).toString(),
               isTimedOut: false
             });
-          });
+          };
+          response.on("error", onError);
+          if (isGzipResponse) {
+            gunzip = createGunzip();
+            response.pipe(gunzip);
+            gunzip.on("data", onData);
+            gunzip.on("end", onEnd);
+            gunzip.on("error", onError);
+          } else {
+            response.on("data", onData);
+            response.on("end", onEnd);
+          }
         });
         const createTimeout = (timeout, content) => {
           return setTimeout(() => {
             req.abort();
+            if (gunzip) {
+              gunzip.destroy();
+            }
             resolve({
               status: 0,
               content,
@@ -3258,21 +3301,29 @@ function createNodeHttpRequester({ agent: userGlobalAgent, httpAgent: userHttpAg
             });
           }, timeout * 1e3);
         };
-        const connectTimeout = createTimeout(request.connectTimeout, "Connection timeout");
-        let responseTimeout;
-        req.on("error", (error) => {
-          clearTimeout(connectTimeout);
-          clearTimeout(responseTimeout);
-          resolve({ status: 0, content: error.message, isTimedOut: false });
-        });
+        connectTimeout = createTimeout(request.connectTimeout, "Connection timeout");
+        req.on("error", onError);
         req.once("response", () => {
           clearTimeout(connectTimeout);
           responseTimeout = createTimeout(request.responseTimeout, "Socket timeout");
         });
-        if (request.data !== void 0) {
-          req.write(request.data);
+        if (request.data !== void 0 && shouldCompress) {
+          gzip(request.data, (error, compressedBody) => {
+            if (error) {
+              onError(error);
+              return;
+            }
+            req.setHeader("content-length", compressedBody.byteLength);
+            req.write(compressedBody);
+            req.end();
+          });
+        } else {
+          if (request.data !== void 0) {
+            req.setHeader("content-length", Buffer.byteLength(request.data));
+            req.write(request.data);
+          }
+          req.end();
         }
-        req.end();
       });
     },
     destroy() {
@@ -3505,6 +3556,7 @@ import { Agent as Agent2 } from "http";
 import * as https2 from "https";
 import { Agent as Agent$12 } from "https";
 import { parse as parse3 } from "url";
+import { createGunzip as createGunzip2, gzip as gzip2 } from "zlib";
 function createNodeHttpRequester2({ agent: userGlobalAgent, httpAgent: userHttpAgent, httpsAgent: userHttpsAgent, requesterOptions = {} } = {}) {
   const httpAgent = userHttpAgent || userGlobalAgent || defaultHttpAgent2;
   const httpsAgent = userHttpsAgent || userGlobalAgent || defaultHttpsAgent2;
@@ -3513,6 +3565,9 @@ function createNodeHttpRequester2({ agent: userGlobalAgent, httpAgent: userHttpA
       return new Promise((resolve) => {
         const url = parse3(request.url);
         const path = url.query === null ? url.pathname : `${url.pathname}?${url.query}`;
+        const COMPRESSION_THRESHOLD = 750;
+        const acceptEncoding = request.headers["accept-encoding"];
+        const shouldCompress = request.data !== void 0 && Buffer.byteLength(request.data) >= COMPRESSION_THRESHOLD && acceptEncoding !== void 0 && acceptEncoding.toLowerCase().includes("gzip");
         const options = {
           ...requesterOptions,
           agent: url.protocol === "https:" ? httpsAgent : httpAgent,
@@ -3521,28 +3576,58 @@ function createNodeHttpRequester2({ agent: userGlobalAgent, httpAgent: userHttpA
           method: request.method,
           headers: {
             ...requesterOptions && requesterOptions.headers ? requesterOptions.headers : {},
-            ...request.headers
+            ...request.headers,
+            ...shouldCompress ? { "content-encoding": "gzip" } : {}
           },
           ...url.port !== void 0 ? { port: url.port || "" } : {}
         };
+        let connectTimeout;
+        let responseTimeout;
+        let gunzip;
+        const cleanup = () => {
+          clearTimeout(connectTimeout);
+          clearTimeout(responseTimeout);
+          if (gunzip) {
+            gunzip.destroy();
+          }
+        };
+        const onError = (error) => {
+          cleanup();
+          resolve({ status: 0, content: error.message, isTimedOut: false });
+        };
         const req = (url.protocol === "https:" ? https2 : http2).request(options, (response) => {
+          const contentEncoding = response.headers["content-encoding"];
+          const isGzipResponse = contentEncoding !== void 0 && contentEncoding.toLowerCase().includes("gzip");
           let contentBuffers = [];
-          response.on("data", (chunk) => {
+          const onData = (chunk) => {
             contentBuffers = contentBuffers.concat(chunk);
-          });
-          response.on("end", () => {
-            clearTimeout(connectTimeout);
-            clearTimeout(responseTimeout);
+          };
+          const onEnd = () => {
+            cleanup();
             resolve({
               status: response.statusCode || 0,
               content: Buffer.concat(contentBuffers).toString(),
               isTimedOut: false
             });
-          });
+          };
+          response.on("error", onError);
+          if (isGzipResponse) {
+            gunzip = createGunzip2();
+            response.pipe(gunzip);
+            gunzip.on("data", onData);
+            gunzip.on("end", onEnd);
+            gunzip.on("error", onError);
+          } else {
+            response.on("data", onData);
+            response.on("end", onEnd);
+          }
         });
         const createTimeout = (timeout, content) => {
           return setTimeout(() => {
             req.abort();
+            if (gunzip) {
+              gunzip.destroy();
+            }
             resolve({
               status: 0,
               content,
@@ -3550,21 +3635,29 @@ function createNodeHttpRequester2({ agent: userGlobalAgent, httpAgent: userHttpA
             });
           }, timeout * 1e3);
         };
-        const connectTimeout = createTimeout(request.connectTimeout, "Connection timeout");
-        let responseTimeout;
-        req.on("error", (error) => {
-          clearTimeout(connectTimeout);
-          clearTimeout(responseTimeout);
-          resolve({ status: 0, content: error.message, isTimedOut: false });
-        });
+        connectTimeout = createTimeout(request.connectTimeout, "Connection timeout");
+        req.on("error", onError);
         req.once("response", () => {
           clearTimeout(connectTimeout);
           responseTimeout = createTimeout(request.responseTimeout, "Socket timeout");
         });
-        if (request.data !== void 0) {
-          req.write(request.data);
+        if (request.data !== void 0 && shouldCompress) {
+          gzip2(request.data, (error, compressedBody) => {
+            if (error) {
+              onError(error);
+              return;
+            }
+            req.setHeader("content-length", compressedBody.byteLength);
+            req.write(compressedBody);
+            req.end();
+          });
+        } else {
+          if (request.data !== void 0) {
+            req.setHeader("content-length", Buffer.byteLength(request.data));
+            req.write(request.data);
+          }
+          req.end();
         }
-        req.end();
       });
     },
     destroy() {
@@ -3598,6 +3691,111 @@ var require_algoliasearch_cjs = __commonJS({
     var recommend = require_recommend();
     var requesterNodeHttp = (init_requester_node_http_esm2(), __toCommonJS(requester_node_http_esm_exports2));
     var transporter = (init_transporter_esm(), __toCommonJS(transporter_esm_exports));
+    var requesterCommon = (init_requester_common_esm(), __toCommonJS(requester_common_esm_exports));
+    function createIngestionClient(options) {
+      if (!options || !options.transformation || !options.transformation.region) {
+        throw transformationConfigurationError("`region` must be provided when leveraging the transformation pipeline");
+      }
+      if (options.transformation.region !== "eu" && options.transformation.region !== "us") {
+        throw transformationConfigurationError("`region` is required and must be one of the following: eu, us");
+      }
+      const appId = options.appId;
+      const auth = clientCommon.createAuth(clientCommon.AuthMode.WithinHeaders, appId, options.apiKey);
+      const transporter$1 = transporter.createTransporter({
+        hosts: [
+          {
+            url: `data.${options.transformation.region}.algolia.com`,
+            accept: transporter.CallEnum.ReadWrite,
+            protocol: "https"
+          }
+        ],
+        ...options,
+        headers: {
+          ...auth.headers(),
+          ...{ "content-type": "text/plain" },
+          ...options.headers
+        },
+        queryParameters: {
+          ...auth.queryParameters(),
+          ...options.queryParameters
+        }
+      });
+      return {
+        transporter: transporter$1,
+        appId,
+        addAlgoliaAgent(segment, version3) {
+          transporter$1.userAgent.add({ segment, version: version3 });
+          transporter$1.userAgent.add({ segment: "Ingestion", version: version3 });
+          transporter$1.userAgent.add({ segment: "Ingestion via Algoliasearch" });
+        },
+        clearCache() {
+          return Promise.all([
+            transporter$1.requestsCache.clear(),
+            transporter$1.responsesCache.clear()
+          ]).then(() => void 0);
+        },
+        push({ indexName, pushTaskPayload, watch }, requestOptions) {
+          if (!indexName) {
+            throw transformationConfigurationError("Parameter `indexName` is required when calling `push`.");
+          }
+          if (!pushTaskPayload) {
+            throw transformationConfigurationError("Parameter `pushTaskPayload` is required when calling `push`.");
+          }
+          if (!pushTaskPayload.action) {
+            throw transformationConfigurationError("Parameter `pushTaskPayload.action` is required when calling `push`.");
+          }
+          if (!pushTaskPayload.records) {
+            throw transformationConfigurationError("Parameter `pushTaskPayload.records` is required when calling `push`.");
+          }
+          const opts = requestOptions || { queryParameters: {} };
+          return transporter$1.write({
+            method: requesterCommon.MethodEnum.Post,
+            path: clientCommon.encode("1/push/%s", indexName),
+            data: pushTaskPayload
+          }, {
+            ...opts,
+            queryParameters: {
+              ...opts.queryParameters,
+              watch: watch !== void 0
+            }
+          });
+        }
+      };
+    }
+    function saveObjectsWithTransformation(indexName, client) {
+      return (objects, requestOptions) => {
+        if (!client) {
+          throw transformationConfigurationError("`options.transformation.region` must be provided at client instantiation before calling this method.");
+        }
+        const { autoGenerateObjectIDIfNotExist, watch, ...rest } = requestOptions || {};
+        const action = autoGenerateObjectIDIfNotExist ? clientSearch.BatchActionEnum.AddObject : clientSearch.BatchActionEnum.UpdateObject;
+        return client.push({
+          indexName,
+          pushTaskPayload: { action, records: objects },
+          watch
+        }, rest);
+      };
+    }
+    function partialUpdateObjectsWithTransformation(indexName, client) {
+      return (objects, requestOptions) => {
+        if (!client) {
+          throw transformationConfigurationError("`options.transformation.region` must be provided at client instantiation before calling this method.");
+        }
+        const { createIfNotExists, watch, ...rest } = requestOptions || {};
+        const action = createIfNotExists ? clientSearch.BatchActionEnum.PartialUpdateObject : clientSearch.BatchActionEnum.PartialUpdateObjectNoCreate;
+        return client.push({
+          indexName,
+          pushTaskPayload: { action, records: objects },
+          watch
+        }, rest);
+      };
+    }
+    function transformationConfigurationError(message) {
+      return {
+        name: "TransformationConfigurationError",
+        message
+      };
+    }
     function algoliasearch2(appId, apiKey, options) {
       const commonOptions = {
         appId,
@@ -3628,6 +3826,13 @@ var require_algoliasearch_cjs = __commonJS({
           }
         });
       };
+      let ingestionTransporter;
+      if (options && options.transformation) {
+        if (!options.transformation.region) {
+          throw transformationConfigurationError("`region` must be provided when leveraging the transformation pipeline");
+        }
+        ingestionTransporter = createIngestionClient({ ...options, ...commonOptions });
+      }
       return clientSearch.createSearchClient({
         ...searchClientOptions,
         methods: {
@@ -3673,49 +3878,53 @@ var require_algoliasearch_cjs = __commonJS({
           waitAppTask: clientSearch.waitAppTask,
           customRequest: clientSearch.customRequest,
           initIndex: (base) => (indexName) => {
-            return clientSearch.initIndex(base)(indexName, {
-              methods: {
-                batch: clientSearch.batch,
-                delete: clientSearch.deleteIndex,
-                findAnswers: clientSearch.findAnswers,
-                getObject: clientSearch.getObject,
-                getObjects: clientSearch.getObjects,
-                saveObject: clientSearch.saveObject,
-                saveObjects: clientSearch.saveObjects,
-                search: clientSearch.search,
-                searchForFacetValues: clientSearch.searchForFacetValues,
-                waitTask: clientSearch.waitTask,
-                setSettings: clientSearch.setSettings,
-                getSettings: clientSearch.getSettings,
-                partialUpdateObject: clientSearch.partialUpdateObject,
-                partialUpdateObjects: clientSearch.partialUpdateObjects,
-                deleteObject: clientSearch.deleteObject,
-                deleteObjects: clientSearch.deleteObjects,
-                deleteBy: clientSearch.deleteBy,
-                clearObjects: clientSearch.clearObjects,
-                browseObjects: clientSearch.browseObjects,
-                getObjectPosition: clientSearch.getObjectPosition,
-                findObject: clientSearch.findObject,
-                exists: clientSearch.exists,
-                saveSynonym: clientSearch.saveSynonym,
-                saveSynonyms: clientSearch.saveSynonyms,
-                getSynonym: clientSearch.getSynonym,
-                searchSynonyms: clientSearch.searchSynonyms,
-                browseSynonyms: clientSearch.browseSynonyms,
-                deleteSynonym: clientSearch.deleteSynonym,
-                clearSynonyms: clientSearch.clearSynonyms,
-                replaceAllObjects: clientSearch.replaceAllObjects,
-                replaceAllSynonyms: clientSearch.replaceAllSynonyms,
-                searchRules: clientSearch.searchRules,
-                getRule: clientSearch.getRule,
-                deleteRule: clientSearch.deleteRule,
-                saveRule: clientSearch.saveRule,
-                saveRules: clientSearch.saveRules,
-                replaceAllRules: clientSearch.replaceAllRules,
-                browseRules: clientSearch.browseRules,
-                clearRules: clientSearch.clearRules
-              }
-            });
+            return {
+              ...clientSearch.initIndex(base)(indexName, {
+                methods: {
+                  batch: clientSearch.batch,
+                  delete: clientSearch.deleteIndex,
+                  findAnswers: clientSearch.findAnswers,
+                  getObject: clientSearch.getObject,
+                  getObjects: clientSearch.getObjects,
+                  saveObject: clientSearch.saveObject,
+                  saveObjects: clientSearch.saveObjects,
+                  search: clientSearch.search,
+                  searchForFacetValues: clientSearch.searchForFacetValues,
+                  waitTask: clientSearch.waitTask,
+                  setSettings: clientSearch.setSettings,
+                  getSettings: clientSearch.getSettings,
+                  partialUpdateObject: clientSearch.partialUpdateObject,
+                  partialUpdateObjects: clientSearch.partialUpdateObjects,
+                  deleteObject: clientSearch.deleteObject,
+                  deleteObjects: clientSearch.deleteObjects,
+                  deleteBy: clientSearch.deleteBy,
+                  clearObjects: clientSearch.clearObjects,
+                  browseObjects: clientSearch.browseObjects,
+                  getObjectPosition: clientSearch.getObjectPosition,
+                  findObject: clientSearch.findObject,
+                  exists: clientSearch.exists,
+                  saveSynonym: clientSearch.saveSynonym,
+                  saveSynonyms: clientSearch.saveSynonyms,
+                  getSynonym: clientSearch.getSynonym,
+                  searchSynonyms: clientSearch.searchSynonyms,
+                  browseSynonyms: clientSearch.browseSynonyms,
+                  deleteSynonym: clientSearch.deleteSynonym,
+                  clearSynonyms: clientSearch.clearSynonyms,
+                  replaceAllObjects: clientSearch.replaceAllObjects,
+                  replaceAllSynonyms: clientSearch.replaceAllSynonyms,
+                  searchRules: clientSearch.searchRules,
+                  getRule: clientSearch.getRule,
+                  deleteRule: clientSearch.deleteRule,
+                  saveRule: clientSearch.saveRule,
+                  saveRules: clientSearch.saveRules,
+                  replaceAllRules: clientSearch.replaceAllRules,
+                  browseRules: clientSearch.browseRules,
+                  clearRules: clientSearch.clearRules
+                }
+              }),
+              saveObjectsWithTransformation: saveObjectsWithTransformation(indexName, ingestionTransporter),
+              partialUpdateObjectsWithTransformation: partialUpdateObjectsWithTransformation(indexName, ingestionTransporter)
+            };
           },
           initAnalytics: () => (clientOptions) => {
             return clientAnalytics.createAnalyticsClient({
@@ -6614,8 +6823,9 @@ var MermaidDiagram = ({ node, ...props }) => {
     const resizeObserver = new ResizeObserver(() => {
       if (!ref.current)
         return;
-      setWidth(ref.current?.clientWidth ?? 0);
-      setHeight(ref.current?.clientWidth / 2);
+      const width2 = ref.current.clientWidth;
+      setWidth(width2);
+      setHeight(width2 / 2);
     });
     const mermaidRenderer = async function() {
       const { svg } = await mermaid2.render("mermaid-id", props.children);
@@ -10107,21 +10317,28 @@ function SearchInput() {
   const changeFocus = (value) => {
     setfocusOut({ modaltoggle: value });
   };
-  return /* @__PURE__ */ jsxs32(InstantSearch, { searchClient, indexName: searchIndex, children: [
-    searchClient.instantSearchConfigs && /* @__PURE__ */ jsx39(Configure, { ...searchClient.instantSearchConfigs }),
-    searchClient.useLanguageFilter && /* @__PURE__ */ jsx39(
-      Configure,
-      {
-        clickAnalytics: true,
-        facetFilters: [`language:${locale}`]
-      }
-    ),
-    !searchClient.useLanguageFilter && /* @__PURE__ */ jsx39(Configure, { clickAnalytics: true }),
-    /* @__PURE__ */ jsxs32(Box15, { onFocus: () => setfocusOut({ modaltoggle: true }), ref: resultsBox2, children: [
-      /* @__PURE__ */ jsx39(search_box_default, { changeFocus }),
-      focusOut.modaltoggle && /* @__PURE__ */ jsx39(results_box_default, { changeFocus })
+  return (
+    // @ts-expect-error - React type conflict with @mdx-js/react
+    /* @__PURE__ */ jsxs32(InstantSearch, { searchClient, indexName: searchIndex, children: [
+      searchClient.instantSearchConfigs && // @ts-expect-error - React type conflict with @mdx-js/react
+      /* @__PURE__ */ jsx39(Configure, { ...searchClient.instantSearchConfigs }),
+      searchClient.useLanguageFilter && // @ts-expect-error - React type conflict with @mdx-js/react
+      /* @__PURE__ */ jsx39(
+        Configure,
+        {
+          clickAnalytics: true,
+          facetFilters: [`language:${locale}`]
+        }
+      ),
+      !searchClient.useLanguageFilter && // @ts-expect-error - React type conflict with @mdx-js/react
+      /* @__PURE__ */ jsx39(Configure, { clickAnalytics: true }),
+      /* @__PURE__ */ jsxs32(Box15, { onFocus: () => setfocusOut({ modaltoggle: true }), ref: resultsBox2, children: [
+        /* @__PURE__ */ jsx39(search_box_default, { changeFocus }),
+        focusOut.modaltoggle && // @ts-expect-error - React type conflict with @mdx-js/react
+        /* @__PURE__ */ jsx39(results_box_default, { changeFocus })
+      ] })
     ] })
-  ] });
+  );
 }
 
 // src/lib/hamburger-menu/index.tsx
@@ -11360,7 +11577,8 @@ var InfiniteHits = ({ hits, hasMore, refineNext }) => {
     /* @__PURE__ */ jsx57("span", { ref: scrollRef })
   ] });
 };
-var infiniteHits_default = connectInfiniteHits(InfiniteHits);
+var ConnectedInfiniteHits = connectInfiniteHits(InfiniteHits);
+var infiniteHits_default = ConnectedInfiniteHits;
 
 // src/components/search-results/styles.ts
 var resultContainer = {
@@ -11459,7 +11677,7 @@ var SearchResults = () => {
               filters,
               query: router.query.keyword,
               clickAnalytics: true,
-              hitsPerPage: 6,
+              hitsPerPage: 10,
               facets: ["doctype", "language"],
               facetingAfterDistinct: true
             }
