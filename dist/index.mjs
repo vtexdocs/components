@@ -11577,8 +11577,7 @@ var InfiniteHits = ({ hits, hasMore, refineNext }) => {
     /* @__PURE__ */ jsx57("span", { ref: scrollRef })
   ] });
 };
-var ConnectedInfiniteHits = connectInfiniteHits(InfiniteHits);
-var infiniteHits_default = ConnectedInfiniteHits;
+var infiniteHits_default = connectInfiniteHits(InfiniteHits);
 
 // src/components/search-results/styles.ts
 var resultContainer = {
