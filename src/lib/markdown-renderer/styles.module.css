@@ -63,7 +63,10 @@ table .code {
   width: 100% !important;
   overflow-x: auto !important;
   overflow-y: hidden !important;
-  background-color: #1b1e28 !important;
+}
+
+.blockquote ch-code-wrapper {
+  background-color: transparent !important;
 }
 
 .blockquote a {

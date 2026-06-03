@@ -56,7 +56,9 @@ table .styles_code {
   width: 100% !important;
   overflow-x: auto !important;
   overflow-y: hidden !important;
-  background-color: #1b1e28 !important;
+}
+.styles_blockquote ch-code-wrapper {
+  background-color: transparent !important;
 }
 .styles_blockquote a {
   color: #e31c58 !important;
