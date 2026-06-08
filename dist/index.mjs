@@ -6418,7 +6418,14 @@ var removeHTML = (str) => str.replace(/<\/?[^>]+>/g, "");
 var stripMarkdownForSnippet = (str) => {
   if (!str)
     return "";
-  return str.replace(/!\[([^\]]*)\]\([^)]+\)/g, "$1").replace(/\[([^\]]+)\]\([^)]+\)/g, "$1").replace(/^#{1,6}\s+/gm, "").replace(/\s#{1,6}\s+/g, " ").replace(/\*\*(.+?)\*\*/g, "$1").replace(/__(.+?)__/g, "$1").replace(/\*(.+?)\*/g, "$1").replace(/_(.+?)_/g, "$1").replace(/`([^`]+)`/g, "$1").replace(/```[\s\S]*?```/g, "").replace(/^(\*{3,}|-{3,}|_{3,})$/gm, "").replace(/^>\s+/gm, "").replace(/\s+/g, " ").trim();
+  let cleaned = str.replace(/!\[([^\]]*)\]\([^)]+\)/g, "$1").replace(/\[([^\]]+)\]\([^)]+\)/g, "$1").replace(/^#{1,6}\s+/gm, "").replace(/\s#{1,6}\s+/g, " ").replace(/\*\*(.+?)\*\*/g, "$1").replace(/__(.+?)__/g, "$1").replace(/\*(.+?)\*/g, "$1").replace(/_(.+?)_/g, "$1").replace(/`([^`]+)`/g, "$1").replace(/```[\s\S]*?```/g, "").replace(/^(\*{3,}|-{3,}|_{3,})$/gm, "").replace(/^>\s+/gm, "").replace(/\s+/g, " ").trim();
+  if (cleaned.length > 0 && /^[a-zà-ÿ]/.test(cleaned)) {
+    const firstSpaceIndex = cleaned.indexOf(" ");
+    if (firstSpaceIndex > 0 && firstSpaceIndex < 50) {
+      cleaned = cleaned.substring(firstSpaceIndex + 1).trim();
+    }
+  }
+  return cleaned;
 };
 var slugify = (str) => {
   return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^\w\s-]/g, "").replace(/\s+/g, "-").replace(/-+/g, "-").trim();
@@ -10069,6 +10076,11 @@ function buildUrlFromFilePath(filePath) {
   if (parts.length === 0)
     return "/";
   const stripExt = (s) => s.replace(/\.mdx?$/, "");
+  if (parts[0] === "docs" && parts.length > 3 && parts[2] === "tracks") {
+    const locale = parts[1];
+    const slug = stripExt(parts[parts.length - 1]);
+    return `/${locale}/docs/tracks/${slug}`;
+  }
   if (parts[0] === "docs" && parts.length > 2) {
     return `/docs/${stripExt(parts.slice(2).join("/"))}`;
   }

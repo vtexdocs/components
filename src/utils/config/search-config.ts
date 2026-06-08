@@ -422,6 +422,14 @@ function buildUrlFromFilePath(filePath: string): string {
 
   const stripExt = (s: string) => s.replace(/\.mdx?$/, '')
 
+  // docs/<locale>/tracks/<path>/<slug> → /<locale>/docs/tracks/<slug>
+  // Special handling for tracks: only use the last segment
+  if (parts[0] === 'docs' && parts.length > 3 && parts[2] === 'tracks') {
+    const locale = parts[1]
+    const slug = stripExt(parts[parts.length - 1])
+    return `/${locale}/docs/tracks/${slug}`
+  }
+
   // docs/<locale>/<doctype>/<slug>...
   if (parts[0] === 'docs' && parts.length > 2) {
     return `/docs/${stripExt(parts.slice(2).join('/'))}`

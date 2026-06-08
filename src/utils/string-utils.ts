@@ -8,7 +8,7 @@ export const removeHTML = (str: string) => str.replace(/<\/?[^>]+>/g, '')
 export const stripMarkdownForSnippet = (str: string): string => {
   if (!str) return ''
   
-  return str
+  let cleaned = str
     // Remove markdown images ![alt](url) - keep only alt text
     .replace(/!\[([^\]]*)\]\([^)]+\)/g, '$1')
     // Remove markdown links [text](url) - keep only the text
@@ -34,6 +34,16 @@ export const stripMarkdownForSnippet = (str: string): string => {
     // Remove extra whitespace and normalize spaces
     .replace(/\s+/g, ' ')
     .trim()
+
+  // If the snippet starts mid-word (lowercase letter), try to find the start of the next word
+  if (cleaned.length > 0 && /^[a-zà-ÿ]/.test(cleaned)) {
+    const firstSpaceIndex = cleaned.indexOf(' ')
+    if (firstSpaceIndex > 0 && firstSpaceIndex < 50) {
+      cleaned = cleaned.substring(firstSpaceIndex + 1).trim()
+    }
+  }
+
+  return cleaned
 }
 
 export const capitalizeFirstLetter = (str: string) => {
