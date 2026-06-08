@@ -430,12 +430,29 @@ function buildUrlFromFilePath(filePath: string): string {
     return `/${locale}/docs/tracks/${slug}`
   }
 
+  // docs/<locale>/tutorials/<path>/<slug> → /<locale>/docs/tutorials/<slug>
+  // Special handling for tutorials: only use the last segment
+  if (parts[0] === 'docs' && parts.length > 3 && parts[2] === 'tutorials') {
+    const locale = parts[1]
+    const slug = stripExt(parts[parts.length - 1])
+    return `/${locale}/docs/tutorials/${slug}`
+  }
+
   // docs/<locale>/<doctype>/<slug>...
   if (parts[0] === 'docs' && parts.length > 2) {
     return `/docs/${stripExt(parts.slice(2).join('/'))}`
   }
 
-  // <doctype>/<locale>/<slug>... (announcements, faq, known-issues, troubleshooting, ...)
+  // <doctype>/<locale>/<path>/<slug> → /<doctype>/<slug>
+  // Special handling for faq, known-issues, troubleshooting, announcements: only use the last segment
+  const specialDoctypes = ['faq', 'known-issues', 'troubleshooting', 'announcements']
+  if (parts.length > 2 && LOCALE_SEGMENT.test(parts[1]) && specialDoctypes.includes(parts[0])) {
+    const doctype = parts[0]
+    const slug = stripExt(parts[parts.length - 1])
+    return `/${doctype}/${slug}`
+  }
+
+  // <doctype>/<locale>/<slug>... (other doctypes - fallback)
   if (parts.length > 2 && LOCALE_SEGMENT.test(parts[1])) {
     return `/${parts[0]}/${stripExt(parts.slice(2).join('/'))}`
   }

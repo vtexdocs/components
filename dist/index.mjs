@@ -10081,8 +10081,19 @@ function buildUrlFromFilePath(filePath) {
     const slug = stripExt(parts[parts.length - 1]);
     return `/${locale}/docs/tracks/${slug}`;
   }
+  if (parts[0] === "docs" && parts.length > 3 && parts[2] === "tutorials") {
+    const locale = parts[1];
+    const slug = stripExt(parts[parts.length - 1]);
+    return `/${locale}/docs/tutorials/${slug}`;
+  }
   if (parts[0] === "docs" && parts.length > 2) {
     return `/docs/${stripExt(parts.slice(2).join("/"))}`;
+  }
+  const specialDoctypes = ["faq", "known-issues", "troubleshooting", "announcements"];
+  if (parts.length > 2 && LOCALE_SEGMENT.test(parts[1]) && specialDoctypes.includes(parts[0])) {
+    const doctype = parts[0];
+    const slug = stripExt(parts[parts.length - 1]);
+    return `/${doctype}/${slug}`;
   }
   if (parts.length > 2 && LOCALE_SEGMENT.test(parts[1])) {
     return `/${parts[0]}/${stripExt(parts.slice(2).join("/"))}`;
