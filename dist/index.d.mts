@@ -2,7 +2,7 @@ import * as react_jsx_runtime from 'react/jsx-runtime';
 import { MDXRemoteSerializeResult } from 'next-mdx-remote';
 import { SxStyleProp, IconProps } from '@vtex/brand-ui';
 import * as react from 'react';
-import { Dispatch, SetStateAction, ReactNode } from 'react';
+import { ReactNode, Dispatch, SetStateAction } from 'react';
 import { AlgoliaSearchOptions } from 'algoliasearch/lite';
 
 interface MarkdownRendererProps {
@@ -165,6 +165,7 @@ interface HybridSearchConfig {
     apiEndpoint: string;
     source: 'help-center' | 'dev-portal';
     defaultLimit?: number;
+    itemsPerPage?: number;
     useLanguageFilter?: boolean;
     /**
      * Max number of results to request from the upstream API in a single call.
