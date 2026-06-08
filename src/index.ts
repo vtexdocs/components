@@ -10,8 +10,27 @@ export {
   ShareButton,
   CopyLinkButton,
   Input,
+  Tag,
+  ListingFilter,
+  TroubleshootingCard,
+  filterTroubleshootingItems,
+  collectTroubleshootingFilterOptions,
   type Item,
+  type TagColor,
+  type TagProps,
+  type FilterGroup,
+  type FilterOption,
+  type ListingFilterLabels,
+  type ListingFilterProps,
+  type ListingFilterSelection,
+  type TroubleshootingCardProps,
+  type TroubleshootingCardVariant,
+  type TroubleshootingItem,
+  type TroubleshootingFilterState,
 } from './lib'
+
+/** @deprecated Use ListingFilter instead */
+export { ListingFilter as Filter } from './lib'
 export { getDaysElapsed } from 'utils/get-days-elapsed'
 export { default as LibraryContextProvider } from 'utils/context/libraryContext'
 export { LibraryContext } from 'utils/context/libraryContext'
