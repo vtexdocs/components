@@ -10076,24 +10076,15 @@ function buildUrlFromFilePath(filePath) {
   if (parts.length === 0)
     return "/";
   const stripExt = (s) => s.replace(/\.mdx?$/, "");
-  if (parts[0] === "docs" && parts.length > 3 && parts[2] === "tracks") {
+  const specialDocsTypes = ["tracks", "tutorials", "faq", "known-issues", "troubleshooting", "announcements"];
+  if (parts[0] === "docs" && parts.length > 3 && specialDocsTypes.includes(parts[2])) {
     const locale = parts[1];
+    const doctype = parts[2];
     const slug = stripExt(parts[parts.length - 1]);
-    return `/${locale}/docs/tracks/${slug}`;
-  }
-  if (parts[0] === "docs" && parts.length > 3 && parts[2] === "tutorials") {
-    const locale = parts[1];
-    const slug = stripExt(parts[parts.length - 1]);
-    return `/${locale}/docs/tutorials/${slug}`;
+    return `/${locale}/docs/${doctype}/${slug}`;
   }
   if (parts[0] === "docs" && parts.length > 2) {
     return `/docs/${stripExt(parts.slice(2).join("/"))}`;
-  }
-  const specialDoctypes = ["faq", "known-issues", "troubleshooting", "announcements"];
-  if (parts.length > 2 && LOCALE_SEGMENT.test(parts[1]) && specialDoctypes.includes(parts[0])) {
-    const doctype = parts[0];
-    const slug = stripExt(parts[parts.length - 1]);
-    return `/${doctype}/${slug}`;
   }
   if (parts.length > 2 && LOCALE_SEGMENT.test(parts[1])) {
     return `/${parts[0]}/${stripExt(parts.slice(2).join("/"))}`;

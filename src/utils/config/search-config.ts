@@ -422,34 +422,20 @@ function buildUrlFromFilePath(filePath: string): string {
 
   const stripExt = (s: string) => s.replace(/\.mdx?$/, '')
 
-  // docs/<locale>/tracks/<path>/<slug> → /<locale>/docs/tracks/<slug>
-  // Special handling for tracks: only use the last segment
-  if (parts[0] === 'docs' && parts.length > 3 && parts[2] === 'tracks') {
+  // docs/<locale>/<special-doctype>/<path>/<slug> → /<locale>/docs/<special-doctype>/<slug>
+  // Special handling for tracks, tutorials, faq, known-issues, troubleshooting, announcements
+  // These only use the last segment of the path
+  const specialDocsTypes = ['tracks', 'tutorials', 'faq', 'known-issues', 'troubleshooting', 'announcements']
+  if (parts[0] === 'docs' && parts.length > 3 && specialDocsTypes.includes(parts[2])) {
     const locale = parts[1]
+    const doctype = parts[2]
     const slug = stripExt(parts[parts.length - 1])
-    return `/${locale}/docs/tracks/${slug}`
-  }
-
-  // docs/<locale>/tutorials/<path>/<slug> → /<locale>/docs/tutorials/<slug>
-  // Special handling for tutorials: only use the last segment
-  if (parts[0] === 'docs' && parts.length > 3 && parts[2] === 'tutorials') {
-    const locale = parts[1]
-    const slug = stripExt(parts[parts.length - 1])
-    return `/${locale}/docs/tutorials/${slug}`
+    return `/${locale}/docs/${doctype}/${slug}`
   }
 
   // docs/<locale>/<doctype>/<slug>...
   if (parts[0] === 'docs' && parts.length > 2) {
     return `/docs/${stripExt(parts.slice(2).join('/'))}`
-  }
-
-  // <doctype>/<locale>/<path>/<slug> → /<doctype>/<slug>
-  // Special handling for faq, known-issues, troubleshooting, announcements: only use the last segment
-  const specialDoctypes = ['faq', 'known-issues', 'troubleshooting', 'announcements']
-  if (parts.length > 2 && LOCALE_SEGMENT.test(parts[1]) && specialDoctypes.includes(parts[0])) {
-    const doctype = parts[0]
-    const slug = stripExt(parts[parts.length - 1])
-    return `/${doctype}/${slug}`
   }
 
   // <doctype>/<locale>/<slug>... (other doctypes - fallback)
