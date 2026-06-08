@@ -451,6 +451,19 @@ function buildUrlFromFilePath(filePath: string): string {
     return `/docs/${stripExt(parts.slice(2).join('/'))}`
   }
 
+  // faq/<locale>/<path>/<slug> → /<locale>/faq/<slug>
+  // troubleshooting/<locale>/<path>/<slug> → /<locale>/troubleshooting/<slug>
+  // announcements/<locale>/<path>/<slug> → /<locale>/announcements/<slug>
+  // known-issues/<locale>/<path>/<slug> → /<locale>/known-issues/<slug>
+  // Special handling when these doctypes are at root level: use only last segment
+  const rootNoDocsTypes = ['faq', 'troubleshooting', 'announcements', 'known-issues']
+  if (parts.length > 2 && LOCALE_SEGMENT.test(parts[1]) && rootNoDocsTypes.includes(parts[0])) {
+    const locale = parts[1]
+    const doctype = parts[0]
+    const slug = stripExt(parts[parts.length - 1])
+    return `/${locale}/${doctype}/${slug}`
+  }
+
   // <doctype>/<locale>/<slug>... (other doctypes - fallback)
   if (parts.length > 2 && LOCALE_SEGMENT.test(parts[1])) {
     return `/${parts[0]}/${stripExt(parts.slice(2).join('/'))}`
