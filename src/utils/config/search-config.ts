@@ -4,10 +4,12 @@ import {
   MultipleQueriesQuery,
   MultipleQueriesResponse,
 } from '@algolia/client-search'
+import { stripMarkdownForSnippet } from '../string-utils'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export let searchClient: any = {}
 export let searchIndex = ''
+export let hitsPerPage = 10 // Default page size for search results
 
 export interface AlgoliaConfig {
   appId: string
@@ -25,6 +27,7 @@ export interface HybridSearchConfig {
   apiEndpoint: string
   source: 'help-center' | 'dev-portal'
   defaultLimit?: number
+  itemsPerPage?: number // Alias for defaultLimit (for backward compatibility)
   useLanguageFilter?: boolean
   /**
    * Max number of results to request from the upstream API in a single call.
@@ -98,11 +101,16 @@ type HybridCacheEntry = {
 const createHybridClient = (config: HybridSearchConfig) => {
   const {
     apiEndpoint,
-    defaultLimit = 10,
+    defaultLimit,
+    itemsPerPage,
     useLanguageFilter = true,
     upstreamFetchSize = HYBRID_UPSTREAM_MAX_LIMIT,
     cacheTtlMs = 60_000,
   } = config
+
+  // Support both defaultLimit and itemsPerPage (itemsPerPage takes precedence)
+  const pageSize = itemsPerPage ?? defaultLimit ?? 10
+  hitsPerPage = pageSize
 
   const effectiveUpstreamLimit = clampUpstreamLimit(upstreamFetchSize)
   const cache: HybridCacheEntry[] = []
@@ -150,7 +158,7 @@ const createHybridClient = (config: HybridSearchConfig) => {
           requests.find(({ params }) => params?.query) || requests[0]
         const params = request.params || {}
         const query = params.query || ''
-        const hitsPerPage = params.hitsPerPage || defaultLimit
+        const hitsPerPage = params.hitsPerPage || pageSize
         const page = params.page || 0
 
         const { locale, doctypes } = extractHybridFilters(params)
@@ -232,7 +240,7 @@ const createHybridClient = (config: HybridSearchConfig) => {
               nbHits: 0,
               page: 0,
               nbPages: 0,
-              hitsPerPage: defaultLimit,
+              hitsPerPage: pageSize,
               exhaustiveNbHits: true,
               query: requests[0]?.params?.query || '',
               params: '',
@@ -327,6 +335,10 @@ function transformHybridToAlgolia(result: any): any {
 
   const url = buildUrlFromFilePath(filePath)
 
+  // Strip markdown syntax from snippets for display
+  const rawContent = result.snippet || result.content || ''
+  const cleanContent = stripMarkdownForSnippet(rawContent)
+
   return {
     objectID: String(result.id),
     ...result,
@@ -334,13 +346,13 @@ function transformHybridToAlgolia(result: any): any {
     url_without_anchor: url.split('#')[0],
     doctype,
     doctitle: result.title || 'Untitled',
-    content: result.snippet || result.content || '',
+    content: cleanContent,
     hierarchy,
     language: result.metadata?.locale || 'en',
     type: 'content',
     _highlightResult: {
       content: {
-        value: result.snippet || result.content || '',
+        value: cleanContent,
         matchLevel: 'full',
         fullyHighlighted: false,
         matchedWords: [],
@@ -358,7 +370,7 @@ function transformHybridToAlgolia(result: any): any {
     },
     _snippetResult: {
       content: {
-        value: result.snippet || '',
+        value: result.snippet ? stripMarkdownForSnippet(result.snippet) : '',
         matchLevel: 'full',
       },
     },

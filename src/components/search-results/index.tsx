@@ -11,7 +11,7 @@ import InfiniteHits from './infiniteHits'
 
 import styles from './styles'
 import { SearchContext } from 'utils/context/search'
-import { searchClient, searchIndex } from 'utils/config/search-config'
+import { searchClient, searchIndex, hitsPerPage } from 'utils/config/search-config'
 
 const SearchResults = () => {
   const router = useRouter()
@@ -64,7 +64,7 @@ const SearchResults = () => {
             filters={filters}
             query={router.query.keyword}
             clickAnalytics={true}
-            hitsPerPage={10}
+            hitsPerPage={hitsPerPage}
             facets={['doctype', 'language']}
             facetingAfterDistinct={true}
           />
