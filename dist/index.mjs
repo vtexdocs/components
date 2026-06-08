@@ -10076,12 +10076,19 @@ function buildUrlFromFilePath(filePath) {
   if (parts.length === 0)
     return "/";
   const stripExt = (s) => s.replace(/\.mdx?$/, "");
-  const specialDocsTypes = ["tracks", "tutorials", "faq", "known-issues", "troubleshooting", "announcements"];
-  if (parts[0] === "docs" && parts.length > 3 && specialDocsTypes.includes(parts[2])) {
+  const docsTypes = ["tracks", "tutorials"];
+  if (parts[0] === "docs" && parts.length > 3 && docsTypes.includes(parts[2])) {
     const locale = parts[1];
     const doctype = parts[2];
     const slug = stripExt(parts[parts.length - 1]);
     return `/${locale}/docs/${doctype}/${slug}`;
+  }
+  const noDocsTypes = ["faq", "troubleshooting", "announcements", "known-issues"];
+  if (parts[0] === "docs" && parts.length > 3 && noDocsTypes.includes(parts[2])) {
+    const locale = parts[1];
+    const doctype = parts[2];
+    const slug = stripExt(parts[parts.length - 1]);
+    return `/${locale}/${doctype}/${slug}`;
   }
   if (parts[0] === "docs" && parts.length > 2) {
     return `/docs/${stripExt(parts.slice(2).join("/"))}`;

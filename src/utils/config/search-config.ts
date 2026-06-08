@@ -422,15 +422,28 @@ function buildUrlFromFilePath(filePath: string): string {
 
   const stripExt = (s: string) => s.replace(/\.mdx?$/, '')
 
-  // docs/<locale>/<special-doctype>/<path>/<slug> → /<locale>/docs/<special-doctype>/<slug>
-  // Special handling for tracks, tutorials, faq, known-issues, troubleshooting, announcements
-  // These only use the last segment of the path
-  const specialDocsTypes = ['tracks', 'tutorials', 'faq', 'known-issues', 'troubleshooting', 'announcements']
-  if (parts[0] === 'docs' && parts.length > 3 && specialDocsTypes.includes(parts[2])) {
+  // docs/<locale>/tracks/<path>/<slug> → /<locale>/docs/tracks/<slug>
+  // docs/<locale>/tutorials/<path>/<slug> → /<locale>/docs/tutorials/<slug>
+  // Special handling for tracks and tutorials: keep "docs" in URL, use only last segment
+  const docsTypes = ['tracks', 'tutorials']
+  if (parts[0] === 'docs' && parts.length > 3 && docsTypes.includes(parts[2])) {
     const locale = parts[1]
     const doctype = parts[2]
     const slug = stripExt(parts[parts.length - 1])
     return `/${locale}/docs/${doctype}/${slug}`
+  }
+
+  // docs/<locale>/faq/<path>/<slug> → /<locale>/faq/<slug>
+  // docs/<locale>/troubleshooting/<path>/<slug> → /<locale>/troubleshooting/<slug>
+  // docs/<locale>/announcements/<path>/<slug> → /<locale>/announcements/<slug>
+  // docs/<locale>/known-issues/<path>/<slug> → /<locale>/known-issues/<slug>
+  // Special handling: NO "docs" in URL, use only last segment
+  const noDocsTypes = ['faq', 'troubleshooting', 'announcements', 'known-issues']
+  if (parts[0] === 'docs' && parts.length > 3 && noDocsTypes.includes(parts[2])) {
+    const locale = parts[1]
+    const doctype = parts[2]
+    const slug = stripExt(parts[parts.length - 1])
+    return `/${locale}/${doctype}/${slug}`
   }
 
   // docs/<locale>/<doctype>/<slug>...
