@@ -11,7 +11,7 @@
   pointer-events: none;
 }
 .styles_code {
-  background-color: #f6f8fa;
+  background-color: unset;
   background-color: var(--md-code-background, #f6f8fa);
   border-radius: 4px;
   color: var(--md-code-text);
@@ -98,7 +98,7 @@ table .styles_code {
   background-color: #ffe5b5;
 }
 .styles_blockquoteInfo code {
-  background-color: #ecebf3;
+  background-color: unset;
 }
 .styles_blockquoteWarning:before {
   display: inline-block;

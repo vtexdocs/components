@@ -12,7 +12,7 @@
 }
 
 .code {
-  background-color: #f6f8fa;
+  background-color: unset;
   background-color: var(--md-code-background, #f6f8fa);
   border-radius: 4px;
   color: var(--md-code-text);
@@ -115,7 +115,7 @@ table .code {
 }
 
 .blockquoteInfo code {
-  background-color: #ecebf3;
+  background-color: unset;
 }
 
 .blockquoteWarning:before {
