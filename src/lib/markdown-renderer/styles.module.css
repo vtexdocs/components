@@ -12,7 +12,7 @@
 }
 
 .code {
-  background-color: #f6f8fa;
+  background-color: unset;
   background-color: var(--md-code-background, #f6f8fa);
   border-radius: 4px;
   color: var(--md-code-text);
@@ -37,7 +37,7 @@ table .code {
   align-items: center;
   border: 1px solid #ccced8;
   grid-template-columns: 20px 1fr;
-  grid-template-rows: 1fr;
+  grid-template-rows: auto;
   word-break: break-word;
 }
 
@@ -51,6 +51,19 @@ table .code {
   margin: 0px;
   grid-column: 2 / -1;
   grid-row: 1 / 1;
+}
+
+.blockquote > div {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.blockquote ch-code-scroll-parent {
+  width: 100% !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  background-color: unset !important;
 }
 
 .blockquote a {
@@ -102,7 +115,7 @@ table .code {
 }
 
 .blockquoteInfo code {
-  background-color: #ecebf3;
+  background-color: unset;
 }
 
 .blockquoteWarning:before {
