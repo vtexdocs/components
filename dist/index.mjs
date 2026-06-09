@@ -6615,7 +6615,7 @@ var MermaidDiagram = ({ node, ...props }) => {
       if (!ref.current)
         return;
       setWidth(ref.current?.clientWidth ?? 0);
-      setHeight((ref.current?.clientWidth ?? 0) / 2);
+      setHeight(ref.current?.clientWidth / 2);
     });
     const mermaidRenderer = async function() {
       const { svg } = await mermaid2.render("mermaid-id", props.children);
@@ -11085,8 +11085,7 @@ var InfiniteHits = ({ hits, hasMore, refineNext }) => {
     /* @__PURE__ */ jsx57("span", { ref: scrollRef })
   ] });
 };
-var ConnectedInfiniteHits = connectInfiniteHits(InfiniteHits);
-var infiniteHits_default = ConnectedInfiniteHits;
+var infiniteHits_default = connectInfiniteHits(InfiniteHits);
 
 // src/components/search-results/styles.ts
 var resultContainer = {
