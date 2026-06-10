@@ -50,7 +50,8 @@ const SidebarElements = ({ slugPrefix, items, subItemLevel }: SidebarProps) => {
   ) => {
     e.preventDefault()
     const hasEndpointQuery = router.query.endpoint
-    router.push(getHref(slugPrefix || '', pathSuffix, slug)).then(() => {
+    const href = getHref(slugPrefix || '', pathSuffix, slug)
+    router.push(href, href, { locale }).then(() => {
       if (hasEndpointQuery) router.reload()
     })
   }
@@ -94,10 +95,13 @@ const SidebarElements = ({ slugPrefix, items, subItemLevel }: SidebarProps) => {
   }
 
   const getHref = (slugPrefix: string, pathSuffix: string, slug: string) => {
+    const validLocales = ['pt', 'es']
+    const localePrefix =
+      locale && validLocales.includes(locale) ? `/${locale}` : ''
     const href =
       slugPrefix === 'docs/api-reference'
         ? `/${slugPrefix}/${slug}/${pathSuffix}`
-        : `/${slugPrefix}/${slug}`
+        : `${localePrefix}/${slugPrefix}/${slug}`
     return href.replaceAll('//', '/')
   }
 
@@ -119,14 +123,16 @@ const SidebarElements = ({ slugPrefix, items, subItemLevel }: SidebarProps) => {
           {isExpandable && (
             <Button
               aria-label={
-                sidebarElementStatus.has(localizedSlug) && sidebarElementStatus.get(localizedSlug)
+                sidebarElementStatus.has(localizedSlug) &&
+                sidebarElementStatus.get(localizedSlug)
                   ? 'Collapse category'
                   : 'Expand category'
               }
               size="regular"
               variant="tertiary"
               sx={
-                sidebarElementStatus.has(localizedSlug) && sidebarElementStatus.get(localizedSlug)
+                sidebarElementStatus.has(localizedSlug) &&
+                sidebarElementStatus.get(localizedSlug)
                   ? styles.arrowIconActive
                   : styles.arrowIcon
               }
@@ -144,7 +150,11 @@ const SidebarElements = ({ slugPrefix, items, subItemLevel }: SidebarProps) => {
               onClick={() => toggleSidebarElementStatus(localizedSlug)}
             />
           )}
-          {!checkDocumentationType(sidebarDataMaster, localizedSlug, 'category') &&
+          {!checkDocumentationType(
+            sidebarDataMaster,
+            localizedSlug,
+            'category'
+          ) &&
           !checkDocumentationType(sidebarDataMaster, localizedSlug, 'link') ? (
             <Link
               sx={textStyle(activeSidebarElement === activeItem, isExpandable)}
@@ -156,6 +166,7 @@ const SidebarElements = ({ slugPrefix, items, subItemLevel }: SidebarProps) => {
               }}
               href={getHref(slugPrefix || '', pathSuffix, localizedSlug)}
               target={isEditorPreview === true ? '_blank' : '_self'}
+              locale={locale}
             >
               {method && (
                 <MethodCategory
@@ -167,14 +178,21 @@ const SidebarElements = ({ slugPrefix, items, subItemLevel }: SidebarProps) => {
               )}
               {localizedName}
             </Link>
-          ) : checkDocumentationType(sidebarDataMaster, localizedSlug, 'link') ? (
+          ) : checkDocumentationType(
+              sidebarDataMaster,
+              localizedSlug,
+              'link'
+            ) ? (
             <Link href={localizedSlug} target="_blank" sx={styles.elementText}>
               <IconExternalLink size={16} sx={{ marginRight: '10px' }} />
               {localizedName}
             </Link>
           ) : (
             <Box
-              sx={textStyle(activeSidebarElement === localizedSlug, isExpandable)}
+              sx={textStyle(
+                activeSidebarElement === localizedSlug,
+                isExpandable
+              )}
               onClick={() => {
                 toggleSidebarElementStatus(localizedSlug)
               }}
@@ -194,7 +212,7 @@ const SidebarElements = ({ slugPrefix, items, subItemLevel }: SidebarProps) => {
       </Box>
     )
   }
-  
+
   const ElementChildren = ({ slug, children }: SidebarElement) => {
     const isExpandable = children.length > 0
     // const newPathPrefix =
@@ -218,9 +236,15 @@ const SidebarElements = ({ slugPrefix, items, subItemLevel }: SidebarProps) => {
   return (
     <Box className="sidebar-component">
       {items?.map((item, index) => {
-        const key = typeof item.slug === 'string' ? String(item.slug) + String(index) : String(item.slug[locale]) + String(index)
-        const slug = typeof item.slug === 'string' ? `${item.slug}` : `${item.slug[locale]}`
-  
+        const key =
+          typeof item.slug === 'string'
+            ? String(item.slug) + String(index)
+            : String(item.slug[locale]) + String(index)
+        const slug =
+          typeof item.slug === 'string'
+            ? `${item.slug}`
+            : `${item.slug[locale]}`
+
         return (
           <Fragment key={String(key)}>
             <ElementRoot {...item} slug={slug} />

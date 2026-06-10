@@ -6306,7 +6306,9 @@ var LibraryContextProvider = ({ children, ...props }) => {
   const [hamburguerSections, setHamburguerSections] = useState2(
     props.hamburguerMenuSections
   );
-  const locale = "en";
+  const { locale: propsLocale, ...restProps } = props;
+  const locale = propsLocale ?? "en";
+  const fallback = restProps.fallback;
   useEffect3(() => {
     setSidebarDataMaster(props.fallback);
   }, [props.fallback]);
@@ -6316,7 +6318,6 @@ var LibraryContextProvider = ({ children, ...props }) => {
     else if (props.sectionSelected !== activeSectionName)
       setActiveSectionName(props.sectionSelected);
   }, [props.sectionSelected]);
-  const { fallback } = props;
   const toggleSidebarElementStatus = (title6) => {
     setSidebarElementStatus((sidebarElementStatus2) => {
       const open = sidebarElementStatus2.has(title6) === false ? true : !sidebarElementStatus2.get(title6);
@@ -6394,7 +6395,7 @@ var LibraryContextProvider = ({ children, ...props }) => {
         hamburguerSections,
         setHamburguerSections,
         locale,
-        ...props
+        ...restProps
       },
       children: /* @__PURE__ */ jsx8(
         SWRConfig,
@@ -7860,7 +7861,8 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
   const handleClick = (e, pathSuffix, slug) => {
     e.preventDefault();
     const hasEndpointQuery = router.query.endpoint;
-    router.push(getHref(slugPrefix || "", pathSuffix, slug)).then(() => {
+    const href = getHref(slugPrefix || "", pathSuffix, slug);
+    router.push(href, href, { locale }).then(() => {
       if (hasEndpointQuery)
         router.reload();
     });
@@ -7888,7 +7890,9 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
     return false;
   };
   const getHref = (slugPrefix2, pathSuffix, slug) => {
-    const href = slugPrefix2 === "docs/api-reference" ? `/${slugPrefix2}/${slug}/${pathSuffix}` : `/${slugPrefix2}/${slug}`;
+    const validLocales = ["pt", "es"];
+    const localePrefix = locale && validLocales.includes(locale) ? `/${locale}` : "";
+    const href = slugPrefix2 === "docs/api-reference" ? `/${slugPrefix2}/${slug}/${pathSuffix}` : `${localePrefix}/${slugPrefix2}/${slug}`;
     return href.replaceAll("//", "/");
   };
   const ElementRoot = ({
@@ -7921,7 +7925,11 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
           onClick: () => toggleSidebarElementStatus(localizedSlug)
         }
       ),
-      !checkDocumentationType(sidebarDataMaster, localizedSlug, "category") && !checkDocumentationType(sidebarDataMaster, localizedSlug, "link") ? /* @__PURE__ */ jsxs12(
+      !checkDocumentationType(
+        sidebarDataMaster,
+        localizedSlug,
+        "category"
+      ) && !checkDocumentationType(sidebarDataMaster, localizedSlug, "link") ? /* @__PURE__ */ jsxs12(
         Link4,
         {
           sx: textStyle(activeSidebarElement === activeItem, isExpandable),
@@ -7933,6 +7941,7 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
           },
           href: getHref(slugPrefix || "", pathSuffix, localizedSlug),
           target: isEditorPreview === true ? "_blank" : "_self",
+          locale,
           children: [
             method && /* @__PURE__ */ jsx17(
               method_category_default,
@@ -7946,13 +7955,20 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
             localizedName
           ]
         }
-      ) : checkDocumentationType(sidebarDataMaster, localizedSlug, "link") ? /* @__PURE__ */ jsxs12(Link4, { href: localizedSlug, target: "_blank", sx: styles_default12.elementText, children: [
+      ) : checkDocumentationType(
+        sidebarDataMaster,
+        localizedSlug,
+        "link"
+      ) ? /* @__PURE__ */ jsxs12(Link4, { href: localizedSlug, target: "_blank", sx: styles_default12.elementText, children: [
         /* @__PURE__ */ jsx17(IconExternalLink, { size: 16, sx: { marginRight: "10px" } }),
         localizedName
       ] }) : /* @__PURE__ */ jsxs12(
         Box10,
         {
-          sx: textStyle(activeSidebarElement === localizedSlug, isExpandable),
+          sx: textStyle(
+            activeSidebarElement === localizedSlug,
+            isExpandable
+          ),
           onClick: () => {
             toggleSidebarElementStatus(localizedSlug);
           },
