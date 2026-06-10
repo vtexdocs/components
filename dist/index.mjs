@@ -10076,34 +10076,13 @@ function buildUrlFromFilePath(filePath) {
   if (parts.length === 0)
     return "/";
   const stripExt = (s) => s.replace(/\.mdx?$/, "");
-  const docsTypes = ["tracks", "tutorials"];
-  if (parts[0] === "docs" && parts.length > 3 && docsTypes.includes(parts[2])) {
-    const locale = parts[1];
-    const doctype = parts[2];
-    const slug = stripExt(parts[parts.length - 1]);
+  const slug = stripExt(parts[parts.length - 1]);
+  const doctype = deriveDoctypeFromFilePath(filePath);
+  const locale = parts.length > 1 && LOCALE_SEGMENT.test(parts[1]) ? parts[1].toLowerCase() : "en";
+  if (doctype === "tutorials" || doctype === "tracks") {
     return `/${locale}/docs/${doctype}/${slug}`;
   }
-  const noDocsTypes = ["faq", "troubleshooting", "announcements", "known-issues"];
-  if (parts[0] === "docs" && parts.length > 3 && noDocsTypes.includes(parts[2])) {
-    const locale = parts[1];
-    const doctype = parts[2];
-    const slug = stripExt(parts[parts.length - 1]);
-    return `/${locale}/${doctype}/${slug}`;
-  }
-  if (parts[0] === "docs" && parts.length > 2) {
-    return `/docs/${stripExt(parts.slice(2).join("/"))}`;
-  }
-  const rootNoDocsTypes = ["faq", "troubleshooting", "announcements", "known-issues"];
-  if (parts.length > 2 && LOCALE_SEGMENT.test(parts[1]) && rootNoDocsTypes.includes(parts[0])) {
-    const locale = parts[1];
-    const doctype = parts[0];
-    const slug = stripExt(parts[parts.length - 1]);
-    return `/${locale}/${doctype}/${slug}`;
-  }
-  if (parts.length > 2 && LOCALE_SEGMENT.test(parts[1])) {
-    return `/${parts[0]}/${stripExt(parts.slice(2).join("/"))}`;
-  }
-  return "/" + stripExt(parts.join("/"));
+  return `/${locale}/${doctype}/${slug}`;
 }
 function extractFacetsFromHits(hits) {
   const facets = {

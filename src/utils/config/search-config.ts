@@ -416,60 +416,39 @@ function deriveCategoryFromFilePath(filePath: string): string | null {
   return null
 }
 
+/**
+ * Builds the user-facing URL for a search hit from its upstream filePath.
+ *
+ * The rule is doctype-driven (not path-position-driven):
+ *  - tutorials/tracks → /<locale>/docs/<doctype>/<slug>
+ *  - everything else  → /<locale>/<doctype>/<slug>
+ *
+ * The doctype comes from deriveDoctypeFromFilePath (the same source used for
+ * the facet tabs) and the slug is always the last path segment, so this works
+ * regardless of how deep the file is nested or where the doctype sits in the
+ * path (`docs/<locale>/<doctype>/...` or `<doctype>/<locale>/...`).
+ */
 function buildUrlFromFilePath(filePath: string): string {
   const parts = filePath.split('/').filter(Boolean)
   if (parts.length === 0) return '/'
 
   const stripExt = (s: string) => s.replace(/\.mdx?$/, '')
+  const slug = stripExt(parts[parts.length - 1])
 
-  // docs/<locale>/tracks/<path>/<slug> → /<locale>/docs/tracks/<slug>
-  // docs/<locale>/tutorials/<path>/<slug> → /<locale>/docs/tutorials/<slug>
-  // Special handling for tracks and tutorials: keep "docs" in URL, use only last segment
-  const docsTypes = ['tracks', 'tutorials']
-  if (parts[0] === 'docs' && parts.length > 3 && docsTypes.includes(parts[2])) {
-    const locale = parts[1]
-    const doctype = parts[2]
-    const slug = stripExt(parts[parts.length - 1])
+  const doctype = deriveDoctypeFromFilePath(filePath)
+
+  // Locale is the 2nd segment in both supported layouts:
+  // docs/<locale>/... and <doctype>/<locale>/...
+  const locale =
+    parts.length > 1 && LOCALE_SEGMENT.test(parts[1])
+      ? parts[1].toLowerCase()
+      : 'en'
+
+  if (doctype === 'tutorials' || doctype === 'tracks') {
     return `/${locale}/docs/${doctype}/${slug}`
   }
 
-  // docs/<locale>/faq/<path>/<slug> → /<locale>/faq/<slug>
-  // docs/<locale>/troubleshooting/<path>/<slug> → /<locale>/troubleshooting/<slug>
-  // docs/<locale>/announcements/<path>/<slug> → /<locale>/announcements/<slug>
-  // docs/<locale>/known-issues/<path>/<slug> → /<locale>/known-issues/<slug>
-  // Special handling: NO "docs" in URL, use only last segment
-  const noDocsTypes = ['faq', 'troubleshooting', 'announcements', 'known-issues']
-  if (parts[0] === 'docs' && parts.length > 3 && noDocsTypes.includes(parts[2])) {
-    const locale = parts[1]
-    const doctype = parts[2]
-    const slug = stripExt(parts[parts.length - 1])
-    return `/${locale}/${doctype}/${slug}`
-  }
-
-  // docs/<locale>/<doctype>/<slug>...
-  if (parts[0] === 'docs' && parts.length > 2) {
-    return `/docs/${stripExt(parts.slice(2).join('/'))}`
-  }
-
-  // faq/<locale>/<path>/<slug> → /<locale>/faq/<slug>
-  // troubleshooting/<locale>/<path>/<slug> → /<locale>/troubleshooting/<slug>
-  // announcements/<locale>/<path>/<slug> → /<locale>/announcements/<slug>
-  // known-issues/<locale>/<path>/<slug> → /<locale>/known-issues/<slug>
-  // Special handling when these doctypes are at root level: use only last segment
-  const rootNoDocsTypes = ['faq', 'troubleshooting', 'announcements', 'known-issues']
-  if (parts.length > 2 && LOCALE_SEGMENT.test(parts[1]) && rootNoDocsTypes.includes(parts[0])) {
-    const locale = parts[1]
-    const doctype = parts[0]
-    const slug = stripExt(parts[parts.length - 1])
-    return `/${locale}/${doctype}/${slug}`
-  }
-
-  // <doctype>/<locale>/<slug>... (other doctypes - fallback)
-  if (parts.length > 2 && LOCALE_SEGMENT.test(parts[1])) {
-    return `/${parts[0]}/${stripExt(parts.slice(2).join('/'))}`
-  }
-
-  return '/' + stripExt(parts.join('/'))
+  return `/${locale}/${doctype}/${slug}`
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
