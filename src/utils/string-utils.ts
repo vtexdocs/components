@@ -31,6 +31,10 @@ export const stripMarkdownForSnippet = (str: string): string => {
     .replace(/^(\*{3,}|-{3,}|_{3,})$/gm, '')
     // Remove blockquotes (>)
     .replace(/^>\s+/gm, '')
+    // Remove table separator rows (| --- | :--: | etc.)
+    .replace(/^\s*\|?\s*:?-{3,}:?\s*(\|\s*:?-{3,}:?\s*)*\|?\s*$/gm, '')
+    // Replace remaining table pipes with spaces so cell content stays readable
+    .replace(/\s*\|\s*/g, ' ')
     // Remove extra whitespace and normalize spaces
     .replace(/\s+/g, ' ')
     .trim()
