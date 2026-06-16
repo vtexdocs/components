@@ -11541,16 +11541,26 @@ var SearchFilterTab = ({ filter }) => {
     {
       sx: styles_default22.tab(filterSelectedSection === filter),
       onClick: () => changeFilterSelectedSection(filter),
+      "data-testid": "doctype-filter-tab",
+      "data-filter": filter,
+      "data-active": String(filterSelectedSection === filter),
       children: [
-        /* @__PURE__ */ jsx59(Text15, { sx: styles_default22.tabTitle(filterSelectedSection === filter), children: filter || messages[locale]["search_results.all"] || "All results" }),
-        /* @__PURE__ */ jsx59(Text15, { sx: styles_default22.tabCount, children: ocurrenceCount[filter] || 0 })
+        /* @__PURE__ */ jsx59(
+          Text15,
+          {
+            sx: styles_default22.tabTitle(filterSelectedSection === filter),
+            "data-testid": "doctype-filter-tab-title",
+            children: filter || messages[locale]["search_results.all"] || "All results"
+          }
+        ),
+        /* @__PURE__ */ jsx59(Text15, { sx: styles_default22.tabCount, "data-testid": "doctype-filter-tab-count", children: ocurrenceCount[filter] || 0 })
       ]
     }
   );
 };
 var SearchFilterTabBar = () => {
   const { sidebarSections } = useContext17(LibraryContext);
-  return /* @__PURE__ */ jsxs47(Flex20, { sx: styles_default22.container, children: [
+  return /* @__PURE__ */ jsxs47(Flex20, { sx: styles_default22.container, "data-testid": "doctype-filter-tab-bar", children: [
     /* @__PURE__ */ jsx59(SearchFilterTab, { filter: "" }),
     sidebarSections.flat().map((section) => {
       return /* @__PURE__ */ jsx59(SearchFilterTab, { filter: section.id }, section.id);

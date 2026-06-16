@@ -15,11 +15,19 @@ const SearchFilterTab = ({ filter }: { filter: string }) => {
     <Flex
       sx={styles.tab(filterSelectedSection === filter)}
       onClick={() => changeFilterSelectedSection(filter)}
+      data-testid="doctype-filter-tab"
+      data-filter={filter}
+      data-active={String(filterSelectedSection === filter)}
     >
-      <Text sx={styles.tabTitle(filterSelectedSection === filter)}>
+      <Text
+        sx={styles.tabTitle(filterSelectedSection === filter)}
+        data-testid="doctype-filter-tab-title"
+      >
         {filter || messages[locale]['search_results.all'] || 'All results'}
       </Text>
-      <Text sx={styles.tabCount}>{ocurrenceCount[filter] || 0}</Text>
+      <Text sx={styles.tabCount} data-testid="doctype-filter-tab-count">
+        {ocurrenceCount[filter] || 0}
+      </Text>
     </Flex>
   )
 }
@@ -27,7 +35,7 @@ const SearchFilterTab = ({ filter }: { filter: string }) => {
 const SearchFilterTabBar = () => {
   const { sidebarSections } = useContext(LibraryContext)
   return (
-    <Flex sx={styles.container}>
+    <Flex sx={styles.container} data-testid="doctype-filter-tab-bar">
       <SearchFilterTab filter="" />
       {sidebarSections.flat().map((section) => {
         return <SearchFilterTab key={section.id} filter={section.id} />
