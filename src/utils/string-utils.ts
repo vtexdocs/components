@@ -3,16 +3,22 @@ export const removeHTML = (str: string) => str.replace(/<\/?[^>]+>/g, '')
 /**
  * Strips Markdown syntax from text snippets to render as plain text.
  * Removes headings, bold, italic, inline code, images, and links while preserving
- * the readable content.
+ * the readable content. Also handles tokens left truncated by the upstream
+ * snippet (e.g. an image/link cut off mid-URL with no closing paren).
  */
 export const stripMarkdownForSnippet = (str: string): string => {
   if (!str) return ''
   
   let cleaned = str
-    // Remove markdown images ![alt](url) - keep only alt text
-    .replace(/!\[([^\]]*)\]\([^)]+\)/g, '$1')
+    // Remove markdown images ![alt](url) entirely (alt is usually a filename)
+    .replace(/!\[[^\]]*\]\([^)]*\)/g, '')
     // Remove markdown links [text](url) - keep only the text
     .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+    // Remove truncated markdown images/links left dangling at the end of a
+    // snippet (upstream cuts the string mid-token, e.g. "![alt](https://..." )
+    .replace(/!?\[[^\]]*\]\([^)]*$/g, '')
+    // Remove a dangling image/link label with no closing bracket ("![alt" )
+    .replace(/!?\[[^\]]*$/g, '')
     // Remove markdown headings (# ## ### etc.) at line start
     .replace(/^#{1,6}\s+/gm, '')
     // Remove markdown headings anywhere in text

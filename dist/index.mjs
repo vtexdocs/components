@@ -6418,7 +6418,7 @@ var removeHTML = (str) => str.replace(/<\/?[^>]+>/g, "");
 var stripMarkdownForSnippet = (str) => {
   if (!str)
     return "";
-  let cleaned = str.replace(/!\[([^\]]*)\]\([^)]+\)/g, "$1").replace(/\[([^\]]+)\]\([^)]+\)/g, "$1").replace(/^#{1,6}\s+/gm, "").replace(/\s#{1,6}\s+/g, " ").replace(/\*\*(.+?)\*\*/g, "$1").replace(/__(.+?)__/g, "$1").replace(/\*(.+?)\*/g, "$1").replace(/_(.+?)_/g, "$1").replace(/`([^`]+)`/g, "$1").replace(/```[\s\S]*?```/g, "").replace(/^(\*{3,}|-{3,}|_{3,})$/gm, "").replace(/^>\s+/gm, "").replace(/^\s*\|?\s*:?-{3,}:?\s*(\|\s*:?-{3,}:?\s*)*\|?\s*$/gm, "").replace(/\s*\|\s*/g, " ").replace(/\s+/g, " ").trim();
+  let cleaned = str.replace(/!\[[^\]]*\]\([^)]*\)/g, "").replace(/\[([^\]]+)\]\([^)]+\)/g, "$1").replace(/!?\[[^\]]*\]\([^)]*$/g, "").replace(/!?\[[^\]]*$/g, "").replace(/^#{1,6}\s+/gm, "").replace(/\s#{1,6}\s+/g, " ").replace(/\*\*(.+?)\*\*/g, "$1").replace(/__(.+?)__/g, "$1").replace(/\*(.+?)\*/g, "$1").replace(/_(.+?)_/g, "$1").replace(/`([^`]+)`/g, "$1").replace(/```[\s\S]*?```/g, "").replace(/^(\*{3,}|-{3,}|_{3,})$/gm, "").replace(/^>\s+/gm, "").replace(/^\s*\|?\s*:?-{3,}:?\s*(\|\s*:?-{3,}:?\s*)*\|?\s*$/gm, "").replace(/\s*\|\s*/g, " ").replace(/\s+/g, " ").trim();
   if (cleaned.length > 0 && /^[a-zà-ÿ]/.test(cleaned)) {
     const firstSpaceIndex = cleaned.indexOf(" ");
     if (firstSpaceIndex > 0 && firstSpaceIndex < 50) {
