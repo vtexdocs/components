@@ -161,7 +161,7 @@ const createHybridClient = (config: HybridSearchConfig) => {
         const hitsPerPage = params.hitsPerPage || pageSize
         const page = params.page || 0
 
-        const { locale, doctypes } = extractHybridFilters(params)
+        const { locale, doctypes, excludedDoctypes } = extractHybridFilters(params)
 
         // The upstream Hybrid Search API does not support pagination or doctype
         // filtering, so we always fetch a large slice once per (query, locale)
@@ -200,16 +200,18 @@ const createHybridClient = (config: HybridSearchConfig) => {
         }
 
         // Doctype filter is applied client-side because the upstream API
-        // does not understand it. Facet counts are computed on `allHits`
-        // (i.e. ignoring the doctype filter) so that the tabs keep showing
-        // counts for the other doctypes.
-        const filteredHits = filterHitsByDoctype(allHits, doctypes)
+        // does not understand it. Excluded doctypes (e.g. `NOT doctype:"..."`)
+        // are removed first; an optional positive doctype selection narrows further.
+        // Facet counts are computed on searchable hits (after exclusions, before
+        // the positive doctype filter) so tab counts stay consistent.
+        const searchableHits = excludeHitsByDoctype(allHits, excludedDoctypes)
+        const filteredHits = filterHitsByDoctype(searchableHits, doctypes)
         const nbHits = filteredHits.length
         const nbPages = Math.max(1, Math.ceil(nbHits / hitsPerPage))
         const start = page * hitsPerPage
         const pageHits = filteredHits.slice(start, start + hitsPerPage)
 
-        const facets = extractFacetsFromHits(allHits)
+        const facets = extractFacetsFromHits(searchableHits)
 
         return {
           results: [
@@ -264,20 +266,33 @@ function clampUpstreamLimit(raw: number): number {
  *
  * Two filter shapes need to be supported:
  *  1. `Configure.filters` (a single string like
- *     `language:en AND doctype:"tutorials"`), used by the full Search page.
+ *     `language:en AND doctype:"tutorials" AND NOT doctype:"known-issues"`),
+ *     used by the full Search page.
  *  2. `Configure.facetFilters` (an array like `['language:en']`), used by
  *     the SearchInput dropdown in the header.
+ *
+ * `NOT doctype:"..."` clauses are parsed as exclusions (e.g. sections flagged
+ * `excludeFromSearch` in the consuming app). Positive `doctype:"..."` clauses
+ * narrow results to a selected tab.
  */
 function extractHybridFilters(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   params: any
-): { locale: string; doctypes: string[] } {
+): { locale: string; doctypes: string[]; excludedDoctypes: string[] } {
   let locale = ''
   const doctypes: string[] = []
+  const excludedDoctypes: string[] = []
 
   const pushDoctype = (raw: string) => {
     const value = raw.replace(/^"|"$/g, '').trim()
     if (value && !doctypes.includes(value)) doctypes.push(value)
+  }
+
+  const pushExcludedDoctype = (raw: string) => {
+    const value = raw.replace(/^"|"$/g, '').trim()
+    if (value && !excludedDoctypes.includes(value)) {
+      excludedDoctypes.push(value)
+    }
   }
 
   // 1) Configure.filters as a string expression
@@ -286,9 +301,20 @@ function extractHybridFilters(
     const langMatch = filtersStr.match(/language\s*:\s*([\w-]+)/i)
     if (langMatch) locale = langMatch[1]
 
+    const excludedRegex = /NOT\s+doctype\s*:\s*(?:"([^"]+)"|([^\s)]+))/gi
+    let excludedMatch: RegExpExecArray | null
+    while ((excludedMatch = excludedRegex.exec(filtersStr)) !== null) {
+      pushExcludedDoctype(excludedMatch[1] || excludedMatch[2] || '')
+    }
+
+    // Strip exclusion clauses before parsing positive doctype selections.
+    const positiveFiltersStr = filtersStr.replace(
+      /NOT\s+doctype\s*:\s*(?:"[^"]+"|[^\s)]+)/gi,
+      ''
+    )
     const doctypeRegex = /doctype\s*:\s*(?:"([^"]+)"|([^\s)]+))/gi
     let m: RegExpExecArray | null
-    while ((m = doctypeRegex.exec(filtersStr)) !== null) {
+    while ((m = doctypeRegex.exec(positiveFiltersStr)) !== null) {
       pushDoctype(m[1] || m[2] || '')
     }
   }
@@ -308,7 +334,18 @@ function extractHybridFilters(
   }
   visit(facetFilters)
 
-  return { locale, doctypes }
+  return { locale, doctypes, excludedDoctypes }
+}
+
+function excludeHitsByDoctype<T extends { doctype?: string }>(
+  hits: T[],
+  excludedDoctypes: string[]
+): T[] {
+  if (!excludedDoctypes.length) return hits
+  const excluded = new Set(excludedDoctypes.map((d) => d.toLowerCase()))
+  return hits.filter(
+    (h) => !excluded.has(String(h.doctype || '').toLowerCase())
+  )
 }
 
 function filterHitsByDoctype<T extends { doctype?: string }>(

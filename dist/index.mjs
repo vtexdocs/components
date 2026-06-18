@@ -9879,7 +9879,7 @@ var createHybridClient = (config) => {
         const query = params.query || "";
         const hitsPerPage2 = params.hitsPerPage || pageSize;
         const page = params.page || 0;
-        const { locale, doctypes } = extractHybridFilters(params);
+        const { locale, doctypes, excludedDoctypes } = extractHybridFilters(params);
         const cacheKey = JSON.stringify({
           q: query,
           locale: useLanguageFilter ? locale || "" : "",
@@ -9905,12 +9905,13 @@ var createHybridClient = (config) => {
           allHits = rawResults.map(transformHybridToAlgolia);
           setCached(cacheKey, allHits);
         }
-        const filteredHits = filterHitsByDoctype(allHits, doctypes);
+        const searchableHits = excludeHitsByDoctype(allHits, excludedDoctypes);
+        const filteredHits = filterHitsByDoctype(searchableHits, doctypes);
         const nbHits = filteredHits.length;
         const nbPages = Math.max(1, Math.ceil(nbHits / hitsPerPage2));
         const start = page * hitsPerPage2;
         const pageHits = filteredHits.slice(start, start + hitsPerPage2);
-        const facets = extractFacetsFromHits(allHits);
+        const facets = extractFacetsFromHits(searchableHits);
         return {
           results: [
             {
@@ -9961,19 +9962,35 @@ function clampUpstreamLimit(raw) {
 function extractHybridFilters(params) {
   let locale = "";
   const doctypes = [];
+  const excludedDoctypes = [];
   const pushDoctype = (raw) => {
     const value = raw.replace(/^"|"$/g, "").trim();
     if (value && !doctypes.includes(value))
       doctypes.push(value);
+  };
+  const pushExcludedDoctype = (raw) => {
+    const value = raw.replace(/^"|"$/g, "").trim();
+    if (value && !excludedDoctypes.includes(value)) {
+      excludedDoctypes.push(value);
+    }
   };
   const filtersStr = typeof params?.filters === "string" ? params.filters : "";
   if (filtersStr) {
     const langMatch = filtersStr.match(/language\s*:\s*([\w-]+)/i);
     if (langMatch)
       locale = langMatch[1];
+    const excludedRegex = /NOT\s+doctype\s*:\s*(?:"([^"]+)"|([^\s)]+))/gi;
+    let excludedMatch;
+    while ((excludedMatch = excludedRegex.exec(filtersStr)) !== null) {
+      pushExcludedDoctype(excludedMatch[1] || excludedMatch[2] || "");
+    }
+    const positiveFiltersStr = filtersStr.replace(
+      /NOT\s+doctype\s*:\s*(?:"[^"]+"|[^\s)]+)/gi,
+      ""
+    );
     const doctypeRegex = /doctype\s*:\s*(?:"([^"]+)"|([^\s)]+))/gi;
     let m;
-    while ((m = doctypeRegex.exec(filtersStr)) !== null) {
+    while ((m = doctypeRegex.exec(positiveFiltersStr)) !== null) {
       pushDoctype(m[1] || m[2] || "");
     }
   }
@@ -9990,7 +10007,15 @@ function extractHybridFilters(params) {
     }
   };
   visit(facetFilters);
-  return { locale, doctypes };
+  return { locale, doctypes, excludedDoctypes };
+}
+function excludeHitsByDoctype(hits, excludedDoctypes) {
+  if (!excludedDoctypes.length)
+    return hits;
+  const excluded = new Set(excludedDoctypes.map((d) => d.toLowerCase()));
+  return hits.filter(
+    (h) => !excluded.has(String(h.doctype || "").toLowerCase())
+  );
 }
 function filterHitsByDoctype(hits, doctypes) {
   if (!doctypes.length)
