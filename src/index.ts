@@ -16,6 +16,11 @@ export { getDaysElapsed } from 'utils/get-days-elapsed'
 export { default as LibraryContextProvider } from 'utils/context/libraryContext'
 export { LibraryContext } from 'utils/context/libraryContext'
 export { default as SearchConfig } from 'utils/config/search-config'
+export type {
+  SearchBackendConfig,
+  AlgoliaConfig,
+  HybridSearchConfig,
+} from 'utils/config/search-config'
 
 // Icons
 // Documentation Category Icons

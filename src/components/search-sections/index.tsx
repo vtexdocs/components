@@ -9,7 +9,7 @@ const SearchSections = () => {
   const { sidebarSections } = useContext(LibraryContext)
 
   const internalOnlySections = sidebarSections.map((section) =>
-    section.filter((item) => !item.isExternalLink)
+    section.filter((item) => !item.isExternalLink && !item.excludeFromSearch)
   )
 
   return (

@@ -11,15 +11,21 @@ import InfiniteHits from './infiniteHits'
 
 import styles from './styles'
 import { SearchContext } from 'utils/context/search'
-import { searchClient, searchIndex } from 'utils/config/search-config'
+import { searchClient, searchIndex, hitsPerPage } from 'utils/config/search-config'
 
 const SearchResults = () => {
   const router = useRouter()
   const { filterSelectedSection, ocurrenceCount } = useContext(SearchContext)
-  const { locale } = useContext(LibraryContext)
+  const { locale, sidebarSections } = useContext(LibraryContext)
+  const excludedDoctypesFilter = sidebarSections
+    .flat()
+    .filter((section) => section.excludeFromSearch)
+    .map((section) => `NOT doctype:"${section.id}"`)
+    .join(' AND ')
   const filters = [
     `language:${locale}`,
     filterSelectedSection ? `doctype:"${filterSelectedSection}"` : '',
+    excludedDoctypesFilter,
   ]
     .filter(Boolean)
     .join(' AND ')
@@ -64,7 +70,7 @@ const SearchResults = () => {
             filters={filters}
             query={router.query.keyword}
             clickAnalytics={true}
-            hitsPerPage={6}
+            hitsPerPage={hitsPerPage}
             facets={['doctype', 'language']}
             facetingAfterDistinct={true}
           />

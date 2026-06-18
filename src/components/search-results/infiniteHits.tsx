@@ -61,9 +61,14 @@ const StateResults = connectStateResults(
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const results = searchResults as any
-      const isFilteringByDoctype =
-        typeof results?._state.filters === 'string' &&
-        results._state.filters.includes('doctype:')
+      const stateFilters =
+        typeof results?._state.filters === 'string'
+          ? results._state.filters
+          : ''
+      // Ignore the always-present `NOT doctype:"..."` exclusion clauses so we
+      // only detect a positive doctype selection made by the user.
+      const positiveFilters = stateFilters.replace(/NOT doctype:"[^"]*"/g, '')
+      const isFilteringByDoctype = positiveFilters.includes('doctype:"')
 
       const facets = results?.facets as
         | Array<{
@@ -95,7 +100,7 @@ const StateResults = connectStateResults(
 
     return null
   }
-)
+) as any
 
 const InfiniteHits = ({ hits, hasMore, refineNext }: InfiniteHitsProvided) => {
   const scrollRef = useRef<HTMLSpanElement>(null)
@@ -144,4 +149,5 @@ const InfiniteHits = ({ hits, hasMore, refineNext }: InfiniteHitsProvided) => {
   )
 }
 
-export default connectInfiniteHits(InfiniteHits)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export default connectInfiniteHits(InfiniteHits) as any
