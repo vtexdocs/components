@@ -16,10 +16,16 @@ import { searchClient, searchIndex, hitsPerPage } from 'utils/config/search-conf
 const SearchResults = () => {
   const router = useRouter()
   const { filterSelectedSection, ocurrenceCount } = useContext(SearchContext)
-  const { locale } = useContext(LibraryContext)
+  const { locale, sidebarSections } = useContext(LibraryContext)
+  const excludedDoctypesFilter = sidebarSections
+    .flat()
+    .filter((section) => section.excludeFromSearch)
+    .map((section) => `NOT doctype:"${section.id}"`)
+    .join(' AND ')
   const filters = [
     `language:${locale}`,
     filterSelectedSection ? `doctype:"${filterSelectedSection}"` : '',
+    excludedDoctypesFilter,
   ]
     .filter(Boolean)
     .join(' AND ')

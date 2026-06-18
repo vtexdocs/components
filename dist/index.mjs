@@ -11321,7 +11321,9 @@ var StateResults = connectStateResults2(
       if (!searchResults)
         return;
       const results = searchResults;
-      const isFilteringByDoctype = typeof results?._state.filters === "string" && results._state.filters.includes("doctype:");
+      const stateFilters = typeof results?._state.filters === "string" ? results._state.filters : "";
+      const positiveFilters = stateFilters.replace(/NOT doctype:"[^"]*"/g, "");
+      const isFilteringByDoctype = positiveFilters.includes('doctype:"');
       const facets = results?.facets;
       const doctypeFacet = facets?.find((facet) => facet.name === "doctype");
       const nbHits = results?.nbHits ?? 0;
@@ -11445,10 +11447,12 @@ import { jsx as jsx58, jsxs as jsxs46 } from "react/jsx-runtime";
 var SearchResults = () => {
   const router = useRouter7();
   const { filterSelectedSection, ocurrenceCount } = useContext16(SearchContext);
-  const { locale } = useContext16(LibraryContext);
+  const { locale, sidebarSections } = useContext16(LibraryContext);
+  const excludedDoctypesFilter = sidebarSections.flat().filter((section) => section.excludeFromSearch).map((section) => `NOT doctype:"${section.id}"`).join(" AND ");
   const filters = [
     `language:${locale}`,
-    filterSelectedSection ? `doctype:"${filterSelectedSection}"` : ""
+    filterSelectedSection ? `doctype:"${filterSelectedSection}"` : "",
+    excludedDoctypesFilter
   ].filter(Boolean).join(" AND ");
   const [prevFilter, setPrevFilter] = useState14("");
   const [searchState, setSearchState] = useState14({});
