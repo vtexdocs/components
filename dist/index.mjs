@@ -10980,7 +10980,7 @@ import { jsx as jsx54, jsxs as jsxs42 } from "react/jsx-runtime";
 var SearchSections = () => {
   const { sidebarSections } = useContext13(LibraryContext);
   const internalOnlySections = sidebarSections.map(
-    (section) => section.filter((item2) => !item2.isExternalLink)
+    (section) => section.filter((item2) => !item2.isExternalLink && !item2.excludeFromSearch)
   );
   return /* @__PURE__ */ jsx54(Box19, { sx: styles_default19.container, children: internalOnlySections.map((sections, id) => /* @__PURE__ */ jsxs42(
     Box19,
@@ -11562,7 +11562,7 @@ var SearchFilterTabBar = () => {
   const { sidebarSections } = useContext17(LibraryContext);
   return /* @__PURE__ */ jsxs47(Flex20, { sx: styles_default22.container, "data-testid": "doctype-filter-tab-bar", children: [
     /* @__PURE__ */ jsx59(SearchFilterTab, { filter: "" }),
-    sidebarSections.flat().map((section) => {
+    sidebarSections.flat().filter((section) => !section.excludeFromSearch).map((section) => {
       return /* @__PURE__ */ jsx59(SearchFilterTab, { filter: section.id }, section.id);
     })
   ] });

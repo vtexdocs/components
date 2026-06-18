@@ -37,9 +37,12 @@ const SearchFilterTabBar = () => {
   return (
     <Flex sx={styles.container} data-testid="doctype-filter-tab-bar">
       <SearchFilterTab filter="" />
-      {sidebarSections.flat().map((section) => {
-        return <SearchFilterTab key={section.id} filter={section.id} />
-      })}
+      {sidebarSections
+        .flat()
+        .filter((section) => !section.excludeFromSearch)
+        .map((section) => {
+          return <SearchFilterTab key={section.id} filter={section.id} />
+        })}
     </Flex>
   )
 }
