@@ -5,6 +5,8 @@ import { getPrivacyNoticeURL, getNewsletterURL } from 'utils/get-url'
 import { LibraryContext } from 'utils/context/libraryContext'
 import styles from './styles'
 
+type EmailValidationResult = 'valid' | 'invalid' | 'error'
+
 const SubscriptionList: React.FC = () => {
   const { locale } = useContext(LibraryContext)
   const localizedMessages = messages[locale] ?? messages.en
@@ -19,11 +21,18 @@ const SubscriptionList: React.FC = () => {
     }, 3000)
   }
 
-  const checkEmail = async (email: string): Promise<boolean> => {
+  const showMessage = (type: 'success' | 'error', text: string) => {
+    setMessageType(type)
+    setMessage(text)
+    clearMessageAfterTimeout()
+    if (type === 'success') setEmail('')
+  }
+
+  const checkEmail = async (email: string): Promise<EmailValidationResult> => {
     const apiKey = process.env.NEXT_PUBLIC_NEWSLETTER_API_KEY
     if (!apiKey) {
       console.error(localizedMessages['subscription_list.api_key_error'])
-      return false
+      return 'error'
     }
 
     const url = `https://mailcheck.p.rapidapi.com/?email=${encodeURIComponent(
@@ -39,27 +48,41 @@ const SubscriptionList: React.FC = () => {
         },
       })
 
+      if (!response.ok) {
+        console.error(
+          'Email validation failed:',
+          response.status,
+          response.statusText
+        )
+        return 'error'
+      }
+
       const data = await response.json()
-      return !data.block
+      if (typeof data.block !== 'boolean') {
+        console.error('Email validation returned an unusable response:', data)
+        return 'error'
+      }
+
+      return data.block ? 'invalid' : 'valid'
     } catch (error) {
       console.error(error)
-      return false
+      return 'error'
     }
   }
 
   const handleSubscribe = async () => {
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      setMessageType('error')
-      setMessage(localizedMessages['subscription_list.invalid_email'])
-      clearMessageAfterTimeout()
+      showMessage('error', localizedMessages['subscription_list.invalid_email'])
       return
     }
 
-    const isValid = await checkEmail(email)
-    if (!isValid) {
-      setMessageType('error')
-      setMessage(localizedMessages['subscription_list.invalid_email'])
-      clearMessageAfterTimeout()
+    const validationResult = await checkEmail(email)
+    if (validationResult === 'invalid') {
+      showMessage('error', localizedMessages['subscription_list.invalid_email'])
+      return
+    }
+    if (validationResult === 'error') {
+      showMessage('error', localizedMessages['subscription_list.error'])
       return
     }
 
@@ -84,26 +107,24 @@ const SubscriptionList: React.FC = () => {
     const emailEncoded = encodeURIComponent(email)
     const url = baseURL + emailEncoded + urlEnd
 
-    fetch(url, { method: 'POST' })
-      .then((response) => response.blob())
-      .then(() => {
-        setMessageType('success')
-        setMessage(localizedMessages['subscription_list.success'])
-        setEmail('')
-        setTimeout(() => {
-          setMessage('')
-          setMessageType('')
-        }, 3000)
-      })
-      .catch((error) => {
-        console.error('Error:', error)
-        setMessageType('error')
-        setMessage(localizedMessages['subscription_list.error'])
-        setTimeout(() => {
-          setMessage('')
-          setMessageType('')
-        }, 3000)
-      })
+    try {
+      const response = await fetch(url, { method: 'POST' })
+
+      if (!response.ok) {
+        console.error(
+          'Subscription failed:',
+          response.status,
+          response.statusText
+        )
+        showMessage('error', localizedMessages['subscription_list.error'])
+        return
+      }
+
+      showMessage('success', localizedMessages['subscription_list.success'])
+    } catch (error) {
+      console.error('Error:', error)
+      showMessage('error', localizedMessages['subscription_list.error'])
+    }
   }
 
   return (
