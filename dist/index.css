@@ -11,7 +11,7 @@
   pointer-events: none;
 }
 .styles_module_code {
-  background-color: #f6f8fa;
+  background-color: unset;
   background-color: var(--md-code-background, #f6f8fa);
   border-radius: 4px;
   color: var(--md-code-text);
@@ -34,7 +34,7 @@ table .styles_module_code {
   align-items: center;
   border: 1px solid #ccced8;
   grid-template-columns: 20px 1fr;
-  grid-template-rows: 1fr;
+  grid-template-rows: auto;
   word-break: break-word;
 }
 .styles_module_blockquote a {
@@ -46,6 +46,17 @@ table .styles_module_code {
   margin: 0px;
   grid-column: 2 / -1;
   grid-row: 1 / 1;
+}
+.styles_module_blockquote > div {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+.styles_module_blockquote ch-code-scroll-parent {
+  width: 100% !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  background-color: unset !important;
 }
 .styles_module_blockquote a {
   color: #e31c58 !important;
@@ -87,7 +98,7 @@ table .styles_module_code {
   background-color: #ffe5b5;
 }
 .styles_module_blockquoteInfo code {
-  background-color: #ecebf3;
+  background-color: unset;
 }
 .styles_module_blockquoteWarning:before {
   display: inline-block;
