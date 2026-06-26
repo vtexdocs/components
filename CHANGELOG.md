@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [6.1.1](https://github.com/vtexdocs/components/compare/v6.1.0...v6.1.1) (2026-06-26)
+
+
+### Features
+
+* add shared troubleshooting listing components ([560e9b2](https://github.com/vtexdocs/components/commit/560e9b2ed96b6b55142968d9ec5d5f961a50c061))
+
 ## [6.1.0](https://github.com/vtexdocs/components/compare/v6.0.37...v6.1.0) (2026-06-22)
 
 
