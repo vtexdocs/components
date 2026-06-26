@@ -57,6 +57,7 @@
     "@babel/preset-env": "^7.23.2",
     "@babel/preset-react": "^7.22.15",
     "@babel/preset-typescript": "^7.23.2",
+    "@lit-labs/ssr-react": "0.2.0",
     "@storybook/addon-essentials": "^7.5.2",
     "@storybook/addon-interactions": "^7.5.2",
     "@storybook/addon-links": "^7.5.2",
