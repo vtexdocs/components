@@ -1,8 +1,8 @@
 import * as react_jsx_runtime from 'react/jsx-runtime';
 import { MDXRemoteSerializeResult } from 'next-mdx-remote';
 import { SxStyleProp, IconProps } from '@vtex/brand-ui';
-import * as react from 'react';
-import { ReactNode, Dispatch, SetStateAction } from 'react';
+import * as React$1 from 'react';
+import React__default, { ReactNode, Dispatch, SetStateAction } from 'react';
 import { AlgoliaSearchOptions } from 'algoliasearch/lite';
 
 interface MarkdownRendererProps {
@@ -99,6 +99,8 @@ interface InputProps {
     onChange: (value: string) => void;
 }
 declare const Input: ({ value, onChange, placeholder, Icon }: InputProps) => react_jsx_runtime.JSX.Element;
+
+declare const SubscriptionList: React__default.FC;
 
 type TagColor = 'Default' | 'Selected' | 'New' | 'Gray' | 'Blue' | 'Green' | 'Deprecation' | 'Backlog' | 'Fixed' | 'Closed' | 'Scheduled' | 'No_Fix';
 type TagProps = {
@@ -220,7 +222,7 @@ type ActiveItem = {
     item: string;
     subItem: string;
 };
-declare const LibraryContext: react.Context<ContextType>;
+declare const LibraryContext: React$1.Context<ContextType>;
 /** Provider for the LibraryContext created with React.createContext. The context is used in the following components: feedback, search, sidebar, hamburger menu, markdown renderer and table of contents. */
 declare const LibraryContextProvider: ({ children, ...props }: Props) => react_jsx_runtime.JSX.Element;
 
@@ -373,4 +375,4 @@ declare const LikeIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
 
 declare const LikeSelectedIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
 
-export { APIGuidesIcon, APIReferenceIcon, AddedIcon, AnnouncementIcon, AppDevelopmentIcon, ArrowLeftIcon, ArrowRightIcon, CaretIcon, ChatGPTIcon, CheckboxIcon, ClaudeIcon, CloseFilterIcon, CloseIcon, CommunityIcon, CookieBar, CopilotIcon, CopyIcon, CopyLinkButton, DeprecatedIcon, DeveloperPortalIcon, DocumentationUpdatesIcon, EditIcon, EmailIcon, ExpandedResultsIcon, FAQIcon, FacebookCircleIcon, FacebookIcon, FeedbackSection, ListingFilter as Filter, type FilterGroup, FilterIcon, type FilterOption, FixedIcon, GearTroubleshootingIcon, GeminiIcon, GithubIcon, GraphIcon, GridIcon, HamburgerMenu, HelpCenterIcon, ImprovedIcon, InfoIcon, Input, IgIcon as InstagramIcon, type Item, KnownIssueIcon as KnownIssuesIcon, LibraryContext, LibraryContextProvider, LikeIcon, LikeSelectedIcon, LinkIcon, LinkedinCircleIcon, LinkedinIcon, ListingFilter, type ListingFilterLabels, type ListingFilterProps, type ListingFilterSelection, LongArrowIcon, MarkdownRenderer, MegaphoneIcon, MenuIcon, NewIcon, PaperIcon, ReleaseNotesIcon, RemovedIcon, ResizeIcon, Search, createAlgoliaClient as SearchConfig, SearchIcon, SearchInput, ShareButton, ShareIcon, SideBarToggleIcon, Sidebar, StartHereIcon, StorefrontDevelopmentIcon, TableOfContents, Tag, type TagColor, type TagProps, TrashcanIcon, TroubleshootingCard, type TroubleshootingCardProps, type TroubleshootingCardVariant, type TroubleshootingFilterState, TroubleshootingIcon, type TroubleshootingItem, TutorialsIcon, TwitterCircleIcon, TwitterIcon, VTEXDevPortalIcon, VTEXHelpCenterIcon, VTEXIOAppsIcon, VTEXLogoFooter, WarningIcon, YoutubeIcon, collectTroubleshootingFilterOptions, filterTroubleshootingItems, getDaysElapsed };
+export { APIGuidesIcon, APIReferenceIcon, AddedIcon, AnnouncementIcon, AppDevelopmentIcon, ArrowLeftIcon, ArrowRightIcon, CaretIcon, ChatGPTIcon, CheckboxIcon, ClaudeIcon, CloseFilterIcon, CloseIcon, CommunityIcon, CookieBar, CopilotIcon, CopyIcon, CopyLinkButton, DeprecatedIcon, DeveloperPortalIcon, DocumentationUpdatesIcon, EditIcon, EmailIcon, ExpandedResultsIcon, FAQIcon, FacebookCircleIcon, FacebookIcon, FeedbackSection, ListingFilter as Filter, type FilterGroup, FilterIcon, type FilterOption, FixedIcon, GearTroubleshootingIcon, GeminiIcon, GithubIcon, GraphIcon, GridIcon, HamburgerMenu, HelpCenterIcon, ImprovedIcon, InfoIcon, Input, IgIcon as InstagramIcon, type Item, KnownIssueIcon as KnownIssuesIcon, LibraryContext, LibraryContextProvider, LikeIcon, LikeSelectedIcon, LinkIcon, LinkedinCircleIcon, LinkedinIcon, ListingFilter, type ListingFilterLabels, type ListingFilterProps, type ListingFilterSelection, LongArrowIcon, MarkdownRenderer, MegaphoneIcon, MenuIcon, NewIcon, PaperIcon, ReleaseNotesIcon, RemovedIcon, ResizeIcon, Search, createAlgoliaClient as SearchConfig, SearchIcon, SearchInput, ShareButton, ShareIcon, SideBarToggleIcon, Sidebar, StartHereIcon, StorefrontDevelopmentIcon, SubscriptionList, TableOfContents, Tag, type TagColor, type TagProps, TrashcanIcon, TroubleshootingCard, type TroubleshootingCardProps, type TroubleshootingCardVariant, type TroubleshootingFilterState, TroubleshootingIcon, type TroubleshootingItem, TutorialsIcon, TwitterCircleIcon, TwitterIcon, VTEXDevPortalIcon, VTEXHelpCenterIcon, VTEXIOAppsIcon, VTEXLogoFooter, WarningIcon, YoutubeIcon, collectTroubleshootingFilterOptions, filterTroubleshootingItems, getDaysElapsed };

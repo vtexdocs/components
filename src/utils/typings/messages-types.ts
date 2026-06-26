@@ -24,4 +24,13 @@ export type MessagesType = {
   'cookie_bar.description': string
   'cookie_bar.accept': string
   'cookie_bar.decline': string
+  'landing_page_subscription.title': string
+  'landing_page_subscription.description': string
+  'landing_page_newsletter.Button': string
+  'subscription_list.api_key_error': string
+  'subscription_list.invalid_email': string
+  'subscription_list.success': string
+  'subscription_list.error': string
+  'subscription_list.privacy_notice': string
+  'subscription_list.privacy_policy_link': string
 }
