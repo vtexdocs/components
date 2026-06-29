@@ -23,5 +23,14 @@
   "cookie_bar.title": "Nós usamos cookies",
   "cookie_bar.description": "Este site utiliza cookies para melhorar a navegação, analisar a experiência de uso e auxiliar em nossas ações de marketing.",
   "cookie_bar.accept": "Concordo",
-  "cookie_bar.decline": "Discordo"
+  "cookie_bar.decline": "Discordo",
+  "landing_page_subscription.title": "Mantenha-se em dia com a documentação da VTEX",
+  "landing_page_subscription.description": "Assine nossa newsletter mensal para receber informações sobre os Announcements mais recentes, Release Notes e os artigos recém-publicados.",
+  "landing_page_newsletter.Button": "Inscreva-se",
+  "subscription_list.api_key_error": "A chave da API da newsletter não está definida",
+  "subscription_list.invalid_email": "Endereço de email inválido, por favor tente outro.",
+  "subscription_list.success": "Você se inscreveu com sucesso!",
+  "subscription_list.error": "Desculpe, não foi possível realizar sua inscrição. Por favor, tente novamente mais tarde.",
+  "subscription_list.privacy_notice": "Ao assinar nossa newsletter, você concorda com a nossa",
+  "subscription_list.privacy_policy_link": "Política de Privacidade"
 }

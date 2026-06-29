@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [6.1.1](https://github.com/vtexdocs/components/compare/v6.1.0...v6.1.1) (2026-06-26)
+
+
+### Features
+
+* add shared troubleshooting listing components ([560e9b2](https://github.com/vtexdocs/components/commit/560e9b2ed96b6b55142968d9ec5d5f961a50c061))
+
+## [6.1.0](https://github.com/vtexdocs/components/compare/v6.0.37...v6.1.0) (2026-06-22)
+
+
+### Features
+
+* **index.tsx:** add subscriptionlist component and export from library ([d68187c](https://github.com/vtexdocs/components/commit/d68187cdfc581f1cf430de242adaae969b4ebb22))
+* **messages-types.ts:** add locale-aware url helpers and subscription message keys ([49e3cfb](https://github.com/vtexdocs/components/commit/49e3cfbfb75ee93748559985ac263d8a36c4ecbf))
+* **subscription-list:** rebuild dist to include compiled component ([6a605f1](https://github.com/vtexdocs/components/commit/6a605f1780001a7f493af3de0520caa30f945c95))
+* **SubscriptionList.stories.tsx:** add storybook story ([690a21a](https://github.com/vtexdocs/components/commit/690a21a77f4e5d38ab8ab0bee79cf5e903da417e))
+
+
+### Bug Fixes
+
+* **SubscriptionList:** improve error handling per code review ([76c4806](https://github.com/vtexdocs/components/commit/76c4806b9e6ce4c6e16168f90958cf82995cb037))
+
 ### [6.0.37](https://github.com/vtexdocs/components/compare/v6.0.36...v6.0.37) (2026-01-20)
 
 ### [6.0.36](https://github.com/vtexdocs/components/compare/v6.0.35...v6.0.36) (2026-01-20)

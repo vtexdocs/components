@@ -21,3 +21,12 @@ export const getLearningCenterURL = () => {
 export const getSupportURL = () => {
   return 'https://help.vtex.com/en/support'
 }
+
+export const getNewsletterURL = (locale: 'en' | 'pt' | 'es' = 'en') => {
+  return `https://vtexhelp.myvtex.com/educationnewsletter/${locale}`
+}
+
+export const getPrivacyNoticeURL = (locale: 'en' | 'pt' | 'es' = 'en') => {
+  const localeMap = { en: 'us-en', pt: 'pt-br', es: 'es-mx' }
+  return `https://vtex.com/${localeMap[locale]}/trust/general-external-privacy-notice/`
+}

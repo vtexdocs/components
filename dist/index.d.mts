@@ -1,8 +1,8 @@
 import * as react_jsx_runtime from 'react/jsx-runtime';
 import { MDXRemoteSerializeResult } from 'next-mdx-remote';
 import { SxStyleProp, IconProps } from '@vtex/brand-ui';
-import * as react from 'react';
-import { ReactNode, Dispatch, SetStateAction } from 'react';
+import * as React$1 from 'react';
+import React__default, { ReactNode, Dispatch, SetStateAction } from 'react';
 import { AlgoliaSearchOptions } from 'algoliasearch/lite';
 
 interface MarkdownRendererProps {
@@ -100,6 +100,80 @@ interface InputProps {
 }
 declare const Input: ({ value, onChange, placeholder, Icon }: InputProps) => react_jsx_runtime.JSX.Element;
 
+declare const SubscriptionList: React__default.FC;
+
+type TagColor = 'Default' | 'Selected' | 'New' | 'Gray' | 'Blue' | 'Green' | 'Deprecation' | 'Backlog' | 'Fixed' | 'Closed' | 'Scheduled' | 'No_Fix';
+type TagProps = {
+    sx?: SxStyleProp;
+    children: React.ReactNode;
+    color?: TagColor;
+    onClick?: () => void;
+};
+declare const Tag: ({ sx, children, color, onClick }: TagProps) => react_jsx_runtime.JSX.Element;
+
+type FilterOption = {
+    id: string;
+    name: string;
+};
+type FilterGroup = {
+    name: string;
+    options: FilterOption[];
+};
+type ListingFilterLabels = {
+    button?: string;
+    modalTitle?: string;
+    remove?: string;
+    apply?: string;
+};
+type ListingFilterSelection = {
+    tag: string[];
+    checklist: string[];
+};
+
+type ListingFilterProps = {
+    tagFilter?: FilterGroup | string[];
+    tagFilterName?: string;
+    checkBoxFilter?: FilterGroup | string[];
+    checkBoxFilters?: FilterGroup[];
+    filterName?: string;
+    selectedCheckboxes?: string[];
+    selectedTags?: string[];
+    onApply: (filters: ListingFilterSelection) => void;
+    labels?: ListingFilterLabels;
+    buttonSx?: SxStyleProp;
+    centeredTagOptions?: boolean;
+};
+declare const ListingFilter: ({ tagFilter, tagFilterName, checkBoxFilter, checkBoxFilters, filterName, onApply, selectedCheckboxes, selectedTags, labels, buttonSx, centeredTagOptions, }: ListingFilterProps) => react_jsx_runtime.JSX.Element;
+
+type TroubleshootingItem = {
+    slug: string;
+    title: string;
+    description?: string;
+    tags?: string[];
+    domainFilters?: string[];
+    symptomFilters?: string[];
+};
+type TroubleshootingFilterState = {
+    search: string;
+    domainFilters: string[];
+    symptomFilters: string[];
+};
+
+type TroubleshootingCardVariant = 'devportal' | 'helpcenter';
+type TroubleshootingCardProps = TroubleshootingItem & {
+    href?: string;
+    basePath?: string;
+    variant?: TroubleshootingCardVariant;
+};
+declare const TroubleshootingCard: ({ title, description, slug, tags, domainFilters, symptomFilters, href, basePath, variant, }: TroubleshootingCardProps) => react_jsx_runtime.JSX.Element;
+
+declare function filterTroubleshootingItems<T extends TroubleshootingItem>(items: T[], { search, domainFilters, symptomFilters }: TroubleshootingFilterState): T[];
+
+declare function collectTroubleshootingFilterOptions<T extends Pick<TroubleshootingItem, 'domainFilters' | 'symptomFilters'>>(items: T[]): {
+    domainFilters: string[];
+    symptomFilters: string[];
+};
+
 declare const getDaysElapsed: (date: Date) => number;
 
 interface Props extends Partial<ContextType> {
@@ -148,7 +222,7 @@ type ActiveItem = {
     item: string;
     subItem: string;
 };
-declare const LibraryContext: react.Context<ContextType>;
+declare const LibraryContext: React$1.Context<ContextType>;
 /** Provider for the LibraryContext created with React.createContext. The context is used in the following components: feedback, search, sidebar, hamburger menu, markdown renderer and table of contents. */
 declare const LibraryContextProvider: ({ children, ...props }: Props) => react_jsx_runtime.JSX.Element;
 
@@ -330,4 +404,4 @@ declare const LikeIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
 
 declare const LikeSelectedIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
 
-export { APIGuidesIcon, APIReferenceIcon, AddedIcon, type AlgoliaConfig, AnnouncementIcon, AppDevelopmentIcon, ArrowLeftIcon, ArrowRightIcon, CaretIcon, ChatGPTIcon, CheckboxIcon, ClaudeIcon, CloseFilterIcon, CloseIcon, CommunityIcon, CookieBar, CopilotIcon, CopyIcon, CopyLinkButton, DeprecatedIcon, DeveloperPortalIcon, DocumentationUpdatesIcon, EditIcon, EmailIcon, ExpandedResultsIcon, FAQIcon, FacebookCircleIcon, FacebookIcon, FeedbackSection, FilterIcon, FixedIcon, GearTroubleshootingIcon, GeminiIcon, GithubIcon, GraphIcon, GridIcon, HamburgerMenu, HelpCenterIcon, type HybridSearchConfig, ImprovedIcon, InfoIcon, Input, IgIcon as InstagramIcon, type Item, KnownIssueIcon as KnownIssuesIcon, LibraryContext, LibraryContextProvider, LikeIcon, LikeSelectedIcon, LinkIcon, LinkedinCircleIcon, LinkedinIcon, LongArrowIcon, MarkdownRenderer, MegaphoneIcon, MenuIcon, NewIcon, PaperIcon, ReleaseNotesIcon, RemovedIcon, ResizeIcon, Search, type SearchBackendConfig, SearchConfig, SearchIcon, SearchInput, ShareButton, ShareIcon, SideBarToggleIcon, Sidebar, StartHereIcon, StorefrontDevelopmentIcon, TableOfContents, TrashcanIcon, TroubleshootingIcon, TutorialsIcon, TwitterCircleIcon, TwitterIcon, VTEXDevPortalIcon, VTEXHelpCenterIcon, VTEXIOAppsIcon, VTEXLogoFooter, WarningIcon, YoutubeIcon, getDaysElapsed };
+export { APIGuidesIcon, APIReferenceIcon, AddedIcon, type AlgoliaConfig, AnnouncementIcon, AppDevelopmentIcon, ArrowLeftIcon, ArrowRightIcon, CaretIcon, ChatGPTIcon, CheckboxIcon, ClaudeIcon, CloseFilterIcon, CloseIcon, CommunityIcon, CookieBar, CopilotIcon, CopyIcon, CopyLinkButton, DeprecatedIcon, DeveloperPortalIcon, DocumentationUpdatesIcon, EditIcon, EmailIcon, ExpandedResultsIcon, FAQIcon, FacebookCircleIcon, FacebookIcon, FeedbackSection, ListingFilter as Filter, type FilterGroup, FilterIcon, type FilterOption, FixedIcon, GearTroubleshootingIcon, GeminiIcon, GithubIcon, GraphIcon, GridIcon, HamburgerMenu, HelpCenterIcon, type HybridSearchConfig, ImprovedIcon, InfoIcon, Input, IgIcon as InstagramIcon, type Item, KnownIssueIcon as KnownIssuesIcon, LibraryContext, LibraryContextProvider, LikeIcon, LikeSelectedIcon, LinkIcon, LinkedinCircleIcon, LinkedinIcon, ListingFilter, type ListingFilterLabels, type ListingFilterProps, type ListingFilterSelection, LongArrowIcon, MarkdownRenderer, MegaphoneIcon, MenuIcon, NewIcon, PaperIcon, ReleaseNotesIcon, RemovedIcon, ResizeIcon, Search, type SearchBackendConfig, SearchConfig, SearchIcon, SearchInput, ShareButton, ShareIcon, SideBarToggleIcon, Sidebar, StartHereIcon, StorefrontDevelopmentIcon, SubscriptionList, TableOfContents, Tag, type TagColor, type TagProps, TrashcanIcon, TroubleshootingCard, type TroubleshootingCardProps, type TroubleshootingCardVariant, type TroubleshootingFilterState, TroubleshootingIcon, type TroubleshootingItem, TutorialsIcon, TwitterCircleIcon, TwitterIcon, VTEXDevPortalIcon, VTEXHelpCenterIcon, VTEXIOAppsIcon, VTEXLogoFooter, WarningIcon, YoutubeIcon, collectTroubleshootingFilterOptions, filterTroubleshootingItems, getDaysElapsed };
