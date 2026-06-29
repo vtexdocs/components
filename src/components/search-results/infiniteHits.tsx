@@ -95,7 +95,7 @@ const StateResults = connectStateResults(
 
     return null
   }
-)
+) as any
 
 const InfiniteHits = ({ hits, hasMore, refineNext }: InfiniteHitsProvided) => {
   const scrollRef = useRef<HTMLSpanElement>(null)
@@ -144,4 +144,5 @@ const InfiniteHits = ({ hits, hasMore, refineNext }: InfiniteHitsProvided) => {
   )
 }
 
-export default connectInfiniteHits(InfiniteHits)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export default connectInfiniteHits(InfiniteHits) as any

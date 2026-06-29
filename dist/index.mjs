@@ -6415,6 +6415,18 @@ var libraryContext_default = LibraryContextProvider;
 
 // src/utils/string-utils.ts
 var removeHTML = (str) => str.replace(/<\/?[^>]+>/g, "");
+var stripMarkdownForSnippet = (str) => {
+  if (!str)
+    return "";
+  let cleaned = str.replace(/!\[[^\]]*\]\([^)]*\)/g, "").replace(/\[([^\]]+)\]\([^)]+\)/g, "$1").replace(/!?\[[^\]]*\]\([^)]*$/g, "").replace(/!?\[[^\]]*$/g, "").replace(/^#{1,6}\s+/gm, "").replace(/\s#{1,6}\s+/g, " ").replace(/\*\*(.+?)\*\*/g, "$1").replace(/__(.+?)__/g, "$1").replace(/\*(.+?)\*/g, "$1").replace(/_(.+?)_/g, "$1").replace(/`([^`]+)`/g, "$1").replace(/```[\s\S]*?```/g, "").replace(/^(\*{3,}|-{3,}|_{3,})$/gm, "").replace(/^>\s+/gm, "").replace(/^\s*\|?\s*:?-{3,}:?\s*(\|\s*:?-{3,}:?\s*)*\|?\s*$/gm, "").replace(/\s*\|\s*/g, " ").replace(/\s+/g, " ").trim();
+  if (cleaned.length > 0 && /^[a-zà-ÿ]/.test(cleaned)) {
+    const firstSpaceIndex = cleaned.indexOf(" ");
+    if (firstSpaceIndex > 0 && firstSpaceIndex < 50) {
+      cleaned = cleaned.substring(firstSpaceIndex + 1).trim();
+    }
+  }
+  return cleaned;
+};
 var slugify = (str) => {
   return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^\w\s-]/g, "").replace(/\s+/g, "-").replace(/-+/g, "-").trim();
 };
@@ -9810,6 +9822,7 @@ var import_lite = __toESM(require_lite());
 import aa2 from "search-insights";
 var searchClient = {};
 var searchIndex = "";
+var hitsPerPage = 10;
 var createAlgoliaClient = (config) => {
   const {
     apiKey,
@@ -9845,7 +9858,287 @@ var createAlgoliaClient = (config) => {
     }
   };
 };
-var search_config_default = createAlgoliaClient;
+var HYBRID_UPSTREAM_MAX_LIMIT = 100;
+var createHybridClient = (config) => {
+  const {
+    apiEndpoint,
+    defaultLimit,
+    itemsPerPage,
+    useLanguageFilter = true,
+    upstreamFetchSize = HYBRID_UPSTREAM_MAX_LIMIT,
+    cacheTtlMs = 6e4
+  } = config;
+  const pageSize = itemsPerPage ?? defaultLimit ?? 10;
+  hitsPerPage = pageSize;
+  const effectiveUpstreamLimit = clampUpstreamLimit(upstreamFetchSize);
+  const cache = [];
+  const getCached = (key) => {
+    const now = Date.now();
+    for (let i = cache.length - 1; i >= 0; i--) {
+      if (now - cache[i].ts > cacheTtlMs) {
+        cache.splice(i, 1);
+      }
+    }
+    return cache.find((e) => e.key === key)?.hits;
+  };
+  const setCached = (key, hits) => {
+    cache.push({ key, ts: Date.now(), hits });
+    while (cache.length > 20)
+      cache.shift();
+  };
+  aa2("init", {
+    appId: "hybrid-search",
+    apiKey: "none",
+    useCookie: false
+  });
+  searchClient = {
+    appId: "hybrid-search",
+    apiKey: "hybrid",
+    useLanguageFilter,
+    instantSearchConfigs: null,
+    async search(requests) {
+      if (requests.every(({ params }) => !params?.query)) {
+        return void 0;
+      }
+      try {
+        const request = requests.find(({ params: params2 }) => params2?.query) || requests[0];
+        const params = request.params || {};
+        const query = params.query || "";
+        const hitsPerPage2 = params.hitsPerPage || pageSize;
+        const page = params.page || 0;
+        const { locale, doctypes } = extractHybridFilters(params);
+        const cacheKey = JSON.stringify({
+          q: query,
+          locale: useLanguageFilter ? locale || "" : "",
+          limit: effectiveUpstreamLimit
+        });
+        const cachedHits = getCached(cacheKey);
+        let allHits;
+        if (cachedHits) {
+          allHits = cachedHits;
+        } else {
+          const url = new URL(apiEndpoint, window.location.origin);
+          url.searchParams.set("q", query);
+          url.searchParams.set("limit", String(effectiveUpstreamLimit));
+          if (useLanguageFilter && locale) {
+            url.searchParams.set("locale", locale);
+          }
+          const response = await fetch(url.toString());
+          if (!response.ok) {
+            throw new Error(`Hybrid search failed: ${response.status}`);
+          }
+          const data = await response.json();
+          const rawResults = Array.isArray(data?.results) ? data.results : [];
+          allHits = rawResults.map(transformHybridToAlgolia);
+          setCached(cacheKey, allHits);
+        }
+        const filteredHits = filterHitsByDoctype(allHits, doctypes);
+        const nbHits = filteredHits.length;
+        const nbPages = Math.max(1, Math.ceil(nbHits / hitsPerPage2));
+        const start = page * hitsPerPage2;
+        const pageHits = filteredHits.slice(start, start + hitsPerPage2);
+        const facets = extractFacetsFromHits(allHits);
+        return {
+          results: [
+            {
+              hits: pageHits,
+              nbHits,
+              page,
+              nbPages,
+              hitsPerPage: hitsPerPage2,
+              exhaustiveNbHits: true,
+              query,
+              params: "",
+              index: request.indexName || "",
+              processingTimeMS: 0,
+              facets: facets.facets,
+              facets_stats: {},
+              exhaustiveFacetsCount: true,
+              queryID: generateQueryID()
+            }
+          ]
+        };
+      } catch (error) {
+        console.error("Hybrid search error:", error);
+        return {
+          results: [
+            {
+              hits: [],
+              nbHits: 0,
+              page: 0,
+              nbPages: 0,
+              hitsPerPage: pageSize,
+              exhaustiveNbHits: true,
+              query: requests[0]?.params?.query || "",
+              params: "",
+              index: requests[0]?.indexName || "",
+              processingTimeMS: 0
+            }
+          ]
+        };
+      }
+    }
+  };
+};
+function clampUpstreamLimit(raw) {
+  if (!Number.isFinite(raw) || raw <= 0)
+    return HYBRID_UPSTREAM_MAX_LIMIT;
+  return Math.min(HYBRID_UPSTREAM_MAX_LIMIT, Math.max(1, Math.floor(raw)));
+}
+function extractHybridFilters(params) {
+  let locale = "";
+  const doctypes = [];
+  const pushDoctype = (raw) => {
+    const value = raw.replace(/^"|"$/g, "").trim();
+    if (value && !doctypes.includes(value))
+      doctypes.push(value);
+  };
+  const filtersStr = typeof params?.filters === "string" ? params.filters : "";
+  if (filtersStr) {
+    const langMatch = filtersStr.match(/language\s*:\s*([\w-]+)/i);
+    if (langMatch)
+      locale = langMatch[1];
+    const doctypeRegex = /doctype\s*:\s*(?:"([^"]+)"|([^\s)]+))/gi;
+    let m;
+    while ((m = doctypeRegex.exec(filtersStr)) !== null) {
+      pushDoctype(m[1] || m[2] || "");
+    }
+  }
+  const facetFilters = params?.facetFilters;
+  const visit = (entry) => {
+    if (typeof entry === "string") {
+      if (!locale && entry.startsWith("language:")) {
+        locale = entry.slice("language:".length);
+      } else if (entry.startsWith("doctype:")) {
+        pushDoctype(entry.slice("doctype:".length));
+      }
+    } else if (Array.isArray(entry)) {
+      entry.forEach(visit);
+    }
+  };
+  visit(facetFilters);
+  return { locale, doctypes };
+}
+function filterHitsByDoctype(hits, doctypes) {
+  if (!doctypes.length)
+    return hits;
+  const wanted = new Set(doctypes.map((d) => d.toLowerCase()));
+  return hits.filter(
+    (h) => wanted.has(String(h.doctype || "").toLowerCase())
+  );
+}
+function transformHybridToAlgolia(result) {
+  const filePath = result.filePath || "";
+  const doctype = deriveDoctypeFromFilePath(filePath);
+  const hierarchy = {
+    lvl0: doctype,
+    lvl1: result.title || "Untitled",
+    lvl2: deriveCategoryFromFilePath(filePath)
+  };
+  const url = buildUrlFromFilePath(filePath);
+  const rawContent = result.snippet || result.content || "";
+  const cleanContent = stripMarkdownForSnippet(rawContent);
+  return {
+    objectID: String(result.id),
+    ...result,
+    url,
+    url_without_anchor: url.split("#")[0],
+    doctype,
+    doctitle: result.title || "Untitled",
+    content: cleanContent,
+    hierarchy,
+    language: result.metadata?.locale || "en",
+    type: "content",
+    _highlightResult: {
+      content: {
+        value: cleanContent,
+        matchLevel: "full",
+        fullyHighlighted: false,
+        matchedWords: []
+      },
+      hierarchy: {
+        lvl0: {
+          value: hierarchy.lvl0,
+          matchLevel: "none"
+        },
+        lvl1: {
+          value: hierarchy.lvl1,
+          matchLevel: result.title ? "partial" : "none"
+        }
+      }
+    },
+    _snippetResult: {
+      content: {
+        value: result.snippet ? stripMarkdownForSnippet(result.snippet) : "",
+        matchLevel: "full"
+      }
+    }
+  };
+}
+var LOCALE_SEGMENT = /^(en|es|pt)$/i;
+function deriveDoctypeFromFilePath(filePath) {
+  const parts = filePath.split("/").filter(Boolean);
+  if (parts.length === 0)
+    return "documentation";
+  if (parts[0] === "docs" && parts.length > 2) {
+    return parts[2].toLowerCase();
+  }
+  if (parts.length > 1 && LOCALE_SEGMENT.test(parts[1])) {
+    return parts[0].toLowerCase();
+  }
+  return parts[0].toLowerCase();
+}
+function deriveCategoryFromFilePath(filePath) {
+  const parts = filePath.split("/").filter(Boolean);
+  if (parts[0] === "docs" && parts.length > 3)
+    return parts[3];
+  if (parts.length > 2 && LOCALE_SEGMENT.test(parts[1]))
+    return parts[2];
+  if (parts.length > 1)
+    return parts[1];
+  return null;
+}
+function buildUrlFromFilePath(filePath) {
+  const parts = filePath.split("/").filter(Boolean);
+  if (parts.length === 0)
+    return "/";
+  const stripExt = (s) => s.replace(/\.mdx?$/, "");
+  const slug = stripExt(parts[parts.length - 1]);
+  const doctype = deriveDoctypeFromFilePath(filePath);
+  const locale = parts.length > 1 && LOCALE_SEGMENT.test(parts[1]) ? parts[1].toLowerCase() : "en";
+  if (doctype === "tutorials" || doctype === "tracks") {
+    return `/${locale}/docs/${doctype}/${slug}`;
+  }
+  return `/${locale}/${doctype}/${slug}`;
+}
+function extractFacetsFromHits(hits) {
+  const facets = {
+    doctype: {},
+    language: {}
+  };
+  hits.forEach((hit) => {
+    const doctype = hit.doctype || "Other";
+    facets.doctype[doctype] = (facets.doctype[doctype] || 0) + 1;
+    const language = hit.language || "en";
+    facets.language[language] = (facets.language[language] || 0) + 1;
+  });
+  return { facets };
+}
+function generateQueryID() {
+  return `hybrid_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+}
+function SearchConfig(config) {
+  if ("backend" in config) {
+    if (config.backend === "hybrid") {
+      searchIndex = config.index;
+      createHybridClient(config.hybrid);
+    } else {
+      createAlgoliaClient(config.algolia);
+    }
+  } else {
+    createAlgoliaClient(config);
+  }
+}
 
 // src/components/search-input/index.tsx
 import { jsx as jsx39, jsxs as jsxs32 } from "react/jsx-runtime";
@@ -11211,7 +11504,7 @@ var SearchResults = () => {
               filters,
               query: router.query.keyword,
               clickAnalytics: true,
-              hitsPerPage: 6,
+              hitsPerPage,
               facets: ["doctype", "language"],
               facetingAfterDistinct: true
             }
@@ -11275,16 +11568,26 @@ var SearchFilterTab = ({ filter }) => {
     {
       sx: styles_default22.tab(filterSelectedSection === filter),
       onClick: () => changeFilterSelectedSection(filter),
+      "data-testid": "doctype-filter-tab",
+      "data-filter": filter,
+      "data-active": String(filterSelectedSection === filter),
       children: [
-        /* @__PURE__ */ jsx59(Text15, { sx: styles_default22.tabTitle(filterSelectedSection === filter), children: filter || messages[locale]["search_results.all"] || "All results" }),
-        /* @__PURE__ */ jsx59(Text15, { sx: styles_default22.tabCount, children: ocurrenceCount[filter] || 0 })
+        /* @__PURE__ */ jsx59(
+          Text15,
+          {
+            sx: styles_default22.tabTitle(filterSelectedSection === filter),
+            "data-testid": "doctype-filter-tab-title",
+            children: filter || messages[locale]["search_results.all"] || "All results"
+          }
+        ),
+        /* @__PURE__ */ jsx59(Text15, { sx: styles_default22.tabCount, "data-testid": "doctype-filter-tab-count", children: ocurrenceCount[filter] || 0 })
       ]
     }
   );
 };
 var SearchFilterTabBar = () => {
   const { sidebarSections } = useContext17(LibraryContext);
-  return /* @__PURE__ */ jsxs47(Flex20, { sx: styles_default22.container, children: [
+  return /* @__PURE__ */ jsxs47(Flex20, { sx: styles_default22.container, "data-testid": "doctype-filter-tab-bar", children: [
     /* @__PURE__ */ jsx59(SearchFilterTab, { filter: "" }),
     sidebarSections.flat().map((section) => {
       return /* @__PURE__ */ jsx59(SearchFilterTab, { filter: section.id }, section.id);
@@ -14366,7 +14669,7 @@ export {
   removed_icon_default as RemovedIcon,
   resize_icon_default as ResizeIcon,
   search_default2 as Search,
-  search_config_default as SearchConfig,
+  SearchConfig,
   search_icon_default as SearchIcon,
   SearchInput,
   share_button_default as ShareButton,

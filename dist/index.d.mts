@@ -235,7 +235,36 @@ interface AlgoliaConfig {
     instantSearchConfigs?: any;
     useLanguageFilter?: boolean;
 }
-declare const createAlgoliaClient: (config: AlgoliaConfig) => void;
+interface HybridSearchConfig {
+    apiEndpoint: string;
+    source: 'help-center' | 'dev-portal';
+    defaultLimit?: number;
+    itemsPerPage?: number;
+    useLanguageFilter?: boolean;
+    /**
+     * Max number of results to request from the upstream API in a single call.
+     * The Hybrid Search upstream does not support pagination, so the adapter
+     * fetches a large slice once and paginates / filters client-side.
+     * Defaults to 100 (the upstream HS_MAX_LIMIT).
+     */
+    upstreamFetchSize?: number;
+    /**
+     * TTL (ms) for the in-memory response cache keyed by query+locale.
+     * A short TTL is enough to let `connectInfiniteHits` page through the
+     * results without re-fetching the upstream on every refineNext call.
+     * Defaults to 60_000 ms.
+     */
+    cacheTtlMs?: number;
+}
+type SearchBackendConfig = {
+    backend: 'algolia';
+    algolia: AlgoliaConfig;
+} | {
+    backend: 'hybrid';
+    hybrid: HybridSearchConfig;
+    index: string;
+};
+declare function SearchConfig(config: SearchBackendConfig | AlgoliaConfig): void;
 
 declare const APIGuidesIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
 
@@ -375,4 +404,4 @@ declare const LikeIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
 
 declare const LikeSelectedIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
 
-export { APIGuidesIcon, APIReferenceIcon, AddedIcon, AnnouncementIcon, AppDevelopmentIcon, ArrowLeftIcon, ArrowRightIcon, CaretIcon, ChatGPTIcon, CheckboxIcon, ClaudeIcon, CloseFilterIcon, CloseIcon, CommunityIcon, CookieBar, CopilotIcon, CopyIcon, CopyLinkButton, DeprecatedIcon, DeveloperPortalIcon, DocumentationUpdatesIcon, EditIcon, EmailIcon, ExpandedResultsIcon, FAQIcon, FacebookCircleIcon, FacebookIcon, FeedbackSection, ListingFilter as Filter, type FilterGroup, FilterIcon, type FilterOption, FixedIcon, GearTroubleshootingIcon, GeminiIcon, GithubIcon, GraphIcon, GridIcon, HamburgerMenu, HelpCenterIcon, ImprovedIcon, InfoIcon, Input, IgIcon as InstagramIcon, type Item, KnownIssueIcon as KnownIssuesIcon, LibraryContext, LibraryContextProvider, LikeIcon, LikeSelectedIcon, LinkIcon, LinkedinCircleIcon, LinkedinIcon, ListingFilter, type ListingFilterLabels, type ListingFilterProps, type ListingFilterSelection, LongArrowIcon, MarkdownRenderer, MegaphoneIcon, MenuIcon, NewIcon, PaperIcon, ReleaseNotesIcon, RemovedIcon, ResizeIcon, Search, createAlgoliaClient as SearchConfig, SearchIcon, SearchInput, ShareButton, ShareIcon, SideBarToggleIcon, Sidebar, StartHereIcon, StorefrontDevelopmentIcon, SubscriptionList, TableOfContents, Tag, type TagColor, type TagProps, TrashcanIcon, TroubleshootingCard, type TroubleshootingCardProps, type TroubleshootingCardVariant, type TroubleshootingFilterState, TroubleshootingIcon, type TroubleshootingItem, TutorialsIcon, TwitterCircleIcon, TwitterIcon, VTEXDevPortalIcon, VTEXHelpCenterIcon, VTEXIOAppsIcon, VTEXLogoFooter, WarningIcon, YoutubeIcon, collectTroubleshootingFilterOptions, filterTroubleshootingItems, getDaysElapsed };
+export { APIGuidesIcon, APIReferenceIcon, AddedIcon, type AlgoliaConfig, AnnouncementIcon, AppDevelopmentIcon, ArrowLeftIcon, ArrowRightIcon, CaretIcon, ChatGPTIcon, CheckboxIcon, ClaudeIcon, CloseFilterIcon, CloseIcon, CommunityIcon, CookieBar, CopilotIcon, CopyIcon, CopyLinkButton, DeprecatedIcon, DeveloperPortalIcon, DocumentationUpdatesIcon, EditIcon, EmailIcon, ExpandedResultsIcon, FAQIcon, FacebookCircleIcon, FacebookIcon, FeedbackSection, ListingFilter as Filter, type FilterGroup, FilterIcon, type FilterOption, FixedIcon, GearTroubleshootingIcon, GeminiIcon, GithubIcon, GraphIcon, GridIcon, HamburgerMenu, HelpCenterIcon, type HybridSearchConfig, ImprovedIcon, InfoIcon, Input, IgIcon as InstagramIcon, type Item, KnownIssueIcon as KnownIssuesIcon, LibraryContext, LibraryContextProvider, LikeIcon, LikeSelectedIcon, LinkIcon, LinkedinCircleIcon, LinkedinIcon, ListingFilter, type ListingFilterLabels, type ListingFilterProps, type ListingFilterSelection, LongArrowIcon, MarkdownRenderer, MegaphoneIcon, MenuIcon, NewIcon, PaperIcon, ReleaseNotesIcon, RemovedIcon, ResizeIcon, Search, type SearchBackendConfig, SearchConfig, SearchIcon, SearchInput, ShareButton, ShareIcon, SideBarToggleIcon, Sidebar, StartHereIcon, StorefrontDevelopmentIcon, SubscriptionList, TableOfContents, Tag, type TagColor, type TagProps, TrashcanIcon, TroubleshootingCard, type TroubleshootingCardProps, type TroubleshootingCardVariant, type TroubleshootingFilterState, TroubleshootingIcon, type TroubleshootingItem, TutorialsIcon, TwitterCircleIcon, TwitterIcon, VTEXDevPortalIcon, VTEXHelpCenterIcon, VTEXIOAppsIcon, VTEXLogoFooter, WarningIcon, YoutubeIcon, collectTroubleshootingFilterOptions, filterTroubleshootingItems, getDaysElapsed };
