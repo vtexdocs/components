@@ -9595,6 +9595,14 @@ var getRelativeURL = (url) => {
   const relativeURL = url.replace(/^(?:\/\/|[^/]+)*\//, "");
   return "/" + relativeURL;
 };
+var HYBRID_SEARCH_COUNT_CAP = 100;
+function formatSearchTabCount(count) {
+  if (count === void 0)
+    return void 0;
+  if (count >= HYBRID_SEARCH_COUNT_CAP)
+    return "99+";
+  return String(count);
+}
 var getIconFromSection = (sections, id) => {
   return sections.flat().find((section) => section.id === id)?.Icon;
 };
@@ -9859,6 +9867,14 @@ var createAlgoliaClient = (config) => {
   };
 };
 var HYBRID_UPSTREAM_MAX_LIMIT = 100;
+var HYBRID_DOCTYPE_IDS = [
+  "tracks",
+  "tutorials",
+  "faq",
+  "known-issues",
+  "troubleshooting",
+  "announcements"
+];
 var createHybridClient = (config) => {
   const {
     apiEndpoint,
@@ -9872,6 +9888,7 @@ var createHybridClient = (config) => {
   hitsPerPage = pageSize;
   const effectiveUpstreamLimit = clampUpstreamLimit(upstreamFetchSize);
   const cache = [];
+  const countCache = [];
   const getCached = (key) => {
     const now = Date.now();
     for (let i = cache.length - 1; i >= 0; i--) {
@@ -9885,6 +9902,56 @@ var createHybridClient = (config) => {
     cache.push({ key, ts: Date.now(), hits });
     while (cache.length > 20)
       cache.shift();
+  };
+  const getCachedCounts = (key) => {
+    const now = Date.now();
+    for (let i = countCache.length - 1; i >= 0; i--) {
+      if (now - countCache[i].ts > cacheTtlMs) {
+        countCache.splice(i, 1);
+      }
+    }
+    return countCache.find((e) => e.key === key)?.counts;
+  };
+  const setCachedCounts = (key, counts) => {
+    countCache.push({ key, ts: Date.now(), counts });
+    while (countCache.length > 20)
+      countCache.shift();
+  };
+  const fetchHybridResultLength = async (query, locale, doctype) => {
+    const url = new URL(apiEndpoint, window.location.origin);
+    url.searchParams.set("q", query);
+    url.searchParams.set("limit", String(effectiveUpstreamLimit));
+    if (useLanguageFilter && locale) {
+      url.searchParams.set("locale", locale);
+    }
+    if (doctype) {
+      url.searchParams.set("doctype", doctype);
+    }
+    const response = await fetch(url.toString());
+    if (!response.ok) {
+      throw new Error(`Hybrid search failed: ${response.status}`);
+    }
+    const data = await response.json();
+    const rawResults = Array.isArray(data?.results) ? data.results : [];
+    return rawResults.length;
+  };
+  const fetchHybridDoctypeCounts = async (query, locale) => {
+    const targets = [
+      { key: "" },
+      ...HYBRID_DOCTYPE_IDS.map((id) => ({ key: id, doctype: id }))
+    ];
+    const settled = await Promise.allSettled(
+      targets.map(
+        ({ doctype }) => fetchHybridResultLength(query, locale, doctype)
+      )
+    );
+    const counts = {};
+    settled.forEach((result, index) => {
+      if (result.status === "fulfilled") {
+        counts[targets[index].key] = result.value;
+      }
+    });
+    return counts;
   };
   aa2("init", {
     appId: "hybrid-search",
@@ -9912,11 +9979,16 @@ var createHybridClient = (config) => {
           locale: useLanguageFilter ? locale || "" : "",
           limit: effectiveUpstreamLimit
         });
+        const countCacheKey = JSON.stringify({
+          q: query,
+          locale: useLanguageFilter ? locale || "" : ""
+        });
+        const isSearchResultsRequest = typeof params?.filters === "string" && params.filters.length > 0;
         const cachedHits = getCached(cacheKey);
-        let allHits;
-        if (cachedHits) {
-          allHits = cachedHits;
-        } else {
+        let cachedCounts = getCachedCounts(countCacheKey);
+        const hitsPromise = (async () => {
+          if (cachedHits)
+            return cachedHits;
           const url = new URL(apiEndpoint, window.location.origin);
           url.searchParams.set("q", query);
           url.searchParams.set("limit", String(effectiveUpstreamLimit));
@@ -9929,34 +10001,63 @@ var createHybridClient = (config) => {
           }
           const data = await response.json();
           const rawResults = Array.isArray(data?.results) ? data.results : [];
-          allHits = rawResults.map(transformHybridToAlgolia);
-          setCached(cacheKey, allHits);
+          const allHits2 = rawResults.map(transformHybridToAlgolia);
+          setCached(cacheKey, allHits2);
+          return allHits2;
+        })();
+        const countsPromise = (async () => {
+          if (!isSearchResultsRequest)
+            return void 0;
+          if (cachedCounts)
+            return cachedCounts;
+          const counts = await fetchHybridDoctypeCounts(query, locale);
+          setCachedCounts(countCacheKey, counts);
+          return counts;
+        })();
+        const [allHits, doctypeCounts] = await Promise.all([
+          hitsPromise,
+          countsPromise
+        ]);
+        if (doctypeCounts) {
+          cachedCounts = doctypeCounts;
         }
         const filteredHits = filterHitsByDoctype(allHits, doctypes);
         const nbHits = filteredHits.length;
         const nbPages = Math.max(1, Math.ceil(nbHits / hitsPerPage2));
         const start = page * hitsPerPage2;
         const pageHits = filteredHits.slice(start, start + hitsPerPage2);
-        const facets = extractFacetsFromHits(allHits);
-        return {
-          results: [
-            {
-              hits: pageHits,
-              nbHits,
-              page,
-              nbPages,
-              hitsPerPage: hitsPerPage2,
-              exhaustiveNbHits: true,
-              query,
-              params: "",
-              index: request.indexName || "",
-              processingTimeMS: 0,
-              facets: facets.facets,
-              facets_stats: {},
-              exhaustiveFacetsCount: true,
-              queryID: generateQueryID()
+        const doctypeFacetData = {};
+        if (cachedCounts) {
+          HYBRID_DOCTYPE_IDS.forEach((id) => {
+            const count = cachedCounts[id];
+            if (typeof count === "number") {
+              doctypeFacetData[id] = count;
             }
-          ]
+          });
+        }
+        const hybridAllCount = cachedCounts?.[""];
+        const searchResult = {
+          hits: pageHits,
+          nbHits,
+          page,
+          nbPages,
+          hitsPerPage: hitsPerPage2,
+          exhaustiveNbHits: true,
+          query,
+          params: "",
+          index: request.indexName || "",
+          processingTimeMS: 0,
+          facets: {
+            doctype: doctypeFacetData,
+            language: {}
+          },
+          facets_stats: {},
+          exhaustiveFacetsCount: true,
+          queryID: generateQueryID(),
+          _hybridAllCount: typeof hybridAllCount === "number" ? hybridAllCount : void 0
+        };
+        return {
+          results: [searchResult]
         };
       } catch (error) {
         console.error("Hybrid search error:", error);
@@ -10023,9 +10124,7 @@ function filterHitsByDoctype(hits, doctypes) {
   if (!doctypes.length)
     return hits;
   const wanted = new Set(doctypes.map((d) => d.toLowerCase()));
-  return hits.filter(
-    (h) => wanted.has(String(h.doctype || "").toLowerCase())
-  );
+  return hits.filter((h) => wanted.has(String(h.doctype || "").toLowerCase()));
 }
 function transformHybridToAlgolia(result) {
   const filePath = result.filePath || "";
@@ -10110,19 +10209,6 @@ function buildUrlFromFilePath(filePath) {
     return `/${locale}/docs/${doctype}/${slug}`;
   }
   return `/${locale}/${doctype}/${slug}`;
-}
-function extractFacetsFromHits(hits) {
-  const facets = {
-    doctype: {},
-    language: {}
-  };
-  hits.forEach((hit) => {
-    const doctype = hit.doctype || "Other";
-    facets.doctype[doctype] = (facets.doctype[doctype] || 0) + 1;
-    const language = hit.language || "en";
-    facets.language[language] = (facets.language[language] || 0) + 1;
-  });
-  return { facets };
 }
 function generateQueryID() {
   return `hybrid_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
@@ -10829,12 +10915,13 @@ import { Box as Box18, Flex as Flex17, Text as Text12 } from "@vtex/brand-ui";
 import { useContext as useContext12, useEffect as useEffect11 } from "react";
 
 // src/components/search-section/styles.ts
-var sectionContainer = {
+var sectionContainer = (disabled2 = false) => ({
   justifyContent: "space-between",
   padding: "8px",
   mb: "8px",
-  cursor: "pointer",
-  ":active, :hover": {
+  cursor: disabled2 ? "not-allowed" : "pointer",
+  opacity: disabled2 ? 0.5 : 1,
+  ":active, :hover": disabled2 ? {} : {
     backgroundColor: "#F8F7FC",
     borderRadius: "4px",
     ".search-section-title": {
@@ -10844,23 +10931,25 @@ var sectionContainer = {
       background: "#E7E9EE"
     }
   }
-};
+});
 var sectionIconTitleBox = {
   alignItems: "center"
 };
-var sectionIcon = {
+var sectionIcon = (disabled2 = false) => ({
   width: "16px",
   height: "16px",
   minWidth: "16px",
   minHeight: "16px",
-  mr: "8px"
-};
-var sectionTitle = {
+  mr: "8px",
+  opacity: disabled2 ? 0.6 : 1
+});
+var sectionTitle = (disabled2 = false) => ({
   fontSize: "12px",
-  lineHeight: "16px"
-};
+  lineHeight: "16px",
+  color: disabled2 ? "#AFAFAF" : void 0
+});
 var sectionTitleActive = {
-  ...sectionTitle,
+  ...sectionTitle(),
   color: "#142032",
   fontWeight: "600"
 };
@@ -10874,7 +10963,7 @@ var sectionCount = {
   lineHeight: "16px"
 };
 var allResultsText = {
-  ...sectionTitle,
+  ...sectionTitle(),
   ml: "24px"
 };
 var allResultsTextActive = {
@@ -10942,34 +11031,46 @@ var SearchSection = ({ dataElement, index }) => {
   useEffect11(() => {
     updateFilter("");
   }, [router.query]);
-  return !dataElement ? /* @__PURE__ */ jsxs41(Flex17, { sx: styles_default18.sectionContainer, onClick: () => updateFilter(""), children: [
-    /* @__PURE__ */ jsx53(
-      Text12,
-      {
-        className: "search-section-title",
-        sx: filterSelectedSection ? styles_default18.allResultsText : styles_default18.allResultsTextActive,
-        children: messages[locale]["search_results.all"] || "All results"
-      }
-    ),
-    /* @__PURE__ */ jsx53(Box18, { className: "search-section-count", sx: styles_default18.sectionCount, children: ocurrenceCount[""] })
-  ] }) : /* @__PURE__ */ jsxs41(
+  const allCountLabel = formatSearchTabCount(ocurrenceCount[""]);
+  if (!dataElement) {
+    return /* @__PURE__ */ jsxs41(Flex17, { sx: styles_default18.sectionContainer(), onClick: () => updateFilter(""), children: [
+      /* @__PURE__ */ jsx53(
+        Text12,
+        {
+          className: "search-section-title",
+          sx: filterSelectedSection ? styles_default18.allResultsText : styles_default18.allResultsTextActive,
+          children: messages[locale]["search_results.all"] || "All results"
+        }
+      ),
+      allCountLabel !== void 0 && /* @__PURE__ */ jsx53(Box18, { className: "search-section-count", sx: styles_default18.sectionCount, children: allCountLabel })
+    ] });
+  }
+  const count = ocurrenceCount[dataElement.id];
+  const isDisabled = count === 0;
+  const countLabel = formatSearchTabCount(count);
+  return /* @__PURE__ */ jsxs41(
     Flex17,
     {
-      sx: styles_default18.sectionContainer,
-      onClick: () => updateFilter(dataElement.id),
+      sx: styles_default18.sectionContainer(isDisabled),
+      onClick: () => {
+        if (isDisabled)
+          return;
+        updateFilter(dataElement.id);
+      },
+      "data-disabled": String(isDisabled),
       children: [
         /* @__PURE__ */ jsxs41(Flex17, { sx: styles_default18.sectionIconTitleBox, children: [
-          /* @__PURE__ */ jsx53(dataElement.Icon, { sx: styles_default18.sectionIcon }),
+          /* @__PURE__ */ jsx53(dataElement.Icon, { sx: styles_default18.sectionIcon(isDisabled) }),
           /* @__PURE__ */ jsx53(
             Text12,
             {
               className: "search-section-title",
-              sx: filterSelectedSection === dataElement.id ? styles_default18.sectionTitleActive : styles_default18.sectionTitle,
+              sx: filterSelectedSection === dataElement.id ? styles_default18.sectionTitleActive : styles_default18.sectionTitle(isDisabled),
               children: dataElement.title
             }
           )
         ] }),
-        /* @__PURE__ */ jsx53(Box18, { className: "search-section-count", sx: styles_default18.sectionCount, children: ocurrenceCount[dataElement.id] || 0 })
+        countLabel !== void 0 && /* @__PURE__ */ jsx53(Box18, { className: "search-section-count", sx: styles_default18.sectionCount, children: countLabel })
       ]
     },
     `search-section-${dataElement.id}${index}`
@@ -11349,24 +11450,39 @@ var StateResults = connectStateResults2(
         return;
       const results = searchResults;
       const isFilteringByDoctype = typeof results?._state.filters === "string" && results._state.filters.includes("doctype:");
-      const facets = results?.facets;
-      const doctypeFacet = facets?.find((facet) => facet.name === "doctype");
-      const nbHits = results?.nbHits ?? 0;
       const formattedFacets = {};
-      if (doctypeFacet?.data) {
-        Object.entries(doctypeFacet.data).forEach(([key, value]) => {
+      const rawFacets = results?.facets;
+      if (Array.isArray(rawFacets)) {
+        const doctypeFacet = rawFacets.find(
+          (facet) => facet.name === "doctype"
+        );
+        if (doctypeFacet?.data) {
+          Object.entries(doctypeFacet.data).forEach(([key, value]) => {
+            if (typeof value === "number") {
+              formattedFacets[key] = value;
+            }
+          });
+        }
+      } else if (rawFacets?.doctype && typeof rawFacets.doctype === "object") {
+        Object.entries(rawFacets.doctype).forEach(([key, value]) => {
           if (typeof value === "number") {
             formattedFacets[key] = value;
           }
         });
       }
-      formattedFacets[""] = nbHits;
+      const hybridAllCount = results?._hybridAllCount;
+      if (typeof hybridAllCount === "number") {
+        formattedFacets[""] = hybridAllCount;
+      } else if (!isFilteringByDoctype) {
+        formattedFacets[""] = results?.nbHits ?? 0;
+      }
       if (!isFilteringByDoctype) {
         updateOcurrenceCount(formattedFacets);
       }
     }, [searchResults?.queryID]);
     return null;
   }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 );
 var InfiniteHits = ({ hits, hasMore, refineNext }) => {
   const scrollRef = useRef10(null);
@@ -11488,7 +11604,7 @@ var SearchResults = () => {
     });
   };
   return /* @__PURE__ */ jsxs46(Box22, { sx: styles_default21.resultContainer, children: [
-    /* @__PURE__ */ jsx58(Text14, { sx: styles_default21.resultText, children: `${messages[locale]["search_results.showing"] || "Showing"} ${ocurrenceCount[filterSelectedSection] === void 0 ? "" : ocurrenceCount[filterSelectedSection]} ${messages[locale]["search_results.results_for"] || "results for"} ${router.query.keyword} ${messages[locale]["search_results.in"] || "in"} ${!filterSelectedSection ? messages[locale]["search_results.all_lowercase"] || "all results" : filterSelectedSection}` }),
+    /* @__PURE__ */ jsx58(Text14, { sx: styles_default21.resultText, children: `${messages[locale]["search_results.showing"] || "Showing"} ${formatSearchTabCount(ocurrenceCount[filterSelectedSection]) ?? ""} ${messages[locale]["search_results.results_for"] || "results for"} ${router.query.keyword} ${messages[locale]["search_results.in"] || "in"} ${!filterSelectedSection ? messages[locale]["search_results.all_lowercase"] || "all results" : filterSelectedSection}` }),
     /* @__PURE__ */ jsx58("hr", {}),
     /* @__PURE__ */ jsx58(Box22, { children: /* @__PURE__ */ jsxs46(
       InstantSearch2,
@@ -11530,22 +11646,23 @@ var container9 = {
     display: "none"
   }
 };
-var tab = (active) => ({
+var tab = (active, disabled2 = false) => ({
   pt: "8px",
   pb: "14px",
   px: "24px",
-  cursor: "pointer",
+  cursor: disabled2 ? "not-allowed" : "pointer",
   justifyContent: "center",
   alignItems: "center",
   borderBottom: `${active ? 2 : 1}px solid #${active ? "D71D55" : "DDDDDD"}`,
-  minWidth: "max-content"
+  minWidth: "max-content",
+  opacity: disabled2 ? 0.5 : 1
 });
-var tabTitle = (active) => ({
+var tabTitle = (active, disabled2 = false) => ({
   fontSize: "14px",
   fontWeight: "600",
   lineHeight: "16.38px",
   whiteSpace: "nowrap",
-  color: `#${active ? "D71D55" : "545454"}`
+  color: `#${disabled2 ? "AFAFAF" : active ? "D71D55" : "545454"}`
 });
 var tabCount = {
   px: "8px",
@@ -11563,24 +11680,35 @@ import { jsx as jsx59, jsxs as jsxs47 } from "react/jsx-runtime";
 var SearchFilterTab = ({ filter }) => {
   const { filterSelectedSection, changeFilterSelectedSection, ocurrenceCount } = useContext17(SearchContext);
   const { locale } = useContext17(LibraryContext);
+  const count = ocurrenceCount[filter];
+  const isAllTab = filter === "";
+  const isDisabled = !isAllTab && count === 0;
+  const formattedCount = formatSearchTabCount(count);
+  const isActive = filterSelectedSection === filter;
+  const handleClick = () => {
+    if (isDisabled)
+      return;
+    changeFilterSelectedSection(filter);
+  };
   return /* @__PURE__ */ jsxs47(
     Flex20,
     {
-      sx: styles_default22.tab(filterSelectedSection === filter),
-      onClick: () => changeFilterSelectedSection(filter),
+      sx: styles_default22.tab(isActive, isDisabled),
+      onClick: handleClick,
       "data-testid": "doctype-filter-tab",
       "data-filter": filter,
-      "data-active": String(filterSelectedSection === filter),
+      "data-active": String(isActive),
+      "data-disabled": String(isDisabled),
       children: [
         /* @__PURE__ */ jsx59(
           Text15,
           {
-            sx: styles_default22.tabTitle(filterSelectedSection === filter),
+            sx: styles_default22.tabTitle(isActive, isDisabled),
             "data-testid": "doctype-filter-tab-title",
             children: filter || messages[locale]["search_results.all"] || "All results"
           }
         ),
-        /* @__PURE__ */ jsx59(Text15, { sx: styles_default22.tabCount, "data-testid": "doctype-filter-tab-count", children: ocurrenceCount[filter] || 0 })
+        formattedCount !== void 0 && /* @__PURE__ */ jsx59(Text15, { sx: styles_default22.tabCount, "data-testid": "doctype-filter-tab-count", children: formattedCount })
       ]
     }
   );

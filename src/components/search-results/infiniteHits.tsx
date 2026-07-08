@@ -65,28 +65,35 @@ const StateResults = connectStateResults(
         typeof results?._state.filters === 'string' &&
         results._state.filters.includes('doctype:')
 
-      const facets = results?.facets as
-        | Array<{
-            name: string
-            data: Record<string, number>
-            exhaustive?: boolean
-          }>
-        | undefined
+      const formattedFacets: Record<string, number | undefined> = {}
+      const rawFacets = results?.facets
 
-      const doctypeFacet = facets?.find((facet) => facet.name === 'doctype')
-      const nbHits = results?.nbHits ?? 0
-
-      const formattedFacets: Record<string, number> = {}
-
-      if (doctypeFacet?.data) {
-        Object.entries(doctypeFacet.data).forEach(([key, value]) => {
+      if (Array.isArray(rawFacets)) {
+        const doctypeFacet = rawFacets.find(
+          (facet: { name?: string; data?: Record<string, number> }) =>
+            facet.name === 'doctype'
+        )
+        if (doctypeFacet?.data) {
+          Object.entries(doctypeFacet.data).forEach(([key, value]) => {
+            if (typeof value === 'number') {
+              formattedFacets[key] = value
+            }
+          })
+        }
+      } else if (rawFacets?.doctype && typeof rawFacets.doctype === 'object') {
+        Object.entries(rawFacets.doctype).forEach(([key, value]) => {
           if (typeof value === 'number') {
             formattedFacets[key] = value
           }
         })
       }
 
-      formattedFacets[''] = nbHits
+      const hybridAllCount = results?._hybridAllCount
+      if (typeof hybridAllCount === 'number') {
+        formattedFacets[''] = hybridAllCount
+      } else if (!isFilteringByDoctype) {
+        formattedFacets[''] = results?.nbHits ?? 0
+      }
 
       if (!isFilteringByDoctype) {
         updateOcurrenceCount(formattedFacets)
@@ -95,6 +102,7 @@ const StateResults = connectStateResults(
 
     return null
   }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ) as any
 
 const InfiniteHits = ({ hits, hasMore, refineNext }: InfiniteHitsProvided) => {

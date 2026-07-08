@@ -27,6 +27,17 @@ export const getRelativeURL = (url: string) => {
   return '/' + relativeURL
 }
 
+/** Hybrid Search upstream cap; counts at this value display as "99+". */
+export const HYBRID_SEARCH_COUNT_CAP = 100
+
+export function formatSearchTabCount(
+  count: number | undefined
+): string | undefined {
+  if (count === undefined) return undefined
+  if (count >= HYBRID_SEARCH_COUNT_CAP) return '99+'
+  return String(count)
+}
+
 interface IconsI {
   name: string
   Icon: IconComponent

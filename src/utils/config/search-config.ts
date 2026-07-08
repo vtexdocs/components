@@ -91,11 +91,29 @@ const createAlgoliaClient = (config: AlgoliaConfig) => {
 // Upstream hard cap (must match HS_MAX_LIMIT in the API proxy).
 const HYBRID_UPSTREAM_MAX_LIMIT = 100
 
+/** Fixed Help Center doctype ids (matches helpcenter src/utils/constants.ts). */
+const HYBRID_DOCTYPE_IDS = [
+  'tracks',
+  'tutorials',
+  'faq',
+  'known-issues',
+  'troubleshooting',
+  'announcements',
+] as const
+
+type HybridDoctypeCounts = Record<string, number | undefined>
+
 type HybridCacheEntry = {
   key: string
   ts: number
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   hits: any[]
+}
+
+type HybridCountCacheEntry = {
+  key: string
+  ts: number
+  counts: HybridDoctypeCounts
 }
 
 const createHybridClient = (config: HybridSearchConfig) => {
@@ -114,6 +132,7 @@ const createHybridClient = (config: HybridSearchConfig) => {
 
   const effectiveUpstreamLimit = clampUpstreamLimit(upstreamFetchSize)
   const cache: HybridCacheEntry[] = []
+  const countCache: HybridCountCacheEntry[] = []
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const getCached = (key: string): any[] | undefined => {
@@ -132,6 +151,73 @@ const createHybridClient = (config: HybridSearchConfig) => {
     while (cache.length > 20) cache.shift()
   }
 
+  const getCachedCounts = (key: string): HybridDoctypeCounts | undefined => {
+    const now = Date.now()
+    for (let i = countCache.length - 1; i >= 0; i--) {
+      if (now - countCache[i].ts > cacheTtlMs) {
+        countCache.splice(i, 1)
+      }
+    }
+    return countCache.find((e) => e.key === key)?.counts
+  }
+
+  const setCachedCounts = (key: string, counts: HybridDoctypeCounts) => {
+    countCache.push({ key, ts: Date.now(), counts })
+    while (countCache.length > 20) countCache.shift()
+  }
+
+  const fetchHybridResultLength = async (
+    query: string,
+    locale: string,
+    doctype?: string
+  ): Promise<number> => {
+    const url = new URL(apiEndpoint, window.location.origin)
+    url.searchParams.set('q', query)
+    url.searchParams.set('limit', String(effectiveUpstreamLimit))
+    if (useLanguageFilter && locale) {
+      url.searchParams.set('locale', locale)
+    }
+    if (doctype) {
+      url.searchParams.set('doctype', doctype)
+    }
+
+    const response = await fetch(url.toString())
+    if (!response.ok) {
+      throw new Error(`Hybrid search failed: ${response.status}`)
+    }
+
+    const data = await response.json()
+    const rawResults: unknown[] = Array.isArray(data?.results)
+      ? data.results
+      : []
+    return rawResults.length
+  }
+
+  const fetchHybridDoctypeCounts = async (
+    query: string,
+    locale: string
+  ): Promise<HybridDoctypeCounts> => {
+    const targets: Array<{ key: string; doctype?: string }> = [
+      { key: '' },
+      ...HYBRID_DOCTYPE_IDS.map((id) => ({ key: id, doctype: id })),
+    ]
+
+    const settled = await Promise.allSettled(
+      targets.map(({ doctype }) =>
+        fetchHybridResultLength(query, locale, doctype)
+      )
+    )
+
+    const counts: HybridDoctypeCounts = {}
+    settled.forEach((result, index) => {
+      if (result.status === 'fulfilled') {
+        counts[targets[index].key] = result.value
+      }
+    })
+
+    return counts
+  }
+
   // Initialize minimal analytics (disabled for hybrid)
   aa('init', {
     appId: 'hybrid-search',
@@ -147,6 +233,7 @@ const createHybridClient = (config: HybridSearchConfig) => {
 
     async search(
       requests: MultipleQueriesQuery[]
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ): Promise<MultipleQueriesResponse<any> | undefined> {
       if (requests.every(({ params }) => !params?.query)) {
         return undefined
@@ -163,21 +250,29 @@ const createHybridClient = (config: HybridSearchConfig) => {
 
         const { locale, doctypes } = extractHybridFilters(params)
 
-        // The upstream Hybrid Search API does not support pagination or doctype
-        // filtering, so we always fetch a large slice once per (query, locale)
-        // pair and paginate / doctype-filter client-side.
+        // The upstream Hybrid Search API does not support pagination, so we
+        // fetch a large slice once per (query, locale) pair and paginate /
+        // doctype-filter client-side for the result list.
         const cacheKey = JSON.stringify({
           q: query,
           locale: useLanguageFilter ? locale || '' : '',
           limit: effectiveUpstreamLimit,
         })
 
+        const countCacheKey = JSON.stringify({
+          q: query,
+          locale: useLanguageFilter ? locale || '' : '',
+        })
+
+        const isSearchResultsRequest =
+          typeof params?.filters === 'string' && params.filters.length > 0
+
         const cachedHits = getCached(cacheKey)
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        let allHits: any[]
-        if (cachedHits) {
-          allHits = cachedHits
-        } else {
+        let cachedCounts = getCachedCounts(countCacheKey)
+
+        const hitsPromise = (async () => {
+          if (cachedHits) return cachedHits
+
           const url = new URL(apiEndpoint, window.location.origin)
           url.searchParams.set('q', query)
           url.searchParams.set('limit', String(effectiveUpstreamLimit))
@@ -195,41 +290,76 @@ const createHybridClient = (config: HybridSearchConfig) => {
           const rawResults: any[] = Array.isArray(data?.results)
             ? data.results
             : []
-          allHits = rawResults.map(transformHybridToAlgolia)
+          const allHits = rawResults.map(transformHybridToAlgolia)
           setCached(cacheKey, allHits)
+          return allHits
+        })()
+
+        const countsPromise = (async (): Promise<
+          HybridDoctypeCounts | undefined
+        > => {
+          if (!isSearchResultsRequest) return undefined
+          if (cachedCounts) return cachedCounts
+
+          const counts = await fetchHybridDoctypeCounts(query, locale)
+          setCachedCounts(countCacheKey, counts)
+          return counts
+        })()
+
+        const [allHits, doctypeCounts] = await Promise.all([
+          hitsPromise,
+          countsPromise,
+        ])
+
+        if (doctypeCounts) {
+          cachedCounts = doctypeCounts
         }
 
-        // Doctype filter is applied client-side because the upstream API
-        // does not understand it. Facet counts are computed on `allHits`
-        // (i.e. ignoring the doctype filter) so that the tabs keep showing
-        // counts for the other doctypes.
+        // Doctype filter is applied client-side for the result list because the
+        // main fetch is unfiltered. Tab counts come from the per-doctype fan-out.
         const filteredHits = filterHitsByDoctype(allHits, doctypes)
         const nbHits = filteredHits.length
         const nbPages = Math.max(1, Math.ceil(nbHits / hitsPerPage))
         const start = page * hitsPerPage
         const pageHits = filteredHits.slice(start, start + hitsPerPage)
 
-        const facets = extractFacetsFromHits(allHits)
+        const doctypeFacetData: Record<string, number> = {}
+        if (cachedCounts) {
+          HYBRID_DOCTYPE_IDS.forEach((id) => {
+            const count = cachedCounts[id]
+            if (typeof count === 'number') {
+              doctypeFacetData[id] = count
+            }
+          })
+        }
+
+        const hybridAllCount = cachedCounts?.['']
+
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const searchResult: any = {
+          hits: pageHits,
+          nbHits,
+          page,
+          nbPages,
+          hitsPerPage,
+          exhaustiveNbHits: true,
+          query,
+          params: '',
+          index: request.indexName || '',
+          processingTimeMS: 0,
+          facets: {
+            doctype: doctypeFacetData,
+            language: {},
+          },
+          facets_stats: {},
+          exhaustiveFacetsCount: true,
+          queryID: generateQueryID(),
+          _hybridAllCount:
+            typeof hybridAllCount === 'number' ? hybridAllCount : undefined,
+        }
 
         return {
-          results: [
-            {
-              hits: pageHits,
-              nbHits,
-              page,
-              nbPages,
-              hitsPerPage,
-              exhaustiveNbHits: true,
-              query,
-              params: '',
-              index: request.indexName || '',
-              processingTimeMS: 0,
-              facets: facets.facets,
-              facets_stats: {},
-              exhaustiveFacetsCount: true,
-              queryID: generateQueryID(),
-            },
-          ],
+          results: [searchResult],
         }
       } catch (error) {
         console.error('Hybrid search error:', error)
@@ -317,9 +447,7 @@ function filterHitsByDoctype<T extends { doctype?: string }>(
 ): T[] {
   if (!doctypes.length) return hits
   const wanted = new Set(doctypes.map((d) => d.toLowerCase()))
-  return hits.filter((h) =>
-    wanted.has(String(h.doctype || '').toLowerCase())
-  )
+  return hits.filter((h) => wanted.has(String(h.doctype || '').toLowerCase()))
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -451,31 +579,13 @@ function buildUrlFromFilePath(filePath: string): string {
   return `/${locale}/${doctype}/${slug}`
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function extractFacetsFromHits(
-  hits: any[]
-): { facets: Record<string, Record<string, number>> } {
-  const facets: Record<string, Record<string, number>> = {
-    doctype: {},
-    language: {},
-  }
-
-  hits.forEach((hit) => {
-    const doctype = hit.doctype || 'Other'
-    facets.doctype[doctype] = (facets.doctype[doctype] || 0) + 1
-
-    const language = hit.language || 'en'
-    facets.language[language] = (facets.language[language] || 0) + 1
-  })
-
-  return { facets }
-}
-
 function generateQueryID(): string {
   return `hybrid_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
 }
 
-export default function SearchConfig(config: SearchBackendConfig | AlgoliaConfig) {
+export default function SearchConfig(
+  config: SearchBackendConfig | AlgoliaConfig
+) {
   // Backward compatibility: if config doesn't have 'backend', assume Algolia
   if ('backend' in config) {
     if (config.backend === 'hybrid') {

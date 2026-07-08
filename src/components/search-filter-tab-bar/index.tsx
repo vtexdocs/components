@@ -5,29 +5,44 @@ import styles from './styles'
 import { SearchContext } from 'utils/context/search'
 import { LibraryContext } from 'utils/context/libraryContext'
 import { messages } from 'utils/get-message'
+import { formatSearchTabCount } from 'utils/search-utils'
 
 const SearchFilterTab = ({ filter }: { filter: string }) => {
   const { filterSelectedSection, changeFilterSelectedSection, ocurrenceCount } =
     useContext(SearchContext)
   const { locale } = useContext(LibraryContext)
 
+  const count = ocurrenceCount[filter]
+  const isAllTab = filter === ''
+  const isDisabled = !isAllTab && count === 0
+  const formattedCount = formatSearchTabCount(count)
+  const isActive = filterSelectedSection === filter
+
+  const handleClick = () => {
+    if (isDisabled) return
+    changeFilterSelectedSection(filter)
+  }
+
   return (
     <Flex
-      sx={styles.tab(filterSelectedSection === filter)}
-      onClick={() => changeFilterSelectedSection(filter)}
+      sx={styles.tab(isActive, isDisabled)}
+      onClick={handleClick}
       data-testid="doctype-filter-tab"
       data-filter={filter}
-      data-active={String(filterSelectedSection === filter)}
+      data-active={String(isActive)}
+      data-disabled={String(isDisabled)}
     >
       <Text
-        sx={styles.tabTitle(filterSelectedSection === filter)}
+        sx={styles.tabTitle(isActive, isDisabled)}
         data-testid="doctype-filter-tab-title"
       >
         {filter || messages[locale]['search_results.all'] || 'All results'}
       </Text>
-      <Text sx={styles.tabCount} data-testid="doctype-filter-tab-count">
-        {ocurrenceCount[filter] || 0}
-      </Text>
+      {formattedCount !== undefined && (
+        <Text sx={styles.tabCount} data-testid="doctype-filter-tab-count">
+          {formattedCount}
+        </Text>
+      )}
     </Flex>
   )
 }

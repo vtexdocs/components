@@ -11,7 +11,12 @@ import InfiniteHits from './infiniteHits'
 
 import styles from './styles'
 import { SearchContext } from 'utils/context/search'
-import { searchClient, searchIndex, hitsPerPage } from 'utils/config/search-config'
+import {
+  searchClient,
+  searchIndex,
+  hitsPerPage,
+} from 'utils/config/search-config'
+import { formatSearchTabCount } from 'utils/search-utils'
 
 const SearchResults = () => {
   const router = useRouter()
@@ -39,9 +44,7 @@ const SearchResults = () => {
     <Box sx={styles.resultContainer}>
       <Text sx={styles.resultText}>
         {`${messages[locale]['search_results.showing'] || 'Showing'} ${
-          ocurrenceCount[filterSelectedSection] === undefined
-            ? ''
-            : ocurrenceCount[filterSelectedSection]
+          formatSearchTabCount(ocurrenceCount[filterSelectedSection]) ?? ''
         } ${messages[locale]['search_results.results_for'] || 'results for'} ${
           router.query.keyword
         } ${messages[locale]['search_results.in'] || 'in'} ${
