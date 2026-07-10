@@ -101,7 +101,27 @@ const HYBRID_DOCTYPE_IDS = [
   'announcements',
 ] as const
 
+/** Portal tab id → upstream canonical doctype (matches helpcenter search proxy). */
+const PORTAL_TO_CANONICAL_DOCTYPE: Record<string, string> = {
+  tutorials: 'tutorial',
+  tracks: 'tracks',
+  faq: 'faq',
+  troubleshooting: 'troubleshooting',
+  announcements: 'announcements',
+}
+
 type HybridDoctypeCounts = Record<string, number | undefined>
+
+type HybridSearchCountsApiResponse = {
+  counts: {
+    tracks: number
+    tutorial: number
+    faq: number
+    troubleshooting: number
+    announcements: number
+  }
+  total: number
+}
 
 type HybridCacheEntry = {
   key: string
@@ -114,6 +134,13 @@ type HybridCountCacheEntry = {
   key: string
   ts: number
   counts: HybridDoctypeCounts
+}
+
+type HybridDoctypeDeepCacheEntry = {
+  key: string
+  ts: number
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  hits: any[]
 }
 
 const createHybridClient = (config: HybridSearchConfig) => {
@@ -133,6 +160,11 @@ const createHybridClient = (config: HybridSearchConfig) => {
   const effectiveUpstreamLimit = clampUpstreamLimit(upstreamFetchSize)
   const cache: HybridCacheEntry[] = []
   const countCache: HybridCountCacheEntry[] = []
+  const doctypeDeepCache: HybridDoctypeDeepCacheEntry[] = []
+  const deepenPagination = new Map<
+    string,
+    { lastPage: number; endOffset: number }
+  >()
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const getCached = (key: string): any[] | undefined => {
@@ -166,56 +198,73 @@ const createHybridClient = (config: HybridSearchConfig) => {
     while (countCache.length > 20) countCache.shift()
   }
 
-  const fetchHybridResultLength = async (
-    query: string,
-    locale: string,
-    doctype?: string
-  ): Promise<number> => {
-    const url = new URL(apiEndpoint, window.location.origin)
-    url.searchParams.set('q', query)
-    url.searchParams.set('limit', String(effectiveUpstreamLimit))
-    if (useLanguageFilter && locale) {
-      url.searchParams.set('locale', locale)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const getDoctypeDeepCached = (key: string): any[] | undefined => {
+    const now = Date.now()
+    for (let i = doctypeDeepCache.length - 1; i >= 0; i--) {
+      if (now - doctypeDeepCache[i].ts > cacheTtlMs) {
+        doctypeDeepCache.splice(i, 1)
+      }
     }
-    if (doctype) {
-      url.searchParams.set('doctype', doctype)
-    }
-
-    const response = await fetch(url.toString())
-    if (!response.ok) {
-      throw new Error(`Hybrid search failed: ${response.status}`)
-    }
-
-    const data = await response.json()
-    const rawResults: unknown[] = Array.isArray(data?.results)
-      ? data.results
-      : []
-    return rawResults.length
+    return doctypeDeepCache.find((e) => e.key === key)?.hits
   }
 
-  const fetchHybridDoctypeCounts = async (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const setDoctypeDeepCached = (key: string, hits: any[]) => {
+    doctypeDeepCache.push({ key, ts: Date.now(), hits })
+    while (doctypeDeepCache.length > 20) doctypeDeepCache.shift()
+  }
+
+  const countsEndpoint = `${apiEndpoint.replace(/\/?$/, '')}/counts`
+
+  const mapApiCountsToPortal = (
+    counts: HybridSearchCountsApiResponse['counts'],
+    total: number
+  ): HybridDoctypeCounts => ({
+    '': total,
+    tracks: counts.tracks,
+    tutorials: counts.tutorial,
+    faq: counts.faq,
+    troubleshooting: counts.troubleshooting,
+    announcements: counts.announcements,
+    'known-issues': 0,
+  })
+
+  const fetchDoctypeCounts = async (
     query: string,
     locale: string
-  ): Promise<HybridDoctypeCounts> => {
-    const targets: Array<{ key: string; doctype?: string }> = [
-      { key: '' },
-      ...HYBRID_DOCTYPE_IDS.map((id) => ({ key: id, doctype: id })),
-    ]
-
-    const settled = await Promise.allSettled(
-      targets.map(({ doctype }) =>
-        fetchHybridResultLength(query, locale, doctype)
-      )
-    )
-
-    const counts: HybridDoctypeCounts = {}
-    settled.forEach((result, index) => {
-      if (result.status === 'fulfilled') {
-        counts[targets[index].key] = result.value
+  ): Promise<HybridDoctypeCounts | undefined> => {
+    try {
+      const url = new URL(countsEndpoint, window.location.origin)
+      url.searchParams.set('q', query)
+      if (useLanguageFilter && locale) {
+        url.searchParams.set('locale', locale)
       }
-    })
 
-    return counts
+      const response = await fetch(url.toString())
+      if (!response.ok) {
+        return undefined
+      }
+
+      const data =
+        (await response.json()) as Partial<HybridSearchCountsApiResponse>
+      const { counts, total } = data
+      if (
+        !counts ||
+        typeof total !== 'number' ||
+        typeof counts.tracks !== 'number' ||
+        typeof counts.tutorial !== 'number' ||
+        typeof counts.faq !== 'number' ||
+        typeof counts.troubleshooting !== 'number' ||
+        typeof counts.announcements !== 'number'
+      ) {
+        return undefined
+      }
+
+      return mapApiCountsToPortal(counts, total)
+    } catch {
+      return undefined
+    }
   }
 
   // Initialize minimal analytics (disabled for hybrid)
@@ -301,8 +350,10 @@ const createHybridClient = (config: HybridSearchConfig) => {
           if (!isSearchResultsRequest) return undefined
           if (cachedCounts) return cachedCounts
 
-          const counts = await fetchHybridDoctypeCounts(query, locale)
-          setCachedCounts(countCacheKey, counts)
+          const counts = await fetchDoctypeCounts(query, locale)
+          if (counts) {
+            setCachedCounts(countCacheKey, counts)
+          }
           return counts
         })()
 
@@ -315,13 +366,88 @@ const createHybridClient = (config: HybridSearchConfig) => {
           cachedCounts = doctypeCounts
         }
 
-        // Doctype filter is applied client-side for the result list because the
-        // main fetch is unfiltered. Tab counts come from the per-doctype fan-out.
-        const filteredHits = filterHitsByDoctype(allHits, doctypes)
-        const nbHits = filteredHits.length
+        const initialFilteredHits = filterHitsByDoctype(allHits, doctypes)
+        let listHits = doctypes.length ? initialFilteredHits : allHits
+
+        const doctypeDeepCacheKey =
+          doctypes.length === 1
+            ? JSON.stringify({
+                q: query,
+                locale: useLanguageFilter ? locale || '' : '',
+                doctype: doctypes[0],
+                limit: effectiveUpstreamLimit,
+              })
+            : ''
+
+        let start = page * hitsPerPage
+
+        if (doctypes.length === 1) {
+          const portalDoctype = doctypes[0]
+          const canonicalDoctype = PORTAL_TO_CANONICAL_DOCTYPE[portalDoctype]
+          const prevPage = deepenPagination.get(doctypeDeepCacheKey)
+
+          if (page === 0 || !prevPage || prevPage.lastPage !== page - 1) {
+            start = page === 0 ? 0 : page * hitsPerPage
+            if (page === 0) deepenPagination.delete(doctypeDeepCacheKey)
+          } else {
+            start = prevPage.endOffset
+          }
+
+          if (canonicalDoctype && start >= initialFilteredHits.length) {
+            let deepenedHits = getDoctypeDeepCached(doctypeDeepCacheKey)
+            if (!deepenedHits) {
+              const url = new URL(apiEndpoint, window.location.origin)
+              url.searchParams.set('q', query)
+              url.searchParams.set('limit', String(effectiveUpstreamLimit))
+              url.searchParams.set('doctype', portalDoctype)
+              if (useLanguageFilter && locale) {
+                url.searchParams.set('locale', locale)
+              }
+
+              const response = await fetch(url.toString())
+              if (response.ok) {
+                const data = await response.json()
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                const rawResults: any[] = Array.isArray(data?.results)
+                  ? data.results
+                  : []
+                deepenedHits = rawResults.map(transformHybridToAlgolia)
+                setDoctypeDeepCached(doctypeDeepCacheKey, deepenedHits)
+              } else {
+                deepenedHits = []
+              }
+            }
+
+            listHits = mergeDeepenedHits(initialFilteredHits, deepenedHits)
+          }
+        }
+
+        const doctypeCount =
+          doctypes.length === 1 ? cachedCounts?.[doctypes[0]] : undefined
+        const hasDeepened =
+          doctypes.length === 1 &&
+          (Boolean(getDoctypeDeepCached(doctypeDeepCacheKey)) ||
+            listHits.length > initialFilteredHits.length)
+        const nbHits = (() => {
+          if (!doctypes.length) return allHits.length
+          const cap = HYBRID_UPSTREAM_MAX_LIMIT
+          if (typeof doctypeCount === 'number') {
+            if (hasDeepened) {
+              return Math.min(doctypeCount, cap, listHits.length)
+            }
+            return Math.min(doctypeCount, cap)
+          }
+          return Math.min(listHits.length, cap)
+        })()
         const nbPages = Math.max(1, Math.ceil(nbHits / hitsPerPage))
-        const start = page * hitsPerPage
-        const pageHits = filteredHits.slice(start, start + hitsPerPage)
+        const pageHits = listHits.slice(start, start + hitsPerPage)
+
+        if (doctypes.length === 1) {
+          deepenPagination.set(doctypeDeepCacheKey, {
+            lastPage: page,
+            endOffset: start + pageHits.length,
+          })
+        }
 
         const doctypeFacetData: Record<string, number> = {}
         if (cachedCounts) {
@@ -354,6 +480,7 @@ const createHybridClient = (config: HybridSearchConfig) => {
           facets_stats: {},
           exhaustiveFacetsCount: true,
           queryID: generateQueryID(),
+          _hybridCountsAttempted: isSearchResultsRequest,
           _hybridAllCount:
             typeof hybridAllCount === 'number' ? hybridAllCount : undefined,
         }
@@ -448,6 +575,22 @@ function filterHitsByDoctype<T extends { doctype?: string }>(
   if (!doctypes.length) return hits
   const wanted = new Set(doctypes.map((d) => d.toLowerCase()))
   return hits.filter((h) => wanted.has(String(h.doctype || '').toLowerCase()))
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function mergeDeepenedHits(initial: any[], deepened: any[]): any[] {
+  const seen = new Set<string>()
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const merged: any[] = []
+
+  for (const hit of [...initial, ...deepened]) {
+    const key = hit.url_without_anchor || hit.objectID || ''
+    if (!key || seen.has(key)) continue
+    seen.add(key)
+    merged.push(hit)
+  }
+
+  return merged.slice(0, HYBRID_UPSTREAM_MAX_LIMIT)
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

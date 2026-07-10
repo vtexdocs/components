@@ -89,9 +89,10 @@ const StateResults = connectStateResults(
       }
 
       const hybridAllCount = results?._hybridAllCount
+      const hybridCountsAttempted = results?._hybridCountsAttempted === true
       if (typeof hybridAllCount === 'number') {
         formattedFacets[''] = hybridAllCount
-      } else if (!isFilteringByDoctype) {
+      } else if (!isFilteringByDoctype && !hybridCountsAttempted) {
         formattedFacets[''] = results?.nbHits ?? 0
       }
 
