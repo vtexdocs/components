@@ -1,5 +1,7 @@
 export const removeHTML = (str: string) => str.replace(/<\/?[^>]+>/g, '')
 
+const SYMBOL_RUN_THRESHOLD = 3
+
 /**
  * Strips Markdown syntax from text snippets to render as plain text.
  * Removes headings, bold, italic, inline code, images, and links while preserving
@@ -8,8 +10,12 @@ export const removeHTML = (str: string) => str.replace(/<\/?[^>]+>/g, '')
  */
 export const stripMarkdownForSnippet = (str: string): string => {
   if (!str) return ''
-  
+
   let cleaned = str
+    // Drop closed fenced blocks (code, mermaid, etc.) including their contents
+    .replace(/```[\s\S]*?```/g, '')
+    // Drop unclosed/truncated fenced blocks at the end of a snippet
+    .replace(/```[^\n]*(?:\n[\s\S]*)?$/g, '')
     // Remove markdown images ![alt](url) entirely (alt is usually a filename)
     .replace(/!\[[^\]]*\]\([^)]*\)/g, '')
     // Remove markdown links [text](url) - keep only the text
@@ -29,10 +35,8 @@ export const stripMarkdownForSnippet = (str: string): string => {
     // Remove italic (*text* or _text_)
     .replace(/\*(.+?)\*/g, '$1')
     .replace(/_(.+?)_/g, '$1')
-    // Remove inline code (`text`)
+    // Remove inline code (`text`) — keep readable inner text
     .replace(/`([^`]+)`/g, '$1')
-    // Remove code blocks (```text```)
-    .replace(/```[\s\S]*?```/g, '')
     // Remove horizontal rules (---, ***, ___)
     .replace(/^(\*{3,}|-{3,}|_{3,})$/gm, '')
     // Remove blockquotes (>)
@@ -41,6 +45,10 @@ export const stripMarkdownForSnippet = (str: string): string => {
     .replace(/^\s*\|?\s*:?-{3,}:?\s*(\|\s*:?-{3,}:?\s*)*\|?\s*$/gm, '')
     // Replace remaining table pipes with spaces so cell content stays readable
     .replace(/\s*\|\s*/g, ' ')
+    // Collapse stray horizontal-rule / table-separator symbol runs
+    .replace(new RegExp(`-{${SYMBOL_RUN_THRESHOLD},}`, 'g'), ' ')
+    .replace(new RegExp(`={${SYMBOL_RUN_THRESHOLD},}`, 'g'), ' ')
+    .replace(new RegExp(`\\|{${SYMBOL_RUN_THRESHOLD},}`, 'g'), ' ')
     // Remove extra whitespace and normalize spaces
     .replace(/\s+/g, ' ')
     .trim()

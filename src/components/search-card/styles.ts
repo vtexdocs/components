@@ -60,6 +60,13 @@ const description: SxStyleProp = {
   color: 'muted.0',
   mt: '4px',
   mb: '8px',
+  minWidth: 0,
+  overflowWrap: 'break-word',
+  wordBreak: 'break-word',
+  overflow: 'hidden',
+  display: '-webkit-box',
+  WebkitLineClamp: 4,
+  WebkitBoxOrient: 'vertical',
 }
 
 const descriptionToggle: SxStyleProp = {
