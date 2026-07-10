@@ -6415,10 +6415,11 @@ var libraryContext_default = LibraryContextProvider;
 
 // src/utils/string-utils.ts
 var removeHTML = (str) => str.replace(/<\/?[^>]+>/g, "");
+var SYMBOL_RUN_THRESHOLD = 3;
 var stripMarkdownForSnippet = (str) => {
   if (!str)
     return "";
-  let cleaned = str.replace(/!\[[^\]]*\]\([^)]*\)/g, "").replace(/\[([^\]]+)\]\([^)]+\)/g, "$1").replace(/!?\[[^\]]*\]\([^)]*$/g, "").replace(/!?\[[^\]]*$/g, "").replace(/^#{1,6}\s+/gm, "").replace(/\s#{1,6}\s+/g, " ").replace(/\*\*(.+?)\*\*/g, "$1").replace(/__(.+?)__/g, "$1").replace(/\*(.+?)\*/g, "$1").replace(/_(.+?)_/g, "$1").replace(/`([^`]+)`/g, "$1").replace(/```[\s\S]*?```/g, "").replace(/^(\*{3,}|-{3,}|_{3,})$/gm, "").replace(/^>\s+/gm, "").replace(/^\s*\|?\s*:?-{3,}:?\s*(\|\s*:?-{3,}:?\s*)*\|?\s*$/gm, "").replace(/\s*\|\s*/g, " ").replace(/\s+/g, " ").trim();
+  let cleaned = str.replace(/```[\s\S]*?```/g, "").replace(/```[^\n]*(?:\n[\s\S]*)?$/g, "").replace(/!\[[^\]]*\]\([^)]*\)/g, "").replace(/\[([^\]]+)\]\([^)]+\)/g, "$1").replace(/!?\[[^\]]*\]\([^)]*$/g, "").replace(/!?\[[^\]]*$/g, "").replace(/^#{1,6}\s+/gm, "").replace(/\s#{1,6}\s+/g, " ").replace(/\*\*(.+?)\*\*/g, "$1").replace(/__(.+?)__/g, "$1").replace(/\*(.+?)\*/g, "$1").replace(/_(.+?)_/g, "$1").replace(/`([^`]+)`/g, "$1").replace(/^(\*{3,}|-{3,}|_{3,})$/gm, "").replace(/^>\s+/gm, "").replace(/^\s*\|?\s*:?-{3,}:?\s*(\|\s*:?-{3,}:?\s*)*\|?\s*$/gm, "").replace(/\s*\|\s*/g, " ").replace(new RegExp(`-{${SYMBOL_RUN_THRESHOLD},}`, "g"), " ").replace(new RegExp(`={${SYMBOL_RUN_THRESHOLD},}`, "g"), " ").replace(new RegExp(`\\|{${SYMBOL_RUN_THRESHOLD},}`, "g"), " ").replace(/\s+/g, " ").trim();
   if (cleaned.length > 0 && /^[a-zà-ÿ]/.test(cleaned)) {
     const firstSpaceIndex = cleaned.indexOf(" ");
     if (firstSpaceIndex > 0 && firstSpaceIndex < 50) {
@@ -8769,22 +8770,34 @@ var hitIcon = {
   marginRight: "8px"
 };
 var hitContentContainer = {
-  width: "100%"
+  width: "100%",
+  minWidth: 0,
+  overflow: "hidden"
+};
+var snippetText = {
+  overflowWrap: "break-word",
+  wordBreak: "break-word",
+  overflow: "hidden",
+  display: "-webkit-box",
+  WebkitBoxOrient: "vertical"
 };
 var hitContent = {
   color: "muted.0",
   fontSize: ["14px", "16px"],
   lineHeight: ["20px", "22px"],
-  width: "100%"
+  width: "100%",
+  minWidth: 0,
+  ...snippetText,
+  WebkitLineClamp: 4
 };
 var hitContentSmall = {
   color: "muted.0",
   fontSize: ["14px", "16px"],
   lineHeight: ["20px", "22px"],
   width: "100%",
-  whiteSpace: "pre",
-  overflow: "hidden",
-  textOverflow: "ellipsis"
+  minWidth: 0,
+  ...snippetText,
+  WebkitLineClamp: 2
 };
 var alignCenter = {
   alignItems: "center"
@@ -9595,12 +9608,12 @@ var getRelativeURL = (url) => {
   const relativeURL = url.replace(/^(?:\/\/|[^/]+)*\//, "");
   return "/" + relativeURL;
 };
-var HYBRID_SEARCH_COUNT_CAP = 100;
+var HYBRID_SEARCH_COUNT_CAP = 1e3;
 function formatSearchTabCount(count) {
   if (count === void 0)
     return void 0;
   if (count >= HYBRID_SEARCH_COUNT_CAP)
-    return "99+";
+    return "999+";
   return String(count);
 }
 var getIconFromSection = (sections, id) => {
@@ -9875,6 +9888,13 @@ var HYBRID_DOCTYPE_IDS = [
   "troubleshooting",
   "announcements"
 ];
+var PORTAL_TO_CANONICAL_DOCTYPE = {
+  tutorials: "tutorial",
+  tracks: "tracks",
+  faq: "faq",
+  troubleshooting: "troubleshooting",
+  announcements: "announcements"
+};
 var createHybridClient = (config) => {
   const {
     apiEndpoint,
@@ -9889,6 +9909,8 @@ var createHybridClient = (config) => {
   const effectiveUpstreamLimit = clampUpstreamLimit(upstreamFetchSize);
   const cache = [];
   const countCache = [];
+  const doctypeDeepCache = [];
+  const deepenPagination = /* @__PURE__ */ new Map();
   const getCached = (key) => {
     const now = Date.now();
     for (let i = cache.length - 1; i >= 0; i--) {
@@ -9917,41 +9939,50 @@ var createHybridClient = (config) => {
     while (countCache.length > 20)
       countCache.shift();
   };
-  const fetchHybridResultLength = async (query, locale, doctype) => {
-    const url = new URL(apiEndpoint, window.location.origin);
-    url.searchParams.set("q", query);
-    url.searchParams.set("limit", String(effectiveUpstreamLimit));
-    if (useLanguageFilter && locale) {
-      url.searchParams.set("locale", locale);
-    }
-    if (doctype) {
-      url.searchParams.set("doctype", doctype);
-    }
-    const response = await fetch(url.toString());
-    if (!response.ok) {
-      throw new Error(`Hybrid search failed: ${response.status}`);
-    }
-    const data = await response.json();
-    const rawResults = Array.isArray(data?.results) ? data.results : [];
-    return rawResults.length;
-  };
-  const fetchHybridDoctypeCounts = async (query, locale) => {
-    const targets = [
-      { key: "" },
-      ...HYBRID_DOCTYPE_IDS.map((id) => ({ key: id, doctype: id }))
-    ];
-    const settled = await Promise.allSettled(
-      targets.map(
-        ({ doctype }) => fetchHybridResultLength(query, locale, doctype)
-      )
-    );
-    const counts = {};
-    settled.forEach((result, index) => {
-      if (result.status === "fulfilled") {
-        counts[targets[index].key] = result.value;
+  const getDoctypeDeepCached = (key) => {
+    const now = Date.now();
+    for (let i = doctypeDeepCache.length - 1; i >= 0; i--) {
+      if (now - doctypeDeepCache[i].ts > cacheTtlMs) {
+        doctypeDeepCache.splice(i, 1);
       }
-    });
-    return counts;
+    }
+    return doctypeDeepCache.find((e) => e.key === key)?.hits;
+  };
+  const setDoctypeDeepCached = (key, hits) => {
+    doctypeDeepCache.push({ key, ts: Date.now(), hits });
+    while (doctypeDeepCache.length > 20)
+      doctypeDeepCache.shift();
+  };
+  const countsEndpoint = `${apiEndpoint.replace(/\/?$/, "")}/counts`;
+  const mapApiCountsToPortal = (counts, total) => ({
+    "": total,
+    tracks: counts.tracks,
+    tutorials: counts.tutorial,
+    faq: counts.faq,
+    troubleshooting: counts.troubleshooting,
+    announcements: counts.announcements,
+    "known-issues": 0
+  });
+  const fetchDoctypeCounts = async (query, locale) => {
+    try {
+      const url = new URL(countsEndpoint, window.location.origin);
+      url.searchParams.set("q", query);
+      if (useLanguageFilter && locale) {
+        url.searchParams.set("locale", locale);
+      }
+      const response = await fetch(url.toString());
+      if (!response.ok) {
+        return void 0;
+      }
+      const data = await response.json();
+      const { counts, total } = data;
+      if (!counts || typeof total !== "number" || typeof counts.tracks !== "number" || typeof counts.tutorial !== "number" || typeof counts.faq !== "number" || typeof counts.troubleshooting !== "number" || typeof counts.announcements !== "number") {
+        return void 0;
+      }
+      return mapApiCountsToPortal(counts, total);
+    } catch {
+      return void 0;
+    }
   };
   aa2("init", {
     appId: "hybrid-search",
@@ -10010,8 +10041,10 @@ var createHybridClient = (config) => {
             return void 0;
           if (cachedCounts)
             return cachedCounts;
-          const counts = await fetchHybridDoctypeCounts(query, locale);
-          setCachedCounts(countCacheKey, counts);
+          const counts = await fetchDoctypeCounts(query, locale);
+          if (counts) {
+            setCachedCounts(countCacheKey, counts);
+          }
           return counts;
         })();
         const [allHits, doctypeCounts] = await Promise.all([
@@ -10021,11 +10054,71 @@ var createHybridClient = (config) => {
         if (doctypeCounts) {
           cachedCounts = doctypeCounts;
         }
-        const filteredHits = filterHitsByDoctype(allHits, doctypes);
-        const nbHits = filteredHits.length;
+        const initialFilteredHits = filterHitsByDoctype(allHits, doctypes);
+        let listHits = doctypes.length ? initialFilteredHits : allHits;
+        const doctypeDeepCacheKey = doctypes.length === 1 ? JSON.stringify({
+          q: query,
+          locale: useLanguageFilter ? locale || "" : "",
+          doctype: doctypes[0],
+          limit: effectiveUpstreamLimit
+        }) : "";
+        let start = page * hitsPerPage2;
+        if (doctypes.length === 1) {
+          const portalDoctype = doctypes[0];
+          const canonicalDoctype = PORTAL_TO_CANONICAL_DOCTYPE[portalDoctype];
+          const prevPage = deepenPagination.get(doctypeDeepCacheKey);
+          if (page === 0 || !prevPage || prevPage.lastPage !== page - 1) {
+            start = page === 0 ? 0 : page * hitsPerPage2;
+            if (page === 0)
+              deepenPagination.delete(doctypeDeepCacheKey);
+          } else {
+            start = prevPage.endOffset;
+          }
+          if (canonicalDoctype && start >= initialFilteredHits.length) {
+            let deepenedHits = getDoctypeDeepCached(doctypeDeepCacheKey);
+            if (!deepenedHits) {
+              const url = new URL(apiEndpoint, window.location.origin);
+              url.searchParams.set("q", query);
+              url.searchParams.set("limit", String(effectiveUpstreamLimit));
+              url.searchParams.set("doctype", portalDoctype);
+              if (useLanguageFilter && locale) {
+                url.searchParams.set("locale", locale);
+              }
+              const response = await fetch(url.toString());
+              if (response.ok) {
+                const data = await response.json();
+                const rawResults = Array.isArray(data?.results) ? data.results : [];
+                deepenedHits = rawResults.map(transformHybridToAlgolia);
+                setDoctypeDeepCached(doctypeDeepCacheKey, deepenedHits);
+              } else {
+                deepenedHits = [];
+              }
+            }
+            listHits = mergeDeepenedHits(initialFilteredHits, deepenedHits);
+          }
+        }
+        const doctypeCount = doctypes.length === 1 ? cachedCounts?.[doctypes[0]] : void 0;
+        const hasDeepened = doctypes.length === 1 && (Boolean(getDoctypeDeepCached(doctypeDeepCacheKey)) || listHits.length > initialFilteredHits.length);
+        const nbHits = (() => {
+          if (!doctypes.length)
+            return allHits.length;
+          const cap = HYBRID_UPSTREAM_MAX_LIMIT;
+          if (typeof doctypeCount === "number") {
+            if (hasDeepened) {
+              return Math.min(doctypeCount, cap, listHits.length);
+            }
+            return Math.min(doctypeCount, cap);
+          }
+          return Math.min(listHits.length, cap);
+        })();
         const nbPages = Math.max(1, Math.ceil(nbHits / hitsPerPage2));
-        const start = page * hitsPerPage2;
-        const pageHits = filteredHits.slice(start, start + hitsPerPage2);
+        const pageHits = listHits.slice(start, start + hitsPerPage2);
+        if (doctypes.length === 1) {
+          deepenPagination.set(doctypeDeepCacheKey, {
+            lastPage: page,
+            endOffset: start + pageHits.length
+          });
+        }
         const doctypeFacetData = {};
         if (cachedCounts) {
           HYBRID_DOCTYPE_IDS.forEach((id) => {
@@ -10054,6 +10147,7 @@ var createHybridClient = (config) => {
           facets_stats: {},
           exhaustiveFacetsCount: true,
           queryID: generateQueryID(),
+          _hybridCountsAttempted: isSearchResultsRequest,
           _hybridAllCount: typeof hybridAllCount === "number" ? hybridAllCount : void 0
         };
         return {
@@ -10125,6 +10219,18 @@ function filterHitsByDoctype(hits, doctypes) {
     return hits;
   const wanted = new Set(doctypes.map((d) => d.toLowerCase()));
   return hits.filter((h) => wanted.has(String(h.doctype || "").toLowerCase()));
+}
+function mergeDeepenedHits(initial, deepened) {
+  const seen = /* @__PURE__ */ new Set();
+  const merged = [];
+  for (const hit of [...initial, ...deepened]) {
+    const key = hit.url_without_anchor || hit.objectID || "";
+    if (!key || seen.has(key))
+      continue;
+    seen.add(key);
+    merged.push(hit);
+  }
+  return merged.slice(0, HYBRID_UPSTREAM_MAX_LIMIT);
 }
 function transformHybridToAlgolia(result) {
   const filePath = result.filePath || "";
@@ -11133,7 +11239,7 @@ var search_sections_default = SearchSections;
 
 // src/components/search-results/index.tsx
 import { useRouter as useRouter7 } from "next/router.js";
-import { useContext as useContext16, useState as useState14 } from "react";
+import { useContext as useContext16, useEffect as useEffect13, useState as useState14 } from "react";
 import { Box as Box22, Text as Text14 } from "@vtex/brand-ui";
 import { Configure as Configure2, InstantSearch as InstantSearch2 } from "react-instantsearch-dom";
 
@@ -11200,7 +11306,14 @@ var description3 = {
   paddingLeft: "32px",
   color: "muted.0",
   mt: "4px",
-  mb: "8px"
+  mb: "8px",
+  minWidth: 0,
+  overflowWrap: "break-word",
+  wordBreak: "break-word",
+  overflow: "hidden",
+  display: "-webkit-box",
+  WebkitLineClamp: 4,
+  WebkitBoxOrient: "vertical"
 };
 var descriptionToggle = {
   height: "auto",
@@ -11471,9 +11584,10 @@ var StateResults = connectStateResults2(
         });
       }
       const hybridAllCount = results?._hybridAllCount;
+      const hybridCountsAttempted = results?._hybridCountsAttempted === true;
       if (typeof hybridAllCount === "number") {
         formattedFacets[""] = hybridAllCount;
-      } else if (!isFilteringByDoctype) {
+      } else if (!isFilteringByDoctype && !hybridCountsAttempted) {
         formattedFacets[""] = results?.nbHits ?? 0;
       }
       if (!isFilteringByDoctype) {
@@ -11593,10 +11707,25 @@ var SearchResults = () => {
     `language:${locale}`,
     filterSelectedSection ? `doctype:"${filterSelectedSection}"` : ""
   ].filter(Boolean).join(" AND ");
+  const keyword = String(router.query.keyword ?? "");
   const [prevFilter, setPrevFilter] = useState14("");
+  const [prevKeyword, setPrevKeyword] = useState14(keyword);
   const [searchState, setSearchState] = useState14({});
+  useEffect13(() => {
+    if (!keyword || keyword === prevKeyword)
+      return;
+    setPrevKeyword(keyword);
+    setSearchState((currentState) => ({
+      ...currentState,
+      page: 1
+    }));
+  }, [keyword, prevKeyword]);
   const updateSearchState = (currentState) => {
-    const page = filters !== prevFilter ? 1 : currentState.page || 1;
+    const keywordChanged = keyword !== prevKeyword;
+    const filterChanged = filters !== prevFilter;
+    const page = keywordChanged || filterChanged ? 1 : currentState.page || 1;
+    if (keywordChanged)
+      setPrevKeyword(keyword);
     setPrevFilter(filters);
     setSearchState({
       ...currentState,
@@ -11625,7 +11754,7 @@ var SearchResults = () => {
               facetingAfterDistinct: true
             }
           ),
-          /* @__PURE__ */ jsx58(infiniteHits_default, {})
+          /* @__PURE__ */ jsx58(infiniteHits_default, {}, keyword)
         ]
       }
     ) })
@@ -11944,7 +12073,7 @@ var CopyLinkButton = () => {
 var copy_link_button_default = CopyLinkButton;
 
 // src/components/input/index.tsx
-import { useState as useState16, useEffect as useEffect13 } from "react";
+import { useState as useState16, useEffect as useEffect14 } from "react";
 
 // src/components/input/styles.ts
 var input = {
@@ -11987,7 +12116,7 @@ import { Flex as Flex23 } from "@vtex/brand-ui";
 import { jsx as jsx64, jsxs as jsxs51 } from "react/jsx-runtime";
 var Input = ({ value, onChange, placeholder = "", Icon: Icon68 }) => {
   const [inputValue, setInputValue] = useState16(value ?? "");
-  useEffect13(() => {
+  useEffect14(() => {
     if (inputValue !== value)
       setInputValue(value);
   }, [value]);
