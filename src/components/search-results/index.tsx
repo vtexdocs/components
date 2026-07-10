@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router.js'
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 
 import { LibraryContext } from 'utils/context/libraryContext'
 import { messages } from 'utils/get-message'
@@ -28,11 +28,25 @@ const SearchResults = () => {
   ]
     .filter(Boolean)
     .join(' AND ')
+  const keyword = String(router.query.keyword ?? '')
   const [prevFilter, setPrevFilter] = useState('')
-  const [searchState, setSearchState] = useState({})
+  const [prevKeyword, setPrevKeyword] = useState(keyword)
+  const [searchState, setSearchState] = useState<SearchState>({})
+
+  useEffect(() => {
+    if (!keyword || keyword === prevKeyword) return
+    setPrevKeyword(keyword)
+    setSearchState((currentState) => ({
+      ...currentState,
+      page: 1,
+    }))
+  }, [keyword, prevKeyword])
 
   const updateSearchState = (currentState: SearchState) => {
-    const page = filters !== prevFilter ? 1 : currentState.page || 1
+    const keywordChanged = keyword !== prevKeyword
+    const filterChanged = filters !== prevFilter
+    const page = keywordChanged || filterChanged ? 1 : currentState.page || 1
+    if (keywordChanged) setPrevKeyword(keyword)
     setPrevFilter(filters)
     setSearchState({
       ...currentState,
@@ -71,7 +85,7 @@ const SearchResults = () => {
             facets={['doctype', 'language']}
             facetingAfterDistinct={true}
           />
-          <InfiniteHits />
+          <InfiniteHits key={keyword} />
         </InstantSearch>
       </Box>
     </Box>
