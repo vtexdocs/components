@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [6.1.3](https://github.com/vtexdocs/components/compare/v6.1.2...v6.1.3) (2026-07-10)
+
+
+### Bug Fixes
+
+* rebuild dist to include callout icon fix ([d2a1f0e](https://github.com/vtexdocs/components/commit/d2a1f0e187a7031ce3a6fc39920752445db6c047)), closes [#86](https://github.com/vtexdocs/components/issues/86)
+
+### [6.1.2](https://github.com/vtexdocs/components/compare/v6.1.1...v6.1.2) (2026-07-10)
+
+
+### Bug Fixes
+
+* **markdown-renderer:** render callout icons as inline SVG instead of external asset ([542ec5e](https://github.com/vtexdocs/components/commit/542ec5e1bc38a20c61668c21ccc8fa302ef7cd79))
+
 ### [6.1.1](https://github.com/vtexdocs/components/compare/v6.1.0...v6.1.1) (2026-06-26)
 
 
