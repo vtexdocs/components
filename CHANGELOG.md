@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.2.0](https://github.com/vtexdocs/components/compare/v6.1.3...v6.2.0) (2026-07-14)
+
+
+### Features
+
+* hybrid search implementation ([#82](https://github.com/vtexdocs/components/issues/82)) ([72c456e](https://github.com/vtexdocs/components/commit/72c456ed0c1016ace7d00654e0a037a37c756114))
+
 ### [6.1.3](https://github.com/vtexdocs/components/compare/v6.1.2...v6.1.3) (2026-07-10)
 
 
