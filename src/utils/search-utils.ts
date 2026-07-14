@@ -27,6 +27,17 @@ export const getRelativeURL = (url: string) => {
   return '/' + relativeURL
 }
 
+/** Display cap for tab counts; values at or above this render as "999+". */
+export const HYBRID_SEARCH_COUNT_CAP = 1000
+
+export function formatSearchTabCount(
+  count: number | undefined
+): string | undefined {
+  if (count === undefined) return undefined
+  if (count >= HYBRID_SEARCH_COUNT_CAP) return '999+'
+  return String(count)
+}
+
 interface IconsI {
   name: string
   Icon: IconComponent

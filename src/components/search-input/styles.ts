@@ -53,6 +53,16 @@ const hitIcon: SxStyleProp = {
 
 const hitContentContainer: SxStyleProp = {
   width: '100%',
+  minWidth: 0,
+  overflow: 'hidden',
+}
+
+const snippetText: SxStyleProp = {
+  overflowWrap: 'break-word',
+  wordBreak: 'break-word',
+  overflow: 'hidden',
+  display: '-webkit-box',
+  WebkitBoxOrient: 'vertical',
 }
 
 const hitContent: SxStyleProp = {
@@ -60,6 +70,9 @@ const hitContent: SxStyleProp = {
   fontSize: ['14px', '16px'],
   lineHeight: ['20px', '22px'],
   width: '100%',
+  minWidth: 0,
+  ...snippetText,
+  WebkitLineClamp: 4,
 }
 
 const hitContentSmall: SxStyleProp = {
@@ -67,9 +80,9 @@ const hitContentSmall: SxStyleProp = {
   fontSize: ['14px', '16px'],
   lineHeight: ['20px', '22px'],
   width: '100%',
-  whiteSpace: 'pre',
-  overflow: 'hidden',
-  textOverflow: 'ellipsis',
+  minWidth: 0,
+  ...snippetText,
+  WebkitLineClamp: 2,
 }
 
 const alignCenter: SxStyleProp = {
