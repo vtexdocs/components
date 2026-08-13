@@ -39,14 +39,17 @@ const SidebarElements = ({ slugPrefix, items, subItemLevel }: SidebarProps) => {
     isEditorPreview,
     activeSidebarElement,
     sidebarElementStatus,
+    manuallyToggledSlugs,
     toggleSidebarElementStatus,
     sidebarDataMaster,
     locale,
   } = useContext(LibraryContext)
   const router = useRouter()
 
-  const isElementOpen = (slug: string, defaultOpen?: boolean) =>
-    sidebarElementStatus.has(slug) ? sidebarElementStatus.get(slug) : !!defaultOpen
+  const isElementOpen = (slug: string, defaultOpen?: boolean) => {
+    if (manuallyToggledSlugs.has(slug)) return !!sidebarElementStatus.get(slug)
+    return sidebarElementStatus.get(slug) === true || !!defaultOpen
+  }
 
   const handleClick = (
     e: { preventDefault: () => void },

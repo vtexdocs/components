@@ -6273,6 +6273,7 @@ var LibraryContext = createContext({
   sidebarDataMaster: {},
   setIsEditorPreview: () => void 0,
   sidebarElementStatus: /* @__PURE__ */ new Map(),
+  manuallyToggledSlugs: /* @__PURE__ */ new Set(),
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
   setSidebarDataMaster: (_) => void 0,
   setSidebarSectionHidden: () => void 0,
@@ -6300,6 +6301,9 @@ var LibraryContextProvider = ({ children, ...props }) => {
   const [sidebarSectionHidden, setSidebarSectionHidden] = useState2(false);
   const [activeSidebarElement, setActiveSidebarElement] = useState2("");
   const [sidebarElementStatus, setSidebarElementStatus] = useState2(/* @__PURE__ */ new Map());
+  const [manuallyToggledSlugs, setManuallyToggledSlugs] = useState2(
+    /* @__PURE__ */ new Set()
+  );
   const [sidebarDataMaster, setSidebarDataMaster] = useState2(props.fallback);
   const [isEditorPreview, setIsEditorPreview] = useState2(props.isPreview);
   const [sidebarSections, setSidebarSections] = useState2(props.sections);
@@ -6319,6 +6323,9 @@ var LibraryContextProvider = ({ children, ...props }) => {
       setActiveSectionName(props.sectionSelected);
   }, [props.sectionSelected]);
   const toggleSidebarElementStatus = (title7, currentlyOpen) => {
+    setManuallyToggledSlugs(
+      (manuallyToggledSlugs2) => new Set(manuallyToggledSlugs2).add(title7)
+    );
     setSidebarElementStatus((sidebarElementStatus2) => {
       const open = sidebarElementStatus2.has(title7) ? !sidebarElementStatus2.get(title7) : !currentlyOpen;
       return new Map(sidebarElementStatus2.set(title7, open));
@@ -6382,6 +6389,7 @@ var LibraryContextProvider = ({ children, ...props }) => {
         activeSectionName,
         activeSidebarElement,
         sidebarElementStatus,
+        manuallyToggledSlugs,
         setActiveSectionName,
         setSidebarSectionHidden,
         setActiveSidebarElement,
@@ -7933,12 +7941,17 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
     isEditorPreview,
     activeSidebarElement,
     sidebarElementStatus,
+    manuallyToggledSlugs,
     toggleSidebarElementStatus,
     sidebarDataMaster,
     locale
   } = useContext4(LibraryContext);
   const router = useRouter3();
-  const isElementOpen = (slug, defaultOpen) => sidebarElementStatus.has(slug) ? sidebarElementStatus.get(slug) : !!defaultOpen;
+  const isElementOpen = (slug, defaultOpen) => {
+    if (manuallyToggledSlugs.has(slug))
+      return !!sidebarElementStatus.get(slug);
+    return sidebarElementStatus.get(slug) === true || !!defaultOpen;
+  };
   const handleClick = (e, pathSuffix, slug) => {
     e.preventDefault();
     const hasEndpointQuery = router.query.endpoint;

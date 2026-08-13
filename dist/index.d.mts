@@ -204,6 +204,7 @@ type ContextType = {
     activeSidebarElement: string;
     sidebarDataMaster: any;
     sidebarElementStatus: Map<string, boolean>;
+    manuallyToggledSlugs: Set<string>;
     setSidebarDataMaster: Dispatch<SetStateAction<any>>;
     setIsEditorPreview: Dispatch<SetStateAction<boolean>>;
     setSidebarSectionHidden: Dispatch<SetStateAction<boolean>>;
