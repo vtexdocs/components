@@ -41,7 +41,7 @@ export type ContextType = {
   setSidebarSectionHidden: Dispatch<SetStateAction<boolean>>
   setActiveSectionName: Dispatch<SetStateAction<string>>
   setActiveSidebarElement: Dispatch<SetStateAction<string>>
-  toggleSidebarElementStatus: (title: string) => void
+  toggleSidebarElementStatus: (title: string, currentlyOpen?: boolean) => void
   openSidebarElement: (title: string) => void
   closeSidebarElements: (parentsArray: string[]) => void
   sidebarSections: Section[][]
@@ -123,12 +123,11 @@ const LibraryContextProvider = ({ children, ...props }: Props) => {
       setActiveSectionName(props.sectionSelected)
   }, [props.sectionSelected])
 
-  const toggleSidebarElementStatus = (title: string) => {
+  const toggleSidebarElementStatus = (title: string, currentlyOpen?: boolean) => {
     setSidebarElementStatus((sidebarElementStatus) => {
-      const open =
-        sidebarElementStatus.has(title) === false
-          ? true
-          : !sidebarElementStatus.get(title)
+      const open = sidebarElementStatus.has(title)
+        ? !sidebarElementStatus.get(title)
+        : !currentlyOpen
 
       return new Map(sidebarElementStatus.set(title, open))
     })

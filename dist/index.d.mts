@@ -209,7 +209,7 @@ type ContextType = {
     setSidebarSectionHidden: Dispatch<SetStateAction<boolean>>;
     setActiveSectionName: Dispatch<SetStateAction<string>>;
     setActiveSidebarElement: Dispatch<SetStateAction<string>>;
-    toggleSidebarElementStatus: (title: string) => void;
+    toggleSidebarElementStatus: (title: string, currentlyOpen?: boolean) => void;
     openSidebarElement: (title: string) => void;
     closeSidebarElements: (parentsArray: string[]) => void;
     sidebarSections: Section[][];

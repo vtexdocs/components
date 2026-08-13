@@ -6318,9 +6318,9 @@ var LibraryContextProvider = ({ children, ...props }) => {
     else if (props.sectionSelected !== activeSectionName)
       setActiveSectionName(props.sectionSelected);
   }, [props.sectionSelected]);
-  const toggleSidebarElementStatus = (title7) => {
+  const toggleSidebarElementStatus = (title7, currentlyOpen) => {
     setSidebarElementStatus((sidebarElementStatus2) => {
-      const open = sidebarElementStatus2.has(title7) === false ? true : !sidebarElementStatus2.get(title7);
+      const open = sidebarElementStatus2.has(title7) ? !sidebarElementStatus2.get(title7) : !currentlyOpen;
       return new Map(sidebarElementStatus2.set(title7, open));
     });
   };
@@ -6972,7 +6972,7 @@ var TableOfContents = ({ headingList, children }) => {
 var TableOfContents_default = TableOfContents;
 
 // src/lib/sidebar/index.tsx
-import { useEffect as useEffect9, useRef as useRef4, useState as useState7, useContext as useContext6 } from "react";
+import { useEffect as useEffect8, useRef as useRef4, useState as useState7, useContext as useContext6 } from "react";
 import { Flex as Flex10, Text as Text6, Box as Box12 } from "@vtex/brand-ui";
 import Link5 from "next/link.js";
 
@@ -7825,7 +7825,7 @@ var sidebar_section_filter_default = SectionFilter;
 
 // src/components/sidebar-elements/index.tsx
 import { useRouter as useRouter3 } from "next/router.js";
-import { Fragment as Fragment2, useContext as useContext4, useEffect as useEffect8 } from "react";
+import { Fragment as Fragment2, useContext as useContext4 } from "react";
 import {
   Box as Box10,
   Flex as Flex8,
@@ -7934,19 +7934,11 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
     activeSidebarElement,
     sidebarElementStatus,
     toggleSidebarElementStatus,
-    openSidebarElement,
     sidebarDataMaster,
     locale
   } = useContext4(LibraryContext);
   const router = useRouter3();
-  useEffect8(() => {
-    items?.forEach((item2) => {
-      const slug = typeof item2.slug === "string" ? item2.slug : item2.slug[locale];
-      if (item2.defaultOpen && !sidebarElementStatus.has(slug)) {
-        openSidebarElement(slug);
-      }
-    });
-  }, [items]);
+  const isElementOpen = (slug, defaultOpen) => sidebarElementStatus.has(slug) ? sidebarElementStatus.get(slug) : !!defaultOpen;
   const handleClick = (e, pathSuffix, slug) => {
     e.preventDefault();
     const hasEndpointQuery = router.query.endpoint;
@@ -7989,29 +7981,25 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
     name,
     method,
     endpoint,
-    children
+    children,
+    defaultOpen
   }) => {
     const localizedName = typeof name === "string" ? name : name[locale];
     const localizedSlug = typeof slug === "string" ? slug : slug[locale];
     const isExpandable = children.length > 0;
+    const isOpen = isElementOpen(localizedSlug, defaultOpen);
     const pathSuffix = method ? `#${method.toLowerCase()}-${endpoint}` : "";
     const activeItem = method ? `${localizedSlug}${pathSuffix}` : localizedSlug;
     return /* @__PURE__ */ jsx17(Box10, { sx: styles_default12.elementContainer, children: /* @__PURE__ */ jsxs12(Flex8, { sx: styleByLevelNormal(subItemLevel, isExpandable || false), children: [
       isExpandable && /* @__PURE__ */ jsx17(
         Button2,
         {
-          "aria-label": sidebarElementStatus.has(localizedSlug) && sidebarElementStatus.get(localizedSlug) ? "Collapse category" : "Expand category",
+          "aria-label": isOpen ? "Collapse category" : "Expand category",
           size: "regular",
           variant: "tertiary",
-          sx: sidebarElementStatus.has(localizedSlug) && sidebarElementStatus.get(localizedSlug) ? styles_default12.arrowIconActive : styles_default12.arrowIcon,
-          icon: () => /* @__PURE__ */ jsx17(
-            IconCaret2,
-            {
-              direction: sidebarElementStatus.has(localizedSlug) && sidebarElementStatus.get(localizedSlug) ? "down" : "right",
-              size: 24
-            }
-          ),
-          onClick: () => toggleSidebarElementStatus(localizedSlug)
+          sx: isOpen ? styles_default12.arrowIconActive : styles_default12.arrowIcon,
+          icon: () => /* @__PURE__ */ jsx17(IconCaret2, { direction: isOpen ? "down" : "right", size: 24 }),
+          onClick: () => toggleSidebarElementStatus(localizedSlug, isOpen)
         }
       ),
       !checkDocumentationType(
@@ -8059,7 +8047,7 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
             isExpandable
           ),
           onClick: () => {
-            toggleSidebarElementStatus(localizedSlug);
+            toggleSidebarElementStatus(localizedSlug, isOpen);
           },
           children: [
             method && /* @__PURE__ */ jsx17(
@@ -8077,10 +8065,10 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
       )
     ] }) });
   };
-  const ElementChildren = ({ slug, children }) => {
+  const ElementChildren = ({ slug, children, defaultOpen }) => {
     const isExpandable = children.length > 0;
     const localizedSlug = typeof slug === "string" ? slug : slug[locale];
-    return isExpandable && sidebarElementStatus.has(localizedSlug) && sidebarElementStatus.get(localizedSlug) ? /* @__PURE__ */ jsx17(Box10, { children: /* @__PURE__ */ jsx17(
+    return isExpandable && isElementOpen(localizedSlug, defaultOpen) ? /* @__PURE__ */ jsx17(Box10, { children: /* @__PURE__ */ jsx17(
       SidebarElements,
       {
         slugPrefix,
@@ -8460,7 +8448,7 @@ var Sidebar = ({ parentsArray = [] }) => {
     parentsArray,
     context
   });
-  useEffect9(() => {
+  useEffect8(() => {
     let timer = void 0;
     if (sidebarSectionContent.categories?.length > 0)
       timer = setTimeout(
@@ -8477,7 +8465,7 @@ var Sidebar = ({ parentsArray = [] }) => {
     const [iconTooltip2, setIconTooltip] = useState7(false);
     const [tooltipLabel, setTooltipLabel] = useState7(sectionElement.title);
     const titleRef = useRef4();
-    useEffect9(() => {
+    useEffect8(() => {
       const resizeObserver = new MutationObserver(function(entries) {
         const target = entries[0].target;
         if (target.offsetWidth < target.scrollWidth)
@@ -9703,7 +9691,7 @@ var getTitleById = (sections, id) => {
 };
 
 // src/components/search-input/customHighlight.tsx
-import { useEffect as useEffect10, useRef as useRef6, useState as useState8 } from "react";
+import { useEffect as useEffect9, useRef as useRef6, useState as useState8 } from "react";
 import { connectHighlight } from "react-instantsearch-dom";
 import { Flex as Flex13, Text as Text8 } from "@vtex/brand-ui";
 import { jsx as jsx37 } from "react/jsx-runtime";
@@ -9734,7 +9722,7 @@ var Highlight = ({
       ellipsedContent.push(part);
     });
   }
-  useEffect10(() => {
+  useEffect9(() => {
     if (searchPage)
       return;
     const titleSize = textContainer.current ? textContainer.current.offsetWidth / 7.75 : 40;
@@ -10600,7 +10588,7 @@ var LikeSelectedIcon = (props) => /* @__PURE__ */ jsxs36(
 var like_selected_icon_default = LikeSelectedIcon;
 
 // src/lib/feedback-section/index.tsx
-import { useContext as useContext11, useEffect as useEffect11, useState as useState11 } from "react";
+import { useContext as useContext11, useEffect as useEffect10, useState as useState11 } from "react";
 
 // src/lib/feedback-section/styles.ts
 var container5 = ({ small } = {}) => ({
@@ -10988,7 +10976,7 @@ var FeedbackSection = ({
 }) => {
   const [feedback, setFeedback] = useState11(void 0);
   const { locale } = useContext11(LibraryContext);
-  useEffect11(() => {
+  useEffect10(() => {
     setFeedback(void 0);
   }, [slug]);
   const handleSend = async (liked) => {
@@ -11067,7 +11055,7 @@ import { Box as Box19 } from "@vtex/brand-ui";
 
 // src/components/search-section/index.tsx
 import { Box as Box18, Flex as Flex17, Text as Text12 } from "@vtex/brand-ui";
-import { useContext as useContext12, useEffect as useEffect12 } from "react";
+import { useContext as useContext12, useEffect as useEffect11 } from "react";
 
 // src/components/search-section/styles.ts
 var sectionContainer = (disabled2 = false) => ({
@@ -11183,7 +11171,7 @@ var SearchSection = ({ dataElement, index }) => {
     router.query.filter = value;
     changeFilterSelectedSection(value);
   };
-  useEffect12(() => {
+  useEffect11(() => {
     updateFilter("");
   }, [router.query]);
   const allCountLabel = formatSearchTabCount(ocurrenceCount[""]);
@@ -11288,12 +11276,12 @@ var search_sections_default = SearchSections;
 
 // src/components/search-results/index.tsx
 import { useRouter as useRouter7 } from "next/router.js";
-import { useContext as useContext16, useEffect as useEffect14, useState as useState14 } from "react";
+import { useContext as useContext16, useEffect as useEffect13, useState as useState14 } from "react";
 import { Box as Box22, Text as Text14 } from "@vtex/brand-ui";
 import { Configure as Configure2, InstantSearch as InstantSearch2 } from "react-instantsearch-dom";
 
 // src/components/search-results/infiniteHits.tsx
-import { useContext as useContext15, useEffect as useEffect13, useMemo as useMemo2, useRef as useRef10 } from "react";
+import { useContext as useContext15, useEffect as useEffect12, useMemo as useMemo2, useRef as useRef10 } from "react";
 import {
   connectInfiniteHits,
   connectStateResults as connectStateResults2
@@ -11607,7 +11595,7 @@ var HitCard = ({ hit }) => {
 var StateResults = connectStateResults2(
   ({ searchResults }) => {
     const { updateOcurrenceCount } = useContext15(SearchContext);
-    useEffect13(() => {
+    useEffect12(() => {
       if (!searchResults)
         return;
       const results = searchResults;
@@ -11670,7 +11658,7 @@ var InfiniteHits = ({ hits, hasMore, refineNext }) => {
     });
     return mergeHits;
   }, [hits]);
-  useEffect13(() => {
+  useEffect12(() => {
     const observer = new IntersectionObserver(onSentinelIntersection, {});
     if (scrollRef.current)
       observer.observe(scrollRef.current);
@@ -11760,7 +11748,7 @@ var SearchResults = () => {
   const [prevFilter, setPrevFilter] = useState14("");
   const [prevKeyword, setPrevKeyword] = useState14(keyword);
   const [searchState, setSearchState] = useState14({});
-  useEffect14(() => {
+  useEffect13(() => {
     if (!keyword || keyword === prevKeyword)
       return;
     setPrevKeyword(keyword);
@@ -12122,7 +12110,7 @@ var CopyLinkButton = () => {
 var copy_link_button_default = CopyLinkButton;
 
 // src/components/input/index.tsx
-import { useState as useState16, useEffect as useEffect15 } from "react";
+import { useState as useState16, useEffect as useEffect14 } from "react";
 
 // src/components/input/styles.ts
 var input = {
@@ -12165,7 +12153,7 @@ import { Flex as Flex23 } from "@vtex/brand-ui";
 import { jsx as jsx64, jsxs as jsxs51 } from "react/jsx-runtime";
 var Input = ({ value, onChange, placeholder = "", Icon: Icon68 }) => {
   const [inputValue, setInputValue] = useState16(value ?? "");
-  useEffect15(() => {
+  useEffect14(() => {
     if (inputValue !== value)
       setInputValue(value);
   }, [value]);
