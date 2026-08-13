@@ -1081,19 +1081,7 @@ var init_cache_in_memory_esm = __esm({
   }
 });
 
-// node_modules/@algolia/client-common/dist/client-common.esm.js
-var client_common_esm_exports = {};
-__export(client_common_esm_exports, {
-  AuthMode: () => AuthMode,
-  addMethods: () => addMethods,
-  createAuth: () => createAuth,
-  createRetryablePromise: () => createRetryablePromise,
-  createWaitablePromise: () => createWaitablePromise,
-  destroy: () => destroy,
-  encode: () => encode,
-  shuffle: () => shuffle,
-  version: () => version
-});
+// node_modules/@algolia/client-analytics/node_modules/@algolia/client-common/dist/client-common.esm.js
 function createAuth(authMode, appId, apiKey) {
   const credentials = {
     "x-algolia-api-key": apiKey,
@@ -1108,37 +1096,6 @@ function createAuth(authMode, appId, apiKey) {
     }
   };
 }
-function createRetryablePromise(callback) {
-  let retriesCount = 0;
-  const retry = () => {
-    retriesCount++;
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(callback(retry));
-      }, Math.min(100 * retriesCount, 1e3));
-    });
-  };
-  return callback(retry);
-}
-function createWaitablePromise(promise, wait = (_response, _requestOptions) => {
-  return Promise.resolve();
-}) {
-  return Object.assign(promise, {
-    wait(requestOptions) {
-      return createWaitablePromise(promise.then((response) => Promise.all([wait(response, requestOptions), response])).then((promiseResults) => promiseResults[1]));
-    }
-  });
-}
-function shuffle(array) {
-  let c = array.length - 1;
-  for (c; c > 0; c--) {
-    const b = Math.floor(Math.random() * (c + 1));
-    const a = array[c];
-    array[c] = array[b];
-    array[b] = a;
-  }
-  return array;
-}
 function addMethods(base, methods) {
   if (!methods) {
     return base;
@@ -1152,16 +1109,10 @@ function encode(format, ...args) {
   let i = 0;
   return format.replace(/%s/g, () => encodeURIComponent(args[i++]));
 }
-var version, destroy, AuthMode;
+var AuthMode;
 var init_client_common_esm = __esm({
-  "node_modules/@algolia/client-common/dist/client-common.esm.js"() {
+  "node_modules/@algolia/client-analytics/node_modules/@algolia/client-common/dist/client-common.esm.js"() {
     "use strict";
-    version = "4.20.0";
-    destroy = (base) => {
-      return () => {
-        return base.transporter.requester.destroy();
-      };
-    };
     AuthMode = {
       /**
        * If auth credentials should be in query parameters.
@@ -1176,6 +1127,10 @@ var init_client_common_esm = __esm({
 });
 
 // node_modules/@algolia/requester-common/dist/requester-common.esm.js
+var requester_common_esm_exports = {};
+__export(requester_common_esm_exports, {
+  MethodEnum: () => MethodEnum
+});
 var MethodEnum;
 var init_requester_common_esm = __esm({
   "node_modules/@algolia/requester-common/dist/requester-common.esm.js"() {
@@ -1398,9 +1353,9 @@ function createTransporter(options) {
   };
   return transporter;
 }
-function createUserAgent(version2) {
+function createUserAgent(version3) {
   const userAgent = {
-    value: `Algolia for JavaScript (${version2})`,
+    value: `Algolia for JavaScript (${version3})`,
     add(options) {
       const addedUserAgent = `; ${options.segment}${options.version !== void 0 ? ` (${options.version})` : ""}`;
       if (userAgent.value.indexOf(addedUserAgent) === -1) {
@@ -1495,7 +1450,7 @@ function createDeserializationError(message, response) {
 function createRetryError(transporterStackTrace) {
   return {
     name: "RetryError",
-    message: "Unreachable hosts - your application id may be incorrect. If the error persists, contact support@algolia.com.",
+    message: "Unreachable hosts - your application id may be incorrect. If the error persists, please reach out to the Algolia Support team: https://alg.li/support .",
     transporterStackTrace
   };
 }
@@ -1627,6 +1582,141 @@ var init_client_analytics_esm = __esm({
   }
 });
 
+// node_modules/algoliasearch/node_modules/@algolia/client-common/dist/client-common.esm.js
+var client_common_esm_exports = {};
+__export(client_common_esm_exports, {
+  AuthMode: () => AuthMode2,
+  addMethods: () => addMethods2,
+  createAuth: () => createAuth2,
+  createRetryablePromise: () => createRetryablePromise,
+  createWaitablePromise: () => createWaitablePromise,
+  destroy: () => destroy,
+  encode: () => encode3,
+  shuffle: () => shuffle,
+  version: () => version
+});
+function createAuth2(authMode, appId, apiKey) {
+  const credentials = {
+    "x-algolia-api-key": apiKey,
+    "x-algolia-application-id": appId
+  };
+  return {
+    headers() {
+      return authMode === AuthMode2.WithinHeaders ? credentials : {};
+    },
+    queryParameters() {
+      return authMode === AuthMode2.WithinQueryParameters ? credentials : {};
+    }
+  };
+}
+function createRetryablePromise(callback) {
+  let retriesCount = 0;
+  const retry = () => {
+    retriesCount++;
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(callback(retry));
+      }, Math.min(100 * retriesCount, 1e3));
+    });
+  };
+  return callback(retry);
+}
+function createWaitablePromise(promise, wait = (_response, _requestOptions) => {
+  return Promise.resolve();
+}) {
+  return Object.assign(promise, {
+    wait(requestOptions) {
+      return createWaitablePromise(promise.then((response) => Promise.all([wait(response, requestOptions), response])).then((promiseResults) => promiseResults[1]));
+    }
+  });
+}
+function shuffle(array) {
+  let c = array.length - 1;
+  for (c; c > 0; c--) {
+    const b = Math.floor(Math.random() * (c + 1));
+    const a = array[c];
+    array[c] = array[b];
+    array[b] = a;
+  }
+  return array;
+}
+function addMethods2(base, methods) {
+  if (!methods) {
+    return base;
+  }
+  Object.keys(methods).forEach((key) => {
+    base[key] = methods[key](base);
+  });
+  return base;
+}
+function encode3(format, ...args) {
+  let i = 0;
+  return format.replace(/%s/g, () => encodeURIComponent(args[i++]));
+}
+var version, destroy, AuthMode2;
+var init_client_common_esm2 = __esm({
+  "node_modules/algoliasearch/node_modules/@algolia/client-common/dist/client-common.esm.js"() {
+    "use strict";
+    version = "4.24.0";
+    destroy = (base) => {
+      return () => {
+        return base.transporter.requester.destroy();
+      };
+    };
+    AuthMode2 = {
+      /**
+       * If auth credentials should be in query parameters.
+       */
+      WithinQueryParameters: 0,
+      /**
+       * If auth credentials should be in headers.
+       */
+      WithinHeaders: 1
+    };
+  }
+});
+
+// node_modules/@algolia/client-personalization/node_modules/@algolia/client-common/dist/client-common.esm.js
+function createAuth3(authMode, appId, apiKey) {
+  const credentials = {
+    "x-algolia-api-key": apiKey,
+    "x-algolia-application-id": appId
+  };
+  return {
+    headers() {
+      return authMode === AuthMode3.WithinHeaders ? credentials : {};
+    },
+    queryParameters() {
+      return authMode === AuthMode3.WithinQueryParameters ? credentials : {};
+    }
+  };
+}
+function addMethods3(base, methods) {
+  if (!methods) {
+    return base;
+  }
+  Object.keys(methods).forEach((key) => {
+    base[key] = methods[key](base);
+  });
+  return base;
+}
+var AuthMode3;
+var init_client_common_esm3 = __esm({
+  "node_modules/@algolia/client-personalization/node_modules/@algolia/client-common/dist/client-common.esm.js"() {
+    "use strict";
+    AuthMode3 = {
+      /**
+       * If auth credentials should be in query parameters.
+       */
+      WithinQueryParameters: 0,
+      /**
+       * If auth credentials should be in headers.
+       */
+      WithinHeaders: 1
+    };
+  }
+});
+
 // node_modules/@algolia/client-personalization/dist/client-personalization.esm.js
 var client_personalization_esm_exports = {};
 __export(client_personalization_esm_exports, {
@@ -1638,12 +1728,12 @@ var createPersonalizationClient, getPersonalizationStrategy, setPersonalizationS
 var init_client_personalization_esm = __esm({
   "node_modules/@algolia/client-personalization/dist/client-personalization.esm.js"() {
     "use strict";
-    init_client_common_esm();
+    init_client_common_esm3();
     init_transporter_esm();
     init_requester_common_esm();
     createPersonalizationClient = (options) => {
       const region = options.region || "us";
-      const auth = createAuth(AuthMode.WithinHeaders, options.appId, options.apiKey);
+      const auth = createAuth3(AuthMode3.WithinHeaders, options.appId, options.apiKey);
       const transporter = createTransporter({
         hosts: [{ url: `personalization.${region}.algolia.com` }],
         ...options,
@@ -1657,7 +1747,7 @@ var init_client_personalization_esm = __esm({
           ...options.queryParameters
         }
       });
-      return addMethods({ appId: options.appId, transporter }, options.methods);
+      return addMethods3({ appId: options.appId, transporter }, options.methods);
     };
     getPersonalizationStrategy = (base) => {
       return (requestOptions) => {
@@ -1675,6 +1765,82 @@ var init_client_personalization_esm = __esm({
           data: personalizationStrategy
         }, requestOptions);
       };
+    };
+  }
+});
+
+// node_modules/@algolia/client-search/node_modules/@algolia/client-common/dist/client-common.esm.js
+function createAuth4(authMode, appId, apiKey) {
+  const credentials = {
+    "x-algolia-api-key": apiKey,
+    "x-algolia-application-id": appId
+  };
+  return {
+    headers() {
+      return authMode === AuthMode4.WithinHeaders ? credentials : {};
+    },
+    queryParameters() {
+      return authMode === AuthMode4.WithinQueryParameters ? credentials : {};
+    }
+  };
+}
+function createRetryablePromise2(callback) {
+  let retriesCount = 0;
+  const retry = () => {
+    retriesCount++;
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(callback(retry));
+      }, Math.min(100 * retriesCount, 1e3));
+    });
+  };
+  return callback(retry);
+}
+function createWaitablePromise2(promise, wait = (_response, _requestOptions) => {
+  return Promise.resolve();
+}) {
+  return Object.assign(promise, {
+    wait(requestOptions) {
+      return createWaitablePromise2(promise.then((response) => Promise.all([wait(response, requestOptions), response])).then((promiseResults) => promiseResults[1]));
+    }
+  });
+}
+function shuffle2(array) {
+  let c = array.length - 1;
+  for (c; c > 0; c--) {
+    const b = Math.floor(Math.random() * (c + 1));
+    const a = array[c];
+    array[c] = array[b];
+    array[b] = a;
+  }
+  return array;
+}
+function addMethods4(base, methods) {
+  if (!methods) {
+    return base;
+  }
+  Object.keys(methods).forEach((key) => {
+    base[key] = methods[key](base);
+  });
+  return base;
+}
+function encode4(format, ...args) {
+  let i = 0;
+  return format.replace(/%s/g, () => encodeURIComponent(args[i++]));
+}
+var AuthMode4;
+var init_client_common_esm4 = __esm({
+  "node_modules/@algolia/client-search/node_modules/@algolia/client-common/dist/client-common.esm.js"() {
+    "use strict";
+    AuthMode4 = {
+      /**
+       * If auth credentials should be in query parameters.
+       */
+      WithinQueryParameters: 0,
+      /**
+       * If auth credentials should be in headers.
+       */
+      WithinHeaders: 1
     };
   }
 });
@@ -1817,17 +1983,17 @@ var createSearchClient, addApiKey, assignUserID, assignUserIDs, clearDictionaryE
 var init_client_search_esm = __esm({
   "node_modules/@algolia/client-search/dist/client-search.esm.js"() {
     "use strict";
-    init_client_common_esm();
+    init_client_common_esm4();
     init_transporter_esm();
     init_requester_common_esm();
     createSearchClient = (options) => {
       const appId = options.appId;
-      const auth = createAuth(options.authMode !== void 0 ? options.authMode : AuthMode.WithinHeaders, appId, options.apiKey);
+      const auth = createAuth4(options.authMode !== void 0 ? options.authMode : AuthMode4.WithinHeaders, appId, options.apiKey);
       const transporter = createTransporter({
         hosts: [
           { url: `${appId}-dsn.algolia.net`, accept: CallEnum.Read },
           { url: `${appId}.algolia.net`, accept: CallEnum.Write }
-        ].concat(shuffle([
+        ].concat(shuffle2([
           { url: `${appId}-1.algolianet.com` },
           { url: `${appId}-2.algolianet.com` },
           { url: `${appId}-3.algolianet.com` }
@@ -1846,8 +2012,8 @@ var init_client_search_esm = __esm({
       const base = {
         transporter,
         appId,
-        addAlgoliaAgent(segment, version2) {
-          transporter.userAgent.add({ segment, version: version2 });
+        addAlgoliaAgent(segment, version3) {
+          transporter.userAgent.add({ segment, version: version3 });
         },
         clearCache() {
           return Promise.all([
@@ -1856,7 +2022,7 @@ var init_client_search_esm = __esm({
           ]).then(() => void 0);
         }
       };
-      return addMethods(base, options.methods);
+      return addMethods4(base, options.methods);
     };
     addApiKey = (base) => {
       return (acl, requestOptions) => {
@@ -1866,7 +2032,7 @@ var init_client_search_esm = __esm({
           ...queryParameters !== void 0 ? { queryParameters } : {}
         };
         const wait = (response, waitRequestOptions) => {
-          return createRetryablePromise((retry) => {
+          return createRetryablePromise2((retry) => {
             return getApiKey(base)(response.key, waitRequestOptions).catch((apiError) => {
               if (apiError.status !== 404) {
                 throw apiError;
@@ -1875,7 +2041,7 @@ var init_client_search_esm = __esm({
             });
           });
         };
-        return createWaitablePromise(base.transporter.write({
+        return createWaitablePromise2(base.transporter.write({
           method: MethodEnum.Post,
           path: "1/keys",
           data
@@ -1907,9 +2073,9 @@ var init_client_search_esm = __esm({
     };
     clearDictionaryEntries = (base) => {
       return (dictionary, requestOptions) => {
-        return createWaitablePromise(base.transporter.write({
+        return createWaitablePromise2(base.transporter.write({
           method: MethodEnum.Post,
-          path: encode("/1/dictionaries/%s/batch", dictionary),
+          path: encode4("/1/dictionaries/%s/batch", dictionary),
           data: {
             clearExistingDictionaryEntries: true,
             requests: { action: "addEntry", body: [] }
@@ -1924,9 +2090,9 @@ var init_client_search_esm = __esm({
             methods: { waitTask }
           }).waitTask(response.taskID, waitRequestOptions);
         };
-        return createWaitablePromise(base.transporter.write({
+        return createWaitablePromise2(base.transporter.write({
           method: MethodEnum.Post,
-          path: encode("1/indexes/%s/operation", from),
+          path: encode4("1/indexes/%s/operation", from),
           data: {
             operation: "copy",
             destination: to
@@ -1969,7 +2135,7 @@ var init_client_search_esm = __esm({
     deleteApiKey = (base) => {
       return (apiKey, requestOptions) => {
         const wait = (_, waitRequestOptions) => {
-          return createRetryablePromise((retry) => {
+          return createRetryablePromise2((retry) => {
             return getApiKey(base)(apiKey, waitRequestOptions).then(retry).catch((apiError) => {
               if (apiError.status !== 404) {
                 throw apiError;
@@ -1977,9 +2143,9 @@ var init_client_search_esm = __esm({
             });
           });
         };
-        return createWaitablePromise(base.transporter.write({
+        return createWaitablePromise2(base.transporter.write({
           method: MethodEnum.Delete,
-          path: encode("1/keys/%s", apiKey)
+          path: encode4("1/keys/%s", apiKey)
         }, requestOptions), wait);
       };
     };
@@ -1989,9 +2155,9 @@ var init_client_search_esm = __esm({
           action: "deleteEntry",
           body: { objectID }
         }));
-        return createWaitablePromise(base.transporter.write({
+        return createWaitablePromise2(base.transporter.write({
           method: MethodEnum.Post,
-          path: encode("/1/dictionaries/%s/batch", dictionary),
+          path: encode4("/1/dictionaries/%s/batch", dictionary),
           data: { clearExistingDictionaryEntries: false, requests }
         }, requestOptions), (response, waitRequestOptions) => waitAppTask(base)(response.taskID, waitRequestOptions));
       };
@@ -2007,7 +2173,7 @@ var init_client_search_esm = __esm({
       return (apiKey, requestOptions) => {
         return base.transporter.read({
           method: MethodEnum.Get,
-          path: encode("1/keys/%s", apiKey)
+          path: encode4("1/keys/%s", apiKey)
         }, requestOptions);
       };
     };
@@ -2015,7 +2181,7 @@ var init_client_search_esm = __esm({
       return (taskID, requestOptions) => {
         return base.transporter.read({
           method: MethodEnum.Get,
-          path: encode("1/task/%s", taskID.toString())
+          path: encode4("1/task/%s", taskID.toString())
         }, requestOptions);
       };
     };
@@ -2058,7 +2224,7 @@ var init_client_search_esm = __esm({
       return (userID, requestOptions) => {
         return base.transporter.read({
           method: MethodEnum.Get,
-          path: encode("1/clusters/mapping/%s", userID)
+          path: encode4("1/clusters/mapping/%s", userID)
         }, requestOptions);
       };
     };
@@ -2081,7 +2247,7 @@ var init_client_search_esm = __esm({
           appId: base.appId,
           indexName
         };
-        return addMethods(searchIndex2, options.methods);
+        return addMethods4(searchIndex2, options.methods);
       };
     };
     listApiKeys = (base) => {
@@ -2123,9 +2289,9 @@ var init_client_search_esm = __esm({
             methods: { waitTask }
           }).waitTask(response.taskID, waitRequestOptions);
         };
-        return createWaitablePromise(base.transporter.write({
+        return createWaitablePromise2(base.transporter.write({
           method: MethodEnum.Post,
-          path: encode("1/indexes/%s/operation", from),
+          path: encode4("1/indexes/%s/operation", from),
           data: {
             operation: "move",
             destination: to
@@ -2142,7 +2308,7 @@ var init_client_search_esm = __esm({
             }).waitTask(response.taskID[indexName], waitRequestOptions);
           }));
         };
-        return createWaitablePromise(base.transporter.write({
+        return createWaitablePromise2(base.transporter.write({
           method: MethodEnum.Post,
           path: "1/indexes/*/batch",
           data: {
@@ -2209,9 +2375,9 @@ var init_client_search_esm = __esm({
           action: "addEntry",
           body: entry
         }));
-        return createWaitablePromise(base.transporter.write({
+        return createWaitablePromise2(base.transporter.write({
           method: MethodEnum.Post,
-          path: encode("/1/dictionaries/%s/batch", dictionary),
+          path: encode4("/1/dictionaries/%s/batch", dictionary),
           data: { clearExistingDictionaryEntries: true, requests }
         }, requestOptions), (response, waitRequestOptions) => waitAppTask(base)(response.taskID, waitRequestOptions));
       };
@@ -2219,7 +2385,7 @@ var init_client_search_esm = __esm({
     restoreApiKey = (base) => {
       return (apiKey, requestOptions) => {
         const wait = (_, waitRequestOptions) => {
-          return createRetryablePromise((retry) => {
+          return createRetryablePromise2((retry) => {
             return getApiKey(base)(apiKey, waitRequestOptions).catch((apiError) => {
               if (apiError.status !== 404) {
                 throw apiError;
@@ -2228,9 +2394,9 @@ var init_client_search_esm = __esm({
             });
           });
         };
-        return createWaitablePromise(base.transporter.write({
+        return createWaitablePromise2(base.transporter.write({
           method: MethodEnum.Post,
-          path: encode("1/keys/%s/restore", apiKey)
+          path: encode4("1/keys/%s/restore", apiKey)
         }, requestOptions), wait);
       };
     };
@@ -2240,9 +2406,9 @@ var init_client_search_esm = __esm({
           action: "addEntry",
           body: entry
         }));
-        return createWaitablePromise(base.transporter.write({
+        return createWaitablePromise2(base.transporter.write({
           method: MethodEnum.Post,
-          path: encode("/1/dictionaries/%s/batch", dictionary),
+          path: encode4("/1/dictionaries/%s/batch", dictionary),
           data: { clearExistingDictionaryEntries: false, requests }
         }, requestOptions), (response, waitRequestOptions) => waitAppTask(base)(response.taskID, waitRequestOptions));
       };
@@ -2251,7 +2417,7 @@ var init_client_search_esm = __esm({
       return (dictionary, query, requestOptions) => {
         return base.transporter.read({
           method: MethodEnum.Post,
-          path: encode("/1/dictionaries/%s/search", dictionary),
+          path: encode4("/1/dictionaries/%s/search", dictionary),
           data: {
             query
           },
@@ -2272,7 +2438,7 @@ var init_client_search_esm = __esm({
     };
     setDictionarySettings = (base) => {
       return (settings, requestOptions) => {
-        return createWaitablePromise(base.transporter.write({
+        return createWaitablePromise2(base.transporter.write({
           method: MethodEnum.Put,
           path: "/1/dictionaries/*/settings",
           data: settings
@@ -2304,21 +2470,21 @@ var init_client_search_esm = __esm({
             }
           });
         };
-        const wait = (_, waitRequestOptions) => createRetryablePromise((retry) => {
+        const wait = (_, waitRequestOptions) => createRetryablePromise2((retry) => {
           return getApiKey(base)(apiKey, waitRequestOptions).then((getApiKeyResponse) => {
             return hasChanged(getApiKeyResponse) ? Promise.resolve() : retry();
           });
         });
-        return createWaitablePromise(base.transporter.write({
+        return createWaitablePromise2(base.transporter.write({
           method: MethodEnum.Put,
-          path: encode("1/keys/%s", apiKey),
+          path: encode4("1/keys/%s", apiKey),
           data
         }, options), wait);
       };
     };
     waitAppTask = (base) => {
       return (taskID, requestOptions) => {
-        return createRetryablePromise((retry) => {
+        return createRetryablePromise2((retry) => {
           return getAppTask(base)(taskID, requestOptions).then((response) => {
             return response.status !== "published" ? retry() : void 0;
           });
@@ -2330,9 +2496,9 @@ var init_client_search_esm = __esm({
         const wait = (response, waitRequestOptions) => {
           return waitTask(base)(response.taskID, waitRequestOptions);
         };
-        return createWaitablePromise(base.transporter.write({
+        return createWaitablePromise2(base.transporter.write({
           method: MethodEnum.Post,
-          path: encode("1/indexes/%s/batch", base.indexName),
+          path: encode4("1/indexes/%s/batch", base.indexName),
           data: {
             requests
           }
@@ -2346,7 +2512,7 @@ var init_client_search_esm = __esm({
           ...requestOptions,
           request: (data) => base.transporter.read({
             method: MethodEnum.Post,
-            path: encode("1/indexes/%s/browse", base.indexName),
+            path: encode4("1/indexes/%s/browse", base.indexName),
             data
           }, requestOptions)
         });
@@ -2429,7 +2595,7 @@ var init_client_search_esm = __esm({
             return forEachBatch(index);
           });
         };
-        return createWaitablePromise(forEachBatch(), (chunkedBatchResponse, waitRequestOptions) => {
+        return createWaitablePromise2(forEachBatch(), (chunkedBatchResponse, waitRequestOptions) => {
           return Promise.all(chunkedBatchResponse.taskIDs.map((taskID) => {
             return waitTask(base)(taskID, waitRequestOptions);
           }));
@@ -2438,9 +2604,9 @@ var init_client_search_esm = __esm({
     };
     clearObjects = (base) => {
       return (requestOptions) => {
-        return createWaitablePromise(base.transporter.write({
+        return createWaitablePromise2(base.transporter.write({
           method: MethodEnum.Post,
-          path: encode("1/indexes/%s/clear", base.indexName)
+          path: encode4("1/indexes/%s/clear", base.indexName)
         }, requestOptions), (response, waitRequestOptions) => waitTask(base)(response.taskID, waitRequestOptions));
       };
     };
@@ -2451,9 +2617,9 @@ var init_client_search_esm = __esm({
         if (forwardToReplicas) {
           mappedRequestOptions.queryParameters.forwardToReplicas = 1;
         }
-        return createWaitablePromise(base.transporter.write({
+        return createWaitablePromise2(base.transporter.write({
           method: MethodEnum.Post,
-          path: encode("1/indexes/%s/rules/clear", base.indexName)
+          path: encode4("1/indexes/%s/rules/clear", base.indexName)
         }, mappedRequestOptions), (response, waitRequestOptions) => waitTask(base)(response.taskID, waitRequestOptions));
       };
     };
@@ -2464,32 +2630,32 @@ var init_client_search_esm = __esm({
         if (forwardToReplicas) {
           mappedRequestOptions.queryParameters.forwardToReplicas = 1;
         }
-        return createWaitablePromise(base.transporter.write({
+        return createWaitablePromise2(base.transporter.write({
           method: MethodEnum.Post,
-          path: encode("1/indexes/%s/synonyms/clear", base.indexName)
+          path: encode4("1/indexes/%s/synonyms/clear", base.indexName)
         }, mappedRequestOptions), (response, waitRequestOptions) => waitTask(base)(response.taskID, waitRequestOptions));
       };
     };
     deleteBy = (base) => {
       return (filters, requestOptions) => {
-        return createWaitablePromise(base.transporter.write({
+        return createWaitablePromise2(base.transporter.write({
           method: MethodEnum.Post,
-          path: encode("1/indexes/%s/deleteByQuery", base.indexName),
+          path: encode4("1/indexes/%s/deleteByQuery", base.indexName),
           data: filters
         }, requestOptions), (response, waitRequestOptions) => waitTask(base)(response.taskID, waitRequestOptions));
       };
     };
     deleteIndex = (base) => {
       return (requestOptions) => {
-        return createWaitablePromise(base.transporter.write({
+        return createWaitablePromise2(base.transporter.write({
           method: MethodEnum.Delete,
-          path: encode("1/indexes/%s", base.indexName)
+          path: encode4("1/indexes/%s", base.indexName)
         }, requestOptions), (response, waitRequestOptions) => waitTask(base)(response.taskID, waitRequestOptions));
       };
     };
     deleteObject = (base) => {
       return (objectID, requestOptions) => {
-        return createWaitablePromise(deleteObjects(base)([objectID], requestOptions).then((response) => {
+        return createWaitablePromise2(deleteObjects(base)([objectID], requestOptions).then((response) => {
           return { taskID: response.taskIDs[0] };
         }), (response, waitRequestOptions) => waitTask(base)(response.taskID, waitRequestOptions));
       };
@@ -2509,9 +2675,9 @@ var init_client_search_esm = __esm({
         if (forwardToReplicas) {
           mappedRequestOptions.queryParameters.forwardToReplicas = 1;
         }
-        return createWaitablePromise(base.transporter.write({
+        return createWaitablePromise2(base.transporter.write({
           method: MethodEnum.Delete,
-          path: encode("1/indexes/%s/rules/%s", base.indexName, objectID)
+          path: encode4("1/indexes/%s/rules/%s", base.indexName, objectID)
         }, mappedRequestOptions), (response, waitRequestOptions) => waitTask(base)(response.taskID, waitRequestOptions));
       };
     };
@@ -2522,9 +2688,9 @@ var init_client_search_esm = __esm({
         if (forwardToReplicas) {
           mappedRequestOptions.queryParameters.forwardToReplicas = 1;
         }
-        return createWaitablePromise(base.transporter.write({
+        return createWaitablePromise2(base.transporter.write({
           method: MethodEnum.Delete,
-          path: encode("1/indexes/%s/synonyms/%s", base.indexName, objectID)
+          path: encode4("1/indexes/%s/synonyms/%s", base.indexName, objectID)
         }, mappedRequestOptions), (response, waitRequestOptions) => waitTask(base)(response.taskID, waitRequestOptions));
       };
     };
@@ -2542,7 +2708,7 @@ var init_client_search_esm = __esm({
       return (query, queryLanguages, requestOptions) => {
         return base.transporter.read({
           method: MethodEnum.Post,
-          path: encode("1/answers/%s/prediction", base.indexName),
+          path: encode4("1/answers/%s/prediction", base.indexName),
           data: {
             query,
             queryLanguages
@@ -2580,7 +2746,7 @@ var init_client_search_esm = __esm({
       return (objectID, requestOptions) => {
         return base.transporter.read({
           method: MethodEnum.Get,
-          path: encode("1/indexes/%s/%s", base.indexName, objectID)
+          path: encode4("1/indexes/%s/%s", base.indexName, objectID)
         }, requestOptions);
       };
     };
@@ -2617,7 +2783,7 @@ var init_client_search_esm = __esm({
       return (objectID, requestOptions) => {
         return base.transporter.read({
           method: MethodEnum.Get,
-          path: encode("1/indexes/%s/rules/%s", base.indexName, objectID)
+          path: encode4("1/indexes/%s/rules/%s", base.indexName, objectID)
         }, requestOptions);
       };
     };
@@ -2625,7 +2791,7 @@ var init_client_search_esm = __esm({
       return (requestOptions) => {
         return base.transporter.read({
           method: MethodEnum.Get,
-          path: encode("1/indexes/%s/settings", base.indexName),
+          path: encode4("1/indexes/%s/settings", base.indexName),
           data: {
             getVersion: 2
           }
@@ -2636,7 +2802,7 @@ var init_client_search_esm = __esm({
       return (objectID, requestOptions) => {
         return base.transporter.read({
           method: MethodEnum.Get,
-          path: encode(`1/indexes/%s/synonyms/%s`, base.indexName, objectID)
+          path: encode4(`1/indexes/%s/synonyms/%s`, base.indexName, objectID)
         }, requestOptions);
       };
     };
@@ -2644,13 +2810,13 @@ var init_client_search_esm = __esm({
       return (taskID, requestOptions) => {
         return base.transporter.read({
           method: MethodEnum.Get,
-          path: encode("1/indexes/%s/task/%s", base.indexName, taskID.toString())
+          path: encode4("1/indexes/%s/task/%s", base.indexName, taskID.toString())
         }, requestOptions);
       };
     };
     partialUpdateObject = (base) => {
       return (object, requestOptions) => {
-        return createWaitablePromise(partialUpdateObjects(base)([object], requestOptions).then((response) => {
+        return createWaitablePromise2(partialUpdateObjects(base)([object], requestOptions).then((response) => {
           return {
             objectID: response.objectIDs[0],
             taskID: response.taskIDs[0]
@@ -2669,9 +2835,9 @@ var init_client_search_esm = __esm({
       return (objects, requestOptions) => {
         const { safe, autoGenerateObjectIDIfNotExist, batchSize, ...options } = requestOptions || {};
         const operation = (from, to, type, operationRequestOptions) => {
-          return createWaitablePromise(base.transporter.write({
+          return createWaitablePromise2(base.transporter.write({
             method: MethodEnum.Post,
-            path: encode("1/indexes/%s/operation", from),
+            path: encode4("1/indexes/%s/operation", from),
             data: {
               operation: type,
               destination: to
@@ -2709,7 +2875,7 @@ var init_client_search_esm = __esm({
             taskIDs: [copyResponse.taskID, ...saveObjectsResponse.taskIDs, moveResponse.taskID]
           };
         });
-        return createWaitablePromise(result, (_, waitRequestOptions) => {
+        return createWaitablePromise2(result, (_, waitRequestOptions) => {
           return Promise.all(responses.map((response) => response.wait(waitRequestOptions)));
         });
       };
@@ -2732,7 +2898,7 @@ var init_client_search_esm = __esm({
     };
     saveObject = (base) => {
       return (object, requestOptions) => {
-        return createWaitablePromise(saveObjects(base)([object], requestOptions).then((response) => {
+        return createWaitablePromise2(saveObjects(base)([object], requestOptions).then((response) => {
           return {
             objectID: response.objectIDs[0],
             taskID: response.taskIDs[0]
@@ -2747,7 +2913,7 @@ var init_client_search_esm = __esm({
         if (action === BatchActionEnum.UpdateObject) {
           for (const object of objects) {
             if (object.objectID === void 0) {
-              return createWaitablePromise(Promise.reject(createMissingObjectIDError()));
+              return createWaitablePromise2(Promise.reject(createMissingObjectIDError()));
             }
           }
         }
@@ -2769,9 +2935,9 @@ var init_client_search_esm = __esm({
         if (clearExistingRules) {
           mappedRequestOptions.queryParameters.clearExistingRules = 1;
         }
-        return createWaitablePromise(base.transporter.write({
+        return createWaitablePromise2(base.transporter.write({
           method: MethodEnum.Post,
-          path: encode("1/indexes/%s/rules/batch", base.indexName),
+          path: encode4("1/indexes/%s/rules/batch", base.indexName),
           data: rules
         }, mappedRequestOptions), (response, waitRequestOptions) => waitTask(base)(response.taskID, waitRequestOptions));
       };
@@ -2791,9 +2957,9 @@ var init_client_search_esm = __esm({
         if (replaceExistingSynonyms || clearExistingSynonyms) {
           mappedRequestOptions.queryParameters.replaceExistingSynonyms = 1;
         }
-        return createWaitablePromise(base.transporter.write({
+        return createWaitablePromise2(base.transporter.write({
           method: MethodEnum.Post,
-          path: encode("1/indexes/%s/synonyms/batch", base.indexName),
+          path: encode4("1/indexes/%s/synonyms/batch", base.indexName),
           data: synonyms
         }, mappedRequestOptions), (response, waitRequestOptions) => waitTask(base)(response.taskID, waitRequestOptions));
       };
@@ -2802,7 +2968,7 @@ var init_client_search_esm = __esm({
       return (query, requestOptions) => {
         return base.transporter.read({
           method: MethodEnum.Post,
-          path: encode("1/indexes/%s/query", base.indexName),
+          path: encode4("1/indexes/%s/query", base.indexName),
           data: {
             query
           },
@@ -2814,7 +2980,7 @@ var init_client_search_esm = __esm({
       return (facetName, facetQuery, requestOptions) => {
         return base.transporter.read({
           method: MethodEnum.Post,
-          path: encode("1/indexes/%s/facets/%s/query", base.indexName, facetName),
+          path: encode4("1/indexes/%s/facets/%s/query", base.indexName, facetName),
           data: {
             facetQuery
           },
@@ -2826,7 +2992,7 @@ var init_client_search_esm = __esm({
       return (query, requestOptions) => {
         return base.transporter.read({
           method: MethodEnum.Post,
-          path: encode("1/indexes/%s/rules/search", base.indexName),
+          path: encode4("1/indexes/%s/rules/search", base.indexName),
           data: {
             query
           }
@@ -2837,7 +3003,7 @@ var init_client_search_esm = __esm({
       return (query, requestOptions) => {
         return base.transporter.read({
           method: MethodEnum.Post,
-          path: encode("1/indexes/%s/synonyms/search", base.indexName),
+          path: encode4("1/indexes/%s/synonyms/search", base.indexName),
           data: {
             query
           }
@@ -2851,16 +3017,16 @@ var init_client_search_esm = __esm({
         if (forwardToReplicas) {
           mappedRequestOptions.queryParameters.forwardToReplicas = 1;
         }
-        return createWaitablePromise(base.transporter.write({
+        return createWaitablePromise2(base.transporter.write({
           method: MethodEnum.Put,
-          path: encode("1/indexes/%s/settings", base.indexName),
+          path: encode4("1/indexes/%s/settings", base.indexName),
           data: settings
         }, mappedRequestOptions), (response, waitRequestOptions) => waitTask(base)(response.taskID, waitRequestOptions));
       };
     };
     waitTask = (base) => {
       return (taskID, requestOptions) => {
-        return createRetryablePromise((retry) => {
+        return createRetryablePromise2((retry) => {
           return getTask(base)(taskID, requestOptions).then((response) => {
             return response.status !== "published" ? retry() : void 0;
           });
@@ -2943,7 +3109,101 @@ var init_logger_common_esm = __esm({
   }
 });
 
-// node_modules/@algolia/requester-node-http/dist/requester-node-http.esm.js
+// node_modules/@algolia/recommend/node_modules/@algolia/client-common/dist/client-common.esm.js
+var client_common_esm_exports2 = {};
+__export(client_common_esm_exports2, {
+  AuthMode: () => AuthMode5,
+  addMethods: () => addMethods5,
+  createAuth: () => createAuth5,
+  createRetryablePromise: () => createRetryablePromise3,
+  createWaitablePromise: () => createWaitablePromise3,
+  destroy: () => destroy2,
+  encode: () => encode5,
+  shuffle: () => shuffle3,
+  version: () => version2
+});
+function createAuth5(authMode, appId, apiKey) {
+  const credentials = {
+    "x-algolia-api-key": apiKey,
+    "x-algolia-application-id": appId
+  };
+  return {
+    headers() {
+      return authMode === AuthMode5.WithinHeaders ? credentials : {};
+    },
+    queryParameters() {
+      return authMode === AuthMode5.WithinQueryParameters ? credentials : {};
+    }
+  };
+}
+function createRetryablePromise3(callback) {
+  let retriesCount = 0;
+  const retry = () => {
+    retriesCount++;
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(callback(retry));
+      }, Math.min(100 * retriesCount, 1e3));
+    });
+  };
+  return callback(retry);
+}
+function createWaitablePromise3(promise, wait = (_response, _requestOptions) => {
+  return Promise.resolve();
+}) {
+  return Object.assign(promise, {
+    wait(requestOptions) {
+      return createWaitablePromise3(promise.then((response) => Promise.all([wait(response, requestOptions), response])).then((promiseResults) => promiseResults[1]));
+    }
+  });
+}
+function shuffle3(array) {
+  let c = array.length - 1;
+  for (c; c > 0; c--) {
+    const b = Math.floor(Math.random() * (c + 1));
+    const a = array[c];
+    array[c] = array[b];
+    array[b] = a;
+  }
+  return array;
+}
+function addMethods5(base, methods) {
+  if (!methods) {
+    return base;
+  }
+  Object.keys(methods).forEach((key) => {
+    base[key] = methods[key](base);
+  });
+  return base;
+}
+function encode5(format, ...args) {
+  let i = 0;
+  return format.replace(/%s/g, () => encodeURIComponent(args[i++]));
+}
+var version2, destroy2, AuthMode5;
+var init_client_common_esm5 = __esm({
+  "node_modules/@algolia/recommend/node_modules/@algolia/client-common/dist/client-common.esm.js"() {
+    "use strict";
+    version2 = "4.24.0";
+    destroy2 = (base) => {
+      return () => {
+        return base.transporter.requester.destroy();
+      };
+    };
+    AuthMode5 = {
+      /**
+       * If auth credentials should be in query parameters.
+       */
+      WithinQueryParameters: 0,
+      /**
+       * If auth credentials should be in headers.
+       */
+      WithinHeaders: 1
+    };
+  }
+});
+
+// node_modules/@algolia/recommend/node_modules/@algolia/requester-node-http/dist/requester-node-http.esm.js
 var requester_node_http_esm_exports = {};
 __export(requester_node_http_esm_exports, {
   createNodeHttpRequester: () => createNodeHttpRequester
@@ -3024,11 +3284,303 @@ function createNodeHttpRequester({ agent: userGlobalAgent, httpAgent: userHttpAg
 }
 var agentOptions, defaultHttpAgent, defaultHttpsAgent;
 var init_requester_node_http_esm = __esm({
-  "node_modules/@algolia/requester-node-http/dist/requester-node-http.esm.js"() {
+  "node_modules/@algolia/recommend/node_modules/@algolia/requester-node-http/dist/requester-node-http.esm.js"() {
     "use strict";
     agentOptions = { keepAlive: true };
     defaultHttpAgent = new Agent(agentOptions);
     defaultHttpsAgent = new Agent$1(agentOptions);
+  }
+});
+
+// node_modules/@algolia/recommend/dist/recommend.cjs.js
+var require_recommend_cjs = __commonJS({
+  "node_modules/@algolia/recommend/dist/recommend.cjs.js"(exports, module) {
+    "use strict";
+    var cacheCommon = (init_cache_common_esm(), __toCommonJS(cache_common_esm_exports));
+    var cacheInMemory = (init_cache_in_memory_esm(), __toCommonJS(cache_in_memory_esm_exports));
+    var clientCommon = (init_client_common_esm5(), __toCommonJS(client_common_esm_exports2));
+    var loggerCommon = (init_logger_common_esm(), __toCommonJS(logger_common_esm_exports));
+    var requesterNodeHttp = (init_requester_node_http_esm(), __toCommonJS(requester_node_http_esm_exports));
+    var transporter = (init_transporter_esm(), __toCommonJS(transporter_esm_exports));
+    var requesterCommon = (init_requester_common_esm(), __toCommonJS(requester_common_esm_exports));
+    var createRecommendClient = (options) => {
+      const appId = options.appId;
+      const auth = clientCommon.createAuth(options.authMode !== void 0 ? options.authMode : clientCommon.AuthMode.WithinHeaders, appId, options.apiKey);
+      const transporter$1 = transporter.createTransporter({
+        hosts: [
+          { url: `${appId}-dsn.algolia.net`, accept: transporter.CallEnum.Read },
+          { url: `${appId}.algolia.net`, accept: transporter.CallEnum.Write }
+        ].concat(clientCommon.shuffle([
+          { url: `${appId}-1.algolianet.com` },
+          { url: `${appId}-2.algolianet.com` },
+          { url: `${appId}-3.algolianet.com` }
+        ])),
+        ...options,
+        headers: {
+          ...auth.headers(),
+          ...{ "content-type": "application/x-www-form-urlencoded" },
+          ...options.headers
+        },
+        queryParameters: {
+          ...auth.queryParameters(),
+          ...options.queryParameters
+        }
+      });
+      const base = {
+        transporter: transporter$1,
+        appId,
+        addAlgoliaAgent(segment, version3) {
+          transporter$1.userAgent.add({ segment, version: version3 });
+        },
+        clearCache() {
+          return Promise.all([
+            transporter$1.requestsCache.clear(),
+            transporter$1.responsesCache.clear()
+          ]).then(() => void 0);
+        }
+      };
+      return clientCommon.addMethods(base, options.methods);
+    };
+    var getRecommendations = (base) => {
+      return (queries, requestOptions) => {
+        const requests = queries.map((query) => ({
+          ...query,
+          // The `threshold` param is required by the endpoint to make it easier
+          // to provide a default value later, so we default it in the client
+          // so that users don't have to provide a value.
+          threshold: query.threshold || 0
+        }));
+        return base.transporter.read({
+          method: requesterCommon.MethodEnum.Post,
+          path: "1/indexes/*/recommendations",
+          data: {
+            requests
+          },
+          cacheable: true
+        }, requestOptions);
+      };
+    };
+    var getFrequentlyBoughtTogether = (base) => {
+      return (queries, requestOptions) => {
+        return getRecommendations(base)(queries.map((query) => ({
+          ...query,
+          fallbackParameters: {},
+          model: "bought-together"
+        })), requestOptions);
+      };
+    };
+    var getRelatedProducts = (base) => {
+      return (queries, requestOptions) => {
+        return getRecommendations(base)(queries.map((query) => ({
+          ...query,
+          model: "related-products"
+        })), requestOptions);
+      };
+    };
+    var getTrendingFacets = (base) => {
+      return (queries, requestOptions) => {
+        const requests = queries.map((query) => ({
+          ...query,
+          model: "trending-facets",
+          // The `threshold` param is required by the endpoint to make it easier
+          // to provide a default value later, so we default it in the client
+          // so that users don't have to provide a value.
+          threshold: query.threshold || 0
+        }));
+        return base.transporter.read({
+          method: requesterCommon.MethodEnum.Post,
+          path: "1/indexes/*/recommendations",
+          data: {
+            requests
+          },
+          cacheable: true
+        }, requestOptions);
+      };
+    };
+    var getTrendingItems = (base) => {
+      return (queries, requestOptions) => {
+        const requests = queries.map((query) => ({
+          ...query,
+          model: "trending-items",
+          // The `threshold` param is required by the endpoint to make it easier
+          // to provide a default value later, so we default it in the client
+          // so that users don't have to provide a value.
+          threshold: query.threshold || 0
+        }));
+        return base.transporter.read({
+          method: requesterCommon.MethodEnum.Post,
+          path: "1/indexes/*/recommendations",
+          data: {
+            requests
+          },
+          cacheable: true
+        }, requestOptions);
+      };
+    };
+    var getLookingSimilar = (base) => {
+      return (queries, requestOptions) => {
+        return getRecommendations(base)(queries.map((query) => ({
+          ...query,
+          model: "looking-similar"
+        })), requestOptions);
+      };
+    };
+    var getRecommendedForYou = (base) => {
+      return (queries, requestOptions) => {
+        const requests = queries.map((query) => ({
+          ...query,
+          model: "recommended-for-you",
+          threshold: query.threshold || 0
+        }));
+        return base.transporter.read({
+          method: requesterCommon.MethodEnum.Post,
+          path: "1/indexes/*/recommendations",
+          data: {
+            requests
+          },
+          cacheable: true
+        }, requestOptions);
+      };
+    };
+    function recommend(appId, apiKey, options) {
+      const commonOptions = {
+        appId,
+        apiKey,
+        timeouts: {
+          connect: 2,
+          read: 5,
+          write: 30
+        },
+        requester: requesterNodeHttp.createNodeHttpRequester(),
+        logger: loggerCommon.createNullLogger(),
+        responsesCache: cacheCommon.createNullCache(),
+        requestsCache: cacheCommon.createNullCache(),
+        hostsCache: cacheInMemory.createInMemoryCache(),
+        userAgent: transporter.createUserAgent(clientCommon.version).add({ segment: "Recommend", version: clientCommon.version }).add({ segment: "Node.js", version: process.versions.node })
+      };
+      return createRecommendClient({
+        ...commonOptions,
+        ...options,
+        methods: {
+          destroy: clientCommon.destroy,
+          getFrequentlyBoughtTogether,
+          getRecommendations,
+          getRelatedProducts,
+          getTrendingFacets,
+          getTrendingItems,
+          getLookingSimilar,
+          getRecommendedForYou
+        }
+      });
+    }
+    recommend.version = clientCommon.version;
+    recommend.getFrequentlyBoughtTogether = getFrequentlyBoughtTogether;
+    recommend.getRecommendations = getRecommendations;
+    recommend.getRelatedProducts = getRelatedProducts;
+    recommend.getTrendingFacets = getTrendingFacets;
+    recommend.getTrendingItems = getTrendingItems;
+    recommend.getLookingSimilar = getLookingSimilar;
+    recommend.getRecommendedForYou = getRecommendedForYou;
+    module.exports = recommend;
+  }
+});
+
+// node_modules/@algolia/recommend/index.js
+var require_recommend = __commonJS({
+  "node_modules/@algolia/recommend/index.js"(exports, module) {
+    "use strict";
+    var recommend = require_recommend_cjs();
+    module.exports = recommend;
+    module.exports.default = recommend;
+  }
+});
+
+// node_modules/algoliasearch/node_modules/@algolia/requester-node-http/dist/requester-node-http.esm.js
+var requester_node_http_esm_exports2 = {};
+__export(requester_node_http_esm_exports2, {
+  createNodeHttpRequester: () => createNodeHttpRequester2
+});
+import * as http2 from "http";
+import { Agent as Agent2 } from "http";
+import * as https2 from "https";
+import { Agent as Agent$12 } from "https";
+import { parse as parse3 } from "url";
+function createNodeHttpRequester2({ agent: userGlobalAgent, httpAgent: userHttpAgent, httpsAgent: userHttpsAgent, requesterOptions = {} } = {}) {
+  const httpAgent = userHttpAgent || userGlobalAgent || defaultHttpAgent2;
+  const httpsAgent = userHttpsAgent || userGlobalAgent || defaultHttpsAgent2;
+  return {
+    send(request) {
+      return new Promise((resolve) => {
+        const url = parse3(request.url);
+        const path = url.query === null ? url.pathname : `${url.pathname}?${url.query}`;
+        const options = {
+          ...requesterOptions,
+          agent: url.protocol === "https:" ? httpsAgent : httpAgent,
+          hostname: url.hostname,
+          path,
+          method: request.method,
+          headers: {
+            ...requesterOptions && requesterOptions.headers ? requesterOptions.headers : {},
+            ...request.headers
+          },
+          ...url.port !== void 0 ? { port: url.port || "" } : {}
+        };
+        const req = (url.protocol === "https:" ? https2 : http2).request(options, (response) => {
+          let contentBuffers = [];
+          response.on("data", (chunk) => {
+            contentBuffers = contentBuffers.concat(chunk);
+          });
+          response.on("end", () => {
+            clearTimeout(connectTimeout);
+            clearTimeout(responseTimeout);
+            resolve({
+              status: response.statusCode || 0,
+              content: Buffer.concat(contentBuffers).toString(),
+              isTimedOut: false
+            });
+          });
+        });
+        const createTimeout = (timeout, content) => {
+          return setTimeout(() => {
+            req.abort();
+            resolve({
+              status: 0,
+              content,
+              isTimedOut: true
+            });
+          }, timeout * 1e3);
+        };
+        const connectTimeout = createTimeout(request.connectTimeout, "Connection timeout");
+        let responseTimeout;
+        req.on("error", (error) => {
+          clearTimeout(connectTimeout);
+          clearTimeout(responseTimeout);
+          resolve({ status: 0, content: error.message, isTimedOut: false });
+        });
+        req.once("response", () => {
+          clearTimeout(connectTimeout);
+          responseTimeout = createTimeout(request.responseTimeout, "Socket timeout");
+        });
+        if (request.data !== void 0) {
+          req.write(request.data);
+        }
+        req.end();
+      });
+    },
+    destroy() {
+      httpAgent.destroy();
+      httpsAgent.destroy();
+      return Promise.resolve();
+    }
+  };
+}
+var agentOptions2, defaultHttpAgent2, defaultHttpsAgent2;
+var init_requester_node_http_esm2 = __esm({
+  "node_modules/algoliasearch/node_modules/@algolia/requester-node-http/dist/requester-node-http.esm.js"() {
+    "use strict";
+    agentOptions2 = { keepAlive: true };
+    defaultHttpAgent2 = new Agent2(agentOptions2);
+    defaultHttpsAgent2 = new Agent$12(agentOptions2);
   }
 });
 
@@ -3039,11 +3591,12 @@ var require_algoliasearch_cjs = __commonJS({
     var cacheCommon = (init_cache_common_esm(), __toCommonJS(cache_common_esm_exports));
     var cacheInMemory = (init_cache_in_memory_esm(), __toCommonJS(cache_in_memory_esm_exports));
     var clientAnalytics = (init_client_analytics_esm(), __toCommonJS(client_analytics_esm_exports));
-    var clientCommon = (init_client_common_esm(), __toCommonJS(client_common_esm_exports));
+    var clientCommon = (init_client_common_esm2(), __toCommonJS(client_common_esm_exports));
     var clientPersonalization = (init_client_personalization_esm(), __toCommonJS(client_personalization_esm_exports));
     var clientSearch = (init_client_search_esm(), __toCommonJS(client_search_esm_exports));
     var loggerCommon = (init_logger_common_esm(), __toCommonJS(logger_common_esm_exports));
-    var requesterNodeHttp = (init_requester_node_http_esm(), __toCommonJS(requester_node_http_esm_exports));
+    var recommend = require_recommend();
+    var requesterNodeHttp = (init_requester_node_http_esm2(), __toCommonJS(requester_node_http_esm_exports2));
     var transporter = (init_transporter_esm(), __toCommonJS(transporter_esm_exports));
     function algoliasearch2(appId, apiKey, options) {
       const commonOptions = {
@@ -3181,7 +3734,14 @@ var require_algoliasearch_cjs = __commonJS({
           initRecommendation: () => (clientOptions) => {
             searchClientOptions.logger.info("The `initRecommendation` method is deprecated. Use `initPersonalization` instead.");
             return initPersonalization()(clientOptions);
-          }
+          },
+          getRecommendations: recommend.getRecommendations,
+          getFrequentlyBoughtTogether: recommend.getFrequentlyBoughtTogether,
+          getLookingSimilar: recommend.getLookingSimilar,
+          getRecommendedForYou: recommend.getRecommendedForYou,
+          getRelatedProducts: recommend.getRelatedProducts,
+          getTrendingFacets: recommend.getTrendingFacets,
+          getTrendingItems: recommend.getTrendingItems
         }
       });
     }
@@ -5907,18 +6467,18 @@ var mermaidInit = () => {
 var mermaidInit_default = mermaidInit;
 
 // src/lib/markdown-renderer/styles.module.css
-var styles_module_default = {
-  img: "styles_module_img",
-  heading: "styles_module_heading",
-  code: "styles_module_code",
-  blockquote: "styles_module_blockquote",
-  blockquoteIcon: "styles_module_blockquoteIcon",
-  blockquoteInfo: "styles_module_blockquoteInfo",
-  blockquoteDanger: "styles_module_blockquoteDanger",
-  blockquoteWarning: "styles_module_blockquoteWarning",
-  blockquoteSuccess: "styles_module_blockquoteSuccess",
-  flexWrap: "styles_module_flexWrap",
-  svgContainer: "styles_module_svgContainer"
+var styles_default5 = {
+  img: "styles_img",
+  heading: "styles_heading",
+  code: "styles_code",
+  blockquote: "styles_blockquote",
+  blockquoteIcon: "styles_blockquoteIcon",
+  blockquoteInfo: "styles_blockquoteInfo",
+  blockquoteDanger: "styles_blockquoteDanger",
+  blockquoteWarning: "styles_blockquoteWarning",
+  blockquoteSuccess: "styles_blockquoteSuccess",
+  flexWrap: "styles_flexWrap",
+  svgContainer: "styles_svgContainer"
 };
 
 // src/messages/en.json
@@ -6071,7 +6631,7 @@ var ObservableHeading = ({
           onLeaveView(slug, entry, y);
         setY(entry.boundingClientRect.y);
       },
-      children: level === 2 ? /* @__PURE__ */ jsx9("h2", { id: slug, className: styles_module_default.heading, ...headingProps }) : /* @__PURE__ */ jsx9("h3", { id: slug, className: styles_module_default.heading, ...headingProps })
+      children: level === 2 ? /* @__PURE__ */ jsx9("h2", { id: slug, className: styles_default5.heading, ...headingProps }) : /* @__PURE__ */ jsx9("h3", { id: slug, className: styles_default5.heading, ...headingProps })
     }
   );
 };
@@ -6084,7 +6644,7 @@ var calloutColors = {
 var CalloutIcon = ({ type }) => /* @__PURE__ */ jsxs6(
   "svg",
   {
-    className: styles_module_default.blockquoteIcon,
+    className: styles_default5.blockquoteIcon,
     width: "20",
     height: "20",
     viewBox: "0 0 20 20",
@@ -6116,7 +6676,7 @@ var Callout = ({ node, icon: icon4, ...props }) => {
   return /* @__PURE__ */ jsxs6(
     "blockquote",
     {
-      className: `${styles_module_default.blockquote} ${blockquoteType === "info" ? styles_module_default.blockquoteInfo : blockquoteType === "danger" ? styles_module_default.blockquoteDanger : blockquoteType === "warning" ? styles_module_default.blockquoteWarning : blockquoteType === "success" ? styles_module_default.blockquoteSuccess : ""}`,
+      className: `${styles_default5.blockquote} ${blockquoteType === "info" ? styles_default5.blockquoteInfo : blockquoteType === "danger" ? styles_default5.blockquoteDanger : blockquoteType === "warning" ? styles_default5.blockquoteWarning : blockquoteType === "success" ? styles_default5.blockquoteSuccess : ""}`,
       children: [
         /* @__PURE__ */ jsx9(CalloutIcon, { type: blockquoteType }),
         /* @__PURE__ */ jsx9("div", { ...props })
@@ -6147,7 +6707,7 @@ var MermaidDiagram = ({ node, ...props }) => {
     if (ref.current)
       resizeObserver.observe(ref.current);
   }, []);
-  return /* @__PURE__ */ jsx9(Box5, { ref, className: styles_module_default.svgContainer, children: /* @__PURE__ */ jsx9(
+  return /* @__PURE__ */ jsx9(Box5, { ref, className: styles_default5.svgContainer, children: /* @__PURE__ */ jsx9(
     UncontrolledReactSVGPanZoom,
     {
       ref: viewerRef,
@@ -6173,7 +6733,7 @@ var ImageComponent = ({ node, ...props }) => {
     // eslint-disable-next-line @next/next/no-img-element
     /* @__PURE__ */ jsx9("img", { src: props.src, alt: props.alt, onError: () => setSrcHasError(true) })
   );
-  const errorMessage = /* @__PURE__ */ jsxs6("blockquote", { className: `${styles_module_default.blockquote} ${styles_module_default.blockquoteWarning}`, children: [
+  const errorMessage = /* @__PURE__ */ jsxs6("blockquote", { className: `${styles_default5.blockquote} ${styles_default5.blockquoteWarning}`, children: [
     messages[locale]["image.error_loading"],
     " ",
     props.src
@@ -6193,7 +6753,7 @@ var components_default = {
   WhatsNextCard: whats_next_card_default,
   YoutubeFrame: youtube_frame_default,
   Steps: steps_default,
-  Flex: ({ node, ...props }) => /* @__PURE__ */ jsx9(Flex4, { className: styles_module_default.flexWrap, ...props }),
+  Flex: ({ node, ...props }) => /* @__PURE__ */ jsx9(Flex4, { className: styles_default5.flexWrap, ...props }),
   table: ({ node, ...props }) => /* @__PURE__ */ jsx9("table", { ...props }),
   td: ({ node, ...props }) => /* @__PURE__ */ jsx9("td", { ...props }),
   img: ImageComponent,
@@ -6204,12 +6764,12 @@ var components_default = {
     return /* @__PURE__ */ jsx9(Callout, { ...props });
   },
   code: ({ node, ...props }) => {
-    return /* @__PURE__ */ jsx9("code", { className: styles_module_default.code, ...props });
+    return /* @__PURE__ */ jsx9("code", { className: styles_default5.code, ...props });
   },
   pre: ({ ...props }) => {
     if (props.className && props.className === "mermaid")
       return /* @__PURE__ */ jsx9(MermaidDiagram, { ...props });
-    return /* @__PURE__ */ jsx9("pre", { className: styles_module_default.pre, ...props });
+    return /* @__PURE__ */ jsx9("pre", { className: styles_default5.pre, ...props });
   },
   h2: ({ node, ...props }) => {
     const { activeItem, setActiveItem, goToPreviousItem } = useContext(LibraryContext);
@@ -6328,7 +6888,7 @@ var subItemsContainer = {
   ml: "16px",
   borderLeft: "1px solid #E7E9EE"
 };
-var styles_default5 = { tocTitle, itemsContainer, item, subItemsContainer, headings };
+var styles_default6 = { tocTitle, itemsContainer, item, subItemsContainer, headings };
 
 // src/lib/table-of-contents/TableOfContents.tsx
 import { jsx as jsx11, jsxs as jsxs7 } from "react/jsx-runtime";
@@ -6372,13 +6932,13 @@ var TableOfContents = ({ headingList, children }) => {
             subItem: level === 1 ? "" : slug
           }));
         },
-        children: /* @__PURE__ */ jsx11(Text2, { sx: styles_default5.item(level, active), children: title7 })
+        children: /* @__PURE__ */ jsx11(Text2, { sx: styles_default6.item(level, active), children: title7 })
       }
     );
   };
-  return /* @__PURE__ */ jsxs7(Box7, { sx: styles_default5.itemsContainer, "data-cy": "table-of-contents", children: [
-    headingItems.length > 0 && /* @__PURE__ */ jsx11(Text2, { sx: styles_default5.tocTitle, children: "ON THIS PAGE" }),
-    /* @__PURE__ */ jsx11(Box7, { sx: styles_default5.headings, children: headingItems.map((item2) => /* @__PURE__ */ jsxs7(Box7, { children: [
+  return /* @__PURE__ */ jsxs7(Box7, { sx: styles_default6.itemsContainer, "data-cy": "table-of-contents", children: [
+    headingItems.length > 0 && /* @__PURE__ */ jsx11(Text2, { sx: styles_default6.tocTitle, children: "ON THIS PAGE" }),
+    /* @__PURE__ */ jsx11(Box7, { sx: styles_default6.headings, children: headingItems.map((item2) => /* @__PURE__ */ jsxs7(Box7, { children: [
       /* @__PURE__ */ jsx11(
         Item,
         {
@@ -6393,7 +6953,7 @@ var TableOfContents = ({ headingList, children }) => {
         {
           duration: 300,
           height: item2.slug === activeItem.item ? "auto" : 0,
-          children: /* @__PURE__ */ jsx11(Box7, { sx: styles_default5.subItemsContainer, children: item2.children.map((subItem) => /* @__PURE__ */ jsx11(
+          children: /* @__PURE__ */ jsx11(Box7, { sx: styles_default6.subItemsContainer, children: item2.children.map((subItem) => /* @__PURE__ */ jsx11(
             Item,
             {
               title: subItem.title,
@@ -6412,7 +6972,7 @@ var TableOfContents = ({ headingList, children }) => {
 var TableOfContents_default = TableOfContents;
 
 // src/lib/sidebar/index.tsx
-import { useEffect as useEffect8, useRef as useRef4, useState as useState7, useContext as useContext6 } from "react";
+import { useEffect as useEffect9, useRef as useRef4, useState as useState7, useContext as useContext6 } from "react";
 import { Flex as Flex10, Text as Text6, Box as Box12 } from "@vtex/brand-ui";
 import Link5 from "next/link.js";
 
@@ -6534,7 +7094,7 @@ var iconTooltip = {
     "none !important"
   ]
 };
-var styles_default6 = {
+var styles_default7 = {
   sidebar,
   sidebarIcons,
   sidebarIconsContainer,
@@ -6655,7 +7215,7 @@ var labelStyle = (documentationSection) => {
     return labelDocumentationContainer;
   return labelContibutorsContainer;
 };
-var styles_default7 = { tooltipContainer, caret, labelStyle };
+var styles_default8 = { tooltipContainer, caret, labelStyle };
 
 // src/components/icons/caret.tsx
 import { Icon as Icon3 } from "@vtex/brand-ui";
@@ -6716,7 +7276,7 @@ var Tooltip = ({ children, label: label2, placement, sx, isCard }) => {
     visible && (isCard ?? true) && /* @__PURE__ */ jsxs8(
       Flex5,
       {
-        sx: styles_default7.tooltipContainer(
+        sx: styles_default8.tooltipContainer(
           sx,
           placement || "top",
           boxWidth,
@@ -6725,8 +7285,8 @@ var Tooltip = ({ children, label: label2, placement, sx, isCard }) => {
           boxOffsetTop
         ),
         children: [
-          /* @__PURE__ */ jsx13(caret_default, { sx: styles_default7.caret(placement || "top") }),
-          /* @__PURE__ */ jsx13(Box8, { sx: styles_default7.labelStyle(isCard ?? false), children: label2 })
+          /* @__PURE__ */ jsx13(caret_default, { sx: styles_default8.caret(placement || "top") }),
+          /* @__PURE__ */ jsx13(Box8, { sx: styles_default8.labelStyle(isCard ?? false), children: label2 })
         ]
       }
     )
@@ -6970,7 +7530,7 @@ var previewMode = {
     mr: "10px"
   }
 };
-var styles_default8 = {
+var styles_default9 = {
   sidebarContainer,
   sidebarContainerHamburger,
   sidebarContainerBox,
@@ -7017,7 +7577,7 @@ var closeIcon = {
   width: "12px",
   ml: "4px"
 };
-var styles_default9 = {
+var styles_default10 = {
   container: container3,
   text,
   closeIcon
@@ -7058,7 +7618,7 @@ var categoryStyle = (method, active, sx) => {
     background: "#F8E3E3"
   };
   const categoryStyle2 = active ? {
-    ...styles_default9.container,
+    ...styles_default10.container,
     ...categoryColors,
     ...sx,
     ":hover": {
@@ -7072,7 +7632,7 @@ var categoryStyle = (method, active, sx) => {
       }
     }
   } : {
-    ...styles_default9.container,
+    ...styles_default10.container,
     color: categoryColors.color,
     ...sx
   };
@@ -7087,7 +7647,7 @@ var categoryText = (method, origin) => {
 var closeCategoryStyle = (method) => {
   const categoryColors = methodsColors[method];
   const categoryStyle2 = {
-    ...styles_default9.closeIcon,
+    ...styles_default10.closeIcon,
     rect: {
       fill: "transparent"
     },
@@ -7146,7 +7706,7 @@ var MethodCategory = ({
   sx
 }) => {
   return /* @__PURE__ */ jsxs10(Flex6, { className: "method-category", sx: categoryStyle(method, active, sx), children: [
-    /* @__PURE__ */ jsx15(Text3, { sx: styles_default9.text, children: categoryText(method, origin) }),
+    /* @__PURE__ */ jsx15(Text3, { sx: styles_default10.text, children: categoryText(method, origin) }),
     origin === "filter" && active && /* @__PURE__ */ jsx15(
       close_filter_icon_default,
       {
@@ -7191,7 +7751,7 @@ var clear = {
     color: "#000711"
   }
 };
-var styles_default10 = {
+var styles_default11 = {
   container: container4,
   text: text2,
   category,
@@ -7237,7 +7797,7 @@ var SectionFilter = ({
         children: /* @__PURE__ */ jsx16(
           method_category_default,
           {
-            sx: styles_default10.category,
+            sx: styles_default11.category,
             active: methodFilter.active,
             method: methodFilter.name,
             origin: "filter"
@@ -7247,8 +7807,8 @@ var SectionFilter = ({
       `filter-category-${methodFilter.name}`
     );
   };
-  return /* @__PURE__ */ jsxs11(Box9, { sx: styles_default10.container, children: [
-    /* @__PURE__ */ jsx16(Text4, { sx: styles_default10.text, children: messages[locale]["api_reference_sidebar_filter"] }),
+  return /* @__PURE__ */ jsxs11(Box9, { sx: styles_default11.container, children: [
+    /* @__PURE__ */ jsx16(Text4, { sx: styles_default11.text, children: messages[locale]["api_reference_sidebar_filter"] }),
     /* @__PURE__ */ jsxs11(Flex7, { children: [
       methodFilterList.map((methodFilter) => /* @__PURE__ */ jsx16(
         MethodButton,
@@ -7257,7 +7817,7 @@ var SectionFilter = ({
         },
         `filter-category-${methodFilter.name}`
       )),
-      activeFilters.length > 1 && /* @__PURE__ */ jsx16(Text4, { onClick: () => setFilter(null), sx: styles_default10.clear, children: messages[locale]["api_reference_sidebar_filter_clear"] })
+      activeFilters.length > 1 && /* @__PURE__ */ jsx16(Text4, { onClick: () => setFilter(null), sx: styles_default11.clear, children: messages[locale]["api_reference_sidebar_filter_clear"] })
     ] })
   ] });
 };
@@ -7265,7 +7825,7 @@ var sidebar_section_filter_default = SectionFilter;
 
 // src/components/sidebar-elements/index.tsx
 import { useRouter as useRouter3 } from "next/router.js";
-import { Fragment as Fragment2, useContext as useContext4 } from "react";
+import { Fragment as Fragment2, useContext as useContext4, useEffect as useEffect8 } from "react";
 import {
   Box as Box10,
   Flex as Flex8,
@@ -7329,7 +7889,7 @@ var sectionDivider2 = {
 var methodBox = {
   mr: "10px"
 };
-var styles_default11 = {
+var styles_default12 = {
   elementContainer,
   elementText,
   elementActive,
@@ -7354,13 +7914,13 @@ var textStyle = (active, icon4) => {
   const ml = icon4 ? "4px" : "16px";
   if (active) {
     const textStyleActive = {
-      ...styles_default11.elementActive,
+      ...styles_default12.elementActive,
       ml
     };
     return textStyleActive;
   }
   const textStyle2 = {
-    ...styles_default11.elementText,
+    ...styles_default12.elementText,
     ml
   };
   return textStyle2;
@@ -7374,10 +7934,19 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
     activeSidebarElement,
     sidebarElementStatus,
     toggleSidebarElementStatus,
+    openSidebarElement,
     sidebarDataMaster,
     locale
   } = useContext4(LibraryContext);
   const router = useRouter3();
+  useEffect8(() => {
+    items?.forEach((item2) => {
+      const slug = typeof item2.slug === "string" ? item2.slug : item2.slug[locale];
+      if (item2.defaultOpen && !sidebarElementStatus.has(slug)) {
+        openSidebarElement(slug);
+      }
+    });
+  }, [items]);
   const handleClick = (e, pathSuffix, slug) => {
     e.preventDefault();
     const hasEndpointQuery = router.query.endpoint;
@@ -7427,14 +7996,14 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
     const isExpandable = children.length > 0;
     const pathSuffix = method ? `#${method.toLowerCase()}-${endpoint}` : "";
     const activeItem = method ? `${localizedSlug}${pathSuffix}` : localizedSlug;
-    return /* @__PURE__ */ jsx17(Box10, { sx: styles_default11.elementContainer, children: /* @__PURE__ */ jsxs12(Flex8, { sx: styleByLevelNormal(subItemLevel, isExpandable || false), children: [
+    return /* @__PURE__ */ jsx17(Box10, { sx: styles_default12.elementContainer, children: /* @__PURE__ */ jsxs12(Flex8, { sx: styleByLevelNormal(subItemLevel, isExpandable || false), children: [
       isExpandable && /* @__PURE__ */ jsx17(
         Button2,
         {
           "aria-label": sidebarElementStatus.has(localizedSlug) && sidebarElementStatus.get(localizedSlug) ? "Collapse category" : "Expand category",
           size: "regular",
           variant: "tertiary",
-          sx: sidebarElementStatus.has(localizedSlug) && sidebarElementStatus.get(localizedSlug) ? styles_default11.arrowIconActive : styles_default11.arrowIcon,
+          sx: sidebarElementStatus.has(localizedSlug) && sidebarElementStatus.get(localizedSlug) ? styles_default12.arrowIconActive : styles_default12.arrowIcon,
           icon: () => /* @__PURE__ */ jsx17(
             IconCaret2,
             {
@@ -7466,7 +8035,7 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
             method && /* @__PURE__ */ jsx17(
               method_category_default,
               {
-                sx: styles_default11.methodBox,
+                sx: styles_default12.methodBox,
                 active: activeSidebarElement === activeItem,
                 origin: "sidebar",
                 method
@@ -7479,7 +8048,7 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
         sidebarDataMaster,
         localizedSlug,
         "link"
-      ) ? /* @__PURE__ */ jsxs12(Link4, { href: localizedSlug, target: "_blank", sx: styles_default11.elementText, children: [
+      ) ? /* @__PURE__ */ jsxs12(Link4, { href: localizedSlug, target: "_blank", sx: styles_default12.elementText, children: [
         /* @__PURE__ */ jsx17(IconExternalLink, { size: 16, sx: { marginRight: "10px" } }),
         localizedName
       ] }) : /* @__PURE__ */ jsxs12(
@@ -7496,7 +8065,7 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
             method && /* @__PURE__ */ jsx17(
               method_category_default,
               {
-                sx: styles_default11.methodBox,
+                sx: styles_default12.methodBox,
                 active: activeSidebarElement === localizedSlug,
                 origin: "sidebar",
                 method
@@ -7527,7 +8096,7 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
     return /* @__PURE__ */ jsxs12(Fragment2, { children: [
       /* @__PURE__ */ jsx17(ElementRoot, { ...item2, slug }),
       /* @__PURE__ */ jsx17(Box10, { children: /* @__PURE__ */ jsx17(ElementChildren, { ...item2, slug }) }),
-      subItemLevel == 0 ? /* @__PURE__ */ jsx17(Box10, { sx: styles_default11.sectionDivider, children: /* @__PURE__ */ jsx17("hr", {}) }) : null
+      subItemLevel == 0 ? /* @__PURE__ */ jsx17(Box10, { sx: styles_default12.sectionDivider, children: /* @__PURE__ */ jsx17("hr", {}) }) : null
     ] }, String(key));
   }) });
 };
@@ -7708,18 +8277,18 @@ var SidebarSection = ({
     Box11,
     {
       className: sidebarSectionHidden ? "active" : "",
-      sx: styles_default8.sidebarContainerHamburger,
+      sx: styles_default9.sidebarContainerHamburger,
       children: /* @__PURE__ */ jsxs15(
         Box11,
         {
           className: sidebarSectionHidden ? "sidebarHide" : "",
-          sx: styles_default8.sidebarContainerBoxHamburger,
+          sx: styles_default9.sidebarContainerBoxHamburger,
           children: [
-            /* @__PURE__ */ jsxs15(Flex9, { sx: styles_default8.sidebarContainerTitle, children: [
+            /* @__PURE__ */ jsxs15(Flex9, { sx: styles_default9.sidebarContainerTitle, children: [
               /* @__PURE__ */ jsx21(
                 Button3,
                 {
-                  sx: styles_default8.arrowButton,
+                  sx: styles_default9.arrowButton,
                   "aria-label": "Go back",
                   size: "small",
                   variant: "tertiary",
@@ -7730,15 +8299,15 @@ var SidebarSection = ({
                 }
               ),
               DocIcon && /* @__PURE__ */ jsx21(DocIcon, {}),
-              /* @__PURE__ */ jsx21(Text5, { sx: styles_default8.sidebarTitle, children: localizedSectionTitle })
+              /* @__PURE__ */ jsx21(Text5, { sx: styles_default9.sidebarTitle, children: localizedSectionTitle })
             ] }),
-            /* @__PURE__ */ jsxs15(Box11, { sx: styles_default8.sidebarContainerBody, children: [
-              /* @__PURE__ */ jsxs15(Flex9, { sx: styles_default8.searchBox, children: [
-                /* @__PURE__ */ jsx21(search_icon_default, { sx: styles_default8.searchIcon }),
+            /* @__PURE__ */ jsxs15(Box11, { sx: styles_default9.sidebarContainerBody, children: [
+              /* @__PURE__ */ jsxs15(Flex9, { sx: styles_default9.searchBox, children: [
+                /* @__PURE__ */ jsx21(search_icon_default, { sx: styles_default9.searchIcon }),
                 /* @__PURE__ */ jsx21(
                   "input",
                   {
-                    style: styles_default8.searchInput,
+                    style: styles_default9.searchInput,
                     className: "searchComponent",
                     type: "text",
                     placeholder: messages[locale]["sidebar_search.placeholder"] + " " + localizedSectionTitle,
@@ -7755,7 +8324,7 @@ var SidebarSection = ({
                 }
               )
             ] }),
-            /* @__PURE__ */ jsx21(Box11, { sx: styles_default8.sidebarContainerBody, children: /* @__PURE__ */ jsx21(
+            /* @__PURE__ */ jsx21(Box11, { sx: styles_default9.sidebarContainerBody, children: /* @__PURE__ */ jsx21(
               sidebar_elements_default,
               {
                 items: filteredResult,
@@ -7771,17 +8340,17 @@ var SidebarSection = ({
     Box11,
     {
       className: sidebarSectionHidden ? "active" : "",
-      sx: styles_default8.sidebarContainer,
+      sx: styles_default9.sidebarContainer,
       children: [
         /* @__PURE__ */ jsxs15(
           Box11,
           {
             className: sidebarSectionHidden ? "sidebarHide" : "",
-            sx: styles_default8.sidebarContainerBox,
+            sx: styles_default9.sidebarContainerBox,
             "data-cy": "sidebar-section",
             children: [
-              /* @__PURE__ */ jsxs15(Box11, { sx: styles_default8.sidebarContainerHeader, children: [
-                isEditorPreview && /* @__PURE__ */ jsxs15(Text5, { sx: styles_default8.previewMode, children: [
+              /* @__PURE__ */ jsxs15(Box11, { sx: styles_default9.sidebarContainerHeader, children: [
+                isEditorPreview && /* @__PURE__ */ jsxs15(Text5, { sx: styles_default9.previewMode, children: [
                   /* @__PURE__ */ jsxs15(
                     "svg",
                     {
@@ -7811,13 +8380,13 @@ var SidebarSection = ({
                   ),
                   "PREVIEW MODE"
                 ] }),
-                /* @__PURE__ */ jsx21(Text5, { sx: styles_default8.sidebarTitle, children: localizedSectionTitle }),
-                /* @__PURE__ */ jsxs15(Flex9, { sx: styles_default8.searchBox, children: [
-                  /* @__PURE__ */ jsx21(search_icon_default, { sx: styles_default8.searchIcon }),
+                /* @__PURE__ */ jsx21(Text5, { sx: styles_default9.sidebarTitle, children: localizedSectionTitle }),
+                /* @__PURE__ */ jsxs15(Flex9, { sx: styles_default9.searchBox, children: [
+                  /* @__PURE__ */ jsx21(search_icon_default, { sx: styles_default9.searchIcon }),
                   /* @__PURE__ */ jsx21(
                     "input",
                     {
-                      style: styles_default8.searchInput,
+                      style: styles_default9.searchInput,
                       className: "searchComponent",
                       type: "text",
                       placeholder: messages[locale]["sidebar_search.placeholder"] + " " + localizedSectionTitle,
@@ -7834,7 +8403,7 @@ var SidebarSection = ({
                   setMethodFilter: setMethodFilterList
                 }
               ),
-              /* @__PURE__ */ jsx21(Box11, { sx: styles_default8.sidebarContainerBody, children: /* @__PURE__ */ jsx21(
+              /* @__PURE__ */ jsx21(Box11, { sx: styles_default9.sidebarContainerBody, children: /* @__PURE__ */ jsx21(
                 sidebar_elements_default,
                 {
                   items: filteredResult,
@@ -7849,7 +8418,7 @@ var SidebarSection = ({
           Flex9,
           {
             className: "toggleIcon",
-            sx: sidebarSectionHidden ? styles_default8.toggleIconBoxActive : styles_default8.toggleIconBox,
+            sx: sidebarSectionHidden ? styles_default9.toggleIconBoxActive : styles_default9.toggleIconBox,
             children: /* @__PURE__ */ jsx21(
               sidebar_toggle_icon_default,
               {
@@ -7858,7 +8427,7 @@ var SidebarSection = ({
                     (sidebarSectionHidden2) => !sidebarSectionHidden2
                   );
                 },
-                sx: sidebarSectionHidden ? styles_default8.toggleIcon : {}
+                sx: sidebarSectionHidden ? styles_default9.toggleIcon : {}
               }
             )
           }
@@ -7891,7 +8460,7 @@ var Sidebar = ({ parentsArray = [] }) => {
     parentsArray,
     context
   });
-  useEffect8(() => {
+  useEffect9(() => {
     let timer = void 0;
     if (sidebarSectionContent.categories?.length > 0)
       timer = setTimeout(
@@ -7908,7 +8477,7 @@ var Sidebar = ({ parentsArray = [] }) => {
     const [iconTooltip2, setIconTooltip] = useState7(false);
     const [tooltipLabel, setTooltipLabel] = useState7(sectionElement.title);
     const titleRef = useRef4();
-    useEffect8(() => {
+    useEffect9(() => {
       const resizeObserver = new MutationObserver(function(entries) {
         const target = entries[0].target;
         if (target.offsetWidth < target.scrollWidth)
@@ -7929,7 +8498,7 @@ var Sidebar = ({ parentsArray = [] }) => {
         resizeObserver.disconnect;
       };
     }, [titleRef.current]);
-    return /* @__PURE__ */ jsx22(Box12, { sx: styles_default6.linkContainer, children: /* @__PURE__ */ jsx22(
+    return /* @__PURE__ */ jsx22(Box12, { sx: styles_default7.linkContainer, children: /* @__PURE__ */ jsx22(
       tooltip_default,
       {
         sx: iconTooltipStyle(iconTooltip2),
@@ -7951,12 +8520,12 @@ var Sidebar = ({ parentsArray = [] }) => {
             children: /* @__PURE__ */ jsxs16(
               Flex10,
               {
-                sx: activeSectionName === sectionElement.id ? styles_default6.iconBoxActive : styles_default6.iconBox,
+                sx: activeSectionName === sectionElement.id ? styles_default7.iconBoxActive : styles_default7.iconBox,
                 children: [
                   /* @__PURE__ */ jsx22(
                     sectionElement.Icon,
                     {
-                      sx: activeSectionName === sectionElement.id ? styles_default6.iconActive : styles_default6.icon
+                      sx: activeSectionName === sectionElement.id ? styles_default7.iconActive : styles_default7.icon
                     }
                   ),
                   /* @__PURE__ */ jsx22(
@@ -7964,7 +8533,7 @@ var Sidebar = ({ parentsArray = [] }) => {
                     {
                       className: expandDelayStatus ? "iconDescriptionExpanded" : "",
                       ref: titleRef,
-                      sx: styles_default6.iconTitle,
+                      sx: styles_default7.iconTitle,
                       children: sectionElement.title
                     }
                   )
@@ -7976,16 +8545,16 @@ var Sidebar = ({ parentsArray = [] }) => {
       }
     ) });
   };
-  return /* @__PURE__ */ jsxs16(Flex10, { sx: styles_default6.sidebar, children: [
+  return /* @__PURE__ */ jsxs16(Flex10, { sx: styles_default7.sidebar, children: [
     /* @__PURE__ */ jsx22(
       Flex10,
       {
         className: expandDelayStatus ? "iconContainerExpanded" : "",
-        sx: styles_default6.sidebarIcons,
+        sx: styles_default7.sidebarIcons,
         children: sidebarSections.map((section, id) => {
           return /* @__PURE__ */ jsxs16(Fragment4, { children: [
-            id > 0 && /* @__PURE__ */ jsx22(Box12, { sx: styles_default6.sectionDivider, children: /* @__PURE__ */ jsx22("hr", {}) }, `${id}-divider`),
-            /* @__PURE__ */ jsx22(Flex10, { sx: styles_default6.sidebarIconsContainer, children: section.map((element) => /* @__PURE__ */ createElement(
+            id > 0 && /* @__PURE__ */ jsx22(Box12, { sx: styles_default7.sectionDivider, children: /* @__PURE__ */ jsx22("hr", {}) }, `${id}-divider`),
+            /* @__PURE__ */ jsx22(Flex10, { sx: styles_default7.sidebarIconsContainer, children: section.map((element) => /* @__PURE__ */ createElement(
               SideBarIcon,
               {
                 ...element,
@@ -8075,7 +8644,7 @@ var arrowIconActive2 = {
   ...arrowIcon2,
   color: "#D71D55"
 };
-var styles_default12 = {
+var styles_default13 = {
   menuContainer,
   cardContainer,
   sideMenuContainer,
@@ -8128,7 +8697,7 @@ var description2 = {
   lineHeight: "18px",
   color: "muted.1"
 };
-var styles_default13 = {
+var styles_default14 = {
   cardContainer: cardContainer2,
   description: description2,
   title: title2,
@@ -8140,7 +8709,7 @@ var cardContainer3 = (containerType) => {
   const containerWidth = containerType === "dropdown" ? ["308px", "442px", "444px", "480px"] : containerType === "mobile" ? "100%" : ["324px", "544px", "544px", "544px", "544px", "720px", "1400px"];
   const textWidth = containerType === "dropdown" ? ["276px", "410px", "412px", "432px"] : containerType === "mobile" ? "90%" : ["276px", "496px", "496px", "496px", "496px", "672px", "1352px"];
   const cardContainer5 = {
-    ...styles_default13.cardContainer,
+    ...styles_default14.cardContainer,
     width: containerWidth,
     ".title, .description": {
       width: textWidth
@@ -8151,7 +8720,7 @@ var cardContainer3 = (containerType) => {
 var titleContainer2 = (containerType) => {
   const marginBottom = containerType === "dropdown" ? ["5px", "5px", "5px", "1px"] : "8px";
   const titleContainer3 = {
-    ...styles_default13.titleContainer,
+    ...styles_default14.titleContainer,
     marginBottom
   };
   return titleContainer3;
@@ -8168,7 +8737,7 @@ var cardTitle = (containerType) => {
     lineHeight: "22px"
   };
   const cardTitle2 = {
-    ...styles_default13.title,
+    ...styles_default14.title,
     ...titleAttributes
   };
   return cardTitle2;
@@ -8189,7 +8758,7 @@ var DocumentationCard = ({
       /* @__PURE__ */ jsx23(Icon68, { sx: { color: "#4A596B" }, size: 24 }),
       /* @__PURE__ */ jsx23(Text7, { className: "title", sx: cardTitle(containerType), children: title7 })
     ] }),
-    /* @__PURE__ */ jsx23(Text7, { className: "description", sx: styles_default13.description, children: description6 })
+    /* @__PURE__ */ jsx23(Text7, { className: "description", sx: styles_default14.description, children: description6 })
   ] }) }) });
 };
 var documentation_card_default = DocumentationCard;
@@ -8362,7 +8931,7 @@ var hitContentHighlighted = {
   width: "auto",
   background: "#FFE0EF"
 };
-var styles_default14 = {
+var styles_default15 = {
   resultsOuterContainer,
   resultsInnerContainer,
   resultsBox,
@@ -8407,12 +8976,12 @@ var SearchBoxComponent = ({
       changeFocus(false);
     }
   };
-  return /* @__PURE__ */ jsxs18(Flex12, { sx: styles_default14.searchContainer, onClick: handleClick, children: [
-    /* @__PURE__ */ jsx24(search_icon_default, { sx: styles_default14.searchIcon }),
+  return /* @__PURE__ */ jsxs18(Flex12, { sx: styles_default15.searchContainer, onClick: handleClick, children: [
+    /* @__PURE__ */ jsx24(search_icon_default, { sx: styles_default15.searchIcon }),
     /* @__PURE__ */ jsx24(
       "input",
       {
-        style: styles_default14.searchInput,
+        style: styles_default15.searchInput,
         ref: inputRef,
         className: "searchComponent",
         type: "text",
@@ -9134,7 +9703,7 @@ var getTitleById = (sections, id) => {
 };
 
 // src/components/search-input/customHighlight.tsx
-import { useEffect as useEffect9, useRef as useRef6, useState as useState8 } from "react";
+import { useEffect as useEffect10, useRef as useRef6, useState as useState8 } from "react";
 import { connectHighlight } from "react-instantsearch-dom";
 import { Flex as Flex13, Text as Text8 } from "@vtex/brand-ui";
 import { jsx as jsx37 } from "react/jsx-runtime";
@@ -9165,7 +9734,7 @@ var Highlight = ({
       ellipsedContent.push(part);
     });
   }
-  useEffect9(() => {
+  useEffect10(() => {
     if (searchPage)
       return;
     const titleSize = textContainer.current ? textContainer.current.offsetWidth / 7.75 : 40;
@@ -9224,9 +9793,9 @@ var Highlight = ({
     {
       ref: textContainer,
       className: "hit-content-title",
-      sx: styles_default14.hitContentContainer,
-      children: /* @__PURE__ */ jsx37(Text8, { sx: searchPage ? styles_default14.hitContent : styles_default14.hitContentSmall, children: (searchPage ? ellipsedContent : parsedHit).map(
-        (part, index) => part.isHighlighted ? /* @__PURE__ */ jsx37("mark", { style: styles_default14.hitContentHighlighted, children: part.value }, index) : part.value
+      sx: styles_default15.hitContentContainer,
+      children: /* @__PURE__ */ jsx37(Text8, { sx: searchPage ? styles_default15.hitContent : styles_default15.hitContentSmall, children: (searchPage ? ellipsedContent : parsedHit).map(
+        (part, index) => part.isHighlighted ? /* @__PURE__ */ jsx37("mark", { style: styles_default15.hitContentHighlighted, children: part.value }, index) : part.value
       ) })
     }
   );
@@ -9248,17 +9817,17 @@ var Hit2 = ({ hit, insights }) => {
         eventName: "Search in top bar",
         objectIDs: [hit.objectID]
       }),
-      children: /* @__PURE__ */ jsxs31(Box14, { sx: styles_default14.hitBox, children: [
+      children: /* @__PURE__ */ jsxs31(Box14, { sx: styles_default15.hitBox, children: [
         /* @__PURE__ */ jsxs31(Flex14, { children: [
-          DocIcon && /* @__PURE__ */ jsx38(DocIcon, { className: "hit-icon", sx: styles_default14.hitIcon }),
-          /* @__PURE__ */ jsx38(Text9, { sx: styles_default14.hitContent, children: /* @__PURE__ */ jsx38(customHighlight_default, { hit, attribute: "content" }) })
+          DocIcon && /* @__PURE__ */ jsx38(DocIcon, { className: "hit-icon", sx: styles_default15.hitIcon }),
+          /* @__PURE__ */ jsx38(Text9, { sx: styles_default15.hitContent, children: /* @__PURE__ */ jsx38(customHighlight_default, { hit, attribute: "content" }) })
         ] }),
-        /* @__PURE__ */ jsxs31(Flex14, { sx: styles_default14.alignCenter, children: [
-          /* @__PURE__ */ jsx38(Text9, { sx: styles_default14.hitBreadCrumbIn, children: `In ${hit.doctype}` }),
-          breadcrumbsList.length > 0 && /* @__PURE__ */ jsx38(IconCaret3, { direction: "right", sx: styles_default14.hitBreadCrumbArrow }),
-          breadcrumbsList.map((filter, index) => /* @__PURE__ */ jsxs31(Flex14, { sx: styles_default14.alignCenter, children: [
-            /* @__PURE__ */ jsx38(Text9, { sx: styles_default14.hitBreadCrumb, children: filter }),
-            index < breadcrumbsList.length - 1 ? /* @__PURE__ */ jsx38(IconCaret3, { direction: "right", sx: styles_default14.hitBreadCrumbArrow }) : null
+        /* @__PURE__ */ jsxs31(Flex14, { sx: styles_default15.alignCenter, children: [
+          /* @__PURE__ */ jsx38(Text9, { sx: styles_default15.hitBreadCrumbIn, children: `In ${hit.doctype}` }),
+          breadcrumbsList.length > 0 && /* @__PURE__ */ jsx38(IconCaret3, { direction: "right", sx: styles_default15.hitBreadCrumbArrow }),
+          breadcrumbsList.map((filter, index) => /* @__PURE__ */ jsxs31(Flex14, { sx: styles_default15.alignCenter, children: [
+            /* @__PURE__ */ jsx38(Text9, { sx: styles_default15.hitBreadCrumb, children: filter }),
+            index < breadcrumbsList.length - 1 ? /* @__PURE__ */ jsx38(IconCaret3, { direction: "right", sx: styles_default15.hitBreadCrumbArrow }) : null
           ] }, `${filter}${index}`))
         ] })
       ] })
@@ -9284,8 +9853,8 @@ var HitsBox = connectStateResults(
         __position: searchResults.hitsPerPage * searchResults.page + index + 1
       };
     };
-    return /* @__PURE__ */ jsx38(Fragment5, { children: searchResults && /* @__PURE__ */ jsx38(Box14, { sx: styles_default14.resultsOuterContainer, children: /* @__PURE__ */ jsxs31(Box14, { sx: styles_default14.resultsInnerContainer, children: [
-      /* @__PURE__ */ jsx38(Box14, { sx: searchResults.hits.length && styles_default14.resultsBox, children: searchResults.hits.map(
+    return /* @__PURE__ */ jsx38(Fragment5, { children: searchResults && /* @__PURE__ */ jsx38(Box14, { sx: styles_default15.resultsOuterContainer, children: /* @__PURE__ */ jsxs31(Box14, { sx: styles_default15.resultsInnerContainer, children: [
+      /* @__PURE__ */ jsx38(Box14, { sx: searchResults.hits.length && styles_default15.resultsBox, children: searchResults.hits.map(
         (searchResult, index) => index < 7 && /* @__PURE__ */ jsx38(
           Box14,
           {
@@ -9303,12 +9872,12 @@ var HitsBox = connectStateResults(
       searchResults.hits.length > 7 && /* @__PURE__ */ jsx38(
         Box14,
         {
-          sx: styles_default14.seeAll,
+          sx: styles_default15.seeAll,
           onClick: () => seeAllSubmit(searchState.query || ""),
           children: /* @__PURE__ */ jsx38(Text9, { children: messages[locale]["search_input.see_all"] || "See all results" })
         }
       ),
-      !searchResults.hits.length && /* @__PURE__ */ jsx38(Flex14, { sx: styles_default14.noResults, children: /* @__PURE__ */ jsx38(Text9, { children: messages[locale]["search_input.empty"] || "No results found. Try different search terms." }) })
+      !searchResults.hits.length && /* @__PURE__ */ jsx38(Flex14, { sx: styles_default15.noResults, children: /* @__PURE__ */ jsx38(Text9, { children: messages[locale]["search_input.empty"] || "No results found. Try different search terms." }) })
     ] }) }) });
   }
 );
@@ -9861,15 +10430,15 @@ var HamburgerMenu = ({ parentsArray = [] }) => {
     return isDoc;
   };
   updateOpenPage({ parentsArray, context });
-  return /* @__PURE__ */ jsx40(Header.ActionButton, { children: /* @__PURE__ */ jsx40(VtexHamburgerMenu, { sx: styles_default12.hamburgerContainer, children: /* @__PURE__ */ jsx40(VtexHamburgerMenu.Menu, { sx: styles_default12.innerHambugerContainer, children: /* @__PURE__ */ jsxs33(Box16, { sx: styles_default12.menuContainer, children: [
-    /* @__PURE__ */ jsxs33(Box16, { sx: styles_default12.cardContainer, children: [
-      /* @__PURE__ */ jsx40(Box16, { sx: styles_default12.hamburgerSearchContainer, children: /* @__PURE__ */ jsx40(SearchInput, {}) }),
+  return /* @__PURE__ */ jsx40(Header.ActionButton, { children: /* @__PURE__ */ jsx40(VtexHamburgerMenu, { sx: styles_default13.hamburgerContainer, children: /* @__PURE__ */ jsx40(VtexHamburgerMenu.Menu, { sx: styles_default13.innerHambugerContainer, children: /* @__PURE__ */ jsxs33(Box16, { sx: styles_default13.menuContainer, children: [
+    /* @__PURE__ */ jsxs33(Box16, { sx: styles_default13.cardContainer, children: [
+      /* @__PURE__ */ jsx40(Box16, { sx: styles_default13.hamburgerSearchContainer, children: /* @__PURE__ */ jsx40(SearchInput, {}) }),
       hamburguerSections.map((section, id) => /* @__PURE__ */ jsx40(
         Box16,
         {
-          sx: id > 0 ? styles_default12.updatesContainer : styles_default12.documentationContainer,
+          sx: id > 0 ? styles_default13.updatesContainer : styles_default13.documentationContainer,
           "data-cy": "dropdown-menu-first-section",
-          children: section.map((card) => /* @__PURE__ */ jsxs33(Box16, { sx: styles_default12.innerCardContainer, children: [
+          children: section.map((card) => /* @__PURE__ */ jsxs33(Box16, { sx: styles_default13.innerCardContainer, children: [
             /* @__PURE__ */ jsx40(documentation_card_default, { containerType: "mobile", ...card }),
             isDocument(sidebarDataMaster, card.id) ? /* @__PURE__ */ jsx40(
               Button4,
@@ -9878,7 +10447,7 @@ var HamburgerMenu = ({ parentsArray = [] }) => {
                 size: "regular",
                 variant: "tertiary",
                 icon: () => /* @__PURE__ */ jsx40(IconCaret4, { direction: "right", size: 32 }),
-                sx: activeSectionName === card.id && !sidebarSectionHidden ? styles_default12.arrowIconActive : styles_default12.arrowIcon,
+                sx: activeSectionName === card.id && !sidebarSectionHidden ? styles_default13.arrowIconActive : styles_default13.arrowIcon,
                 onClick: () => {
                   setActiveSectionName(card.id);
                   setSidebarSectionHidden(false);
@@ -9894,7 +10463,7 @@ var HamburgerMenu = ({ parentsArray = [] }) => {
       Box16,
       {
         className: sidebarSectionHidden || !activeSectionName ? "" : "menuHidden",
-        sx: styles_default12.sideMenuContainer,
+        sx: styles_default13.sideMenuContainer,
         children: activeSectionName ? /* @__PURE__ */ jsx40(
           sidebar_section_default,
           {
@@ -10031,7 +10600,7 @@ var LikeSelectedIcon = (props) => /* @__PURE__ */ jsxs36(
 var like_selected_icon_default = LikeSelectedIcon;
 
 // src/lib/feedback-section/index.tsx
-import { useContext as useContext11, useEffect as useEffect10, useState as useState11 } from "react";
+import { useContext as useContext11, useEffect as useEffect11, useState as useState11 } from "react";
 
 // src/lib/feedback-section/styles.ts
 var container5 = ({ small } = {}) => ({
@@ -10113,7 +10682,7 @@ var editIcon = { mr: "4px" };
 var shareButton = {
   // ml: ['0', 'auto'],
 };
-var styles_default15 = {
+var styles_default16 = {
   disabled,
   container: container5,
   question,
@@ -10285,7 +10854,7 @@ var innerContainer = {
 var divider = {
   borderBottom: "1px solid #E7E9EE"
 };
-var styles_default16 = {
+var styles_default17 = {
   container: container6,
   button: button2,
   shareIcon,
@@ -10367,38 +10936,38 @@ var ShareButton = ({ url, sx = {} }) => {
       console.error("Error copying link to clipboard:", error);
     }
   };
-  return /* @__PURE__ */ jsxs39(Flex15, { sx: { ...styles_default16.container, ...sx }, ref: containerRef, children: [
+  return /* @__PURE__ */ jsxs39(Flex15, { sx: { ...styles_default17.container, ...sx }, ref: containerRef, children: [
     /* @__PURE__ */ jsxs39(
       Button5,
       {
-        sx: styles_default16.button,
+        sx: styles_default17.button,
         variant: "tertiary",
         onClick: () => setIsOpen(!isOpen),
         children: [
-          /* @__PURE__ */ jsx50(share_icon_default, { sx: styles_default16.shareIcon, size: 24 }),
+          /* @__PURE__ */ jsx50(share_icon_default, { sx: styles_default17.shareIcon, size: 24 }),
           " Share"
         ]
       }
     ),
-    isOpen && /* @__PURE__ */ jsxs39(Flex15, { sx: styles_default16.innerContainer, children: [
-      /* @__PURE__ */ jsxs39(Flex15, { sx: styles_default16.innerButton, onClick: handleCopyLink, children: [
+    isOpen && /* @__PURE__ */ jsxs39(Flex15, { sx: styles_default17.innerContainer, children: [
+      /* @__PURE__ */ jsxs39(Flex15, { sx: styles_default17.innerButton, onClick: handleCopyLink, children: [
         /* @__PURE__ */ jsx50(link_icon_default, { size: 16 }),
         /* @__PURE__ */ jsx50(Text10, { children: "Copy link" })
       ] }),
-      /* @__PURE__ */ jsx50(Box17, { sx: styles_default16.divider }),
-      /* @__PURE__ */ jsx50(EmailShareButton, { url, children: /* @__PURE__ */ jsxs39(Flex15, { sx: styles_default16.innerButton, onClick: handleCopyLink, children: [
+      /* @__PURE__ */ jsx50(Box17, { sx: styles_default17.divider }),
+      /* @__PURE__ */ jsx50(EmailShareButton, { url, children: /* @__PURE__ */ jsxs39(Flex15, { sx: styles_default17.innerButton, onClick: handleCopyLink, children: [
         /* @__PURE__ */ jsx50(email_icon_default, { size: 16 }),
         /* @__PURE__ */ jsx50(Text10, { children: "E-mail" })
       ] }) }),
-      /* @__PURE__ */ jsx50(TwitterShareButton, { url, children: /* @__PURE__ */ jsxs39(Flex15, { sx: styles_default16.innerButton, children: [
+      /* @__PURE__ */ jsx50(TwitterShareButton, { url, children: /* @__PURE__ */ jsxs39(Flex15, { sx: styles_default17.innerButton, children: [
         /* @__PURE__ */ jsx50(twitter_icon_default, { size: 16 }),
         /* @__PURE__ */ jsx50(Text10, { children: "Twitter" })
       ] }) }),
-      /* @__PURE__ */ jsx50(FacebookShareButton, { url, children: /* @__PURE__ */ jsxs39(Flex15, { sx: styles_default16.innerButton, children: [
+      /* @__PURE__ */ jsx50(FacebookShareButton, { url, children: /* @__PURE__ */ jsxs39(Flex15, { sx: styles_default17.innerButton, children: [
         /* @__PURE__ */ jsx50(facebook_icon_default, { size: 16 }),
         /* @__PURE__ */ jsx50(Text10, { children: "Facebook" })
       ] }) }),
-      /* @__PURE__ */ jsx50(LinkedinShareButton, { url, children: /* @__PURE__ */ jsxs39(Flex15, { sx: styles_default16.innerButton, children: [
+      /* @__PURE__ */ jsx50(LinkedinShareButton, { url, children: /* @__PURE__ */ jsxs39(Flex15, { sx: styles_default17.innerButton, children: [
         /* @__PURE__ */ jsx50(linkedin_icon_default, { size: 16 }),
         /* @__PURE__ */ jsx50(Text10, { children: "LinkedIn" })
       ] }) })
@@ -10419,7 +10988,7 @@ var FeedbackSection = ({
 }) => {
   const [feedback, setFeedback] = useState11(void 0);
   const { locale } = useContext11(LibraryContext);
-  useEffect10(() => {
+  useEffect11(() => {
     setFeedback(void 0);
   }, [slug]);
   const handleSend = async (liked) => {
@@ -10432,20 +11001,20 @@ var FeedbackSection = ({
       setFeedback(void 0);
     }
   };
-  return /* @__PURE__ */ jsxs40(Flex16, { sx: styles_default15.container({ small }), "data-cy": "feedback-section", children: [
-    /* @__PURE__ */ jsxs40(Flex16, { sx: styles_default15.likeContainer, children: [
-      /* @__PURE__ */ jsx51(Text11, { sx: styles_default15.question({ small }), children: feedback !== void 0 ? messages[locale]["feedback_section.response"] : messages[locale]["feedback_section.question"] }),
-      /* @__PURE__ */ jsxs40(Flex16, { sx: styles_default15.iconsContainer({ small }), children: [
+  return /* @__PURE__ */ jsxs40(Flex16, { sx: styles_default16.container({ small }), "data-cy": "feedback-section", children: [
+    /* @__PURE__ */ jsxs40(Flex16, { sx: styles_default16.likeContainer, children: [
+      /* @__PURE__ */ jsx51(Text11, { sx: styles_default16.question({ small }), children: feedback !== void 0 ? messages[locale]["feedback_section.response"] : messages[locale]["feedback_section.question"] }),
+      /* @__PURE__ */ jsxs40(Flex16, { sx: styles_default16.iconsContainer({ small }), children: [
         /* @__PURE__ */ jsxs40(
           Flex16,
           {
-            sx: feedback === void 0 ? styles_default15.button : feedback === true ? styles_default15.selectedButton : styles_default15.disabled,
+            sx: feedback === void 0 ? styles_default16.button : feedback === true ? styles_default16.selectedButton : styles_default16.disabled,
             onClick: () => handleSend(true),
             role: "button",
             "aria-pressed": feedback === true,
             "data-cy": "feedback-section-like",
             children: [
-              feedback === true ? /* @__PURE__ */ jsx51(like_selected_icon_default, { size: small ? 18 : 24, sx: styles_default15.likeIcon }) : /* @__PURE__ */ jsx51(like_icon_default, { size: small ? 18 : 24, sx: styles_default15.likeIcon }),
+              feedback === true ? /* @__PURE__ */ jsx51(like_selected_icon_default, { size: small ? 18 : 24, sx: styles_default16.likeIcon }) : /* @__PURE__ */ jsx51(like_icon_default, { size: small ? 18 : 24, sx: styles_default16.likeIcon }),
               !small && /* @__PURE__ */ jsx51(Text11, { children: messages[locale]["feedback_section.positive"] })
             ]
           }
@@ -10453,7 +11022,7 @@ var FeedbackSection = ({
         /* @__PURE__ */ jsxs40(
           Flex16,
           {
-            sx: feedback === void 0 ? styles_default15.button : feedback === false ? styles_default15.selectedButton : styles_default15.disabled,
+            sx: feedback === void 0 ? styles_default16.button : feedback === false ? styles_default16.selectedButton : styles_default16.disabled,
             onClick: () => handleSend(false),
             role: "button",
             "aria-pressed": feedback === false,
@@ -10463,9 +11032,9 @@ var FeedbackSection = ({
                 like_selected_icon_default,
                 {
                   size: small ? 18 : 24,
-                  sx: styles_default15.dislikeIcon
+                  sx: styles_default16.dislikeIcon
                 }
-              ) : /* @__PURE__ */ jsx51(like_icon_default, { size: small ? 18 : 24, sx: styles_default15.dislikeIcon }),
+              ) : /* @__PURE__ */ jsx51(like_icon_default, { size: small ? 18 : 24, sx: styles_default16.dislikeIcon }),
               !small && /* @__PURE__ */ jsx51(Text11, { children: messages[locale]["feedback_section.negative"] })
             ]
           }
@@ -10478,14 +11047,14 @@ var FeedbackSection = ({
         target: "_blank",
         rel: "noopener noreferrer",
         href: urlToEdit,
-        sx: styles_default15.editContainer({ small }),
+        sx: styles_default16.editContainer({ small }),
         children: [
-          /* @__PURE__ */ jsx51(edit_icon_default, { size: small ? 18 : 24, sx: styles_default15.editIcon }),
+          /* @__PURE__ */ jsx51(edit_icon_default, { size: small ? 18 : 24, sx: styles_default16.editIcon }),
           /* @__PURE__ */ jsx51(Text11, { children: messages[locale]["feedback_section.edit"] })
         ]
       }
     ),
-    shareButton2 && /* @__PURE__ */ jsx51(share_button_default, { url: window.location.href, sx: styles_default15.shareButton })
+    shareButton2 && /* @__PURE__ */ jsx51(share_button_default, { url: window.location.href, sx: styles_default16.shareButton })
   ] });
 };
 var feedback_section_default = FeedbackSection;
@@ -10498,7 +11067,7 @@ import { Box as Box19 } from "@vtex/brand-ui";
 
 // src/components/search-section/index.tsx
 import { Box as Box18, Flex as Flex17, Text as Text12 } from "@vtex/brand-ui";
-import { useContext as useContext12, useEffect as useEffect11 } from "react";
+import { useContext as useContext12, useEffect as useEffect12 } from "react";
 
 // src/components/search-section/styles.ts
 var sectionContainer = (disabled2 = false) => ({
@@ -10557,7 +11126,7 @@ var allResultsTextActive = {
   fontWeight: "bold",
   color: "#0C1522"
 };
-var styles_default17 = {
+var styles_default18 = {
   sectionContainer,
   sectionIconTitleBox,
   sectionIcon,
@@ -10614,21 +11183,21 @@ var SearchSection = ({ dataElement, index }) => {
     router.query.filter = value;
     changeFilterSelectedSection(value);
   };
-  useEffect11(() => {
+  useEffect12(() => {
     updateFilter("");
   }, [router.query]);
   const allCountLabel = formatSearchTabCount(ocurrenceCount[""]);
   if (!dataElement) {
-    return /* @__PURE__ */ jsxs41(Flex17, { sx: styles_default17.sectionContainer(), onClick: () => updateFilter(""), children: [
+    return /* @__PURE__ */ jsxs41(Flex17, { sx: styles_default18.sectionContainer(), onClick: () => updateFilter(""), children: [
       /* @__PURE__ */ jsx53(
         Text12,
         {
           className: "search-section-title",
-          sx: filterSelectedSection ? styles_default17.allResultsText : styles_default17.allResultsTextActive,
+          sx: filterSelectedSection ? styles_default18.allResultsText : styles_default18.allResultsTextActive,
           children: messages[locale]["search_results.all"] || "All results"
         }
       ),
-      allCountLabel !== void 0 && /* @__PURE__ */ jsx53(Box18, { className: "search-section-count", sx: styles_default17.sectionCount, children: allCountLabel })
+      allCountLabel !== void 0 && /* @__PURE__ */ jsx53(Box18, { className: "search-section-count", sx: styles_default18.sectionCount, children: allCountLabel })
     ] });
   }
   const count = ocurrenceCount[dataElement.id];
@@ -10637,7 +11206,7 @@ var SearchSection = ({ dataElement, index }) => {
   return /* @__PURE__ */ jsxs41(
     Flex17,
     {
-      sx: styles_default17.sectionContainer(isDisabled),
+      sx: styles_default18.sectionContainer(isDisabled),
       onClick: () => {
         if (isDisabled)
           return;
@@ -10645,18 +11214,18 @@ var SearchSection = ({ dataElement, index }) => {
       },
       "data-disabled": String(isDisabled),
       children: [
-        /* @__PURE__ */ jsxs41(Flex17, { sx: styles_default17.sectionIconTitleBox, children: [
-          /* @__PURE__ */ jsx53(dataElement.Icon, { sx: styles_default17.sectionIcon(isDisabled) }),
+        /* @__PURE__ */ jsxs41(Flex17, { sx: styles_default18.sectionIconTitleBox, children: [
+          /* @__PURE__ */ jsx53(dataElement.Icon, { sx: styles_default18.sectionIcon(isDisabled) }),
           /* @__PURE__ */ jsx53(
             Text12,
             {
               className: "search-section-title",
-              sx: filterSelectedSection === dataElement.id ? styles_default17.sectionTitleActive : styles_default17.sectionTitle(isDisabled),
+              sx: filterSelectedSection === dataElement.id ? styles_default18.sectionTitleActive : styles_default18.sectionTitle(isDisabled),
               children: dataElement.title
             }
           )
         ] }),
-        countLabel !== void 0 && /* @__PURE__ */ jsx53(Box18, { className: "search-section-count", sx: styles_default17.sectionCount, children: countLabel })
+        countLabel !== void 0 && /* @__PURE__ */ jsx53(Box18, { className: "search-section-count", sx: styles_default18.sectionCount, children: countLabel })
       ]
     },
     `search-section-${dataElement.id}${index}`
@@ -10682,7 +11251,7 @@ var docsSection = {
   ...notesSection,
   borderBottom: "1px solid #E7E9EE"
 };
-var styles_default18 = {
+var styles_default19 = {
   container: container7,
   notesSection,
   docsSection
@@ -10696,10 +11265,10 @@ var SearchSections = () => {
   const internalOnlySections = sidebarSections.map(
     (section) => section.filter((item2) => !item2.isExternalLink)
   );
-  return /* @__PURE__ */ jsx54(Box19, { sx: styles_default18.container, children: internalOnlySections.map((sections, id) => /* @__PURE__ */ jsxs42(
+  return /* @__PURE__ */ jsx54(Box19, { sx: styles_default19.container, children: internalOnlySections.map((sections, id) => /* @__PURE__ */ jsxs42(
     Box19,
     {
-      sx: id < internalOnlySections.length - 1 ? styles_default18.docsSection : styles_default18.notesSection,
+      sx: id < internalOnlySections.length - 1 ? styles_default19.docsSection : styles_default19.notesSection,
       children: [
         id === 0 && /* @__PURE__ */ jsx54(search_section_default, { dataElement: null }),
         sections.map((section, index) => /* @__PURE__ */ jsx54(
@@ -10719,12 +11288,12 @@ var search_sections_default = SearchSections;
 
 // src/components/search-results/index.tsx
 import { useRouter as useRouter7 } from "next/router.js";
-import { useContext as useContext16, useEffect as useEffect13, useState as useState14 } from "react";
+import { useContext as useContext16, useEffect as useEffect14, useState as useState14 } from "react";
 import { Box as Box22, Text as Text14 } from "@vtex/brand-ui";
 import { Configure as Configure2, InstantSearch as InstantSearch2 } from "react-instantsearch-dom";
 
 // src/components/search-results/infiniteHits.tsx
-import { useContext as useContext15, useEffect as useEffect12, useMemo as useMemo2, useRef as useRef10 } from "react";
+import { useContext as useContext15, useEffect as useEffect13, useMemo as useMemo2, useRef as useRef10 } from "react";
 import {
   connectInfiniteHits,
   connectStateResults as connectStateResults2
@@ -10851,7 +11420,7 @@ var actionIcon = {
   height: "16px",
   mr: "8px"
 };
-var styles_default19 = {
+var styles_default20 = {
   containerActive,
   title: title3,
   httpMethod,
@@ -10932,14 +11501,14 @@ var SearchCard = ({
   const actionValue = actionType ? getAction(actionType) : null;
   const [toggleChildResults, setToggleChildResults] = useState13(false);
   const { locale } = useContext14(LibraryContext);
-  return /* @__PURE__ */ jsx56(Link9, { href: url, legacyBehavior: true, children: /* @__PURE__ */ jsxs44(Flex18, { sx: styles_default19.containerActive(method), children: [
+  return /* @__PURE__ */ jsx56(Link9, { href: url, legacyBehavior: true, children: /* @__PURE__ */ jsxs44(Flex18, { sx: styles_default20.containerActive(method), children: [
     /* @__PURE__ */ jsxs44(Box20, { children: [
-      /* @__PURE__ */ jsxs44(Text13, { className: "searchCardTitle", sx: styles_default19.title, children: [
-        Icon68 && /* @__PURE__ */ jsx56(Icon68, { sx: styles_default19.icon }),
+      /* @__PURE__ */ jsxs44(Text13, { className: "searchCardTitle", sx: styles_default20.title, children: [
+        Icon68 && /* @__PURE__ */ jsx56(Icon68, { sx: styles_default20.icon }),
         method ? /* @__PURE__ */ jsx56(
           method_category_default,
           {
-            sx: styles_default19.httpMethod,
+            sx: styles_default20.httpMethod,
             origin: "search",
             method,
             active: false
@@ -10948,7 +11517,7 @@ var SearchCard = ({
         title7 === "overview" && `${hit.doccategory} `,
         title7
       ] }),
-      /* @__PURE__ */ jsxs44(Text13, { className: "searchCardDescription", sx: styles_default19.description, children: [
+      /* @__PURE__ */ jsxs44(Text13, { className: "searchCardDescription", sx: styles_default20.description, children: [
         /* @__PURE__ */ jsx56(Flex18, { children: /* @__PURE__ */ jsx56(
           customHighlight_default,
           {
@@ -10960,7 +11529,7 @@ var SearchCard = ({
         toggleChildResults && hit.filteredMatches?.map((childHit, index) => /* @__PURE__ */ jsx56(
           Box20,
           {
-            sx: styles_default19.descriptionExpandedItem,
+            sx: styles_default20.descriptionExpandedItem,
             children: /* @__PURE__ */ jsx56(
               customHighlight_default,
               {
@@ -10973,22 +11542,22 @@ var SearchCard = ({
           `search-card-${hit.objectID}-${index}`
         ))
       ] }),
-      breadcrumbs ? /* @__PURE__ */ jsxs44(Box20, { sx: styles_default19.breadcrumbsContainer, children: [
-        /* @__PURE__ */ jsx56(Text13, { sx: styles_default19.breadcrumbsIn, children: messages[locale]["search_card.in"] || "In" }),
+      breadcrumbs ? /* @__PURE__ */ jsxs44(Box20, { sx: styles_default20.breadcrumbsContainer, children: [
+        /* @__PURE__ */ jsx56(Text13, { sx: styles_default20.breadcrumbsIn, children: messages[locale]["search_card.in"] || "In" }),
         breadcrumbs.map((breadcrumb2, index) => /* @__PURE__ */ jsxs44(
           Flex18,
           {
-            sx: index === 0 ? styles_default19.documentation : styles_default19.alignCenter,
+            sx: index === 0 ? styles_default20.documentation : styles_default20.alignCenter,
             children: [
-              /* @__PURE__ */ jsx56(Tooltip2, { label: breadcrumb2, placement: "top", children: /* @__PURE__ */ jsx56(Text13, { sx: styles_default19.breadcrumb, children: breadcrumb2 }) }),
-              index < breadcrumbs.length - 1 ? /* @__PURE__ */ jsx56(IconCaret5, { direction: "right", sx: styles_default19.breadcrumbsArrow }) : null
+              /* @__PURE__ */ jsx56(Tooltip2, { label: breadcrumb2, placement: "top", children: /* @__PURE__ */ jsx56(Text13, { sx: styles_default20.breadcrumb, children: breadcrumb2 }) }),
+              index < breadcrumbs.length - 1 ? /* @__PURE__ */ jsx56(IconCaret5, { direction: "right", sx: styles_default20.breadcrumbsArrow }) : null
             ]
           },
           `${breadcrumb2}${index}`
         ))
       ] }) : null,
-      actionValue ? /* @__PURE__ */ jsxs44(Flex18, { sx: styles_default19.actionContainer, children: [
-        /* @__PURE__ */ jsx56(actionValue.Icon, { sx: styles_default19.actionIcon }),
+      actionValue ? /* @__PURE__ */ jsxs44(Flex18, { sx: styles_default20.actionContainer, children: [
+        /* @__PURE__ */ jsx56(actionValue.Icon, { sx: styles_default20.actionIcon }),
         " ",
         /* @__PURE__ */ jsx56(Text13, { children: actionValue?.title })
       ] }) : null
@@ -10996,7 +11565,7 @@ var SearchCard = ({
     hit.filteredMatches && hit.filteredMatches.length > 0 && /* @__PURE__ */ jsx56(
       Box20,
       {
-        sx: styles_default19.descriptionToggle,
+        sx: styles_default20.descriptionToggle,
         onClick: (event) => {
           setToggleChildResults(!toggleChildResults);
           event.stopPropagation();
@@ -11038,7 +11607,7 @@ var HitCard = ({ hit }) => {
 var StateResults = connectStateResults2(
   ({ searchResults }) => {
     const { updateOcurrenceCount } = useContext15(SearchContext);
-    useEffect12(() => {
+    useEffect13(() => {
       if (!searchResults)
         return;
       const results = searchResults;
@@ -11101,7 +11670,7 @@ var InfiniteHits = ({ hits, hasMore, refineNext }) => {
     });
     return mergeHits;
   }, [hits]);
-  useEffect12(() => {
+  useEffect13(() => {
     const observer = new IntersectionObserver(onSentinelIntersection, {});
     if (scrollRef.current)
       observer.observe(scrollRef.current);
@@ -11166,7 +11735,7 @@ var noResults2 = {
   alignContent: "center",
   padding: "12px"
 };
-var styles_default20 = {
+var styles_default21 = {
   resultContainer,
   resultText,
   paginationContainer,
@@ -11191,7 +11760,7 @@ var SearchResults = () => {
   const [prevFilter, setPrevFilter] = useState14("");
   const [prevKeyword, setPrevKeyword] = useState14(keyword);
   const [searchState, setSearchState] = useState14({});
-  useEffect13(() => {
+  useEffect14(() => {
     if (!keyword || keyword === prevKeyword)
       return;
     setPrevKeyword(keyword);
@@ -11212,8 +11781,8 @@ var SearchResults = () => {
       page
     });
   };
-  return /* @__PURE__ */ jsxs46(Box22, { sx: styles_default20.resultContainer, children: [
-    /* @__PURE__ */ jsx58(Text14, { sx: styles_default20.resultText, children: `${messages[locale]["search_results.showing"] || "Showing"} ${formatSearchTabCount(ocurrenceCount[filterSelectedSection]) ?? ""} ${messages[locale]["search_results.results_for"] || "results for"} ${router.query.keyword} ${messages[locale]["search_results.in"] || "in"} ${!filterSelectedSection ? messages[locale]["search_results.all_lowercase"] || "all results" : filterSelectedSection}` }),
+  return /* @__PURE__ */ jsxs46(Box22, { sx: styles_default21.resultContainer, children: [
+    /* @__PURE__ */ jsx58(Text14, { sx: styles_default21.resultText, children: `${messages[locale]["search_results.showing"] || "Showing"} ${formatSearchTabCount(ocurrenceCount[filterSelectedSection]) ?? ""} ${messages[locale]["search_results.results_for"] || "results for"} ${router.query.keyword} ${messages[locale]["search_results.in"] || "in"} ${!filterSelectedSection ? messages[locale]["search_results.all_lowercase"] || "all results" : filterSelectedSection}` }),
     /* @__PURE__ */ jsx58("hr", {}),
     /* @__PURE__ */ jsx58(Box22, { children: /* @__PURE__ */ jsxs46(
       InstantSearch2,
@@ -11282,7 +11851,7 @@ var tabCount = {
   borderRadius: "24px",
   backgroundColor: "#F8F7FC"
 };
-var styles_default21 = { container: container9, tab, tabTitle, tabCount };
+var styles_default22 = { container: container9, tab, tabTitle, tabCount };
 
 // src/components/search-filter-tab-bar/index.tsx
 import { jsx as jsx59, jsxs as jsxs47 } from "react/jsx-runtime";
@@ -11302,7 +11871,7 @@ var SearchFilterTab = ({ filter }) => {
   return /* @__PURE__ */ jsxs47(
     Flex20,
     {
-      sx: styles_default21.tab(isActive, isDisabled),
+      sx: styles_default22.tab(isActive, isDisabled),
       onClick: handleClick,
       "data-testid": "doctype-filter-tab",
       "data-filter": filter,
@@ -11312,19 +11881,19 @@ var SearchFilterTab = ({ filter }) => {
         /* @__PURE__ */ jsx59(
           Text15,
           {
-            sx: styles_default21.tabTitle(isActive, isDisabled),
+            sx: styles_default22.tabTitle(isActive, isDisabled),
             "data-testid": "doctype-filter-tab-title",
             children: filter || messages[locale]["search_results.all"] || "All results"
           }
         ),
-        formattedCount !== void 0 && /* @__PURE__ */ jsx59(Text15, { sx: styles_default21.tabCount, "data-testid": "doctype-filter-tab-count", children: formattedCount })
+        formattedCount !== void 0 && /* @__PURE__ */ jsx59(Text15, { sx: styles_default22.tabCount, "data-testid": "doctype-filter-tab-count", children: formattedCount })
       ]
     }
   );
 };
 var SearchFilterTabBar = () => {
   const { sidebarSections } = useContext17(LibraryContext);
-  return /* @__PURE__ */ jsxs47(Flex20, { sx: styles_default21.container, "data-testid": "doctype-filter-tab-bar", children: [
+  return /* @__PURE__ */ jsxs47(Flex20, { sx: styles_default22.container, "data-testid": "doctype-filter-tab-bar", children: [
     /* @__PURE__ */ jsx59(SearchFilterTab, { filter: "" }),
     sidebarSections.flat().map((section) => {
       return /* @__PURE__ */ jsx59(SearchFilterTab, { filter: section.id }, section.id);
@@ -11343,7 +11912,7 @@ var body = {
   background: "#FFFFFF",
   justifyContent: "center"
 };
-var styles_default22 = {
+var styles_default23 = {
   searchBarContainer,
   body
 };
@@ -11353,10 +11922,10 @@ import { jsx as jsx60, jsxs as jsxs48 } from "react/jsx-runtime";
 var Search = () => {
   return /* @__PURE__ */ jsxs48(search_default, { children: [
     /* @__PURE__ */ jsxs48(Box23, { children: [
-      /* @__PURE__ */ jsx60(Flex21, { sx: styles_default22.searchBarContainer, children: /* @__PURE__ */ jsx60(SearchInput, {}) }),
+      /* @__PURE__ */ jsx60(Flex21, { sx: styles_default23.searchBarContainer, children: /* @__PURE__ */ jsx60(SearchInput, {}) }),
       /* @__PURE__ */ jsx60(search_filter_tab_bar_default, {})
     ] }),
-    /* @__PURE__ */ jsxs48(Flex21, { sx: styles_default22.body, children: [
+    /* @__PURE__ */ jsxs48(Flex21, { sx: styles_default23.body, children: [
       /* @__PURE__ */ jsx60(search_sections_default, {}),
       /* @__PURE__ */ jsx60(search_results_default, {})
     ] })
@@ -11426,7 +11995,7 @@ var declineButton = {
     opacity: "0.7"
   }
 };
-var styles_default23 = {
+var styles_default24 = {
   bar,
   barContent,
   title: title4,
@@ -11448,9 +12017,9 @@ var CookieBar = ({ onAccept }) => {
     CookieConsent,
     {
       enableDeclineButton: true,
-      buttonStyle: styles_default23.acceptButton,
-      declineButtonStyle: styles_default23.declineButton,
-      style: styles_default23.bar,
+      buttonStyle: styles_default24.acceptButton,
+      declineButtonStyle: styles_default24.declineButton,
+      style: styles_default24.bar,
       onAccept: () => {
         aa3("init", {
           partial: true,
@@ -11461,10 +12030,10 @@ var CookieBar = ({ onAccept }) => {
       declineButtonText: messages[locale]["cookie_bar.decline"],
       buttonText: messages[locale]["cookie_bar.accept"],
       ButtonComponent: Button6,
-      customButtonWrapperAttributes: { style: styles_default23.buttonContainer },
-      customContentAttributes: { style: styles_default23.barContent },
+      customButtonWrapperAttributes: { style: styles_default24.buttonContainer },
+      customContentAttributes: { style: styles_default24.barContent },
       children: [
-        /* @__PURE__ */ jsx61(Text16, { sx: styles_default23.title, children: messages[locale]["cookie_bar.title"] }),
+        /* @__PURE__ */ jsx61(Text16, { sx: styles_default24.title, children: messages[locale]["cookie_bar.title"] }),
         /* @__PURE__ */ jsx61(Text16, { children: messages[locale]["cookie_bar.description"] })
       ]
     }
@@ -11532,7 +12101,7 @@ var copyLinkButton = {
     backgroundColor: "#EFEFEF"
   }
 };
-var styles_default24 = {
+var styles_default25 = {
   copyIcon,
   copyLinkButton
 };
@@ -11548,12 +12117,12 @@ var CopyLinkButton = () => {
       setTooltipText("Copied!");
     }, 2e3);
   };
-  return /* @__PURE__ */ jsx63(tooltip_default, { label: tooltipText, placement: "bottom", children: /* @__PURE__ */ jsx63(Button7, { onClick: handleCopy, sx: styles_default24.copyLinkButton, children: /* @__PURE__ */ jsx63(copy_icon_default, { sx: styles_default24.copyIcon, size: 16 }) }) });
+  return /* @__PURE__ */ jsx63(tooltip_default, { label: tooltipText, placement: "bottom", children: /* @__PURE__ */ jsx63(Button7, { onClick: handleCopy, sx: styles_default25.copyLinkButton, children: /* @__PURE__ */ jsx63(copy_icon_default, { sx: styles_default25.copyIcon, size: 16 }) }) });
 };
 var copy_link_button_default = CopyLinkButton;
 
 // src/components/input/index.tsx
-import { useState as useState16, useEffect as useEffect14 } from "react";
+import { useState as useState16, useEffect as useEffect15 } from "react";
 
 // src/components/input/styles.ts
 var input = {
@@ -11589,23 +12158,23 @@ var container10 = {
     border: "1px solid #3B3B3B"
   }
 };
-var styles_default25 = { container: container10, input, icon: icon3 };
+var styles_default26 = { container: container10, input, icon: icon3 };
 
 // src/components/input/index.tsx
 import { Flex as Flex23 } from "@vtex/brand-ui";
 import { jsx as jsx64, jsxs as jsxs51 } from "react/jsx-runtime";
 var Input = ({ value, onChange, placeholder = "", Icon: Icon68 }) => {
   const [inputValue, setInputValue] = useState16(value ?? "");
-  useEffect14(() => {
+  useEffect15(() => {
     if (inputValue !== value)
       setInputValue(value);
   }, [value]);
-  return /* @__PURE__ */ jsxs51(Flex23, { sx: styles_default25.container, children: [
-    Icon68 && /* @__PURE__ */ jsx64(Icon68, { sx: styles_default25.icon }),
+  return /* @__PURE__ */ jsxs51(Flex23, { sx: styles_default26.container, children: [
+    Icon68 && /* @__PURE__ */ jsx64(Icon68, { sx: styles_default26.icon }),
     /* @__PURE__ */ jsx64(
       "input",
       {
-        style: styles_default25.input,
+        style: styles_default26.input,
         value: inputValue,
         placeholder,
         onChange: (e) => {
@@ -11730,7 +12299,7 @@ var popupCard = {
   marginTop: "16px",
   alignSelf: "center"
 };
-var styles_default26 = {
+var styles_default27 = {
   sectionContainer: sectionContainer2,
   cardContainer: cardContainer4,
   title: title5,
@@ -11847,10 +12416,10 @@ var SubscriptionList = () => {
       showMessage("error", localizedMessages["subscription_list.error"]);
     }
   };
-  return /* @__PURE__ */ jsxs52(Box24, { sx: styles_default26.sectionContainer, children: [
-    /* @__PURE__ */ jsx65(Text17, { sx: styles_default26.title, children: localizedMessages["landing_page_subscription.title"] }),
-    /* @__PURE__ */ jsx65(Flex24, { sx: styles_default26.cardContainer, children: /* @__PURE__ */ jsxs52("div", { children: [
-      /* @__PURE__ */ jsxs52(Text17, { sx: styles_default26.description, children: [
+  return /* @__PURE__ */ jsxs52(Box24, { sx: styles_default27.sectionContainer, children: [
+    /* @__PURE__ */ jsx65(Text17, { sx: styles_default27.title, children: localizedMessages["landing_page_subscription.title"] }),
+    /* @__PURE__ */ jsx65(Flex24, { sx: styles_default27.cardContainer, children: /* @__PURE__ */ jsxs52("div", { children: [
+      /* @__PURE__ */ jsxs52(Text17, { sx: styles_default27.description, children: [
         localizedMessages["landing_page_subscription.description"].split(
           "newsletter"
         )[0],
@@ -11867,7 +12436,7 @@ var SubscriptionList = () => {
           "newsletter"
         )[1]
       ] }),
-      /* @__PURE__ */ jsxs52(Flex24, { sx: styles_default26.inputContainer, children: [
+      /* @__PURE__ */ jsxs52(Flex24, { sx: styles_default27.inputContainer, children: [
         /* @__PURE__ */ jsx65(
           Box24,
           {
@@ -11878,7 +12447,7 @@ var SubscriptionList = () => {
             placeholder: "Email",
             value: email,
             onChange: (e) => setEmail(e.target.value),
-            sx: styles_default26.emailInputField
+            sx: styles_default27.emailInputField
           }
         ),
         /* @__PURE__ */ jsx65(
@@ -11887,12 +12456,12 @@ var SubscriptionList = () => {
             type: "button",
             size: "regular",
             onClick: handleSubscribe,
-            sx: styles_default26.button,
+            sx: styles_default27.button,
             children: localizedMessages["landing_page_newsletter.Button"]
           }
         )
       ] }),
-      /* @__PURE__ */ jsxs52(Text17, { sx: styles_default26.privacyText, children: [
+      /* @__PURE__ */ jsxs52(Text17, { sx: styles_default27.privacyText, children: [
         localizedMessages["subscription_list.privacy_notice"],
         " ",
         /* @__PURE__ */ jsx65(
@@ -11909,7 +12478,7 @@ var SubscriptionList = () => {
         Box24,
         {
           sx: {
-            ...styles_default26.popupCard,
+            ...styles_default27.popupCard,
             backgroundColor: messageType === "success" ? "#dff1e0" : "#f8e3e3"
           },
           children: /* @__PURE__ */ jsx65(Text17, { children: message })
@@ -12002,7 +12571,7 @@ var statusColors = {
     background: "#DFF5DB"
   }
 };
-var styles_default27 = {
+var styles_default28 = {
   statusColors,
   tag
 };
@@ -12013,7 +12582,7 @@ var Tag = ({ sx = {}, children, color = "Default", onClick }) => {
   return /* @__PURE__ */ jsx66(
     Text18,
     {
-      sx: { ...styles_default27.tag, ...sx, ...styles_default27.statusColors[color] },
+      sx: { ...styles_default28.tag, ...sx, ...styles_default28.statusColors[color] },
       onClick,
       children
     }
@@ -12356,7 +12925,7 @@ var removeButton = {
     color: "#E31C58"
   }
 };
-var styles_default28 = {
+var styles_default29 = {
   filterButton,
   filterButtonText,
   numberOfFilters,
@@ -12433,7 +13002,7 @@ var ListingFilter = ({
   const FilterButton = () => /* @__PURE__ */ jsxs55(
     Flex25,
     {
-      sx: { ...styles_default28.filterButton, ...buttonSx },
+      sx: { ...styles_default29.filterButton, ...buttonSx },
       onClick: () => {
         setTempFilters({
           checklist: selectedCheckboxes ?? [],
@@ -12443,24 +13012,24 @@ var ListingFilter = ({
       },
       children: [
         /* @__PURE__ */ jsx69(filter_icon_default, { size: 16 }),
-        /* @__PURE__ */ jsx69(Text19, { sx: styles_default28.filterButtonText, children: resolvedLabels.button }),
-        numberOfFilters2 > 0 && /* @__PURE__ */ jsx69(Text19, { sx: styles_default28.numberOfFilters, children: numberOfFilters2 })
+        /* @__PURE__ */ jsx69(Text19, { sx: styles_default29.filterButtonText, children: resolvedLabels.button }),
+        numberOfFilters2 > 0 && /* @__PURE__ */ jsx69(Text19, { sx: styles_default29.numberOfFilters, children: numberOfFilters2 })
       ]
     }
   );
   const TagFilter = () => {
     if (!normalizedTagFilter)
       return null;
-    return /* @__PURE__ */ jsxs55(Box25, { sx: styles_default28.filterContainer, children: [
-      /* @__PURE__ */ jsx69(Text19, { sx: styles_default28.filterTitle, children: normalizedTagFilter.name }),
+    return /* @__PURE__ */ jsxs55(Box25, { sx: styles_default29.filterContainer, children: [
+      /* @__PURE__ */ jsx69(Text19, { sx: styles_default29.filterTitle, children: normalizedTagFilter.name }),
       /* @__PURE__ */ jsx69(
         Flex25,
         {
-          sx: centeredTagOptions ? styles_default28.tagContainerCentered : styles_default28.tagContainer,
+          sx: centeredTagOptions ? styles_default29.tagContainerCentered : styles_default29.tagContainer,
           children: normalizedTagFilter.options.map((option) => /* @__PURE__ */ jsx69(
             tag_default,
             {
-              sx: styles_default28.tag,
+              sx: styles_default29.tag,
               color: isFilterSelected(option.id, "tag") ? "Selected" : "Default",
               onClick: () => handleFilterClick(option.id, "tag"),
               children: option.name
@@ -12476,9 +13045,9 @@ var ListingFilter = ({
       return null;
     return /* @__PURE__ */ jsx69(Fragment6, { children: checkboxGroups.map((group, groupIndex) => /* @__PURE__ */ jsxs55(Box25, { children: [
       groupIndex > 0 && /* @__PURE__ */ jsx69(Divider, {}),
-      /* @__PURE__ */ jsxs55(Box25, { sx: styles_default28.filterContainer, children: [
-        /* @__PURE__ */ jsx69(Text19, { sx: styles_default28.filterTitle, children: group.name }),
-        /* @__PURE__ */ jsx69(Box25, { sx: styles_default28.checkBoxContainer, children: group.options.map((option) => /* @__PURE__ */ jsx69(
+      /* @__PURE__ */ jsxs55(Box25, { sx: styles_default29.filterContainer, children: [
+        /* @__PURE__ */ jsx69(Text19, { sx: styles_default29.filterTitle, children: group.name }),
+        /* @__PURE__ */ jsx69(Box25, { sx: styles_default29.checkBoxContainer, children: group.options.map((option) => /* @__PURE__ */ jsx69(
           Checkbox,
           {
             label: option.name,
@@ -12490,31 +13059,31 @@ var ListingFilter = ({
       ] })
     ] }, group.name)) });
   };
-  const Divider = () => /* @__PURE__ */ jsx69(Box25, { sx: styles_default28.sectionDivider, children: /* @__PURE__ */ jsx69("hr", {}) });
+  const Divider = () => /* @__PURE__ */ jsx69(Box25, { sx: styles_default29.sectionDivider, children: /* @__PURE__ */ jsx69("hr", {}) });
   const FilterModal = () => /* @__PURE__ */ jsxs55(Fragment6, { children: [
-    /* @__PURE__ */ jsx69(Box25, { sx: styles_default28.blanket, onClick: () => setIsModalOpen(false) }),
-    /* @__PURE__ */ jsxs55(Box25, { sx: styles_default28.container, children: [
-      /* @__PURE__ */ jsxs55(Box25, { sx: styles_default28.topContainer, children: [
-        /* @__PURE__ */ jsx69(Text19, { sx: styles_default28.modalTitle, children: resolvedLabels.modalTitle }),
+    /* @__PURE__ */ jsx69(Box25, { sx: styles_default29.blanket, onClick: () => setIsModalOpen(false) }),
+    /* @__PURE__ */ jsxs55(Box25, { sx: styles_default29.container, children: [
+      /* @__PURE__ */ jsxs55(Box25, { sx: styles_default29.topContainer, children: [
+        /* @__PURE__ */ jsx69(Text19, { sx: styles_default29.modalTitle, children: resolvedLabels.modalTitle }),
         /* @__PURE__ */ jsx69(
           Flex25,
           {
-            sx: styles_default28.closeButtonContainer,
+            sx: styles_default29.closeButtonContainer,
             onClick: () => setIsModalOpen(false),
             children: /* @__PURE__ */ jsx69(close_icon_default, { size: 32 })
           }
         )
       ] }),
-      /* @__PURE__ */ jsxs55(Box25, { sx: styles_default28.innerContainer, children: [
+      /* @__PURE__ */ jsxs55(Box25, { sx: styles_default29.innerContainer, children: [
         /* @__PURE__ */ jsx69(TagFilter, {}),
         normalizedTagFilter && checkboxGroups.length > 0 && /* @__PURE__ */ jsx69(Divider, {}),
         /* @__PURE__ */ jsx69(CheckboxFilters, {})
       ] }),
-      /* @__PURE__ */ jsxs55(Flex25, { sx: styles_default28.buttonsContainer, children: [
+      /* @__PURE__ */ jsxs55(Flex25, { sx: styles_default29.buttonsContainer, children: [
         /* @__PURE__ */ jsx69(
           Button9,
           {
-            sx: styles_default28.removeButton,
+            sx: styles_default29.removeButton,
             icon: () => /* @__PURE__ */ jsx69(trashcan_icon_default, { sx: { mr: "8px" }, size: 18 }),
             onClick: () => setTempFilters({ tag: [], checklist: [] }),
             children: resolvedLabels.remove
@@ -12638,7 +13207,7 @@ var helpcenterTagsContainer = {
   flexWrap: "wrap",
   alignItems: "center"
 };
-var styles_default29 = {
+var styles_default30 = {
   devportalContainer,
   helpcenterContainer,
   title: title6,
@@ -12680,29 +13249,29 @@ var TroubleshootingCard = ({
   const fallbackTags = tags?.filter(Boolean) ?? [];
   const hasStructuredTags = resolvedSymptomFilters.length > 0 || resolvedDomainFilters.length > 0;
   if (variant === "helpcenter") {
-    return /* @__PURE__ */ jsx70(Link11, { href: cardHref, children: /* @__PURE__ */ jsxs56(Box26, { sx: styles_default29.helpcenterContainer, children: [
-      /* @__PURE__ */ jsx70(Text20, { sx: styles_default29.title, className: "title", children: title7 }),
-      hasStructuredTags ? /* @__PURE__ */ jsxs56(Box26, { sx: styles_default29.groupsContainer, children: [
-        resolvedSymptomFilters.length > 0 && /* @__PURE__ */ jsx70(Box26, { sx: styles_default29.groupContainer, children: /* @__PURE__ */ jsx70(Box26, { sx: styles_default29.helpcenterTagsContainer, children: resolvedSymptomFilters.map((filter) => /* @__PURE__ */ jsx70(
+    return /* @__PURE__ */ jsx70(Link11, { href: cardHref, children: /* @__PURE__ */ jsxs56(Box26, { sx: styles_default30.helpcenterContainer, children: [
+      /* @__PURE__ */ jsx70(Text20, { sx: styles_default30.title, className: "title", children: title7 }),
+      hasStructuredTags ? /* @__PURE__ */ jsxs56(Box26, { sx: styles_default30.groupsContainer, children: [
+        resolvedSymptomFilters.length > 0 && /* @__PURE__ */ jsx70(Box26, { sx: styles_default30.groupContainer, children: /* @__PURE__ */ jsx70(Box26, { sx: styles_default30.helpcenterTagsContainer, children: resolvedSymptomFilters.map((filter) => /* @__PURE__ */ jsx70(
           tag_default,
           {
-            sx: styles_default29.tag,
+            sx: styles_default30.tag,
             color: "Blue",
             children: filter
           },
           `symptom-${filter}`
         )) }) }),
-        resolvedDomainFilters.length > 0 && /* @__PURE__ */ jsx70(Box26, { sx: styles_default29.groupContainer, children: /* @__PURE__ */ jsx70(Box26, { sx: styles_default29.helpcenterTagsContainer, children: resolvedDomainFilters.map((filter) => /* @__PURE__ */ jsx70(tag_default, { sx: styles_default29.tag, color: "Gray", children: filter }, `domain-${filter}`)) }) })
+        resolvedDomainFilters.length > 0 && /* @__PURE__ */ jsx70(Box26, { sx: styles_default30.groupContainer, children: /* @__PURE__ */ jsx70(Box26, { sx: styles_default30.helpcenterTagsContainer, children: resolvedDomainFilters.map((filter) => /* @__PURE__ */ jsx70(tag_default, { sx: styles_default30.tag, color: "Gray", children: filter }, `domain-${filter}`)) }) })
       ] }) : null
     ] }) });
   }
-  return /* @__PURE__ */ jsx70(Link11, { href: cardHref, sx: styles_default29.devportalContainer, children: /* @__PURE__ */ jsxs56(Box26, { children: [
-    /* @__PURE__ */ jsx70(Text20, { sx: styles_default29.title, className: "title", children: title7 }),
-    description6 ? /* @__PURE__ */ jsx70(Text20, { sx: styles_default29.description, className: "description", children: description6 }) : null,
-    /* @__PURE__ */ jsxs56(Box26, { sx: styles_default29.tagsContainer, children: [
-      resolvedSymptomFilters.length > 0 && /* @__PURE__ */ jsx70(Box26, { sx: styles_default29.tagGroup, children: resolvedSymptomFilters.map((filter) => /* @__PURE__ */ jsx70(tag_default, { sx: styles_default29.tag, color: "Blue", children: filter }, `symptom-${filter}`)) }),
-      resolvedDomainFilters.length > 0 && /* @__PURE__ */ jsx70(Box26, { sx: styles_default29.tagGroup, children: resolvedDomainFilters.map((filter) => /* @__PURE__ */ jsx70(tag_default, { sx: styles_default29.tag, color: "Gray", children: filter }, `domain-${filter}`)) }),
-      !hasStructuredTags && fallbackTags.map((moduleTag) => /* @__PURE__ */ jsx70(tag_default, { sx: styles_default29.tag, color: "Gray", children: moduleTag }, `tags-${moduleTag}`))
+  return /* @__PURE__ */ jsx70(Link11, { href: cardHref, sx: styles_default30.devportalContainer, children: /* @__PURE__ */ jsxs56(Box26, { children: [
+    /* @__PURE__ */ jsx70(Text20, { sx: styles_default30.title, className: "title", children: title7 }),
+    description6 ? /* @__PURE__ */ jsx70(Text20, { sx: styles_default30.description, className: "description", children: description6 }) : null,
+    /* @__PURE__ */ jsxs56(Box26, { sx: styles_default30.tagsContainer, children: [
+      resolvedSymptomFilters.length > 0 && /* @__PURE__ */ jsx70(Box26, { sx: styles_default30.tagGroup, children: resolvedSymptomFilters.map((filter) => /* @__PURE__ */ jsx70(tag_default, { sx: styles_default30.tag, color: "Blue", children: filter }, `symptom-${filter}`)) }),
+      resolvedDomainFilters.length > 0 && /* @__PURE__ */ jsx70(Box26, { sx: styles_default30.tagGroup, children: resolvedDomainFilters.map((filter) => /* @__PURE__ */ jsx70(tag_default, { sx: styles_default30.tag, color: "Gray", children: filter }, `domain-${filter}`)) }),
+      !hasStructuredTags && fallbackTags.map((moduleTag) => /* @__PURE__ */ jsx70(tag_default, { sx: styles_default30.tag, color: "Gray", children: moduleTag }, `tags-${moduleTag}`))
     ] })
   ] }) });
 };

@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router.js'
-import React, { Fragment, useContext } from 'react'
+import React, { Fragment, useContext, useEffect } from 'react'
 import {
   Box,
   Flex,
@@ -24,6 +24,8 @@ export interface SidebarElement {
   method?: MethodType
   endpoint?: string
   children: SidebarElement[]
+  /** When true, the category starts expanded instead of collapsed. */
+  defaultOpen?: boolean
 }
 
 export interface SidebarProps {
@@ -38,10 +40,20 @@ const SidebarElements = ({ slugPrefix, items, subItemLevel }: SidebarProps) => {
     activeSidebarElement,
     sidebarElementStatus,
     toggleSidebarElementStatus,
+    openSidebarElement,
     sidebarDataMaster,
     locale,
   } = useContext(LibraryContext)
   const router = useRouter()
+
+  useEffect(() => {
+    items?.forEach((item) => {
+      const slug = typeof item.slug === 'string' ? item.slug : item.slug[locale]
+      if (item.defaultOpen && !sidebarElementStatus.has(slug)) {
+        openSidebarElement(slug)
+      }
+    })
+  }, [items])
 
   const handleClick = (
     e: { preventDefault: () => void },
