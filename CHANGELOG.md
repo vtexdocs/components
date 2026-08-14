@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [6.2.1](https://github.com/vtexdocs/components/compare/v6.2.0...v6.2.1) (2026-08-14)
+
+
+### Features
+
+* added `defaultOpen` property to `SidebarElement` interface to control initial expansion state ([5a55934](https://github.com/vtexdocs/components/commit/5a55934d924d3fe8bd370f957717fcdd9707c729))
+* close sidebar on mobile ([76dfb43](https://github.com/vtexdocs/components/commit/76dfb4352bf525b577f87e099588b86577b8ab27))
+
+
+### Bug Fixes
+
+* ensure defaultOpen is always open ([2369359](https://github.com/vtexdocs/components/commit/23693591d9ae610468889b0f23c5e6845c627568))
+
 ## [6.2.0](https://github.com/vtexdocs/components/compare/v6.1.3...v6.2.0) (2026-07-14)
 
 
