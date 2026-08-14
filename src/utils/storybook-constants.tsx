@@ -6,6 +6,7 @@ import { serialize } from 'next-mdx-remote/serialize'
 export const sections = [
   [
     {
+      id: 'Guides',
       Icon: APIGuidesIcon,
       title: 'Guides',
       description: 'Guides description',
@@ -14,6 +15,7 @@ export const sections = [
   ],
   [
     {
+      id: 'Reference',
       Icon: APIReferenceIcon,
       title: 'Reference',
       description: 'Reference description',
@@ -25,6 +27,7 @@ export const sections = [
 export const hamburguerSections = [
   [
     {
+      id: 'Guides',
       Icon: APIGuidesIcon,
       title: 'Guides',
       description: 'Guides description',
@@ -33,6 +36,7 @@ export const hamburguerSections = [
   ],
   [
     {
+      id: 'Reference',
       Icon: APIReferenceIcon,
       title: 'Reference',
       description: 'Reference description',
@@ -44,6 +48,7 @@ export const hamburguerSections = [
 export const navigationLocale = [
   {
     documentation: 'Guides',
+    name: { en: 'Guides', es: 'Guías', pt: 'Guias' },
     slugPrefix: 'docs/guides',
     categories: [
       {
@@ -55,6 +60,7 @@ export const navigationLocale = [
         slug: 'getting-started',
         origin: '',
         type: 'markdown',
+        defaultOpen: true,
         children: [
           {
             name: {
@@ -73,6 +79,7 @@ export const navigationLocale = [
   },
   {
     documentation: 'Reference',
+    name: { en: 'Reference', es: 'Referencia', pt: 'Referência' },
     slugPrefix: 'docs/reference',
     categories: [],
   },
@@ -81,6 +88,7 @@ export const navigationLocale = [
 export const navigation = [
   {
     documentation: 'Guides',
+    name: 'Guides',
     slugPrefix: 'docs/guides',
     categories: [
       {
@@ -180,6 +188,7 @@ export const navigation = [
                 slug: 'faststore/atoms',
                 origin: '',
                 type: 'category',
+                defaultOpen: true,
                 children: [
                   {
                     name: 'Badge',
@@ -697,6 +706,7 @@ export const navigation = [
   },
   {
     documentation: 'Reference',
+    name: 'Reference',
     slugPrefix: 'docs/reference',
     categories: [],
   },
@@ -717,6 +727,7 @@ export const exampleContextPropsLocale = {
   isPreview: false,
   sectionSelected: '',
   fallback: navigationLocale,
+  hamburguerMenuSections: hamburguerSections,
   locale,
 }
 

@@ -35,13 +35,14 @@ export type ContextType = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   sidebarDataMaster: any
   sidebarElementStatus: Map<string, boolean>
+  manuallyToggledSlugs: Set<string>
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   setSidebarDataMaster: Dispatch<SetStateAction<any>>
   setIsEditorPreview: Dispatch<SetStateAction<boolean>>
   setSidebarSectionHidden: Dispatch<SetStateAction<boolean>>
   setActiveSectionName: Dispatch<SetStateAction<string>>
   setActiveSidebarElement: Dispatch<SetStateAction<string>>
-  toggleSidebarElementStatus: (title: string) => void
+  toggleSidebarElementStatus: (title: string, currentlyOpen?: boolean) => void
   openSidebarElement: (title: string) => void
   closeSidebarElements: (parentsArray: string[]) => void
   sidebarSections: Section[][]
@@ -73,6 +74,7 @@ export const LibraryContext = createContext<ContextType>({
   sidebarDataMaster: {},
   setIsEditorPreview: () => undefined,
   sidebarElementStatus: new Map(),
+  manuallyToggledSlugs: new Set(),
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
   setSidebarDataMaster: (_: any) => undefined,
   setSidebarSectionHidden: () => undefined,
@@ -103,6 +105,9 @@ const LibraryContextProvider = ({ children, ...props }: Props) => {
   const [sidebarSectionHidden, setSidebarSectionHidden] = useState(false)
   const [activeSidebarElement, setActiveSidebarElement] = useState('')
   const [sidebarElementStatus, setSidebarElementStatus] = useState(new Map())
+  const [manuallyToggledSlugs, setManuallyToggledSlugs] = useState(
+    new Set<string>()
+  )
   const [sidebarDataMaster, setSidebarDataMaster] = useState(props.fallback)
   const [isEditorPreview, setIsEditorPreview] = useState(props.isPreview)
   const [sidebarSections, setSidebarSections] = useState(props.sections)
@@ -123,12 +128,17 @@ const LibraryContextProvider = ({ children, ...props }: Props) => {
       setActiveSectionName(props.sectionSelected)
   }, [props.sectionSelected])
 
-  const toggleSidebarElementStatus = (title: string) => {
+  const toggleSidebarElementStatus = (
+    title: string,
+    currentlyOpen?: boolean
+  ) => {
+    setManuallyToggledSlugs((manuallyToggledSlugs) =>
+      new Set(manuallyToggledSlugs).add(title)
+    )
     setSidebarElementStatus((sidebarElementStatus) => {
-      const open =
-        sidebarElementStatus.has(title) === false
-          ? true
-          : !sidebarElementStatus.get(title)
+      const open = sidebarElementStatus.has(title)
+        ? !sidebarElementStatus.get(title)
+        : !currentlyOpen
 
       return new Map(sidebarElementStatus.set(title, open))
     })
@@ -199,6 +209,7 @@ const LibraryContextProvider = ({ children, ...props }: Props) => {
         activeSectionName,
         activeSidebarElement,
         sidebarElementStatus,
+        manuallyToggledSlugs,
         setActiveSectionName,
         setSidebarSectionHidden,
         setActiveSidebarElement,

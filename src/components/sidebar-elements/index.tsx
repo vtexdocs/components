@@ -24,6 +24,8 @@ export interface SidebarElement {
   method?: MethodType
   endpoint?: string
   children: SidebarElement[]
+  /** When true, the category starts expanded instead of collapsed. */
+  defaultOpen?: boolean
 }
 
 export interface SidebarProps {
@@ -37,11 +39,17 @@ const SidebarElements = ({ slugPrefix, items, subItemLevel }: SidebarProps) => {
     isEditorPreview,
     activeSidebarElement,
     sidebarElementStatus,
+    manuallyToggledSlugs,
     toggleSidebarElementStatus,
     sidebarDataMaster,
     locale,
   } = useContext(LibraryContext)
   const router = useRouter()
+
+  const isElementOpen = (slug: string, defaultOpen?: boolean) => {
+    if (manuallyToggledSlugs.has(slug)) return !!sidebarElementStatus.get(slug)
+    return sidebarElementStatus.get(slug) === true || !!defaultOpen
+  }
 
   const handleClick = (
     e: { preventDefault: () => void },
@@ -111,10 +119,12 @@ const SidebarElements = ({ slugPrefix, items, subItemLevel }: SidebarProps) => {
     method,
     endpoint,
     children,
+    defaultOpen,
   }: SidebarElement) => {
     const localizedName: string = typeof name === 'string' ? name : name[locale]
     const localizedSlug: string = typeof slug === 'string' ? slug : slug[locale]
     const isExpandable = children.length > 0
+    const isOpen = isElementOpen(localizedSlug, defaultOpen)
     const pathSuffix = method ? `#${method.toLowerCase()}-${endpoint}` : ''
     const activeItem = method ? `${localizedSlug}${pathSuffix}` : localizedSlug
     return (
@@ -122,32 +132,14 @@ const SidebarElements = ({ slugPrefix, items, subItemLevel }: SidebarProps) => {
         <Flex sx={styleByLevelNormal(subItemLevel, isExpandable || false)}>
           {isExpandable && (
             <Button
-              aria-label={
-                sidebarElementStatus.has(localizedSlug) &&
-                sidebarElementStatus.get(localizedSlug)
-                  ? 'Collapse category'
-                  : 'Expand category'
-              }
+              aria-label={isOpen ? 'Collapse category' : 'Expand category'}
               size="regular"
               variant="tertiary"
-              sx={
-                sidebarElementStatus.has(localizedSlug) &&
-                sidebarElementStatus.get(localizedSlug)
-                  ? styles.arrowIconActive
-                  : styles.arrowIcon
-              }
+              sx={isOpen ? styles.arrowIconActive : styles.arrowIcon}
               icon={() => (
-                <IconCaret
-                  direction={
-                    sidebarElementStatus.has(localizedSlug) &&
-                    sidebarElementStatus.get(localizedSlug)
-                      ? 'down'
-                      : 'right'
-                  }
-                  size={24}
-                />
+                <IconCaret direction={isOpen ? 'down' : 'right'} size={24} />
               )}
-              onClick={() => toggleSidebarElementStatus(localizedSlug)}
+              onClick={() => toggleSidebarElementStatus(localizedSlug, isOpen)}
             />
           )}
           {!checkDocumentationType(
@@ -194,7 +186,7 @@ const SidebarElements = ({ slugPrefix, items, subItemLevel }: SidebarProps) => {
                 isExpandable
               )}
               onClick={() => {
-                toggleSidebarElementStatus(localizedSlug)
+                toggleSidebarElementStatus(localizedSlug, isOpen)
               }}
             >
               {method && (
@@ -213,15 +205,13 @@ const SidebarElements = ({ slugPrefix, items, subItemLevel }: SidebarProps) => {
     )
   }
 
-  const ElementChildren = ({ slug, children }: SidebarElement) => {
+  const ElementChildren = ({ slug, children, defaultOpen }: SidebarElement) => {
     const isExpandable = children.length > 0
     // const newPathPrefix =
     //   slugPrefix === 'api-reference' ? `/api-reference/${slug}` : slugPrefix
 
     const localizedSlug: string = typeof slug === 'string' ? slug : slug[locale]
-    return isExpandable &&
-      sidebarElementStatus.has(localizedSlug) &&
-      sidebarElementStatus.get(localizedSlug) ? (
+    return isExpandable && isElementOpen(localizedSlug, defaultOpen) ? (
       <Box>
         <SidebarElements
           slugPrefix={slugPrefix}

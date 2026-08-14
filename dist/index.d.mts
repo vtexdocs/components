@@ -204,12 +204,13 @@ type ContextType = {
     activeSidebarElement: string;
     sidebarDataMaster: any;
     sidebarElementStatus: Map<string, boolean>;
+    manuallyToggledSlugs: Set<string>;
     setSidebarDataMaster: Dispatch<SetStateAction<any>>;
     setIsEditorPreview: Dispatch<SetStateAction<boolean>>;
     setSidebarSectionHidden: Dispatch<SetStateAction<boolean>>;
     setActiveSectionName: Dispatch<SetStateAction<string>>;
     setActiveSidebarElement: Dispatch<SetStateAction<string>>;
-    toggleSidebarElementStatus: (title: string) => void;
+    toggleSidebarElementStatus: (title: string, currentlyOpen?: boolean) => void;
     openSidebarElement: (title: string) => void;
     closeSidebarElements: (parentsArray: string[]) => void;
     sidebarSections: Section[][];
