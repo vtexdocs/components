@@ -7,7 +7,8 @@ import {
 } from '@vtex/brand-ui'
 import styles from './styles'
 
-import { useContext } from 'react'
+import { useContext, useEffect, useRef } from 'react'
+import { useRouter } from 'next/router.js'
 import DocumentationCard from 'components/documentation-card'
 import SidebarSection, { SidebarSectionProps } from 'components/sidebar-section'
 import { updateOpenPage } from 'utils/sidebar-utils'
@@ -21,6 +22,8 @@ export interface HamburgerMenuProps {
 
 /** Hamburger Menu component, the menu uses the sidebar components internally, but it is only visible on the smaller breakpoints. */
 const HamburgerMenu = ({ parentsArray = [] }: HamburgerMenuProps) => {
+  const router = useRouter()
+  const hamburgerRef = useRef<HTMLDivElement>(null)
   const context = useContext(LibraryContext)
   const {
     sidebarDataMaster,
@@ -30,6 +33,23 @@ const HamburgerMenu = ({ parentsArray = [] }: HamburgerMenuProps) => {
     setSidebarSectionHidden,
     hamburguerSections,
   } = context
+
+  useEffect(() => {
+    const closeMenu = () => {
+      const toggleButton = hamburgerRef.current?.querySelector<HTMLElement>(
+        '[aria-expanded="true"]'
+      )
+      toggleButton?.click()
+    }
+
+    router.events?.on('routeChangeStart', closeMenu)
+    router.events?.on('hashChangeStart', closeMenu)
+
+    return () => {
+      router.events?.off('routeChangeStart', closeMenu)
+      router.events?.off('hashChangeStart', closeMenu)
+    }
+  }, [router.events])
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const isDocument = (sections: any, documentID: string) => {
@@ -46,8 +66,9 @@ const HamburgerMenu = ({ parentsArray = [] }: HamburgerMenuProps) => {
 
   return (
     <Header.ActionButton>
-      <VtexHamburgerMenu sx={styles.hamburgerContainer}>
-        <VtexHamburgerMenu.Menu sx={styles.innerHambugerContainer}>
+      <Box ref={hamburgerRef} sx={{ display: 'contents' }}>
+        <VtexHamburgerMenu sx={styles.hamburgerContainer}>
+          <VtexHamburgerMenu.Menu sx={styles.innerHambugerContainer}>
           <Box sx={styles.menuContainer}>
             <Box sx={styles.cardContainer}>
               <Box sx={styles.hamburgerSearchContainer}>
@@ -108,8 +129,9 @@ const HamburgerMenu = ({ parentsArray = [] }: HamburgerMenuProps) => {
               ) : null}
             </Box>
           </Box>
-        </VtexHamburgerMenu.Menu>
-      </VtexHamburgerMenu>
+          </VtexHamburgerMenu.Menu>
+        </VtexHamburgerMenu>
+      </Box>
     </Header.ActionButton>
   )
 }

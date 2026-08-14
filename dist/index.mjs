@@ -8660,7 +8660,8 @@ var styles_default13 = {
 };
 
 // src/lib/hamburger-menu/index.tsx
-import { useContext as useContext10 } from "react";
+import { useContext as useContext10, useEffect as useEffect10, useRef as useRef8 } from "react";
+import { useRouter as useRouter6 } from "next/router.js";
 
 // src/components/documentation-card/index.tsx
 import Link6 from "next/link.js";
@@ -10414,6 +10415,8 @@ function SearchInput() {
 // src/lib/hamburger-menu/index.tsx
 import { jsx as jsx40, jsxs as jsxs33 } from "react/jsx-runtime";
 var HamburgerMenu = ({ parentsArray = [] }) => {
+  const router = useRouter6();
+  const hamburgerRef = useRef8(null);
   const context = useContext10(LibraryContext);
   const {
     sidebarDataMaster,
@@ -10423,6 +10426,20 @@ var HamburgerMenu = ({ parentsArray = [] }) => {
     setSidebarSectionHidden,
     hamburguerSections
   } = context;
+  useEffect10(() => {
+    const closeMenu = () => {
+      const toggleButton = hamburgerRef.current?.querySelector(
+        '[aria-expanded="true"]'
+      );
+      toggleButton?.click();
+    };
+    router.events?.on("routeChangeStart", closeMenu);
+    router.events?.on("hashChangeStart", closeMenu);
+    return () => {
+      router.events?.off("routeChangeStart", closeMenu);
+      router.events?.off("hashChangeStart", closeMenu);
+    };
+  }, [router.events]);
   const isDocument = (sections, documentID) => {
     let isDoc = false;
     if (Array.isArray(sections)) {
@@ -10431,7 +10448,7 @@ var HamburgerMenu = ({ parentsArray = [] }) => {
     return isDoc;
   };
   updateOpenPage({ parentsArray, context });
-  return /* @__PURE__ */ jsx40(Header.ActionButton, { children: /* @__PURE__ */ jsx40(VtexHamburgerMenu, { sx: styles_default13.hamburgerContainer, children: /* @__PURE__ */ jsx40(VtexHamburgerMenu.Menu, { sx: styles_default13.innerHambugerContainer, children: /* @__PURE__ */ jsxs33(Box16, { sx: styles_default13.menuContainer, children: [
+  return /* @__PURE__ */ jsx40(Header.ActionButton, { children: /* @__PURE__ */ jsx40(Box16, { ref: hamburgerRef, sx: { display: "contents" }, children: /* @__PURE__ */ jsx40(VtexHamburgerMenu, { sx: styles_default13.hamburgerContainer, children: /* @__PURE__ */ jsx40(VtexHamburgerMenu.Menu, { sx: styles_default13.innerHambugerContainer, children: /* @__PURE__ */ jsxs33(Box16, { sx: styles_default13.menuContainer, children: [
     /* @__PURE__ */ jsxs33(Box16, { sx: styles_default13.cardContainer, children: [
       /* @__PURE__ */ jsx40(Box16, { sx: styles_default13.hamburgerSearchContainer, children: /* @__PURE__ */ jsx40(SearchInput, {}) }),
       hamburguerSections.map((section, id) => /* @__PURE__ */ jsx40(
@@ -10476,7 +10493,7 @@ var HamburgerMenu = ({ parentsArray = [] }) => {
         ) : null
       }
     )
-  ] }) }) }) });
+  ] }) }) }) }) });
 };
 var hamburger_menu_default = HamburgerMenu;
 
@@ -10601,7 +10618,7 @@ var LikeSelectedIcon = (props) => /* @__PURE__ */ jsxs36(
 var like_selected_icon_default = LikeSelectedIcon;
 
 // src/lib/feedback-section/index.tsx
-import { useContext as useContext11, useEffect as useEffect10, useState as useState11 } from "react";
+import { useContext as useContext11, useEffect as useEffect11, useState as useState11 } from "react";
 
 // src/lib/feedback-section/styles.ts
 var container5 = ({ small } = {}) => ({
@@ -10789,7 +10806,7 @@ var TwitterIcon = (props) => /* @__PURE__ */ jsx47(
 var twitter_icon_default = TwitterIcon;
 
 // src/components/share-button/index.tsx
-import { useRef as useRef8, useState as useState10 } from "react";
+import { useRef as useRef9, useState as useState10 } from "react";
 import {
   FacebookShareButton,
   LinkedinShareButton,
@@ -10927,7 +10944,7 @@ var link_icon_default = LinkIcon;
 import { jsx as jsx50, jsxs as jsxs39 } from "react/jsx-runtime";
 var ShareButton = ({ url, sx = {} }) => {
   const [isOpen, setIsOpen] = useState10(false);
-  const containerRef = useRef8();
+  const containerRef = useRef9();
   useClickOutside(containerRef, () => setIsOpen(false));
   const handleCopyLink = async () => {
     try {
@@ -10989,7 +11006,7 @@ var FeedbackSection = ({
 }) => {
   const [feedback, setFeedback] = useState11(void 0);
   const { locale } = useContext11(LibraryContext);
-  useEffect10(() => {
+  useEffect11(() => {
     setFeedback(void 0);
   }, [slug]);
   const handleSend = async (liked) => {
@@ -11068,7 +11085,7 @@ import { Box as Box19 } from "@vtex/brand-ui";
 
 // src/components/search-section/index.tsx
 import { Box as Box18, Flex as Flex17, Text as Text12 } from "@vtex/brand-ui";
-import { useContext as useContext12, useEffect as useEffect11 } from "react";
+import { useContext as useContext12, useEffect as useEffect12 } from "react";
 
 // src/components/search-section/styles.ts
 var sectionContainer = (disabled2 = false) => ({
@@ -11139,7 +11156,7 @@ var styles_default18 = {
 };
 
 // src/components/search-section/index.tsx
-import { useRouter as useRouter6 } from "next/router.js";
+import { useRouter as useRouter7 } from "next/router.js";
 
 // src/utils/context/search.tsx
 import {
@@ -11177,14 +11194,14 @@ var search_default = SearchContextProvider;
 // src/components/search-section/index.tsx
 import { jsx as jsx53, jsxs as jsxs41 } from "react/jsx-runtime";
 var SearchSection = ({ dataElement, index }) => {
-  const router = useRouter6();
+  const router = useRouter7();
   const { filterSelectedSection, ocurrenceCount, changeFilterSelectedSection } = useContext12(SearchContext);
   const { locale } = useContext12(LibraryContext);
   const updateFilter = (value) => {
     router.query.filter = value;
     changeFilterSelectedSection(value);
   };
-  useEffect11(() => {
+  useEffect12(() => {
     updateFilter("");
   }, [router.query]);
   const allCountLabel = formatSearchTabCount(ocurrenceCount[""]);
@@ -11288,13 +11305,13 @@ var SearchSections = () => {
 var search_sections_default = SearchSections;
 
 // src/components/search-results/index.tsx
-import { useRouter as useRouter7 } from "next/router.js";
-import { useContext as useContext16, useEffect as useEffect13, useState as useState14 } from "react";
+import { useRouter as useRouter8 } from "next/router.js";
+import { useContext as useContext16, useEffect as useEffect14, useState as useState14 } from "react";
 import { Box as Box22, Text as Text14 } from "@vtex/brand-ui";
 import { Configure as Configure2, InstantSearch as InstantSearch2 } from "react-instantsearch-dom";
 
 // src/components/search-results/infiniteHits.tsx
-import { useContext as useContext15, useEffect as useEffect12, useMemo as useMemo2, useRef as useRef10 } from "react";
+import { useContext as useContext15, useEffect as useEffect13, useMemo as useMemo2, useRef as useRef11 } from "react";
 import {
   connectInfiniteHits,
   connectStateResults as connectStateResults2
@@ -11608,7 +11625,7 @@ var HitCard = ({ hit }) => {
 var StateResults = connectStateResults2(
   ({ searchResults }) => {
     const { updateOcurrenceCount } = useContext15(SearchContext);
-    useEffect12(() => {
+    useEffect13(() => {
       if (!searchResults)
         return;
       const results = searchResults;
@@ -11649,7 +11666,7 @@ var StateResults = connectStateResults2(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 );
 var InfiniteHits = ({ hits, hasMore, refineNext }) => {
-  const scrollRef = useRef10(null);
+  const scrollRef = useRef11(null);
   function onSentinelIntersection(entries) {
     entries.forEach((entry) => {
       if (entry.isIntersecting && hasMore) {
@@ -11671,7 +11688,7 @@ var InfiniteHits = ({ hits, hasMore, refineNext }) => {
     });
     return mergeHits;
   }, [hits]);
-  useEffect12(() => {
+  useEffect13(() => {
     const observer = new IntersectionObserver(onSentinelIntersection, {});
     if (scrollRef.current)
       observer.observe(scrollRef.current);
@@ -11750,7 +11767,7 @@ var styles_default21 = {
 // src/components/search-results/index.tsx
 import { jsx as jsx58, jsxs as jsxs46 } from "react/jsx-runtime";
 var SearchResults = () => {
-  const router = useRouter7();
+  const router = useRouter8();
   const { filterSelectedSection, ocurrenceCount } = useContext16(SearchContext);
   const { locale } = useContext16(LibraryContext);
   const filters = [
@@ -11761,7 +11778,7 @@ var SearchResults = () => {
   const [prevFilter, setPrevFilter] = useState14("");
   const [prevKeyword, setPrevKeyword] = useState14(keyword);
   const [searchState, setSearchState] = useState14({});
-  useEffect13(() => {
+  useEffect14(() => {
     if (!keyword || keyword === prevKeyword)
       return;
     setPrevKeyword(keyword);
@@ -12123,7 +12140,7 @@ var CopyLinkButton = () => {
 var copy_link_button_default = CopyLinkButton;
 
 // src/components/input/index.tsx
-import { useState as useState16, useEffect as useEffect14 } from "react";
+import { useState as useState16, useEffect as useEffect15 } from "react";
 
 // src/components/input/styles.ts
 var input = {
@@ -12166,7 +12183,7 @@ import { Flex as Flex23 } from "@vtex/brand-ui";
 import { jsx as jsx64, jsxs as jsxs51 } from "react/jsx-runtime";
 var Input = ({ value, onChange, placeholder = "", Icon: Icon68 }) => {
   const [inputValue, setInputValue] = useState16(value ?? "");
-  useEffect14(() => {
+  useEffect15(() => {
     if (inputValue !== value)
       setInputValue(value);
   }, [value]);
