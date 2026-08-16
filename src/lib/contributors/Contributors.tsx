@@ -1,6 +1,5 @@
 import { useContext, useEffect, useRef, useState } from 'react'
 import { Box, Flex, Grid, IconCaret, Text } from '@vtex/brand-ui'
-import NextImage from 'next/image.js'
 
 import Tooltip from 'components/tooltip'
 import { LibraryContext } from 'utils/context/libraryContext'
@@ -8,9 +7,6 @@ import { messages } from 'utils/get-message'
 
 import styles from './styles'
 import { ContributorsProps } from './Contributors.types'
-
-const Image =
-  (NextImage as unknown as { default?: typeof NextImage }).default ?? NextImage
 
 /** List of GitHub contributors for a documentation page. */
 const Contributors = ({ contributors }: ContributorsProps) => {
@@ -69,7 +65,8 @@ const Contributors = ({ contributors }: ContributorsProps) => {
           <Box sx={styles.photo} key={contributor.login}>
             <a href={contributor.userPage}>
               <Tooltip label={contributor.name}>
-                <Image
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
                   src={contributor.avatar}
                   alt={messages[locale]['contributors.photo_alt'].replace(
                     '{name}',

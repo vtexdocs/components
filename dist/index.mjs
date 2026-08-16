@@ -6211,9 +6211,8 @@ var styles_default4 = {
 };
 
 // src/components/whats-next-card/index.tsx
-import NextImage from "next/image.js";
+import Image from "next/image.js";
 import { jsx as jsx7, jsxs as jsxs5 } from "react/jsx-runtime";
-var Image = NextImage.default ?? NextImage;
 var WhatsNextCard = ({
   title: title9,
   description: description6,
@@ -7187,7 +7186,6 @@ var OnThisPage_default = OnThisPage;
 // src/lib/contributors/Contributors.tsx
 import { useContext as useContext4, useEffect as useEffect7, useRef as useRef4, useState as useState6 } from "react";
 import { Box as Box10, Flex as Flex7, Grid, IconCaret as IconCaret2, Text as Text4 } from "@vtex/brand-ui";
-import NextImage2 from "next/image.js";
 
 // src/components/tooltip/index.tsx
 import { useEffect as useEffect6, useRef as useRef3, useState as useState5 } from "react";
@@ -7439,7 +7437,6 @@ var styles_default9 = {
 
 // src/lib/contributors/Contributors.tsx
 import { jsx as jsx16, jsxs as jsxs11 } from "react/jsx-runtime";
-var Image2 = NextImage2.default ?? NextImage2;
 var Contributors = ({ contributors }) => {
   const { locale } = useContext4(LibraryContext);
   const [showAll, setShowAll] = useState6(false);
@@ -7480,7 +7477,7 @@ var Contributors = ({ contributors }) => {
         ref: photosContainer2,
         "data-cy": "contributors-container",
         children: contributors.map((contributor) => /* @__PURE__ */ jsx16(Box10, { sx: styles_default9.photo, children: /* @__PURE__ */ jsx16("a", { href: contributor.userPage, children: /* @__PURE__ */ jsx16(tooltip_default, { label: contributor.name, children: /* @__PURE__ */ jsx16(
-          Image2,
+          "img",
           {
             src: contributor.avatar,
             alt: messages[locale]["contributors.photo_alt"].replace(
