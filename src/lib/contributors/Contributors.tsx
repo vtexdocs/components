@@ -1,6 +1,6 @@
 import { useContext, useEffect, useRef, useState } from 'react'
 import { Box, Flex, Grid, IconCaret, Text } from '@vtex/brand-ui'
-import Image from 'next/image.js'
+import NextImage from 'next/image.js'
 
 import Tooltip from 'components/tooltip'
 import { LibraryContext } from 'utils/context/libraryContext'
@@ -8,6 +8,9 @@ import { messages } from 'utils/get-message'
 
 import styles from './styles'
 import { ContributorsProps } from './Contributors.types'
+
+const Image =
+  (NextImage as unknown as { default?: typeof NextImage }).default ?? NextImage
 
 /** List of GitHub contributors for a documentation page. */
 const Contributors = ({ contributors }: ContributorsProps) => {
