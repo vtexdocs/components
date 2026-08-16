@@ -76,7 +76,7 @@ const TableOfContents = ({ headingList, children }: Props) => {
     <Box sx={styles.itemsContainer} data-cy="table-of-contents">
       {headingItems.length > 0 && (
         <Text sx={styles.tocTitle}>
-          {messages[locale]['table_of_contents.title']}
+          {messages[locale]['on_this_page.title']}
         </Text>
       )}
       <Box sx={styles.headings}>

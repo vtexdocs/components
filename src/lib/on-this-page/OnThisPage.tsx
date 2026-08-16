@@ -25,7 +25,6 @@ const OnThisPage = ({ headingList }: OnThisPageProps) => {
         height={isOpen ? 'auto' : 0}
       >
         <Box sx={styles.contentContainer}>
-          <Text sx={styles.onThisPageTitle}>{title}</Text>
           <Box>
             <TableOfContents headingList={headingList} />
           </Box>

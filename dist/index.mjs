@@ -6517,7 +6517,6 @@ var en_default = {
   "subscription_list.error": "Sorry, we couldn't subscribe you. Please try again later.",
   "subscription_list.privacy_notice": "By subscribing to our newsletter, you agree to our",
   "subscription_list.privacy_policy_link": "Privacy Policy",
-  "table_of_contents.title": "On this page",
   "on_this_page.title": "On this page",
   "contributors.title": "Contributors",
   "contributors.toggle_less": "Show less",
@@ -6561,7 +6560,6 @@ var es_default = {
   "subscription_list.error": "Lo sentimos, no pudimos suscribirte. Por favor, int\xE9ntalo de nuevo m\xE1s tarde.",
   "subscription_list.privacy_notice": "Al suscribirte a nuestra newsletter, aceptas nuestro",
   "subscription_list.privacy_policy_link": "Aviso de privacidad",
-  "table_of_contents.title": "En esta p\xE1gina",
   "on_this_page.title": "En esta p\xE1gina",
   "contributors.title": "Contribuidores",
   "contributors.toggle_less": "Mostrar menos",
@@ -6605,7 +6603,6 @@ var pt_default = {
   "subscription_list.error": "Desculpe, n\xE3o foi poss\xEDvel realizar sua inscri\xE7\xE3o. Por favor, tente novamente mais tarde.",
   "subscription_list.privacy_notice": "Ao assinar nossa newsletter, voc\xEA concorda com a nossa",
   "subscription_list.privacy_policy_link": "Pol\xEDtica de Privacidade",
-  "table_of_contents.title": "Nesta p\xE1gina",
   "on_this_page.title": "Nesta p\xE1gina",
   "contributors.title": "Contribuidores",
   "contributors.toggle_less": "Ver menos",
@@ -6955,7 +6952,7 @@ var TableOfContents = ({ headingList, children }) => {
     );
   };
   return /* @__PURE__ */ jsxs7(Box7, { sx: styles_default6.itemsContainer, "data-cy": "table-of-contents", children: [
-    headingItems.length > 0 && /* @__PURE__ */ jsx11(Text2, { sx: styles_default6.tocTitle, children: messages[locale]["table_of_contents.title"] }),
+    headingItems.length > 0 && /* @__PURE__ */ jsx11(Text2, { sx: styles_default6.tocTitle, children: messages[locale]["on_this_page.title"] }),
     /* @__PURE__ */ jsx11(Box7, { sx: styles_default6.headings, children: headingItems.map((item2) => /* @__PURE__ */ jsxs7(Box7, { children: [
       /* @__PURE__ */ jsx11(
         Item,
@@ -7136,7 +7133,7 @@ var title2 = (open) => ({
   padding: open ? "0px" : "8px",
   overflow: "hidden",
   whiteSpace: "nowrap",
-  width: open ? "0px" : "84px",
+  width: open ? "0px" : "min-width",
   transition: "all 0.3s ease-in-out",
   transitionDelay: open ? "0s" : "0.3s"
 });
@@ -7162,10 +7159,7 @@ var OnThisPage = ({ headingList }) => {
         duration: 300,
         delay: isOpen ? 300 : 0,
         height: isOpen ? "auto" : 0,
-        children: /* @__PURE__ */ jsxs9(Box8, { sx: styles_default7.contentContainer, children: [
-          /* @__PURE__ */ jsx13(Text3, { sx: styles_default7.onThisPageTitle, children: title9 }),
-          /* @__PURE__ */ jsx13(Box8, { children: /* @__PURE__ */ jsx13(TableOfContents_default, { headingList }) })
-        ] })
+        children: /* @__PURE__ */ jsx13(Box8, { sx: styles_default7.contentContainer, children: /* @__PURE__ */ jsx13(Box8, { children: /* @__PURE__ */ jsx13(TableOfContents_default, { headingList }) }) })
       }
     ),
     /* @__PURE__ */ jsxs9(

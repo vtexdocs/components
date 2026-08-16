@@ -33,7 +33,6 @@ export type MessagesType = {
   'subscription_list.error': string
   'subscription_list.privacy_notice': string
   'subscription_list.privacy_policy_link': string
-  'table_of_contents.title': string
   'on_this_page.title': string
   'contributors.title': string
   'contributors.toggle_less': string

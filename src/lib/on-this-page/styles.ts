@@ -56,7 +56,7 @@ const title: (open: boolean) => SxStyleProp = (open) => ({
   padding: open ? '0px' : '8px',
   overflow: 'hidden',
   whiteSpace: 'nowrap',
-  width: open ? '0px' : '84px',
+  width: open ? '0px' : 'min-width',
   transition: 'all 0.3s ease-in-out',
   transitionDelay: open ? '0s' : '0.3s',
 })
