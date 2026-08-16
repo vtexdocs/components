@@ -1,5 +1,7 @@
 export { default as MarkdownRenderer } from './markdown-renderer'
 export { default as TableOfContents } from './table-of-contents'
+export { default as OnThisPage } from './on-this-page'
+export { default as Contributors } from './contributors'
 export { default as Sidebar } from './sidebar'
 export { default as HamburgerMenu } from './hamburger-menu'
 export { default as FeedbackSection } from './feedback-section'
@@ -15,6 +17,8 @@ export { default as Tag } from '../components/tag'
 export { default as ListingFilter } from '../components/listing-filter'
 export { default as TroubleshootingCard } from '../components/troubleshooting-card'
 export type { Item } from './table-of-contents'
+export type { OnThisPageProps } from './on-this-page'
+export type { ContributorsType, ContributorsProps } from './contributors'
 export type { TagColor, TagProps } from '../components/tag'
 export type {
   FilterGroup,

@@ -1,13 +1,12 @@
 import type { ComponentProps } from 'react'
 import type { Meta, StoryObj } from '@storybook/react'
-import TableOfContents from './index'
+import OnThisPage from './index'
 import LibraryContextProvider from 'utils/context/libraryContext'
 import { exampleContextProps } from 'utils/storybook-constants'
 import { ThemeProvider } from '@vtex/brand-ui'
-import FeedbackSection from 'lib/feedback-section'
-import { Item } from './TableOfContents.types'
+import { Item } from 'lib/table-of-contents/TableOfContents.types'
 
-type TableOfContentsStoryArgs = ComponentProps<typeof TableOfContents> & {
+type OnThisPageStoryArgs = ComponentProps<typeof OnThisPage> & {
   locale?: 'en' | 'pt' | 'es'
 }
 
@@ -32,25 +31,26 @@ const headingList: Item[] = [
   { title: 'Troubleshooting', slug: 'troubleshooting', children: [] },
 ]
 
-const feedback = (
-  <FeedbackSection sendFeedback={async () => alert('Send feedback')} small />
-)
-
 const meta = {
-  title: 'Example/TableOfContents',
-  component: TableOfContents,
+  title: 'Example/OnThisPage',
+  component: OnThisPage,
   tags: ['autodocs'],
+  parameters: {
+    layout: 'fullscreen',
+    viewport: {
+      defaultViewport: 'mobileSmall',
+    },
+  },
   argTypes: {
     locale: {
       control: 'select',
       options: ['en', 'pt', 'es'],
-      description: 'Language used for the table of contents title',
+      description: 'Language used for the on this page labels',
     },
   },
   args: {
     locale: 'en',
     headingList,
-    children: feedback,
   },
   decorators: [
     (Story, { args }) => (
@@ -59,27 +59,24 @@ const meta = {
           {...exampleContextProps}
           locale={args.locale ?? 'en'}
         >
-          <div style={{ maxWidth: 240, padding: 16 }}>
+          <div style={{ minHeight: '100vh', padding: 24 }}>
+            <p style={{ color: '#4A4A4A', maxWidth: 360 }}>
+              Mobile floating table of contents. Tap the control at the bottom
+              right to open it.
+            </p>
             <Story />
           </div>
         </LibraryContextProvider>
       </ThemeProvider>
     ),
   ],
-  render: ({ locale, ...args }) => <TableOfContents key={locale} {...args} />,
-} satisfies Meta<TableOfContentsStoryArgs>
+  render: ({ locale, ...args }) => <OnThisPage key={locale} {...args} />,
+} satisfies Meta<OnThisPageStoryArgs>
 
 export default meta
 type Story = StoryObj<typeof meta>
 
-/** Typical docs sidebar: headings plus the compact feedback section. */
-export const SimpleTableOfContents: Story = {}
-
-export const WithoutFeedback: Story = {
-  args: {
-    children: undefined,
-  },
-}
+export const SimpleOnThisPage: Story = {}
 
 export const FlatHeadings: Story = {
   args: {
@@ -88,6 +85,12 @@ export const FlatHeadings: Story = {
       { title: 'Prerequisites', slug: 'prerequisites', children: [] },
       { title: 'Next steps', slug: 'next-steps', children: [] },
     ],
+  },
+}
+
+export const Empty: Story = {
+  args: {
+    headingList: [],
   },
 }
 

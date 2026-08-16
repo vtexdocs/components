@@ -8,6 +8,7 @@ import { removeHTML } from 'utils/string-utils'
 import { Item } from './TableOfContents.types'
 
 import { LibraryContext } from 'utils/context/libraryContext'
+import { messages } from 'utils/get-message'
 
 import styles from './styles'
 
@@ -20,7 +21,7 @@ interface Props {
 /** Table of contents for documentation pages. */
 const TableOfContents = ({ headingList, children }: Props) => {
   const router = useRouter()
-  const { headingItems, activeItem, setHeadingItems, setActiveItem } =
+  const { headingItems, activeItem, setHeadingItems, setActiveItem, locale } =
     useContext(LibraryContext)
 
   useEffect(() => {
@@ -74,7 +75,9 @@ const TableOfContents = ({ headingList, children }: Props) => {
   return (
     <Box sx={styles.itemsContainer} data-cy="table-of-contents">
       {headingItems.length > 0 && (
-        <Text sx={styles.tocTitle}>ON THIS PAGE</Text>
+        <Text sx={styles.tocTitle}>
+          {messages[locale]['table_of_contents.title']}
+        </Text>
       )}
       <Box sx={styles.headings}>
         {headingItems.map((item) => (
