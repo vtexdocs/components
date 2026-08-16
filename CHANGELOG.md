@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [6.2.2](https://github.com/vtexdocs/components/compare/v6.2.1...v6.2.2) (2026-08-16)
+
+
+### Features
+
+* Contributors and OnThisPage ([3441072](https://github.com/vtexdocs/components/commit/3441072fb6a660cad73398f08ca49484139705bd))
+
+
+### Bug Fixes
+
+* image usage ([86ee45d](https://github.com/vtexdocs/components/commit/86ee45d0f1da6fa3e97bca88841e7c7a9c1c17ee))
+* update components ([9004d53](https://github.com/vtexdocs/components/commit/9004d5327375e135214717e1eb6a564fc3c45b8e))
+
 ### [6.2.1](https://github.com/vtexdocs/components/compare/v6.2.0...v6.2.1) (2026-08-14)
 
 
