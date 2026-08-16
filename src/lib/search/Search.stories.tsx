@@ -8,7 +8,10 @@ const meta = {
   title: 'Example/Search',
   component: Search,
   parameters: {
-    layout: 'centered',
+    layout: 'fullscreen',
+    viewport: {
+      defaultViewport: 'mobileSmall',
+    },
   },
   tags: ['autodocs'],
   decorators: [

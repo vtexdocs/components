@@ -32,5 +32,10 @@
   "subscription_list.success": "Você se inscreveu com sucesso!",
   "subscription_list.error": "Desculpe, não foi possível realizar sua inscrição. Por favor, tente novamente mais tarde.",
   "subscription_list.privacy_notice": "Ao assinar nossa newsletter, você concorda com a nossa",
-  "subscription_list.privacy_policy_link": "Política de Privacidade"
+  "subscription_list.privacy_policy_link": "Política de Privacidade",
+  "on_this_page.title": "Nesta página",
+  "contributors.title": "Contribuidores",
+  "contributors.toggle_less": "Ver menos",
+  "contributors.toggle_more": "+ {count} contribuidores",
+  "contributors.photo_alt": "Foto do contribuidor {name}"
 }

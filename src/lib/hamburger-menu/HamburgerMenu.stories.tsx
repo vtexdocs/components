@@ -8,6 +8,12 @@ const meta = {
   title: 'Example/HamburgerMenu',
   component: HamburgerMenu,
   tags: ['autodocs'],
+  parameters: {
+    layout: 'fullscreen',
+    viewport: {
+      defaultViewport: 'mobileSmall',
+    },
+  },
   decorators: [
     (Story) => (
       <ThemeProvider>

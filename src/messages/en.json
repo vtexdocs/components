@@ -32,5 +32,10 @@
   "subscription_list.success": "You've successfully subscribed!",
   "subscription_list.error": "Sorry, we couldn't subscribe you. Please try again later.",
   "subscription_list.privacy_notice": "By subscribing to our newsletter, you agree to our",
-  "subscription_list.privacy_policy_link": "Privacy Policy"
+  "subscription_list.privacy_policy_link": "Privacy Policy",
+  "on_this_page.title": "On this page",
+  "contributors.title": "Contributors",
+  "contributors.toggle_less": "Show less",
+  "contributors.toggle_more": "+ {count} contributors",
+  "contributors.photo_alt": "Photo of the contributor {name}"
 }

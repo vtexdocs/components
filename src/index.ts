@@ -1,6 +1,8 @@
 export {
   MarkdownRenderer,
   TableOfContents,
+  OnThisPage,
+  Contributors,
   Sidebar,
   HamburgerMenu,
   FeedbackSection,
@@ -17,6 +19,9 @@ export {
   filterTroubleshootingItems,
   collectTroubleshootingFilterOptions,
   type Item,
+  type OnThisPageProps,
+  type ContributorsType,
+  type ContributorsProps,
   type TagColor,
   type TagProps,
   type FilterGroup,
