@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [6.2.3](https://github.com/vtexdocs/components/compare/v6.2.2...v6.2.3) (2026-08-18)
+
+
+### Features
+
+* footer ([8e3a190](https://github.com/vtexdocs/components/commit/8e3a1902574a84f99053f6e704bc7deb8a32c967))
+
 ### [6.2.2](https://github.com/vtexdocs/components/compare/v6.2.1...v6.2.2) (2026-08-16)
 
 
