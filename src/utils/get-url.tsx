@@ -1,9 +1,14 @@
-export const getFeedbackURL = () => {
-  return `https://docs.google.com/forms/d/e/1FAIpQLSfmnotPvPjw-SjiE7lt2Nt3RQgNUe10ixXZmuO2v9enOJReoQ/viewform?entry.1972292648=developers.vtex.com&entry.1799503232=`
+export const getFeedbackURL = (currentUrl?: string) => {
+  const encodedUrl = currentUrl ? encodeURIComponent(currentUrl) : ''
+  return `https://docs.google.com/forms/d/e/1FAIpQLSfmnotPvPjw-SjiE7lt2Nt3RQgNUe10ixXZmuO2v9enOJReoQ/viewform?entry.1972292648=developers.vtex.com&entry.1799503232=${encodedUrl}`
 }
 
 export const getGithubURL = () => {
   return `https://github.com/vtex-apps`
+}
+
+export const getDeveloperPortalURL = () => {
+  return `https://developers.vtex.com/`
 }
 
 export const getHelpCenterURL = () => {
@@ -29,4 +34,24 @@ export const getNewsletterURL = (locale: 'en' | 'pt' | 'es' = 'en') => {
 export const getPrivacyNoticeURL = (locale: 'en' | 'pt' | 'es' = 'en') => {
   const localeMap = { en: 'us-en', pt: 'pt-br', es: 'es-mx' }
   return `https://vtex.com/${localeMap[locale]}/trust/general-external-privacy-notice/`
+}
+
+export const getLinkedinURL = () => {
+  return 'https://linkedin.com/company/vtex'
+}
+
+export const getFacebookURL = () => {
+  return 'https://www.facebook.com/vtexcommerce/'
+}
+
+export const getInstagramURL = () => {
+  return 'https://www.instagram.com/vtexbrasil/'
+}
+
+export const getYoutubeURL = () => {
+  return 'https://www.youtube.com/c/VTEX-Commerce/featured'
+}
+
+export const getTwitterURL = () => {
+  return 'https://twitter.com/vtexonline'
 }

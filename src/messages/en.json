@@ -37,5 +37,9 @@
   "contributors.title": "Contributors",
   "contributors.toggle_less": "Show less",
   "contributors.toggle_more": "+ {count} contributors",
-  "contributors.photo_alt": "Photo of the contributor {name}"
+  "contributors.photo_alt": "Photo of the contributor {name}",
+  "footer.github": "GitHub",
+  "footer.developer_portal": "Developer Portal",
+  "footer.community": "Community",
+  "footer.feedback": "Feedback"
 }

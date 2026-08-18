@@ -13,6 +13,7 @@ export {
   CopyLinkButton,
   Input,
   SubscriptionList,
+  Footer,
   Tag,
   ListingFilter,
   TroubleshootingCard,
@@ -33,6 +34,8 @@ export {
   type TroubleshootingCardVariant,
   type TroubleshootingItem,
   type TroubleshootingFilterState,
+  type FooterProps,
+  type FooterLink,
 } from './lib'
 
 /** @deprecated Use ListingFilter instead */
@@ -133,7 +136,4 @@ export {
 } from './components/icons'
 
 // Feedback Icons
-export {
-  LikeIcon,
-  LikeSelectedIcon,
-} from './components/icons'
+export { LikeIcon, LikeSelectedIcon } from './components/icons'
