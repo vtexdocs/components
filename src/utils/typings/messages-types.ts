@@ -38,4 +38,8 @@ export type MessagesType = {
   'contributors.toggle_less': string
   'contributors.toggle_more': string
   'contributors.photo_alt': string
+  'footer.github': string
+  'footer.developer_portal': string
+  'footer.community': string
+  'footer.feedback': string
 }

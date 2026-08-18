@@ -13,6 +13,7 @@ export { default as ShareButton } from '../components/share-button'
 export { default as CopyLinkButton } from '../components/copy-link-button'
 export { default as Input } from '../components/input'
 export { default as SubscriptionList } from '../components/subscription-list'
+export { default as Footer } from '../components/footer'
 export { default as Tag } from '../components/tag'
 export { default as ListingFilter } from '../components/listing-filter'
 export { default as TroubleshootingCard } from '../components/troubleshooting-card'
@@ -20,6 +21,7 @@ export type { Item } from './table-of-contents'
 export type { OnThisPageProps } from './on-this-page'
 export type { ContributorsType, ContributorsProps } from './contributors'
 export type { TagColor, TagProps } from '../components/tag'
+export type { FooterProps, FooterLink } from '../components/footer'
 export type {
   FilterGroup,
   FilterOption,
@@ -31,6 +33,9 @@ export type {
   TroubleshootingCardProps,
   TroubleshootingCardVariant,
 } from '../components/troubleshooting-card'
-export type { TroubleshootingItem, TroubleshootingFilterState } from '../utils/troubleshooting/types'
+export type {
+  TroubleshootingItem,
+  TroubleshootingFilterState,
+} from '../utils/troubleshooting/types'
 export { filterTroubleshootingItems } from '../utils/troubleshooting/filterItems'
 export { collectTroubleshootingFilterOptions } from '../utils/troubleshooting/collectFilterOptions'

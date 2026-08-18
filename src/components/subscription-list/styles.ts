@@ -26,26 +26,29 @@ const cardContainer: SxStyleProp = {
 }
 
 const title: SxStyleProp = {
-  fontSize: ['20px', '28px', '28px', '40px'],
-  lineHeight: ['30px', '38px', '38px', '50px'],
+  fontSize: ['22px', '26px', '28px', '32px'],
+  lineHeight: ['28px', '34px', '36px', '40px'],
   fontWeight: '400',
-  color: '#4A4A4A',
+  color: '#132032',
   textAlign: 'center',
+  letterSpacing: '-0.02em',
+  width: '100%',
 }
 
 const description: SxStyleProp = {
   fontSize: ['14px', '16px'],
-  lineHeight: ['20px', '22px'],
+  lineHeight: ['20px', '24px'],
   textAlign: 'center',
   marginBottom: '16px',
+  color: '#4A596B',
 }
 
 const inputContainer: SxStyleProp = {
   display: 'flex',
   flexDirection: ['column', 'row'],
-  gap: '5px',
+  gap: '8px',
   justifyContent: 'center',
-  alignItems: ['center', 'flex-end'],
+  alignItems: ['stretch', 'flex-end'],
   width: '100%',
 }
 
@@ -76,19 +79,19 @@ const button: SxStyleProp = {
   transition: 'all 0.3s ease-out',
   minHeight: controlHeight,
   height: controlHeight,
-  alignSelf: ['center', 'stretch'],
+  alignSelf: 'stretch',
   minWidth: '140px',
   whiteSpace: 'nowrap',
   px: '16px',
 }
 
 const privacyText: SxStyleProp = {
-  fontSize: ['14px', '16px'],
+  fontSize: '14px',
   color: '#A1A8B3',
-  lineHeight: ['16px', '22px'],
-  pl: ['22px', '32px'],
+  lineHeight: '20px',
   fontWeight: '400',
-  margin: '16px',
+  margin: '16px 0 0',
+  textAlign: 'center',
 }
 
 const popupCard: SxStyleProp = {
