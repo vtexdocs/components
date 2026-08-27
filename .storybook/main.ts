@@ -16,6 +16,13 @@ const config: StorybookConfig = {
   docs: {
     autodocs: 'tag',
   },
+  env: (config) => ({
+    ...config,
+    NEXT_PUBLIC_ALGOLIA_APP_ID: process.env.NEXT_PUBLIC_ALGOLIA_APP_ID || '',
+    NEXT_PUBLIC_ALGOLIA_SEARCH_KEY:
+      process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_KEY || '',
+    NEXT_PUBLIC_INDEX: process.env.NEXT_PUBLIC_INDEX || 'devportal-docs',
+  }),
   webpackFinal: async (config, { configType }) => {
     if (config.resolve)
       config.resolve.modules = [

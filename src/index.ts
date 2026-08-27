@@ -36,6 +36,7 @@ export {
   type TroubleshootingFilterState,
   type FooterProps,
   type FooterLink,
+  type FooterVariant,
 } from './lib'
 
 /** @deprecated Use ListingFilter instead */
