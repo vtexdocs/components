@@ -6,8 +6,15 @@ import { SearchContext } from 'utils/context/search'
 import { LibraryContext } from 'utils/context/libraryContext'
 import { messages } from 'utils/get-message'
 import { formatSearchTabCount } from 'utils/search-utils'
+import { getSectionLabel } from 'utils/sidebar-utils'
 
-const SearchFilterTab = ({ filter }: { filter: string }) => {
+const SearchFilterTab = ({
+  filter,
+  label,
+}: {
+  filter: string
+  label?: string
+}) => {
   const { filterSelectedSection, changeFilterSelectedSection, ocurrenceCount } =
     useContext(SearchContext)
   const { locale } = useContext(LibraryContext)
@@ -36,7 +43,9 @@ const SearchFilterTab = ({ filter }: { filter: string }) => {
         sx={styles.tabTitle(isActive, isDisabled)}
         data-testid="doctype-filter-tab-title"
       >
-        {filter || messages[locale]['search_results.all'] || 'All results'}
+        {isAllTab
+          ? messages[locale]['search_results.all'] || 'All results'
+          : label || filter}
       </Text>
       {formattedCount !== undefined && (
         <Text sx={styles.tabCount} data-testid="doctype-filter-tab-count">
@@ -48,12 +57,19 @@ const SearchFilterTab = ({ filter }: { filter: string }) => {
 }
 
 const SearchFilterTabBar = () => {
-  const { sidebarSections } = useContext(LibraryContext)
+  const { sidebarSections, sidebarDataMaster, locale } =
+    useContext(LibraryContext)
   return (
     <Flex sx={styles.container} data-testid="doctype-filter-tab-bar">
       <SearchFilterTab filter="" />
       {sidebarSections.flat().map((section) => {
-        return <SearchFilterTab key={section.id} filter={section.id} />
+        return (
+          <SearchFilterTab
+            key={section.id}
+            filter={section.id}
+            label={getSectionLabel(section, sidebarDataMaster, locale)}
+          />
+        )
       })}
     </Flex>
   )

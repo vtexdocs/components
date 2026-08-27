@@ -6253,7 +6253,7 @@ var WhatsNextCard = ({
 var whats_next_card_default = WhatsNextCard;
 
 // src/utils/context/libraryContext.tsx
-import { createContext, useEffect as useEffect3, useState as useState2 } from "react";
+import { createContext, useCallback, useEffect as useEffect3, useMemo, useState as useState2 } from "react";
 import { SWRConfig } from "swr";
 import { jsx as jsx8 } from "react/jsx-runtime";
 var LibraryContext = createContext({
@@ -6282,6 +6282,7 @@ var LibraryContext = createContext({
   toggleSidebarElementStatus: () => void 0,
   openSidebarElement: () => void 0,
   closeSidebarElements: () => void 0,
+  setOpenSidebarElements: () => void 0,
   sidebarSections: [],
   setSidebarSections: () => void 0,
   hamburguerSections: [],
@@ -6306,9 +6307,8 @@ var LibraryContextProvider = ({ children, ...props }) => {
   const [hamburguerSections, setHamburguerSections] = useState2(
     props.hamburguerMenuSections
   );
-  const { locale: propsLocale, ...restProps } = props;
-  const locale = propsLocale ?? "en";
-  const fallback = restProps.fallback;
+  const locale = props.locale ?? "en";
+  const fallback = props.fallback;
   useEffect3(() => {
     setSidebarDataMaster(props.fallback);
   }, [props.fallback]);
@@ -6318,27 +6318,61 @@ var LibraryContextProvider = ({ children, ...props }) => {
     else if (props.sectionSelected !== activeSectionName)
       setActiveSectionName(props.sectionSelected);
   }, [props.sectionSelected]);
-  const toggleSidebarElementStatus = (title9, currentlyOpen) => {
-    setSidebarElementStatus((sidebarElementStatus2) => {
-      const open = sidebarElementStatus2.has(title9) ? !sidebarElementStatus2.get(title9) : !currentlyOpen;
-      return new Map(sidebarElementStatus2.set(title9, open));
+  const toggleSidebarElementStatus = useCallback(
+    (title9, currentlyOpen) => {
+      setSidebarElementStatus((prev) => {
+        const open = prev.has(title9) ? !prev.get(title9) : !currentlyOpen;
+        const next = new Map(prev);
+        next.set(title9, open);
+        return next;
+      });
+    },
+    []
+  );
+  const closeSidebarElements = useCallback((parentsArray) => {
+    const parentSet = new Set(parentsArray);
+    setSidebarElementStatus((prev) => {
+      let changed = false;
+      const next = new Map(prev);
+      next.forEach((value, key) => {
+        if (!parentSet.has(key) && value) {
+          next.set(key, false);
+          changed = true;
+        }
+      });
+      return changed ? next : prev;
     });
-  };
-  const closeSidebarElements = (parentsArray) => {
-    sidebarElementStatus.forEach((_value, key) => {
-      if (!parentsArray.includes(key)) {
-        setSidebarElementStatus((sidebarElementStatus2) => {
-          return new Map(sidebarElementStatus2.set(key, false));
-        });
-      }
+  }, []);
+  const openSidebarElement = useCallback((title9) => {
+    setSidebarElementStatus((prev) => {
+      if (prev.get(title9) === true)
+        return prev;
+      const next = new Map(prev);
+      next.set(title9, true);
+      return next;
     });
-  };
-  const openSidebarElement = (title9) => {
-    setSidebarElementStatus((sidebarElementStatus2) => {
-      return new Map(sidebarElementStatus2.set(title9, true));
+  }, []);
+  const setOpenSidebarElements = useCallback((parentsArray) => {
+    const parentSet = new Set(parentsArray);
+    setSidebarElementStatus((prev) => {
+      const next = new Map(prev);
+      let changed = false;
+      next.forEach((value, key) => {
+        if (!parentSet.has(key) && value) {
+          next.set(key, false);
+          changed = true;
+        }
+      });
+      parentsArray.forEach((slug) => {
+        if (next.get(slug) !== true) {
+          next.set(slug, true);
+          changed = true;
+        }
+      });
+      return changed ? next : prev;
     });
-  };
-  const goToPreviousItem = () => {
+  }, []);
+  const goToPreviousItem = useCallback(() => {
     setActiveItem(({ item: item2, subItem }) => {
       const index = headingItems.findIndex((heading) => heading.slug === item2);
       if (index === -1)
@@ -6351,8 +6385,8 @@ var LibraryContextProvider = ({ children, ...props }) => {
         subItem: previousSubItem
       };
     });
-  };
-  const goToPreviousSubItem = () => {
+  }, [headingItems]);
+  const goToPreviousSubItem = useCallback(() => {
     setActiveItem(({ item: item2, subItem }) => {
       const heading = headingItems.find((heading2) => heading2.slug === item2);
       const index = heading?.children.findIndex(
@@ -6365,51 +6399,67 @@ var LibraryContextProvider = ({ children, ...props }) => {
         subItem: !index ? "" : heading.children[index - 1].slug
       };
     });
-  };
-  return /* @__PURE__ */ jsx8(
-    LibraryContext.Provider,
+  }, [headingItems]);
+  const contextValue = useMemo(
+    () => ({
+      headingItems,
+      activeItem,
+      setHeadingItems,
+      setActiveItem,
+      goToPreviousItem,
+      goToPreviousSubItem,
+      isEditorPreview,
+      setIsEditorPreview,
+      sidebarSectionHidden,
+      activeSectionName,
+      activeSidebarElement,
+      sidebarElementStatus,
+      setActiveSectionName,
+      setSidebarSectionHidden,
+      setActiveSidebarElement,
+      toggleSidebarElementStatus,
+      openSidebarElement,
+      closeSidebarElements,
+      setOpenSidebarElements,
+      sidebarDataMaster,
+      setSidebarDataMaster,
+      sidebarSections,
+      setSidebarSections,
+      hamburguerSections,
+      setHamburguerSections,
+      locale
+    }),
+    [
+      headingItems,
+      activeItem,
+      goToPreviousItem,
+      goToPreviousSubItem,
+      isEditorPreview,
+      sidebarSectionHidden,
+      activeSectionName,
+      activeSidebarElement,
+      sidebarElementStatus,
+      toggleSidebarElementStatus,
+      openSidebarElement,
+      closeSidebarElements,
+      setOpenSidebarElements,
+      sidebarDataMaster,
+      sidebarSections,
+      hamburguerSections,
+      locale
+    ]
+  );
+  return /* @__PURE__ */ jsx8(LibraryContext.Provider, { value: contextValue, children: /* @__PURE__ */ jsx8(
+    SWRConfig,
     {
       value: {
-        headingItems,
-        activeItem,
-        setHeadingItems,
-        setActiveItem,
-        goToPreviousItem,
-        goToPreviousSubItem,
-        isEditorPreview,
-        setIsEditorPreview,
-        sidebarSectionHidden,
-        activeSectionName,
-        activeSidebarElement,
-        sidebarElementStatus,
-        setActiveSectionName,
-        setSidebarSectionHidden,
-        setActiveSidebarElement,
-        toggleSidebarElementStatus,
-        openSidebarElement,
-        closeSidebarElements,
-        sidebarDataMaster,
-        setSidebarDataMaster,
-        sidebarSections,
-        setSidebarSections,
-        hamburguerSections,
-        setHamburguerSections,
-        locale,
-        ...restProps
-      },
-      children: /* @__PURE__ */ jsx8(
-        SWRConfig,
-        {
-          value: {
-            fallback: {
-              "/api/navigation": fallback ? fallback : []
-            }
-          },
-          children
+        fallback: {
+          "/api/navigation": fallback ? fallback : []
         }
-      )
+      },
+      children
     }
-  );
+  ) });
 };
 var libraryContext_default = LibraryContextProvider;
 
@@ -7541,7 +7591,14 @@ var Contributors = ({ contributors }) => {
 var Contributors_default = Contributors;
 
 // src/lib/sidebar/index.tsx
-import { useEffect as useEffect9, useRef as useRef5, useState as useState9, useContext as useContext8 } from "react";
+import {
+  Fragment as Fragment4,
+  useEffect as useEffect9,
+  useMemo as useMemo3,
+  useRef as useRef6,
+  useState as useState9,
+  useContext as useContext8
+} from "react";
 import { Flex as Flex12, Text as Text8, Box as Box14 } from "@vtex/brand-ui";
 import Link5 from "next/link.js";
 
@@ -7694,15 +7751,57 @@ var iconTooltipStyle = (tooltipState) => {
 
 // src/utils/navigation-utils.ts
 var flattenJSON = (obj = {}, res = {}, extraKey = "") => {
+  if (!obj || typeof obj !== "object")
+    return res;
   for (const key in obj) {
-    if (typeof obj[key] !== "object") {
-      res[extraKey + key] = obj[key];
+    const value = obj[key];
+    if (value !== null && typeof value === "object") {
+      flattenJSON(value, res, `${extraKey}${key}.`);
     } else {
-      flattenJSON(obj[key], res, `${extraKey}${key}.`);
+      res[extraKey + key] = value;
     }
   }
   return res;
 };
+var documentationTypeCache = /* @__PURE__ */ new WeakMap();
+function indexDocumentationTypes(data, index) {
+  if (!data || typeof data !== "object")
+    return;
+  if (Array.isArray(data)) {
+    for (let i = 0; i < data.length; i++) {
+      indexDocumentationTypes(data[i], index);
+    }
+    return;
+  }
+  const node = data;
+  if (typeof node.type === "string" && node.slug != null) {
+    if (typeof node.slug === "string") {
+      index.set(node.slug, node.type);
+    } else if (typeof node.slug === "object") {
+      for (const value of Object.values(node.slug)) {
+        if (typeof value === "string" && value) {
+          index.set(value, node.type);
+        }
+      }
+    }
+  }
+  for (const value of Object.values(data)) {
+    if (value && typeof value === "object") {
+      indexDocumentationTypes(value, index);
+    }
+  }
+}
+function getDocumentationType(sidebarData, slug) {
+  if (!sidebarData || typeof sidebarData !== "object")
+    return void 0;
+  let index = documentationTypeCache.get(sidebarData);
+  if (!index) {
+    index = /* @__PURE__ */ new Map();
+    indexDocumentationTypes(sidebarData, index);
+    documentationTypeCache.set(sidebarData, index);
+  }
+  return index.get(slug);
+}
 var getKeyByEndpoint = (object, endpoint, slug, method) => {
   const slugPaths = Object.keys(object).filter((key) => object[key] === slug);
   let path = "";
@@ -7741,58 +7840,75 @@ var getParents = (path, data, flattenedSidebar, parentsArray, parent) => {
 import { useRouter as useRouter2 } from "next/router.js";
 import { useEffect as useEffect8 } from "react";
 var getIcon2 = (doc, sections) => {
-  for (const section of sections) {
-    return section.find((icon5) => icon5.title === doc)?.Icon;
-  }
+  return sections.flat().find((icon5) => icon5.id === doc || icon5.title === doc)?.Icon;
 };
+function resolveLocalizedName(value, locale) {
+  if (!value)
+    return "";
+  if (typeof value === "string")
+    return value;
+  return value[locale] || value.en || "";
+}
+function getSectionLabel(section, navigation, locale) {
+  if (Array.isArray(navigation)) {
+    const navSection = navigation.find(
+      (item2) => item2.documentation === section.id
+    );
+    const fromNav = resolveLocalizedName(navSection?.name, locale);
+    if (fromNav)
+      return fromNav;
+  }
+  return section.title;
+}
 var updateOpenPage = ({
   parentsArray = [],
   context
 }) => {
-  const {
-    activeSidebarElement,
+  const { sidebarDataMaster, setActiveSidebarElement, setOpenSidebarElements } = context;
+  const router = useRouter2();
+  const parentsKey = parentsArray.join("\0");
+  useEffect8(() => {
+    const expandedSlugs = parentsArray.slice();
+    let activeSlug = "";
+    const querySlug = router.query.slug;
+    if (querySlug && router.pathname === "/docs/api-reference/[slug]") {
+      const flattenedSidebar = flattenJSON(sidebarDataMaster);
+      activeSlug = router.asPath.replace("/docs/api-reference/", "");
+      const docPath = activeSlug.split("/");
+      const hasHashTag = router.asPath.indexOf("#") > -1;
+      const apiSlug = docPath[0].split(hasHashTag ? "#" : "?endpoint=")[0];
+      const endpoint = "/" + docPath.splice(1, docPath.length).join("/");
+      let keyPath;
+      if (endpoint == "/") {
+        activeSlug = apiSlug;
+        keyPath = getKeyByEndpoint(flattenedSidebar, "", apiSlug);
+      } else {
+        const method = docPath[0].split(hasHashTag ? "#" : "?endpoint=")[1].split("-")[0];
+        keyPath = getKeyByEndpoint(flattenedSidebar, endpoint, apiSlug, method);
+      }
+      expandedSlugs.push(activeSlug);
+      if (keyPath) {
+        getParents(keyPath, "slug", flattenedSidebar, expandedSlugs);
+      }
+    } else {
+      activeSlug = expandedSlugs[expandedSlugs.length - 1];
+    }
+    setOpenSidebarElements(expandedSlugs);
+    setActiveSidebarElement(activeSlug?.replace("?endpoint=", "#"));
+  }, [
+    parentsKey,
+    router.asPath,
+    router.pathname,
+    router.query.slug,
     sidebarDataMaster,
     setActiveSidebarElement,
-    openSidebarElement,
-    closeSidebarElements
-  } = context;
-  const flattenedSidebar = flattenJSON(sidebarDataMaster);
-  const router = useRouter2();
-  let activeSlug = "";
-  const querySlug = router.query.slug;
-  if (querySlug && router.pathname === "/docs/api-reference/[slug]") {
-    activeSlug = router.asPath.replace("/docs/api-reference/", "");
-    const docPath = activeSlug.split("/");
-    const hasHashTag = router.asPath.indexOf("#") > -1;
-    const apiSlug = docPath[0].split(hasHashTag ? "#" : "?endpoint=")[0];
-    const endpoint = "/" + docPath.splice(1, docPath.length).join("/");
-    let keyPath;
-    if (endpoint == "/") {
-      activeSlug = apiSlug;
-      keyPath = getKeyByEndpoint(flattenedSidebar, "", apiSlug);
-    } else {
-      const method = docPath[0].split(hasHashTag ? "#" : "?endpoint=")[1].split("-")[0];
-      keyPath = getKeyByEndpoint(flattenedSidebar, endpoint, apiSlug, method);
-    }
-    parentsArray.push(activeSlug);
-    if (keyPath) {
-      getParents(keyPath, "slug", flattenedSidebar, parentsArray);
-    }
-  } else {
-    activeSlug = parentsArray[parentsArray.length - 1];
-  }
-  useEffect8(() => {
-    closeSidebarElements(parentsArray);
-    parentsArray.forEach((slug) => {
-      openSidebarElement(slug);
-    });
-    setActiveSidebarElement(activeSlug?.replace("?endpoint=", "#"));
-  }, [activeSidebarElement, router]);
+    setOpenSidebarElements
+  ]);
 };
 
 // src/components/sidebar-section/index.tsx
 import { Flex as Flex11, Box as Box13, Text as Text7, Button as Button3 } from "@vtex/brand-ui";
-import { useContext as useContext7, useMemo, useState as useState8 } from "react";
+import { memo as memo2, useContext as useContext7, useMemo as useMemo2, useRef as useRef5, useState as useState8 } from "react";
 
 // src/components/sidebar-section/styles.ts
 var sidebarContainer = {
@@ -7873,20 +7989,47 @@ var searchBox = {
   background: "#F4F4F4",
   width: "265px",
   height: "40px",
-  paddingLeft: "12px"
+  paddingLeft: "12px",
+  paddingRight: "8px"
 };
 var searchInput = {
   width: "auto",
+  flex: "1",
+  minWidth: 0,
   background: "#F4F4F4",
   border: "#F4F4F4",
   color: "#545454",
-  fontSize: ["14px"]
+  fontSize: ["14px"],
+  outline: "none"
 };
 var searchIcon = {
   minWidth: "16px",
   minHeight: "16px",
   width: "16px",
   mr: "8px"
+};
+var clearButton = {
+  display: "inline-flex",
+  alignItems: "center",
+  justifyContent: "center",
+  width: "24px",
+  height: "24px",
+  ml: "4px",
+  padding: 0,
+  border: "none",
+  borderRadius: "50%",
+  background: "transparent",
+  color: "#4A596B",
+  cursor: "pointer",
+  flexShrink: 0,
+  ":hover": {
+    background: "#EDEDED",
+    color: "#142032"
+  }
+};
+var clearIcon = {
+  width: "14px",
+  height: "14px"
 };
 var toggleIconBox = {
   justifyContent: "center",
@@ -7941,6 +8084,8 @@ var styles_default11 = {
   searchBox,
   searchInput,
   searchIcon,
+  clearButton,
+  clearIcon,
   toggleIconBox,
   toggleIconBoxActive,
   toggleIcon,
@@ -8223,7 +8368,7 @@ var sidebar_section_filter_default = SectionFilter;
 
 // src/components/sidebar-elements/index.tsx
 import { useRouter as useRouter3 } from "next/router.js";
-import { Fragment as Fragment2, useContext as useContext6 } from "react";
+import { Fragment as Fragment2, memo, useContext as useContext6 } from "react";
 import {
   Box as Box12,
   Flex as Flex10,
@@ -8326,7 +8471,12 @@ var textStyle = (active, icon5) => {
 
 // src/components/sidebar-elements/index.tsx
 import { jsx as jsx20, jsxs as jsxs15 } from "react/jsx-runtime";
-var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
+var SidebarElements = ({
+  slugPrefix,
+  items,
+  subItemLevel,
+  forceOpen = false
+}) => {
   const {
     isEditorPreview,
     activeSidebarElement,
@@ -8336,7 +8486,7 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
     locale
   } = useContext6(LibraryContext);
   const router = useRouter3();
-  const isElementOpen = (slug, defaultOpen) => sidebarElementStatus.has(slug) ? sidebarElementStatus.get(slug) : !!defaultOpen;
+  const isElementOpen = (slug, defaultOpen) => forceOpen || (sidebarElementStatus.has(slug) ? sidebarElementStatus.get(slug) : !!defaultOpen);
   const handleClick = (e, pathSuffix, slug) => {
     e.preventDefault();
     const hasEndpointQuery = router.query.endpoint;
@@ -8345,28 +8495,6 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
       if (hasEndpointQuery)
         router.reload();
     });
-  };
-  const checkDocumentationType = (sidebarData, slug, type) => {
-    if (!sidebarData || typeof sidebarData !== "object" && !Array.isArray(sidebarData)) {
-      return false;
-    } else if (sidebarData?.slug == slug && sidebarData?.type == type) {
-      return true;
-    } else if (Array.isArray(sidebarData)) {
-      for (let i = 0; i < sidebarData.length; i++) {
-        const result = checkDocumentationType(sidebarData[i], slug, type);
-        if (result) {
-          return result;
-        }
-      }
-    } else {
-      for (const k in sidebarData) {
-        const result = checkDocumentationType(sidebarData[k], slug, type);
-        if (result) {
-          return result;
-        }
-      }
-    }
-    return false;
   };
   const getHref = (slugPrefix2, pathSuffix, slug) => {
     const validLocales = ["pt", "es"];
@@ -8382,12 +8510,16 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
     children,
     defaultOpen
   }) => {
-    const localizedName = typeof name === "string" ? name : name[locale];
+    const localizedName2 = typeof name === "string" ? name : name[locale];
     const localizedSlug = typeof slug === "string" ? slug : slug[locale];
     const isExpandable = children.length > 0;
     const isOpen = isElementOpen(localizedSlug, defaultOpen);
     const pathSuffix = method ? `#${method.toLowerCase()}-${endpoint}` : "";
     const activeItem = method ? `${localizedSlug}${pathSuffix}` : localizedSlug;
+    const documentationType = getDocumentationType(
+      sidebarDataMaster,
+      localizedSlug
+    );
     return /* @__PURE__ */ jsx20(Box12, { sx: styles_default14.elementContainer, children: /* @__PURE__ */ jsxs15(Flex10, { sx: styleByLevelNormal(subItemLevel, isExpandable || false), children: [
       isExpandable && /* @__PURE__ */ jsx20(
         Button2,
@@ -8400,11 +8532,7 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
           onClick: () => toggleSidebarElementStatus(localizedSlug, isOpen)
         }
       ),
-      !checkDocumentationType(
-        sidebarDataMaster,
-        localizedSlug,
-        "category"
-      ) && !checkDocumentationType(sidebarDataMaster, localizedSlug, "link") ? /* @__PURE__ */ jsxs15(
+      documentationType !== "category" && documentationType !== "link" ? /* @__PURE__ */ jsxs15(
         Link4,
         {
           sx: textStyle(activeSidebarElement === activeItem, isExpandable),
@@ -8427,16 +8555,12 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
                 method
               }
             ),
-            localizedName
+            localizedName2
           ]
         }
-      ) : checkDocumentationType(
-        sidebarDataMaster,
-        localizedSlug,
-        "link"
-      ) ? /* @__PURE__ */ jsxs15(Link4, { href: localizedSlug, target: "_blank", sx: styles_default14.elementText, children: [
+      ) : documentationType === "link" ? /* @__PURE__ */ jsxs15(Link4, { href: localizedSlug, target: "_blank", sx: styles_default14.elementText, children: [
         /* @__PURE__ */ jsx20(IconExternalLink, { size: 16, sx: { marginRight: "10px" } }),
-        localizedName
+        localizedName2
       ] }) : /* @__PURE__ */ jsxs15(
         Box12,
         {
@@ -8457,7 +8581,7 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
                 method
               }
             ),
-            localizedName
+            localizedName2
           ]
         }
       )
@@ -8471,7 +8595,8 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
       {
         slugPrefix,
         items: children,
-        subItemLevel: subItemLevel + 1
+        subItemLevel: subItemLevel + 1,
+        forceOpen
       },
       `${localizedSlug}sd`
     ) }) : null;
@@ -8486,7 +8611,7 @@ var SidebarElements = ({ slugPrefix, items, subItemLevel }) => {
     ] }, String(key));
   }) });
 };
-var sidebar_elements_default = SidebarElements;
+var sidebar_elements_default = memo(SidebarElements);
 
 // src/components/icons/search-icon.tsx
 import { Icon as Icon6 } from "@vtex/brand-ui";
@@ -8606,6 +8731,92 @@ var arrow_left_icon_default = ArrowLeftIcon;
 
 // src/components/sidebar-section/index.tsx
 import { Fragment as Fragment3, jsx as jsx24, jsxs as jsxs18 } from "react/jsx-runtime";
+function localizedName(name, locale) {
+  return typeof name === "string" ? name : name[locale];
+}
+function matchesQuery(name, query, locale) {
+  if (!query)
+    return true;
+  return localizedName(name, locale).toLowerCase().includes(query);
+}
+function matchesMethodFilter(node, methodFilterList, filterStatus) {
+  if (!filterStatus || !node.method)
+    return true;
+  return methodFilterList.some(
+    (methodFilter) => methodFilter.name === node.method && methodFilter.active
+  );
+}
+function filterSidebarNode(node, query, methodFilterList, filterStatus, locale) {
+  const selfMatches = matchesQuery(node.name, query, locale) && matchesMethodFilter(node, methodFilterList, filterStatus);
+  const children = node.children || [];
+  if (selfMatches && !filterStatus) {
+    return node;
+  }
+  const filteredChildren = children.map(
+    (child) => filterSidebarNode(
+      child,
+      selfMatches ? "" : query,
+      methodFilterList,
+      filterStatus,
+      locale
+    )
+  ).filter((child) => child != null);
+  if (filteredChildren.length > 0) {
+    return { ...node, children: filteredChildren };
+  }
+  if (selfMatches && children.length === 0) {
+    return node;
+  }
+  return null;
+}
+function filterSidebarCategories(categories, searchValue, methodFilterList, filterStatus, locale) {
+  if (!categories?.length || !filterStatus && searchValue === "") {
+    return categories;
+  }
+  const query = searchValue.toLowerCase();
+  return categories.map(
+    (category2) => filterSidebarNode(category2, query, methodFilterList, filterStatus, locale)
+  ).filter((category2) => category2 != null);
+}
+var SidebarSearchBox = ({
+  value,
+  placeholder,
+  onChange
+}) => {
+  const inputRef = useRef5(null);
+  const { locale } = useContext7(LibraryContext);
+  const clearLabel = messages[locale]["search_input.clear"] || "Clear search";
+  return /* @__PURE__ */ jsxs18(Flex11, { sx: styles_default11.searchBox, children: [
+    /* @__PURE__ */ jsx24(search_icon_default, { sx: styles_default11.searchIcon }),
+    /* @__PURE__ */ jsx24(
+      "input",
+      {
+        ref: inputRef,
+        style: styles_default11.searchInput,
+        className: "searchComponent",
+        type: "text",
+        placeholder,
+        value,
+        onChange: (e) => onChange(e.currentTarget.value)
+      }
+    ),
+    value ? /* @__PURE__ */ jsx24(
+      Flex11,
+      {
+        as: "button",
+        type: "button",
+        sx: styles_default11.clearButton,
+        "aria-label": clearLabel,
+        title: clearLabel,
+        onClick: () => {
+          onChange("");
+          inputRef.current?.focus();
+        },
+        children: /* @__PURE__ */ jsx24(close_icon_default, { sx: styles_default11.clearIcon })
+      }
+    ) : null
+  ] });
+};
 var SidebarSection = ({
   documentation: documentation2,
   name,
@@ -8631,27 +8842,16 @@ var SidebarSection = ({
   const filterStatus = methodFilterList.some(
     (methodFilter) => methodFilter.active
   );
-  const filteredResult = useMemo(() => {
-    if (!filterStatus && searchValue === "")
-      return categories;
-    const dataCopy = JSON.parse(JSON.stringify(categories));
-    const filteredCategories = dataCopy.map((category2) => {
-      category2.children = category2.children.map((subcategory) => {
-        subcategory.children = subcategory.children.filter((endpoint) => {
-          const hasMethodFilter = !filterStatus || methodFilterList.find(
-            (methodFilter) => methodFilter.name === endpoint.method
-          )?.active;
-          const hasInputFilter = searchValue === "" || (typeof endpoint.name === "string" ? endpoint.name : endpoint.name[locale]).toLowerCase().includes(searchValue.toLowerCase());
-          return hasMethodFilter && hasInputFilter;
-        });
-        return subcategory;
-      }).filter(
-        (subcategory) => subcategory.children.length > 0 || subcategory.type === "markdown" && (typeof subcategory.name === "string" ? subcategory.name : subcategory.name[locale]).toLowerCase().includes(searchValue.toLowerCase())
-      );
-      return category2;
-    }).filter((category2) => category2.children.length > 0);
-    return filteredCategories;
-  }, [filterStatus, methodFilterList, categories, searchValue]);
+  const filteredResult = useMemo2(
+    () => filterSidebarCategories(
+      categories,
+      searchValue,
+      methodFilterList,
+      filterStatus,
+      locale
+    ),
+    [filterStatus, methodFilterList, categories, searchValue, locale]
+  );
   const DocIcon = getIcon2(documentation2, sidebarSections);
   let localizedSectionTitle = "";
   if (!categories || categories.length <= 0) {
@@ -8688,20 +8888,14 @@ var SidebarSection = ({
               /* @__PURE__ */ jsx24(Text7, { sx: styles_default11.sidebarTitle, children: localizedSectionTitle })
             ] }),
             /* @__PURE__ */ jsxs18(Box13, { sx: styles_default11.sidebarContainerBody, children: [
-              /* @__PURE__ */ jsxs18(Flex11, { sx: styles_default11.searchBox, children: [
-                /* @__PURE__ */ jsx24(search_icon_default, { sx: styles_default11.searchIcon }),
-                /* @__PURE__ */ jsx24(
-                  "input",
-                  {
-                    style: styles_default11.searchInput,
-                    className: "searchComponent",
-                    type: "text",
-                    placeholder: messages[locale]["sidebar_search.placeholder"] + " " + localizedSectionTitle,
-                    value: searchValue,
-                    onChange: (e) => setSearchValue(e.currentTarget.value)
-                  }
-                )
-              ] }),
+              /* @__PURE__ */ jsx24(
+                SidebarSearchBox,
+                {
+                  value: searchValue,
+                  placeholder: messages[locale]["sidebar_search.placeholder"] + " " + localizedSectionTitle,
+                  onChange: setSearchValue
+                }
+              ),
               documentation2 == "API Reference" && /* @__PURE__ */ jsx24(
                 sidebar_section_filter_default,
                 {
@@ -8713,9 +8907,10 @@ var SidebarSection = ({
             /* @__PURE__ */ jsx24(Box13, { sx: styles_default11.sidebarContainerBody, children: /* @__PURE__ */ jsx24(
               sidebar_elements_default,
               {
-                items: filteredResult,
+                items: filteredResult ?? [],
                 subItemLevel: 0,
-                slugPrefix
+                slugPrefix,
+                forceOpen: searchValue !== "" || filterStatus
               }
             ) })
           ]
@@ -8767,20 +8962,14 @@ var SidebarSection = ({
                   "PREVIEW MODE"
                 ] }),
                 /* @__PURE__ */ jsx24(Text7, { sx: styles_default11.sidebarTitle, children: localizedSectionTitle }),
-                /* @__PURE__ */ jsxs18(Flex11, { sx: styles_default11.searchBox, children: [
-                  /* @__PURE__ */ jsx24(search_icon_default, { sx: styles_default11.searchIcon }),
-                  /* @__PURE__ */ jsx24(
-                    "input",
-                    {
-                      style: styles_default11.searchInput,
-                      className: "searchComponent",
-                      type: "text",
-                      placeholder: messages[locale]["sidebar_search.placeholder"] + " " + localizedSectionTitle,
-                      value: searchValue,
-                      onChange: (e) => setSearchValue(e.currentTarget.value)
-                    }
-                  )
-                ] })
+                /* @__PURE__ */ jsx24(
+                  SidebarSearchBox,
+                  {
+                    value: searchValue,
+                    placeholder: messages[locale]["sidebar_search.placeholder"] + " " + localizedSectionTitle,
+                    onChange: setSearchValue
+                  }
+                )
               ] }),
               documentation2 == "API Reference" && /* @__PURE__ */ jsx24(
                 sidebar_section_filter_default,
@@ -8792,9 +8981,10 @@ var SidebarSection = ({
               /* @__PURE__ */ jsx24(Box13, { sx: styles_default11.sidebarContainerBody, children: /* @__PURE__ */ jsx24(
                 sidebar_elements_default,
                 {
-                  items: filteredResult,
+                  items: filteredResult ?? [],
                   subItemLevel: 0,
-                  slugPrefix
+                  slugPrefix,
+                  forceOpen: searchValue !== "" || filterStatus
                 }
               ) })
             ]
@@ -8822,11 +9012,91 @@ var SidebarSection = ({
     }
   );
 };
-var sidebar_section_default = SidebarSection;
+var sidebar_section_default = memo2(SidebarSection);
 
 // src/lib/sidebar/index.tsx
-import { Fragment as Fragment4, jsx as jsx25, jsxs as jsxs19 } from "react/jsx-runtime";
+import { jsx as jsx25, jsxs as jsxs19 } from "react/jsx-runtime";
 import { createElement } from "react";
+var SideBarIcon = ({
+  expandDelayStatus,
+  isEditorPreview,
+  activeSectionName,
+  setActiveSectionName,
+  ...sectionElement
+}) => {
+  const [iconTooltip2, setIconTooltip] = useState9(false);
+  const [tooltipLabel, setTooltipLabel] = useState9(sectionElement.title);
+  const titleRef = useRef6();
+  useEffect9(() => {
+    setTooltipLabel(sectionElement.title);
+  }, [sectionElement.title]);
+  useEffect9(() => {
+    const target = titleRef.current;
+    if (!target)
+      return;
+    const updateTooltip = () => {
+      setIconTooltip(target.offsetWidth < target.scrollWidth);
+      if (target.offsetWidth > 0)
+        setTooltipLabel(target.innerText);
+    };
+    updateTooltip();
+    const resizeObserver = new MutationObserver(updateTooltip);
+    resizeObserver.observe(target, {
+      childList: true,
+      characterData: true,
+      subtree: true
+    });
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, []);
+  return /* @__PURE__ */ jsx25(Box14, { sx: styles_default10.linkContainer, children: /* @__PURE__ */ jsx25(
+    tooltip_default,
+    {
+      sx: iconTooltipStyle(iconTooltip2),
+      placement: "right",
+      label: tooltipLabel,
+      children: /* @__PURE__ */ jsx25(
+        Link5,
+        {
+          href: !isEditorPreview ? sectionElement.link : "/",
+          target: sectionElement?.isExternalLink == true ? "_blank" : "_self",
+          onClick: (e) => {
+            if (isEditorPreview) {
+              e.preventDefault();
+            }
+            setActiveSectionName(sectionElement.id);
+          },
+          passHref: true,
+          "aria-label": sectionElement.title,
+          children: /* @__PURE__ */ jsxs19(
+            Flex12,
+            {
+              sx: activeSectionName === sectionElement.id ? styles_default10.iconBoxActive : styles_default10.iconBox,
+              children: [
+                /* @__PURE__ */ jsx25(
+                  sectionElement.Icon,
+                  {
+                    sx: activeSectionName === sectionElement.id ? styles_default10.iconActive : styles_default10.icon
+                  }
+                ),
+                /* @__PURE__ */ jsx25(
+                  Text8,
+                  {
+                    className: expandDelayStatus ? "iconDescriptionExpanded" : "",
+                    ref: titleRef,
+                    sx: styles_default10.iconTitle,
+                    children: sectionElement.title
+                  }
+                )
+              ]
+            }
+          )
+        }
+      )
+    }
+  ) });
+};
 var Sidebar = ({ parentsArray = [] }) => {
   const [expandDelayStatus, setExpandDelayStatus] = useState9(true);
   const context = useContext8(LibraryContext);
@@ -8835,123 +9105,61 @@ var Sidebar = ({ parentsArray = [] }) => {
     setActiveSectionName,
     activeSectionName,
     sidebarSections,
-    sidebarDataMaster
+    sidebarDataMaster,
+    locale
   } = context;
-  const sidebarSectionContent = {
-    ...Array.isArray(sidebarDataMaster) ? sidebarDataMaster?.find(
+  const sidebarSectionContent = useMemo3(() => {
+    if (!Array.isArray(sidebarDataMaster))
+      return void 0;
+    return sidebarDataMaster.find(
       (section) => section.documentation === activeSectionName
-    ) : null
-  };
+    );
+  }, [sidebarDataMaster, activeSectionName]);
   updateOpenPage({
     parentsArray,
     context
   });
   useEffect9(() => {
     let timer = void 0;
-    if (sidebarSectionContent.categories?.length > 0)
-      timer = setTimeout(
-        () => setExpandDelayStatus && setExpandDelayStatus(false),
-        5e3
-      );
+    if (sidebarSectionContent?.categories?.length)
+      timer = setTimeout(() => setExpandDelayStatus(false), 5e3);
     else
-      setExpandDelayStatus && setExpandDelayStatus(true);
+      setExpandDelayStatus(true);
     return () => {
       timer && clearTimeout(timer);
     };
-  }, [activeSectionName]);
-  const SideBarIcon = (sectionElement) => {
-    const [iconTooltip2, setIconTooltip] = useState9(false);
-    const [tooltipLabel, setTooltipLabel] = useState9(sectionElement.title);
-    const titleRef = useRef5();
-    useEffect9(() => {
-      const resizeObserver = new MutationObserver(function(entries) {
-        const target = entries[0].target;
-        if (target.offsetWidth < target.scrollWidth)
-          setIconTooltip(true);
-        else
-          setIconTooltip(false);
-        if (target.offsetWidth > 0)
-          setTooltipLabel(target.innerText);
-      });
-      if (titleRef.current) {
-        if (titleRef.current.offsetWidth < titleRef.current.scrollWidth)
-          setIconTooltip(true);
-        resizeObserver.observe(titleRef.current, {
-          childList: true
-        });
-      }
-      return () => {
-        resizeObserver.disconnect;
-      };
-    }, [titleRef.current]);
-    return /* @__PURE__ */ jsx25(Box14, { sx: styles_default10.linkContainer, children: /* @__PURE__ */ jsx25(
-      tooltip_default,
-      {
-        sx: iconTooltipStyle(iconTooltip2),
-        placement: "right",
-        label: tooltipLabel,
-        children: /* @__PURE__ */ jsx25(
-          Link5,
-          {
-            href: !isEditorPreview ? sectionElement.link : "/",
-            target: sectionElement?.isExternalLink == true ? "_blank" : "_self",
-            onClick: (e) => {
-              if (isEditorPreview) {
-                e.preventDefault();
-              }
-              setActiveSectionName(sectionElement.id);
-            },
-            passHref: true,
-            "aria-label": sectionElement.title,
-            children: /* @__PURE__ */ jsxs19(
-              Flex12,
-              {
-                sx: activeSectionName === sectionElement.id ? styles_default10.iconBoxActive : styles_default10.iconBox,
-                children: [
-                  /* @__PURE__ */ jsx25(
-                    sectionElement.Icon,
-                    {
-                      sx: activeSectionName === sectionElement.id ? styles_default10.iconActive : styles_default10.icon
-                    }
-                  ),
-                  /* @__PURE__ */ jsx25(
-                    Text8,
-                    {
-                      className: expandDelayStatus ? "iconDescriptionExpanded" : "",
-                      ref: titleRef,
-                      sx: styles_default10.iconTitle,
-                      children: sectionElement.title
-                    }
-                  )
-                ]
-              }
-            )
-          }
-        )
-      }
-    ) });
-  };
+  }, [activeSectionName, sidebarSectionContent?.categories?.length]);
   return /* @__PURE__ */ jsxs19(Flex12, { sx: styles_default10.sidebar, children: [
     /* @__PURE__ */ jsx25(
       Flex12,
       {
         className: expandDelayStatus ? "iconContainerExpanded" : "",
         sx: styles_default10.sidebarIcons,
-        children: sidebarSections.map((section, id) => {
-          return /* @__PURE__ */ jsxs19(Fragment4, { children: [
-            id > 0 && /* @__PURE__ */ jsx25(Box14, { sx: styles_default10.sectionDivider, children: /* @__PURE__ */ jsx25("hr", {}) }, `${id}-divider`),
-            /* @__PURE__ */ jsx25(Flex12, { sx: styles_default10.sidebarIconsContainer, children: section.map((element) => /* @__PURE__ */ createElement(
+        children: sidebarSections.map((section, id) => /* @__PURE__ */ jsxs19(Fragment4, { children: [
+          id > 0 && /* @__PURE__ */ jsx25(Box14, { sx: styles_default10.sectionDivider, children: /* @__PURE__ */ jsx25("hr", {}) }),
+          /* @__PURE__ */ jsx25(Flex12, { sx: styles_default10.sidebarIconsContainer, children: section.map((element) => {
+            const title9 = getSectionLabel(
+              element,
+              sidebarDataMaster,
+              locale
+            );
+            return /* @__PURE__ */ createElement(
               SideBarIcon,
               {
                 ...element,
-                key: `sidebar-icon-${element.title}`
+                title: title9,
+                key: `sidebar-icon-${element.id}`,
+                expandDelayStatus,
+                isEditorPreview,
+                activeSectionName,
+                setActiveSectionName
               }
-            )) }, id)
-          ] });
-        })
+            );
+          }) })
+        ] }, id))
       }
     ),
-    activeSectionName ? /* @__PURE__ */ jsx25(sidebar_section_default, { ...sidebarSectionContent }) : null
+    activeSectionName && sidebarSectionContent ? /* @__PURE__ */ jsx25(sidebar_section_default, { ...sidebarSectionContent }) : null
   ] });
 };
 var sidebar_default = Sidebar;
@@ -9045,7 +9253,7 @@ var styles_default15 = {
 };
 
 // src/lib/hamburger-menu/index.tsx
-import { useContext as useContext12, useEffect as useEffect11, useRef as useRef8 } from "react";
+import { useContext as useContext12, useEffect as useEffect11, useRef as useRef9 } from "react";
 import { useRouter as useRouter6 } from "next/router.js";
 
 // src/components/documentation-card/index.tsx
@@ -9154,7 +9362,7 @@ var documentation_card_default = DocumentationCard;
 import { Configure, InstantSearch } from "react-instantsearch-dom";
 
 // src/components/search-input/search-box.tsx
-import { useRef as useRef6, useContext as useContext9 } from "react";
+import { useRef as useRef7, useContext as useContext9 } from "react";
 import { useRouter as useRouter4 } from "next/router.js";
 import { Flex as Flex14 } from "@vtex/brand-ui";
 import { connectSearchBox } from "react-instantsearch-dom";
@@ -9459,7 +9667,7 @@ var searchContainer = {
     }
   }
 };
-var clearButton = {
+var clearButton2 = {
   display: "inline-flex",
   alignItems: "center",
   justifyContent: "center",
@@ -9522,7 +9730,7 @@ var styles_default17 = {
   searchInput: searchInput2,
   searchIcon: searchIcon2,
   searchContainer,
-  clearButton,
+  clearButton: clearButton2,
   alignCenter,
   noResults,
   hitContentHighlighted
@@ -9536,7 +9744,7 @@ var SearchBoxComponent = ({
   changeFocus
 }) => {
   const router = useRouter4();
-  const inputRef = useRef6(null);
+  const inputRef = useRef7(null);
   const { locale } = useContext9(LibraryContext);
   const handleClick = () => {
     if (inputRef.current != null)
@@ -10835,7 +11043,7 @@ var results_box_default = HitsBox;
 
 // src/components/search-input/index.tsx
 import { Box as Box17 } from "@vtex/brand-ui";
-import { useContext as useContext11, useRef as useRef7, useState as useState11 } from "react";
+import { useContext as useContext11, useRef as useRef8, useState as useState11 } from "react";
 
 // src/utils/config/search-config.ts
 var import_lite = __toESM(require_lite());
@@ -11339,7 +11547,7 @@ function SearchInput() {
   const [focusOut, setfocusOut] = useState11({
     modaltoggle: true
   });
-  const resultsBox2 = useRef7();
+  const resultsBox2 = useRef8();
   useClickOutside(resultsBox2, setfocusOut);
   const changeFocus = (value) => {
     setfocusOut({ modaltoggle: value });
@@ -11365,7 +11573,7 @@ function SearchInput() {
 import { jsx as jsx46, jsxs as jsxs39 } from "react/jsx-runtime";
 var HamburgerMenu = ({ parentsArray = [] }) => {
   const router = useRouter6();
-  const hamburgerRef = useRef8(null);
+  const hamburgerRef = useRef9(null);
   const context = useContext12(LibraryContext);
   const {
     sidebarDataMaster,
@@ -11373,7 +11581,8 @@ var HamburgerMenu = ({ parentsArray = [] }) => {
     activeSectionName,
     setActiveSectionName,
     setSidebarSectionHidden,
-    hamburguerSections
+    hamburguerSections,
+    locale
   } = context;
   useEffect11(() => {
     const closeMenu = () => {
@@ -11406,7 +11615,18 @@ var HamburgerMenu = ({ parentsArray = [] }) => {
           sx: id > 0 ? styles_default15.updatesContainer : styles_default15.documentationContainer,
           "data-cy": "dropdown-menu-first-section",
           children: section.map((card) => /* @__PURE__ */ jsxs39(Box18, { sx: styles_default15.innerCardContainer, children: [
-            /* @__PURE__ */ jsx46(documentation_card_default, { containerType: "mobile", ...card }),
+            /* @__PURE__ */ jsx46(
+              documentation_card_default,
+              {
+                containerType: "mobile",
+                ...card,
+                title: getSectionLabel(
+                  card,
+                  sidebarDataMaster,
+                  locale
+                )
+              }
+            ),
             isDocument(sidebarDataMaster, card.id) ? /* @__PURE__ */ jsx46(
               Button4,
               {
@@ -11421,7 +11641,7 @@ var HamburgerMenu = ({ parentsArray = [] }) => {
                 }
               }
             ) : null
-          ] }, card.title))
+          ] }, card.id))
         },
         id
       ))
@@ -11755,7 +11975,7 @@ var TwitterIcon = (props) => /* @__PURE__ */ jsx53(
 var twitter_icon_default = TwitterIcon;
 
 // src/components/share-button/index.tsx
-import { useRef as useRef9, useState as useState12 } from "react";
+import { useRef as useRef10, useState as useState12 } from "react";
 import {
   FacebookShareButton,
   LinkedinShareButton,
@@ -11893,7 +12113,7 @@ var link_icon_default = LinkIcon;
 import { jsx as jsx56, jsxs as jsxs45 } from "react/jsx-runtime";
 var ShareButton = ({ url, sx = {} }) => {
   const [isOpen, setIsOpen] = useState12(false);
-  const containerRef = useRef9();
+  const containerRef = useRef10();
   useClickOutside(containerRef, () => setIsOpen(false));
   const handleCopyLink = async () => {
     try {
@@ -12145,7 +12365,7 @@ import { jsx as jsx59, jsxs as jsxs47 } from "react/jsx-runtime";
 var SearchSection = ({ dataElement, index }) => {
   const router = useRouter7();
   const { filterSelectedSection, ocurrenceCount, changeFilterSelectedSection } = useContext14(SearchContext);
-  const { locale } = useContext14(LibraryContext);
+  const { locale, sidebarDataMaster } = useContext14(LibraryContext);
   const updateFilter = (value) => {
     router.query.filter = value;
     changeFilterSelectedSection(value);
@@ -12188,7 +12408,7 @@ var SearchSection = ({ dataElement, index }) => {
             {
               className: "search-section-title",
               sx: filterSelectedSection === dataElement.id ? styles_default20.sectionTitleActive : styles_default20.sectionTitle(isDisabled),
-              children: dataElement.title
+              children: getSectionLabel(dataElement, sidebarDataMaster, locale)
             }
           )
         ] }),
@@ -12260,7 +12480,7 @@ import { Box as Box24, Text as Text17 } from "@vtex/brand-ui";
 import { Configure as Configure2, InstantSearch as InstantSearch2 } from "react-instantsearch-dom";
 
 // src/components/search-results/infiniteHits.tsx
-import { useContext as useContext17, useEffect as useEffect15, useMemo as useMemo2, useRef as useRef11 } from "react";
+import { useContext as useContext17, useEffect as useEffect15, useMemo as useMemo4, useRef as useRef12 } from "react";
 import {
   connectInfiniteHits,
   connectStateResults as connectStateResults2
@@ -12845,9 +13065,9 @@ var StateResults = connectStateResults2(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 );
 var InfiniteHits = ({ hits, hasMore, refineNext }) => {
-  const scrollRef = useRef11(null);
+  const scrollRef = useRef12(null);
   const { locale } = useContext17(LibraryContext);
-  const filteredResult = useMemo2(() => {
+  const filteredResult = useMemo4(() => {
     const mergeHits = [];
     hits.forEach((hit) => {
       const alreadyExists = mergeHits.findIndex(
@@ -13000,7 +13220,10 @@ var styles_default24 = { container: container11, tab, tabTitle, tabCount };
 
 // src/components/search-filter-tab-bar/index.tsx
 import { jsx as jsx65, jsxs as jsxs53 } from "react/jsx-runtime";
-var SearchFilterTab = ({ filter }) => {
+var SearchFilterTab = ({
+  filter,
+  label: label2
+}) => {
   const { filterSelectedSection, changeFilterSelectedSection, ocurrenceCount } = useContext19(SearchContext);
   const { locale } = useContext19(LibraryContext);
   const count2 = ocurrenceCount[filter];
@@ -13028,7 +13251,7 @@ var SearchFilterTab = ({ filter }) => {
           {
             sx: styles_default24.tabTitle(isActive, isDisabled),
             "data-testid": "doctype-filter-tab-title",
-            children: filter || messages[locale]["search_results.all"] || "All results"
+            children: isAllTab ? messages[locale]["search_results.all"] || "All results" : label2 || filter
           }
         ),
         formattedCount !== void 0 && /* @__PURE__ */ jsx65(Text18, { sx: styles_default24.tabCount, "data-testid": "doctype-filter-tab-count", children: formattedCount })
@@ -13037,11 +13260,18 @@ var SearchFilterTab = ({ filter }) => {
   );
 };
 var SearchFilterTabBar = () => {
-  const { sidebarSections } = useContext19(LibraryContext);
+  const { sidebarSections, sidebarDataMaster, locale } = useContext19(LibraryContext);
   return /* @__PURE__ */ jsxs53(Flex22, { sx: styles_default24.container, "data-testid": "doctype-filter-tab-bar", children: [
     /* @__PURE__ */ jsx65(SearchFilterTab, { filter: "" }),
     sidebarSections.flat().map((section) => {
-      return /* @__PURE__ */ jsx65(SearchFilterTab, { filter: section.id }, section.id);
+      return /* @__PURE__ */ jsx65(
+        SearchFilterTab,
+        {
+          filter: section.id,
+          label: getSectionLabel(section, sidebarDataMaster, locale)
+        },
+        section.id
+      );
     })
   ] });
 };

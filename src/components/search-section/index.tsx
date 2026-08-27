@@ -7,6 +7,7 @@ import { useRouter } from 'next/router.js'
 import { FilterType, SearchContext } from 'utils/context/search'
 import { Section } from 'utils/typings/types'
 import { formatSearchTabCount } from 'utils/search-utils'
+import { getSectionLabel } from 'utils/sidebar-utils'
 
 interface SearchSectionProps {
   dataElement: Section | null
@@ -17,7 +18,7 @@ const SearchSection = ({ dataElement, index }: SearchSectionProps) => {
   const router = useRouter()
   const { filterSelectedSection, ocurrenceCount, changeFilterSelectedSection } =
     useContext(SearchContext)
-  const { locale } = useContext(LibraryContext)
+  const { locale, sidebarDataMaster } = useContext(LibraryContext)
 
   const updateFilter = (value: FilterType) => {
     router.query.filter = value
@@ -76,7 +77,7 @@ const SearchSection = ({ dataElement, index }: SearchSectionProps) => {
               : styles.sectionTitle(isDisabled)
           }
         >
-          {dataElement.title}
+          {getSectionLabel(dataElement, sidebarDataMaster, locale)}
         </Text>
       </Flex>
       {countLabel !== undefined && (

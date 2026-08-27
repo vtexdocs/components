@@ -1,5 +1,5 @@
 import type { Dispatch, ReactNode, SetStateAction } from 'react'
-import { createContext, useEffect, useState } from 'react'
+import { createContext, useCallback, useEffect, useMemo, useState } from 'react'
 import { Item } from 'lib/table-of-contents/TableOfContents.types'
 import { Section } from 'utils/typings/types'
 import { SWRConfig } from 'swr'
@@ -44,6 +44,7 @@ export type ContextType = {
   toggleSidebarElementStatus: (title: string, currentlyOpen?: boolean) => void
   openSidebarElement: (title: string) => void
   closeSidebarElements: (parentsArray: string[]) => void
+  setOpenSidebarElements: (parentsArray: string[]) => void
   sidebarSections: Section[][]
   setSidebarSections: Dispatch<SetStateAction<Section[][]>>
   hamburguerSections: Section[][]
@@ -82,6 +83,7 @@ export const LibraryContext = createContext<ContextType>({
   toggleSidebarElementStatus: () => undefined,
   openSidebarElement: () => undefined,
   closeSidebarElements: () => undefined,
+  setOpenSidebarElements: () => undefined,
   sidebarSections: [],
   setSidebarSections: () => undefined,
   hamburguerSections: [],
@@ -109,9 +111,8 @@ const LibraryContextProvider = ({ children, ...props }: Props) => {
   const [hamburguerSections, setHamburguerSections] = useState(
     props.hamburguerMenuSections
   )
-  const { locale: propsLocale, ...restProps } = props
-  const locale = propsLocale ?? 'en'
-  const fallback = restProps.fallback
+  const locale = props.locale ?? 'en'
+  const fallback = props.fallback
 
   useEffect(() => {
     setSidebarDataMaster(props.fallback)
@@ -123,33 +124,64 @@ const LibraryContextProvider = ({ children, ...props }: Props) => {
       setActiveSectionName(props.sectionSelected)
   }, [props.sectionSelected])
 
-  const toggleSidebarElementStatus = (title: string, currentlyOpen?: boolean) => {
-    setSidebarElementStatus((sidebarElementStatus) => {
-      const open = sidebarElementStatus.has(title)
-        ? !sidebarElementStatus.get(title)
-        : !currentlyOpen
+  const toggleSidebarElementStatus = useCallback(
+    (title: string, currentlyOpen?: boolean) => {
+      setSidebarElementStatus((prev) => {
+        const open = prev.has(title) ? !prev.get(title) : !currentlyOpen
+        const next = new Map(prev)
+        next.set(title, open)
+        return next
+      })
+    },
+    []
+  )
 
-      return new Map(sidebarElementStatus.set(title, open))
+  const closeSidebarElements = useCallback((parentsArray: string[]) => {
+    const parentSet = new Set(parentsArray)
+    setSidebarElementStatus((prev) => {
+      let changed = false
+      const next = new Map(prev)
+      next.forEach((value, key) => {
+        if (!parentSet.has(key) && value) {
+          next.set(key, false)
+          changed = true
+        }
+      })
+      return changed ? next : prev
     })
-  }
+  }, [])
 
-  const closeSidebarElements = (parentsArray: string[]) => {
-    sidebarElementStatus.forEach((_value, key) => {
-      if (!parentsArray.includes(key)) {
-        setSidebarElementStatus((sidebarElementStatus) => {
-          return new Map(sidebarElementStatus.set(key, false))
-        })
-      }
+  const openSidebarElement = useCallback((title: string) => {
+    setSidebarElementStatus((prev) => {
+      if (prev.get(title) === true) return prev
+      const next = new Map(prev)
+      next.set(title, true)
+      return next
     })
-  }
+  }, [])
 
-  const openSidebarElement = (title: string) => {
-    setSidebarElementStatus((sidebarElementStatus) => {
-      return new Map(sidebarElementStatus.set(title, true))
+  const setOpenSidebarElements = useCallback((parentsArray: string[]) => {
+    const parentSet = new Set(parentsArray)
+    setSidebarElementStatus((prev) => {
+      const next = new Map(prev)
+      let changed = false
+      next.forEach((value, key) => {
+        if (!parentSet.has(key) && value) {
+          next.set(key, false)
+          changed = true
+        }
+      })
+      parentsArray.forEach((slug) => {
+        if (next.get(slug) !== true) {
+          next.set(slug, true)
+          changed = true
+        }
+      })
+      return changed ? next : prev
     })
-  }
+  }, [])
 
-  const goToPreviousItem = () => {
+  const goToPreviousItem = useCallback(() => {
     setActiveItem(({ item, subItem }) => {
       const index = headingItems.findIndex((heading) => heading.slug === item)
       if (index === -1) return { item, subItem }
@@ -165,9 +197,9 @@ const LibraryContextProvider = ({ children, ...props }: Props) => {
         subItem: previousSubItem,
       }
     })
-  }
+  }, [headingItems])
 
-  const goToPreviousSubItem = () => {
+  const goToPreviousSubItem = useCallback(() => {
     setActiveItem(({ item, subItem }) => {
       const heading = headingItems.find((heading) => heading.slug === item)
       const index = heading?.children.findIndex(
@@ -181,39 +213,60 @@ const LibraryContextProvider = ({ children, ...props }: Props) => {
         subItem: !index ? '' : heading.children[index - 1].slug,
       }
     })
-  }
+  }, [headingItems])
+
+  const contextValue = useMemo(
+    () => ({
+      headingItems,
+      activeItem,
+      setHeadingItems,
+      setActiveItem,
+      goToPreviousItem,
+      goToPreviousSubItem,
+      isEditorPreview,
+      setIsEditorPreview,
+      sidebarSectionHidden,
+      activeSectionName,
+      activeSidebarElement,
+      sidebarElementStatus,
+      setActiveSectionName,
+      setSidebarSectionHidden,
+      setActiveSidebarElement,
+      toggleSidebarElementStatus,
+      openSidebarElement,
+      closeSidebarElements,
+      setOpenSidebarElements,
+      sidebarDataMaster,
+      setSidebarDataMaster,
+      sidebarSections,
+      setSidebarSections,
+      hamburguerSections,
+      setHamburguerSections,
+      locale,
+    }),
+    [
+      headingItems,
+      activeItem,
+      goToPreviousItem,
+      goToPreviousSubItem,
+      isEditorPreview,
+      sidebarSectionHidden,
+      activeSectionName,
+      activeSidebarElement,
+      sidebarElementStatus,
+      toggleSidebarElementStatus,
+      openSidebarElement,
+      closeSidebarElements,
+      setOpenSidebarElements,
+      sidebarDataMaster,
+      sidebarSections,
+      hamburguerSections,
+      locale,
+    ]
+  )
 
   return (
-    <LibraryContext.Provider
-      value={{
-        headingItems,
-        activeItem,
-        setHeadingItems,
-        setActiveItem,
-        goToPreviousItem,
-        goToPreviousSubItem,
-        isEditorPreview,
-        setIsEditorPreview,
-        sidebarSectionHidden,
-        activeSectionName,
-        activeSidebarElement,
-        sidebarElementStatus,
-        setActiveSectionName,
-        setSidebarSectionHidden,
-        setActiveSidebarElement,
-        toggleSidebarElementStatus,
-        openSidebarElement,
-        closeSidebarElements,
-        sidebarDataMaster,
-        setSidebarDataMaster,
-        sidebarSections,
-        setSidebarSections,
-        hamburguerSections,
-        setHamburguerSections,
-        locale,
-        ...restProps,
-      }}
-    >
+    <LibraryContext.Provider value={contextValue}>
       <SWRConfig
         value={{
           fallback: {
