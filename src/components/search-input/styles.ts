@@ -4,10 +4,13 @@ const resultsOuterContainer: SxStyleProp = {
   position: 'relative',
 }
 
+const searchWidth = ['288px', '458px', '458px', '288px', '416px', '544px']
+const keyboardHintsDisplay = ['none', 'flex', 'flex', 'none', 'flex', 'flex']
+
 const resultsInnerContainer: SxStyleProp = {
   top: '4px',
   position: 'absolute',
-  width: ['288px', '458px', '458px', '288px', '416px', '544px'],
+  width: searchWidth,
   border: '1px solid #E7E9EE',
   borderRadius: '8px',
   background: '#FFFFFF',
@@ -22,21 +25,24 @@ const resultsBox: SxStyleProp = {
   overflowY: 'auto',
 }
 
-const resultsFooter = (showOnMobile: boolean): SxStyleProp => ({
-  display: showOnMobile ? 'flex' : ['none', 'flex'],
+const resultsFooter = (hasSeeAll: boolean): SxStyleProp => ({
+  display: hasSeeAll ? 'flex' : keyboardHintsDisplay,
+  flexWrap: 'wrap',
   alignItems: 'center',
   justifyContent: 'space-between',
-  gap: '12px',
-  padding: '8px 16px',
+  gap: '8px 12px',
+  padding: ['8px 12px', '8px 16px'],
   borderTop: '1px solid #E7E9EE',
   background: '#FAFAFB',
 })
 
 const keyboardHints: SxStyleProp = {
-  display: ['none', 'flex'],
+  display: keyboardHintsDisplay,
   alignItems: 'center',
   gap: '12px',
   flexWrap: 'wrap',
+  flex: '1 1 200px',
+  minWidth: 0,
 }
 
 const keyboardHint: SxStyleProp = {
@@ -76,8 +82,14 @@ const seeAllCaret: SxStyleProp = {
 const seeAll: SxStyleProp = {
   display: 'flex',
   alignItems: 'center',
+  justifyContent: ['space-between', 'flex-start', 'flex-start', 'space-between', 'flex-start'],
   gap: '4px',
-  ml: 'auto',
+  width: ['100%', 'auto', 'auto', '100%', 'auto'],
+  maxWidth: '100%',
+  boxSizing: 'border-box',
+  ml: ['0', 'auto', 'auto', '0', 'auto'],
+  flex: '0 1 auto',
+  minWidth: 0,
   padding: '6px 10px',
   borderRadius: '6px',
   color: '#D71D55',
@@ -85,7 +97,11 @@ const seeAll: SxStyleProp = {
   fontWeight: '600',
   lineHeight: '16px',
   cursor: 'pointer',
-  whiteSpace: 'nowrap',
+  whiteSpace: ['normal', 'nowrap', 'nowrap', 'normal', 'nowrap'],
+  '& p': {
+    minWidth: 0,
+    flex: [1, 'none', 'none', 1, 'none'],
+  },
   ':hover, &[data-active="true"]': {
     background: '#F8E3EC',
   },
@@ -274,13 +290,13 @@ const hitBreadCrumbArrow: SxStyleProp = {
 }
 
 const searchInput: SxStyleProp = {
-  width: '76px',
+  width: '100%',
   background: 'none',
   border: '#F4F4F4',
   color: '#545454',
   fontSize: ['14px'],
-  flex: 0,
-  transition: 'flex 0.3s',
+  flex: 1,
+  minWidth: 0,
 }
 
 const searchIcon: SxStyleProp = {
@@ -298,34 +314,18 @@ const searchContainer: SxStyleProp = {
   alignItems: 'center',
   justifyContent: 'center',
   background: '#F4F4F4',
-  width: '288px',
+  width: searchWidth,
   height: '40px',
   borderRadius: '4px',
-  transition: 'all 0.3s ease-out',
+  transition: 'background 0.3s ease-out, border 0.3s ease-out, box-shadow 0.3s ease-out',
   cursor: 'pointer',
   ':hover': {
-    transition: 'all 0.3s ease-out',
-    width: ['288px', '458px', '458px', '288px', '416px', '544px'],
     border: '1px solid #3B3B3B',
   },
   ':focus-within': {
     background: '#FFFFFF',
-    width: ['288px', '458px', '458px', '288px', '416px', '544px'],
-    transition: 'all 0.3s ease-out',
     border: '1px solid #3B3B3B',
     boxShadow: '0px 0px 0px 1px #FFFFFF, 0px 0px 0px 3px #B9B9B9',
-    flex: 'auto',
-    '.searchComponent': {
-      flex: '1 !important',
-    },
-  },
-  '.searchComponent': {
-    ':placeholder-shown': {
-      width: '76px',
-    },
-    ':not(:placeholder-shown)': {
-      flex: '1 !important',
-    },
   },
 }
 
