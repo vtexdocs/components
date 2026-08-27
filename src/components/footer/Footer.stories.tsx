@@ -31,6 +31,14 @@ type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   args: {
+    variant: 'helpcenter',
+    localeSwitcher: <LocaleSwitcherStub />,
+  },
+}
+
+export const DeveloperPortal: Story = {
+  args: {
+    variant: 'devportal',
     localeSwitcher: <LocaleSwitcherStub />,
   },
 }

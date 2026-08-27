@@ -8,6 +8,13 @@
   "feedback_modal.button": "Enviar feedback",
   "search_input.empty": "No se encontraron resultados. Intenta utilizar otros términos.",
   "search_input.placeholder": "Buscar",
+  "search_input.copy_link": "Copiar enlace",
+  "search_input.copied": "Copiado",
+  "search_input.open_new_tab": "Abrir en nueva pestaña",
+  "search_input.clear": "Limpiar búsqueda",
+  "search_input.navigate": "Navegar",
+  "search_input.open": "Abrir",
+  "search_input.close": "Cerrar",
   "sidebar_search.placeholder": "Buscar en",
   "search_results.showing": "Mostrando",
   "search_results.results_for": "resultados para",
@@ -40,6 +47,7 @@
   "contributors.photo_alt": "Foto del contribuidor {name}",
   "footer.github": "GitHub",
   "footer.developer_portal": "Developer Portal",
+  "footer.help_center": "Help Center",
   "footer.community": "Comunidad",
   "footer.feedback": "Feedback"
 }

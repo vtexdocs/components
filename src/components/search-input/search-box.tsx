@@ -1,10 +1,11 @@
-import { useRef, KeyboardEvent, useContext } from 'react'
+import { useRef, KeyboardEvent, MouseEvent, useContext } from 'react'
 import { useRouter } from 'next/router.js'
 import { Flex } from '@vtex/brand-ui'
 import { connectSearchBox } from 'react-instantsearch-dom'
 import { SearchBoxProvided } from 'react-instantsearch-core'
 
 import SearchIcon from 'components/icons/search-icon'
+import CloseIcon from 'components/icons/close-icon'
 import styles from './styles'
 import { messages } from 'utils/get-message'
 import { LibraryContext } from 'utils/context/libraryContext'
@@ -27,6 +28,11 @@ const SearchBoxComponent = ({
   }
 
   const keyPressed = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Escape') {
+      changeFocus(false)
+      inputRef.current?.blur()
+      return
+    }
     if (e.key === 'Enter') {
       router.push({
         pathname: '/search',
@@ -35,6 +41,12 @@ const SearchBoxComponent = ({
       inputRef.current?.blur()
       changeFocus(false)
     }
+  }
+
+  const handleClear = (e: MouseEvent) => {
+    e.stopPropagation()
+    refine('')
+    inputRef.current?.focus()
   }
 
   return (
@@ -51,6 +63,18 @@ const SearchBoxComponent = ({
         onKeyDown={(e) => keyPressed(e)}
         onChange={(e) => refine(e.currentTarget.value)}
       />
+      {currentRefinement ? (
+        <Flex
+          as="button"
+          type="button"
+          sx={styles.clearButton}
+          aria-label={messages[locale]['search_input.clear'] || 'Clear search'}
+          title={messages[locale]['search_input.clear'] || 'Clear search'}
+          onClick={handleClear}
+        >
+          <CloseIcon sx={{ width: '14px', height: '14px' }} />
+        </Flex>
+      ) : null}
     </Flex>
   )
 }

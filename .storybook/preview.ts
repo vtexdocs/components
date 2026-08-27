@@ -1,4 +1,17 @@
 import type { Preview } from '@storybook/react'
+import SearchConfig from '../src/utils/config/search-config'
+
+const algoliaAppId = process.env.NEXT_PUBLIC_ALGOLIA_APP_ID
+const algoliaSearchKey = process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_KEY
+const algoliaIndex = process.env.NEXT_PUBLIC_INDEX || 'devportal-docs'
+
+if (algoliaAppId && algoliaSearchKey) {
+  SearchConfig({
+    appId: algoliaAppId,
+    apiKey: algoliaSearchKey,
+    index: algoliaIndex,
+  })
+}
 
 const customViewports = {
   mobileSmall: {

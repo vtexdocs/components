@@ -21,7 +21,11 @@ export type { Item } from './table-of-contents'
 export type { OnThisPageProps } from './on-this-page'
 export type { ContributorsType, ContributorsProps } from './contributors'
 export type { TagColor, TagProps } from '../components/tag'
-export type { FooterProps, FooterLink } from '../components/footer'
+export type {
+  FooterProps,
+  FooterLink,
+  FooterVariant,
+} from '../components/footer'
 export type {
   FilterGroup,
   FilterOption,

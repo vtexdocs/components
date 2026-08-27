@@ -8,6 +8,13 @@ export type MessagesType = {
   'feedback_modal.button': string
   'search_input.empty': string
   'search_input.placeholder': string
+  'search_input.copy_link': string
+  'search_input.copied': string
+  'search_input.open_new_tab': string
+  'search_input.clear': string
+  'search_input.navigate': string
+  'search_input.open': string
+  'search_input.close': string
   'sidebar_search.placeholder': string
   'search_results.showing': string
   'search_results.results_for': string
@@ -40,6 +47,7 @@ export type MessagesType = {
   'contributors.photo_alt': string
   'footer.github': string
   'footer.developer_portal': string
+  'footer.help_center': string
   'footer.community': string
   'footer.feedback': string
 }

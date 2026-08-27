@@ -8,6 +8,7 @@ import {
   getFacebookURL,
   getFeedbackURL,
   getGithubURL,
+  getHelpCenterURL,
   getInstagramURL,
   getLinkedinURL,
   getTwitterURL,
@@ -17,7 +18,6 @@ import VTEXLogoFooter from 'components/icons/vtex-logo-footer'
 import InstagramIcon from 'components/icons/instagram-icon'
 import YoutubeIcon from 'components/icons/youtube-icon'
 import FacebookCircleIcon from 'components/icons/facebook-circle-icon'
-import TwitterCircleIcon from 'components/icons/twitter-circle-icon'
 import LinkedinCircleIcon from 'components/icons/linkedin-circle-icon'
 import styles from './styles'
 
@@ -26,11 +26,19 @@ export type FooterLink = {
   href: string
 }
 
+export type FooterVariant = 'helpcenter' | 'devportal'
+
 export type FooterProps = {
-  /** Overrides the default GitHub, Developer Portal, Community, and Feedback links. */
+  /**
+   * Which site is rendering the Footer. Help Center shows a Developer Portal
+   * link; Developer Portal shows a Help Center link.
+   */
+  variant?: FooterVariant
+  /** Overrides the default GitHub, cross-site, Community, and Feedback links. */
   links?: FooterLink[]
   githubUrl?: string
   developerPortalUrl?: string
+  helpCenterUrl?: string
   communityUrl?: string
   feedbackUrl?: string
   /** App-specific locale switcher rendered at the end of the link row. */
@@ -38,9 +46,11 @@ export type FooterProps = {
 }
 
 const Footer = ({
+  variant = 'helpcenter',
   links,
   githubUrl,
   developerPortalUrl,
+  helpCenterUrl,
   communityUrl,
   feedbackUrl,
   localeSwitcher,
@@ -48,15 +58,23 @@ const Footer = ({
   const { locale } = useContext(LibraryContext)
   const localizedMessages = messages[locale] ?? messages.en
 
+  const crossSiteLink: FooterLink =
+    variant === 'devportal'
+      ? {
+          label: localizedMessages['footer.help_center'],
+          href: helpCenterUrl ?? getHelpCenterURL(),
+        }
+      : {
+          label: localizedMessages['footer.developer_portal'],
+          href: developerPortalUrl ?? getDeveloperPortalURL(),
+        }
+
   const defaultLinks: FooterLink[] = [
     {
       label: localizedMessages['footer.github'],
       href: githubUrl ?? getGithubURL(),
     },
-    {
-      label: localizedMessages['footer.developer_portal'],
-      href: developerPortalUrl ?? getDeveloperPortalURL(),
-    },
+    crossSiteLink,
     {
       label: localizedMessages['footer.community'],
       href: communityUrl ?? getCommunityURL(),
@@ -71,8 +89,8 @@ const Footer = ({
 
   const socialIcons = [
     {
-      href: getFacebookURL(),
-      component: <FacebookCircleIcon sx={styles.icon} />,
+      href: getLinkedinURL(),
+      component: <LinkedinCircleIcon sx={styles.icon} />,
     },
     {
       href: getInstagramURL(),
@@ -83,12 +101,8 @@ const Footer = ({
       component: <YoutubeIcon sx={styles.icon} />,
     },
     {
-      href: getLinkedinURL(),
-      component: <LinkedinCircleIcon sx={styles.icon} />,
-    },
-    {
-      href: getTwitterURL(),
-      component: <TwitterCircleIcon sx={styles.icon} />,
+      href: getFacebookURL(),
+      component: <FacebookCircleIcon sx={styles.icon} />,
     },
   ]
 

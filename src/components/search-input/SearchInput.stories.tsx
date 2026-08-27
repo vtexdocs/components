@@ -13,7 +13,9 @@ const meta = {
     (Story) => (
       <ThemeProvider>
         <LibraryContextProvider {...exampleContextProps}>
-          <Story />
+          <div style={{ minHeight: 560, padding: 24 }}>
+            <Story />
+          </div>
         </LibraryContextProvider>
       </ThemeProvider>
     ),
