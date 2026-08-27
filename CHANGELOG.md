@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [6.2.6](https://github.com/vtexdocs/components/compare/v6.2.5...v6.2.6) (2026-08-27)
+
+
+### Features
+
+* improve sidebar search ([601e595](https://github.com/vtexdocs/components/commit/601e595f1322c6ec7bc6d7c78b0709cf4486a9e0))
+
 ### [6.2.5](https://github.com/vtexdocs/components/compare/v6.2.4...v6.2.5) (2026-08-27)
 
 ### [6.2.4](https://github.com/vtexdocs/components/compare/v6.2.3...v6.2.4) (2026-08-27)
