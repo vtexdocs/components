@@ -16,7 +16,7 @@ import { Box, Flex, IconCaret, Text } from '@vtex/brand-ui'
 import {
   getIconFromSection,
   getRelativeURL,
-  getTitleById,
+  getSearchBreadcrumbs,
 } from 'utils/search-utils'
 import CustomHighlight, { HighlightQuery } from './customHighlight'
 import styles from './styles'
@@ -53,15 +53,17 @@ const Hit2 = ({
   onOpenNewTab,
   onMouseEnter,
 }: HitProps) => {
-  const { sidebarSections, locale } = useContext(LibraryContext)
+  const { sidebarSections, sidebarDataMaster, locale } =
+    useContext(LibraryContext)
   const DocIcon = getIconFromSection(sidebarSections, hit.doctype) || PaperIcon
   const title = typeof hit.doctitle === 'string' ? hit.doctitle : ''
   const relativeUrl = getRelativeURL(hit.url)
-  const doctypeLabel = getTitleById(sidebarSections, hit.doctype)
-  const breadcrumbs = [
-    doctypeLabel,
-    hit.doccategory && hit.doccategory !== title ? hit.doccategory : null,
-  ].filter((crumb): crumb is string => Boolean(crumb))
+  const breadcrumbs = getSearchBreadcrumbs({
+    hit,
+    navigation: sidebarDataMaster,
+    sections: sidebarSections,
+    locale,
+  })
 
   return (
     <Box

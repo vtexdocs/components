@@ -10,6 +10,8 @@ import { stripMarkdownForSnippet } from '../string-utils'
 export let searchClient: any = {}
 export let searchIndex = ''
 export let hitsPerPage = 10 // Default page size for search results
+/** Page size for the search results page; more hits load as the user scrolls. */
+export const SEARCH_RESULTS_HITS_PER_PAGE = 100
 
 export interface AlgoliaConfig {
   appId: string

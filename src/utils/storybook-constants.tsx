@@ -15,9 +15,9 @@ export const sections = [
   ],
   [
     {
-      id: 'Reference',
+      id: 'API Reference',
       Icon: APIReferenceIcon,
-      title: 'Reference',
+      title: 'API Reference',
       description: 'Reference description',
       link: '#',
     },

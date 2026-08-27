@@ -10293,6 +10293,67 @@ var getAction = (actionType) => {
 var getTitleById = (sections, id) => {
   return sections.flat().find((item2) => item2.id === id)?.title || id;
 };
+function resolveLocalized(value, locale) {
+  if (!value)
+    return "";
+  if (typeof value === "string")
+    return value;
+  return value[locale] || value.en || "";
+}
+function urlMatchesSlug(relativeUrl, slugPrefix, slug) {
+  if (!slug)
+    return false;
+  const url = relativeUrl.replace(/\/$/, "").split("#")[0].split("?")[0];
+  const expected = `/${slugPrefix}/${slug}`.replace(/\/{2,}/g, "/");
+  return url === expected || url.endsWith(expected) || url.endsWith(`/${slug}`);
+}
+function nodeContainsHit(node, relativeUrl, slugPrefix, locale) {
+  const slug = resolveLocalized(node.slug, locale);
+  if (slug && urlMatchesSlug(relativeUrl, slugPrefix, slug))
+    return true;
+  return (node.children || []).some(
+    (child) => nodeContainsHit(child, relativeUrl, slugPrefix, locale)
+  );
+}
+function getSearchBreadcrumbs({
+  hit,
+  navigation,
+  sections,
+  locale = "en"
+}) {
+  const sectionTitle2 = getTitleById(sections, hit.doctype);
+  const title9 = typeof hit.doctitle === "string" ? hit.doctitle : "";
+  const crumbs = [sectionTitle2];
+  const isApiReference = String(hit.doctype).toLowerCase() === "api reference";
+  if (isApiReference) {
+    if (title9 && title9 !== sectionTitle2)
+      crumbs.push(title9);
+    return crumbs.filter(Boolean);
+  }
+  const relativeUrl = typeof hit.url === "string" ? getRelativeURL(hit.url) : "";
+  const navigationList = Array.isArray(navigation) ? navigation : [];
+  const navSection = navigationList.find(
+    (item2) => item2.documentation === hit.doctype || String(item2.documentation).toLowerCase() === String(hit.doctype).toLowerCase()
+  );
+  let categoryName = "";
+  if (navSection?.categories?.length) {
+    const slugPrefix = navSection.slugPrefix || "";
+    const category2 = navSection.categories.find(
+      (cat) => nodeContainsHit(cat, relativeUrl, slugPrefix, locale)
+    );
+    categoryName = resolveLocalized(category2?.name, locale);
+  }
+  if (!categoryName && typeof hit.doccategory === "string" && hit.doccategory) {
+    categoryName = hit.doccategory;
+  }
+  if (categoryName && categoryName !== sectionTitle2 && categoryName !== title9) {
+    crumbs.push(categoryName);
+  }
+  if (title9 && crumbs[crumbs.length - 1] !== title9) {
+    crumbs.push(title9);
+  }
+  return crumbs.filter(Boolean);
+}
 
 // src/components/search-input/customHighlight.tsx
 import { connectHighlight } from "react-instantsearch-dom";
@@ -10543,15 +10604,16 @@ var Hit2 = ({
   onOpenNewTab,
   onMouseEnter
 }) => {
-  const { sidebarSections, locale } = useContext10(LibraryContext);
+  const { sidebarSections, sidebarDataMaster, locale } = useContext10(LibraryContext);
   const DocIcon = getIconFromSection(sidebarSections, hit.doctype) || paper_icon_default;
   const title9 = typeof hit.doctitle === "string" ? hit.doctitle : "";
   const relativeUrl = getRelativeURL(hit.url);
-  const doctypeLabel = getTitleById(sidebarSections, hit.doctype);
-  const breadcrumbs = [
-    doctypeLabel,
-    hit.doccategory && hit.doccategory !== title9 ? hit.doccategory : null
-  ].filter((crumb) => Boolean(crumb));
+  const breadcrumbs = getSearchBreadcrumbs({
+    hit,
+    navigation: sidebarDataMaster,
+    sections: sidebarSections,
+    locale
+  });
   return /* @__PURE__ */ jsxs37(
     Box16,
     {
@@ -10781,6 +10843,7 @@ import aa2 from "search-insights";
 var searchClient = {};
 var searchIndex = "";
 var hitsPerPage = 10;
+var SEARCH_RESULTS_HITS_PER_PAGE = 100;
 var createAlgoliaClient = (config) => {
   const {
     apiKey,
@@ -12145,7 +12208,7 @@ var container9 = {
   border: "1px solid #E7E9EE",
   borderRadius: "4px",
   mr: ["32px", "32px", "32px", "32px", "32px", "32px", "64px"],
-  mt: "96px"
+  mt: "32px"
 };
 var notesSection = {
   px: "8px",
@@ -12287,6 +12350,12 @@ var title5 = {
   lineHeight: ["22px", "24px"],
   color: "#142032"
 };
+var titleText = {
+  minWidth: 0,
+  flex: 1,
+  display: "inline",
+  whiteSpace: "normal"
+};
 var httpMethod = {
   mr: "8px"
 };
@@ -12410,6 +12479,7 @@ var styles_default22 = {
   cardText,
   iconWrap,
   title: title5,
+  titleText,
   httpMethod,
   icon: icon2,
   description: description3,
@@ -12493,7 +12563,7 @@ var SearchCard = ({
   const DocIcon = Icon69 || paper_icon_default;
   const displayTitle = title9 === "overview" && hit.doccategory ? `${hit.doccategory} ${title9}` : title9;
   const crumbs = (breadcrumbs || []).filter(
-    (crumb) => Boolean(crumb) && crumb !== displayTitle
+    (crumb) => Boolean(crumb)
   );
   useEffect14(() => {
     if (!copied)
@@ -12530,7 +12600,7 @@ var SearchCard = ({
               active: false
             }
           ) : null,
-          /* @__PURE__ */ jsx62(HighlightQuery, { text: displayTitle, query })
+          /* @__PURE__ */ jsx62(Text15, { as: "span", sx: styles_default22.titleText, children: /* @__PURE__ */ jsx62(HighlightQuery, { text: displayTitle, query }) })
         ] }),
         /* @__PURE__ */ jsxs50(Text15, { className: "searchCardDescription", sx: styles_default22.description, children: [
           /* @__PURE__ */ jsx62(
@@ -12635,10 +12705,9 @@ import { Box as Box23, Flex as Flex21, Text as Text16 } from "@vtex/brand-ui";
 // src/components/search-results/styles.ts
 var resultContainer = {
   width: ["80%", "544px", "544px", "544px", "720px", "720px", "1400px"],
-  paddingTop: ["32px", "32px", "32px", "64px"],
+  paddingTop: "32px",
   hr: {
     marginTop: "16px",
-    marginBottom: "32px",
     borderTop: "none",
     borderColor: "#DDDDDD",
     display: ["none", "none", "none", "block"]
@@ -12710,12 +12779,13 @@ var styles_default23 = {
 // src/components/search-results/infiniteHits.tsx
 import { jsx as jsx63, jsxs as jsxs51 } from "react/jsx-runtime";
 var HitCard = ({ hit }) => {
-  const { sidebarSections } = useContext17(LibraryContext);
-  const breadcrumbTitle = getTitleById(sidebarSections, hit.doctype);
-  const breadcrumbs = [
-    breadcrumbTitle,
-    ...hit.doccategory ? [hit.doccategory] : []
-  ];
+  const { sidebarSections, sidebarDataMaster, locale } = useContext17(LibraryContext);
+  const breadcrumbs = getSearchBreadcrumbs({
+    hit,
+    navigation: sidebarDataMaster,
+    sections: sidebarSections,
+    locale
+  });
   const DocIcon = getIconFromSection(sidebarSections, hit.doctype);
   return /* @__PURE__ */ jsx63(
     search_card_default,
@@ -12777,13 +12847,6 @@ var StateResults = connectStateResults2(
 var InfiniteHits = ({ hits, hasMore, refineNext }) => {
   const scrollRef = useRef11(null);
   const { locale } = useContext17(LibraryContext);
-  function onSentinelIntersection(entries) {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting && hasMore) {
-        refineNext();
-      }
-    });
-  }
   const filteredResult = useMemo2(() => {
     const mergeHits = [];
     hits.forEach((hit) => {
@@ -12799,13 +12862,20 @@ var InfiniteHits = ({ hits, hasMore, refineNext }) => {
     return mergeHits;
   }, [hits]);
   useEffect15(() => {
-    const observer = new IntersectionObserver(onSentinelIntersection, {});
-    if (scrollRef.current)
-      observer.observe(scrollRef.current);
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting && hasMore) {
+          refineNext();
+        }
+      });
+    });
+    const sentinel = scrollRef.current;
+    if (sentinel)
+      observer.observe(sentinel);
     return () => {
       observer.disconnect();
     };
-  }, [hits]);
+  }, [hasMore, refineNext]);
   return /* @__PURE__ */ jsxs51(Box23, { children: [
     /* @__PURE__ */ jsx63(StateResults, {}),
     filteredResult.length === 0 && /* @__PURE__ */ jsx63(Flex21, { sx: styles_default23.noResults, children: /* @__PURE__ */ jsx63(Text16, { children: messages[locale]["search_input.empty"] || "No results found. Try different search terms." }) }),
@@ -12873,7 +12943,7 @@ var SearchResults = () => {
               filters,
               query: router.query.keyword,
               clickAnalytics: true,
-              hitsPerPage,
+              hitsPerPage: SEARCH_RESULTS_HITS_PER_PAGE,
               facets: ["doctype", "language"],
               facetingAfterDistinct: true
             }

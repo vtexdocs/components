@@ -51,7 +51,7 @@ const SearchCard = ({
       ? `${hit.doccategory} ${title}`
       : title
   const crumbs = (breadcrumbs || []).filter(
-    (crumb): crumb is string => Boolean(crumb) && crumb !== displayTitle
+    (crumb): crumb is string => Boolean(crumb)
   )
 
   useEffect(() => {
@@ -95,7 +95,9 @@ const SearchCard = ({
                     active={false}
                   />
                 ) : null}
-                <HighlightQuery text={displayTitle} query={query} />
+                <Text as="span" sx={styles.titleText}>
+                  <HighlightQuery text={displayTitle} query={query} />
+                </Text>
               </Text>
               <Text className="searchCardDescription" sx={styles.description}>
                 <CustomHighlight

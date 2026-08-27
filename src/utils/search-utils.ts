@@ -129,3 +129,110 @@ export const getAction = (actionType: ActionType): Action => {
 export const getTitleById = (sections: Section[][], id: string) => {
   return sections.flat().find((item) => item.id === id)?.title || id
 }
+
+type LocalizedField = string | { en: string; pt: string; es: string }
+
+type NavigationNode = {
+  name?: LocalizedField
+  slug?: LocalizedField
+  children?: NavigationNode[]
+  categories?: NavigationNode[]
+  documentation?: string
+  slugPrefix?: string
+}
+
+function resolveLocalized(
+  value: LocalizedField | undefined,
+  locale: 'en' | 'pt' | 'es'
+): string {
+  if (!value) return ''
+  if (typeof value === 'string') return value
+  return value[locale] || value.en || ''
+}
+
+function urlMatchesSlug(
+  relativeUrl: string,
+  slugPrefix: string,
+  slug: string
+): boolean {
+  if (!slug) return false
+  const url = relativeUrl.replace(/\/$/, '').split('#')[0].split('?')[0]
+  const expected = `/${slugPrefix}/${slug}`.replace(/\/{2,}/g, '/')
+  return url === expected || url.endsWith(expected) || url.endsWith(`/${slug}`)
+}
+
+function nodeContainsHit(
+  node: NavigationNode,
+  relativeUrl: string,
+  slugPrefix: string,
+  locale: 'en' | 'pt' | 'es'
+): boolean {
+  const slug = resolveLocalized(node.slug, locale)
+  if (slug && urlMatchesSlug(relativeUrl, slugPrefix, slug)) return true
+  return (node.children || []).some((child) =>
+    nodeContainsHit(child, relativeUrl, slugPrefix, locale)
+  )
+}
+
+/**
+ * Builds search breadcrumbs as [section, parent category, page title].
+ * API Reference omits the category and uses [section, page title].
+ */
+export function getSearchBreadcrumbs({
+  hit,
+  navigation,
+  sections,
+  locale = 'en',
+}: {
+  hit: Hit
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  navigation: any
+  sections: Section[][]
+  locale?: 'en' | 'pt' | 'es'
+}): string[] {
+  const sectionTitle = getTitleById(sections, hit.doctype)
+  const title = typeof hit.doctitle === 'string' ? hit.doctitle : ''
+  const crumbs = [sectionTitle]
+  const isApiReference =
+    String(hit.doctype).toLowerCase() === 'api reference'
+
+  if (isApiReference) {
+    if (title && title !== sectionTitle) crumbs.push(title)
+    return crumbs.filter(Boolean)
+  }
+
+  const relativeUrl = typeof hit.url === 'string' ? getRelativeURL(hit.url) : ''
+
+  const navigationList: NavigationNode[] = Array.isArray(navigation)
+    ? navigation
+    : []
+  const navSection = navigationList.find(
+    (item) =>
+      item.documentation === hit.doctype ||
+      String(item.documentation).toLowerCase() ===
+        String(hit.doctype).toLowerCase()
+  )
+
+  let categoryName = ''
+  if (navSection?.categories?.length) {
+    const slugPrefix = navSection.slugPrefix || ''
+    const category = navSection.categories.find((cat) =>
+      nodeContainsHit(cat, relativeUrl, slugPrefix, locale)
+    )
+    categoryName = resolveLocalized(category?.name, locale)
+  }
+
+  if (!categoryName && typeof hit.doccategory === 'string' && hit.doccategory) {
+    categoryName = hit.doccategory
+  }
+
+  if (categoryName && categoryName !== sectionTitle && categoryName !== title) {
+    crumbs.push(categoryName)
+  }
+
+  if (title && crumbs[crumbs.length - 1] !== title) {
+    crumbs.push(title)
+  }
+
+  return crumbs.filter(Boolean)
+}
