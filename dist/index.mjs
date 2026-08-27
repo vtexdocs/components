@@ -214,7 +214,7 @@ var require_react_is_development = __commonJS({
         var ContextProvider = REACT_PROVIDER_TYPE;
         var Element = REACT_ELEMENT_TYPE;
         var ForwardRef = REACT_FORWARD_REF_TYPE;
-        var Fragment8 = REACT_FRAGMENT_TYPE;
+        var Fragment9 = REACT_FRAGMENT_TYPE;
         var Lazy = REACT_LAZY_TYPE;
         var Memo = REACT_MEMO_TYPE;
         var Portal = REACT_PORTAL_TYPE;
@@ -273,7 +273,7 @@ var require_react_is_development = __commonJS({
         exports.ContextProvider = ContextProvider;
         exports.Element = Element;
         exports.ForwardRef = ForwardRef;
-        exports.Fragment = Fragment8;
+        exports.Fragment = Fragment9;
         exports.Lazy = Lazy;
         exports.Memo = Memo;
         exports.Portal = Portal;
@@ -10297,7 +10297,7 @@ var getTitleById = (sections, id) => {
 // src/components/search-input/customHighlight.tsx
 import { connectHighlight } from "react-instantsearch-dom";
 import { Flex as Flex15, Text as Text10 } from "@vtex/brand-ui";
-import { jsx as jsx40 } from "react/jsx-runtime";
+import { Fragment as Fragment5, jsx as jsx40 } from "react/jsx-runtime";
 function clipAroundHighlight(parts, maxChars) {
   if (!parts.length)
     return parts;
@@ -10346,6 +10346,20 @@ function clipAroundHighlight(parts, maxChars) {
   }
   return result;
 }
+var HighlightQuery = ({
+  text: text3,
+  query
+}) => {
+  if (!query?.trim() || !text3)
+    return /* @__PURE__ */ jsx40(Fragment5, { children: text3 });
+  const escaped = query.trim().replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const regex = new RegExp(`(${escaped})`, "ig");
+  const parts = text3.split(regex);
+  const normalizedQuery = query.trim().toLowerCase();
+  return /* @__PURE__ */ jsx40(Fragment5, { children: parts.map(
+    (part, index) => part.toLowerCase() === normalizedQuery ? /* @__PURE__ */ jsx40("mark", { style: styles_default17.hitContentHighlighted, children: part }, index) : part
+  ) });
+};
 var Highlight = ({
   highlight,
   attribute,
@@ -10517,19 +10531,8 @@ var PaperIcon = (props) => /* @__PURE__ */ jsxs36(
 var paper_icon_default = PaperIcon;
 
 // src/components/search-input/results-box.tsx
-import { Fragment as Fragment5, jsx as jsx44, jsxs as jsxs37 } from "react/jsx-runtime";
+import { Fragment as Fragment6, jsx as jsx44, jsxs as jsxs37 } from "react/jsx-runtime";
 var VISIBLE_HITS = 7;
-var HighlightQuery = ({ text: text3, query }) => {
-  if (!query?.trim() || !text3)
-    return /* @__PURE__ */ jsx44(Fragment5, { children: text3 });
-  const escaped = query.trim().replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  const regex = new RegExp(`(${escaped})`, "ig");
-  const parts = text3.split(regex);
-  const normalizedQuery = query.trim().toLowerCase();
-  return /* @__PURE__ */ jsx44(Fragment5, { children: parts.map(
-    (part, index) => part.toLowerCase() === normalizedQuery ? /* @__PURE__ */ jsx44("mark", { style: styles_default17.hitContentHighlighted, children: part }, index) : part
-  ) });
-};
 var Hit2 = ({
   hit,
   insights,
@@ -10568,7 +10571,7 @@ var Hit2 = ({
               /* @__PURE__ */ jsxs37(Box16, { sx: styles_default17.hitText, children: [
                 title9 ? /* @__PURE__ */ jsx44(Text11, { sx: styles_default17.hitTitle, children: /* @__PURE__ */ jsx44(HighlightQuery, { text: title9, query }) }) : null,
                 hit.content ? /* @__PURE__ */ jsx44(customHighlight_default, { hit, attribute: "content" }) : null,
-                /* @__PURE__ */ jsxs37(Flex16, { sx: styles_default17.hitBreadcrumbs, children: [
+                typeof hit.doctype === "string" && /* @__PURE__ */ jsxs37(Flex16, { sx: styles_default17.hitBreadcrumbs, children: [
                   /* @__PURE__ */ jsx44(Text11, { sx: styles_default17.hitBreadCrumbIn, children: `${messages[locale]["search_card.in"] || "In"} ${breadcrumbs[0] || hit.doctype}` }),
                   breadcrumbs.slice(1).map((filter, index) => /* @__PURE__ */ jsxs37(Flex16, { sx: styles_default17.alignCenter, children: [
                     /* @__PURE__ */ jsx44(
@@ -10712,7 +10715,7 @@ var HitsBox = connectStateResults(
       searchState.query,
       visibleHits
     ]);
-    return /* @__PURE__ */ jsx44(Fragment5, { children: searchResults && /* @__PURE__ */ jsx44(Box16, { sx: styles_default17.resultsOuterContainer, children: /* @__PURE__ */ jsxs37(Box16, { sx: styles_default17.resultsInnerContainer, children: [
+    return /* @__PURE__ */ jsx44(Fragment6, { children: searchResults && /* @__PURE__ */ jsx44(Box16, { sx: styles_default17.resultsOuterContainer, children: /* @__PURE__ */ jsxs37(Box16, { sx: styles_default17.resultsInnerContainer, children: [
       /* @__PURE__ */ jsx44(Box16, { sx: searchResults.hits.length && styles_default17.resultsBox, children: visibleHits.map((searchResult, index) => /* @__PURE__ */ jsx44(
         Box16,
         {
@@ -12188,13 +12191,13 @@ var SearchSections = () => {
 var search_sections_default = SearchSections;
 
 // src/components/search-results/index.tsx
-import { useRouter as useRouter8 } from "next/router.js";
-import { useContext as useContext18, useEffect as useEffect15, useState as useState16 } from "react";
-import { Box as Box24, Text as Text16 } from "@vtex/brand-ui";
+import { useRouter as useRouter9 } from "next/router.js";
+import { useContext as useContext18, useEffect as useEffect16, useState as useState16 } from "react";
+import { Box as Box24, Text as Text17 } from "@vtex/brand-ui";
 import { Configure as Configure2, InstantSearch as InstantSearch2 } from "react-instantsearch-dom";
 
 // src/components/search-results/infiniteHits.tsx
-import { useContext as useContext17, useEffect as useEffect14, useMemo as useMemo2, useRef as useRef11 } from "react";
+import { useContext as useContext17, useEffect as useEffect15, useMemo as useMemo2, useRef as useRef11 } from "react";
 import {
   connectInfiniteHits,
   connectStateResults as connectStateResults2
@@ -12202,20 +12205,31 @@ import {
 
 // src/components/search-card/index.tsx
 import { Box as Box22, Flex as Flex20, Text as Text15, IconCaret as IconCaret6, Tooltip as Tooltip2 } from "@vtex/brand-ui";
+import { useContext as useContext16, useEffect as useEffect14, useState as useState15 } from "react";
+import { useRouter as useRouter8 } from "next/router.js";
+import Link9 from "next/link.js";
 
 // src/components/search-card/styles.ts
 var container10 = {
+  position: "relative",
   justifyContent: "space-between",
-  borderRadius: "9px",
-  border: "1px solid #DDDDDD",
+  alignItems: "flex-start",
+  borderRadius: "12px",
+  border: "1px solid #E7E9EE",
   width: "100%",
-  mb: "18px",
-  paddingTop: "26px",
-  paddingBottom: "10px",
-  paddingLeft: ["13px", "44px"],
-  paddingRight: ["13px", "34px"],
+  mb: "16px",
+  padding: ["16px", "20px 24px"],
   background: "#FFFFFF",
-  cursor: "pointer"
+  cursor: "pointer",
+  a: {
+    minWidth: 0,
+    flex: 1,
+    textDecoration: "none",
+    color: "inherit"
+  },
+  ".search-card-actions": {
+    opacity: [1, 0]
+  }
 };
 var containerActive = (method) => {
   const methodCategory = method ? methodsColors[method] : "";
@@ -12223,43 +12237,75 @@ var containerActive = (method) => {
     ...container10,
     ":hover": {
       background: "#F8F7FC",
+      borderColor: "#D8D8E3",
       ".searchCardTitle, .searchCardDescription": {
         color: "#142032"
       },
+      ".search-card-icon": {
+        "> path": {
+          stroke: "#000711"
+        }
+      },
+      ".search-card-icon-wrap": {
+        backgroundColor: "#EDEAF6"
+      },
       ".method-category": {
         ...methodCategory
+      },
+      ".search-card-actions": {
+        opacity: 1
       }
     }
   };
 };
+var cardBody = {
+  alignItems: "flex-start",
+  minWidth: 0
+};
+var cardText = {
+  minWidth: 0,
+  flex: 1
+};
+var iconWrap = {
+  flexShrink: 0,
+  width: "36px",
+  height: "36px",
+  borderRadius: "8px",
+  backgroundColor: "#F4F2FA",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  mr: "12px",
+  mt: "2px"
+};
 var title5 = {
   display: "flex",
   alignItems: "flex-start",
+  flexWrap: "wrap",
   fontSize: ["16px", "18px"],
+  fontWeight: "600",
   lineHeight: ["22px", "24px"],
-  color: "muted.0"
+  color: "#142032"
 };
 var httpMethod = {
-  mr: "4px"
+  mr: "8px"
 };
 var icon2 = {
-  width: "24px",
-  height: "24px",
-  mr: "8px",
+  width: "18px",
+  height: "18px",
+  color: "#4A596B",
   path: {
-    stroke: "#A1A8B3"
+    stroke: "#4A596B"
   }
 };
 var description3 = {
-  fontSize: "16px",
-  lineHeight: "22px",
-  paddingLeft: "32px",
+  fontSize: ["14px", "16px"],
+  lineHeight: ["20px", "22px"],
   color: "muted.0",
-  mt: "4px",
+  mt: "6px",
   mb: "8px",
   minWidth: 0,
   overflowWrap: "break-word",
-  wordBreak: "break-word",
   overflow: "hidden",
   display: "-webkit-box",
   WebkitLineClamp: 4,
@@ -12267,15 +12313,16 @@ var description3 = {
 };
 var descriptionToggle = {
   height: "auto",
-  minWidth: "auto"
+  minWidth: "auto",
+  cursor: "pointer"
 };
 var descriptionExpandedItem = {
   mt: "24px"
 };
 var breadcrumbsContainer = {
   display: ["none", "flex"],
-  paddingLeft: "32px",
-  alignItems: "center"
+  alignItems: "center",
+  minWidth: 0
 };
 var alignCenter2 = {
   alignItems: "center"
@@ -12286,7 +12333,7 @@ var documentation = {
 };
 var breadcrumb = {
   color: "muted.1",
-  fontSize: "16px",
+  fontSize: "14px",
   lineHeight: "18px",
   whiteSpace: "nowrap",
   overflow: "hidden",
@@ -12311,8 +12358,8 @@ var breadcrumbsArrow = {
   color: "muted.2"
 };
 var actionContainer = {
-  paddingLeft: "32px",
-  alignItems: "center"
+  alignItems: "center",
+  mt: "8px"
 };
 var actionIcon = {
   minWidth: "16px",
@@ -12321,8 +12368,47 @@ var actionIcon = {
   height: "16px",
   mr: "8px"
 };
+var cardToolbar = {
+  display: "flex",
+  alignItems: "center",
+  gap: "8px",
+  ml: "8px",
+  flexShrink: 0
+};
+var cardActions = {
+  display: "flex",
+  alignItems: "center",
+  gap: "4px"
+};
+var actionButton = {
+  display: "inline-flex",
+  alignItems: "center",
+  justifyContent: "center",
+  width: "32px",
+  height: "32px",
+  padding: 0,
+  border: "1px solid #E7E9EE",
+  borderRadius: "6px",
+  background: "#FFFFFF",
+  color: "#4A596B",
+  cursor: "pointer",
+  ":hover": {
+    background: "#FFFFFF",
+    borderColor: "#C7CDD6",
+    color: "#142032"
+  }
+};
+var actionButtonCopied = {
+  ...actionButton,
+  borderColor: "#8CD2A8",
+  color: "#36875A",
+  background: "#F0FAF4"
+};
 var styles_default22 = {
   containerActive,
+  cardBody,
+  cardText,
+  iconWrap,
   title: title5,
   httpMethod,
   icon: icon2,
@@ -12337,13 +12423,12 @@ var styles_default22 = {
   breadcrumbsIn,
   breadcrumbsArrow,
   actionContainer,
-  actionIcon
+  actionIcon,
+  cardToolbar,
+  cardActions,
+  actionButton,
+  actionButtonCopied
 };
-
-// src/components/search-card/index.tsx
-import Link9 from "next/link.js";
-import { useState as useState15 } from "react";
-import { useContext as useContext16 } from "react";
 
 // src/components/icons/expanded-results-icon.tsx
 import { Icon as Icon33 } from "@vtex/brand-ui";
@@ -12401,94 +12486,235 @@ var SearchCard = ({
 }) => {
   const actionValue = actionType ? getAction(actionType) : null;
   const [toggleChildResults, setToggleChildResults] = useState15(false);
+  const [copied, setCopied] = useState15(false);
   const { locale } = useContext16(LibraryContext);
-  return /* @__PURE__ */ jsx62(Link9, { href: url, legacyBehavior: true, children: /* @__PURE__ */ jsxs50(Flex20, { sx: styles_default22.containerActive(method), children: [
-    /* @__PURE__ */ jsxs50(Box22, { children: [
-      /* @__PURE__ */ jsxs50(Text15, { className: "searchCardTitle", sx: styles_default22.title, children: [
-        Icon69 && /* @__PURE__ */ jsx62(Icon69, { sx: styles_default22.icon }),
-        method ? /* @__PURE__ */ jsx62(
-          method_category_default,
-          {
-            sx: styles_default22.httpMethod,
-            origin: "search",
-            method,
-            active: false
-          }
-        ) : null,
-        title9 === "overview" && `${hit.doccategory} `,
-        title9
-      ] }),
-      /* @__PURE__ */ jsxs50(Text15, { className: "searchCardDescription", sx: styles_default22.description, children: [
-        /* @__PURE__ */ jsx62(Flex20, { children: /* @__PURE__ */ jsx62(
-          customHighlight_default,
-          {
-            hit,
-            attribute: "content",
-            ...{ searchPage: true }
-          }
-        ) }),
-        toggleChildResults && hit.filteredMatches?.map((childHit, index) => /* @__PURE__ */ jsx62(
+  const router = useRouter8();
+  const query = String(router.query.keyword ?? "");
+  const DocIcon = Icon69 || paper_icon_default;
+  const displayTitle = title9 === "overview" && hit.doccategory ? `${hit.doccategory} ${title9}` : title9;
+  const crumbs = (breadcrumbs || []).filter(
+    (crumb) => Boolean(crumb) && crumb !== displayTitle
+  );
+  useEffect14(() => {
+    if (!copied)
+      return;
+    const timeout = window.setTimeout(() => setCopied(false), 2e3);
+    return () => window.clearTimeout(timeout);
+  }, [copied]);
+  const handleCopy = async (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    try {
+      await navigator.clipboard.writeText(`${window.location.origin}${url}`);
+      setCopied(true);
+    } catch {
+      setCopied(false);
+    }
+  };
+  const handleOpenNewTab = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    window.open(url, "_blank", "noopener,noreferrer");
+  };
+  return /* @__PURE__ */ jsxs50(Flex20, { sx: styles_default22.containerActive(method), children: [
+    /* @__PURE__ */ jsx62(Link9, { href: url, legacyBehavior: true, children: /* @__PURE__ */ jsx62("a", { children: /* @__PURE__ */ jsxs50(Flex20, { sx: styles_default22.cardBody, children: [
+      /* @__PURE__ */ jsx62(Box22, { className: "search-card-icon-wrap", sx: styles_default22.iconWrap, children: /* @__PURE__ */ jsx62(DocIcon, { className: "search-card-icon", sx: styles_default22.icon }) }),
+      /* @__PURE__ */ jsxs50(Box22, { sx: styles_default22.cardText, children: [
+        /* @__PURE__ */ jsxs50(Text15, { className: "searchCardTitle", sx: styles_default22.title, children: [
+          method ? /* @__PURE__ */ jsx62(
+            method_category_default,
+            {
+              sx: styles_default22.httpMethod,
+              origin: "search",
+              method,
+              active: false
+            }
+          ) : null,
+          /* @__PURE__ */ jsx62(HighlightQuery, { text: displayTitle, query })
+        ] }),
+        /* @__PURE__ */ jsxs50(Text15, { className: "searchCardDescription", sx: styles_default22.description, children: [
+          /* @__PURE__ */ jsx62(
+            customHighlight_default,
+            {
+              hit,
+              attribute: "content",
+              ...{ searchPage: true }
+            }
+          ),
+          toggleChildResults && hit.filteredMatches?.map((childHit, index) => /* @__PURE__ */ jsx62(
+            Box22,
+            {
+              sx: styles_default22.descriptionExpandedItem,
+              children: /* @__PURE__ */ jsx62(
+                customHighlight_default,
+                {
+                  hit: childHit,
+                  attribute: "content",
+                  ...{ searchPage: true }
+                }
+              )
+            },
+            `search-card-${hit.objectID}-${index}`
+          ))
+        ] }),
+        crumbs.length > 0 ? /* @__PURE__ */ jsxs50(Box22, { sx: styles_default22.breadcrumbsContainer, children: [
+          /* @__PURE__ */ jsx62(Text15, { sx: styles_default22.breadcrumbsIn, children: messages[locale]["search_card.in"] || "In" }),
+          crumbs.map((breadcrumb2, index) => /* @__PURE__ */ jsxs50(
+            Flex20,
+            {
+              sx: index === 0 ? styles_default22.documentation : styles_default22.alignCenter,
+              children: [
+                /* @__PURE__ */ jsx62(Tooltip2, { label: breadcrumb2, placement: "top", children: /* @__PURE__ */ jsx62(Text15, { sx: styles_default22.breadcrumb, children: breadcrumb2 }) }),
+                index < crumbs.length - 1 ? /* @__PURE__ */ jsx62(
+                  IconCaret6,
+                  {
+                    direction: "right",
+                    sx: styles_default22.breadcrumbsArrow
+                  }
+                ) : null
+              ]
+            },
+            `${breadcrumb2}${index}`
+          ))
+        ] }) : null,
+        actionValue ? /* @__PURE__ */ jsxs50(Flex20, { sx: styles_default22.actionContainer, children: [
+          /* @__PURE__ */ jsx62(actionValue.Icon, { sx: styles_default22.actionIcon }),
+          " ",
+          /* @__PURE__ */ jsx62(Text15, { children: actionValue?.title })
+        ] }) : null
+      ] })
+    ] }) }) }),
+    /* @__PURE__ */ jsxs50(Flex20, { sx: styles_default22.cardToolbar, children: [
+      /* @__PURE__ */ jsxs50(Flex20, { className: "search-card-actions", sx: styles_default22.cardActions, children: [
+        /* @__PURE__ */ jsx62(
           Box22,
           {
-            sx: styles_default22.descriptionExpandedItem,
-            children: /* @__PURE__ */ jsx62(
-              customHighlight_default,
-              {
-                hit: childHit,
-                attribute: "content",
-                ...{ searchPage: true }
-              }
-            )
-          },
-          `search-card-${hit.objectID}-${index}`
-        ))
-      ] }),
-      breadcrumbs ? /* @__PURE__ */ jsxs50(Box22, { sx: styles_default22.breadcrumbsContainer, children: [
-        /* @__PURE__ */ jsx62(Text15, { sx: styles_default22.breadcrumbsIn, children: messages[locale]["search_card.in"] || "In" }),
-        breadcrumbs.map((breadcrumb2, index) => /* @__PURE__ */ jsxs50(
-          Flex20,
+            as: "button",
+            type: "button",
+            sx: copied ? styles_default22.actionButtonCopied : styles_default22.actionButton,
+            "aria-label": copied ? messages[locale]["search_input.copied"] || "Copied" : messages[locale]["search_input.copy_link"] || "Copy link",
+            title: copied ? messages[locale]["search_input.copied"] || "Copied" : messages[locale]["search_input.copy_link"] || "Copy link",
+            onClick: handleCopy,
+            onMouseDown: (event) => event.preventDefault(),
+            children: /* @__PURE__ */ jsx62(copy_icon_default, { size: 14 })
+          }
+        ),
+        /* @__PURE__ */ jsx62(
+          Box22,
           {
-            sx: index === 0 ? styles_default22.documentation : styles_default22.alignCenter,
-            children: [
-              /* @__PURE__ */ jsx62(Tooltip2, { label: breadcrumb2, placement: "top", children: /* @__PURE__ */ jsx62(Text15, { sx: styles_default22.breadcrumb, children: breadcrumb2 }) }),
-              index < breadcrumbs.length - 1 ? /* @__PURE__ */ jsx62(IconCaret6, { direction: "right", sx: styles_default22.breadcrumbsArrow }) : null
-            ]
+            as: "button",
+            type: "button",
+            sx: styles_default22.actionButton,
+            "aria-label": messages[locale]["search_input.open_new_tab"] || "Open in new tab",
+            title: messages[locale]["search_input.open_new_tab"] || "Open in new tab",
+            onClick: handleOpenNewTab,
+            onMouseDown: (event) => event.preventDefault(),
+            children: /* @__PURE__ */ jsx62(external_link_icon_default, { size: 14 })
+          }
+        )
+      ] }),
+      hit.filteredMatches && hit.filteredMatches.length > 0 && /* @__PURE__ */ jsx62(
+        Box22,
+        {
+          sx: styles_default22.descriptionToggle,
+          onClick: (event) => {
+            setToggleChildResults(!toggleChildResults);
+            event.stopPropagation();
           },
-          `${breadcrumb2}${index}`
-        ))
-      ] }) : null,
-      actionValue ? /* @__PURE__ */ jsxs50(Flex20, { sx: styles_default22.actionContainer, children: [
-        /* @__PURE__ */ jsx62(actionValue.Icon, { sx: styles_default22.actionIcon }),
-        " ",
-        /* @__PURE__ */ jsx62(Text15, { children: actionValue?.title })
-      ] }) : null
-    ] }),
-    hit.filteredMatches && hit.filteredMatches.length > 0 && /* @__PURE__ */ jsx62(
-      Box22,
-      {
-        sx: styles_default22.descriptionToggle,
-        onClick: (event) => {
-          setToggleChildResults(!toggleChildResults);
-          event.stopPropagation();
-        },
-        children: /* @__PURE__ */ jsx62(expanded_results_icon_default, { active: toggleChildResults })
-      }
-    )
-  ] }) });
+          children: /* @__PURE__ */ jsx62(expanded_results_icon_default, { active: toggleChildResults })
+        }
+      )
+    ] })
+  ] });
 };
 var search_card_default = SearchCard;
 
 // src/components/search-results/infiniteHits.tsx
-import { Box as Box23, Flex as Flex21 } from "@vtex/brand-ui";
+import { Box as Box23, Flex as Flex21, Text as Text16 } from "@vtex/brand-ui";
+
+// src/components/search-results/styles.ts
+var resultContainer = {
+  width: ["80%", "544px", "544px", "544px", "720px", "720px", "1400px"],
+  paddingTop: ["32px", "32px", "32px", "64px"],
+  hr: {
+    marginTop: "16px",
+    marginBottom: "32px",
+    borderTop: "none",
+    borderColor: "#DDDDDD",
+    display: ["none", "none", "none", "block"]
+  }
+};
+var resultText = {
+  mb: "16px",
+  fontSize: "16px",
+  lineHeight: "22px",
+  color: "muted.0",
+  display: ["none", "none", "none", "initial"]
+};
+var resultCount = {
+  fontWeight: "600",
+  color: "#142032"
+};
+var resultKeyword = {
+  fontWeight: "600",
+  color: "#142032",
+  background: "#F8E3EC",
+  borderRadius: "4px",
+  px: "6px",
+  py: "1px"
+};
+var paginationContainer = {
+  mt: ["48px", "115px"],
+  mb: "34px",
+  justifyContent: "center"
+};
+var paginationLink = {
+  fontSize: "16px",
+  lineHeight: "20px",
+  color: "#EE2565",
+  cursor: "pointer"
+};
+var paginationLinkDisabled = {
+  ...paginationLink,
+  color: "muted.1"
+};
+var paginationNumber = {
+  display: "flex",
+  fontSize: ["14px", "16px"],
+  lineHeight: "20px",
+  color: "#4A596B",
+  mx: ["18px", "27px"]
+};
+var paginationActualNumber = {
+  fontWeight: "700",
+  mx: "4px"
+};
+var noResults2 = {
+  justifyContent: "center",
+  alignContent: "center",
+  padding: "12px"
+};
+var styles_default23 = {
+  resultContainer,
+  resultText,
+  resultCount,
+  resultKeyword,
+  paginationContainer,
+  paginationLink,
+  paginationLinkDisabled,
+  paginationNumber,
+  paginationActualNumber,
+  noResults: noResults2
+};
+
+// src/components/search-results/infiniteHits.tsx
 import { jsx as jsx63, jsxs as jsxs51 } from "react/jsx-runtime";
 var HitCard = ({ hit }) => {
   const { sidebarSections } = useContext17(LibraryContext);
   const breadcrumbTitle = getTitleById(sidebarSections, hit.doctype);
   const breadcrumbs = [
     breadcrumbTitle,
-    ...hit.doccategory ? [hit.doccategory] : [],
-    ,
-    hit.doctitle
+    ...hit.doccategory ? [hit.doccategory] : []
   ];
   const DocIcon = getIconFromSection(sidebarSections, hit.doctype);
   return /* @__PURE__ */ jsx63(
@@ -12508,7 +12734,7 @@ var HitCard = ({ hit }) => {
 var StateResults = connectStateResults2(
   ({ searchResults }) => {
     const { updateOcurrenceCount } = useContext17(SearchContext);
-    useEffect14(() => {
+    useEffect15(() => {
       if (!searchResults)
         return;
       const results = searchResults;
@@ -12550,6 +12776,7 @@ var StateResults = connectStateResults2(
 );
 var InfiniteHits = ({ hits, hasMore, refineNext }) => {
   const scrollRef = useRef11(null);
+  const { locale } = useContext17(LibraryContext);
   function onSentinelIntersection(entries) {
     entries.forEach((entry) => {
       if (entry.isIntersecting && hasMore) {
@@ -12571,7 +12798,7 @@ var InfiniteHits = ({ hits, hasMore, refineNext }) => {
     });
     return mergeHits;
   }, [hits]);
-  useEffect14(() => {
+  useEffect15(() => {
     const observer = new IntersectionObserver(onSentinelIntersection, {});
     if (scrollRef.current)
       observer.observe(scrollRef.current);
@@ -12581,76 +12808,17 @@ var InfiniteHits = ({ hits, hasMore, refineNext }) => {
   }, [hits]);
   return /* @__PURE__ */ jsxs51(Box23, { children: [
     /* @__PURE__ */ jsx63(StateResults, {}),
+    filteredResult.length === 0 && /* @__PURE__ */ jsx63(Flex21, { sx: styles_default23.noResults, children: /* @__PURE__ */ jsx63(Text16, { children: messages[locale]["search_input.empty"] || "No results found. Try different search terms." }) }),
     filteredResult.map((hit, index) => /* @__PURE__ */ jsx63(Flex21, { children: /* @__PURE__ */ jsx63(HitCard, { hit }, index) }, hit.objectID)),
     /* @__PURE__ */ jsx63("span", { ref: scrollRef })
   ] });
 };
 var infiniteHits_default = connectInfiniteHits(InfiniteHits);
 
-// src/components/search-results/styles.ts
-var resultContainer = {
-  width: ["80%", "544px", "544px", "544px", "720px", "720px", "1400px"],
-  paddingTop: ["32px", "32px", "32px", "64px"],
-  hr: {
-    marginTop: "16px",
-    marginBottom: "32px",
-    borderTop: "none",
-    borderColor: "#DDDDDD",
-    display: ["none", "none", "none", "block"]
-  }
-};
-var resultText = {
-  mb: "16px",
-  fontSize: "16px",
-  lineHeight: "22px",
-  display: ["none", "none", "none", "initial"]
-};
-var paginationContainer = {
-  mt: ["48px", "115px"],
-  mb: "34px",
-  justifyContent: "center"
-};
-var paginationLink = {
-  fontSize: "16px",
-  lineHeight: "20px",
-  color: "#EE2565",
-  cursor: "pointer"
-};
-var paginationLinkDisabled = {
-  ...paginationLink,
-  color: "muted.1"
-};
-var paginationNumber = {
-  display: "flex",
-  fontSize: ["14px", "16px"],
-  lineHeight: "20px",
-  color: "#4A596B",
-  mx: ["18px", "27px"]
-};
-var paginationActualNumber = {
-  fontWeight: "700",
-  mx: "4px"
-};
-var noResults2 = {
-  justifyContent: "center",
-  alignContent: "center",
-  padding: "12px"
-};
-var styles_default23 = {
-  resultContainer,
-  resultText,
-  paginationContainer,
-  paginationLink,
-  paginationLinkDisabled,
-  paginationNumber,
-  paginationActualNumber,
-  noResults: noResults2
-};
-
 // src/components/search-results/index.tsx
 import { jsx as jsx64, jsxs as jsxs52 } from "react/jsx-runtime";
 var SearchResults = () => {
-  const router = useRouter8();
+  const router = useRouter9();
   const { filterSelectedSection, ocurrenceCount } = useContext18(SearchContext);
   const { locale } = useContext18(LibraryContext);
   const filters = [
@@ -12661,7 +12829,7 @@ var SearchResults = () => {
   const [prevFilter, setPrevFilter] = useState16("");
   const [prevKeyword, setPrevKeyword] = useState16(keyword);
   const [searchState, setSearchState] = useState16({});
-  useEffect15(() => {
+  useEffect16(() => {
     if (!keyword || keyword === prevKeyword)
       return;
     setPrevKeyword(keyword);
@@ -12683,7 +12851,13 @@ var SearchResults = () => {
     });
   };
   return /* @__PURE__ */ jsxs52(Box24, { sx: styles_default23.resultContainer, children: [
-    /* @__PURE__ */ jsx64(Text16, { sx: styles_default23.resultText, children: `${messages[locale]["search_results.showing"] || "Showing"} ${formatSearchTabCount(ocurrenceCount[filterSelectedSection]) ?? ""} ${messages[locale]["search_results.results_for"] || "results for"} ${router.query.keyword} ${messages[locale]["search_results.in"] || "in"} ${!filterSelectedSection ? messages[locale]["search_results.all_lowercase"] || "all results" : filterSelectedSection}` }),
+    /* @__PURE__ */ jsxs52(Text17, { sx: styles_default23.resultText, children: [
+      `${messages[locale]["search_results.showing"] || "Showing"} `,
+      /* @__PURE__ */ jsx64(Text17, { as: "span", sx: styles_default23.resultCount, children: formatSearchTabCount(ocurrenceCount[filterSelectedSection]) ?? "" }),
+      ` ${messages[locale]["search_results.results_for"] || "results for"} `,
+      /* @__PURE__ */ jsx64(Text17, { as: "span", sx: styles_default23.resultKeyword, children: `\u201C${router.query.keyword}\u201D` }),
+      ` ${messages[locale]["search_results.in"] || "in"} ${!filterSelectedSection ? messages[locale]["search_results.all_lowercase"] || "all results" : filterSelectedSection}`
+    ] }),
     /* @__PURE__ */ jsx64("hr", {}),
     /* @__PURE__ */ jsx64(Box24, { children: /* @__PURE__ */ jsxs52(
       InstantSearch2,
@@ -12714,7 +12888,7 @@ var search_results_default = SearchResults;
 
 // src/components/search-filter-tab-bar/index.tsx
 import { useContext as useContext19 } from "react";
-import { Flex as Flex22, Text as Text17 } from "@vtex/brand-ui";
+import { Flex as Flex22, Text as Text18 } from "@vtex/brand-ui";
 
 // src/components/search-filter-tab-bar/styles.ts
 var container11 = {
@@ -12780,14 +12954,14 @@ var SearchFilterTab = ({ filter }) => {
       "data-disabled": String(isDisabled),
       children: [
         /* @__PURE__ */ jsx65(
-          Text17,
+          Text18,
           {
             sx: styles_default24.tabTitle(isActive, isDisabled),
             "data-testid": "doctype-filter-tab-title",
             children: filter || messages[locale]["search_results.all"] || "All results"
           }
         ),
-        formattedCount !== void 0 && /* @__PURE__ */ jsx65(Text17, { sx: styles_default24.tabCount, "data-testid": "doctype-filter-tab-count", children: formattedCount })
+        formattedCount !== void 0 && /* @__PURE__ */ jsx65(Text18, { sx: styles_default24.tabCount, "data-testid": "doctype-filter-tab-count", children: formattedCount })
       ]
     }
   );
@@ -12906,7 +13080,7 @@ var styles_default26 = {
 };
 
 // src/lib/cookie-bar/index.tsx
-import { Flex as Flex24, Text as Text18 } from "@vtex/brand-ui";
+import { Flex as Flex24, Text as Text19 } from "@vtex/brand-ui";
 import aa3 from "search-insights";
 import { jsx as jsx67, jsxs as jsxs55 } from "react/jsx-runtime";
 var Button6 = ({ children, style, ...props }) => {
@@ -12934,8 +13108,8 @@ var CookieBar = ({ onAccept }) => {
       customButtonWrapperAttributes: { style: styles_default26.buttonContainer },
       customContentAttributes: { style: styles_default26.barContent },
       children: [
-        /* @__PURE__ */ jsx67(Text18, { sx: styles_default26.title, children: messages[locale]["cookie_bar.title"] }),
-        /* @__PURE__ */ jsx67(Text18, { children: messages[locale]["cookie_bar.description"] })
+        /* @__PURE__ */ jsx67(Text19, { sx: styles_default26.title, children: messages[locale]["cookie_bar.title"] }),
+        /* @__PURE__ */ jsx67(Text19, { children: messages[locale]["cookie_bar.description"] })
       ]
     }
   );
@@ -12985,7 +13159,7 @@ var CopyLinkButton = () => {
 var copy_link_button_default = CopyLinkButton;
 
 // src/components/input/index.tsx
-import { useState as useState18, useEffect as useEffect16 } from "react";
+import { useState as useState18, useEffect as useEffect17 } from "react";
 
 // src/components/input/styles.ts
 var input = {
@@ -13028,7 +13202,7 @@ import { Flex as Flex25 } from "@vtex/brand-ui";
 import { jsx as jsx69, jsxs as jsxs56 } from "react/jsx-runtime";
 var Input = ({ value, onChange, placeholder = "", Icon: Icon69 }) => {
   const [inputValue, setInputValue] = useState18(value ?? "");
-  useEffect16(() => {
+  useEffect17(() => {
     if (inputValue !== value)
       setInputValue(value);
   }, [value]);
@@ -13052,7 +13226,7 @@ var input_default = Input;
 
 // src/components/subscription-list/index.tsx
 import { useContext as useContext21, useState as useState19 } from "react";
-import { Box as Box26, Button as Button8, Text as Text19, Flex as Flex26, Link as Link10 } from "@vtex/brand-ui";
+import { Box as Box26, Button as Button8, Text as Text20, Flex as Flex26, Link as Link10 } from "@vtex/brand-ui";
 
 // src/utils/get-url.tsx
 var getFeedbackURL = (currentUrl) => {
@@ -13311,9 +13485,9 @@ var SubscriptionList = () => {
     }
   };
   return /* @__PURE__ */ jsxs57(Box26, { sx: styles_default29.sectionContainer, children: [
-    /* @__PURE__ */ jsx70(Text19, { sx: styles_default29.title, children: localizedMessages["landing_page_subscription.title"] }),
+    /* @__PURE__ */ jsx70(Text20, { sx: styles_default29.title, children: localizedMessages["landing_page_subscription.title"] }),
     /* @__PURE__ */ jsx70(Flex26, { sx: styles_default29.cardContainer, children: /* @__PURE__ */ jsxs57("div", { children: [
-      /* @__PURE__ */ jsxs57(Text19, { sx: styles_default29.description, children: [
+      /* @__PURE__ */ jsxs57(Text20, { sx: styles_default29.description, children: [
         localizedMessages["landing_page_subscription.description"].split(
           "newsletter"
         )[0],
@@ -13355,7 +13529,7 @@ var SubscriptionList = () => {
           }
         )
       ] }),
-      /* @__PURE__ */ jsxs57(Text19, { sx: styles_default29.privacyText, children: [
+      /* @__PURE__ */ jsxs57(Text20, { sx: styles_default29.privacyText, children: [
         localizedMessages["subscription_list.privacy_notice"],
         " ",
         /* @__PURE__ */ jsx70(
@@ -13375,7 +13549,7 @@ var SubscriptionList = () => {
             ...styles_default29.popupCard,
             backgroundColor: messageType === "success" ? "#dff1e0" : "#f8e3e3"
           },
-          children: /* @__PURE__ */ jsx70(Text19, { children: message })
+          children: /* @__PURE__ */ jsx70(Text20, { children: message })
         }
       )
     ] }) })
@@ -13756,7 +13930,7 @@ var Footer = ({
 var footer_default = Footer;
 
 // src/components/tag/index.tsx
-import { Text as Text20 } from "@vtex/brand-ui";
+import { Text as Text21 } from "@vtex/brand-ui";
 
 // src/components/tag/styles.ts
 var tag = {
@@ -13846,7 +14020,7 @@ var styles_default31 = {
 import { jsx as jsx77 } from "react/jsx-runtime";
 var Tag = ({ sx = {}, children, color = "Default", onClick }) => {
   return /* @__PURE__ */ jsx77(
-    Text20,
+    Text21,
     {
       sx: { ...styles_default31.tag, ...sx, ...styles_default31.statusColors[color] },
       onClick,
@@ -13857,7 +14031,7 @@ var Tag = ({ sx = {}, children, color = "Default", onClick }) => {
 var tag_default = Tag;
 
 // src/components/listing-filter/index.tsx
-import { Box as Box28, Button as Button9, Checkbox, Flex as Flex28, Text as Text21 } from "@vtex/brand-ui";
+import { Box as Box28, Button as Button9, Checkbox, Flex as Flex28, Text as Text22 } from "@vtex/brand-ui";
 
 // src/components/icons/filter-icon.tsx
 import { Icon as Icon39 } from "@vtex/brand-ui";
@@ -14213,7 +14387,7 @@ var styles_default32 = {
 };
 
 // src/components/listing-filter/index.tsx
-import { Fragment as Fragment6, jsx as jsx80, jsxs as jsxs66 } from "react/jsx-runtime";
+import { Fragment as Fragment7, jsx as jsx80, jsxs as jsxs66 } from "react/jsx-runtime";
 var defaultLabels = {
   button: "Filters",
   modalTitle: "Filters",
@@ -14278,8 +14452,8 @@ var ListingFilter = ({
       },
       children: [
         /* @__PURE__ */ jsx80(filter_icon_default, { size: 16 }),
-        /* @__PURE__ */ jsx80(Text21, { sx: styles_default32.filterButtonText, children: resolvedLabels.button }),
-        numberOfFilters2 > 0 && /* @__PURE__ */ jsx80(Text21, { sx: styles_default32.numberOfFilters, children: numberOfFilters2 })
+        /* @__PURE__ */ jsx80(Text22, { sx: styles_default32.filterButtonText, children: resolvedLabels.button }),
+        numberOfFilters2 > 0 && /* @__PURE__ */ jsx80(Text22, { sx: styles_default32.numberOfFilters, children: numberOfFilters2 })
       ]
     }
   );
@@ -14287,7 +14461,7 @@ var ListingFilter = ({
     if (!normalizedTagFilter)
       return null;
     return /* @__PURE__ */ jsxs66(Box28, { sx: styles_default32.filterContainer, children: [
-      /* @__PURE__ */ jsx80(Text21, { sx: styles_default32.filterTitle, children: normalizedTagFilter.name }),
+      /* @__PURE__ */ jsx80(Text22, { sx: styles_default32.filterTitle, children: normalizedTagFilter.name }),
       /* @__PURE__ */ jsx80(
         Flex28,
         {
@@ -14309,10 +14483,10 @@ var ListingFilter = ({
   const CheckboxFilters = () => {
     if (checkboxGroups.length === 0)
       return null;
-    return /* @__PURE__ */ jsx80(Fragment6, { children: checkboxGroups.map((group, groupIndex) => /* @__PURE__ */ jsxs66(Box28, { children: [
+    return /* @__PURE__ */ jsx80(Fragment7, { children: checkboxGroups.map((group, groupIndex) => /* @__PURE__ */ jsxs66(Box28, { children: [
       groupIndex > 0 && /* @__PURE__ */ jsx80(Divider, {}),
       /* @__PURE__ */ jsxs66(Box28, { sx: styles_default32.filterContainer, children: [
-        /* @__PURE__ */ jsx80(Text21, { sx: styles_default32.filterTitle, children: group.name }),
+        /* @__PURE__ */ jsx80(Text22, { sx: styles_default32.filterTitle, children: group.name }),
         /* @__PURE__ */ jsx80(Box28, { sx: styles_default32.checkBoxContainer, children: group.options.map((option) => /* @__PURE__ */ jsx80(
           Checkbox,
           {
@@ -14326,11 +14500,11 @@ var ListingFilter = ({
     ] }, group.name)) });
   };
   const Divider = () => /* @__PURE__ */ jsx80(Box28, { sx: styles_default32.sectionDivider, children: /* @__PURE__ */ jsx80("hr", {}) });
-  const FilterModal = () => /* @__PURE__ */ jsxs66(Fragment6, { children: [
+  const FilterModal = () => /* @__PURE__ */ jsxs66(Fragment7, { children: [
     /* @__PURE__ */ jsx80(Box28, { sx: styles_default32.blanket, onClick: () => setIsModalOpen(false) }),
     /* @__PURE__ */ jsxs66(Box28, { sx: styles_default32.container, children: [
       /* @__PURE__ */ jsxs66(Box28, { sx: styles_default32.topContainer, children: [
-        /* @__PURE__ */ jsx80(Text21, { sx: styles_default32.modalTitle, children: resolvedLabels.modalTitle }),
+        /* @__PURE__ */ jsx80(Text22, { sx: styles_default32.modalTitle, children: resolvedLabels.modalTitle }),
         /* @__PURE__ */ jsx80(
           Flex28,
           {
@@ -14368,7 +14542,7 @@ var ListingFilter = ({
       ] })
     ] })
   ] });
-  return /* @__PURE__ */ jsxs66(Fragment6, { children: [
+  return /* @__PURE__ */ jsxs66(Fragment7, { children: [
     /* @__PURE__ */ jsx80(FilterButton, {}),
     isModalOpen && /* @__PURE__ */ jsx80(FilterModal, {})
   ] });
@@ -14376,7 +14550,7 @@ var ListingFilter = ({
 var listing_filter_default = ListingFilter;
 
 // src/components/troubleshooting-card/index.tsx
-import { Box as Box29, Link as Link12, Text as Text22 } from "@vtex/brand-ui";
+import { Box as Box29, Link as Link12, Text as Text23 } from "@vtex/brand-ui";
 
 // src/components/troubleshooting-card/styles.ts
 var devportalContainer = {
@@ -14516,7 +14690,7 @@ var TroubleshootingCard = ({
   const hasStructuredTags = resolvedSymptomFilters.length > 0 || resolvedDomainFilters.length > 0;
   if (variant === "helpcenter") {
     return /* @__PURE__ */ jsx81(Link12, { href: cardHref, children: /* @__PURE__ */ jsxs67(Box29, { sx: styles_default33.helpcenterContainer, children: [
-      /* @__PURE__ */ jsx81(Text22, { sx: styles_default33.title, className: "title", children: title9 }),
+      /* @__PURE__ */ jsx81(Text23, { sx: styles_default33.title, className: "title", children: title9 }),
       hasStructuredTags ? /* @__PURE__ */ jsxs67(Box29, { sx: styles_default33.groupsContainer, children: [
         resolvedSymptomFilters.length > 0 && /* @__PURE__ */ jsx81(Box29, { sx: styles_default33.groupContainer, children: /* @__PURE__ */ jsx81(Box29, { sx: styles_default33.helpcenterTagsContainer, children: resolvedSymptomFilters.map((filter) => /* @__PURE__ */ jsx81(
           tag_default,
@@ -14532,8 +14706,8 @@ var TroubleshootingCard = ({
     ] }) });
   }
   return /* @__PURE__ */ jsx81(Link12, { href: cardHref, sx: styles_default33.devportalContainer, children: /* @__PURE__ */ jsxs67(Box29, { children: [
-    /* @__PURE__ */ jsx81(Text22, { sx: styles_default33.title, className: "title", children: title9 }),
-    description6 ? /* @__PURE__ */ jsx81(Text22, { sx: styles_default33.description, className: "description", children: description6 }) : null,
+    /* @__PURE__ */ jsx81(Text23, { sx: styles_default33.title, className: "title", children: title9 }),
+    description6 ? /* @__PURE__ */ jsx81(Text23, { sx: styles_default33.description, className: "description", children: description6 }) : null,
     /* @__PURE__ */ jsxs67(Box29, { sx: styles_default33.tagsContainer, children: [
       resolvedSymptomFilters.length > 0 && /* @__PURE__ */ jsx81(Box29, { sx: styles_default33.tagGroup, children: resolvedSymptomFilters.map((filter) => /* @__PURE__ */ jsx81(tag_default, { sx: styles_default33.tag, color: "Blue", children: filter }, `symptom-${filter}`)) }),
       resolvedDomainFilters.length > 0 && /* @__PURE__ */ jsx81(Box29, { sx: styles_default33.tagGroup, children: resolvedDomainFilters.map((filter) => /* @__PURE__ */ jsx81(tag_default, { sx: styles_default33.tag, color: "Gray", children: filter }, `domain-${filter}`)) }),
@@ -15668,7 +15842,7 @@ var grid_icon_default = GridIcon;
 
 // src/components/icons/checkbox.tsx
 import { Icon as Icon65 } from "@vtex/brand-ui";
-import { Fragment as Fragment7, jsx as jsx106, jsxs as jsxs88 } from "react/jsx-runtime";
+import { Fragment as Fragment8, jsx as jsx106, jsxs as jsxs88 } from "react/jsx-runtime";
 var CheckboxIcon = (props) => /* @__PURE__ */ jsx106(
   Icon65,
   {
@@ -15676,7 +15850,7 @@ var CheckboxIcon = (props) => /* @__PURE__ */ jsx106(
     viewBox: "0 0 20 20",
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg",
-    children: !props.checked ? /* @__PURE__ */ jsxs88(Fragment7, { children: [
+    children: !props.checked ? /* @__PURE__ */ jsxs88(Fragment8, { children: [
       /* @__PURE__ */ jsx106(
         "rect",
         {
@@ -15700,7 +15874,7 @@ var CheckboxIcon = (props) => /* @__PURE__ */ jsx106(
           stroke: "#B9B9B9"
         }
       )
-    ] }) : /* @__PURE__ */ jsxs88(Fragment7, { children: [
+    ] }) : /* @__PURE__ */ jsxs88(Fragment8, { children: [
       /* @__PURE__ */ jsx106("rect", { width: "20", height: "20", rx: "4", fill: "#0C1522" }),
       /* @__PURE__ */ jsx106(
         "path",
