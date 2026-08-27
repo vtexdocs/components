@@ -16,7 +16,22 @@ const resultText: SxStyleProp = {
   mb: '16px',
   fontSize: '16px',
   lineHeight: '22px',
+  color: 'muted.0',
   display: ['none', 'none', 'none', 'initial'],
+}
+
+const resultCount: SxStyleProp = {
+  fontWeight: '600',
+  color: '#142032',
+}
+
+const resultKeyword: SxStyleProp = {
+  fontWeight: '600',
+  color: '#142032',
+  background: '#F8E3EC',
+  borderRadius: '4px',
+  px: '6px',
+  py: '1px',
 }
 
 const paginationContainer: SxStyleProp = {
@@ -59,6 +74,8 @@ const noResults: SxStyleProp = {
 export default {
   resultContainer,
   resultText,
+  resultCount,
+  resultKeyword,
   paginationContainer,
   paginationLink,
   paginationLinkDisabled,

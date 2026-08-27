@@ -57,11 +57,15 @@ const SearchResults = () => {
   return (
     <Box sx={styles.resultContainer}>
       <Text sx={styles.resultText}>
-        {`${messages[locale]['search_results.showing'] || 'Showing'} ${
-          formatSearchTabCount(ocurrenceCount[filterSelectedSection]) ?? ''
-        } ${messages[locale]['search_results.results_for'] || 'results for'} ${
-          router.query.keyword
-        } ${messages[locale]['search_results.in'] || 'in'} ${
+        {`${messages[locale]['search_results.showing'] || 'Showing'} `}
+        <Text as="span" sx={styles.resultCount}>
+          {formatSearchTabCount(ocurrenceCount[filterSelectedSection]) ?? ''}
+        </Text>
+        {` ${messages[locale]['search_results.results_for'] || 'results for'} `}
+        <Text as="span" sx={styles.resultKeyword}>
+          {`“${router.query.keyword}”`}
+        </Text>
+        {` ${messages[locale]['search_results.in'] || 'in'} ${
           !filterSelectedSection
             ? messages[locale]['search_results.all_lowercase'] || 'all results'
             : filterSelectedSection

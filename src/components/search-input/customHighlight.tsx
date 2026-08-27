@@ -69,6 +69,34 @@ function clipAroundHighlight(
   return result
 }
 
+export const HighlightQuery = ({
+  text,
+  query,
+}: {
+  text: string
+  query?: string
+}) => {
+  if (!query?.trim() || !text) return <>{text}</>
+  const escaped = query.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  const regex = new RegExp(`(${escaped})`, 'ig')
+  const parts = text.split(regex)
+  const normalizedQuery = query.trim().toLowerCase()
+
+  return (
+    <>
+      {parts.map((part, index) =>
+        part.toLowerCase() === normalizedQuery ? (
+          <mark key={index} style={styles.hitContentHighlighted}>
+            {part}
+          </mark>
+        ) : (
+          part
+        )
+      )}
+    </>
+  )
+}
+
 const Highlight = ({
   highlight,
   attribute,

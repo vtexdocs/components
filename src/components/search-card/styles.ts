@@ -3,17 +3,25 @@ import { methodsColors } from 'components/method-category/functions'
 import { MethodType } from 'utils/typings/unionTypes'
 
 const container: SxStyleProp = {
+  position: 'relative',
   justifyContent: 'space-between',
-  borderRadius: '9px',
-  border: '1px solid #DDDDDD',
+  alignItems: 'flex-start',
+  borderRadius: '12px',
+  border: '1px solid #E7E9EE',
   width: '100%',
-  mb: '18px',
-  paddingTop: '26px',
-  paddingBottom: '10px',
-  paddingLeft: ['13px', '44px'],
-  paddingRight: ['13px', '34px'],
+  mb: '16px',
+  padding: ['16px', '20px 24px'],
   background: '#FFFFFF',
   cursor: 'pointer',
+  a: {
+    minWidth: 0,
+    flex: 1,
+    textDecoration: 'none',
+    color: 'inherit',
+  },
+  '.search-card-actions': {
+    opacity: [1, 0],
+  },
 }
 
 const containerActive = (method: MethodType | undefined): SxStyleProp => {
@@ -22,47 +30,82 @@ const containerActive = (method: MethodType | undefined): SxStyleProp => {
     ...container,
     ':hover': {
       background: '#F8F7FC',
+      borderColor: '#D8D8E3',
       '.searchCardTitle, .searchCardDescription': {
         color: '#142032',
       },
+      '.search-card-icon': {
+        '> path': {
+          stroke: '#000711',
+        },
+      },
+      '.search-card-icon-wrap': {
+        backgroundColor: '#EDEAF6',
+      },
       '.method-category': {
         ...methodCategory,
+      },
+      '.search-card-actions': {
+        opacity: 1,
       },
     },
   }
 }
 
+const cardBody: SxStyleProp = {
+  alignItems: 'flex-start',
+  minWidth: 0,
+}
+
+const cardText: SxStyleProp = {
+  minWidth: 0,
+  flex: 1,
+}
+
+const iconWrap: SxStyleProp = {
+  flexShrink: 0,
+  width: '36px',
+  height: '36px',
+  borderRadius: '8px',
+  backgroundColor: '#F4F2FA',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  mr: '12px',
+  mt: '2px',
+}
+
 const title: SxStyleProp = {
   display: 'flex',
   alignItems: 'flex-start',
+  flexWrap: 'wrap',
   fontSize: ['16px', '18px'],
+  fontWeight: '600',
   lineHeight: ['22px', '24px'],
-  color: 'muted.0',
+  color: '#142032',
 }
 
 const httpMethod: SxStyleProp = {
-  mr: '4px',
+  mr: '8px',
 }
 
 const icon: SxStyleProp = {
-  width: '24px',
-  height: '24px',
-  mr: '8px',
+  width: '18px',
+  height: '18px',
+  color: '#4A596B',
   path: {
-    stroke: '#A1A8B3',
+    stroke: '#4A596B',
   },
 }
 
 const description: SxStyleProp = {
-  fontSize: '16px',
-  lineHeight: '22px',
-  paddingLeft: '32px',
+  fontSize: ['14px', '16px'],
+  lineHeight: ['20px', '22px'],
   color: 'muted.0',
-  mt: '4px',
+  mt: '6px',
   mb: '8px',
   minWidth: 0,
   overflowWrap: 'break-word',
-  wordBreak: 'break-word',
   overflow: 'hidden',
   display: '-webkit-box',
   WebkitLineClamp: 4,
@@ -72,6 +115,7 @@ const description: SxStyleProp = {
 const descriptionToggle: SxStyleProp = {
   height: 'auto',
   minWidth: 'auto',
+  cursor: 'pointer',
 }
 
 const descriptionExpandedItem: SxStyleProp = {
@@ -80,8 +124,8 @@ const descriptionExpandedItem: SxStyleProp = {
 
 const breadcrumbsContainer: SxStyleProp = {
   display: ['none', 'flex'],
-  paddingLeft: '32px',
   alignItems: 'center',
+  minWidth: 0,
 }
 
 const alignCenter: SxStyleProp = {
@@ -95,7 +139,7 @@ const documentation: SxStyleProp = {
 
 const breadcrumb: SxStyleProp = {
   color: 'muted.1',
-  fontSize: '16px',
+  fontSize: '14px',
   lineHeight: '18px',
   whiteSpace: 'nowrap',
   overflow: 'hidden',
@@ -124,8 +168,8 @@ const breadcrumbsArrow: SxStyleProp = {
 }
 
 const actionContainer: SxStyleProp = {
-  paddingLeft: '32px',
   alignItems: 'center',
+  mt: '8px',
 }
 
 const actionIcon: SxStyleProp = {
@@ -136,8 +180,51 @@ const actionIcon: SxStyleProp = {
   mr: '8px',
 }
 
+const cardToolbar: SxStyleProp = {
+  display: 'flex',
+  alignItems: 'center',
+  gap: '8px',
+  ml: '8px',
+  flexShrink: 0,
+}
+
+const cardActions: SxStyleProp = {
+  display: 'flex',
+  alignItems: 'center',
+  gap: '4px',
+}
+
+const actionButton: SxStyleProp = {
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: '32px',
+  height: '32px',
+  padding: 0,
+  border: '1px solid #E7E9EE',
+  borderRadius: '6px',
+  background: '#FFFFFF',
+  color: '#4A596B',
+  cursor: 'pointer',
+  ':hover': {
+    background: '#FFFFFF',
+    borderColor: '#C7CDD6',
+    color: '#142032',
+  },
+}
+
+const actionButtonCopied: SxStyleProp = {
+  ...actionButton,
+  borderColor: '#8CD2A8',
+  color: '#36875A',
+  background: '#F0FAF4',
+}
+
 export default {
   containerActive,
+  cardBody,
+  cardText,
+  iconWrap,
   title,
   httpMethod,
   icon,
@@ -153,4 +240,8 @@ export default {
   breadcrumbsArrow,
   actionContainer,
   actionIcon,
+  cardToolbar,
+  cardActions,
+  actionButton,
+  actionButtonCopied,
 }

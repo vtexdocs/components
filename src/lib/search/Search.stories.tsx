@@ -9,8 +9,13 @@ const meta = {
   component: Search,
   parameters: {
     layout: 'fullscreen',
-    viewport: {
-      defaultViewport: 'mobileSmall',
+    nextjs: {
+      router: {
+        pathname: '/search',
+        query: {
+          keyword: 'cata',
+        },
+      },
     },
   },
   tags: ['autodocs'],

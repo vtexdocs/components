@@ -18,7 +18,7 @@ import {
   getRelativeURL,
   getTitleById,
 } from 'utils/search-utils'
-import CustomHighlight from './customHighlight'
+import CustomHighlight, { HighlightQuery } from './customHighlight'
 import styles from './styles'
 import { LibraryContext } from 'utils/context/libraryContext'
 import { messages } from 'utils/get-message'
@@ -41,28 +41,6 @@ interface HitProps {
 
 interface HitsBoxProps extends StateResultsProvided {
   changeFocus: (value: boolean) => void
-}
-
-const HighlightQuery = ({ text, query }: { text: string; query?: string }) => {
-  if (!query?.trim() || !text) return <>{text}</>
-  const escaped = query.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-  const regex = new RegExp(`(${escaped})`, 'ig')
-  const parts = text.split(regex)
-  const normalizedQuery = query.trim().toLowerCase()
-
-  return (
-    <>
-      {parts.map((part, index) =>
-        part.toLowerCase() === normalizedQuery ? (
-          <mark key={index} style={styles.hitContentHighlighted}>
-            {part}
-          </mark>
-        ) : (
-          part
-        )
-      )}
-    </>
-  )
 }
 
 const Hit2 = ({
@@ -113,22 +91,24 @@ const Hit2 = ({
               {hit.content ? (
                 <CustomHighlight hit={hit} attribute="content" />
               ) : null}
-              <Flex sx={styles.hitBreadcrumbs}>
-                <Text sx={styles.hitBreadCrumbIn}>
-                  {`${messages[locale]['search_card.in'] || 'In'} ${
-                    breadcrumbs[0] || hit.doctype
-                  }`}
-                </Text>
-                {breadcrumbs.slice(1).map((filter: string, index: number) => (
-                  <Flex sx={styles.alignCenter} key={`${filter}${index}`}>
-                    <IconCaret
-                      direction="right"
-                      sx={styles.hitBreadCrumbArrow}
-                    />
-                    <Text sx={styles.hitBreadCrumb}>{filter}</Text>
-                  </Flex>
-                ))}
-              </Flex>
+              {typeof hit.doctype === 'string' && (
+                <Flex sx={styles.hitBreadcrumbs}>
+                  <Text sx={styles.hitBreadCrumbIn}>
+                    {`${messages[locale]['search_card.in'] || 'In'} ${
+                      breadcrumbs[0] || hit.doctype
+                    }`}
+                  </Text>
+                  {breadcrumbs.slice(1).map((filter: string, index: number) => (
+                    <Flex sx={styles.alignCenter} key={`${filter}${index}`}>
+                      <IconCaret
+                        direction="right"
+                        sx={styles.hitBreadCrumbArrow}
+                      />
+                      <Text sx={styles.hitBreadCrumb}>{filter}</Text>
+                    </Flex>
+                  ))}
+                </Flex>
+              )}
             </Box>
           </Flex>
         </a>

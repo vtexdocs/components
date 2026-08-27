@@ -15,10 +15,12 @@ import {
   getRelativeURL,
   getTitleById,
 } from 'utils/search-utils'
-import { Box, Flex } from '@vtex/brand-ui'
+import { Box, Flex, Text } from '@vtex/brand-ui'
 import { MethodType } from 'utils/typings/types'
 import { SearchContext } from 'utils/context/search'
 import { LibraryContext } from 'utils/context/libraryContext'
+import { messages } from 'utils/get-message'
+import resultsStyles from 'components/search-results/styles'
 
 export type FilteredHit2 = Hit & { filteredMatches?: Hit[] }
 
@@ -33,8 +35,6 @@ const HitCard = ({ hit }: HitProps) => {
   const breadcrumbs = [
     breadcrumbTitle,
     ...(hit.doccategory ? [hit.doccategory] : []),
-    ,
-    hit.doctitle,
   ]
   const DocIcon = getIconFromSection(sidebarSections, hit.doctype)
 
@@ -108,6 +108,7 @@ const StateResults = connectStateResults(
 
 const InfiniteHits = ({ hits, hasMore, refineNext }: InfiniteHitsProvided) => {
   const scrollRef = useRef<HTMLSpanElement>(null)
+  const { locale } = useContext(LibraryContext)
 
   function onSentinelIntersection(entries: IntersectionObserverEntry[]) {
     entries.forEach((entry: IntersectionObserverEntry) => {
@@ -143,6 +144,14 @@ const InfiniteHits = ({ hits, hasMore, refineNext }: InfiniteHitsProvided) => {
   return (
     <Box>
       <StateResults />
+      {filteredResult.length === 0 && (
+        <Flex sx={resultsStyles.noResults}>
+          <Text>
+            {messages[locale]['search_input.empty'] ||
+              'No results found. Try different search terms.'}
+          </Text>
+        </Flex>
+      )}
       {filteredResult.map((hit: Hit, index: number) => (
         <Flex key={hit.objectID}>
           <HitCard hit={hit} key={index} />
