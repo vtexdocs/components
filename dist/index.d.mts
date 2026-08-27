@@ -257,6 +257,7 @@ type ContextType = {
     toggleSidebarElementStatus: (title: string, currentlyOpen?: boolean) => void;
     openSidebarElement: (title: string) => void;
     closeSidebarElements: (parentsArray: string[]) => void;
+    setOpenSidebarElements: (parentsArray: string[]) => void;
     sidebarSections: Section[][];
     setSidebarSections: Dispatch<SetStateAction<Section[][]>>;
     hamburguerSections: Section[][];

@@ -89,14 +89,18 @@ const searchBox: SxStyleProp = {
   width: '265px',
   height: '40px',
   paddingLeft: '12px',
+  paddingRight: '8px',
 }
 
 const searchInput: SxStyleProp = {
   width: 'auto',
+  flex: '1',
+  minWidth: 0,
   background: '#F4F4F4',
   border: '#F4F4F4',
   color: '#545454',
   fontSize: ['14px'],
+  outline: 'none',
 }
 
 const searchIcon: SxStyleProp = {
@@ -104,6 +108,31 @@ const searchIcon: SxStyleProp = {
   minHeight: '16px',
   width: '16px',
   mr: '8px',
+}
+
+const clearButton: SxStyleProp = {
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: '24px',
+  height: '24px',
+  ml: '4px',
+  padding: 0,
+  border: 'none',
+  borderRadius: '50%',
+  background: 'transparent',
+  color: '#4A596B',
+  cursor: 'pointer',
+  flexShrink: 0,
+  ':hover': {
+    background: '#EDEDED',
+    color: '#142032',
+  },
+}
+
+const clearIcon: SxStyleProp = {
+  width: '14px',
+  height: '14px',
 }
 
 const toggleIconBox: SxStyleProp = {
@@ -164,6 +193,8 @@ export default {
   searchBox,
   searchInput,
   searchIcon,
+  clearButton,
+  clearIcon,
   toggleIconBox,
   toggleIconBoxActive,
   toggleIcon,

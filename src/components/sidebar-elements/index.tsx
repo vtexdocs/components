@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router.js'
-import React, { Fragment, useContext } from 'react'
+import { Fragment, memo, useContext } from 'react'
 import {
   Box,
   Flex,
@@ -15,6 +15,7 @@ import { styleByLevelNormal, textStyle } from './functions'
 import styles from './styles'
 import { MethodType } from 'utils/typings/types'
 import { LibraryContext } from 'utils/context/libraryContext'
+import { getDocumentationType } from 'utils/navigation-utils'
 
 export interface SidebarElement {
   name: string | { en: string; pt: string; es: string }
@@ -32,9 +33,16 @@ export interface SidebarProps {
   slugPrefix?: string
   items: SidebarElement[]
   subItemLevel: number
+  /** Expand every branch, used while search/method filters are active. */
+  forceOpen?: boolean
 }
 
-const SidebarElements = ({ slugPrefix, items, subItemLevel }: SidebarProps) => {
+const SidebarElements = ({
+  slugPrefix,
+  items,
+  subItemLevel,
+  forceOpen = false,
+}: SidebarProps) => {
   const {
     isEditorPreview,
     activeSidebarElement,
@@ -46,7 +54,10 @@ const SidebarElements = ({ slugPrefix, items, subItemLevel }: SidebarProps) => {
   const router = useRouter()
 
   const isElementOpen = (slug: string, defaultOpen?: boolean) =>
-    sidebarElementStatus.has(slug) ? sidebarElementStatus.get(slug) : !!defaultOpen
+    forceOpen ||
+    (sidebarElementStatus.has(slug)
+      ? sidebarElementStatus.get(slug)
+      : !!defaultOpen)
 
   const handleClick = (
     e: { preventDefault: () => void },
@@ -59,44 +70,6 @@ const SidebarElements = ({ slugPrefix, items, subItemLevel }: SidebarProps) => {
     router.push(href, href, { locale }).then(() => {
       if (hasEndpointQuery) router.reload()
     })
-  }
-
-  // eslint-disable-next-line
-  // @ts-ignore
-  const checkDocumentationType = (
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    sidebarData: any,
-    slug: string,
-    type: string
-  ) => {
-    if (
-      !sidebarData ||
-      (typeof sidebarData !== 'object' && !Array.isArray(sidebarData))
-    ) {
-      return false
-    } else if (sidebarData?.slug == slug && sidebarData?.type == type) {
-      return true
-    } else if (Array.isArray(sidebarData)) {
-      for (let i = 0; i < sidebarData.length; i++) {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        const result = checkDocumentationType(sidebarData[i], slug, type)
-        if (result) {
-          return result
-        }
-      }
-    } else {
-      for (const k in sidebarData) {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        const result = checkDocumentationType(sidebarData[k], slug, type)
-        if (result) {
-          return result
-        }
-      }
-    }
-
-    return false
   }
 
   const getHref = (slugPrefix: string, pathSuffix: string, slug: string) => {
@@ -124,6 +97,10 @@ const SidebarElements = ({ slugPrefix, items, subItemLevel }: SidebarProps) => {
     const isOpen = isElementOpen(localizedSlug, defaultOpen)
     const pathSuffix = method ? `#${method.toLowerCase()}-${endpoint}` : ''
     const activeItem = method ? `${localizedSlug}${pathSuffix}` : localizedSlug
+    const documentationType = getDocumentationType(
+      sidebarDataMaster,
+      localizedSlug
+    )
     return (
       <Box sx={styles.elementContainer}>
         <Flex sx={styleByLevelNormal(subItemLevel, isExpandable || false)}>
@@ -139,12 +116,7 @@ const SidebarElements = ({ slugPrefix, items, subItemLevel }: SidebarProps) => {
               onClick={() => toggleSidebarElementStatus(localizedSlug, isOpen)}
             />
           )}
-          {!checkDocumentationType(
-            sidebarDataMaster,
-            localizedSlug,
-            'category'
-          ) &&
-          !checkDocumentationType(sidebarDataMaster, localizedSlug, 'link') ? (
+          {documentationType !== 'category' && documentationType !== 'link' ? (
             <Link
               sx={textStyle(activeSidebarElement === activeItem, isExpandable)}
               onClick={(e: { preventDefault: () => void }) => {
@@ -167,11 +139,7 @@ const SidebarElements = ({ slugPrefix, items, subItemLevel }: SidebarProps) => {
               )}
               {localizedName}
             </Link>
-          ) : checkDocumentationType(
-              sidebarDataMaster,
-              localizedSlug,
-              'link'
-            ) ? (
+          ) : documentationType === 'link' ? (
             <Link href={localizedSlug} target="_blank" sx={styles.elementText}>
               <IconExternalLink size={16} sx={{ marginRight: '10px' }} />
               {localizedName}
@@ -214,6 +182,7 @@ const SidebarElements = ({ slugPrefix, items, subItemLevel }: SidebarProps) => {
           slugPrefix={slugPrefix}
           items={children}
           subItemLevel={subItemLevel + 1}
+          forceOpen={forceOpen}
           key={`${localizedSlug}sd`}
         />
       </Box>
@@ -250,4 +219,4 @@ const SidebarElements = ({ slugPrefix, items, subItemLevel }: SidebarProps) => {
   )
 }
 
-export default SidebarElements
+export default memo(SidebarElements)

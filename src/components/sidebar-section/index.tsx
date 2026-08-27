@@ -1,12 +1,13 @@
 // Sidebar Section
 import { Flex, Box, Text, Button } from '@vtex/brand-ui'
-import { useContext, useMemo, useState } from 'react'
+import { memo, useContext, useMemo, useRef, useState } from 'react'
 
 import styles from './styles'
 import { SidebarElement } from '../sidebar-elements'
 import SectionFilter from '../sidebar-section-filter'
 import SideBarElements from '../sidebar-elements'
 import SearchIcon from 'components/icons/search-icon'
+import CloseIcon from 'components/icons/close-icon'
 import SideBarToggleIcon from 'components/icons/sidebar-toggle-icon'
 import ArrowLeftIcon from 'components/icons/arrow-left-icon'
 import { getIcon } from 'utils/sidebar-utils'
@@ -15,10 +16,145 @@ import { messages } from 'utils/get-message'
 
 export interface SidebarSectionProps {
   documentation: string
-  name: string | { en: string, es: string, pt: string }
+  name: string | { en: string; es: string; pt: string }
   categories: SidebarElement[]
   slugPrefix: string
   isHamburgerMenu: boolean
+}
+
+type MethodFilter = {
+  name: string
+  active: boolean
+}
+
+function localizedName(
+  name: SidebarElement['name'],
+  locale: 'en' | 'pt' | 'es'
+): string {
+  return typeof name === 'string' ? name : name[locale]
+}
+
+function matchesQuery(
+  name: SidebarElement['name'],
+  query: string,
+  locale: 'en' | 'pt' | 'es'
+): boolean {
+  if (!query) return true
+  return localizedName(name, locale).toLowerCase().includes(query)
+}
+
+function matchesMethodFilter(
+  node: SidebarElement,
+  methodFilterList: MethodFilter[],
+  filterStatus: boolean
+): boolean {
+  if (!filterStatus || !node.method) return true
+  return methodFilterList.some(
+    (methodFilter) => methodFilter.name === node.method && methodFilter.active
+  )
+}
+
+function filterSidebarNode(
+  node: SidebarElement,
+  query: string,
+  methodFilterList: MethodFilter[],
+  filterStatus: boolean,
+  locale: 'en' | 'pt' | 'es'
+): SidebarElement | null {
+  const selfMatches =
+    matchesQuery(node.name, query, locale) &&
+    matchesMethodFilter(node, methodFilterList, filterStatus)
+  const children = node.children || []
+
+  if (selfMatches && !filterStatus) {
+    return node
+  }
+
+  const filteredChildren = children
+    .map((child) =>
+      filterSidebarNode(
+        child,
+        selfMatches ? '' : query,
+        methodFilterList,
+        filterStatus,
+        locale
+      )
+    )
+    .filter((child): child is SidebarElement => child != null)
+
+  if (filteredChildren.length > 0) {
+    return { ...node, children: filteredChildren }
+  }
+
+  if (selfMatches && children.length === 0) {
+    return node
+  }
+
+  return null
+}
+
+function filterSidebarCategories(
+  categories: SidebarElement[] | undefined,
+  searchValue: string,
+  methodFilterList: MethodFilter[],
+  filterStatus: boolean,
+  locale: 'en' | 'pt' | 'es'
+): SidebarElement[] | undefined {
+  if (!categories?.length || (!filterStatus && searchValue === '')) {
+    return categories
+  }
+
+  const query = searchValue.toLowerCase()
+
+  return categories
+    .map((category) =>
+      filterSidebarNode(category, query, methodFilterList, filterStatus, locale)
+    )
+    .filter((category): category is SidebarElement => category != null)
+}
+
+const SidebarSearchBox = ({
+  value,
+  placeholder,
+  onChange,
+}: {
+  value: string
+  placeholder: string
+  onChange: (value: string) => void
+}) => {
+  const inputRef = useRef<HTMLInputElement>(null)
+  const { locale } = useContext(LibraryContext)
+  const clearLabel = messages[locale]['search_input.clear'] || 'Clear search'
+
+  return (
+    <Flex sx={styles.searchBox}>
+      <SearchIcon sx={styles.searchIcon} />
+      <input
+        ref={inputRef}
+        style={styles.searchInput}
+        className="searchComponent"
+        type="text"
+        placeholder={placeholder}
+        value={value}
+        onChange={(e) => onChange(e.currentTarget.value)}
+      />
+      {value ? (
+        <Flex
+          as="button"
+          type="button"
+          sx={styles.clearButton}
+          aria-label={clearLabel}
+          title={clearLabel}
+          onClick={() => {
+            onChange('')
+            inputRef.current?.focus()
+          }}
+        >
+          <CloseIcon sx={styles.clearIcon} />
+        </Flex>
+      ) : null}
+    </Flex>
+  )
 }
 
 const SidebarSection = ({
@@ -34,7 +170,7 @@ const SidebarSection = ({
     sidebarSectionHidden,
     setSidebarSectionHidden,
     sidebarSections,
-    locale
+    locale,
   } = useContext(LibraryContext)
   const [methodFilterList, setMethodFilterList] = useState([
     { name: 'POST', active: false },
@@ -48,49 +184,17 @@ const SidebarSection = ({
     (methodFilter) => methodFilter.active
   )
 
-  const filteredResult = useMemo(() => {
-    if (!filterStatus && searchValue === '') return categories
-
-    const dataCopy = JSON.parse(JSON.stringify(categories))
-
-    const filteredCategories = dataCopy
-      .map((category: SidebarElement) => {
-        category.children = category.children
-          .map((subcategory) => {
-            subcategory.children = subcategory.children.filter((endpoint) => {
-              const hasMethodFilter =
-                !filterStatus ||
-                methodFilterList.find(
-                  (methodFilter) => methodFilter.name === endpoint.method
-                )?.active
-              const hasInputFilter =
-                searchValue === '' ||
-                (typeof endpoint.name === 'string'
-                  ? endpoint.name
-                  : endpoint.name[locale]
-                )
-                  .toLowerCase()
-                  .includes(searchValue.toLowerCase())
-              return hasMethodFilter && hasInputFilter
-            })
-            return subcategory
-          })
-          .filter(
-            (subcategory) =>
-              subcategory.children.length > 0 ||
-              (subcategory.type === 'markdown' &&
-                (typeof subcategory.name === 'string'
-                  ? subcategory.name
-                  : subcategory.name[locale]
-                )
-                  .toLowerCase()
-                  .includes(searchValue.toLowerCase()))
-          )
-        return category
-      })
-      .filter((category: SidebarElement) => category.children.length > 0)
-    return filteredCategories
-  }, [filterStatus, methodFilterList, categories, searchValue])
+  const filteredResult = useMemo(
+    () =>
+      filterSidebarCategories(
+        categories,
+        searchValue,
+        methodFilterList,
+        filterStatus,
+        locale
+      ),
+    [filterStatus, methodFilterList, categories, searchValue, locale]
+  )
 
   const DocIcon = getIcon(documentation, sidebarSections)
 
@@ -99,7 +203,7 @@ const SidebarSection = ({
   if (!categories || categories.length <= 0) {
     return <></>
   } else {
-    localizedSectionTitle = typeof(name) === 'string' ? name : name[locale]
+    localizedSectionTitle = typeof name === 'string' ? name : name[locale]
   }
 
   return isHamburgerMenu ? (
@@ -126,21 +230,15 @@ const SidebarSection = ({
           <Text sx={styles.sidebarTitle}>{localizedSectionTitle}</Text>
         </Flex>
         <Box sx={styles.sidebarContainerBody}>
-          <Flex sx={styles.searchBox}>
-            <SearchIcon sx={styles.searchIcon} />
-            <input
-              style={styles.searchInput}
-              className="searchComponent"
-              type="text"
-              placeholder={
-                messages[locale]['sidebar_search.placeholder'] +
-                ' ' +
-                localizedSectionTitle
-              }
-              value={searchValue}
-              onChange={(e) => setSearchValue(e.currentTarget.value)}
-            />
-          </Flex>
+          <SidebarSearchBox
+            value={searchValue}
+            placeholder={
+              messages[locale]['sidebar_search.placeholder'] +
+              ' ' +
+              localizedSectionTitle
+            }
+            onChange={setSearchValue}
+          />
           {documentation == 'API Reference' && (
             <SectionFilter
               methodFilterList={methodFilterList}
@@ -150,9 +248,10 @@ const SidebarSection = ({
         </Box>
         <Box sx={styles.sidebarContainerBody}>
           <SideBarElements
-            items={filteredResult}
+            items={filteredResult ?? []}
             subItemLevel={0}
             slugPrefix={slugPrefix}
+            forceOpen={searchValue !== '' || filterStatus}
           />
         </Box>
       </Box>
@@ -191,21 +290,15 @@ const SidebarSection = ({
             </Text>
           )}
           <Text sx={styles.sidebarTitle}>{localizedSectionTitle}</Text>
-          <Flex sx={styles.searchBox}>
-            <SearchIcon sx={styles.searchIcon} />
-            <input
-              style={styles.searchInput}
-              className="searchComponent"
-              type="text"
-              placeholder={
-                messages[locale]['sidebar_search.placeholder'] +
-                ' ' +
-                localizedSectionTitle
-              }
-              value={searchValue}
-              onChange={(e) => setSearchValue(e.currentTarget.value)}
-            />
-          </Flex>
+          <SidebarSearchBox
+            value={searchValue}
+            placeholder={
+              messages[locale]['sidebar_search.placeholder'] +
+              ' ' +
+              localizedSectionTitle
+            }
+            onChange={setSearchValue}
+          />
         </Box>
         {documentation == 'API Reference' && (
           <SectionFilter
@@ -215,9 +308,10 @@ const SidebarSection = ({
         )}
         <Box sx={styles.sidebarContainerBody}>
           <SideBarElements
-            items={filteredResult}
+            items={filteredResult ?? []}
             subItemLevel={0}
             slugPrefix={slugPrefix}
+            forceOpen={searchValue !== '' || filterStatus}
           />
         </Box>
       </Box>
@@ -242,4 +336,4 @@ const SidebarSection = ({
   )
 }
 
-export default SidebarSection
+export default memo(SidebarSection)
