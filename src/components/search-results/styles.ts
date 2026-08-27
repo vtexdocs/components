@@ -2,10 +2,9 @@ import { SxStyleProp } from '@vtex/brand-ui'
 
 const resultContainer: SxStyleProp = {
   width: ['80%', '544px', '544px', '544px', '720px', '720px', '1400px'],
-  paddingTop: ['32px', '32px', '32px', '64px'],
+  paddingTop: '32px',
   hr: {
     marginTop: '16px',
-    marginBottom: '32px',
     borderTop: 'none',
     borderColor: '#DDDDDD',
     display: ['none', 'none', 'none', 'block'],

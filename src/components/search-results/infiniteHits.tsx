@@ -13,7 +13,7 @@ import {
   ActionType,
   getIconFromSection,
   getRelativeURL,
-  getTitleById,
+  getSearchBreadcrumbs,
 } from 'utils/search-utils'
 import { Box, Flex, Text } from '@vtex/brand-ui'
 import { MethodType } from 'utils/typings/types'
@@ -29,13 +29,14 @@ interface HitProps {
 }
 
 const HitCard = ({ hit }: HitProps) => {
-  const { sidebarSections } = useContext(LibraryContext)
-  const breadcrumbTitle = getTitleById(sidebarSections, hit.doctype)
-
-  const breadcrumbs = [
-    breadcrumbTitle,
-    ...(hit.doccategory ? [hit.doccategory] : []),
-  ]
+  const { sidebarSections, sidebarDataMaster, locale } =
+    useContext(LibraryContext)
+  const breadcrumbs = getSearchBreadcrumbs({
+    hit,
+    navigation: sidebarDataMaster,
+    sections: sidebarSections,
+    locale,
+  })
   const DocIcon = getIconFromSection(sidebarSections, hit.doctype)
 
   return (
@@ -110,14 +111,6 @@ const InfiniteHits = ({ hits, hasMore, refineNext }: InfiniteHitsProvided) => {
   const scrollRef = useRef<HTMLSpanElement>(null)
   const { locale } = useContext(LibraryContext)
 
-  function onSentinelIntersection(entries: IntersectionObserverEntry[]) {
-    entries.forEach((entry: IntersectionObserverEntry) => {
-      if (entry.isIntersecting && hasMore) {
-        refineNext()
-      }
-    })
-  }
-
   const filteredResult = useMemo(() => {
     const mergeHits: FilteredHit2[] = [] //hitsData
     hits.forEach((hit) => {
@@ -134,13 +127,21 @@ const InfiniteHits = ({ hits, hasMore, refineNext }: InfiniteHitsProvided) => {
   }, [hits])
 
   useEffect(() => {
-    const observer = new IntersectionObserver(onSentinelIntersection, {})
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting && hasMore) {
+          refineNext()
+        }
+      })
+    })
 
-    if (scrollRef.current) observer.observe(scrollRef.current)
+    const sentinel = scrollRef.current
+    if (sentinel) observer.observe(sentinel)
     return () => {
       observer.disconnect()
     }
-  }, [hits])
+  }, [hasMore, refineNext])
+
   return (
     <Box>
       <StateResults />

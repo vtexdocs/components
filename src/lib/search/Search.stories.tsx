@@ -13,7 +13,7 @@ const meta = {
       router: {
         pathname: '/search',
         query: {
-          keyword: 'cata',
+          keyword: 'catalog',
         },
       },
     },

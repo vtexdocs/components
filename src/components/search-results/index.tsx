@@ -14,7 +14,7 @@ import { SearchContext } from 'utils/context/search'
 import {
   searchClient,
   searchIndex,
-  hitsPerPage,
+  SEARCH_RESULTS_HITS_PER_PAGE,
 } from 'utils/config/search-config'
 import { formatSearchTabCount } from 'utils/search-utils'
 
@@ -85,7 +85,7 @@ const SearchResults = () => {
             filters={filters}
             query={router.query.keyword}
             clickAnalytics={true}
-            hitsPerPage={hitsPerPage}
+            hitsPerPage={SEARCH_RESULTS_HITS_PER_PAGE}
             facets={['doctype', 'language']}
             facetingAfterDistinct={true}
           />

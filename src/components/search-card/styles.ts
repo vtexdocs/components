@@ -85,6 +85,13 @@ const title: SxStyleProp = {
   color: '#142032',
 }
 
+const titleText: SxStyleProp = {
+  minWidth: 0,
+  flex: 1,
+  display: 'inline',
+  whiteSpace: 'normal',
+}
+
 const httpMethod: SxStyleProp = {
   mr: '8px',
 }
@@ -226,6 +233,7 @@ export default {
   cardText,
   iconWrap,
   title,
+  titleText,
   httpMethod,
   icon,
   description,
