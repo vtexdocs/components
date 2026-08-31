@@ -26,6 +26,17 @@ const titleContainer: SxStyleProp = {
   alignItems: 'center',
 }
 
+const dropdownIcon: SxStyleProp = {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  flexShrink: 0,
+  width: '36px',
+  height: '36px',
+  borderRadius: '8px',
+  backgroundColor: '#f8f7fc',
+}
+
 const title: SxStyleProp = {
   ml: '8px',
   color: 'muted.0',
@@ -43,4 +54,5 @@ export default {
   description,
   title,
   titleContainer,
+  dropdownIcon,
 }

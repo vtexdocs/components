@@ -15,6 +15,7 @@ export type MessagesType = {
   'search_input.navigate': string
   'search_input.open': string
   'search_input.close': string
+  'search_input.open_search': string
   'sidebar_search.placeholder': string
   'search_results.showing': string
   'search_results.results_for': string
@@ -50,4 +51,8 @@ export type MessagesType = {
   'footer.help_center': string
   'footer.community': string
   'footer.feedback': string
+  'header.docs': string
+  'header.feedback': string
+  'header.admin_tools': string
+  'header.home_aria': string
 }

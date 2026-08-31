@@ -7,7 +7,7 @@ import ReleaseNotesIcon from 'components/icons/release-notes-icon'
 import StorefrontDevelopmentIcon from 'components/icons/storefront-development-icon'
 import VTEXIOAppsIcon from 'components/icons/vtex-io-apps-icon'
 import TroubleshootingIcon from 'components/icons/troubleshooting-icon'
-import { IconComponent, Section } from './typings/types'
+import { IconComponent, MethodType, Section } from './typings/types'
 import AddedIcon from 'components/icons/added-icon'
 import DeprecatedIcon from 'components/icons/deprecated-icon'
 import FixedIcon from 'components/icons/fixed-icon'
@@ -25,6 +25,30 @@ export const getBreadcrumbs = (hit: Hit) => {
 export const getRelativeURL = (url: string) => {
   const relativeURL = url.replace(/^(?:\/\/|[^/]+)*\//, '')
   return '/' + relativeURL
+}
+
+const HTTP_METHODS: readonly MethodType[] = [
+  'POST',
+  'GET',
+  'PUT',
+  'DELETE',
+  'PATCH',
+]
+
+const isMethodType = (value: string): value is MethodType =>
+  (HTTP_METHODS as readonly string[]).includes(value)
+
+/** HTTP method badge for API Reference hits, matching the search results page. */
+export const getSearchHitMethod = (hit: Hit): MethodType | undefined => {
+  const raw = typeof hit.method === 'string' ? hit.method.toUpperCase() : ''
+  if (isMethodType(raw)) return raw
+
+  const url = typeof hit.url === 'string' ? hit.url : ''
+  const hash = url.includes('#') ? url.slice(url.indexOf('#') + 1) : ''
+  const fromHash = hash.split('-')[0]?.toUpperCase() || ''
+  if (isMethodType(fromHash)) return fromHash
+
+  return undefined
 }
 
 /** Display cap for tab counts; values at or above this render as "999+". */

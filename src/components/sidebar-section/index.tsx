@@ -1,6 +1,13 @@
 // Sidebar Section
 import { Flex, Box, Text, Button } from '@vtex/brand-ui'
-import { memo, useContext, useMemo, useRef, useState } from 'react'
+import {
+  memo,
+  useContext,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 
 import styles from './styles'
 import { SidebarElement } from '../sidebar-elements'
@@ -93,6 +100,28 @@ function filterSidebarNode(
   return null
 }
 
+function scrollDesktopSidebarToActiveItem(container: HTMLElement) {
+  const activeEl = container.querySelector<HTMLElement>(
+    '[data-sidebar-active="true"]'
+  )
+  if (!activeEl) return false
+
+  const containerRect = container.getBoundingClientRect()
+  const elRect = activeEl.getBoundingClientRect()
+  const isFullyVisible =
+    elRect.top >= containerRect.top && elRect.bottom <= containerRect.bottom
+
+  if (isFullyVisible) return true
+
+  const topInsideContainer =
+    elRect.top - containerRect.top + container.scrollTop
+  const centered =
+    topInsideContainer - container.clientHeight / 2 + elRect.height / 2
+
+  container.scrollTop = Math.max(0, centered)
+  return true
+}
+
 function filterSidebarCategories(
   categories: SidebarElement[] | undefined,
   searchValue: string,
@@ -165,11 +194,13 @@ const SidebarSection = ({
   isHamburgerMenu = false,
 }: SidebarSectionProps) => {
   const [searchValue, setSearchValue] = useState('')
+  const sidebarBoxRef = useRef<HTMLDivElement>(null)
   const {
     isEditorPreview,
     sidebarSectionHidden,
     setSidebarSectionHidden,
     sidebarSections,
+    activeSidebarElement,
     locale,
   } = useContext(LibraryContext)
   const [methodFilterList, setMethodFilterList] = useState([
@@ -195,6 +226,26 @@ const SidebarSection = ({
       ),
     [filterStatus, methodFilterList, categories, searchValue, locale]
   )
+
+  useLayoutEffect(() => {
+    if (isHamburgerMenu || !activeSidebarElement) return
+    const container = sidebarBoxRef.current
+    if (!container) return
+
+    const tryScroll = () => scrollDesktopSidebarToActiveItem(container)
+    if (tryScroll()) return
+
+    const observer = new MutationObserver(() => {
+      if (tryScroll()) observer.disconnect()
+    })
+    observer.observe(container, { childList: true, subtree: true })
+    const timeout = window.setTimeout(() => observer.disconnect(), 1500)
+
+    return () => {
+      observer.disconnect()
+      window.clearTimeout(timeout)
+    }
+  }, [activeSidebarElement, filteredResult, isHamburgerMenu])
 
   const DocIcon = getIcon(documentation, sidebarSections)
 
@@ -226,32 +277,25 @@ const SidebarSection = ({
               setSidebarSectionHidden(true)
             }}
           />
-          {DocIcon && <DocIcon />}
-          <Text sx={styles.sidebarTitle}>{localizedSectionTitle}</Text>
+          {DocIcon && <DocIcon size={24} sx={styles.sidebarTitleIcon} />}
+          <Text sx={styles.sidebarTitleHamburger}>{localizedSectionTitle}</Text>
         </Flex>
-        <Box sx={styles.sidebarContainerBody}>
-          <SidebarSearchBox
-            value={searchValue}
-            placeholder={
-              messages[locale]['sidebar_search.placeholder'] +
-              ' ' +
-              localizedSectionTitle
-            }
-            onChange={setSearchValue}
-          />
-          {documentation == 'API Reference' && (
+        {documentation == 'API Reference' && (
+          <Box sx={styles.sidebarContainerFilterHamburger}>
             <SectionFilter
+              isHamburgerMenu
               methodFilterList={methodFilterList}
               setMethodFilter={setMethodFilterList}
             />
-          )}
-        </Box>
-        <Box sx={styles.sidebarContainerBody}>
+          </Box>
+        )}
+        <Box sx={styles.sidebarContainerBodyHamburger}>
           <SideBarElements
             items={filteredResult ?? []}
             subItemLevel={0}
             slugPrefix={slugPrefix}
             forceOpen={searchValue !== '' || filterStatus}
+            isHamburgerMenu
           />
         </Box>
       </Box>
@@ -262,6 +306,7 @@ const SidebarSection = ({
       sx={styles.sidebarContainer}
     >
       <Box
+        ref={sidebarBoxRef}
         className={sidebarSectionHidden ? 'sidebarHide' : ''}
         sx={styles.sidebarContainerBox}
         data-cy="sidebar-section"

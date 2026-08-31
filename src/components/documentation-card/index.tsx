@@ -1,8 +1,13 @@
 import Link from 'next/link.js'
 import { Box, Flex, Text } from '@vtex/brand-ui'
 
+import {
+  cardContainer,
+  cardTitle,
+  cardDescription,
+  titleContainer,
+} from './functions'
 import styles from './styles'
-import { cardContainer, cardTitle, titleContainer } from './functions'
 import { MouseEventHandler } from 'react'
 import { DataElement } from 'utils/typings/types'
 
@@ -23,17 +28,54 @@ const DocumentationCard = ({
 }: CardProps) => {
   return (
     <Link href={link} legacyBehavior>
-      <a onClick={onClick} style={{ width: '100%' }}>
+      <a
+        onClick={onClick}
+        style={{
+          width: '100%',
+          maxWidth: '100%',
+          display: 'block',
+          overflow: 'hidden',
+          textDecoration: 'none',
+        }}
+      >
         <Box sx={cardContainer(containerType)}>
-          <Flex sx={titleContainer(containerType)}>
-            <Icon sx={{ color: '#4A596B' }} size={24} />
-            <Text className="title" sx={cardTitle(containerType)}>
-              {title}
-            </Text>
-          </Flex>
-          <Text className="description" sx={styles.description}>
-            {description}
-          </Text>
+          {containerType === 'see-also' ? (
+            <>
+              <Flex sx={titleContainer(containerType)}>
+                <Icon sx={{ color: '#4A596B', flexShrink: 0 }} size={24} />
+                <Text className="title" sx={cardTitle(containerType)}>
+                  {title}
+                </Text>
+              </Flex>
+              <Text className="description" sx={cardDescription(containerType)}>
+                {description}
+              </Text>
+            </>
+          ) : (
+            <Flex sx={titleContainer(containerType)}>
+              {containerType === 'dropdown' ? (
+                <Flex sx={styles.dropdownIcon}>
+                  <Icon sx={{ color: '#4A596B' }} size={20} />
+                </Flex>
+              ) : (
+                <Icon
+                  sx={{ color: '#4A596B', flexShrink: 0, mt: '2px' }}
+                  size={24}
+                />
+              )}
+              <Box sx={{ minWidth: 0, flex: 1 }}>
+                <Text className="title" sx={cardTitle(containerType)}>
+                  {title}
+                </Text>
+                <Text
+                  className="description"
+                  sx={cardDescription(containerType)}
+                >
+                  {description}
+                </Text>
+              </Box>
+            </Flex>
+          )}
         </Box>
       </a>
     </Link>

@@ -78,7 +78,7 @@ const SearchCard = ({
   }
 
   return (
-    <Flex sx={styles.containerActive(method)}>
+    <Flex sx={styles.containerActive}>
       <Link href={url} legacyBehavior>
         <a>
           <Flex sx={styles.cardBody}>

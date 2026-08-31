@@ -29,35 +29,35 @@ const developerSections: Section[][] = [
       Icon: APIGuidesIcon,
       title: 'Guides',
       description: 'Guides',
-      link: '#',
+      link: '/guides',
     },
     {
       id: 'API Reference',
       Icon: APIReferenceIcon,
       title: 'API Reference',
       description: 'API Reference',
-      link: '#',
+      link: '/api-reference',
     },
     {
       id: 'App Development',
       Icon: AppDevelopmentIcon,
       title: 'App Development',
       description: 'App Development',
-      link: '#',
+      link: '/app-development',
     },
     {
       id: 'Storefront Development',
       Icon: StorefrontDevelopmentIcon,
       title: 'Storefront Development',
       description: 'Storefront Development',
-      link: '#',
+      link: '/storefront-development',
     },
     {
       id: 'VTEX IO Apps',
       Icon: VTEXIOAppsIcon,
       title: 'VTEX IO Apps',
       description: 'VTEX IO Apps',
-      link: '#',
+      link: '/vtex-io-apps',
     },
   ],
   [
@@ -66,14 +66,14 @@ const developerSections: Section[][] = [
       Icon: TroubleshootingIcon,
       title: 'Troubleshooting',
       description: 'Troubleshooting',
-      link: '#',
+      link: '/troubleshooting',
     },
     {
       id: 'Release Notes',
       Icon: ReleaseNotesIcon,
       title: 'Release Notes',
       description: 'Release Notes',
-      link: '#',
+      link: '/updates',
     },
   ],
 ]
@@ -178,6 +178,12 @@ export const SidebarWithApiReference: Story = {
   args: {
     parentsArray: [],
   },
+  decorators: [withDevelopersNav('API Reference')],
+}
+
+/** Desktop sidebar scrolled so the active doc is in view. */
+export const SidebarWithActiveDoc: Story = {
+  render: () => <Sidebar parentsArray={['b2b-buyer-portal']} />,
   decorators: [withDevelopersNav('API Reference')],
 }
 

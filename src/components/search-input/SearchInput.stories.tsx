@@ -28,3 +28,23 @@ type Story = StoryObj<typeof meta>
 export const SimpleSearchInput: Story = {
   args: {},
 }
+
+export const ModalSearchInput: Story = {
+  args: {
+    variant: 'modal',
+  },
+  decorators: [
+    (Story) => (
+      <div
+        style={{
+          height: 560,
+          display: 'flex',
+          flexDirection: 'column',
+          border: '1px solid #E7E9EE',
+        }}
+      >
+        <Story />
+      </div>
+    ),
+  ],
+}

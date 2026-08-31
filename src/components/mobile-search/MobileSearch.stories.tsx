@@ -1,47 +1,36 @@
 import type { Meta, StoryObj } from '@storybook/react'
+import { Header, ThemeProvider } from '@vtex/brand-ui'
+import MobileSearch from './index'
 import LibraryContextProvider from 'utils/context/libraryContext'
 import { exampleContextProps } from 'utils/storybook-constants'
-import Search from './index'
-import { ThemeProvider } from '@vtex/brand-ui'
 
 const meta = {
-  title: 'Example/Search',
-  component: Search,
+  title: 'Example/MobileSearch',
+  component: MobileSearch,
+  tags: ['autodocs'],
   parameters: {
     layout: 'fullscreen',
-    nextjs: {
-      router: {
-        pathname: '/search',
-        query: {
-          keyword: 'catalog',
-        },
-      },
-    },
-  },
-  tags: ['autodocs'],
-  decorators: [
-    (Story) => (
-      <ThemeProvider>
-        <LibraryContextProvider {...exampleContextProps}>
-          <Story />
-        </LibraryContextProvider>
-      </ThemeProvider>
-    ),
-  ],
-} satisfies Meta<typeof Search>
-
-export default meta
-type Story = StoryObj<typeof meta>
-
-export const SimpleSearch: Story = {
-  args: {},
-}
-
-export const MobileSearch: Story = {
-  args: {},
-  parameters: {
     viewport: {
       defaultViewport: 'mobileSmall',
     },
   },
+  decorators: [
+    (Story) => (
+      <ThemeProvider>
+        <LibraryContextProvider {...exampleContextProps}>
+          <Header>
+            <Header.Brand>Docs</Header.Brand>
+            <Story />
+          </Header>
+        </LibraryContextProvider>
+      </ThemeProvider>
+    ),
+  ],
+} satisfies Meta<typeof MobileSearch>
+
+export default meta
+type Story = StoryObj<typeof meta>
+
+export const Closed: Story = {
+  args: {},
 }

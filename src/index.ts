@@ -7,6 +7,7 @@ export {
   HamburgerMenu,
   FeedbackSection,
   SearchInput,
+  MobileSearch,
   Search,
   CookieBar,
   ShareButton,
@@ -14,6 +15,9 @@ export {
   Input,
   SubscriptionList,
   Footer,
+  Header,
+  DropdownMenu,
+  AnnouncementBar,
   Tag,
   ListingFilter,
   TroubleshootingCard,
@@ -37,6 +41,15 @@ export {
   type FooterProps,
   type FooterLink,
   type FooterVariant,
+  type HeaderProps,
+  type HeaderVariant,
+  type DropdownMenuProps,
+  type AnnouncementBarProps,
+  type AnnouncementBarType,
+  type AnnouncementBarAction,
+  type Section,
+  type SearchInputProps,
+  type MobileSearchProps,
 } from './lib'
 
 /** @deprecated Use ListingFilter instead */

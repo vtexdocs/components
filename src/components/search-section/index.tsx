@@ -53,7 +53,10 @@ const SearchSection = ({ dataElement, index }: SearchSectionProps) => {
     )
   }
 
-  const count = ocurrenceCount[dataElement.id]
+  const countsLoaded = Object.keys(ocurrenceCount).length > 0
+  const count = countsLoaded
+    ? ocurrenceCount[dataElement.id] ?? 0
+    : ocurrenceCount[dataElement.id]
   const isDisabled = count === 0
   const countLabel = formatSearchTabCount(count)
 

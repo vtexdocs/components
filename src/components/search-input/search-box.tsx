@@ -1,4 +1,4 @@
-import { useRef, KeyboardEvent, MouseEvent, useContext } from 'react'
+import { useRef, KeyboardEvent, MouseEvent, useContext, useEffect } from 'react'
 import { useRouter } from 'next/router.js'
 import { Flex } from '@vtex/brand-ui'
 import { connectSearchBox } from 'react-instantsearch-dom'
@@ -9,19 +9,37 @@ import CloseIcon from 'components/icons/close-icon'
 import styles from './styles'
 import { messages } from 'utils/get-message'
 import { LibraryContext } from 'utils/context/libraryContext'
+import { SearchInputVariant } from './types'
 
 interface SearchBoxProps extends SearchBoxProvided {
   changeFocus: (value: boolean) => void
+  autoFocus?: boolean
+  variant?: SearchInputVariant
 }
+
+const containerStyle = (variant: SearchInputVariant) =>
+  variant === 'modal' ? styles.searchContainerModal : styles.searchContainer
+
+const iconStyle = (variant: SearchInputVariant) =>
+  variant === 'modal' ? styles.searchIconModal : styles.searchIcon
+
+const inputStyle = (variant: SearchInputVariant) =>
+  variant === 'modal' ? styles.searchInputModal : styles.searchInput
 
 const SearchBoxComponent = ({
   currentRefinement,
   refine,
   changeFocus,
+  autoFocus = false,
+  variant = 'default',
 }: SearchBoxProps) => {
   const router = useRouter()
   const inputRef = useRef<HTMLInputElement>(null)
   const { locale } = useContext(LibraryContext)
+
+  useEffect(() => {
+    if (autoFocus) inputRef.current?.focus()
+  }, [autoFocus])
 
   const handleClick = () => {
     if (inputRef.current != null) inputRef.current.focus()
@@ -50,16 +68,21 @@ const SearchBoxComponent = ({
   }
 
   return (
-    <Flex sx={styles.searchContainer} onClick={handleClick}>
-      <SearchIcon sx={styles.searchIcon} />
+    <Flex sx={containerStyle(variant)} onClick={handleClick}>
+      <SearchIcon sx={iconStyle(variant)} />
       <input
-        style={styles.searchInput}
+        style={inputStyle(variant)}
         ref={inputRef}
         className="searchComponent"
-        type="text"
+        type="search"
+        enterKeyHint="search"
+        autoComplete="off"
+        autoCorrect="off"
+        spellCheck={false}
         placeholder={messages[locale]['search_input.placeholder']}
         value={currentRefinement}
         data-cy="search"
+        autoFocus={autoFocus}
         onKeyDown={(e) => keyPressed(e)}
         onChange={(e) => refine(e.currentTarget.value)}
       />

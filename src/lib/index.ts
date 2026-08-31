@@ -7,6 +7,9 @@ export { default as HamburgerMenu } from './hamburger-menu'
 export { default as FeedbackSection } from './feedback-section'
 export { default as Search } from './search'
 export { default as SearchInput } from '../components/search-input'
+export type { SearchInputProps } from '../components/search-input'
+export { default as MobileSearch } from '../components/mobile-search'
+export type { MobileSearchProps } from '../components/mobile-search'
 export { default as CookieBar } from './cookie-bar'
 export { default as WhatsNextCard } from '../components/whats-next-card'
 export { default as ShareButton } from '../components/share-button'
@@ -14,6 +17,8 @@ export { default as CopyLinkButton } from '../components/copy-link-button'
 export { default as Input } from '../components/input'
 export { default as SubscriptionList } from '../components/subscription-list'
 export { default as Footer } from '../components/footer'
+export { default as Header, DropdownMenu } from '../components/header'
+export { default as AnnouncementBar } from '../components/announcement-bar'
 export { default as Tag } from '../components/tag'
 export { default as ListingFilter } from '../components/listing-filter'
 export { default as TroubleshootingCard } from '../components/troubleshooting-card'
@@ -26,6 +31,16 @@ export type {
   FooterLink,
   FooterVariant,
 } from '../components/footer'
+export type {
+  HeaderProps,
+  HeaderVariant,
+  DropdownMenuProps,
+} from '../components/header'
+export type {
+  AnnouncementBarProps,
+  AnnouncementBarType,
+  AnnouncementBarAction,
+} from '../components/announcement-bar'
 export type {
   FilterGroup,
   FilterOption,
@@ -43,3 +58,4 @@ export type {
 } from '../utils/troubleshooting/types'
 export { filterTroubleshootingItems } from '../utils/troubleshooting/filterItems'
 export { collectTroubleshootingFilterOptions } from '../utils/troubleshooting/collectFilterOptions'
+export type { Section } from '../utils/typings/types'

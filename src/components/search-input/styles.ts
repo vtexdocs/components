@@ -4,7 +4,7 @@ const resultsOuterContainer: SxStyleProp = {
   position: 'relative',
 }
 
-const searchWidth = ['288px', '458px', '458px', '288px', '416px', '544px']
+const searchWidth = ['288px', '458px', '288px', '288px', '416px', '544px']
 const keyboardHintsDisplay = ['none', 'flex', 'flex', 'none', 'flex', 'flex']
 
 const resultsInnerContainer: SxStyleProp = {
@@ -34,6 +34,15 @@ const resultsFooter = (hasSeeAll: boolean): SxStyleProp => ({
   padding: ['8px 12px', '8px 16px'],
   borderTop: '1px solid #E7E9EE',
   background: '#FAFAFB',
+})
+
+const resultsFooterModal = (hasSeeAll: boolean): SxStyleProp => ({
+  display: hasSeeAll ? 'flex' : 'none',
+  alignItems: 'center',
+  justifyContent: 'flex-end',
+  padding: '4px 8px 8px',
+  borderTop: 'none',
+  background: 'transparent',
 })
 
 const keyboardHints: SxStyleProp = {
@@ -82,7 +91,13 @@ const seeAllCaret: SxStyleProp = {
 const seeAll: SxStyleProp = {
   display: 'flex',
   alignItems: 'center',
-  justifyContent: ['space-between', 'flex-start', 'flex-start', 'space-between', 'flex-start'],
+  justifyContent: [
+    'space-between',
+    'flex-start',
+    'flex-start',
+    'space-between',
+    'flex-start',
+  ],
   gap: '4px',
   width: ['100%', 'auto', 'auto', '100%', 'auto'],
   maxWidth: '100%',
@@ -184,29 +199,44 @@ const hitContentContainer: SxStyleProp = {
 
 const snippetText: SxStyleProp = {
   overflowWrap: 'break-word',
+  wordBreak: 'break-word',
   overflow: 'hidden',
   display: '-webkit-box',
   WebkitBoxOrient: 'vertical',
 }
 
 const hitTitle: SxStyleProp = {
+  display: 'flex',
+  alignItems: 'center',
+  minWidth: 0,
   color: '#142032',
   fontSize: ['14px', '15px'],
   fontWeight: '600',
   lineHeight: ['20px', '22px'],
+}
+
+const hitTitleText: SxStyleProp = {
+  minWidth: 0,
+  flex: 1,
   whiteSpace: 'nowrap',
   overflow: 'hidden',
   textOverflow: 'ellipsis',
 }
 
+const httpMethod: SxStyleProp = {
+  mr: '8px',
+  flexShrink: 0,
+  alignSelf: 'center',
+}
+
 const hitContent: SxStyleProp = {
   color: 'muted.0',
-  fontSize: ['14px', '16px'],
-  lineHeight: ['20px', '22px'],
+  fontSize: ['13px', '16px'],
+  lineHeight: ['18px', '22px'],
   width: '100%',
   minWidth: 0,
   ...snippetText,
-  WebkitLineClamp: 4,
+  WebkitLineClamp: [3, 4],
 }
 
 const hitContentSmall: SxStyleProp = {
@@ -317,8 +347,15 @@ const searchContainer: SxStyleProp = {
   width: searchWidth,
   height: '40px',
   borderRadius: '4px',
-  transition: 'background 0.3s ease-out, border 0.3s ease-out, box-shadow 0.3s ease-out',
+  transition:
+    'background 0.3s ease-out, border 0.3s ease-out, box-shadow 0.3s ease-out',
   cursor: 'pointer',
+  'input[type="search"]::-webkit-search-cancel-button': {
+    display: 'none',
+  },
+  'input[type="search"]::-webkit-search-decoration': {
+    display: 'none',
+  },
   ':hover': {
     border: '1px solid #3B3B3B',
   },
@@ -357,6 +394,157 @@ const noResults: SxStyleProp = {
   textAlign: 'center',
 }
 
+const searchContainerModal: SxStyleProp = {
+  paddingLeft: '16px',
+  paddingRight: '12px',
+  alignItems: 'center',
+  background: 'transparent',
+  width: '100%',
+  minHeight: '56px',
+  borderRadius: 0,
+  cursor: 'text',
+  'input[type="search"]::-webkit-search-cancel-button': {
+    display: 'none',
+  },
+  'input[type="search"]::-webkit-search-decoration': {
+    display: 'none',
+  },
+  ':hover': {
+    border: 'none',
+  },
+  ':focus-within': {
+    background: 'transparent',
+    border: 'none',
+    boxShadow: 'none',
+  },
+}
+
+const searchIconModal: SxStyleProp = {
+  minWidth: '18px',
+  minHeight: '18px',
+  width: '18px',
+  height: '18px',
+  mr: '12px',
+  flex: 0,
+  color: '#A1A8B3',
+  path: {
+    fill: '#A1A8B3',
+  },
+}
+
+const searchInputModal = {
+  width: '100%',
+  background: 'none',
+  border: 'none',
+  outline: 'none',
+  color: '#142032',
+  fontSize: '16px',
+  lineHeight: '24px',
+  flex: 1,
+  minWidth: 0,
+}
+
+const modalRoot: SxStyleProp = {
+  display: 'flex',
+  flexDirection: 'column',
+  flex: 1,
+  minHeight: 0,
+  maxHeight: 'min(80vh, 640px)',
+}
+
+const modalSearchBox: SxStyleProp = {
+  flexShrink: 0,
+  borderBottom: '1px solid #F0F0F0',
+}
+
+const modalResults: SxStyleProp = {
+  flex: 1,
+  minHeight: 0,
+  overflowY: 'auto',
+}
+
+const resultsOuterContainerModal: SxStyleProp = {
+  position: 'relative',
+  height: '100%',
+}
+
+const resultsInnerContainerModal: SxStyleProp = {
+  position: 'relative',
+  top: 0,
+  width: '100%',
+  border: 'none',
+  borderRadius: 0,
+  background: 'transparent',
+  boxShadow: 'none',
+  overflow: 'visible',
+}
+
+const resultsBoxModal: SxStyleProp = {
+  padding: '8px',
+  maxHeight: 'none',
+  overflowY: 'visible',
+}
+
+const hitBoxModal: SxStyleProp = {
+  position: 'relative',
+  display: 'flex',
+  alignItems: 'flex-start',
+  padding: '10px 12px',
+  cursor: 'pointer',
+  borderRadius: '12px',
+  a: {
+    minWidth: 0,
+    flex: 1,
+    textDecoration: 'none',
+    color: 'inherit',
+  },
+  ':hover, &[data-active="true"]': {
+    backgroundColor: '#F4F4F5',
+    '.hit-content-title': {
+      color: '#142032',
+    },
+  },
+}
+
+const hitLinkModal: SxStyleProp = {
+  display: 'flex',
+  alignItems: 'flex-start',
+  minWidth: 0,
+  flex: 1,
+  textDecoration: 'none',
+  color: 'inherit',
+  pr: 0,
+}
+
+const hitIconWrapModal: SxStyleProp = {
+  flexShrink: 0,
+  width: '24px',
+  height: '24px',
+  borderRadius: 0,
+  backgroundColor: 'transparent',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  mr: '10px',
+  mt: '2px',
+}
+
+const hitIconModal: SxStyleProp = {
+  width: '16px',
+  height: '16px',
+  color: '#8A8A8A',
+}
+
+const hitTitleModal: SxStyleProp = {
+  display: 'flex',
+  alignItems: 'center',
+  minWidth: 0,
+  color: '#142032',
+  fontSize: '15px',
+  fontWeight: '600',
+  lineHeight: '22px',
+}
+
 const hitContentHighlighted: SxStyleProp = {
   background: '#F8E3EC',
   color: '#142032',
@@ -371,6 +559,7 @@ export default {
   resultsInnerContainer,
   resultsBox,
   resultsFooter,
+  resultsFooterModal,
   keyboardHints,
   keyboardHint,
   kbd,
@@ -383,6 +572,8 @@ export default {
   hitText,
   hitContentContainer,
   hitTitle,
+  hitTitleText,
+  httpMethod,
   hitContent,
   hitContentSmall,
   hitActions,
@@ -395,8 +586,22 @@ export default {
   searchInput,
   searchIcon,
   searchContainer,
+  searchContainerModal,
+  searchIconModal,
+  searchInputModal,
   clearButton,
   alignCenter,
   noResults,
   hitContentHighlighted,
+  modalRoot,
+  modalSearchBox,
+  modalResults,
+  resultsOuterContainerModal,
+  resultsInnerContainerModal,
+  resultsBoxModal,
+  hitBoxModal,
+  hitLinkModal,
+  hitIconWrapModal,
+  hitIconModal,
+  hitTitleModal,
 }
