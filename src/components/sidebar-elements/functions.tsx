@@ -27,7 +27,7 @@ export const isInActivePath = (
 
 export const styleByLevelNormal = (isHamburgerMenu = false) => {
   const normal: SxStyleProp = {
-    gap: isHamburgerMenu ? '12px' : '3px',
+    gap: isHamburgerMenu ? '8px' : '3px',
     alignItems: 'flex-start',
     ...(isHamburgerMenu
       ? {

@@ -99,6 +99,7 @@ const SidebarElements = ({
     const isOpen = isElementOpen(localizedSlug, defaultOpen)
     const pathSuffix = method ? `#${method.toLowerCase()}-${endpoint}` : ''
     const activeItem = method ? `${localizedSlug}${pathSuffix}` : localizedSlug
+    const isActive = activeSidebarElement === activeItem
     const isArrowActive = isInActivePath(
       { slug, method, endpoint, children },
       activeSidebarElement,
@@ -110,6 +111,7 @@ const SidebarElements = ({
     )
     return (
       <Box
+        data-sidebar-active={isActive ? 'true' : undefined}
         sx={
           isHamburgerMenu
             ? styles.elementContainerHamburger
@@ -151,11 +153,7 @@ const SidebarElements = ({
           )}
           {documentationType !== 'category' && documentationType !== 'link' ? (
             <Link
-              sx={textStyle(
-                activeSidebarElement === activeItem,
-                isHamburgerMenu,
-                isExpandable
-              )}
+              sx={textStyle(isActive, isHamburgerMenu, isExpandable)}
               onClick={(e: { preventDefault: () => void }) => {
                 if (!isEditorPreview) {
                   handleClick(e, pathSuffix, localizedSlug)
@@ -169,7 +167,7 @@ const SidebarElements = ({
               {method && (
                 <MethodCategory
                   sx={styles.methodBox}
-                  active={activeSidebarElement === activeItem}
+                  active={isActive}
                   origin="sidebar"
                   method={method}
                 />
@@ -187,11 +185,7 @@ const SidebarElements = ({
             </Link>
           ) : (
             <Box
-              sx={textStyle(
-                activeSidebarElement === localizedSlug,
-                isHamburgerMenu,
-                isExpandable
-              )}
+              sx={textStyle(isActive, isHamburgerMenu, isExpandable)}
               onClick={() => {
                 toggleSidebarElementStatus(localizedSlug, isOpen)
               }}
@@ -199,7 +193,7 @@ const SidebarElements = ({
               {method && (
                 <MethodCategory
                   sx={styles.methodBox}
-                  active={activeSidebarElement === localizedSlug}
+                  active={isActive}
                   origin="sidebar"
                   method={method}
                 />

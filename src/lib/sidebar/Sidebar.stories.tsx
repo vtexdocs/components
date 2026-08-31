@@ -181,6 +181,12 @@ export const SidebarWithApiReference: Story = {
   decorators: [withDevelopersNav('API Reference')],
 }
 
+/** Desktop sidebar scrolled so the active doc is in view. */
+export const SidebarWithActiveDoc: Story = {
+  render: () => <Sidebar parentsArray={['b2b-buyer-portal']} />,
+  decorators: [withDevelopersNav('API Reference')],
+}
+
 /** help.vtex.com/navigation.json — English locale. */
 export const SidebarEnglish: Story = {
   args: {

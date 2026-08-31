@@ -36,7 +36,7 @@ const elementText: SxStyleProp = {
   paddingBlock: '8px',
   display: 'flex',
   alignItems: 'flex-start',
-  gap: '12px',
+  gap: '8px',
   flex: 1,
   minWidth: 0,
   whiteSpace: 'normal',
@@ -80,15 +80,15 @@ const arrowIconHamburger: SxStyleProp = {
 }
 
 const arrowIconSpacer: SxStyleProp = {
-  width: '16px',
-  minWidth: '16px',
+  width: '6px',
+  minWidth: '6px',
   maxWidth: '16px',
   flexShrink: 0,
 }
 
 const arrowIconSpacerHamburger: SxStyleProp = {
-  width: '20px',
-  minWidth: '20px',
+  width: '8px',
+  minWidth: '8px',
   maxWidth: '20px',
   flexShrink: 0,
 }

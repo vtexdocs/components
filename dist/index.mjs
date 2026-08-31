@@ -7934,7 +7934,14 @@ var updateOpenPage = ({
 
 // src/components/sidebar-section/index.tsx
 import { Flex as Flex11, Box as Box13, Text as Text7, Button as Button3 } from "@vtex/brand-ui";
-import { memo as memo2, useContext as useContext7, useMemo as useMemo2, useRef as useRef5, useState as useState8 } from "react";
+import {
+  memo as memo2,
+  useContext as useContext7,
+  useLayoutEffect,
+  useMemo as useMemo2,
+  useRef as useRef5,
+  useState as useState8
+} from "react";
 
 // src/components/sidebar-section/styles.ts
 var sidebarContainer = {
@@ -8561,7 +8568,7 @@ var elementText = {
   paddingBlock: "8px",
   display: "flex",
   alignItems: "flex-start",
-  gap: "12px",
+  gap: "8px",
   flex: 1,
   minWidth: 0,
   whiteSpace: "normal",
@@ -8601,14 +8608,14 @@ var arrowIconHamburger = {
   color: "#A1A8B3"
 };
 var arrowIconSpacer = {
-  width: "16px",
-  minWidth: "16px",
+  width: "6px",
+  minWidth: "6px",
   maxWidth: "16px",
   flexShrink: 0
 };
 var arrowIconSpacerHamburger = {
-  width: "20px",
-  minWidth: "20px",
+  width: "8px",
+  minWidth: "8px",
   maxWidth: "20px",
   flexShrink: 0
 };
@@ -8685,7 +8692,7 @@ var isInActivePath = (node, activeSlug, locale) => {
 };
 var styleByLevelNormal = (isHamburgerMenu = false) => {
   const normal = {
-    gap: isHamburgerMenu ? "12px" : "3px",
+    gap: isHamburgerMenu ? "8px" : "3px",
     alignItems: "flex-start",
     ...isHamburgerMenu ? {
       minHeight: "44px",
@@ -8772,6 +8779,7 @@ var SidebarElements = ({
     const isOpen = isElementOpen(localizedSlug, defaultOpen);
     const pathSuffix = method ? `#${method.toLowerCase()}-${endpoint}` : "";
     const activeItem = method ? `${localizedSlug}${pathSuffix}` : localizedSlug;
+    const isActive = activeSidebarElement === activeItem;
     const isArrowActive = isInActivePath(
       { slug, method, endpoint, children },
       activeSidebarElement,
@@ -8784,6 +8792,7 @@ var SidebarElements = ({
     return /* @__PURE__ */ jsx20(
       Box12,
       {
+        "data-sidebar-active": isActive ? "true" : void 0,
         sx: isHamburgerMenu ? styles_default14.elementContainerHamburger : styles_default14.elementContainer,
         children: /* @__PURE__ */ jsxs15(Flex10, { sx: styleByLevelNormal(isHamburgerMenu), children: [
           isExpandable ? /* @__PURE__ */ jsx20(
@@ -8812,11 +8821,7 @@ var SidebarElements = ({
           documentationType !== "category" && documentationType !== "link" ? /* @__PURE__ */ jsxs15(
             Link4,
             {
-              sx: textStyle(
-                activeSidebarElement === activeItem,
-                isHamburgerMenu,
-                isExpandable
-              ),
+              sx: textStyle(isActive, isHamburgerMenu, isExpandable),
               onClick: (e) => {
                 if (!isEditorPreview) {
                   handleClick(e, pathSuffix, localizedSlug);
@@ -8831,7 +8836,7 @@ var SidebarElements = ({
                   method_category_default,
                   {
                     sx: styles_default14.methodBox,
-                    active: activeSidebarElement === activeItem,
+                    active: isActive,
                     origin: "sidebar",
                     method
                   }
@@ -8853,11 +8858,7 @@ var SidebarElements = ({
           ) : /* @__PURE__ */ jsxs15(
             Box12,
             {
-              sx: textStyle(
-                activeSidebarElement === localizedSlug,
-                isHamburgerMenu,
-                isExpandable
-              ),
+              sx: textStyle(isActive, isHamburgerMenu, isExpandable),
               onClick: () => {
                 toggleSidebarElementStatus(localizedSlug, isOpen);
               },
@@ -8866,7 +8867,7 @@ var SidebarElements = ({
                   method_category_default,
                   {
                     sx: styles_default14.methodBox,
-                    active: activeSidebarElement === localizedSlug,
+                    active: isActive,
                     origin: "sidebar",
                     method
                   }
@@ -9068,6 +9069,22 @@ function filterSidebarNode(node, query, methodFilterList, filterStatus, locale) 
   }
   return null;
 }
+function scrollDesktopSidebarToActiveItem(container15) {
+  const activeEl = container15.querySelector(
+    '[data-sidebar-active="true"]'
+  );
+  if (!activeEl)
+    return false;
+  const containerRect = container15.getBoundingClientRect();
+  const elRect = activeEl.getBoundingClientRect();
+  const isFullyVisible = elRect.top >= containerRect.top && elRect.bottom <= containerRect.bottom;
+  if (isFullyVisible)
+    return true;
+  const topInsideContainer = elRect.top - containerRect.top + container15.scrollTop;
+  const centered = topInsideContainer - container15.clientHeight / 2 + elRect.height / 2;
+  container15.scrollTop = Math.max(0, centered);
+  return true;
+}
 function filterSidebarCategories(categories, searchValue, methodFilterList, filterStatus, locale) {
   if (!categories?.length || !filterStatus && searchValue === "") {
     return categories;
@@ -9124,11 +9141,13 @@ var SidebarSection = ({
   isHamburgerMenu = false
 }) => {
   const [searchValue, setSearchValue] = useState8("");
+  const sidebarBoxRef = useRef5(null);
   const {
     isEditorPreview,
     sidebarSectionHidden,
     setSidebarSectionHidden,
     sidebarSections,
+    activeSidebarElement,
     locale
   } = useContext7(LibraryContext);
   const [methodFilterList, setMethodFilterList] = useState8([
@@ -9151,6 +9170,26 @@ var SidebarSection = ({
     ),
     [filterStatus, methodFilterList, categories, searchValue, locale]
   );
+  useLayoutEffect(() => {
+    if (isHamburgerMenu || !activeSidebarElement)
+      return;
+    const container15 = sidebarBoxRef.current;
+    if (!container15)
+      return;
+    const tryScroll = () => scrollDesktopSidebarToActiveItem(container15);
+    if (tryScroll())
+      return;
+    const observer = new MutationObserver(() => {
+      if (tryScroll())
+        observer.disconnect();
+    });
+    observer.observe(container15, { childList: true, subtree: true });
+    const timeout = window.setTimeout(() => observer.disconnect(), 1500);
+    return () => {
+      observer.disconnect();
+      window.clearTimeout(timeout);
+    };
+  }, [activeSidebarElement, filteredResult, isHamburgerMenu]);
   const DocIcon = getIcon2(documentation2, sidebarSections);
   let localizedSectionTitle = "";
   if (!categories || categories.length <= 0) {
@@ -9217,6 +9256,7 @@ var SidebarSection = ({
         /* @__PURE__ */ jsxs18(
           Box13,
           {
+            ref: sidebarBoxRef,
             className: sidebarSectionHidden ? "sidebarHide" : "",
             sx: styles_default11.sidebarContainerBox,
             "data-cy": "sidebar-section",
