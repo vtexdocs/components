@@ -1,4 +1,4 @@
-import { useRef, KeyboardEvent, MouseEvent, useContext } from 'react'
+import { useRef, KeyboardEvent, MouseEvent, useContext, useEffect } from 'react'
 import { useRouter } from 'next/router.js'
 import { Flex } from '@vtex/brand-ui'
 import { connectSearchBox } from 'react-instantsearch-dom'
@@ -9,19 +9,28 @@ import CloseIcon from 'components/icons/close-icon'
 import styles from './styles'
 import { messages } from 'utils/get-message'
 import { LibraryContext } from 'utils/context/libraryContext'
+import { SearchInputVariant } from './types'
 
 interface SearchBoxProps extends SearchBoxProvided {
   changeFocus: (value: boolean) => void
+  autoFocus?: boolean
+  variant?: SearchInputVariant
 }
 
 const SearchBoxComponent = ({
   currentRefinement,
   refine,
   changeFocus,
+  autoFocus = false,
+  variant = 'default',
 }: SearchBoxProps) => {
   const router = useRouter()
   const inputRef = useRef<HTMLInputElement>(null)
   const { locale } = useContext(LibraryContext)
+
+  useEffect(() => {
+    if (autoFocus) inputRef.current?.focus()
+  }, [autoFocus])
 
   const handleClick = () => {
     if (inputRef.current != null) inputRef.current.focus()
@@ -50,16 +59,28 @@ const SearchBoxComponent = ({
   }
 
   return (
-    <Flex sx={styles.searchContainer} onClick={handleClick}>
-      <SearchIcon sx={styles.searchIcon} />
+    <Flex
+      sx={
+        variant === 'modal'
+          ? styles.searchContainerModal
+          : styles.searchContainer
+      }
+      onClick={handleClick}
+    >
+      <SearchIcon
+        sx={variant === 'modal' ? styles.searchIconModal : styles.searchIcon}
+      />
       <input
-        style={styles.searchInput}
+        style={
+          variant === 'modal' ? styles.searchInputModal : styles.searchInput
+        }
         ref={inputRef}
         className="searchComponent"
         type="text"
         placeholder={messages[locale]['search_input.placeholder']}
         value={currentRefinement}
         data-cy="search"
+        autoFocus={autoFocus}
         onKeyDown={(e) => keyPressed(e)}
         onChange={(e) => refine(e.currentTarget.value)}
       />

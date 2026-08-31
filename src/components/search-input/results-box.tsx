@@ -25,8 +25,10 @@ import { messages } from 'utils/get-message'
 import CopyIcon from 'components/icons/copy-icon'
 import ExternalLinkIcon from 'components/icons/external-link-icon'
 import PaperIcon from 'components/icons/paper-icon'
+import { SearchInputVariant } from './types'
 
 const VISIBLE_HITS = 7
+const VISIBLE_HITS_MODAL = 5
 
 interface HitProps {
   hit: Hit
@@ -34,6 +36,7 @@ interface HitProps {
   query?: string
   isActive?: boolean
   copied?: boolean
+  variant?: SearchInputVariant
   onCopy: (event: MouseEvent, url: string, objectID: string) => void
   onOpenNewTab: (event: MouseEvent, url: string) => void
   onMouseEnter: () => void
@@ -41,6 +44,7 @@ interface HitProps {
 
 interface HitsBoxProps extends StateResultsProvided {
   changeFocus: (value: boolean) => void
+  variant?: SearchInputVariant
 }
 
 const Hit2 = ({
@@ -49,6 +53,7 @@ const Hit2 = ({
   query,
   isActive,
   copied,
+  variant = 'default',
   onCopy,
   onOpenNewTab,
   onMouseEnter,
@@ -64,10 +69,11 @@ const Hit2 = ({
     sections: sidebarSections,
     locale,
   })
+  const isModal = variant === 'modal'
 
   return (
     <Box
-      sx={styles.hitBox}
+      sx={isModal ? styles.hitBoxModal : styles.hitBox}
       data-active={String(Boolean(isActive))}
       onMouseEnter={onMouseEnter}
     >
@@ -80,79 +86,113 @@ const Hit2 = ({
             })
           }
         >
-          <Flex sx={styles.hitLink}>
-            <Box className="hit-icon-wrap" sx={styles.hitIconWrap}>
-              <DocIcon className="hit-icon" sx={styles.hitIcon} />
+          <Flex sx={isModal ? styles.hitLinkModal : styles.hitLink}>
+            <Box
+              className="hit-icon-wrap"
+              sx={isModal ? styles.hitIconWrapModal : styles.hitIconWrap}
+            >
+              <DocIcon
+                className="hit-icon"
+                sx={isModal ? styles.hitIconModal : styles.hitIcon}
+              />
             </Box>
             <Box sx={styles.hitText}>
               {title ? (
-                <Text sx={styles.hitTitle}>
+                <Text sx={isModal ? styles.hitTitleModal : styles.hitTitle}>
                   <HighlightQuery text={title} query={query} />
                 </Text>
               ) : null}
-              {hit.content ? (
+              {!isModal && hit.content ? (
                 <CustomHighlight hit={hit} attribute="content" />
               ) : null}
               {typeof hit.doctype === 'string' && (
                 <Flex sx={styles.hitBreadcrumbs}>
-                  <Text sx={styles.hitBreadCrumbIn}>
-                    {`${messages[locale]['search_card.in'] || 'In'} ${
-                      breadcrumbs[0] || hit.doctype
-                    }`}
-                  </Text>
-                  {breadcrumbs.slice(1).map((filter: string, index: number) => (
-                    <Flex sx={styles.alignCenter} key={`${filter}${index}`}>
-                      <IconCaret
-                        direction="right"
-                        sx={styles.hitBreadCrumbArrow}
-                      />
-                      <Text sx={styles.hitBreadCrumb}>{filter}</Text>
-                    </Flex>
-                  ))}
+                  {isModal ? (
+                    (breadcrumbs.length
+                      ? breadcrumbs
+                      : [String(hit.doctype)]
+                    ).map((filter: string, index: number) => (
+                      <Flex sx={styles.alignCenter} key={`${filter}${index}`}>
+                        {index > 0 && (
+                          <IconCaret
+                            direction="right"
+                            sx={styles.hitBreadCrumbArrow}
+                          />
+                        )}
+                        <Text sx={styles.hitBreadCrumb}>
+                          {filter || hit.doctype}
+                        </Text>
+                      </Flex>
+                    ))
+                  ) : (
+                    <>
+                      <Text sx={styles.hitBreadCrumbIn}>
+                        {`${messages[locale]['search_card.in'] || 'In'} ${
+                          breadcrumbs[0] || hit.doctype
+                        }`}
+                      </Text>
+                      {breadcrumbs
+                        .slice(1)
+                        .map((filter: string, index: number) => (
+                          <Flex
+                            sx={styles.alignCenter}
+                            key={`${filter}${index}`}
+                          >
+                            <IconCaret
+                              direction="right"
+                              sx={styles.hitBreadCrumbArrow}
+                            />
+                            <Text sx={styles.hitBreadCrumb}>{filter}</Text>
+                          </Flex>
+                        ))}
+                    </>
+                  )}
                 </Flex>
               )}
             </Box>
           </Flex>
         </a>
       </Link>
-      <Flex className="hit-actions" sx={styles.hitActions}>
-        <Box
-          as="button"
-          type="button"
-          sx={copied ? styles.hitActionButtonCopied : styles.hitActionButton}
-          aria-label={
-            copied
-              ? messages[locale]['search_input.copied'] || 'Copied'
-              : messages[locale]['search_input.copy_link'] || 'Copy link'
-          }
-          title={
-            copied
-              ? messages[locale]['search_input.copied'] || 'Copied'
-              : messages[locale]['search_input.copy_link'] || 'Copy link'
-          }
-          onClick={(event: MouseEvent) =>
-            onCopy(event, relativeUrl, hit.objectID)
-          }
-          onMouseDown={(event: MouseEvent) => event.preventDefault()}
-        >
-          <CopyIcon size={14} />
-        </Box>
-        <Box
-          as="button"
-          type="button"
-          sx={styles.hitActionButton}
-          aria-label={
-            messages[locale]['search_input.open_new_tab'] || 'Open in new tab'
-          }
-          title={
-            messages[locale]['search_input.open_new_tab'] || 'Open in new tab'
-          }
-          onClick={(event: MouseEvent) => onOpenNewTab(event, relativeUrl)}
-          onMouseDown={(event: MouseEvent) => event.preventDefault()}
-        >
-          <ExternalLinkIcon size={14} />
-        </Box>
-      </Flex>
+      {!isModal && (
+        <Flex className="hit-actions" sx={styles.hitActions}>
+          <Box
+            as="button"
+            type="button"
+            sx={copied ? styles.hitActionButtonCopied : styles.hitActionButton}
+            aria-label={
+              copied
+                ? messages[locale]['search_input.copied'] || 'Copied'
+                : messages[locale]['search_input.copy_link'] || 'Copy link'
+            }
+            title={
+              copied
+                ? messages[locale]['search_input.copied'] || 'Copied'
+                : messages[locale]['search_input.copy_link'] || 'Copy link'
+            }
+            onClick={(event: MouseEvent) =>
+              onCopy(event, relativeUrl, hit.objectID)
+            }
+            onMouseDown={(event: MouseEvent) => event.preventDefault()}
+          >
+            <CopyIcon size={14} />
+          </Box>
+          <Box
+            as="button"
+            type="button"
+            sx={styles.hitActionButton}
+            aria-label={
+              messages[locale]['search_input.open_new_tab'] || 'Open in new tab'
+            }
+            title={
+              messages[locale]['search_input.open_new_tab'] || 'Open in new tab'
+            }
+            onClick={(event: MouseEvent) => onOpenNewTab(event, relativeUrl)}
+            onMouseDown={(event: MouseEvent) => event.preventDefault()}
+          >
+            <ExternalLinkIcon size={14} />
+          </Box>
+        </Flex>
+      )}
     </Box>
   )
 }
@@ -161,17 +201,19 @@ const Hit2 = ({
 const HitWithInsights = connectHitInsights(aa)(Hit2) as any
 
 const HitsBox = connectStateResults<HitsBoxProps>(
-  ({ searchState, searchResults, changeFocus }) => {
+  ({ searchState, searchResults, changeFocus, variant = 'default' }) => {
     const router = useRouter()
     const { locale } = useContext(LibraryContext)
     const [activeIndex, setActiveIndex] = useState(-1)
     const [copiedId, setCopiedId] = useState<string | null>(null)
+    const isModal = variant === 'modal'
+    const maxHits = isModal ? VISIBLE_HITS_MODAL : VISIBLE_HITS
 
     const visibleHits = searchResults
-      ? searchResults.hits.slice(0, VISIBLE_HITS)
+      ? searchResults.hits.slice(0, maxHits)
       : []
     const hasSeeAll = Boolean(
-      searchResults && searchResults.hits.length > VISIBLE_HITS
+      searchResults && searchResults.hits.length > maxHits
     )
     const itemCount = visibleHits.length + (hasSeeAll ? 1 : 0)
 
@@ -272,12 +314,31 @@ const HitsBox = connectStateResults<HitsBoxProps>(
       visibleHits,
     ])
 
+    if (isModal && !searchState.query) return null
+
     return (
       <>
         {searchResults && (
-          <Box sx={styles.resultsOuterContainer}>
-            <Box sx={styles.resultsInnerContainer}>
-              <Box sx={searchResults.hits.length && styles.resultsBox}>
+          <Box
+            sx={
+              isModal
+                ? styles.resultsOuterContainerModal
+                : styles.resultsOuterContainer
+            }
+          >
+            <Box
+              sx={
+                isModal
+                  ? styles.resultsInnerContainerModal
+                  : styles.resultsInnerContainer
+              }
+            >
+              <Box
+                sx={
+                  searchResults.hits.length &&
+                  (isModal ? styles.resultsBoxModal : styles.resultsBox)
+                }
+              >
                 {visibleHits.map((searchResult, index) => (
                   <Box
                     key={searchResult.objectID || `matched-result-${index}`}
@@ -288,6 +349,7 @@ const HitsBox = connectStateResults<HitsBoxProps>(
                       query={searchState.query}
                       isActive={activeIndex === index}
                       copied={copiedId === searchResult.objectID}
+                      variant={variant}
                       onCopy={handleCopy}
                       onOpenNewTab={handleOpenNewTab}
                       onMouseEnter={() => setActiveIndex(index)}
@@ -296,37 +358,45 @@ const HitsBox = connectStateResults<HitsBoxProps>(
                 ))}
               </Box>
               {searchResults.hits.length > 0 && (
-                <Flex sx={styles.resultsFooter(hasSeeAll)}>
-                  <Flex sx={styles.keyboardHints}>
-                    <Flex sx={styles.keyboardHint}>
-                      <Text as="span" sx={styles.kbd}>
-                        ↑
-                      </Text>
-                      <Text as="span" sx={styles.kbd}>
-                        ↓
-                      </Text>
-                      <Text>
-                        {messages[locale]['search_input.navigate'] ||
-                          'Navigate'}
-                      </Text>
+                <Flex
+                  sx={
+                    isModal
+                      ? styles.resultsFooterModal(hasSeeAll)
+                      : styles.resultsFooter(hasSeeAll)
+                  }
+                >
+                  {!isModal && (
+                    <Flex sx={styles.keyboardHints}>
+                      <Flex sx={styles.keyboardHint}>
+                        <Text as="span" sx={styles.kbd}>
+                          ↑
+                        </Text>
+                        <Text as="span" sx={styles.kbd}>
+                          ↓
+                        </Text>
+                        <Text>
+                          {messages[locale]['search_input.navigate'] ||
+                            'Navigate'}
+                        </Text>
+                      </Flex>
+                      <Flex sx={styles.keyboardHint}>
+                        <Text as="span" sx={styles.kbd}>
+                          ↵
+                        </Text>
+                        <Text>
+                          {messages[locale]['search_input.open'] || 'Open'}
+                        </Text>
+                      </Flex>
+                      <Flex sx={styles.keyboardHint}>
+                        <Text as="span" sx={styles.kbd}>
+                          esc
+                        </Text>
+                        <Text>
+                          {messages[locale]['search_input.close'] || 'Close'}
+                        </Text>
+                      </Flex>
                     </Flex>
-                    <Flex sx={styles.keyboardHint}>
-                      <Text as="span" sx={styles.kbd}>
-                        ↵
-                      </Text>
-                      <Text>
-                        {messages[locale]['search_input.open'] || 'Open'}
-                      </Text>
-                    </Flex>
-                    <Flex sx={styles.keyboardHint}>
-                      <Text as="span" sx={styles.kbd}>
-                        esc
-                      </Text>
-                      <Text>
-                        {messages[locale]['search_input.close'] || 'Close'}
-                      </Text>
-                    </Flex>
-                  </Flex>
+                  )}
                   {hasSeeAll && (
                     <Box
                       sx={styles.seeAll}

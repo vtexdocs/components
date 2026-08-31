@@ -1,5 +1,78 @@
 import type { SxStyleProp } from '@vtex/brand-ui'
 
+const headerActions: SxStyleProp = {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'flex-end',
+  marginLeft: 'auto',
+  height: '100%',
+  width: 'auto',
+  minWidth: 'auto',
+  maxWidth: 'none',
+  flex: '0 0 auto',
+  color: '#4A596B',
+  'button[role="presentation"]': {
+    display: ['flex', 'flex', 'flex', 'none'],
+    alignItems: 'center',
+    justifyContent: 'center',
+    color: '#4A596B',
+    border: 'none',
+    borderLeft: 'none',
+    outline: 'none',
+    width: '56px',
+    minWidth: '56px',
+    maxWidth: '56px',
+    height: '100%',
+    padding: 0,
+    background: 'transparent',
+    cursor: 'pointer',
+    flexShrink: 0,
+    '> div': {
+      color: '#4A596B',
+    },
+    svg: {
+      color: '#4A596B',
+      rect: {
+        fill: '#4A596B',
+      },
+    },
+    ':hover, :focus, :active': {
+      color: '#4A596B',
+      background: 'transparent',
+      '> div': {
+        color: '#4A596B',
+      },
+      svg: {
+        color: '#4A596B',
+        rect: {
+          fill: '#4A596B',
+        },
+      },
+    },
+  },
+}
+
+const hamburgerContainer: SxStyleProp = {
+  display: ['flex', 'flex', 'flex', 'none'],
+  position: 'fixed',
+  top: '5rem',
+  right: 0,
+  bottom: 0,
+  left: 0,
+  marginTop: 0,
+  paddingBottom: 0,
+  width: '100%',
+  height: 'calc(100vh - 5rem)',
+  flexDirection: 'column',
+  justifyContent: 'flex-start',
+  backgroundColor: '#FFFFFF',
+  zIndex: 9998,
+  overflow: 'hidden',
+  '.menuHidden': {
+    transform: 'translateX(-100%)',
+  },
+}
+
 const menuContainer: SxStyleProp = {
   display: 'flex',
   width: 'max-content',
@@ -21,24 +94,6 @@ const sideMenuContainer: SxStyleProp = {
   overflowX: 'hidden',
   transform: 'translate(0)',
   transition: 'transform .5s cubic-bezier(.4,0,.2,1)',
-}
-
-const hamburgerContainer: SxStyleProp = {
-  display: ['block', 'block', 'block', 'none'],
-  backgroundColor: '#ffff',
-  width: '100%',
-  '.menuHidden': {
-    transform: 'translate(-100%)',
-  },
-}
-
-// eslint-disable-next-line prettier/prettier
-
-const hamburgerSearchContainer: SxStyleProp = {
-  display: 'flex',
-  justifyContent: 'center',
-  paddingBlock: '18px',
-  height: 'auto',
 }
 
 const documentationContainer: SxStyleProp = {
@@ -78,10 +133,10 @@ const arrowIconActive: SxStyleProp = {
 }
 
 export default {
+  headerActions,
   menuContainer,
   cardContainer,
   sideMenuContainer,
-  hamburgerSearchContainer,
   documentationContainer,
   updatesContainer,
   hamburgerContainer,

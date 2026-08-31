@@ -7,6 +7,7 @@ export {
   HamburgerMenu,
   FeedbackSection,
   SearchInput,
+  MobileSearch,
   Search,
   CookieBar,
   ShareButton,
@@ -37,6 +38,8 @@ export {
   type FooterProps,
   type FooterLink,
   type FooterVariant,
+  type SearchInputProps,
+  type MobileSearchProps,
 } from './lib'
 
 /** @deprecated Use ListingFilter instead */

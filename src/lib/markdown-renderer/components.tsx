@@ -72,7 +72,12 @@ const CalloutIcon = ({ type }: { type: string }) => (
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <circle cx="10" cy="10" r="10" fill={calloutColors[type] ?? calloutColors.info} />
+    <circle
+      cx="10"
+      cy="10"
+      r="10"
+      fill={calloutColors[type] ?? calloutColors.info}
+    />
     {type === 'success' ? (
       <path
         d="M5.5 10.3L8.3 13L14.5 6.8"
@@ -176,7 +181,10 @@ const ImageComponent = ({ node, ...props }: Component) => {
   )
   const errorMessage = (
     <blockquote className={`${styles.blockquote} ${styles.blockquoteWarning}`}>
-      {messages[locale]['image.error_loading']} {props.src}
+      <CalloutIcon type="warning" />
+      <div>
+        {messages[locale]['image.error_loading']} {props.src}
+      </div>
     </blockquote>
   )
 

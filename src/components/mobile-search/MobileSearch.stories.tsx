@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import HamburgerMenu from './index'
+import { Header, ThemeProvider } from '@vtex/brand-ui'
+import MobileSearch from './index'
 import LibraryContextProvider from 'utils/context/libraryContext'
 import { exampleContextProps } from 'utils/storybook-constants'
-import { Header, ThemeProvider } from '@vtex/brand-ui'
 
 const meta = {
-  title: 'Example/HamburgerMenu',
-  component: HamburgerMenu,
+  title: 'Example/MobileSearch',
+  component: MobileSearch,
   tags: ['autodocs'],
   parameters: {
     layout: 'fullscreen',
@@ -19,19 +19,18 @@ const meta = {
       <ThemeProvider>
         <LibraryContextProvider {...exampleContextProps}>
           <Header>
+            <Header.Brand>Docs</Header.Brand>
             <Story />
           </Header>
         </LibraryContextProvider>
       </ThemeProvider>
     ),
   ],
-} satisfies Meta<typeof HamburgerMenu>
+} satisfies Meta<typeof MobileSearch>
 
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const SimpleHamburgerMenu: Story = {
-  args: {
-    parentsArray: [],
-  },
+export const Closed: Story = {
+  args: {},
 }

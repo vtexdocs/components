@@ -13,7 +13,7 @@ import DocumentationCard from 'components/documentation-card'
 import SidebarSection, { SidebarSectionProps } from 'components/sidebar-section'
 import { updateOpenPage, getSectionLabel } from 'utils/sidebar-utils'
 import { LibraryContext } from 'utils/context/libraryContext'
-import SearchInput from 'components/search-input'
+import MobileSearch from 'components/mobile-search'
 
 export interface HamburgerMenuProps {
   /** Array that contains the name of the sections in the menu that should be expanded. */
@@ -66,15 +66,20 @@ const HamburgerMenu = ({ parentsArray = [] }: HamburgerMenuProps) => {
   updateOpenPage({ parentsArray, context })
 
   return (
-    <Header.ActionButton>
+    <Header.ActionButton sx={styles.headerActions}>
+      <MobileSearch
+        onOpen={() => {
+          const toggleButton = hamburgerRef.current?.querySelector<HTMLElement>(
+            '[aria-expanded="true"]'
+          )
+          toggleButton?.click()
+        }}
+      />
       <Box ref={hamburgerRef} sx={{ display: 'contents' }}>
         <VtexHamburgerMenu sx={styles.hamburgerContainer}>
           <VtexHamburgerMenu.Menu sx={styles.innerHambugerContainer}>
             <Box sx={styles.menuContainer}>
               <Box sx={styles.cardContainer}>
-                <Box sx={styles.hamburgerSearchContainer}>
-                  <SearchInput />
-                </Box>
                 {hamburguerSections.map((section, id) => (
                   <Box
                     sx={
