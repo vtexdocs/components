@@ -36,3 +36,12 @@ type Story = StoryObj<typeof meta>
 export const SimpleSearch: Story = {
   args: {},
 }
+
+export const MobileSearch: Story = {
+  args: {},
+  parameters: {
+    viewport: {
+      defaultViewport: 'mobileSmall',
+    },
+  },
+}

@@ -226,32 +226,25 @@ const SidebarSection = ({
               setSidebarSectionHidden(true)
             }}
           />
-          {DocIcon && <DocIcon />}
-          <Text sx={styles.sidebarTitle}>{localizedSectionTitle}</Text>
+          {DocIcon && <DocIcon size={24} sx={styles.sidebarTitleIcon} />}
+          <Text sx={styles.sidebarTitleHamburger}>{localizedSectionTitle}</Text>
         </Flex>
-        <Box sx={styles.sidebarContainerBody}>
-          <SidebarSearchBox
-            value={searchValue}
-            placeholder={
-              messages[locale]['sidebar_search.placeholder'] +
-              ' ' +
-              localizedSectionTitle
-            }
-            onChange={setSearchValue}
-          />
-          {documentation == 'API Reference' && (
+        {documentation == 'API Reference' && (
+          <Box sx={styles.sidebarContainerFilterHamburger}>
             <SectionFilter
+              isHamburgerMenu
               methodFilterList={methodFilterList}
               setMethodFilter={setMethodFilterList}
             />
-          )}
-        </Box>
-        <Box sx={styles.sidebarContainerBody}>
+          </Box>
+        )}
+        <Box sx={styles.sidebarContainerBodyHamburger}>
           <SideBarElements
             items={filteredResult ?? []}
             subItemLevel={0}
             slugPrefix={slugPrefix}
             forceOpen={searchValue !== '' || filterStatus}
+            isHamburgerMenu
           />
         </Box>
       </Box>

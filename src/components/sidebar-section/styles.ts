@@ -25,8 +25,8 @@ const sidebarContainer: SxStyleProp = {
 }
 
 const sidebarContainerHamburger: SxStyleProp = {
-  width: 'auto',
-  minHeight: '692px',
+  width: '100%',
+  height: '100%',
   zIndex: '1',
 }
 
@@ -34,6 +34,7 @@ const sidebarContainerBox: SxStyleProp = {
   opacity: '100',
   paddingTop: '34px',
   paddingBottom: '24px',
+  width: '300px',
   overflowY: 'auto',
   height: 'inherit',
   maskImage:
@@ -48,23 +49,33 @@ const sidebarContainerBox: SxStyleProp = {
 
 const sidebarContainerBoxHamburger: SxStyleProp = {
   opacity: '100',
-  transition: 'all 1s ease-out',
+  width: '100%',
+  height: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  background: '#FFFFFF',
+  overflow: 'hidden',
 }
 
 const sidebarContainerBody: SxStyleProp = {
-  px: '17px',
+  px: '16px',
 }
 
 const sidebarContainerHeader: SxStyleProp = {
-  ...sidebarContainerBody,
+  px: '16px',
 }
 
 const sidebarContainerTitle: SxStyleProp = {
   alignItems: 'center',
-  lineHeight: '22px',
-  gap: '5px',
-  padding: '17px 0px 17px 17px',
+  minHeight: '52px',
+  padding: '4px 16px 4px 8px',
   borderBottom: '1px solid #E7E9EE',
+  flexShrink: 0,
+  position: 'sticky',
+  top: 0,
+  zIndex: 2,
+  background: '#FFFFFF',
+  px: '16px'
 }
 
 const sidebarTitle: SxStyleProp = {
@@ -72,6 +83,43 @@ const sidebarTitle: SxStyleProp = {
   alignItems: 'center',
   fontSize: '16px',
   lineHeight: '18px',
+}
+
+const sidebarTitleHamburger: SxStyleProp = {
+  flex: 1,
+  minWidth: 0,
+  fontSize: '16px',
+  lineHeight: '24px',
+  color: '#4a596b',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
+  pl: '8px',
+}
+
+const sidebarTitleIcon: SxStyleProp = {
+  width: '24px',
+  height: '24px',
+  minWidth: '24px',
+  flexShrink: 0,
+  color: '#4A596B',
+}
+
+const sidebarContainerFilterHamburger: SxStyleProp = {
+  px: '16px',
+  pt: '16px',
+  pb: 0,
+  flexShrink: 0,
+  background: '#FFFFFF',
+}
+
+const sidebarContainerBodyHamburger: SxStyleProp = {
+  px: '8px',
+  pt: '8px',
+  pb: 'calc(24px + env(safe-area-inset-bottom, 0px))',
+  flex: 1,
+  minHeight: 0,
+  overflowY: 'auto',
 }
 
 const sidebarHelpIcon: SxStyleProp = {
@@ -161,6 +209,14 @@ const toggleIcon: SxStyleProp = {
 
 const arrowButton: SxStyleProp = {
   padding: '0px',
+  width: '40px',
+  minWidth: '40px',
+  height: '40px',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  color: '#4A596B',
+  flexShrink: 0,
 }
 
 const previewMode: SxStyleProp = {
@@ -185,10 +241,14 @@ export default {
   sidebarContainerHamburger,
   sidebarContainerBox,
   sidebarContainerBoxHamburger,
+  sidebarContainerBodyHamburger,
+  sidebarContainerFilterHamburger,
   sidebarContainerBody,
   sidebarContainerHeader,
   sidebarContainerTitle,
   sidebarTitle,
+  sidebarTitleHamburger,
+  sidebarTitleIcon,
   sidebarHelpIcon,
   searchBox,
   searchInput,

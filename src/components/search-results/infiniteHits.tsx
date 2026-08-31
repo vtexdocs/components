@@ -14,9 +14,9 @@ import {
   getIconFromSection,
   getRelativeURL,
   getSearchBreadcrumbs,
+  getSearchHitMethod,
 } from 'utils/search-utils'
 import { Box, Flex, Text } from '@vtex/brand-ui'
-import { MethodType } from 'utils/typings/types'
 import { SearchContext } from 'utils/context/search'
 import { LibraryContext } from 'utils/context/libraryContext'
 import { messages } from 'utils/get-message'
@@ -44,7 +44,7 @@ const HitCard = ({ hit }: HitProps) => {
       doc={hit.doctype}
       Icon={DocIcon}
       title={hit.doctitle}
-      method={(hit.method as MethodType) || undefined}
+      method={getSearchHitMethod(hit)}
       breadcrumbs={(breadcrumbs as string[]) || []}
       actionType={(hit.actiontype as ActionType) || undefined}
       url={getRelativeURL(hit.url)}
@@ -154,7 +154,7 @@ const InfiniteHits = ({ hits, hasMore, refineNext }: InfiniteHitsProvided) => {
         </Flex>
       )}
       {filteredResult.map((hit: Hit, index: number) => (
-        <Flex key={hit.objectID}>
+        <Flex key={hit.objectID} sx={resultsStyles.hitListItem}>
           <HitCard hit={hit} key={index} />
         </Flex>
       ))}

@@ -1,29 +1,48 @@
 import { SxStyleProp } from '@vtex/brand-ui'
 
 const elementContainer: SxStyleProp = {
-  maxWidth: '265px',
+  maxWidth: '100%',
   background: '#FFFFFF',
+  borderRadius: '8px',
   ':hover': {
     background: '#F8F7FC',
     a: {
       color: '#142032',
-      '& > :first-of-type': {
-        borderWidth: '2px',
-      },
+      textDecoration: 'none',
     },
   },
 }
 
+const elementContainerHamburger: SxStyleProp = {
+  ...elementContainer,
+  borderRadius: '8px',
+  px: '8px',
+}
+
+const linkReset: SxStyleProp = {
+  pl: "1px",
+  textDecoration: 'none !important',
+  ':hover, :focus, :visited, :active': {
+    textDecoration: 'none !important',
+  },
+}
+
 const elementText: SxStyleProp = {
-  color: 'muted.0',
+  color: '#4A596B',
   fontSize: '14px',
   lineHeight: '20px',
   fontWeight: '400',
   textAlign: 'initial',
-  paddingBlock: '7px',
+  paddingBlock: '8px',
   display: 'flex',
-  alignItems: 'center',
+  alignItems: 'flex-start',
+  gap: '12px',
+  flex: 1,
+  minWidth: 0,
+  whiteSpace: 'normal',
+  overflowWrap: 'break-word',
   cursor: 'pointer',
+  ...linkReset,
 }
 
 const elementActive: SxStyleProp = {
@@ -33,12 +52,74 @@ const elementActive: SxStyleProp = {
 
 const arrowIcon: SxStyleProp = {
   padding: '0',
-  color: 'muted.1',
-  height: '34px',
+  margin: '0',
+  color: '#A1A8B3',
+  height: '36px',
+  minHeight: '36px',
+  minWidth: '16px',
+  width: '16px',
+  maxWidth: '16px',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  flexShrink: 0,
+}
+
+const arrowIconHamburger: SxStyleProp = {
+  ...arrowIcon,
+  height: '44px',
+  minHeight: '44px',
+  minWidth: '20px',
+  width: '20px',
+  maxWidth: '20px',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  flexShrink: 0,
+  color: '#A1A8B3',
+}
+
+const arrowIconSpacer: SxStyleProp = {
+  width: '16px',
+  minWidth: '16px',
+  maxWidth: '16px',
+  flexShrink: 0,
+}
+
+const arrowIconSpacerHamburger: SxStyleProp = {
+  width: '20px',
+  minWidth: '20px',
+  maxWidth: '20px',
+  flexShrink: 0,
+}
+
+const nestedGroup: SxStyleProp = {
+  ml: '8px',
+  pl: '8px',
+  borderLeft: '1px solid #E7E9EE',
+}
+
+const nestedGroupFirst: SxStyleProp = {
+  pl: '16px',
+}
+
+const nestedGroupHamburger: SxStyleProp = {
+  ml: '12px',
+  pl: '8px',
+  borderLeft: '1px solid #E7E9EE',
+}
+
+const nestedGroupHamburgerFirst: SxStyleProp = {
+  pl: '20px',
 }
 
 const arrowIconActive: SxStyleProp = {
   ...arrowIcon,
+  color: '#D71D55',
+}
+
+const arrowIconActiveHamburger: SxStyleProp = {
+  ...arrowIconHamburger,
   color: '#D71D55',
 }
 
@@ -50,6 +131,11 @@ const elementButton: SxStyleProp = {
   textDecoration: 'none !important',
 }
 
+const methodBox: SxStyleProp = {
+  mr: 0,
+  flexShrink: 0,
+}
+
 const sectionDivider: SxStyleProp = {
   hr: {
     border: '1px solid #E7E9EE',
@@ -57,17 +143,22 @@ const sectionDivider: SxStyleProp = {
   },
 }
 
-const methodBox: SxStyleProp = {
-  mr: '10px',
-}
-
 export default {
   elementContainer,
+  elementContainerHamburger,
   elementText,
   elementActive,
   arrowIcon,
+  arrowIconHamburger,
+  arrowIconSpacer,
+  arrowIconSpacerHamburger,
   arrowIconActive,
+  arrowIconActiveHamburger,
+  nestedGroup,
+  nestedGroupFirst,
+  nestedGroupHamburger,
+  nestedGroupHamburgerFirst,
   elementButton,
-  sectionDivider,
   methodBox,
+  sectionDivider,
 }

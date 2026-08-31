@@ -17,6 +17,7 @@ import {
   getIconFromSection,
   getRelativeURL,
   getSearchBreadcrumbs,
+  getSearchHitMethod,
 } from 'utils/search-utils'
 import CustomHighlight, { HighlightQuery } from './customHighlight'
 import styles from './styles'
@@ -25,6 +26,7 @@ import { messages } from 'utils/get-message'
 import CopyIcon from 'components/icons/copy-icon'
 import ExternalLinkIcon from 'components/icons/external-link-icon'
 import PaperIcon from 'components/icons/paper-icon'
+import MethodCategory from 'components/method-category'
 import { SearchInputVariant } from './types'
 
 const VISIBLE_HITS = 7
@@ -70,6 +72,7 @@ const Hit2 = ({
     locale,
   })
   const isModal = variant === 'modal'
+  const method = getSearchHitMethod(hit)
 
   return (
     <Box
@@ -99,7 +102,17 @@ const Hit2 = ({
             <Box sx={styles.hitText}>
               {title ? (
                 <Text sx={isModal ? styles.hitTitleModal : styles.hitTitle}>
-                  <HighlightQuery text={title} query={query} />
+                  {method ? (
+                    <MethodCategory
+                      sx={styles.httpMethod}
+                      origin="search"
+                      method={method}
+                      active={false}
+                    />
+                  ) : null}
+                  <Text as="span" sx={styles.hitTitleText}>
+                    <HighlightQuery text={title} query={query} />
+                  </Text>
                 </Text>
               ) : null}
               {!isModal && hit.content ? (

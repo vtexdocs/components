@@ -4,7 +4,7 @@ const resultsOuterContainer: SxStyleProp = {
   position: 'relative',
 }
 
-const searchWidth = ['288px', '458px', '458px', '288px', '416px', '544px']
+const searchWidth = ['288px', '458px', '288px', '288px', '416px', '544px']
 const keyboardHintsDisplay = ['none', 'flex', 'flex', 'none', 'flex', 'flex']
 
 const resultsInnerContainer: SxStyleProp = {
@@ -199,29 +199,44 @@ const hitContentContainer: SxStyleProp = {
 
 const snippetText: SxStyleProp = {
   overflowWrap: 'break-word',
+  wordBreak: 'break-word',
   overflow: 'hidden',
   display: '-webkit-box',
   WebkitBoxOrient: 'vertical',
 }
 
 const hitTitle: SxStyleProp = {
+  display: 'flex',
+  alignItems: 'center',
+  minWidth: 0,
   color: '#142032',
   fontSize: ['14px', '15px'],
   fontWeight: '600',
   lineHeight: ['20px', '22px'],
+}
+
+const hitTitleText: SxStyleProp = {
+  minWidth: 0,
+  flex: 1,
   whiteSpace: 'nowrap',
   overflow: 'hidden',
   textOverflow: 'ellipsis',
 }
 
+const httpMethod: SxStyleProp = {
+  mr: '8px',
+  flexShrink: 0,
+  alignSelf: 'center',
+}
+
 const hitContent: SxStyleProp = {
   color: 'muted.0',
-  fontSize: ['14px', '16px'],
-  lineHeight: ['20px', '22px'],
+  fontSize: ['13px', '16px'],
+  lineHeight: ['18px', '22px'],
   width: '100%',
   minWidth: 0,
   ...snippetText,
-  WebkitLineClamp: 4,
+  WebkitLineClamp: [3, 4],
 }
 
 const hitContentSmall: SxStyleProp = {
@@ -335,6 +350,12 @@ const searchContainer: SxStyleProp = {
   transition:
     'background 0.3s ease-out, border 0.3s ease-out, box-shadow 0.3s ease-out',
   cursor: 'pointer',
+  'input[type="search"]::-webkit-search-cancel-button': {
+    display: 'none',
+  },
+  'input[type="search"]::-webkit-search-decoration': {
+    display: 'none',
+  },
   ':hover': {
     border: '1px solid #3B3B3B',
   },
@@ -382,6 +403,12 @@ const searchContainerModal: SxStyleProp = {
   minHeight: '56px',
   borderRadius: 0,
   cursor: 'text',
+  'input[type="search"]::-webkit-search-cancel-button': {
+    display: 'none',
+  },
+  'input[type="search"]::-webkit-search-decoration': {
+    display: 'none',
+  },
   ':hover': {
     border: 'none',
   },
@@ -509,13 +536,13 @@ const hitIconModal: SxStyleProp = {
 }
 
 const hitTitleModal: SxStyleProp = {
+  display: 'flex',
+  alignItems: 'center',
+  minWidth: 0,
   color: '#142032',
   fontSize: '15px',
   fontWeight: '600',
   lineHeight: '22px',
-  whiteSpace: 'nowrap',
-  overflow: 'hidden',
-  textOverflow: 'ellipsis',
 }
 
 const hitContentHighlighted: SxStyleProp = {
@@ -545,6 +572,8 @@ export default {
   hitText,
   hitContentContainer,
   hitTitle,
+  hitTitleText,
+  httpMethod,
   hitContent,
   hitContentSmall,
   hitActions,

@@ -6585,7 +6585,7 @@ var en_default = {
   "footer.help_center": "Help Center",
   "footer.community": "Community",
   "footer.feedback": "Feedback",
-  "header.docs": "Documentation",
+  "header.docs": "Menu",
   "header.feedback": "Feedback",
   "header.admin_tools": "Admin tools",
   "header.home_aria": "Go back to Home"
@@ -6645,7 +6645,7 @@ var es_default = {
   "footer.help_center": "Help Center",
   "footer.community": "Comunidad",
   "footer.feedback": "Feedback",
-  "header.docs": "Documentaci\xF3n",
+  "header.docs": "Men\xFA",
   "header.feedback": "Feedback",
   "header.admin_tools": "Herramientas de admin",
   "header.home_aria": "Volver al inicio"
@@ -6705,7 +6705,7 @@ var pt_default = {
   "footer.help_center": "Help Center",
   "footer.community": "Comunidade",
   "footer.feedback": "Feedback",
-  "header.docs": "Documenta\xE7\xE3o",
+  "header.docs": "Menu",
   "header.feedback": "Feedback",
   "header.admin_tools": "Ferramentas de admin",
   "header.home_aria": "Voltar para o in\xEDcio"
@@ -7961,14 +7961,15 @@ var sidebarContainer = {
   }
 };
 var sidebarContainerHamburger = {
-  width: "auto",
-  minHeight: "692px",
+  width: "100%",
+  height: "100%",
   zIndex: "1"
 };
 var sidebarContainerBox = {
   opacity: "100",
   paddingTop: "34px",
   paddingBottom: "24px",
+  width: "300px",
   overflowY: "auto",
   height: "inherit",
   maskImage: "linear-gradient(to top, transparent, black), linear-gradient(to left, transparent 17px, black 17px)",
@@ -7981,26 +7982,69 @@ var sidebarContainerBox = {
 };
 var sidebarContainerBoxHamburger = {
   opacity: "100",
-  transition: "all 1s ease-out"
+  width: "100%",
+  height: "100%",
+  display: "flex",
+  flexDirection: "column",
+  background: "#FFFFFF",
+  overflow: "hidden"
 };
 var sidebarContainerBody = {
-  px: "17px"
+  px: "16px"
 };
 var sidebarContainerHeader = {
-  ...sidebarContainerBody
+  px: "16px"
 };
 var sidebarContainerTitle = {
   alignItems: "center",
-  lineHeight: "22px",
-  gap: "5px",
-  padding: "17px 0px 17px 17px",
-  borderBottom: "1px solid #E7E9EE"
+  minHeight: "52px",
+  padding: "4px 16px 4px 8px",
+  borderBottom: "1px solid #E7E9EE",
+  flexShrink: 0,
+  position: "sticky",
+  top: 0,
+  zIndex: 2,
+  background: "#FFFFFF",
+  px: "16px"
 };
 var sidebarTitle = {
   display: "flex",
   alignItems: "center",
   fontSize: "16px",
   lineHeight: "18px"
+};
+var sidebarTitleHamburger = {
+  flex: 1,
+  minWidth: 0,
+  fontSize: "16px",
+  lineHeight: "24px",
+  color: "#4a596b",
+  overflow: "hidden",
+  textOverflow: "ellipsis",
+  whiteSpace: "nowrap",
+  pl: "8px"
+};
+var sidebarTitleIcon = {
+  width: "24px",
+  height: "24px",
+  minWidth: "24px",
+  flexShrink: 0,
+  color: "#4A596B"
+};
+var sidebarContainerFilterHamburger = {
+  px: "16px",
+  pt: "16px",
+  pb: 0,
+  flexShrink: 0,
+  background: "#FFFFFF"
+};
+var sidebarContainerBodyHamburger = {
+  px: "8px",
+  pt: "8px",
+  pb: "calc(24px + env(safe-area-inset-bottom, 0px))",
+  flex: 1,
+  minHeight: 0,
+  overflowY: "auto"
 };
 var sidebarHelpIcon = {
   ml: "4px",
@@ -8079,7 +8123,15 @@ var toggleIcon = {
   transform: "scaleX(-1)"
 };
 var arrowButton = {
-  padding: "0px"
+  padding: "0px",
+  width: "40px",
+  minWidth: "40px",
+  height: "40px",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  color: "#4A596B",
+  flexShrink: 0
 };
 var previewMode = {
   display: "flex",
@@ -8102,10 +8154,14 @@ var styles_default11 = {
   sidebarContainerHamburger,
   sidebarContainerBox,
   sidebarContainerBoxHamburger,
+  sidebarContainerBodyHamburger,
+  sidebarContainerFilterHamburger,
   sidebarContainerBody,
   sidebarContainerHeader,
   sidebarContainerTitle,
   sidebarTitle,
+  sidebarTitleHamburger,
+  sidebarTitleIcon,
   sidebarHelpIcon,
   searchBox,
   searchInput,
@@ -8128,16 +8184,33 @@ import { Flex as Flex8, Text as Text5 } from "@vtex/brand-ui";
 // src/components/method-category/styles.ts
 var container5 = {
   border: "1px solid #DDDDDD",
-  background: "#F4F4F4",
-  borderRadius: "2px",
+  borderRadius: "6px",
+  boxSizing: "border-box",
   width: "24px",
+  minWidth: "24px",
   height: "24px",
+  minHeight: "24px",
+  flexShrink: 0,
   alignItems: "center",
-  justifyContent: "center"
+  justifyContent: "center",
+  px: 0
 };
 var text = {
   fontWeight: "600",
-  fontSize: "12px"
+  fontSize: "11px",
+  lineHeight: "14px",
+  letterSpacing: "0.02em",
+  whiteSpace: "nowrap"
+};
+var filled = {
+  border: "none",
+  borderRadius: "4px",
+  width: "48px",
+  minWidth: "48px",
+  maxWidth: "48px",
+  height: "20px",
+  minHeight: "20px",
+  px: "3px"
 };
 var closeIcon = {
   minWidth: "12px",
@@ -8148,6 +8221,7 @@ var closeIcon = {
 };
 var styles_default12 = {
   container: container5,
+  filled,
   text,
   closeIcon
 };
@@ -8180,15 +8254,17 @@ var methodsColors = {
     background: "#e9e7da"
   }
 };
-var categoryStyle = (method, active, sx) => {
+var categoryStyle = (method, active, origin, sx) => {
   const categoryColors = methodsColors[method] || {
     border: "1px solid #F49494",
     color: "#CC3D3D",
     background: "#F8E3E3"
   };
-  const categoryStyle2 = active ? {
+  const isFilled = active || origin !== "filter";
+  const categoryStyle2 = isFilled ? {
     ...styles_default12.container,
     ...categoryColors,
+    ...origin !== "filter" ? styles_default12.filled : {},
     ...sx,
     ":hover": {
       ".filter-close-button": {
@@ -8207,12 +8283,7 @@ var categoryStyle = (method, active, sx) => {
   };
   return categoryStyle2;
 };
-var categoryText = (method, origin) => {
-  const textPascalCase = method[0] + method.slice(1).toLowerCase();
-  if (origin == "filter")
-    return textPascalCase;
-  return textPascalCase.slice(0, 2);
-};
+var categoryText = (method) => method.toUpperCase();
 var closeCategoryStyle = (method) => {
   const categoryColors = methodsColors[method];
   const categoryStyle2 = {
@@ -8274,16 +8345,23 @@ var MethodCategory = ({
   origin,
   sx
 }) => {
-  return /* @__PURE__ */ jsxs13(Flex8, { className: "method-category", sx: categoryStyle(method, active, sx), children: [
-    /* @__PURE__ */ jsx18(Text5, { sx: styles_default12.text, children: categoryText(method, origin) }),
-    origin === "filter" && active && /* @__PURE__ */ jsx18(
-      close_filter_icon_default,
-      {
-        className: "filter-close-button",
-        sx: closeCategoryStyle(method)
-      }
-    )
-  ] });
+  return /* @__PURE__ */ jsxs13(
+    Flex8,
+    {
+      className: "method-category",
+      sx: categoryStyle(method, active, origin, sx),
+      children: [
+        /* @__PURE__ */ jsx18(Text5, { sx: styles_default12.text, children: categoryText(method) }),
+        origin === "filter" && active && /* @__PURE__ */ jsx18(
+          close_filter_icon_default,
+          {
+            className: "filter-close-button",
+            sx: closeCategoryStyle(method)
+          }
+        )
+      ]
+    }
+  );
 };
 var method_category_default = MethodCategory;
 
@@ -8292,22 +8370,51 @@ import { useContext as useContext5, useState as useState7 } from "react";
 
 // src/components/sidebar-section-filter/styles.ts
 var container6 = {
-  px: "17px",
-  paddingTop: "6px",
-  borderBottom: "1px solid #E7E9EE",
-  paddingBottom: "16px",
-  mb: "24px"
+  px: "16px",
+  pt: "8px",
+  pb: "16px",
+  mb: "16px",
+  borderBottom: "1px solid #E7E9EE"
+};
+var containerHamburger = {
+  px: 0,
+  pt: 0,
+  pb: "16px",
+  mb: 0,
+  borderBottom: "1px solid #E7E9EE"
 };
 var text2 = {
-  mb: "8px"
+  mb: "10px"
 };
-var category = {
-  mr: "8px",
-  px: "4px",
+var textHamburger = {
+  mt: 0,
+  mb: "10px",
+  fontSize: "12px",
+  lineHeight: "16px",
+  letterSpacing: "0.02em",
+  color: "#4A596B"
+};
+var methodsRow = {
+  flexWrap: "wrap",
+  alignItems: "center",
+  gap: "8px"
+};
+var methodsRowHamburger = methodsRow;
+var methodButton = {
+  flexShrink: 0
+};
+var categoryHamburger = {
+  mr: 0,
+  px: "10px",
+  height: "24px",
+  minHeight: "24px",
   width: "auto",
+  minWidth: "max-content",
+  flexShrink: 0,
   cursor: "pointer",
+  borderRadius: "16px",
   ":hover": {
-    borderWidth: "2px"
+    border: "1px solid #D8D8E3"
   }
 };
 var clear = {
@@ -8315,6 +8422,9 @@ var clear = {
   alignItems: "center",
   color: "muted.0",
   fontSize: "12px",
+  lineHeight: "16px",
+  whiteSpace: "nowrap",
+  flexShrink: 0,
   cursor: "pointer",
   ":hover": {
     color: "#000711"
@@ -8322,8 +8432,13 @@ var clear = {
 };
 var styles_default13 = {
   container: container6,
+  containerHamburger,
   text: text2,
-  category,
+  textHamburger,
+  methodsRow,
+  methodsRowHamburger,
+  methodButton,
+  categoryHamburger,
   clear
 };
 
@@ -8331,7 +8446,8 @@ var styles_default13 = {
 import { jsx as jsx19, jsxs as jsxs14 } from "react/jsx-runtime";
 var SectionFilter = ({
   methodFilterList,
-  setMethodFilter
+  setMethodFilter,
+  isHamburgerMenu = false
 }) => {
   const [activeFilters, setActiveFilters] = useState7([]);
   const { locale } = useContext5(LibraryContext);
@@ -8362,11 +8478,12 @@ var SectionFilter = ({
     return /* @__PURE__ */ jsx19(
       Box11,
       {
+        sx: styles_default13.methodButton,
         onClick: () => setFilter(methodFilter.name),
         children: /* @__PURE__ */ jsx19(
           method_category_default,
           {
-            sx: styles_default13.category,
+            sx: styles_default13.categoryHamburger,
             active: methodFilter.active,
             method: methodFilter.name,
             origin: "filter"
@@ -8376,18 +8493,24 @@ var SectionFilter = ({
       `filter-category-${methodFilter.name}`
     );
   };
-  return /* @__PURE__ */ jsxs14(Box11, { sx: styles_default13.container, children: [
-    /* @__PURE__ */ jsx19(Text6, { sx: styles_default13.text, children: messages[locale]["api_reference_sidebar_filter"] }),
-    /* @__PURE__ */ jsxs14(Flex9, { children: [
-      methodFilterList.map((methodFilter) => /* @__PURE__ */ jsx19(
-        MethodButton,
-        {
-          methodFilter
-        },
-        `filter-category-${methodFilter.name}`
-      )),
-      activeFilters.length > 1 && /* @__PURE__ */ jsx19(Text6, { onClick: () => setFilter(null), sx: styles_default13.clear, children: messages[locale]["api_reference_sidebar_filter_clear"] })
-    ] })
+  return /* @__PURE__ */ jsxs14(Box11, { sx: isHamburgerMenu ? styles_default13.containerHamburger : styles_default13.container, children: [
+    /* @__PURE__ */ jsx19(Text6, { sx: isHamburgerMenu ? styles_default13.textHamburger : styles_default13.text, children: messages[locale]["api_reference_sidebar_filter"] }),
+    /* @__PURE__ */ jsxs14(
+      Flex9,
+      {
+        sx: isHamburgerMenu ? styles_default13.methodsRowHamburger : styles_default13.methodsRow,
+        children: [
+          methodFilterList.map((methodFilter) => /* @__PURE__ */ jsx19(
+            MethodButton,
+            {
+              methodFilter
+            },
+            `filter-category-${methodFilter.name}`
+          )),
+          activeFilters.length > 1 && /* @__PURE__ */ jsx19(Text6, { onClick: () => setFilter(null), sx: styles_default13.clear, children: messages[locale]["api_reference_sidebar_filter_clear"] })
+        ]
+      }
+    )
   ] });
 };
 var sidebar_section_filter_default = SectionFilter;
@@ -8406,28 +8529,45 @@ import {
 
 // src/components/sidebar-elements/styles.ts
 var elementContainer = {
-  maxWidth: "265px",
+  maxWidth: "100%",
   background: "#FFFFFF",
+  borderRadius: "8px",
   ":hover": {
     background: "#F8F7FC",
     a: {
       color: "#142032",
-      "& > :first-of-type": {
-        borderWidth: "2px"
-      }
+      textDecoration: "none"
     }
   }
 };
+var elementContainerHamburger = {
+  ...elementContainer,
+  borderRadius: "8px",
+  px: "8px"
+};
+var linkReset = {
+  pl: "1px",
+  textDecoration: "none !important",
+  ":hover, :focus, :visited, :active": {
+    textDecoration: "none !important"
+  }
+};
 var elementText = {
-  color: "muted.0",
+  color: "#4A596B",
   fontSize: "14px",
   lineHeight: "20px",
   fontWeight: "400",
   textAlign: "initial",
-  paddingBlock: "7px",
+  paddingBlock: "8px",
   display: "flex",
-  alignItems: "center",
-  cursor: "pointer"
+  alignItems: "flex-start",
+  gap: "12px",
+  flex: 1,
+  minWidth: 0,
+  whiteSpace: "normal",
+  overflowWrap: "break-word",
+  cursor: "pointer",
+  ...linkReset
 };
 var elementActive = {
   ...elementText,
@@ -8435,11 +8575,65 @@ var elementActive = {
 };
 var arrowIcon = {
   padding: "0",
-  color: "muted.1",
-  height: "34px"
+  margin: "0",
+  color: "#A1A8B3",
+  height: "36px",
+  minHeight: "36px",
+  minWidth: "16px",
+  width: "16px",
+  maxWidth: "16px",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  flexShrink: 0
+};
+var arrowIconHamburger = {
+  ...arrowIcon,
+  height: "44px",
+  minHeight: "44px",
+  minWidth: "20px",
+  width: "20px",
+  maxWidth: "20px",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  flexShrink: 0,
+  color: "#A1A8B3"
+};
+var arrowIconSpacer = {
+  width: "16px",
+  minWidth: "16px",
+  maxWidth: "16px",
+  flexShrink: 0
+};
+var arrowIconSpacerHamburger = {
+  width: "20px",
+  minWidth: "20px",
+  maxWidth: "20px",
+  flexShrink: 0
+};
+var nestedGroup = {
+  ml: "8px",
+  pl: "8px",
+  borderLeft: "1px solid #E7E9EE"
+};
+var nestedGroupFirst = {
+  pl: "16px"
+};
+var nestedGroupHamburger = {
+  ml: "12px",
+  pl: "8px",
+  borderLeft: "1px solid #E7E9EE"
+};
+var nestedGroupHamburgerFirst = {
+  pl: "20px"
 };
 var arrowIconActive = {
   ...arrowIcon,
+  color: "#D71D55"
+};
+var arrowIconActiveHamburger = {
+  ...arrowIconHamburger,
   color: "#D71D55"
 };
 var elementButton = {
@@ -8449,48 +8643,83 @@ var elementButton = {
   margin: "0",
   textDecoration: "none !important"
 };
+var methodBox = {
+  mr: 0,
+  flexShrink: 0
+};
 var sectionDivider2 = {
   hr: {
     border: "1px solid #E7E9EE",
     borderTop: "none"
   }
 };
-var methodBox = {
-  mr: "10px"
-};
 var styles_default14 = {
   elementContainer,
+  elementContainerHamburger,
   elementText,
   elementActive,
   arrowIcon,
+  arrowIconHamburger,
+  arrowIconSpacer,
+  arrowIconSpacerHamburger,
   arrowIconActive,
+  arrowIconActiveHamburger,
+  nestedGroup,
+  nestedGroupFirst,
+  nestedGroupHamburger,
+  nestedGroupHamburgerFirst,
   elementButton,
-  sectionDivider: sectionDivider2,
-  methodBox
+  methodBox,
+  sectionDivider: sectionDivider2
 };
 
 // src/components/sidebar-elements/functions.tsx
-var styleByLevelNormal = (level, icon5) => {
-  const ml = 8 + (icon5 ? (level - 1) * 20 + 6 : (level - 1) * 20 + 14);
-  const borderLeft = icon5 ? "none" : level >= 2 ? "1px solid #E7E9EE" : "";
+var isInActivePath = (node, activeSlug, locale) => {
+  const slug = typeof node.slug === "string" ? node.slug : node.slug[locale];
+  const item2 = node.method ? `${slug}#${node.method.toLowerCase()}-${node.endpoint}` : slug;
+  if (item2 === activeSlug || slug === activeSlug)
+    return true;
+  return node.children.some(
+    (child) => isInActivePath(child, activeSlug, locale)
+  );
+};
+var styleByLevelNormal = (isHamburgerMenu = false) => {
   const normal = {
-    marginLeft: `${ml}px`,
-    borderLeft
+    gap: isHamburgerMenu ? "12px" : "3px",
+    alignItems: "flex-start",
+    ...isHamburgerMenu ? {
+      minHeight: "44px",
+      alignItems: "center"
+    } : {}
   };
   return normal;
 };
-var textStyle = (active, icon5) => {
-  const ml = icon5 ? "4px" : "16px";
+var textStyle = (active, isHamburgerMenu = false, isExpandable = false) => {
+  const hamburgerText = isHamburgerMenu ? {
+    fontSize: "15px",
+    lineHeight: "22px",
+    paddingBlock: "11px",
+    minHeight: "44px",
+    color: active ? "#D71D55" : "#4A596B",
+    fontWeight: "400",
+    flex: 1,
+    minWidth: 0,
+    whiteSpace: "normal",
+    overflowWrap: "break-word",
+    alignItems: "center"
+  } : isExpandable ? {
+    fontWeight: "500"
+  } : {};
   if (active) {
     const textStyleActive = {
       ...styles_default14.elementActive,
-      ml
+      ...hamburgerText
     };
     return textStyleActive;
   }
   const textStyle2 = {
     ...styles_default14.elementText,
-    ml
+    ...hamburgerText
   };
   return textStyle2;
 };
@@ -8501,7 +8730,8 @@ var SidebarElements = ({
   slugPrefix,
   items,
   subItemLevel,
-  forceOpen = false
+  forceOpen = false,
+  isHamburgerMenu = false
 }) => {
   const {
     isEditorPreview,
@@ -8542,90 +8772,133 @@ var SidebarElements = ({
     const isOpen = isElementOpen(localizedSlug, defaultOpen);
     const pathSuffix = method ? `#${method.toLowerCase()}-${endpoint}` : "";
     const activeItem = method ? `${localizedSlug}${pathSuffix}` : localizedSlug;
+    const isArrowActive = isInActivePath(
+      { slug, method, endpoint, children },
+      activeSidebarElement,
+      locale
+    );
     const documentationType = getDocumentationType(
       sidebarDataMaster,
       localizedSlug
     );
-    return /* @__PURE__ */ jsx20(Box12, { sx: styles_default14.elementContainer, children: /* @__PURE__ */ jsxs15(Flex10, { sx: styleByLevelNormal(subItemLevel, isExpandable || false), children: [
-      isExpandable && /* @__PURE__ */ jsx20(
-        Button2,
-        {
-          "aria-label": isOpen ? "Collapse category" : "Expand category",
-          size: "regular",
-          variant: "tertiary",
-          sx: isOpen ? styles_default14.arrowIconActive : styles_default14.arrowIcon,
-          icon: () => /* @__PURE__ */ jsx20(IconCaret3, { direction: isOpen ? "down" : "right", size: 24 }),
-          onClick: () => toggleSidebarElementStatus(localizedSlug, isOpen)
-        }
-      ),
-      documentationType !== "category" && documentationType !== "link" ? /* @__PURE__ */ jsxs15(
-        Link4,
-        {
-          sx: textStyle(activeSidebarElement === activeItem, isExpandable),
-          onClick: (e) => {
-            if (!isEditorPreview) {
-              handleClick(e, pathSuffix, localizedSlug);
+    return /* @__PURE__ */ jsx20(
+      Box12,
+      {
+        sx: isHamburgerMenu ? styles_default14.elementContainerHamburger : styles_default14.elementContainer,
+        children: /* @__PURE__ */ jsxs15(Flex10, { sx: styleByLevelNormal(isHamburgerMenu), children: [
+          isExpandable ? /* @__PURE__ */ jsx20(
+            Button2,
+            {
+              "aria-label": isOpen ? "Collapse category" : "Expand category",
+              size: "regular",
+              variant: "tertiary",
+              sx: isHamburgerMenu ? isArrowActive ? styles_default14.arrowIconActiveHamburger : styles_default14.arrowIconHamburger : isArrowActive ? styles_default14.arrowIconActive : styles_default14.arrowIcon,
+              icon: () => /* @__PURE__ */ jsx20(
+                IconCaret3,
+                {
+                  direction: isOpen ? "down" : "right",
+                  size: 16
+                }
+              ),
+              onClick: () => toggleSidebarElementStatus(localizedSlug, isOpen)
             }
-            toggleSidebarElementStatus(activeItem);
-          },
-          href: getHref(slugPrefix || "", pathSuffix, localizedSlug),
-          target: isEditorPreview === true ? "_blank" : "_self",
-          locale,
-          children: [
-            method && /* @__PURE__ */ jsx20(
-              method_category_default,
-              {
-                sx: styles_default14.methodBox,
-                active: activeSidebarElement === activeItem,
-                origin: "sidebar",
-                method
-              }
-            ),
-            localizedName2
-          ]
-        }
-      ) : documentationType === "link" ? /* @__PURE__ */ jsxs15(Link4, { href: localizedSlug, target: "_blank", sx: styles_default14.elementText, children: [
-        /* @__PURE__ */ jsx20(IconExternalLink, { size: 16, sx: { marginRight: "10px" } }),
-        localizedName2
-      ] }) : /* @__PURE__ */ jsxs15(
-        Box12,
-        {
-          sx: textStyle(
-            activeSidebarElement === localizedSlug,
-            isExpandable
+          ) : /* @__PURE__ */ jsx20(
+            Box12,
+            {
+              sx: isHamburgerMenu ? styles_default14.arrowIconSpacerHamburger : styles_default14.arrowIconSpacer,
+              "aria-hidden": "true"
+            }
           ),
-          onClick: () => {
-            toggleSidebarElementStatus(localizedSlug, isOpen);
-          },
-          children: [
-            method && /* @__PURE__ */ jsx20(
-              method_category_default,
-              {
-                sx: styles_default14.methodBox,
-                active: activeSidebarElement === localizedSlug,
-                origin: "sidebar",
-                method
-              }
-            ),
-            localizedName2
-          ]
-        }
-      )
-    ] }) });
+          documentationType !== "category" && documentationType !== "link" ? /* @__PURE__ */ jsxs15(
+            Link4,
+            {
+              sx: textStyle(
+                activeSidebarElement === activeItem,
+                isHamburgerMenu,
+                isExpandable
+              ),
+              onClick: (e) => {
+                if (!isEditorPreview) {
+                  handleClick(e, pathSuffix, localizedSlug);
+                }
+                toggleSidebarElementStatus(activeItem);
+              },
+              href: getHref(slugPrefix || "", pathSuffix, localizedSlug),
+              target: isEditorPreview === true ? "_blank" : "_self",
+              locale,
+              children: [
+                method && /* @__PURE__ */ jsx20(
+                  method_category_default,
+                  {
+                    sx: styles_default14.methodBox,
+                    active: activeSidebarElement === activeItem,
+                    origin: "sidebar",
+                    method
+                  }
+                ),
+                localizedName2
+              ]
+            }
+          ) : documentationType === "link" ? /* @__PURE__ */ jsxs15(
+            Link4,
+            {
+              href: localizedSlug,
+              target: "_blank",
+              sx: textStyle(false, isHamburgerMenu, false),
+              children: [
+                /* @__PURE__ */ jsx20(IconExternalLink, { size: 16, sx: { marginRight: "10px" } }),
+                localizedName2
+              ]
+            }
+          ) : /* @__PURE__ */ jsxs15(
+            Box12,
+            {
+              sx: textStyle(
+                activeSidebarElement === localizedSlug,
+                isHamburgerMenu,
+                isExpandable
+              ),
+              onClick: () => {
+                toggleSidebarElementStatus(localizedSlug, isOpen);
+              },
+              children: [
+                method && /* @__PURE__ */ jsx20(
+                  method_category_default,
+                  {
+                    sx: styles_default14.methodBox,
+                    active: activeSidebarElement === localizedSlug,
+                    origin: "sidebar",
+                    method
+                  }
+                ),
+                localizedName2
+              ]
+            }
+          )
+        ] })
+      }
+    );
   };
   const ElementChildren = ({ slug, children, defaultOpen }) => {
     const isExpandable = children.length > 0;
     const localizedSlug = typeof slug === "string" ? slug : slug[locale];
-    return isExpandable && isElementOpen(localizedSlug, defaultOpen) ? /* @__PURE__ */ jsx20(Box12, { children: /* @__PURE__ */ jsx20(
-      SidebarElements,
+    return isExpandable && isElementOpen(localizedSlug, defaultOpen) ? /* @__PURE__ */ jsx20(
+      Box12,
       {
-        slugPrefix,
-        items: children,
-        subItemLevel: subItemLevel + 1,
-        forceOpen
-      },
-      `${localizedSlug}sd`
-    ) }) : null;
+        sx: subItemLevel === 0 ? isHamburgerMenu ? styles_default14.nestedGroupHamburgerFirst : styles_default14.nestedGroupFirst : isHamburgerMenu ? styles_default14.nestedGroupHamburger : styles_default14.nestedGroup,
+        children: /* @__PURE__ */ jsx20(
+          SidebarElements,
+          {
+            slugPrefix,
+            items: children,
+            subItemLevel: subItemLevel + 1,
+            forceOpen,
+            isHamburgerMenu
+          },
+          `${localizedSlug}sd`
+        )
+      }
+    ) : null;
   };
   return /* @__PURE__ */ jsx20(Box12, { className: "sidebar-component", children: items?.map((item2, index) => {
     const key = typeof item2.slug === "string" ? String(item2.slug) + String(index) : String(item2.slug[locale]) + String(index);
@@ -8633,7 +8906,7 @@ var SidebarElements = ({
     return /* @__PURE__ */ jsxs15(Fragment2, { children: [
       /* @__PURE__ */ jsx20(ElementRoot, { ...item2, slug }),
       /* @__PURE__ */ jsx20(Box12, { children: /* @__PURE__ */ jsx20(ElementChildren, { ...item2, slug }) }),
-      subItemLevel == 0 ? /* @__PURE__ */ jsx20(Box12, { sx: styles_default14.sectionDivider, children: /* @__PURE__ */ jsx20("hr", {}) }) : null
+      subItemLevel == 0 && !isHamburgerMenu ? /* @__PURE__ */ jsx20(Box12, { sx: styles_default14.sectionDivider, children: /* @__PURE__ */ jsx20("hr", {}) }) : null
     ] }, String(key));
   }) });
 };
@@ -8801,8 +9074,8 @@ function filterSidebarCategories(categories, searchValue, methodFilterList, filt
   }
   const query = searchValue.toLowerCase();
   return categories.map(
-    (category2) => filterSidebarNode(category2, query, methodFilterList, filterStatus, locale)
-  ).filter((category2) => category2 != null);
+    (category) => filterSidebarNode(category, query, methodFilterList, filterStatus, locale)
+  ).filter((category) => category != null);
 }
 var SidebarSearchBox = ({
   value,
@@ -8910,33 +9183,25 @@ var SidebarSection = ({
                   }
                 }
               ),
-              DocIcon && /* @__PURE__ */ jsx24(DocIcon, {}),
-              /* @__PURE__ */ jsx24(Text7, { sx: styles_default11.sidebarTitle, children: localizedSectionTitle })
+              DocIcon && /* @__PURE__ */ jsx24(DocIcon, { size: 24, sx: styles_default11.sidebarTitleIcon }),
+              /* @__PURE__ */ jsx24(Text7, { sx: styles_default11.sidebarTitleHamburger, children: localizedSectionTitle })
             ] }),
-            /* @__PURE__ */ jsxs18(Box13, { sx: styles_default11.sidebarContainerBody, children: [
-              /* @__PURE__ */ jsx24(
-                SidebarSearchBox,
-                {
-                  value: searchValue,
-                  placeholder: messages[locale]["sidebar_search.placeholder"] + " " + localizedSectionTitle,
-                  onChange: setSearchValue
-                }
-              ),
-              documentation2 == "API Reference" && /* @__PURE__ */ jsx24(
-                sidebar_section_filter_default,
-                {
-                  methodFilterList,
-                  setMethodFilter: setMethodFilterList
-                }
-              )
-            ] }),
-            /* @__PURE__ */ jsx24(Box13, { sx: styles_default11.sidebarContainerBody, children: /* @__PURE__ */ jsx24(
+            documentation2 == "API Reference" && /* @__PURE__ */ jsx24(Box13, { sx: styles_default11.sidebarContainerFilterHamburger, children: /* @__PURE__ */ jsx24(
+              sidebar_section_filter_default,
+              {
+                isHamburgerMenu: true,
+                methodFilterList,
+                setMethodFilter: setMethodFilterList
+              }
+            ) }),
+            /* @__PURE__ */ jsx24(Box13, { sx: styles_default11.sidebarContainerBodyHamburger, children: /* @__PURE__ */ jsx24(
               sidebar_elements_default,
               {
                 items: filteredResult ?? [],
                 subItemLevel: 0,
                 slugPrefix,
-                forceOpen: searchValue !== "" || filterStatus
+                forceOpen: searchValue !== "" || filterStatus,
+                isHamburgerMenu: true
               }
             ) })
           ]
@@ -9251,71 +9516,119 @@ var headerActions = {
     }
   }
 };
+var drawerWidth = ["100%", "280px", "280px"];
+var panelWidth = ["100vw", "280px", "280px"];
 var hamburgerContainer = {
   display: ["flex", "flex", "flex", "none"],
   position: "fixed",
-  top: "5rem",
+  top: ["5rem", 0, 0],
   right: 0,
   bottom: 0,
   left: 0,
   marginTop: 0,
   paddingBottom: 0,
   width: "100%",
-  height: "calc(100vh - 5rem)",
+  height: ["calc(100vh - 5rem)", "100vh", "100vh"],
   flexDirection: "column",
+  alignItems: ["stretch", "flex-start", "flex-start"],
   justifyContent: "flex-start",
-  backgroundColor: "#FFFFFF",
-  zIndex: 9998,
+  backgroundColor: ["#FFFFFF", "transparent", "transparent"],
+  zIndex: [9998, 1e4, 1e4],
   overflow: "hidden",
   ".menuHidden": {
     transform: "translateX(-100%)"
   }
 };
+var backdrop = {
+  display: ["none", "block", "block"],
+  position: "absolute",
+  top: 0,
+  right: 0,
+  bottom: 0,
+  left: 0,
+  backgroundColor: "rgba(20, 32, 50, 0.45)",
+  backdropFilter: "blur(4px)",
+  WebkitBackdropFilter: "blur(4px)",
+  cursor: "pointer"
+};
+var innerHambugerContainer = {
+  padding: "0px",
+  paddingY: 0,
+  position: "relative",
+  zIndex: 1,
+  overflowX: "hidden",
+  overflowY: "hidden",
+  width: drawerWidth,
+  maxWidth: drawerWidth,
+  height: "100%",
+  flexShrink: 0,
+  backgroundColor: "#FFFFFF",
+  boxShadow: [
+    "none",
+    "4px 0 24px rgba(20, 32, 50, 0.18)",
+    "4px 0 24px rgba(20, 32, 50, 0.18)"
+  ]
+};
 var menuContainer = {
   display: "flex",
-  width: "max-content"
+  width: "max-content",
+  height: "100%"
 };
 var cardContainer = {
   display: "flex",
   flexDirection: "column",
-  width: "100vw",
+  width: panelWidth,
   overflowY: "scroll",
-  height: "calc(100vh - 5rem)"
+  height: ["calc(100vh - 5rem)", "100vh", "100vh"],
+  paddingBottom: "env(safe-area-inset-bottom, 0px)"
 };
 var sideMenuContainer = {
   backgroundColor: "#ffff",
-  height: "calc(100vh - 5rem)",
-  width: "100vw",
-  overflowY: "auto",
-  overflowX: "hidden",
+  height: ["calc(100vh - 5rem)", "100vh", "100vh"],
+  width: panelWidth,
+  overflow: "hidden",
   transform: "translate(0)",
   transition: "transform .5s cubic-bezier(.4,0,.2,1)"
 };
 var documentationContainer = {
-  px: "16px",
-  paddingBottom: "8px"
+  px: "8px",
+  pt: ["12px", "24px", "24px"],
+  pb: "12px"
 };
 var updatesContainer = {
-  px: "16px",
-  paddingTop: "8px",
+  px: "8px",
+  py: "12px",
   borderRadius: "0px 0px 8px 8px",
   borderTop: "1px solid #E7E9EE"
-};
-var innerHambugerContainer = {
-  padding: "0px",
-  position: "relative",
-  overflowX: "hidden"
 };
 var innerCardContainer = {
   display: "flex",
   alignItems: "center",
-  justifyContent: "space-between"
+  justifyContent: "space-between",
+  gap: "8px",
+  minHeight: "72px",
+  width: "100%",
+  maxWidth: "100%",
+  overflow: "hidden",
+  borderRadius: "12px",
+  px: "16px",
+  py: "14px",
+  ":hover, :active": {
+    backgroundColor: "#F8F7FC"
+  }
+};
+var innerCardContent = {
+  flex: 1,
+  minWidth: 0,
+  overflow: "hidden"
 };
 var arrowIcon2 = {
   padding: "0",
-  height: "50px",
-  width: "50px",
-  color: "muted.1"
+  height: "40px",
+  width: "40px",
+  minWidth: "40px",
+  flexShrink: 0,
+  color: "#A1A8B3"
 };
 var arrowIconActive2 = {
   ...arrowIcon2,
@@ -9329,8 +9642,10 @@ var styles_default15 = {
   documentationContainer,
   updatesContainer,
   hamburgerContainer,
+  backdrop,
   innerHambugerContainer,
   innerCardContainer,
+  innerCardContent,
   arrowIcon: arrowIcon2,
   arrowIconActive: arrowIconActive2
 };
@@ -9365,6 +9680,16 @@ var cardContainer2 = {
 var titleContainer2 = {
   alignItems: "center"
 };
+var dropdownIcon = {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  flexShrink: 0,
+  width: "36px",
+  height: "36px",
+  borderRadius: "8px",
+  backgroundColor: "#f8f7fc"
+};
 var title4 = {
   ml: "8px",
   color: "muted.0"
@@ -9379,27 +9704,64 @@ var styles_default16 = {
   cardContainer: cardContainer2,
   description: description2,
   title: title4,
-  titleContainer: titleContainer2
+  titleContainer: titleContainer2,
+  dropdownIcon
 };
 
 // src/components/documentation-card/functions.ts
 var cardContainer3 = (containerType) => {
-  const containerWidth = containerType === "dropdown" ? ["308px", "442px", "444px", "480px"] : containerType === "mobile" ? "100%" : ["324px", "544px", "544px", "544px", "544px", "720px", "1400px"];
-  const textWidth = containerType === "dropdown" ? ["276px", "410px", "412px", "432px"] : containerType === "mobile" ? "90%" : ["276px", "496px", "496px", "496px", "496px", "672px", "1352px"];
+  const containerWidth = containerType === "dropdown" ? "100%" : containerType === "mobile" ? "100%" : ["324px", "544px", "544px", "544px", "544px", "720px", "1400px"];
+  const textWidth = containerType === "dropdown" ? "100%" : containerType === "mobile" ? "100%" : ["276px", "496px", "496px", "496px", "496px", "672px", "1352px"];
   const cardContainer5 = {
     ...styles_default16.cardContainer,
     width: containerWidth,
-    ".title, .description": {
-      width: textWidth
+    ...containerType === "mobile" ? {
+      my: 0,
+      padding: 0,
+      borderRadius: 0,
+      maxWidth: "100%",
+      overflow: "hidden",
+      ":active, :hover": {
+        borderRadius: 0,
+        backgroundColor: "transparent"
+      },
+      ".title": {
+        minWidth: 0,
+        width: "100%"
+      },
+      ".description": {
+        width: "100%",
+        maxWidth: "100%"
+      }
+    } : containerType === "dropdown" ? {
+      my: 0,
+      padding: "12px",
+      borderRadius: "8px",
+      boxSizing: "border-box",
+      minWidth: 0,
+      ":active, :hover": {
+        borderRadius: "8px"
+      },
+      ".title, .description": {
+        width: "100%"
+      }
+    } : {
+      ".title, .description": {
+        width: textWidth
+      }
     }
   };
   return cardContainer5;
 };
 var titleContainer3 = (containerType) => {
-  const marginBottom = containerType === "dropdown" ? ["5px", "5px", "5px", "1px"] : "8px";
+  const marginBottom = containerType === "dropdown" || containerType === "mobile" ? 0 : "8px";
   const titleContainer4 = {
     ...styles_default16.titleContainer,
-    marginBottom
+    marginBottom,
+    ...containerType === "mobile" || containerType === "dropdown" ? {
+      alignItems: "flex-start",
+      gap: "12px"
+    } : {}
   };
   return titleContainer4;
 };
@@ -9410,6 +9772,20 @@ var cardTitle = (containerType) => {
     overflow: "hidden",
     fontSize: "18px",
     lineHeight: "24px"
+  } : containerType === "mobile" ? {
+    ml: "0px",
+    fontSize: "16px",
+    lineHeight: "22px",
+    color: "#4a596b"
+  } : containerType === "dropdown" ? {
+    ml: 0,
+    fontSize: "14px",
+    lineHeight: "20px",
+    fontWeight: 500,
+    color: "#142032",
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis"
   } : {
     fontSize: "16px",
     lineHeight: "22px"
@@ -9420,9 +9796,40 @@ var cardTitle = (containerType) => {
   };
   return cardTitle2;
 };
+var cardDescription = (containerType) => {
+  if (containerType === "mobile") {
+    const mobileDescription = {
+      ...styles_default16.description,
+      ml: "0px",
+      mt: "4px",
+      fontSize: "13px",
+      lineHeight: "18px",
+      color: "#4A596B",
+      overflowWrap: "break-word",
+      wordBreak: "break-word"
+    };
+    return mobileDescription;
+  }
+  if (containerType === "dropdown") {
+    const dropdownDescription = {
+      ...styles_default16.description,
+      ml: 0,
+      mt: "2px",
+      fontSize: "12px",
+      lineHeight: "16px",
+      color: "#4A596B",
+      display: "-webkit-box",
+      WebkitLineClamp: 2,
+      WebkitBoxOrient: "vertical",
+      overflow: "hidden"
+    };
+    return dropdownDescription;
+  }
+  return styles_default16.description;
+};
 
 // src/components/documentation-card/index.tsx
-import { jsx as jsx26, jsxs as jsxs20 } from "react/jsx-runtime";
+import { Fragment as Fragment5, jsx as jsx26, jsxs as jsxs20 } from "react/jsx-runtime";
 var DocumentationCard = ({
   title: title9,
   description: description6,
@@ -9431,13 +9838,45 @@ var DocumentationCard = ({
   Icon: Icon70,
   onClick
 }) => {
-  return /* @__PURE__ */ jsx26(Link6, { href: link2, legacyBehavior: true, children: /* @__PURE__ */ jsx26("a", { onClick, style: { width: "100%" }, children: /* @__PURE__ */ jsxs20(Box15, { sx: cardContainer3(containerType), children: [
-    /* @__PURE__ */ jsxs20(Flex13, { sx: titleContainer3(containerType), children: [
-      /* @__PURE__ */ jsx26(Icon70, { sx: { color: "#4A596B" }, size: 24 }),
-      /* @__PURE__ */ jsx26(Text9, { className: "title", sx: cardTitle(containerType), children: title9 })
-    ] }),
-    /* @__PURE__ */ jsx26(Text9, { className: "description", sx: styles_default16.description, children: description6 })
-  ] }) }) });
+  return /* @__PURE__ */ jsx26(Link6, { href: link2, legacyBehavior: true, children: /* @__PURE__ */ jsx26(
+    "a",
+    {
+      onClick,
+      style: {
+        width: "100%",
+        maxWidth: "100%",
+        display: "block",
+        overflow: "hidden",
+        textDecoration: "none"
+      },
+      children: /* @__PURE__ */ jsx26(Box15, { sx: cardContainer3(containerType), children: containerType === "see-also" ? /* @__PURE__ */ jsxs20(Fragment5, { children: [
+        /* @__PURE__ */ jsxs20(Flex13, { sx: titleContainer3(containerType), children: [
+          /* @__PURE__ */ jsx26(Icon70, { sx: { color: "#4A596B", flexShrink: 0 }, size: 24 }),
+          /* @__PURE__ */ jsx26(Text9, { className: "title", sx: cardTitle(containerType), children: title9 })
+        ] }),
+        /* @__PURE__ */ jsx26(Text9, { className: "description", sx: cardDescription(containerType), children: description6 })
+      ] }) : /* @__PURE__ */ jsxs20(Flex13, { sx: titleContainer3(containerType), children: [
+        containerType === "dropdown" ? /* @__PURE__ */ jsx26(Flex13, { sx: styles_default16.dropdownIcon, children: /* @__PURE__ */ jsx26(Icon70, { sx: { color: "#4A596B" }, size: 20 }) }) : /* @__PURE__ */ jsx26(
+          Icon70,
+          {
+            sx: { color: "#4A596B", flexShrink: 0, mt: "2px" },
+            size: 24
+          }
+        ),
+        /* @__PURE__ */ jsxs20(Box15, { sx: { minWidth: 0, flex: 1 }, children: [
+          /* @__PURE__ */ jsx26(Text9, { className: "title", sx: cardTitle(containerType), children: title9 }),
+          /* @__PURE__ */ jsx26(
+            Text9,
+            {
+              className: "description",
+              sx: cardDescription(containerType),
+              children: description6
+            }
+          )
+        ] })
+      ] }) })
+    }
+  ) });
 };
 var documentation_card_default = DocumentationCard;
 
@@ -9459,7 +9898,7 @@ import { connectSearchBox } from "react-instantsearch-dom";
 var resultsOuterContainer = {
   position: "relative"
 };
-var searchWidth = ["288px", "458px", "458px", "288px", "416px", "544px"];
+var searchWidth = ["288px", "458px", "288px", "288px", "416px", "544px"];
 var keyboardHintsDisplay = ["none", "flex", "flex", "none", "flex", "flex"];
 var resultsInnerContainer = {
   top: "4px",
@@ -9638,27 +10077,40 @@ var hitContentContainer = {
 };
 var snippetText = {
   overflowWrap: "break-word",
+  wordBreak: "break-word",
   overflow: "hidden",
   display: "-webkit-box",
   WebkitBoxOrient: "vertical"
 };
 var hitTitle = {
+  display: "flex",
+  alignItems: "center",
+  minWidth: 0,
   color: "#142032",
   fontSize: ["14px", "15px"],
   fontWeight: "600",
-  lineHeight: ["20px", "22px"],
+  lineHeight: ["20px", "22px"]
+};
+var hitTitleText = {
+  minWidth: 0,
+  flex: 1,
   whiteSpace: "nowrap",
   overflow: "hidden",
   textOverflow: "ellipsis"
 };
+var httpMethod = {
+  mr: "8px",
+  flexShrink: 0,
+  alignSelf: "center"
+};
 var hitContent = {
   color: "muted.0",
-  fontSize: ["14px", "16px"],
-  lineHeight: ["20px", "22px"],
+  fontSize: ["13px", "16px"],
+  lineHeight: ["18px", "22px"],
   width: "100%",
   minWidth: 0,
   ...snippetText,
-  WebkitLineClamp: 4
+  WebkitLineClamp: [3, 4]
 };
 var hitContentSmall = {
   color: "muted.1",
@@ -9759,6 +10211,12 @@ var searchContainer = {
   borderRadius: "4px",
   transition: "background 0.3s ease-out, border 0.3s ease-out, box-shadow 0.3s ease-out",
   cursor: "pointer",
+  'input[type="search"]::-webkit-search-cancel-button': {
+    display: "none"
+  },
+  'input[type="search"]::-webkit-search-decoration': {
+    display: "none"
+  },
   ":hover": {
     border: "1px solid #3B3B3B"
   },
@@ -9803,6 +10261,12 @@ var searchContainerModal = {
   minHeight: "56px",
   borderRadius: 0,
   cursor: "text",
+  'input[type="search"]::-webkit-search-cancel-button': {
+    display: "none"
+  },
+  'input[type="search"]::-webkit-search-decoration': {
+    display: "none"
+  },
   ":hover": {
     border: "none"
   },
@@ -9917,13 +10381,13 @@ var hitIconModal = {
   color: "#8A8A8A"
 };
 var hitTitleModal = {
+  display: "flex",
+  alignItems: "center",
+  minWidth: 0,
   color: "#142032",
   fontSize: "15px",
   fontWeight: "600",
-  lineHeight: "22px",
-  whiteSpace: "nowrap",
-  overflow: "hidden",
-  textOverflow: "ellipsis"
+  lineHeight: "22px"
 };
 var hitContentHighlighted = {
   background: "#F8E3EC",
@@ -9951,6 +10415,8 @@ var styles_default17 = {
   hitText,
   hitContentContainer,
   hitTitle,
+  hitTitleText,
+  httpMethod,
   hitContent,
   hitContentSmall,
   hitActions,
@@ -9985,6 +10451,9 @@ var styles_default17 = {
 
 // src/components/search-input/search-box.tsx
 import { jsx as jsx27, jsxs as jsxs21 } from "react/jsx-runtime";
+var containerStyle = (variant) => variant === "modal" ? styles_default17.searchContainerModal : styles_default17.searchContainer;
+var iconStyle = (variant) => variant === "modal" ? styles_default17.searchIconModal : styles_default17.searchIcon;
+var inputStyle = (variant) => variant === "modal" ? styles_default17.searchInputModal : styles_default17.searchInput;
 var SearchBoxComponent = ({
   currentRefinement,
   refine,
@@ -10023,48 +10492,40 @@ var SearchBoxComponent = ({
     refine("");
     inputRef.current?.focus();
   };
-  return /* @__PURE__ */ jsxs21(
-    Flex14,
-    {
-      sx: variant === "modal" ? styles_default17.searchContainerModal : styles_default17.searchContainer,
-      onClick: handleClick,
-      children: [
-        /* @__PURE__ */ jsx27(
-          search_icon_default,
-          {
-            sx: variant === "modal" ? styles_default17.searchIconModal : styles_default17.searchIcon
-          }
-        ),
-        /* @__PURE__ */ jsx27(
-          "input",
-          {
-            style: variant === "modal" ? styles_default17.searchInputModal : styles_default17.searchInput,
-            ref: inputRef,
-            className: "searchComponent",
-            type: "text",
-            placeholder: messages[locale]["search_input.placeholder"],
-            value: currentRefinement,
-            "data-cy": "search",
-            autoFocus,
-            onKeyDown: (e) => keyPressed(e),
-            onChange: (e) => refine(e.currentTarget.value)
-          }
-        ),
-        currentRefinement ? /* @__PURE__ */ jsx27(
-          Flex14,
-          {
-            as: "button",
-            type: "button",
-            sx: styles_default17.clearButton,
-            "aria-label": messages[locale]["search_input.clear"] || "Clear search",
-            title: messages[locale]["search_input.clear"] || "Clear search",
-            onClick: handleClear,
-            children: /* @__PURE__ */ jsx27(close_icon_default, { sx: { width: "14px", height: "14px" } })
-          }
-        ) : null
-      ]
-    }
-  );
+  return /* @__PURE__ */ jsxs21(Flex14, { sx: containerStyle(variant), onClick: handleClick, children: [
+    /* @__PURE__ */ jsx27(search_icon_default, { sx: iconStyle(variant) }),
+    /* @__PURE__ */ jsx27(
+      "input",
+      {
+        style: inputStyle(variant),
+        ref: inputRef,
+        className: "searchComponent",
+        type: "search",
+        enterKeyHint: "search",
+        autoComplete: "off",
+        autoCorrect: "off",
+        spellCheck: false,
+        placeholder: messages[locale]["search_input.placeholder"],
+        value: currentRefinement,
+        "data-cy": "search",
+        autoFocus,
+        onKeyDown: (e) => keyPressed(e),
+        onChange: (e) => refine(e.currentTarget.value)
+      }
+    ),
+    currentRefinement ? /* @__PURE__ */ jsx27(
+      Flex14,
+      {
+        as: "button",
+        type: "button",
+        sx: styles_default17.clearButton,
+        "aria-label": messages[locale]["search_input.clear"] || "Clear search",
+        title: messages[locale]["search_input.clear"] || "Clear search",
+        onClick: handleClear,
+        children: /* @__PURE__ */ jsx27(close_icon_default, { sx: { width: "14px", height: "14px" } })
+      }
+    ) : null
+  ] });
 };
 var SearchBox = connectSearchBox(SearchBoxComponent);
 var search_box_default = SearchBox;
@@ -10723,6 +11184,25 @@ var getRelativeURL = (url) => {
   const relativeURL = url.replace(/^(?:\/\/|[^/]+)*\//, "");
   return "/" + relativeURL;
 };
+var HTTP_METHODS = [
+  "POST",
+  "GET",
+  "PUT",
+  "DELETE",
+  "PATCH"
+];
+var isMethodType = (value) => HTTP_METHODS.includes(value);
+var getSearchHitMethod = (hit) => {
+  const raw = typeof hit.method === "string" ? hit.method.toUpperCase() : "";
+  if (isMethodType(raw))
+    return raw;
+  const url = typeof hit.url === "string" ? hit.url : "";
+  const hash = url.includes("#") ? url.slice(url.indexOf("#") + 1) : "";
+  const fromHash = hash.split("-")[0]?.toUpperCase() || "";
+  if (isMethodType(fromHash))
+    return fromHash;
+  return void 0;
+};
 var HYBRID_SEARCH_COUNT_CAP = 1e3;
 function formatSearchTabCount(count2) {
   if (count2 === void 0)
@@ -10812,10 +11292,10 @@ function getSearchBreadcrumbs({
   let categoryName = "";
   if (navSection?.categories?.length) {
     const slugPrefix = navSection.slugPrefix || "";
-    const category2 = navSection.categories.find(
+    const category = navSection.categories.find(
       (cat) => nodeContainsHit(cat, relativeUrl, slugPrefix, locale)
     );
-    categoryName = resolveLocalized(category2?.name, locale);
+    categoryName = resolveLocalized(category?.name, locale);
   }
   if (!categoryName && typeof hit.doccategory === "string" && hit.doccategory) {
     categoryName = hit.doccategory;
@@ -10832,7 +11312,7 @@ function getSearchBreadcrumbs({
 // src/components/search-input/customHighlight.tsx
 import { connectHighlight } from "react-instantsearch-dom";
 import { Flex as Flex15, Text as Text10 } from "@vtex/brand-ui";
-import { Fragment as Fragment5, jsx as jsx40 } from "react/jsx-runtime";
+import { Fragment as Fragment6, jsx as jsx40 } from "react/jsx-runtime";
 function clipAroundHighlight(parts, maxChars) {
   if (!parts.length)
     return parts;
@@ -10886,12 +11366,12 @@ var HighlightQuery = ({
   query
 }) => {
   if (!query?.trim() || !text4)
-    return /* @__PURE__ */ jsx40(Fragment5, { children: text4 });
+    return /* @__PURE__ */ jsx40(Fragment6, { children: text4 });
   const escaped = query.trim().replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   const regex = new RegExp(`(${escaped})`, "ig");
   const parts = text4.split(regex);
   const normalizedQuery = query.trim().toLowerCase();
-  return /* @__PURE__ */ jsx40(Fragment5, { children: parts.map(
+  return /* @__PURE__ */ jsx40(Fragment6, { children: parts.map(
     (part, index) => part.toLowerCase() === normalizedQuery ? /* @__PURE__ */ jsx40("mark", { style: styles_default17.hitContentHighlighted, children: part }, index) : part
   ) });
 };
@@ -11066,7 +11546,7 @@ var PaperIcon = (props) => /* @__PURE__ */ jsxs36(
 var paper_icon_default = PaperIcon;
 
 // src/components/search-input/results-box.tsx
-import { Fragment as Fragment6, jsx as jsx44, jsxs as jsxs37 } from "react/jsx-runtime";
+import { Fragment as Fragment7, jsx as jsx44, jsxs as jsxs37 } from "react/jsx-runtime";
 var VISIBLE_HITS = 7;
 var VISIBLE_HITS_MODAL = 5;
 var Hit2 = ({
@@ -11091,6 +11571,7 @@ var Hit2 = ({
     locale
   });
   const isModal = variant === "modal";
+  const method = getSearchHitMethod(hit);
   return /* @__PURE__ */ jsxs37(
     Box16,
     {
@@ -11121,7 +11602,18 @@ var Hit2 = ({
                 }
               ),
               /* @__PURE__ */ jsxs37(Box16, { sx: styles_default17.hitText, children: [
-                title9 ? /* @__PURE__ */ jsx44(Text11, { sx: isModal ? styles_default17.hitTitleModal : styles_default17.hitTitle, children: /* @__PURE__ */ jsx44(HighlightQuery, { text: title9, query }) }) : null,
+                title9 ? /* @__PURE__ */ jsxs37(Text11, { sx: isModal ? styles_default17.hitTitleModal : styles_default17.hitTitle, children: [
+                  method ? /* @__PURE__ */ jsx44(
+                    method_category_default,
+                    {
+                      sx: styles_default17.httpMethod,
+                      origin: "search",
+                      method,
+                      active: false
+                    }
+                  ) : null,
+                  /* @__PURE__ */ jsx44(Text11, { as: "span", sx: styles_default17.hitTitleText, children: /* @__PURE__ */ jsx44(HighlightQuery, { text: title9, query }) })
+                ] }) : null,
                 !isModal && hit.content ? /* @__PURE__ */ jsx44(customHighlight_default, { hit, attribute: "content" }) : null,
                 typeof hit.doctype === "string" && /* @__PURE__ */ jsx44(Flex16, { sx: styles_default17.hitBreadcrumbs, children: isModal ? (breadcrumbs.length ? breadcrumbs : [String(hit.doctype)]).map((filter, index) => /* @__PURE__ */ jsxs37(Flex16, { sx: styles_default17.alignCenter, children: [
                   index > 0 && /* @__PURE__ */ jsx44(
@@ -11132,7 +11624,7 @@ var Hit2 = ({
                     }
                   ),
                   /* @__PURE__ */ jsx44(Text11, { sx: styles_default17.hitBreadCrumb, children: filter || hit.doctype })
-                ] }, `${filter}${index}`)) : /* @__PURE__ */ jsxs37(Fragment6, { children: [
+                ] }, `${filter}${index}`)) : /* @__PURE__ */ jsxs37(Fragment7, { children: [
                   /* @__PURE__ */ jsx44(Text11, { sx: styles_default17.hitBreadCrumbIn, children: `${messages[locale]["search_card.in"] || "In"} ${breadcrumbs[0] || hit.doctype}` }),
                   breadcrumbs.slice(1).map((filter, index) => /* @__PURE__ */ jsxs37(
                     Flex16,
@@ -11287,7 +11779,7 @@ var HitsBox = connectStateResults(
     ]);
     if (isModal && !searchState.query)
       return null;
-    return /* @__PURE__ */ jsx44(Fragment6, { children: searchResults && /* @__PURE__ */ jsx44(
+    return /* @__PURE__ */ jsx44(Fragment7, { children: searchResults && /* @__PURE__ */ jsx44(
       Box16,
       {
         sx: isModal ? styles_default17.resultsOuterContainerModal : styles_default17.resultsOuterContainer,
@@ -11868,7 +12360,7 @@ function SearchConfig(config) {
 }
 
 // src/components/search-input/index.tsx
-import { Fragment as Fragment7, jsx as jsx45, jsxs as jsxs38 } from "react/jsx-runtime";
+import { jsx as jsx45, jsxs as jsxs38 } from "react/jsx-runtime";
 function SearchInput({
   variant = "default",
   autoFocus = false,
@@ -11886,17 +12378,14 @@ function SearchInput({
     if (!value)
       onClose?.();
   };
-  const searchContent = /* @__PURE__ */ jsxs38(Fragment7, { children: [
-    /* @__PURE__ */ jsx45(
-      search_box_default,
-      {
-        changeFocus,
-        autoFocus,
-        variant
-      }
-    ),
-    (isModal || focusOut.modaltoggle) && /* @__PURE__ */ jsx45(results_box_default, { changeFocus, variant })
-  ] });
+  const searchBox2 = /* @__PURE__ */ jsx45(
+    search_box_default,
+    {
+      changeFocus,
+      autoFocus,
+      variant
+    }
+  );
   return /* @__PURE__ */ jsxs38(InstantSearch, { searchClient, indexName: searchIndex, children: [
     searchClient.instantSearchConfigs && /* @__PURE__ */ jsx45(Configure, { ...searchClient.instantSearchConfigs }),
     searchClient.useLanguageFilter && /* @__PURE__ */ jsx45(
@@ -11908,21 +12397,17 @@ function SearchInput({
     ),
     !searchClient.useLanguageFilter && /* @__PURE__ */ jsx45(Configure, { clickAnalytics: true }),
     isModal ? /* @__PURE__ */ jsxs38(Flex17, { sx: styles_default17.modalRoot, children: [
-      /* @__PURE__ */ jsx45(Box17, { sx: styles_default17.modalSearchBox, children: /* @__PURE__ */ jsx45(
-        search_box_default,
-        {
-          changeFocus,
-          autoFocus,
-          variant
-        }
-      ) }),
+      /* @__PURE__ */ jsx45(Box17, { sx: styles_default17.modalSearchBox, children: searchBox2 }),
       /* @__PURE__ */ jsx45(Box17, { sx: styles_default17.modalResults, children: /* @__PURE__ */ jsx45(results_box_default, { changeFocus, variant }) })
-    ] }) : /* @__PURE__ */ jsx45(
+    ] }) : /* @__PURE__ */ jsxs38(
       Box17,
       {
         onFocus: () => setfocusOut({ modaltoggle: true }),
         ref: resultsBox2,
-        children: searchContent
+        children: [
+          searchBox2,
+          focusOut.modaltoggle && /* @__PURE__ */ jsx45(results_box_default, { changeFocus, variant })
+        ]
       }
     )
   ] });
@@ -11964,6 +12449,8 @@ var overlay = {
   alignItems: "flex-start",
   padding: "16px",
   background: "rgba(20, 32, 50, 0.45)",
+  backdropFilter: "blur(4px)",
+  WebkitBackdropFilter: "blur(4px)",
   overscrollBehavior: "contain"
 };
 var card = {
@@ -12074,13 +12561,13 @@ var HamburgerMenu = ({ parentsArray = [] }) => {
     hamburguerSections,
     locale
   } = context;
+  const closeMenu = () => {
+    const toggleButton = hamburgerRef.current?.querySelector(
+      '[aria-expanded="true"]'
+    );
+    toggleButton?.click();
+  };
   useEffect13(() => {
-    const closeMenu = () => {
-      const toggleButton = hamburgerRef.current?.querySelector(
-        '[aria-expanded="true"]'
-      );
-      toggleButton?.click();
-    };
     router.events?.on("routeChangeStart", closeMenu);
     router.events?.on("hashChangeStart", closeMenu);
     return () => {
@@ -12097,71 +12584,70 @@ var HamburgerMenu = ({ parentsArray = [] }) => {
   };
   updateOpenPage({ parentsArray, context });
   return /* @__PURE__ */ jsxs40(Header.ActionButton, { sx: styles_default15.headerActions, children: [
-    /* @__PURE__ */ jsx47(
-      mobile_search_default,
-      {
-        onOpen: () => {
-          const toggleButton = hamburgerRef.current?.querySelector(
-            '[aria-expanded="true"]'
-          );
-          toggleButton?.click();
-        }
-      }
-    ),
-    /* @__PURE__ */ jsx47(Box19, { ref: hamburgerRef, sx: { display: "contents" }, children: /* @__PURE__ */ jsx47(VtexHamburgerMenu, { sx: styles_default15.hamburgerContainer, children: /* @__PURE__ */ jsx47(VtexHamburgerMenu.Menu, { sx: styles_default15.innerHambugerContainer, children: /* @__PURE__ */ jsxs40(Box19, { sx: styles_default15.menuContainer, children: [
-      /* @__PURE__ */ jsx47(Box19, { sx: styles_default15.cardContainer, children: hamburguerSections.map((section, id) => /* @__PURE__ */ jsx47(
-        Box19,
-        {
-          sx: id > 0 ? styles_default15.updatesContainer : styles_default15.documentationContainer,
-          "data-cy": "dropdown-menu-first-section",
-          children: section.map((card2) => /* @__PURE__ */ jsxs40(Box19, { sx: styles_default15.innerCardContainer, children: [
-            /* @__PURE__ */ jsx47(
-              documentation_card_default,
-              {
-                containerType: "mobile",
-                ...card2,
-                title: getSectionLabel(
-                  card2,
-                  sidebarDataMaster,
-                  locale
-                )
-              }
-            ),
-            isDocument(sidebarDataMaster, card2.id) ? /* @__PURE__ */ jsx47(
-              Button4,
-              {
-                "aria-label": "Open sidebar",
-                size: "regular",
-                variant: "tertiary",
-                icon: () => /* @__PURE__ */ jsx47(IconCaret5, { direction: "right", size: 32 }),
-                sx: activeSectionName === card2.id && !sidebarSectionHidden ? styles_default15.arrowIconActive : styles_default15.arrowIcon,
-                onClick: () => {
-                  setActiveSectionName(card2.id);
-                  setSidebarSectionHidden(false);
+    /* @__PURE__ */ jsx47(mobile_search_default, { onOpen: closeMenu }),
+    /* @__PURE__ */ jsx47(Box19, { ref: hamburgerRef, sx: { display: "contents" }, children: /* @__PURE__ */ jsxs40(VtexHamburgerMenu, { sx: styles_default15.hamburgerContainer, children: [
+      /* @__PURE__ */ jsx47(Box19, { sx: styles_default15.backdrop, "aria-hidden": "true", onClick: closeMenu }),
+      /* @__PURE__ */ jsx47(VtexHamburgerMenu.Menu, { sx: styles_default15.innerHambugerContainer, children: /* @__PURE__ */ jsxs40(Box19, { sx: styles_default15.menuContainer, children: [
+        /* @__PURE__ */ jsx47(Box19, { sx: styles_default15.cardContainer, children: hamburguerSections.map((section, id) => /* @__PURE__ */ jsx47(
+          Box19,
+          {
+            sx: id > 0 ? styles_default15.updatesContainer : styles_default15.documentationContainer,
+            "data-cy": "dropdown-menu-first-section",
+            children: section.map((card2) => /* @__PURE__ */ jsxs40(Box19, { sx: styles_default15.innerCardContainer, children: [
+              /* @__PURE__ */ jsx47(Box19, { sx: styles_default15.innerCardContent, children: /* @__PURE__ */ jsx47(
+                documentation_card_default,
+                {
+                  containerType: "mobile",
+                  ...card2,
+                  title: getSectionLabel(
+                    card2,
+                    sidebarDataMaster,
+                    locale
+                  ),
+                  onClick: () => {
+                    setActiveSectionName(card2.id);
+                    if (isDocument(sidebarDataMaster, card2.id)) {
+                      setSidebarSectionHidden(false);
+                    }
+                  }
                 }
+              ) }),
+              isDocument(sidebarDataMaster, card2.id) ? /* @__PURE__ */ jsx47(
+                Button4,
+                {
+                  "aria-label": "Open sidebar",
+                  size: "regular",
+                  variant: "tertiary",
+                  icon: () => /* @__PURE__ */ jsx47(IconCaret5, { direction: "right", size: 20 }),
+                  sx: activeSectionName === card2.id && !sidebarSectionHidden ? styles_default15.arrowIconActive : styles_default15.arrowIcon,
+                  onClick: () => {
+                    setActiveSectionName(card2.id);
+                    setSidebarSectionHidden(false);
+                  }
+                }
+              ) : null
+            ] }, card2.id))
+          },
+          id
+        )) }),
+        /* @__PURE__ */ jsx47(
+          Box19,
+          {
+            className: sidebarSectionHidden || !activeSectionName ? "" : "menuHidden",
+            sx: styles_default15.sideMenuContainer,
+            children: activeSectionName ? /* @__PURE__ */ jsx47(
+              sidebar_section_default,
+              {
+                isHamburgerMenu: true,
+                ...Array.isArray(sidebarDataMaster) ? sidebarDataMaster?.find(
+                  (section) => section.documentation === activeSectionName
+                ) : null
               }
             ) : null
-          ] }, card2.id))
-        },
-        id
-      )) }),
-      /* @__PURE__ */ jsx47(
-        Box19,
-        {
-          className: sidebarSectionHidden || !activeSectionName ? "" : "menuHidden",
-          sx: styles_default15.sideMenuContainer,
-          children: activeSectionName ? /* @__PURE__ */ jsx47(
-            sidebar_section_default,
-            {
-              isHamburgerMenu: true,
-              ...Array.isArray(sidebarDataMaster) ? sidebarDataMaster?.find(
-                (section) => section.documentation === activeSectionName
-              ) : null
-            }
-          ) : null
-        }
-      )
-    ] }) }) }) })
+          }
+        )
+      ] }) })
+    ] }) })
   ] });
 };
 var hamburger_menu_default = HamburgerMenu;
@@ -12747,7 +13233,7 @@ var FeedbackSection = ({
 var feedback_section_default = FeedbackSection;
 
 // src/lib/search/index.tsx
-import { Box as Box26, Flex as Flex25 } from "@vtex/brand-ui";
+import { Flex as Flex25 } from "@vtex/brand-ui";
 
 // src/components/search-sections/index.tsx
 import { Box as Box22 } from "@vtex/brand-ui";
@@ -12887,7 +13373,8 @@ var SearchSection = ({ dataElement, index }) => {
       allCountLabel !== void 0 && /* @__PURE__ */ jsx60(Box21, { className: "search-section-count", sx: styles_default21.sectionCount, children: allCountLabel })
     ] });
   }
-  const count2 = ocurrenceCount[dataElement.id];
+  const countsLoaded = Object.keys(ocurrenceCount).length > 0;
+  const count2 = countsLoaded ? ocurrenceCount[dataElement.id] ?? 0 : ocurrenceCount[dataElement.id];
   const isDisabled = count2 === 0;
   const countLabel = formatSearchTabCount(count2);
   return /* @__PURE__ */ jsxs48(
@@ -12995,18 +13482,20 @@ import Link9 from "next/link.js";
 // src/components/search-card/styles.ts
 var container10 = {
   position: "relative",
+  flexWrap: ["wrap", "nowrap"],
   justifyContent: "space-between",
   alignItems: "flex-start",
-  borderRadius: "12px",
+  borderRadius: ["8px", "12px"],
   border: "1px solid #E7E9EE",
   width: "100%",
-  mb: "16px",
-  padding: ["16px", "20px 24px"],
+  minWidth: 0,
+  mb: ["12px", "16px"],
+  padding: ["14px 16px", "20px 24px"],
   background: "#FFFFFF",
   cursor: "pointer",
   a: {
     minWidth: 0,
-    flex: 1,
+    flex: ["1 1 100%", "1 1 auto"],
     textDecoration: "none",
     color: "inherit"
   },
@@ -13014,36 +13503,31 @@ var container10 = {
     opacity: [1, 0]
   }
 };
-var containerActive = (method) => {
-  const methodCategory = method ? methodsColors[method] : "";
-  return {
-    ...container10,
-    ":hover": {
-      background: "#F8F7FC",
-      borderColor: "#D8D8E3",
-      ".searchCardTitle, .searchCardDescription": {
-        color: "#142032"
-      },
-      ".search-card-icon": {
-        "> path": {
-          stroke: "#000711"
-        }
-      },
-      ".search-card-icon-wrap": {
-        backgroundColor: "#EDEAF6"
-      },
-      ".method-category": {
-        ...methodCategory
-      },
-      ".search-card-actions": {
-        opacity: 1
+var containerActive = {
+  ...container10,
+  ":hover": {
+    background: "#F8F7FC",
+    borderColor: "#D8D8E3",
+    ".searchCardTitle, .searchCardDescription": {
+      color: "#142032"
+    },
+    ".search-card-icon": {
+      "> path": {
+        stroke: "#000711"
       }
+    },
+    ".search-card-icon-wrap": {
+      backgroundColor: "#EDEAF6"
+    },
+    ".search-card-actions": {
+      opacity: 1
     }
-  };
+  }
 };
 var cardBody = {
   alignItems: "flex-start",
-  minWidth: 0
+  minWidth: 0,
+  width: "100%"
 };
 var cardText = {
   minWidth: 0,
@@ -13051,33 +13535,37 @@ var cardText = {
 };
 var iconWrap = {
   flexShrink: 0,
-  width: "36px",
-  height: "36px",
+  width: ["32px", "36px"],
+  height: ["32px", "36px"],
   borderRadius: "8px",
   backgroundColor: "#F4F2FA",
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  mr: "12px",
+  mr: ["10px", "12px"],
   mt: "2px"
 };
 var title5 = {
   display: "flex",
-  alignItems: "flex-start",
+  alignItems: "center",
   flexWrap: "wrap",
-  fontSize: ["16px", "18px"],
+  fontSize: ["15px", "18px"],
   fontWeight: "600",
-  lineHeight: ["22px", "24px"],
+  lineHeight: ["20px", "24px"],
   color: "#142032"
 };
 var titleText = {
   minWidth: 0,
   flex: 1,
   display: "inline",
-  whiteSpace: "normal"
+  whiteSpace: "normal",
+  overflowWrap: "break-word",
+  wordBreak: "break-word"
 };
-var httpMethod = {
-  mr: "8px"
+var httpMethod2 = {
+  mr: "8px",
+  flexShrink: 0,
+  alignSelf: "center"
 };
 var icon2 = {
   width: "18px",
@@ -13088,16 +13576,17 @@ var icon2 = {
   }
 };
 var description3 = {
-  fontSize: ["14px", "16px"],
-  lineHeight: ["20px", "22px"],
+  fontSize: ["13px", "16px"],
+  lineHeight: ["18px", "22px"],
   color: "muted.0",
   mt: "6px",
-  mb: "8px",
+  mb: ["6px", "8px"],
   minWidth: 0,
   overflowWrap: "break-word",
+  wordBreak: "break-word",
   overflow: "hidden",
   display: "-webkit-box",
-  WebkitLineClamp: 4,
+  WebkitLineClamp: [3, 4],
   WebkitBoxOrient: "vertical"
 };
 var descriptionToggle = {
@@ -13109,21 +13598,27 @@ var descriptionExpandedItem = {
   mt: "24px"
 };
 var breadcrumbsContainer = {
-  display: ["none", "flex"],
+  display: "flex",
   alignItems: "center",
-  minWidth: 0
+  minWidth: 0,
+  maxWidth: "100%",
+  overflow: "hidden"
 };
 var alignCenter2 = {
-  alignItems: "center"
+  alignItems: "center",
+  minWidth: 0,
+  flexShrink: 1
 };
 var documentation = {
   ...alignCenter2,
-  minWidth: "max-content"
+  minWidth: 0,
+  maxWidth: ["46%", "none"],
+  flexShrink: 0
 };
 var breadcrumb = {
   color: "muted.1",
-  fontSize: "14px",
-  lineHeight: "18px",
+  fontSize: ["12px", "14px"],
+  lineHeight: ["16px", "18px"],
   whiteSpace: "nowrap",
   overflow: "hidden",
   textOverflow: "ellipsis"
@@ -13144,7 +13639,8 @@ var breadcrumbsIn = {
 var breadcrumbsArrow = {
   width: "16px",
   height: "16px",
-  color: "muted.2"
+  color: "muted.2",
+  flexShrink: 0
 };
 var actionContainer = {
   alignItems: "center",
@@ -13160,8 +13656,11 @@ var actionIcon = {
 var cardToolbar = {
   display: "flex",
   alignItems: "center",
+  justifyContent: ["flex-end", "flex-start"],
   gap: "8px",
-  ml: "8px",
+  width: ["100%", "auto"],
+  mt: ["8px", 0],
+  ml: [0, "8px"],
   flexShrink: 0
 };
 var cardActions = {
@@ -13173,8 +13672,8 @@ var actionButton = {
   display: "inline-flex",
   alignItems: "center",
   justifyContent: "center",
-  width: "32px",
-  height: "32px",
+  width: ["28px", "32px"],
+  height: ["28px", "32px"],
   padding: 0,
   border: "1px solid #E7E9EE",
   borderRadius: "6px",
@@ -13200,7 +13699,7 @@ var styles_default23 = {
   iconWrap,
   title: title5,
   titleText,
-  httpMethod,
+  httpMethod: httpMethod2,
   icon: icon2,
   description: description3,
   descriptionToggle,
@@ -13306,7 +13805,7 @@ var SearchCard = ({
     event.stopPropagation();
     window.open(url, "_blank", "noopener,noreferrer");
   };
-  return /* @__PURE__ */ jsxs51(Flex22, { sx: styles_default23.containerActive(method), children: [
+  return /* @__PURE__ */ jsxs51(Flex22, { sx: styles_default23.containerActive, children: [
     /* @__PURE__ */ jsx63(Link9, { href: url, legacyBehavior: true, children: /* @__PURE__ */ jsx63("a", { children: /* @__PURE__ */ jsxs51(Flex22, { sx: styles_default23.cardBody, children: [
       /* @__PURE__ */ jsx63(Box23, { className: "search-card-icon-wrap", sx: styles_default23.iconWrap, children: /* @__PURE__ */ jsx63(DocIcon, { className: "search-card-icon", sx: styles_default23.icon }) }),
       /* @__PURE__ */ jsxs51(Box23, { sx: styles_default23.cardText, children: [
@@ -13424,8 +13923,13 @@ import { Box as Box24, Flex as Flex23, Text as Text16 } from "@vtex/brand-ui";
 
 // src/components/search-results/styles.ts
 var resultContainer = {
-  width: ["80%", "544px", "544px", "544px", "720px", "720px", "1400px"],
-  paddingTop: "32px",
+  width: ["100%", "100%", "544px", "544px", "720px", "720px", "1400px"],
+  maxWidth: "100%",
+  boxSizing: "border-box",
+  px: ["16px", "24px", 0, 0, 0, 0, 0],
+  paddingTop: ["12px", "16px", "24px", "32px"],
+  paddingBottom: ["24px", "24px", "24px", "32px"],
+  overflowX: "hidden",
   hr: {
     marginTop: "16px",
     borderTop: "none",
@@ -13434,11 +13938,11 @@ var resultContainer = {
   }
 };
 var resultText = {
-  mb: "16px",
-  fontSize: "16px",
-  lineHeight: "22px",
+  mb: ["12px", "12px", "16px"],
+  fontSize: ["13px", "14px", "16px"],
+  lineHeight: ["18px", "20px", "22px"],
   color: "muted.0",
-  display: ["none", "none", "none", "initial"]
+  display: "block"
 };
 var resultCount = {
   fontWeight: "600",
@@ -13450,7 +13954,8 @@ var resultKeyword = {
   background: "#F8E3EC",
   borderRadius: "4px",
   px: "6px",
-  py: "1px"
+  py: "1px",
+  wordBreak: "break-word"
 };
 var paginationContainer = {
   mt: ["48px", "115px"],
@@ -13481,7 +13986,12 @@ var paginationActualNumber = {
 var noResults2 = {
   justifyContent: "center",
   alignContent: "center",
-  padding: "12px"
+  padding: ["24px 8px", "12px"],
+  textAlign: "center"
+};
+var hitListItem = {
+  width: "100%",
+  minWidth: 0
 };
 var styles_default24 = {
   resultContainer,
@@ -13493,7 +14003,8 @@ var styles_default24 = {
   paginationLinkDisabled,
   paginationNumber,
   paginationActualNumber,
-  noResults: noResults2
+  noResults: noResults2,
+  hitListItem
 };
 
 // src/components/search-results/infiniteHits.tsx
@@ -13513,7 +14024,7 @@ var HitCard = ({ hit }) => {
       doc: hit.doctype,
       Icon: DocIcon,
       title: hit.doctitle,
-      method: hit.method || void 0,
+      method: getSearchHitMethod(hit),
       breadcrumbs: breadcrumbs || [],
       actionType: hit.actiontype || void 0,
       url: getRelativeURL(hit.url),
@@ -13599,7 +14110,7 @@ var InfiniteHits = ({ hits, hasMore, refineNext }) => {
   return /* @__PURE__ */ jsxs52(Box24, { children: [
     /* @__PURE__ */ jsx64(StateResults, {}),
     filteredResult.length === 0 && /* @__PURE__ */ jsx64(Flex23, { sx: styles_default24.noResults, children: /* @__PURE__ */ jsx64(Text16, { children: messages[locale]["search_input.empty"] || "No results found. Try different search terms." }) }),
-    filteredResult.map((hit, index) => /* @__PURE__ */ jsx64(Flex23, { children: /* @__PURE__ */ jsx64(HitCard, { hit }, index) }, hit.objectID)),
+    filteredResult.map((hit, index) => /* @__PURE__ */ jsx64(Flex23, { sx: styles_default24.hitListItem, children: /* @__PURE__ */ jsx64(HitCard, { hit }, index) }, hit.objectID)),
     /* @__PURE__ */ jsx64("span", { ref: scrollRef })
   ] });
 };
@@ -13677,118 +14188,150 @@ var SearchResults = () => {
 var search_results_default = SearchResults;
 
 // src/components/search-filter-tab-bar/index.tsx
-import { useContext as useContext20 } from "react";
+import { useContext as useContext20, useEffect as useEffect19 } from "react";
 import { Flex as Flex24, Text as Text18 } from "@vtex/brand-ui";
 
 // src/components/search-filter-tab-bar/styles.ts
 var container11 = {
   display: ["flex", "flex", "flex", "none"],
-  overflowX: "scroll",
-  scrollbarWidth: "none",
-  "::-webkit-scrollbar": {
-    display: "none"
-  }
-};
-var tab = (active, disabled2 = false) => ({
-  pt: "8px",
-  pb: "14px",
-  px: "24px",
-  cursor: disabled2 ? "not-allowed" : "pointer",
-  justifyContent: "center",
+  flexWrap: "wrap",
   alignItems: "center",
-  borderBottom: `${active ? 2 : 1}px solid #${active ? "D71D55" : "DDDDDD"}`,
+  gap: "8px",
+  px: ["16px", "24px"],
+  pt: ["12px", "16px"],
+  pb: ["4px", "8px"]
+};
+var tab = (active) => ({
+  display: "inline-flex",
+  alignItems: "center",
+  gap: "6px",
+  height: "32px",
+  minHeight: "32px",
+  px: "12px",
+  py: 0,
+  borderRadius: "16px",
+  border: `1px solid ${active ? "#F8E3EC" : "#E7E9EE"}`,
+  backgroundColor: active ? "#F8E3EC" : "#FFFFFF",
+  cursor: "pointer",
   minWidth: "max-content",
-  opacity: disabled2 ? 0.5 : 1
+  ":hover": {
+    borderColor: active ? "#F8E3EC" : "#D8D8E3",
+    backgroundColor: active ? "#F8E3EC" : "#F8F7FC"
+  }
 });
-var tabTitle = (active, disabled2 = false) => ({
-  fontSize: "14px",
-  fontWeight: "600",
-  lineHeight: "16.38px",
+var tabIcon = (active) => ({
+  width: "14px",
+  height: "14px",
+  minWidth: "14px",
+  minHeight: "14px",
+  color: active ? "#D71D55" : "#4A596B",
+  flexShrink: 0
+});
+var tabTitle = (active) => ({
+  fontSize: "13px",
+  fontWeight: active ? "600" : "500",
+  lineHeight: "16px",
   whiteSpace: "nowrap",
-  color: `#${disabled2 ? "AFAFAF" : active ? "D71D55" : "545454"}`
+  color: active ? "#D71D55" : "#4A596B"
 });
-var tabCount = {
-  px: "8px",
-  ml: "2px",
-  fontSize: "12px",
-  fontWeight: "400",
+var tabCount = (active) => ({
+  px: "6px",
+  fontSize: "11px",
+  fontWeight: "500",
   lineHeight: "16px",
   borderRadius: "24px",
-  backgroundColor: "#F8F7FC"
-};
-var styles_default25 = { container: container11, tab, tabTitle, tabCount };
+  backgroundColor: active ? "#FFFFFF" : "#EDEAF6",
+  color: active ? "#D71D55" : "#4A596B"
+});
+var styles_default25 = { container: container11, tab, tabIcon, tabTitle, tabCount };
 
 // src/components/search-filter-tab-bar/index.tsx
 import { jsx as jsx66, jsxs as jsxs54 } from "react/jsx-runtime";
+var hasFilterResults = (ocurrenceCount, filter) => {
+  const count2 = ocurrenceCount[filter];
+  return typeof count2 === "number" && count2 > 0;
+};
 var SearchFilterTab = ({
   filter,
-  label: label3
+  label: label3,
+  Icon: Icon70
 }) => {
   const { filterSelectedSection, changeFilterSelectedSection, ocurrenceCount } = useContext20(SearchContext);
   const { locale } = useContext20(LibraryContext);
   const count2 = ocurrenceCount[filter];
-  const isAllTab = filter === "";
-  const isDisabled = !isAllTab && count2 === 0;
   const formattedCount = formatSearchTabCount(count2);
   const isActive = filterSelectedSection === filter;
-  const handleClick = () => {
-    if (isDisabled)
-      return;
-    changeFilterSelectedSection(filter);
-  };
   return /* @__PURE__ */ jsxs54(
     Flex24,
     {
-      sx: styles_default25.tab(isActive, isDisabled),
-      onClick: handleClick,
+      sx: styles_default25.tab(isActive),
+      onClick: () => changeFilterSelectedSection(filter),
       "data-testid": "doctype-filter-tab",
       "data-filter": filter,
       "data-active": String(isActive),
-      "data-disabled": String(isDisabled),
       children: [
+        Icon70 ? /* @__PURE__ */ jsx66(Icon70, { sx: styles_default25.tabIcon(isActive) }) : null,
         /* @__PURE__ */ jsx66(
           Text18,
           {
-            sx: styles_default25.tabTitle(isActive, isDisabled),
+            sx: styles_default25.tabTitle(isActive),
             "data-testid": "doctype-filter-tab-title",
-            children: isAllTab ? messages[locale]["search_results.all"] || "All results" : label3 || filter
+            children: filter === "" ? messages[locale]["search_results.all"] || "All results" : label3 || filter
           }
         ),
-        formattedCount !== void 0 && /* @__PURE__ */ jsx66(Text18, { sx: styles_default25.tabCount, "data-testid": "doctype-filter-tab-count", children: formattedCount })
+        formattedCount !== void 0 && /* @__PURE__ */ jsx66(
+          Text18,
+          {
+            sx: styles_default25.tabCount(isActive),
+            "data-testid": "doctype-filter-tab-count",
+            children: formattedCount
+          }
+        )
       ]
     }
   );
 };
 var SearchFilterTabBar = () => {
   const { sidebarSections, sidebarDataMaster, locale } = useContext20(LibraryContext);
+  const { ocurrenceCount, filterSelectedSection, changeFilterSelectedSection } = useContext20(SearchContext);
+  const countsLoaded = Object.keys(ocurrenceCount).length > 0;
+  const visibleSections = sidebarSections.flat().filter((section) => !section.isExternalLink).filter(
+    (section) => !countsLoaded || hasFilterResults(ocurrenceCount, section.id)
+  );
+  useEffect19(() => {
+    if (!countsLoaded || !filterSelectedSection)
+      return;
+    if (!hasFilterResults(ocurrenceCount, filterSelectedSection)) {
+      changeFilterSelectedSection("");
+    }
+  }, [
+    countsLoaded,
+    filterSelectedSection,
+    ocurrenceCount,
+    changeFilterSelectedSection
+  ]);
   return /* @__PURE__ */ jsxs54(Flex24, { sx: styles_default25.container, "data-testid": "doctype-filter-tab-bar", children: [
     /* @__PURE__ */ jsx66(SearchFilterTab, { filter: "" }),
-    sidebarSections.flat().map((section) => {
-      return /* @__PURE__ */ jsx66(
-        SearchFilterTab,
-        {
-          filter: section.id,
-          label: getSectionLabel(section, sidebarDataMaster, locale)
-        },
-        section.id
-      );
-    })
+    visibleSections.map((section) => /* @__PURE__ */ jsx66(
+      SearchFilterTab,
+      {
+        filter: section.id,
+        label: getSectionLabel(section, sidebarDataMaster, locale),
+        Icon: section.Icon
+      },
+      section.id
+    ))
   ] });
 };
 var search_filter_tab_bar_default = SearchFilterTabBar;
 
 // src/lib/search/styles.ts
-var searchBarContainer = {
-  display: ["flex", "flex", "flex", "none"],
-  justifyContent: "center",
-  py: "16px"
-};
 var body = {
   background: "#FFFFFF",
-  justifyContent: "center"
+  justifyContent: "center",
+  px: [0, 0, 0, "16px"]
 };
 var styles_default26 = {
-  searchBarContainer,
   body
 };
 
@@ -13796,10 +14339,7 @@ var styles_default26 = {
 import { jsx as jsx67, jsxs as jsxs55 } from "react/jsx-runtime";
 var Search = () => {
   return /* @__PURE__ */ jsxs55(search_default, { children: [
-    /* @__PURE__ */ jsxs55(Box26, { children: [
-      /* @__PURE__ */ jsx67(Flex25, { sx: styles_default26.searchBarContainer, children: /* @__PURE__ */ jsx67(SearchInput, {}) }),
-      /* @__PURE__ */ jsx67(search_filter_tab_bar_default, {})
-    ] }),
+    /* @__PURE__ */ jsx67(search_filter_tab_bar_default, {}),
     /* @__PURE__ */ jsxs55(Flex25, { sx: styles_default26.body, children: [
       /* @__PURE__ */ jsx67(search_sections_default, {}),
       /* @__PURE__ */ jsx67(search_results_default, {})
@@ -13959,7 +14499,7 @@ var CopyLinkButton = () => {
 var copy_link_button_default = CopyLinkButton;
 
 // src/components/input/index.tsx
-import { useState as useState19, useEffect as useEffect19 } from "react";
+import { useState as useState19, useEffect as useEffect20 } from "react";
 
 // src/components/input/styles.ts
 var input = {
@@ -14002,7 +14542,7 @@ import { Flex as Flex27 } from "@vtex/brand-ui";
 import { jsx as jsx70, jsxs as jsxs57 } from "react/jsx-runtime";
 var Input = ({ value, onChange, placeholder = "", Icon: Icon70 }) => {
   const [inputValue, setInputValue] = useState19(value ?? "");
-  useEffect19(() => {
+  useEffect20(() => {
     if (inputValue !== value)
       setInputValue(value);
   }, [value]);
@@ -14026,7 +14566,7 @@ var input_default = Input;
 
 // src/components/subscription-list/index.tsx
 import { useContext as useContext22, useState as useState20 } from "react";
-import { Box as Box27, Button as Button8, Text as Text20, Flex as Flex28, Link as Link10 } from "@vtex/brand-ui";
+import { Box as Box26, Button as Button8, Text as Text20, Flex as Flex28, Link as Link10 } from "@vtex/brand-ui";
 
 // src/utils/get-url.tsx
 var getFeedbackURL = (currentUrl) => {
@@ -14284,7 +14824,7 @@ var SubscriptionList = () => {
       showMessage("error", localizedMessages["subscription_list.error"]);
     }
   };
-  return /* @__PURE__ */ jsxs58(Box27, { sx: styles_default30.sectionContainer, children: [
+  return /* @__PURE__ */ jsxs58(Box26, { sx: styles_default30.sectionContainer, children: [
     /* @__PURE__ */ jsx71(Text20, { sx: styles_default30.title, children: localizedMessages["landing_page_subscription.title"] }),
     /* @__PURE__ */ jsx71(Flex28, { sx: styles_default30.cardContainer, children: /* @__PURE__ */ jsxs58("div", { children: [
       /* @__PURE__ */ jsxs58(Text20, { sx: styles_default30.description, children: [
@@ -14306,7 +14846,7 @@ var SubscriptionList = () => {
       ] }),
       /* @__PURE__ */ jsxs58(Flex28, { sx: styles_default30.inputContainer, children: [
         /* @__PURE__ */ jsx71(
-          Box27,
+          Box26,
           {
             as: "input",
             id: "email",
@@ -14343,7 +14883,7 @@ var SubscriptionList = () => {
         )
       ] }),
       message && /* @__PURE__ */ jsx71(
-        Box27,
+        Box26,
         {
           sx: {
             ...styles_default30.popupCard,
@@ -14359,7 +14899,7 @@ var subscription_list_default = SubscriptionList;
 
 // src/components/footer/index.tsx
 import { useContext as useContext23 } from "react";
-import { Box as Box28, Flex as Flex29, Link as Link11 } from "@vtex/brand-ui";
+import { Box as Box27, Flex as Flex29, Link as Link11 } from "@vtex/brand-ui";
 
 // src/components/icons/vtex-logo-footer.tsx
 import { Icon as Icon34 } from "@vtex/brand-ui";
@@ -14716,28 +15256,23 @@ var Footer = ({
       component: /* @__PURE__ */ jsx77(facebook_circle_icon_default, { sx: styles_default31.icon })
     }
   ];
-  return /* @__PURE__ */ jsxs64(Box28, { sx: styles_default31.outerBox, children: [
+  return /* @__PURE__ */ jsxs64(Box27, { sx: styles_default31.outerBox, children: [
     /* @__PURE__ */ jsxs64(Flex29, { sx: styles_default31.brandAndSocial, children: [
       /* @__PURE__ */ jsx77(vtex_logo_footer_default, { sx: styles_default31.logo }),
       /* @__PURE__ */ jsx77(Flex29, { sx: styles_default31.socialMediaIcons, children: socialIcons.map((icon5) => /* @__PURE__ */ jsx77(Link11, { href: icon5.href, children: icon5.component }, icon5.href)) })
     ] }),
     /* @__PURE__ */ jsxs64(Flex29, { sx: styles_default31.textLinkItems, children: [
       resolvedLinks.map((link2) => /* @__PURE__ */ jsx77(Link11, { href: link2.href, children: link2.label }, link2.href)),
-      localeSwitcher ? /* @__PURE__ */ jsx77(Box28, { sx: styles_default31.localeSwitch, children: localeSwitcher }) : null
+      localeSwitcher ? /* @__PURE__ */ jsx77(Box27, { sx: styles_default31.localeSwitch, children: localeSwitcher }) : null
     ] })
   ] });
 };
 var footer_default = Footer;
 
 // src/components/header/index.tsx
-import {
-  Header as HeaderBrand,
-  Link as VtexLink,
-  Flex as Flex30,
-  Text as Text21,
-  Box as Box30
-} from "@vtex/brand-ui";
-import { useContext as useContext25, useEffect as useEffect20, useRef as useRef13, useState as useState21 } from "react";
+import * as BrandUI from "@vtex/brand-ui";
+import { Link as VtexLink, Flex as Flex30, Text as Text21, Box as Box29 } from "@vtex/brand-ui";
+import { useContext as useContext25, useEffect as useEffect21, useRef as useRef13, useState as useState21 } from "react";
 import { useRouter as useRouter11 } from "next/router.js";
 
 // src/components/icons/vtex-devportal-icon.tsx
@@ -14952,23 +15487,26 @@ var long_arrow_icon_default = LongArrowIcon;
 
 // src/components/header/dropdown-menu.tsx
 import { useContext as useContext24 } from "react";
-import { Box as Box29 } from "@vtex/brand-ui";
+import { Box as Box28 } from "@vtex/brand-ui";
 
 // src/components/header/dropdown-menu.styles.ts
 var outerContainer = {
   cursor: "initial",
   top: "calc(5rem - 1px)",
+  right: 0,
   position: "absolute",
   filter: "drop-shadow(0px 0px 16px rgba(0, 0, 0, 0.1))",
   borderRadius: "0px 0px 8px 8px",
   border: "1px solid #E7E9EE",
   background: "white",
   padding: "8px",
+  width: "680px",
+  maxWidth: "calc(100vw - 32px)",
   maxHeight: "calc(100vh - 5rem)",
   zIndex: 10
 };
 var innerContainer2 = {
-  overflowY: "scroll",
+  overflowY: "auto",
   overscrollBehavior: "contain",
   maxHeight: "calc(100vh - 5rem - 16px)",
   scrollbarWidth: "thin",
@@ -14988,12 +15526,16 @@ var innerContainer2 = {
   }
 };
 var documentationContainer2 = {
-  px: "16px",
-  paddingBottom: "8px"
+  display: "grid",
+  gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+  columnGap: "4px",
+  rowGap: "4px"
 };
 var updatesContainer2 = {
-  px: "16px",
-  paddingTop: "8px",
+  display: "flex",
+  flexDirection: "column",
+  mt: "4px",
+  pt: "4px",
   borderRadius: "0px 0px 8px 8px",
   borderTop: "1px solid #E7E9EE"
 };
@@ -15008,8 +15550,8 @@ var dropdown_menu_styles_default = {
 import { jsx as jsx82 } from "react/jsx-runtime";
 var DropdownMenu = ({ sections }) => {
   const { locale, sidebarDataMaster } = useContext24(LibraryContext);
-  return /* @__PURE__ */ jsx82(Box29, { sx: dropdown_menu_styles_default.outerContainer, children: /* @__PURE__ */ jsx82(Box29, { sx: dropdown_menu_styles_default.innerContainer, "data-cy": "dropdown-menu", children: sections.map((section, id) => /* @__PURE__ */ jsx82(
-    Box29,
+  return /* @__PURE__ */ jsx82(Box28, { sx: dropdown_menu_styles_default.outerContainer, children: /* @__PURE__ */ jsx82(Box28, { sx: dropdown_menu_styles_default.innerContainer, "data-cy": "dropdown-menu", children: sections.map((section, id) => /* @__PURE__ */ jsx82(
+    Box28,
     {
       sx: id > 0 ? dropdown_menu_styles_default.updatesContainer : dropdown_menu_styles_default.documentationContainer,
       "data-cy": id > 0 ? "dropdown-menu-second-section" : "dropdown-menu-first-section",
@@ -15095,7 +15637,8 @@ var dropdownContainer = {
   textTransform: "none",
   justifyContent: "flex-end",
   height: "calc(100% + 1px)",
-  cursor: "pointer"
+  cursor: "pointer",
+  position: "relative"
 };
 var dropdownButton = (active) => ({
   color: active ? "#D71D55" : "#4A596B",
@@ -15142,7 +15685,8 @@ var styles_default32 = {
 
 // src/components/header/index.tsx
 import { jsx as jsx83, jsxs as jsxs69 } from "react/jsx-runtime";
-var Header2 = ({
+var HeaderBrand = BrandUI.Header;
+var Header3 = ({
   variant = "helpcenter",
   isEditor = false,
   dropdownSections,
@@ -15163,7 +15707,7 @@ var Header2 = ({
   const docsSections = dropdownSections ?? hamburguerSections;
   const menuSections = isEditor && editorSections.length > 0 ? [editorSections] : docsSections;
   const defaultLogo = variant === "devportal" ? /* @__PURE__ */ jsx83(vtex_devportal_icon_default, { sx: styles_default32.logoSize }) : /* @__PURE__ */ jsx83(vtex_helpcenter_icon_default, { sx: styles_default32.logoSize });
-  useEffect20(() => {
+  useEffect21(() => {
     const body2 = document.body;
     const observer = new MutationObserver(() => {
       modalOpen.current = !modalOpen.current;
@@ -15181,7 +15725,7 @@ var Header2 = ({
     });
     return () => observer.disconnect();
   }, []);
-  useEffect20(() => {
+  useEffect21(() => {
     const onScroll = () => {
       setShowDropdown(false);
       if (headerElement.current && !modalOpen.current) {
@@ -15198,7 +15742,7 @@ var Header2 = ({
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-  useEffect20(() => {
+  useEffect21(() => {
     const hideDropdown = () => {
       setShowDropdown(false);
     };
@@ -15207,7 +15751,7 @@ var Header2 = ({
       router.events?.off("routeChangeStart", hideDropdown);
     };
   }, [router.events]);
-  return /* @__PURE__ */ jsxs69(Box30, { ref: headerElement, sx: styles_default32.headerContainer, children: [
+  return /* @__PURE__ */ jsxs69(Box29, { ref: headerElement, sx: styles_default32.headerContainer, children: [
     announcement ?? /* @__PURE__ */ jsx83("div", {}),
     /* @__PURE__ */ jsxs69(HeaderBrand, { sx: styles_default32.headerBrand, children: [
       /* @__PURE__ */ jsx83(
@@ -15219,7 +15763,7 @@ var Header2 = ({
           children: logo2 ?? defaultLogo
         }
       ),
-      /* @__PURE__ */ jsx83(Box30, { sx: styles_default32.searchContainer, children: /* @__PURE__ */ jsx83(SearchInput, {}) }),
+      /* @__PURE__ */ jsx83(Box29, { sx: styles_default32.searchContainer, children: /* @__PURE__ */ jsx83(SearchInput, {}) }),
       /* @__PURE__ */ jsxs69(HeaderBrand.RightLinks, { sx: styles_default32.rightLinks, children: [
         /* @__PURE__ */ jsxs69(
           Flex30,
@@ -15249,15 +15793,15 @@ var Header2 = ({
           }
         )
       ] }),
-      /* @__PURE__ */ jsx83(Box30, { sx: styles_default32.hamburgerMenuToggle, children: /* @__PURE__ */ jsx83(hamburger_menu_default, {}) })
+      /* @__PURE__ */ jsx83(Box29, { sx: styles_default32.hamburgerMenuToggle, children: /* @__PURE__ */ jsx83(hamburger_menu_default, {}) })
     ] })
   ] });
 };
-var header_default = Header2;
+var header_default = Header3;
 
 // src/components/announcement-bar/index.tsx
-import { useEffect as useEffect21, useState as useState22 } from "react";
-import { Box as Box31, Button as Button9, Text as Text22, Link as Link12, Icon as Icon43 } from "@vtex/brand-ui";
+import { useEffect as useEffect22, useState as useState22 } from "react";
+import { Box as Box30, Button as Button9, Text as Text22, Link as Link12, Icon as Icon43 } from "@vtex/brand-ui";
 
 // src/components/announcement-bar/styles.ts
 var container13 = (type) => {
@@ -15361,7 +15905,7 @@ var AnnouncementBar = ({
   children
 }) => {
   const [visible, setVisible] = useState22(true);
-  useEffect21(() => {
+  useEffect22(() => {
     if (!closable || !visible)
       return;
     const onKeyDown = (event) => {
@@ -15373,14 +15917,14 @@ var AnnouncementBar = ({
   }, [closable, visible]);
   if (!visible)
     return null;
-  return /* @__PURE__ */ jsxs70(Box31, { sx: styles_default33.container(type), role: "status", "aria-label": "Announcement", children: [
-    /* @__PURE__ */ jsxs70(Box31, { sx: styles_default33.box, children: [
+  return /* @__PURE__ */ jsxs70(Box30, { sx: styles_default33.container(type), role: "status", "aria-label": "Announcement", children: [
+    /* @__PURE__ */ jsxs70(Box30, { sx: styles_default33.box, children: [
       tag4 && /* @__PURE__ */ jsx84(Text22, { sx: styles_default33.label(type), children: tag4 }),
       children ? /* @__PURE__ */ jsx84(Text22, { sx: styles_default33.text, children }) : null,
       label3 ? /* @__PURE__ */ jsx84(Text22, { sx: styles_default33.text, children: label3 }) : null,
       button5 && /* @__PURE__ */ jsx84(Link12, { sx: styles_default33.button(type), target, href, children: button5 })
     ] }),
-    closable && /* @__PURE__ */ jsx84(Box31, { children: /* @__PURE__ */ jsx84(
+    closable && /* @__PURE__ */ jsx84(Box30, { children: /* @__PURE__ */ jsx84(
       Button9,
       {
         "aria-label": "Close Announcement Bar",
@@ -15500,7 +16044,7 @@ var Tag = ({ sx = {}, children, color = "Default", onClick }) => {
 var tag_default = Tag;
 
 // src/components/listing-filter/index.tsx
-import { Box as Box32, Button as Button10, Checkbox, Flex as Flex31, Text as Text24 } from "@vtex/brand-ui";
+import { Box as Box31, Button as Button10, Checkbox, Flex as Flex31, Text as Text24 } from "@vtex/brand-ui";
 
 // src/components/icons/filter-icon.tsx
 import { Icon as Icon44 } from "@vtex/brand-ui";
@@ -15929,7 +16473,7 @@ var ListingFilter = ({
   const TagFilter = () => {
     if (!normalizedTagFilter)
       return null;
-    return /* @__PURE__ */ jsxs73(Box32, { sx: styles_default35.filterContainer, children: [
+    return /* @__PURE__ */ jsxs73(Box31, { sx: styles_default35.filterContainer, children: [
       /* @__PURE__ */ jsx88(Text24, { sx: styles_default35.filterTitle, children: normalizedTagFilter.name }),
       /* @__PURE__ */ jsx88(
         Flex31,
@@ -15952,11 +16496,11 @@ var ListingFilter = ({
   const CheckboxFilters = () => {
     if (checkboxGroups.length === 0)
       return null;
-    return /* @__PURE__ */ jsx88(Fragment9, { children: checkboxGroups.map((group, groupIndex) => /* @__PURE__ */ jsxs73(Box32, { children: [
+    return /* @__PURE__ */ jsx88(Fragment9, { children: checkboxGroups.map((group, groupIndex) => /* @__PURE__ */ jsxs73(Box31, { children: [
       groupIndex > 0 && /* @__PURE__ */ jsx88(Divider, {}),
-      /* @__PURE__ */ jsxs73(Box32, { sx: styles_default35.filterContainer, children: [
+      /* @__PURE__ */ jsxs73(Box31, { sx: styles_default35.filterContainer, children: [
         /* @__PURE__ */ jsx88(Text24, { sx: styles_default35.filterTitle, children: group.name }),
-        /* @__PURE__ */ jsx88(Box32, { sx: styles_default35.checkBoxContainer, children: group.options.map((option) => /* @__PURE__ */ jsx88(
+        /* @__PURE__ */ jsx88(Box31, { sx: styles_default35.checkBoxContainer, children: group.options.map((option) => /* @__PURE__ */ jsx88(
           Checkbox,
           {
             label: option.name,
@@ -15968,11 +16512,11 @@ var ListingFilter = ({
       ] })
     ] }, group.name)) });
   };
-  const Divider = () => /* @__PURE__ */ jsx88(Box32, { sx: styles_default35.sectionDivider, children: /* @__PURE__ */ jsx88("hr", {}) });
+  const Divider = () => /* @__PURE__ */ jsx88(Box31, { sx: styles_default35.sectionDivider, children: /* @__PURE__ */ jsx88("hr", {}) });
   const FilterModal = () => /* @__PURE__ */ jsxs73(Fragment9, { children: [
-    /* @__PURE__ */ jsx88(Box32, { sx: styles_default35.blanket, onClick: () => setIsModalOpen(false) }),
-    /* @__PURE__ */ jsxs73(Box32, { sx: styles_default35.container, children: [
-      /* @__PURE__ */ jsxs73(Box32, { sx: styles_default35.topContainer, children: [
+    /* @__PURE__ */ jsx88(Box31, { sx: styles_default35.blanket, onClick: () => setIsModalOpen(false) }),
+    /* @__PURE__ */ jsxs73(Box31, { sx: styles_default35.container, children: [
+      /* @__PURE__ */ jsxs73(Box31, { sx: styles_default35.topContainer, children: [
         /* @__PURE__ */ jsx88(Text24, { sx: styles_default35.modalTitle, children: resolvedLabels.modalTitle }),
         /* @__PURE__ */ jsx88(
           Flex31,
@@ -15983,7 +16527,7 @@ var ListingFilter = ({
           }
         )
       ] }),
-      /* @__PURE__ */ jsxs73(Box32, { sx: styles_default35.innerContainer, children: [
+      /* @__PURE__ */ jsxs73(Box31, { sx: styles_default35.innerContainer, children: [
         /* @__PURE__ */ jsx88(TagFilter, {}),
         normalizedTagFilter && checkboxGroups.length > 0 && /* @__PURE__ */ jsx88(Divider, {}),
         /* @__PURE__ */ jsx88(CheckboxFilters, {})
@@ -16019,7 +16563,7 @@ var ListingFilter = ({
 var listing_filter_default = ListingFilter;
 
 // src/components/troubleshooting-card/index.tsx
-import { Box as Box33, Link as Link13, Text as Text25 } from "@vtex/brand-ui";
+import { Box as Box32, Link as Link13, Text as Text25 } from "@vtex/brand-ui";
 
 // src/components/troubleshooting-card/styles.ts
 var devportalContainer = {
@@ -16158,10 +16702,10 @@ var TroubleshootingCard = ({
   const fallbackTags = tags?.filter(Boolean) ?? [];
   const hasStructuredTags = resolvedSymptomFilters.length > 0 || resolvedDomainFilters.length > 0;
   if (variant === "helpcenter") {
-    return /* @__PURE__ */ jsx89(Link13, { href: cardHref, children: /* @__PURE__ */ jsxs74(Box33, { sx: styles_default36.helpcenterContainer, children: [
+    return /* @__PURE__ */ jsx89(Link13, { href: cardHref, children: /* @__PURE__ */ jsxs74(Box32, { sx: styles_default36.helpcenterContainer, children: [
       /* @__PURE__ */ jsx89(Text25, { sx: styles_default36.title, className: "title", children: title9 }),
-      hasStructuredTags ? /* @__PURE__ */ jsxs74(Box33, { sx: styles_default36.groupsContainer, children: [
-        resolvedSymptomFilters.length > 0 && /* @__PURE__ */ jsx89(Box33, { sx: styles_default36.groupContainer, children: /* @__PURE__ */ jsx89(Box33, { sx: styles_default36.helpcenterTagsContainer, children: resolvedSymptomFilters.map((filter) => /* @__PURE__ */ jsx89(
+      hasStructuredTags ? /* @__PURE__ */ jsxs74(Box32, { sx: styles_default36.groupsContainer, children: [
+        resolvedSymptomFilters.length > 0 && /* @__PURE__ */ jsx89(Box32, { sx: styles_default36.groupContainer, children: /* @__PURE__ */ jsx89(Box32, { sx: styles_default36.helpcenterTagsContainer, children: resolvedSymptomFilters.map((filter) => /* @__PURE__ */ jsx89(
           tag_default,
           {
             sx: styles_default36.tag,
@@ -16170,16 +16714,16 @@ var TroubleshootingCard = ({
           },
           `symptom-${filter}`
         )) }) }),
-        resolvedDomainFilters.length > 0 && /* @__PURE__ */ jsx89(Box33, { sx: styles_default36.groupContainer, children: /* @__PURE__ */ jsx89(Box33, { sx: styles_default36.helpcenterTagsContainer, children: resolvedDomainFilters.map((filter) => /* @__PURE__ */ jsx89(tag_default, { sx: styles_default36.tag, color: "Gray", children: filter }, `domain-${filter}`)) }) })
+        resolvedDomainFilters.length > 0 && /* @__PURE__ */ jsx89(Box32, { sx: styles_default36.groupContainer, children: /* @__PURE__ */ jsx89(Box32, { sx: styles_default36.helpcenterTagsContainer, children: resolvedDomainFilters.map((filter) => /* @__PURE__ */ jsx89(tag_default, { sx: styles_default36.tag, color: "Gray", children: filter }, `domain-${filter}`)) }) })
       ] }) : null
     ] }) });
   }
-  return /* @__PURE__ */ jsx89(Link13, { href: cardHref, sx: styles_default36.devportalContainer, children: /* @__PURE__ */ jsxs74(Box33, { children: [
+  return /* @__PURE__ */ jsx89(Link13, { href: cardHref, sx: styles_default36.devportalContainer, children: /* @__PURE__ */ jsxs74(Box32, { children: [
     /* @__PURE__ */ jsx89(Text25, { sx: styles_default36.title, className: "title", children: title9 }),
     description6 ? /* @__PURE__ */ jsx89(Text25, { sx: styles_default36.description, className: "description", children: description6 }) : null,
-    /* @__PURE__ */ jsxs74(Box33, { sx: styles_default36.tagsContainer, children: [
-      resolvedSymptomFilters.length > 0 && /* @__PURE__ */ jsx89(Box33, { sx: styles_default36.tagGroup, children: resolvedSymptomFilters.map((filter) => /* @__PURE__ */ jsx89(tag_default, { sx: styles_default36.tag, color: "Blue", children: filter }, `symptom-${filter}`)) }),
-      resolvedDomainFilters.length > 0 && /* @__PURE__ */ jsx89(Box33, { sx: styles_default36.tagGroup, children: resolvedDomainFilters.map((filter) => /* @__PURE__ */ jsx89(tag_default, { sx: styles_default36.tag, color: "Gray", children: filter }, `domain-${filter}`)) }),
+    /* @__PURE__ */ jsxs74(Box32, { sx: styles_default36.tagsContainer, children: [
+      resolvedSymptomFilters.length > 0 && /* @__PURE__ */ jsx89(Box32, { sx: styles_default36.tagGroup, children: resolvedSymptomFilters.map((filter) => /* @__PURE__ */ jsx89(tag_default, { sx: styles_default36.tag, color: "Blue", children: filter }, `symptom-${filter}`)) }),
+      resolvedDomainFilters.length > 0 && /* @__PURE__ */ jsx89(Box32, { sx: styles_default36.tagGroup, children: resolvedDomainFilters.map((filter) => /* @__PURE__ */ jsx89(tag_default, { sx: styles_default36.tag, color: "Gray", children: filter }, `domain-${filter}`)) }),
       !hasStructuredTags && fallbackTags.map((moduleTag) => /* @__PURE__ */ jsx89(tag_default, { sx: styles_default36.tag, color: "Gray", children: moduleTag }, `tags-${moduleTag}`))
     ] })
   ] }) });

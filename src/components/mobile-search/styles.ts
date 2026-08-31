@@ -36,6 +36,8 @@ const overlay: SxStyleProp = {
   alignItems: 'flex-start',
   padding: '16px',
   background: 'rgba(20, 32, 50, 0.45)',
+  backdropFilter: 'blur(4px)',
+  WebkitBackdropFilter: 'blur(4px)',
   overscrollBehavior: 'contain',
 }
 

@@ -35,14 +35,14 @@ const HamburgerMenu = ({ parentsArray = [] }: HamburgerMenuProps) => {
     locale,
   } = context
 
-  useEffect(() => {
-    const closeMenu = () => {
-      const toggleButton = hamburgerRef.current?.querySelector<HTMLElement>(
-        '[aria-expanded="true"]'
-      )
-      toggleButton?.click()
-    }
+  const closeMenu = () => {
+    const toggleButton = hamburgerRef.current?.querySelector<HTMLElement>(
+      '[aria-expanded="true"]'
+    )
+    toggleButton?.click()
+  }
 
+  useEffect(() => {
     router.events?.on('routeChangeStart', closeMenu)
     router.events?.on('hashChangeStart', closeMenu)
 
@@ -67,16 +67,10 @@ const HamburgerMenu = ({ parentsArray = [] }: HamburgerMenuProps) => {
 
   return (
     <Header.ActionButton sx={styles.headerActions}>
-      <MobileSearch
-        onOpen={() => {
-          const toggleButton = hamburgerRef.current?.querySelector<HTMLElement>(
-            '[aria-expanded="true"]'
-          )
-          toggleButton?.click()
-        }}
-      />
+      <MobileSearch onOpen={closeMenu} />
       <Box ref={hamburgerRef} sx={{ display: 'contents' }}>
         <VtexHamburgerMenu sx={styles.hamburgerContainer}>
+          <Box sx={styles.backdrop} aria-hidden="true" onClick={closeMenu} />
           <VtexHamburgerMenu.Menu sx={styles.innerHambugerContainer}>
             <Box sx={styles.menuContainer}>
               <Box sx={styles.cardContainer}>
@@ -92,22 +86,30 @@ const HamburgerMenu = ({ parentsArray = [] }: HamburgerMenuProps) => {
                   >
                     {section.map((card) => (
                       <Box sx={styles.innerCardContainer} key={card.id}>
-                        <DocumentationCard
-                          containerType="mobile"
-                          {...card}
-                          title={getSectionLabel(
-                            card,
-                            sidebarDataMaster,
-                            locale
-                          )}
-                        />
+                        <Box sx={styles.innerCardContent}>
+                          <DocumentationCard
+                            containerType="mobile"
+                            {...card}
+                            title={getSectionLabel(
+                              card,
+                              sidebarDataMaster,
+                              locale
+                            )}
+                            onClick={() => {
+                              setActiveSectionName(card.id)
+                              if (isDocument(sidebarDataMaster, card.id)) {
+                                setSidebarSectionHidden(false)
+                              }
+                            }}
+                          />
+                        </Box>
                         {isDocument(sidebarDataMaster, card.id) ? (
                           <Button
                             aria-label={'Open sidebar'}
                             size="regular"
                             variant="tertiary"
                             icon={() => (
-                              <IconCaret direction="right" size={32} />
+                              <IconCaret direction="right" size={20} />
                             )}
                             sx={
                               activeSectionName === card.id &&

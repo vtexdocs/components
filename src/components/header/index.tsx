@@ -1,10 +1,5 @@
-import {
-  Header as HeaderBrand,
-  Link as VtexLink,
-  Flex,
-  Text,
-  Box,
-} from '@vtex/brand-ui'
+import * as BrandUI from '@vtex/brand-ui'
+import { Link as VtexLink, Flex, Text, Box } from '@vtex/brand-ui'
 import { useContext, useEffect, useRef, useState, type ReactNode } from 'react'
 import { useRouter } from 'next/router.js'
 import HamburgerMenu from 'lib/hamburger-menu'
@@ -19,6 +14,8 @@ import { getFeedbackURL } from 'utils/get-url'
 import type { Section } from 'utils/typings/types'
 import DropdownMenu from './dropdown-menu'
 import styles from './styles'
+
+const HeaderBrand = BrandUI.Header
 
 export type HeaderVariant = 'helpcenter' | 'devportal'
 

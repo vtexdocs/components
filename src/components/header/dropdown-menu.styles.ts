@@ -3,18 +3,21 @@ import { SxStyleProp } from '@vtex/brand-ui'
 const outerContainer: SxStyleProp = {
   cursor: 'initial',
   top: 'calc(5rem - 1px)',
+  right: 0,
   position: 'absolute',
   filter: 'drop-shadow(0px 0px 16px rgba(0, 0, 0, 0.1))',
   borderRadius: '0px 0px 8px 8px',
   border: '1px solid #E7E9EE',
   background: 'white',
   padding: '8px',
+  width: '680px',
+  maxWidth: 'calc(100vw - 32px)',
   maxHeight: 'calc(100vh - 5rem)',
   zIndex: 10,
 }
 
 const innerContainer: SxStyleProp = {
-  overflowY: 'scroll',
+  overflowY: 'auto',
   overscrollBehavior: 'contain',
   maxHeight: 'calc(100vh - 5rem - 16px)',
   scrollbarWidth: 'thin',
@@ -39,13 +42,17 @@ const innerContainer: SxStyleProp = {
 }
 
 const documentationContainer: SxStyleProp = {
-  px: '16px',
-  paddingBottom: '8px',
+  display: 'grid',
+  gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
+  columnGap: '4px',
+  rowGap: '4px',
 }
 
 const updatesContainer: SxStyleProp = {
-  px: '16px',
-  paddingTop: '8px',
+  display: 'flex',
+  flexDirection: 'column',
+  mt: '4px',
+  pt: '4px',
   borderRadius: '0px 0px 8px 8px',
   borderTop: '1px solid #E7E9EE',
 }

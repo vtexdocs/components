@@ -75,6 +75,7 @@ const dropdownContainer: SxStyleProp = {
   justifyContent: 'flex-end',
   height: 'calc(100% + 1px)',
   cursor: 'pointer',
+  position: 'relative',
 }
 
 const dropdownButton: (active: boolean) => SxStyleProp = (active: boolean) => ({

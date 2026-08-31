@@ -36,17 +36,12 @@ export default function SearchInput({
     if (!value) onClose?.()
   }
 
-  const searchContent = (
-    <>
-      <SearchBox
-        changeFocus={changeFocus}
-        autoFocus={autoFocus}
-        variant={variant}
-      />
-      {(isModal || focusOut.modaltoggle) && (
-        <Results changeFocus={changeFocus} variant={variant} />
-      )}
-    </>
+  const searchBox = (
+    <SearchBox
+      changeFocus={changeFocus}
+      autoFocus={autoFocus}
+      variant={variant}
+    />
   )
 
   return (
@@ -63,13 +58,7 @@ export default function SearchInput({
       {!searchClient.useLanguageFilter && <Configure clickAnalytics={true} />}
       {isModal ? (
         <Flex sx={styles.modalRoot}>
-          <Box sx={styles.modalSearchBox}>
-            <SearchBox
-              changeFocus={changeFocus}
-              autoFocus={autoFocus}
-              variant={variant}
-            />
-          </Box>
+          <Box sx={styles.modalSearchBox}>{searchBox}</Box>
           <Box sx={styles.modalResults}>
             <Results changeFocus={changeFocus} variant={variant} />
           </Box>
@@ -79,7 +68,10 @@ export default function SearchInput({
           onFocus={() => setfocusOut({ modaltoggle: true })}
           ref={resultsBox}
         >
-          {searchContent}
+          {searchBox}
+          {focusOut.modaltoggle && (
+            <Results changeFocus={changeFocus} variant={variant} />
+          )}
         </Box>
       )}
     </InstantSearch>

@@ -2,47 +2,58 @@ import { SxStyleProp } from '@vtex/brand-ui'
 
 const container: SxStyleProp = {
   display: ['flex', 'flex', 'flex', 'none'],
-  overflowX: 'scroll',
-  scrollbarWidth: 'none',
-  '::-webkit-scrollbar': {
-    display: 'none',
-  },
+  flexWrap: 'wrap',
+  alignItems: 'center',
+  gap: '8px',
+  px: ['16px', '24px'],
+  pt: ['12px', '16px'],
+  pb: ['4px', '8px'],
 }
 
-const tab: (active: boolean, disabled?: boolean) => SxStyleProp = (
-  active,
-  disabled = false
-) => ({
-  pt: '8px',
-  pb: '14px',
-  px: '24px',
-  cursor: disabled ? 'not-allowed' : 'pointer',
-  justifyContent: 'center',
+const tab: (active: boolean) => SxStyleProp = (active) => ({
+  display: 'inline-flex',
   alignItems: 'center',
-  borderBottom: `${active ? 2 : 1}px solid #${active ? 'D71D55' : 'DDDDDD'}`,
+  gap: '6px',
+  height: '32px',
+  minHeight: '32px',
+  px: '12px',
+  py: 0,
+  borderRadius: '16px',
+  border: `1px solid ${active ? '#F8E3EC' : '#E7E9EE'}`,
+  backgroundColor: active ? '#F8E3EC' : '#FFFFFF',
+  cursor: 'pointer',
   minWidth: 'max-content',
-  opacity: disabled ? 0.5 : 1,
+  ':hover': {
+    borderColor: active ? '#F8E3EC' : '#D8D8E3',
+    backgroundColor: active ? '#F8E3EC' : '#F8F7FC',
+  },
 })
 
-const tabTitle: (active: boolean, disabled?: boolean) => SxStyleProp = (
-  active,
-  disabled = false
-) => ({
-  fontSize: '14px',
-  fontWeight: '600',
-  lineHeight: '16.38px',
+const tabIcon: (active: boolean) => SxStyleProp = (active) => ({
+  width: '14px',
+  height: '14px',
+  minWidth: '14px',
+  minHeight: '14px',
+  color: active ? '#D71D55' : '#4A596B',
+  flexShrink: 0,
+})
+
+const tabTitle: (active: boolean) => SxStyleProp = (active) => ({
+  fontSize: '13px',
+  fontWeight: active ? '600' : '500',
+  lineHeight: '16px',
   whiteSpace: 'nowrap',
-  color: `#${disabled ? 'AFAFAF' : active ? 'D71D55' : '545454'}`,
+  color: active ? '#D71D55' : '#4A596B',
 })
 
-const tabCount: SxStyleProp = {
-  px: '8px',
-  ml: '2px',
-  fontSize: '12px',
-  fontWeight: '400',
+const tabCount: (active: boolean) => SxStyleProp = (active) => ({
+  px: '6px',
+  fontSize: '11px',
+  fontWeight: '500',
   lineHeight: '16px',
   borderRadius: '24px',
-  backgroundColor: '#F8F7FC',
-}
+  backgroundColor: active ? '#FFFFFF' : '#EDEAF6',
+  color: active ? '#D71D55' : '#4A596B',
+})
 
-export default { container, tab, tabTitle, tabCount }
+export default { container, tab, tabIcon, tabTitle, tabCount }

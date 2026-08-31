@@ -17,6 +17,15 @@ interface SearchBoxProps extends SearchBoxProvided {
   variant?: SearchInputVariant
 }
 
+const containerStyle = (variant: SearchInputVariant) =>
+  variant === 'modal' ? styles.searchContainerModal : styles.searchContainer
+
+const iconStyle = (variant: SearchInputVariant) =>
+  variant === 'modal' ? styles.searchIconModal : styles.searchIcon
+
+const inputStyle = (variant: SearchInputVariant) =>
+  variant === 'modal' ? styles.searchInputModal : styles.searchInput
+
 const SearchBoxComponent = ({
   currentRefinement,
   refine,
@@ -59,24 +68,17 @@ const SearchBoxComponent = ({
   }
 
   return (
-    <Flex
-      sx={
-        variant === 'modal'
-          ? styles.searchContainerModal
-          : styles.searchContainer
-      }
-      onClick={handleClick}
-    >
-      <SearchIcon
-        sx={variant === 'modal' ? styles.searchIconModal : styles.searchIcon}
-      />
+    <Flex sx={containerStyle(variant)} onClick={handleClick}>
+      <SearchIcon sx={iconStyle(variant)} />
       <input
-        style={
-          variant === 'modal' ? styles.searchInputModal : styles.searchInput
-        }
+        style={inputStyle(variant)}
         ref={inputRef}
         className="searchComponent"
-        type="text"
+        type="search"
+        enterKeyHint="search"
+        autoComplete="off"
+        autoCorrect="off"
+        spellCheck={false}
         placeholder={messages[locale]['search_input.placeholder']}
         value={currentRefinement}
         data-cy="search"
