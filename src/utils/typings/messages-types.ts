@@ -51,4 +51,8 @@ export type MessagesType = {
   'footer.help_center': string
   'footer.community': string
   'footer.feedback': string
+  'header.docs': string
+  'header.feedback': string
+  'header.admin_tools': string
+  'header.home_aria': string
 }

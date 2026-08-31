@@ -1,3 +1,9 @@
+import {
+  AppDevelopmentIcon,
+  VTEXIOAppsIcon,
+  StorefrontDevelopmentIcon,
+  TroubleshootingIcon,
+} from 'components/icons'
 import APIGuidesIcon from 'components/icons/api-guides-icon'
 import APIReferenceIcon from 'components/icons/api-reference-icon'
 import { Component } from 'lib/markdown-renderer/MarkdownRenderer.types'
@@ -9,38 +15,43 @@ export const sections = [
       id: 'Guides',
       Icon: APIGuidesIcon,
       title: 'Guides',
-      description: 'Guides description',
-      link: '#',
+      description: 'Guides',
+      link: '/docs/guides',
     },
-  ],
-  [
     {
       id: 'API Reference',
       Icon: APIReferenceIcon,
       title: 'API Reference',
-      description: 'Reference description',
-      link: '#',
+      description: 'API Reference',
+      link: '/docs/api-reference',
     },
-  ],
-]
-
-export const hamburguerSections = [
-  [
     {
-      id: 'Guides',
-      Icon: APIGuidesIcon,
-      title: 'Guides',
-      description: 'Guides description',
-      link: '#',
+      id: 'App Development',
+      Icon: AppDevelopmentIcon,
+      title: 'App Development',
+      description: 'App Development',
+      link: '/docs/app-development',
     },
-  ],
-  [
     {
-      id: 'Reference',
-      Icon: APIReferenceIcon,
-      title: 'Reference',
-      description: 'Reference description',
-      link: '#',
+      id: 'Storefront Development',
+      Icon: StorefrontDevelopmentIcon,
+      title: 'Storefront Development',
+      description: 'Storefront Development',
+      link: '/docs/storefront-development',
+    },
+    {
+      id: 'VTEX IO Apps',
+      Icon: VTEXIOAppsIcon,
+      title: 'VTEX IO Apps',
+      description: 'VTEX IO Apps',
+      link: '/docs/vtex-io-apps',
+    },
+    {
+      id: 'Troubleshooting',
+      Icon: TroubleshootingIcon,
+      title: 'Troubleshooting',
+      description: 'Troubleshooting',
+      link: '/docs/troubleshooting',
     },
   ],
 ]
@@ -719,7 +730,7 @@ export const exampleContextProps = {
   isPreview: false,
   sectionSelected: '',
   fallback: navigation,
-  hamburguerMenuSections: hamburguerSections,
+  hamburguerMenuSections: sections,
 }
 
 export const exampleContextPropsLocale = {
@@ -727,7 +738,7 @@ export const exampleContextPropsLocale = {
   isPreview: false,
   sectionSelected: '',
   fallback: navigationLocale,
-  hamburguerMenuSections: hamburguerSections,
+  hamburguerMenuSections: sections,
   locale,
 }
 

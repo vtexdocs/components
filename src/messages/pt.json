@@ -50,5 +50,9 @@
   "footer.developer_portal": "Developer Portal",
   "footer.help_center": "Help Center",
   "footer.community": "Comunidade",
-  "footer.feedback": "Feedback"
+  "footer.feedback": "Feedback",
+  "header.docs": "Documentação",
+  "header.feedback": "Feedback",
+  "header.admin_tools": "Ferramentas de admin",
+  "header.home_aria": "Voltar para o início"
 }

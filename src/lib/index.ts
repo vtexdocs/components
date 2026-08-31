@@ -17,6 +17,8 @@ export { default as CopyLinkButton } from '../components/copy-link-button'
 export { default as Input } from '../components/input'
 export { default as SubscriptionList } from '../components/subscription-list'
 export { default as Footer } from '../components/footer'
+export { default as Header, DropdownMenu } from '../components/header'
+export { default as AnnouncementBar } from '../components/announcement-bar'
 export { default as Tag } from '../components/tag'
 export { default as ListingFilter } from '../components/listing-filter'
 export { default as TroubleshootingCard } from '../components/troubleshooting-card'
@@ -29,6 +31,16 @@ export type {
   FooterLink,
   FooterVariant,
 } from '../components/footer'
+export type {
+  HeaderProps,
+  HeaderVariant,
+  DropdownMenuProps,
+} from '../components/header'
+export type {
+  AnnouncementBarProps,
+  AnnouncementBarType,
+  AnnouncementBarAction,
+} from '../components/announcement-bar'
 export type {
   FilterGroup,
   FilterOption,
@@ -46,3 +58,4 @@ export type {
 } from '../utils/troubleshooting/types'
 export { filterTroubleshootingItems } from '../utils/troubleshooting/filterItems'
 export { collectTroubleshootingFilterOptions } from '../utils/troubleshooting/collectFilterOptions'
+export type { Section } from '../utils/typings/types'
