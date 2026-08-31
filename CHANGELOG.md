@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.3.0](https://github.com/vtexdocs/components/compare/v6.2.6...v6.3.0) (2026-08-31)
+
+
+### Features
+
+* : mobile search ([82d1f18](https://github.com/vtexdocs/components/commit/82d1f18eaa861fb9c57ac038acb91559bb5163c8))
+* header ([1ea4426](https://github.com/vtexdocs/components/commit/1ea4426adfda6a8a9247baa9b3936da1ef0cee7d))
+* improve search and sidebar for mobile, tablet and desktop ([7a6a5a8](https://github.com/vtexdocs/components/commit/7a6a5a880cf9bbd5bb0f8020dae6b2d019ea3898))
+* improve sidebar ([86c0d18](https://github.com/vtexdocs/components/commit/86c0d1812026dda1f10f794be33fd44f4989bcf3))
+
 ### [6.2.6](https://github.com/vtexdocs/components/compare/v6.2.5...v6.2.6) (2026-08-27)
 
 
