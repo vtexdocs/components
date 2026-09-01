@@ -161,6 +161,11 @@ const LibraryContextProvider = ({ children, ...props }: Props) => {
   }, [])
 
   const setOpenSidebarElements = useCallback((parentsArray: string[]) => {
+    if (parentsArray.length === 0) {
+      setSidebarElementStatus((prev) => (prev.size === 0 ? prev : new Map()))
+      return
+    }
+
     const parentSet = new Set(parentsArray)
     setSidebarElementStatus((prev) => {
       const next = new Map(prev)

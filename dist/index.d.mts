@@ -1,6 +1,6 @@
 import * as react_jsx_runtime from 'react/jsx-runtime';
 import { MDXRemoteSerializeResult } from 'next-mdx-remote';
-import { SxStyleProp, IconProps } from '@vtex/brand-ui';
+import { SxStyleProp, IconProps, TooltipProps } from '@vtex/brand-ui';
 import * as React$1 from 'react';
 import React__default, { ReactNode, Dispatch, SetStateAction } from 'react';
 import { AlgoliaSearchOptions } from 'algoliasearch/lite';
@@ -25,13 +25,13 @@ interface Item extends SubItem {
     children: SubItem[];
 }
 
-interface Props$3 {
+interface Props$4 {
     /** List of headings in the current documentation page */
     headingList?: Item[];
     children?: React.ReactNode;
 }
 /** Table of contents for documentation pages. */
-declare const TableOfContents: ({ headingList, children }: Props$3) => react_jsx_runtime.JSX.Element;
+declare const TableOfContents: ({ headingList, children }: Props$4) => react_jsx_runtime.JSX.Element;
 
 interface OnThisPageProps {
     /** List of headings in the current documentation page */
@@ -105,18 +105,44 @@ interface MobileSearchProps {
 }
 declare const MobileSearch: ({ onOpen }: MobileSearchProps) => react_jsx_runtime.JSX.Element;
 
-interface Props$2 {
+interface Props$3 {
     onAccept: () => void;
 }
-declare const CookieBar: ({ onAccept }: Props$2) => react_jsx_runtime.JSX.Element;
+declare const CookieBar: ({ onAccept }: Props$3) => react_jsx_runtime.JSX.Element;
 
-interface Props$1 {
+interface Props$2 {
     url: string;
     sx?: SxStyleProp;
 }
-declare const ShareButton: ({ url, sx }: Props$1) => react_jsx_runtime.JSX.Element;
+declare const ShareButton: ({ url, sx }: Props$2) => react_jsx_runtime.JSX.Element;
 
 declare const CopyLinkButton: () => react_jsx_runtime.JSX.Element;
+
+type CopyButtonProps = {
+    code: string;
+    sx?: SxStyleProp;
+};
+declare const CopyButton: ({ code, sx }: CopyButtonProps) => JSX.Element;
+
+type CopyHeadingLinkProps = {
+    /** Heading `id` used as the URL hash. */
+    slug: string;
+    size?: number;
+    sx?: SxStyleProp;
+};
+declare const CopyHeadingLink: ({ slug, size, sx, }: CopyHeadingLinkProps) => react_jsx_runtime.JSX.Element | null;
+
+type BreadcrumbItem = {
+    slug: string;
+    name: string;
+    type: string;
+};
+type BreadcrumbProps = {
+    breadcrumbList?: BreadcrumbItem[];
+    /** @deprecated Use `breadcrumbList`. Kept for callers that still pass the old typo. */
+    breadcumbList?: BreadcrumbItem[];
+};
+declare const Breadcrumb: ({ breadcrumbList, breadcumbList, }: BreadcrumbProps) => react_jsx_runtime.JSX.Element;
 
 type Section = {
     id: string;
@@ -188,8 +214,17 @@ type HeaderProps = {
     feedbackUrl?: string;
     /** Overrides the default logo for the selected variant. */
     logo?: ReactNode;
+    /**
+     * App-specific items rendered after the docs dropdown (e.g. Help Center
+     * announcements). Hidden on small viewports together with RightLinks.
+     */
+    extraRightLinks?: ReactNode;
+    /** App-specific locale switcher rendered next to the hamburger menu. */
+    localeSwitcher?: ReactNode;
+    /** Parent slugs of the current article, used to expand the mobile sidebar. */
+    parentsArray?: string[];
 };
-declare const Header: ({ variant, isEditor, dropdownSections, editorSections, announcement, homeHref, feedbackUrl, logo, }: HeaderProps) => react_jsx_runtime.JSX.Element;
+declare const Header: ({ variant, isEditor, dropdownSections, editorSections, announcement, homeHref, feedbackUrl, logo, extraRightLinks, localeSwitcher, parentsArray, }: HeaderProps) => react_jsx_runtime.JSX.Element;
 
 type AnnouncementBarType = 'warning' | 'new';
 type AnnouncementBarAction = {
@@ -249,6 +284,41 @@ type ListingFilterProps = {
     centeredTagOptions?: boolean;
 };
 declare const ListingFilter: ({ tagFilter, tagFilterName, checkBoxFilter, checkBoxFilters, filterName, onApply, selectedCheckboxes, selectedTags, labels, buttonSx, centeredTagOptions, }: ListingFilterProps) => react_jsx_runtime.JSX.Element;
+
+type ChipFilterCategory = {
+    type: string;
+    title: string;
+    Icon?: IconComponent;
+};
+type ChipFilterProps = {
+    filters: string[];
+    categories: ChipFilterCategory[];
+    applyCategory: (option: string) => void;
+    resetFilters: () => void;
+    removeCategory: (option: string) => void;
+    getCategoryAmount: (category: string) => number;
+    allResultsLabel?: string;
+};
+declare const ChipFilter: ({ filters, categories, applyCategory, resetFilters, removeCategory, getCategoryAmount, allResultsLabel, }: ChipFilterProps) => react_jsx_runtime.JSX.Element;
+
+interface Props$1 extends Pick<TooltipProps, 'children' | 'label' | 'placement'> {
+    sx?: SxStyleProp;
+    isCard?: boolean;
+    /** When true, the tooltip stays visible even without hover. */
+    open?: boolean;
+    wrapperSx?: SxStyleProp;
+}
+declare const Tooltip: ({ children, label, placement, sx, isCard, open, wrapperSx, }: Props$1) => react_jsx_runtime.JSX.Element;
+
+type AuthorProps = {
+    contributor: ContributorsType;
+};
+declare const Author: ({ contributor }: AuthorProps) => react_jsx_runtime.JSX.Element;
+
+type TimeToReadProps = {
+    minutes: string;
+};
+declare const TimeToRead: ({ minutes }: TimeToReadProps) => react_jsx_runtime.JSX.Element;
 
 type TroubleshootingItem = {
     slug: string;
@@ -510,4 +580,4 @@ declare const LikeIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
 
 declare const LikeSelectedIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
 
-export { APIGuidesIcon, APIReferenceIcon, AddedIcon, type AlgoliaConfig, AnnouncementBar, type AnnouncementBarAction, type AnnouncementBarProps, type AnnouncementBarType, AnnouncementIcon, AppDevelopmentIcon, ArrowLeftIcon, ArrowRightIcon, CaretIcon, ChatGPTIcon, CheckboxIcon, ClaudeIcon, CloseFilterIcon, CloseIcon, CommunityIcon, Contributors, type ContributorsProps, type ContributorsType, CookieBar, CopilotIcon, CopyIcon, CopyLinkButton, DeprecatedIcon, DeveloperPortalIcon, DocumentationUpdatesIcon, DropdownMenu, type DropdownMenuProps, EditIcon, EmailIcon, ExpandedResultsIcon, FAQIcon, FacebookCircleIcon, FacebookIcon, FeedbackSection, ListingFilter as Filter, type FilterGroup, FilterIcon, type FilterOption, FixedIcon, Footer, type FooterLink, type FooterProps, type FooterVariant, GearTroubleshootingIcon, GeminiIcon, GithubIcon, GraphIcon, GridIcon, HamburgerMenu, Header, type HeaderProps, type HeaderVariant, HelpCenterIcon, type HybridSearchConfig, ImprovedIcon, InfoIcon, Input, IgIcon as InstagramIcon, type Item, KnownIssueIcon as KnownIssuesIcon, LibraryContext, LibraryContextProvider, LikeIcon, LikeSelectedIcon, LinkIcon, LinkedinCircleIcon, LinkedinIcon, ListingFilter, type ListingFilterLabels, type ListingFilterProps, type ListingFilterSelection, LongArrowIcon, MarkdownRenderer, MegaphoneIcon, MenuIcon, MobileSearch, type MobileSearchProps, NewIcon, OnThisPage, type OnThisPageProps, PaperIcon, ReleaseNotesIcon, RemovedIcon, ResizeIcon, Search, type SearchBackendConfig, SearchConfig, SearchIcon, SearchInput, type SearchInputProps, type Section, ShareButton, ShareIcon, SideBarToggleIcon, Sidebar, StartHereIcon, StorefrontDevelopmentIcon, SubscriptionList, TableOfContents, Tag, type TagColor, type TagProps, TrashcanIcon, TroubleshootingCard, type TroubleshootingCardProps, type TroubleshootingCardVariant, type TroubleshootingFilterState, TroubleshootingIcon, type TroubleshootingItem, TutorialsIcon, TwitterCircleIcon, TwitterIcon, VTEXDevPortalIcon, VTEXHelpCenterIcon, VTEXIOAppsIcon, VTEXLogoFooter, WarningIcon, YoutubeIcon, collectTroubleshootingFilterOptions, filterTroubleshootingItems, getDaysElapsed };
+export { APIGuidesIcon, APIReferenceIcon, AddedIcon, type AlgoliaConfig, AnnouncementBar, type AnnouncementBarAction, type AnnouncementBarProps, type AnnouncementBarType, AnnouncementIcon, AppDevelopmentIcon, ArrowLeftIcon, ArrowRightIcon, Author, type AuthorProps, Breadcrumb, type BreadcrumbItem, type BreadcrumbProps, CaretIcon, ChatGPTIcon, CheckboxIcon, ChipFilter, type ChipFilterCategory, type ChipFilterProps, ClaudeIcon, CloseFilterIcon, CloseIcon, CommunityIcon, Contributors, type ContributorsProps, type ContributorsType, CookieBar, CopilotIcon, CopyButton, type CopyButtonProps, CopyHeadingLink, type CopyHeadingLinkProps, CopyIcon, CopyLinkButton, DeprecatedIcon, DeveloperPortalIcon, DocumentationUpdatesIcon, DropdownMenu, type DropdownMenuProps, EditIcon, EmailIcon, ExpandedResultsIcon, FAQIcon, FacebookCircleIcon, FacebookIcon, FeedbackSection, ListingFilter as Filter, type FilterGroup, FilterIcon, type FilterOption, FixedIcon, Footer, type FooterLink, type FooterProps, type FooterVariant, GearTroubleshootingIcon, GeminiIcon, GithubIcon, GraphIcon, GridIcon, HamburgerMenu, Header, type HeaderProps, type HeaderVariant, HelpCenterIcon, type HybridSearchConfig, ImprovedIcon, InfoIcon, Input, IgIcon as InstagramIcon, type Item, KnownIssueIcon as KnownIssuesIcon, LibraryContext, LibraryContextProvider, LikeIcon, LikeSelectedIcon, LinkIcon, LinkedinCircleIcon, LinkedinIcon, ListingFilter, type ListingFilterLabels, type ListingFilterProps, type ListingFilterSelection, LongArrowIcon, MarkdownRenderer, MegaphoneIcon, MenuIcon, MobileSearch, type MobileSearchProps, NewIcon, OnThisPage, type OnThisPageProps, PaperIcon, ReleaseNotesIcon, RemovedIcon, ResizeIcon, Search, type SearchBackendConfig, SearchConfig, SearchIcon, SearchInput, type SearchInputProps, type Section, ShareButton, ShareIcon, SideBarToggleIcon, Sidebar, StartHereIcon, StorefrontDevelopmentIcon, SubscriptionList, TableOfContents, Tag, type TagColor, type TagProps, TimeToRead, type TimeToReadProps, Tooltip, TrashcanIcon, TroubleshootingCard, type TroubleshootingCardProps, type TroubleshootingCardVariant, type TroubleshootingFilterState, TroubleshootingIcon, type TroubleshootingItem, TutorialsIcon, TwitterCircleIcon, TwitterIcon, VTEXDevPortalIcon, VTEXHelpCenterIcon, VTEXIOAppsIcon, VTEXLogoFooter, WarningIcon, YoutubeIcon, collectTroubleshootingFilterOptions, filterTroubleshootingItems, getDaysElapsed };

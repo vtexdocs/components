@@ -6,6 +6,7 @@ const outerContainer: SxStyleProp = {
   right: 0,
   position: 'absolute',
   filter: 'drop-shadow(0px 0px 16px rgba(0, 0, 0, 0.1))',
+  clipPath: 'inset(0 -32px -32px -32px)',
   borderRadius: '0px 0px 8px 8px',
   border: '1px solid #E7E9EE',
   background: 'white',
@@ -46,11 +47,13 @@ const documentationContainer: SxStyleProp = {
   gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
   columnGap: '4px',
   rowGap: '4px',
+
+  '& > :last-child:nth-child(odd)': {
+    gridColumn: '1 / -1',
+  },
 }
 
-const updatesContainer: SxStyleProp = {
-  display: 'flex',
-  flexDirection: 'column',
+const sectionDivider: SxStyleProp = {
   mt: '4px',
   pt: '4px',
   borderRadius: '0px 0px 8px 8px',
@@ -61,5 +64,5 @@ export default {
   documentationContainer,
   innerContainer,
   outerContainer,
-  updatesContainer,
+  sectionDivider,
 }

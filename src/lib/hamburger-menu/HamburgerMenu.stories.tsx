@@ -25,9 +25,12 @@ const meta = {
     },
   },
   decorators: [
-    (Story) => (
+    (Story, context) => (
       <ThemeProvider>
-        <LibraryContextProvider {...exampleContextProps}>
+        <LibraryContextProvider
+          {...exampleContextProps}
+          sectionSelected={context.parameters.sectionSelected ?? ''}
+        >
           <Header>
             <Story />
           </Header>
@@ -84,5 +87,44 @@ export const GuidesMenu: Story = {
     await openHamburger(canvasElement)
     const openButtons = await canvas.findAllByLabelText('Open sidebar')
     await userEvent.click(openButtons[0])
+  },
+}
+
+/** Article exists but is not in navigation.json — hamburger stays on the section cards. */
+export const UnlistedArticle: Story = {
+  args: {
+    parentsArray: [],
+  },
+  parameters: {
+    sectionSelected: 'Guides',
+    nextjs: {
+      router: {
+        query: { slug: 'article-not-in-navigation' },
+      },
+    },
+  },
+  play: async ({ canvasElement }) => {
+    await openHamburger(canvasElement)
+  },
+}
+
+/** Same unlisted-article case on tablet. */
+export const UnlistedArticleTablet: Story = {
+  args: {
+    parentsArray: [],
+  },
+  parameters: {
+    sectionSelected: 'Guides',
+    viewport: {
+      defaultViewport: 'mobileMedium',
+    },
+    nextjs: {
+      router: {
+        query: { slug: 'article-not-in-navigation' },
+      },
+    },
+  },
+  play: async ({ canvasElement }) => {
+    await openHamburger(canvasElement)
   },
 }

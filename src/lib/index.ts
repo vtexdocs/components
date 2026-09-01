@@ -14,6 +14,11 @@ export { default as CookieBar } from './cookie-bar'
 export { default as WhatsNextCard } from '../components/whats-next-card'
 export { default as ShareButton } from '../components/share-button'
 export { default as CopyLinkButton } from '../components/copy-link-button'
+export { default as CopyButton } from '../components/copy-button'
+export type { CopyButtonProps } from '../components/copy-button'
+export { default as CopyHeadingLink } from '../components/copy-heading-link'
+export type { CopyHeadingLinkProps } from '../components/copy-heading-link'
+export { default as Breadcrumb } from '../components/breadcrumb'
 export { default as Input } from '../components/input'
 export { default as SubscriptionList } from '../components/subscription-list'
 export { default as Footer } from '../components/footer'
@@ -21,6 +26,10 @@ export { default as Header, DropdownMenu } from '../components/header'
 export { default as AnnouncementBar } from '../components/announcement-bar'
 export { default as Tag } from '../components/tag'
 export { default as ListingFilter } from '../components/listing-filter'
+export { default as ChipFilter } from '../components/chip-filter'
+export { default as Tooltip } from '../components/tooltip'
+export { default as Author } from '../components/author'
+export { default as TimeToRead } from '../components/time-to-read'
 export { default as TroubleshootingCard } from '../components/troubleshooting-card'
 export type { Item } from './table-of-contents'
 export type { OnThisPageProps } from './on-this-page'
@@ -49,6 +58,12 @@ export type {
   ListingFilterSelection,
 } from '../components/listing-filter'
 export type {
+  ChipFilterCategory,
+  ChipFilterProps,
+} from '../components/chip-filter'
+export type { AuthorProps } from '../components/author'
+export type { TimeToReadProps } from '../components/time-to-read'
+export type {
   TroubleshootingCardProps,
   TroubleshootingCardVariant,
 } from '../components/troubleshooting-card'
@@ -58,4 +73,8 @@ export type {
 } from '../utils/troubleshooting/types'
 export { filterTroubleshootingItems } from '../utils/troubleshooting/filterItems'
 export { collectTroubleshootingFilterOptions } from '../utils/troubleshooting/collectFilterOptions'
+export type {
+  BreadcrumbItem,
+  BreadcrumbProps,
+} from '../components/breadcrumb'
 export type { Section } from '../utils/typings/types'

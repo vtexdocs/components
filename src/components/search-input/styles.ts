@@ -322,8 +322,9 @@ const hitBreadCrumbArrow: SxStyleProp = {
 const searchInput: SxStyleProp = {
   width: '100%',
   background: 'none',
-  border: '#F4F4F4',
-  color: '#545454',
+  border: 'none',
+  outline: 'none',
+  color: '#142032',
   fontSize: ['14px'],
   flex: 1,
   minWidth: 0,
@@ -336,6 +337,10 @@ const searchIcon: SxStyleProp = {
   mr: '8px',
   flex: 0,
   maxWidth: 'fit-content',
+  color: '#5E6E84',
+  path: {
+    fill: '#5E6E84',
+  },
 }
 
 const searchContainer: SxStyleProp = {
@@ -343,12 +348,14 @@ const searchContainer: SxStyleProp = {
   paddingRight: '8px',
   alignItems: 'center',
   justifyContent: 'center',
-  background: '#F4F4F4',
+  background: '#FFFFFF',
   width: searchWidth,
   height: '40px',
-  borderRadius: '4px',
+  boxSizing: 'border-box',
+  borderRadius: '8px',
+  border: '1px solid #E7E9EE',
   transition:
-    'background 0.3s ease-out, border 0.3s ease-out, box-shadow 0.3s ease-out',
+    'background 0.2s ease-out, border-color 0.2s ease-out, box-shadow 0.2s ease-out',
   cursor: 'pointer',
   'input[type="search"]::-webkit-search-cancel-button': {
     display: 'none',
@@ -357,13 +364,42 @@ const searchContainer: SxStyleProp = {
     display: 'none',
   },
   ':hover': {
-    border: '1px solid #3B3B3B',
+    borderColor: '#C7CDD6',
   },
   ':focus-within': {
     background: '#FFFFFF',
-    border: '1px solid #3B3B3B',
-    boxShadow: '0px 0px 0px 1px #FFFFFF, 0px 0px 0px 3px #B9B9B9',
+    borderColor: '#E31C58',
+    boxShadow: '0 0 0 3px rgba(227, 28, 88, 0.16)',
+    '[data-search-shortcut]': {
+      display: 'none',
+    },
   },
+}
+
+const shortcutHint: SxStyleProp = {
+  display: ['none', 'flex', 'none', 'none', 'flex', 'flex'],
+  alignItems: 'center',
+  gap: '4px',
+  ml: '8px',
+  flexShrink: 0,
+  pointerEvents: 'none',
+}
+
+const shortcutKbd: SxStyleProp = {
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  minWidth: '20px',
+  height: '20px',
+  px: '5px',
+  borderRadius: '4px',
+  border: '1px solid #E7E9EE',
+  background: '#FAFAFB',
+  boxShadow: '0 1px 0 #E7E9EE',
+  fontSize: '11px',
+  fontFamily: 'inherit',
+  color: '#4A596B',
+  lineHeight: '20px',
 }
 
 const clearButton: SxStyleProp = {
@@ -586,6 +622,8 @@ export default {
   searchInput,
   searchIcon,
   searchContainer,
+  shortcutHint,
+  shortcutKbd,
   searchContainerModal,
   searchIconModal,
   searchInputModal,

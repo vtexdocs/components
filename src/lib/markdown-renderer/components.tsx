@@ -20,6 +20,7 @@ import { LibraryContext } from 'utils/context/libraryContext'
 import { childrenToString, slugify } from 'utils/string-utils'
 import mermaidInit from 'utils/mermaidInit'
 
+import CopyHeadingLink from 'components/copy-heading-link'
 import { Component, ObservableHeadingProps } from './MarkdownRenderer.types'
 import styles from './styles.module.css'
 import { messages } from 'utils/get-message'
@@ -33,8 +34,16 @@ const ObservableHeading = ({
   ...headingProps
 }: ObservableHeadingProps) => {
   const [y, setY] = useState(Infinity)
-  const toSlugify = childrenToString(headingProps.children)
+  const { children, ...restHeadingProps } = headingProps
+  const toSlugify = childrenToString(children)
   const slug = slugify(toSlugify)
+  const headingContent = (
+    <>
+      {children}
+      <CopyHeadingLink slug={slug} size={level === 2 ? 18 : 16} />
+    </>
+  )
+
   return (
     <InView
       threshold={0.5}
@@ -48,9 +57,13 @@ const ObservableHeading = ({
       }}
     >
       {level === 2 ? (
-        <h2 id={slug} className={styles.heading} {...headingProps} />
+        <h2 id={slug} className={styles.heading} {...restHeadingProps}>
+          {headingContent}
+        </h2>
       ) : (
-        <h3 id={slug} className={styles.heading} {...headingProps} />
+        <h3 id={slug} className={styles.heading} {...restHeadingProps}>
+          {headingContent}
+        </h3>
       )}
     </InView>
   )

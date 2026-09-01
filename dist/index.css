@@ -10,6 +10,10 @@
   visibility: hidden;
   pointer-events: none;
 }
+.styles_heading [data-copy-heading-link] {
+  position: relative;
+  top: -0.08em;
+}
 .styles_code {
   background-color: unset;
   background-color: var(--md-code-background, #f6f8fa);

@@ -40,6 +40,15 @@ export type HeaderProps = {
   feedbackUrl?: string
   /** Overrides the default logo for the selected variant. */
   logo?: ReactNode
+  /**
+   * App-specific items rendered after the docs dropdown (e.g. Help Center
+   * announcements). Hidden on small viewports together with RightLinks.
+   */
+  extraRightLinks?: ReactNode
+  /** App-specific locale switcher rendered next to the hamburger menu. */
+  localeSwitcher?: ReactNode
+  /** Parent slugs of the current article, used to expand the mobile sidebar. */
+  parentsArray?: string[]
 }
 
 const Header = ({
@@ -51,12 +60,14 @@ const Header = ({
   homeHref = '/',
   feedbackUrl,
   logo,
+  extraRightLinks,
+  localeSwitcher,
+  parentsArray,
 }: HeaderProps) => {
   const router = useRouter()
   const { locale, hamburguerSections } = useContext(LibraryContext)
   const localizedMessages = messages[locale] ?? messages.en
 
-  const lastScroll = useRef(0)
   const modalOpen = useRef(false)
   const [showDropdown, setShowDropdown] = useState(false)
   const headerElement = useRef<HTMLElement | null>(null)
@@ -80,7 +91,7 @@ const Header = ({
       modalOpen.current = !modalOpen.current
       if (headerElement.current) {
         if (modalOpen.current) {
-          const headerHeight = headerElement.current.children[0].clientHeight
+          const headerHeight = headerElement.current.offsetHeight
           headerElement.current.style.top = `-${headerHeight}px`
         } else {
           headerElement.current.style.top = '0'
@@ -97,23 +108,9 @@ const Header = ({
   useEffect(() => {
     const onScroll = () => {
       setShowDropdown(false)
-      if (headerElement.current && !modalOpen.current) {
-        const headerHeight = headerElement.current.children[0].clientHeight
-        if (
-          window.scrollY > headerHeight &&
-          window.scrollY > lastScroll.current
-        ) {
-          headerElement.current.style.top = `-${headerHeight}px`
-        } else {
-          headerElement.current.style.top = '0'
-        }
-        lastScroll.current = window.scrollY
-      }
     }
 
-    window.removeEventListener('scroll', onScroll)
     window.addEventListener('scroll', onScroll, { passive: true })
-
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
@@ -162,10 +159,17 @@ const Header = ({
             {showDropdown && <DropdownMenu sections={menuSections} />}
           </Flex>
 
+          {extraRightLinks ? (
+            <Box sx={styles.extraRightLinks}>{extraRightLinks}</Box>
+          ) : null}
+
           <VtexLink
             sx={styles.rightLinksItem}
             href={resolvedFeedbackUrl}
             target="_blank"
+            rel="noreferrer"
+            title={localizedMessages['header.feedback']}
+            aria-label={localizedMessages['header.feedback']}
           >
             <LongArrowIcon />
             <Text sx={styles.rightButtonsText}>
@@ -173,9 +177,18 @@ const Header = ({
             </Text>
           </VtexLink>
         </HeaderBrand.RightLinks>
-        <Box sx={styles.hamburgerMenuToggle}>
-          <HamburgerMenu />
-        </Box>
+        {localeSwitcher ? (
+          <Flex sx={styles.headerEndActions}>
+            <Box sx={styles.hamburgerMenuToggle}>
+              <HamburgerMenu parentsArray={parentsArray} />
+            </Box>
+            <Box sx={styles.localeSwitcherSlot}>{localeSwitcher}</Box>
+          </Flex>
+        ) : (
+          <Box sx={styles.hamburgerMenuToggle}>
+            <HamburgerMenu parentsArray={parentsArray} />
+          </Box>
+        )}
       </HeaderBrand>
     </Box>
   )
