@@ -59,5 +59,8 @@
   "header.home_aria": "Volver al inicio",
   "copy_heading_link.copy": "Copiar enlace",
   "copy_heading_link.copied": "Copiado",
-  "documentation_reading_time.text": "{minutes} min de lectura"
+  "documentation_reading_time.text": "{minutes} min de lectura",
+  "ask_ai.copy": "Copiar markdown",
+  "ask_ai.view": "Ver markdown",
+  "ask_ai.copied": "Copiado"
 }

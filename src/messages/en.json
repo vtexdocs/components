@@ -57,5 +57,8 @@
   "header.feedback": "Feedback",
   "header.admin_tools": "Admin tools",
   "header.home_aria": "Go back to Home",
-  "documentation_reading_time.text": "{minutes} min read"
+  "documentation_reading_time.text": "{minutes} min read",
+  "ask_ai.copy": "Copy markdown",
+  "ask_ai.view": "View markdown",
+  "ask_ai.copied": "Copied"
 }

@@ -58,4 +58,7 @@ export type MessagesType = {
   'header.admin_tools': string
   'header.home_aria': string
   'documentation_reading_time.text': string
+  'ask_ai.copy': string
+  'ask_ai.view': string
+  'ask_ai.copied': string
 }

@@ -4,7 +4,7 @@ import TableOfContents from './index'
 import LibraryContextProvider from 'utils/context/libraryContext'
 import { exampleContextProps } from 'utils/storybook-constants'
 import { ThemeProvider } from '@vtex/brand-ui'
-import FeedbackSection from 'lib/feedback-section'
+import FeedbackSection from 'components/feedback-section'
 import { Item } from './TableOfContents.types'
 
 type TableOfContentsStoryArgs = ComponentProps<typeof TableOfContents> & {

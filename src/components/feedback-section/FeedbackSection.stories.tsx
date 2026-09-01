@@ -25,8 +25,9 @@ const meta = {
   },
   args: {
     locale: 'en',
-    sendFeedback: async () => alert('Send feedback'),
-    urlToEdit: 'https://github.com/vtexdocs/devportal',
+    urlToEdit:
+      'https://github.com/vtexdocs/dev-portal-content/edit/main/docs/guides/example.md',
+    pageUrl: 'https://developers.vtex.com/docs/guides/example',
     suggestEdits: true,
     shareButton: false,
     small: false,
@@ -69,6 +70,14 @@ export const WithShareButton: Story = {
 export const WithoutSuggestEdits: Story = {
   args: {
     suggestEdits: false,
+  },
+}
+
+export const HelpCenter: Story = {
+  args: {
+    urlToEdit:
+      'https://github.com/vtexdocs/help-center-content/edit/main/docs/tutorials/example.md',
+    pageUrl: 'https://help.vtex.com/docs/tutorials/example',
   },
 }
 

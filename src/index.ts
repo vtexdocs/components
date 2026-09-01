@@ -14,6 +14,7 @@ export {
   CopyLinkButton,
   CopyButton,
   CopyHeadingLink,
+  AskAIMenu,
   Breadcrumb,
   Input,
   SubscriptionList,
@@ -65,6 +66,10 @@ export {
   type BreadcrumbProps,
   type CopyButtonProps,
   type CopyHeadingLinkProps,
+  type AskAIMenuProps,
+  type AskAIProvider,
+  type FeedbackSectionProps,
+  type DocPath,
 } from './lib'
 
 /** @deprecated Use ListingFilter instead */
