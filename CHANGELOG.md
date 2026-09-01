@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [6.3.2](https://github.com/vtexdocs/components/compare/v6.3.1...v6.3.2) (2026-09-01)
+
+
+### Features
+
+* ask ai and feedback section ([21e3781](https://github.com/vtexdocs/components/commit/21e3781f5c1f3368a846ea084c7dac375fb407e2))
+* FeedbackModal ([226d075](https://github.com/vtexdocs/components/commit/226d075a89fcf4b6f828387143c7dc3dbbd544e3))
+
 ### [6.3.1](https://github.com/vtexdocs/components/compare/v6.3.0...v6.3.1) (2026-09-01)
 
 
