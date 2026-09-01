@@ -11,6 +11,11 @@
   pointer-events: none;
 }
 
+.heading :global([data-copy-heading-link]) {
+  position: relative;
+  top: -0.08em;
+}
+
 .code {
   background-color: unset;
   background-color: var(--md-code-background, #f6f8fa);

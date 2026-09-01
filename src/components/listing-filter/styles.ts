@@ -46,19 +46,20 @@ const container: SxStyleProp = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: '612px',
-  maxWidth: '100vw',
-  borderRadius: '5px',
+  width: ['100%', '612px'],
+  maxWidth: '100%',
+  borderRadius: ['0', '5px'],
   backgroundColor: '#ffff',
   boxShadow: '0px 0px 16px rgba(0, 0, 0, 0.1)',
   zIndex: '10000',
   overflow: 'auto',
-  height: ['100vh', 'auto'],
+  height: ['100dvh', 'auto'],
+  maxHeight: ['100dvh', 'calc(100dvh - 32px)'],
 }
 
 const innerContainer: SxStyleProp = {
   p: '24px',
-  maxHeight: ['calc(100vh - 145px)', 'calc(100vh - 6rem - 112px)'],
+  maxHeight: ['calc(100dvh - 145px)', 'calc(100dvh - 6rem - 112px)'],
   overflow: 'auto',
 }
 

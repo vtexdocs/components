@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { ThemeProvider } from '@vtex/brand-ui'
+import { Box, ThemeProvider } from '@vtex/brand-ui'
 import Header from '.'
 import AnnouncementBar from 'components/announcement-bar'
 import LibraryContextProvider from 'utils/context/libraryContext'
@@ -8,6 +8,10 @@ import MenuIcon from 'components/icons/menu-icon'
 import EditIcon from 'components/icons/edit-icon'
 import DocumentationUpdatesIcon from 'components/icons/documentation-updates-icon'
 import type { Section } from 'utils/typings/types'
+
+const LocaleSwitcherStub = () => (
+  <Box sx={{ color: '#4A596B', fontSize: '13px', px: '8px' }}>EN</Box>
+)
 
 const editorSections: Section[] = [
   {
@@ -57,6 +61,7 @@ type Story = StoryObj<typeof meta>
 export const HelpCenter: Story = {
   args: {
     variant: 'helpcenter',
+    localeSwitcher: <LocaleSwitcherStub />,
   },
 }
 
@@ -104,6 +109,7 @@ export const Spanish: Story = {
   ],
   args: {
     variant: 'helpcenter',
+    localeSwitcher: <LocaleSwitcherStub />,
   },
 }
 
@@ -119,5 +125,6 @@ export const Portuguese: Story = {
   ],
   args: {
     variant: 'helpcenter',
+    localeSwitcher: <LocaleSwitcherStub />,
   },
 }

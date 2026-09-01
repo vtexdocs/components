@@ -1,6 +1,13 @@
-import { useRef, KeyboardEvent, MouseEvent, useContext, useEffect } from 'react'
+import {
+  useRef,
+  KeyboardEvent,
+  MouseEvent,
+  useContext,
+  useEffect,
+  useState,
+} from 'react'
 import { useRouter } from 'next/router.js'
-import { Flex } from '@vtex/brand-ui'
+import { Flex, Box } from '@vtex/brand-ui'
 import { connectSearchBox } from 'react-instantsearch-dom'
 import { SearchBoxProvided } from 'react-instantsearch-core'
 
@@ -36,10 +43,47 @@ const SearchBoxComponent = ({
   const router = useRouter()
   const inputRef = useRef<HTMLInputElement>(null)
   const { locale } = useContext(LibraryContext)
+  const [isMac, setIsMac] = useState(false)
 
   useEffect(() => {
     if (autoFocus) inputRef.current?.focus()
   }, [autoFocus])
+
+  useEffect(() => {
+    setIsMac(
+      /Mac|iPhone|iPad|iPod/.test(
+        navigator.platform || navigator.userAgent || ''
+      )
+    )
+  }, [])
+
+  useEffect(() => {
+    if (variant === 'modal') return
+
+    const onKeyDown = (event: globalThis.KeyboardEvent) => {
+      if (!(event.metaKey || event.ctrlKey) || event.key.toLowerCase() !== 'k') {
+        return
+      }
+
+      const target = event.target as HTMLElement | null
+      if (
+        target &&
+        (target.tagName === 'TEXTAREA' || target.isContentEditable)
+      ) {
+        return
+      }
+
+      const input = inputRef.current
+      if (!input || input.offsetParent === null) return
+
+      event.preventDefault()
+      input.focus()
+      changeFocus(true)
+    }
+
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [variant, changeFocus])
 
   const handleClick = () => {
     if (inputRef.current != null) inputRef.current.focus()
@@ -82,6 +126,7 @@ const SearchBoxComponent = ({
         placeholder={messages[locale]['search_input.placeholder']}
         value={currentRefinement}
         data-cy="search"
+        aria-keyshortcuts="Meta+K Control+K"
         autoFocus={autoFocus}
         onKeyDown={(e) => keyPressed(e)}
         onChange={(e) => refine(e.currentTarget.value)}
@@ -96,6 +141,21 @@ const SearchBoxComponent = ({
           onClick={handleClear}
         >
           <CloseIcon sx={{ width: '14px', height: '14px' }} />
+        </Flex>
+      ) : variant === 'default' ? (
+        <Flex sx={styles.shortcutHint} aria-hidden="true" data-search-shortcut>
+          {isMac ? (
+            <Box as="kbd" sx={styles.shortcutKbd}>
+              ⌘
+            </Box>
+          ) : (
+            <Box as="kbd" sx={styles.shortcutKbd}>
+              Ctrl
+            </Box>
+          )}
+          <Box as="kbd" sx={styles.shortcutKbd}>
+            K
+          </Box>
         </Flex>
       ) : null}
     </Flex>

@@ -18,9 +18,10 @@ const DropdownMenu = ({ sections }: DropdownMenuProps) => {
       <Box sx={styles.innerContainer} data-cy="dropdown-menu">
         {sections.map((section, id) => (
           <Box
-            sx={
-              id > 0 ? styles.updatesContainer : styles.documentationContainer
-            }
+            sx={{
+              ...styles.documentationContainer,
+              ...(id > 0 ? styles.sectionDivider : {}),
+            }}
             key={id}
             data-cy={
               id > 0

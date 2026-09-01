@@ -7,13 +7,20 @@ import {
 } from '@vtex/brand-ui'
 import styles from './styles'
 
-import { useContext, useEffect, useRef } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/router.js'
 import DocumentationCard from 'components/documentation-card'
 import SidebarSection, { SidebarSectionProps } from 'components/sidebar-section'
 import { updateOpenPage, getSectionLabel } from 'utils/sidebar-utils'
+import { getDocumentationType } from 'utils/navigation-utils'
 import { LibraryContext } from 'utils/context/libraryContext'
 import MobileSearch from 'components/mobile-search'
+
+function getRouteSlug(slug: string | string[] | undefined): string {
+  if (typeof slug === 'string') return slug
+  if (Array.isArray(slug)) return slug[0] ?? ''
+  return ''
+}
 
 export interface HamburgerMenuProps {
   /** Array that contains the name of the sections in the menu that should be expanded. */
@@ -35,12 +42,33 @@ const HamburgerMenu = ({ parentsArray = [] }: HamburgerMenuProps) => {
     locale,
   } = context
 
+  const [userOpenedSection, setUserOpenedSection] = useState(false)
+  const articleSlug = getRouteSlug(router.query.slug)
+  const isListedArticle =
+    parentsArray.length > 0 ||
+    (Boolean(articleSlug) &&
+      getDocumentationType(sidebarDataMaster, articleSlug) != null)
+  const showNestedSidebar =
+    Boolean(activeSectionName) &&
+    !sidebarSectionHidden &&
+    (userOpenedSection || isListedArticle || !articleSlug)
+
   const closeMenu = () => {
     const toggleButton = hamburgerRef.current?.querySelector<HTMLElement>(
       '[aria-expanded="true"]'
     )
     toggleButton?.click()
   }
+
+  const openSection = (sectionId: string) => {
+    setActiveSectionName(sectionId)
+    setSidebarSectionHidden(false)
+    setUserOpenedSection(true)
+  }
+
+  useEffect(() => {
+    setUserOpenedSection(false)
+  }, [articleSlug])
 
   useEffect(() => {
     router.events?.on('routeChangeStart', closeMenu)
@@ -96,9 +124,10 @@ const HamburgerMenu = ({ parentsArray = [] }: HamburgerMenuProps) => {
                               locale
                             )}
                             onClick={() => {
-                              setActiveSectionName(card.id)
                               if (isDocument(sidebarDataMaster, card.id)) {
-                                setSidebarSectionHidden(false)
+                                openSection(card.id)
+                              } else {
+                                setActiveSectionName(card.id)
                               }
                             }}
                           />
@@ -112,15 +141,11 @@ const HamburgerMenu = ({ parentsArray = [] }: HamburgerMenuProps) => {
                               <IconCaret direction="right" size={20} />
                             )}
                             sx={
-                              activeSectionName === card.id &&
-                              !sidebarSectionHidden
+                              activeSectionName === card.id && showNestedSidebar
                                 ? styles.arrowIconActive
                                 : styles.arrowIcon
                             }
-                            onClick={() => {
-                              setActiveSectionName(card.id)
-                              setSidebarSectionHidden(false)
-                            }}
+                            onClick={() => openSection(card.id)}
                           />
                         ) : null}
                       </Box>
@@ -129,9 +154,7 @@ const HamburgerMenu = ({ parentsArray = [] }: HamburgerMenuProps) => {
                 ))}
               </Box>
               <Box
-                className={
-                  sidebarSectionHidden || !activeSectionName ? '' : 'menuHidden'
-                }
+                className={showNestedSidebar ? 'menuHidden' : ''}
                 sx={styles.sideMenuContainer}
               >
                 {activeSectionName ? (

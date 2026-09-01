@@ -10,6 +10,8 @@
   "search_input.placeholder": "Search",
   "search_input.copy_link": "Copy link",
   "search_input.copied": "Copied",
+  "heading_link.copy": "Copy link",
+  "heading_link.copied": "Copied",
   "search_input.open_new_tab": "Open in new tab",
   "search_input.clear": "Clear search",
   "search_input.navigate": "Navigate",
@@ -54,5 +56,6 @@
   "header.docs": "Menu",
   "header.feedback": "Feedback",
   "header.admin_tools": "Admin tools",
-  "header.home_aria": "Go back to Home"
+  "header.home_aria": "Go back to Home",
+  "documentation_reading_time.text": "{minutes} min read"
 }

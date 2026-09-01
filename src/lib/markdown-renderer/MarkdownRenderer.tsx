@@ -12,7 +12,7 @@ const MarkdownRenderer = ({
 }: MarkdownRendererProps) => {
   if (components && scope) {
     return (
-      <Box>
+      <Box data-markdown-renderer>
         <MDXRemote2
           components={{ ...components, ...customComponents }}
           lazy
@@ -24,7 +24,7 @@ const MarkdownRenderer = ({
   }
 
   return (
-    <Box>
+    <Box data-markdown-renderer>
       <MDXRemote2 components={components} lazy {...serialized} />
     </Box>
   )

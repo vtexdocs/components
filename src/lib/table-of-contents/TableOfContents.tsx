@@ -12,6 +12,22 @@ import { messages } from 'utils/get-message'
 
 import styles from './styles'
 
+const MARKDOWN_HEADINGS_SELECTOR = [
+  '[data-markdown-renderer] h2',
+  '[data-markdown-renderer] h3',
+  '[data-markdown-renderer] h4',
+  '[data-markdown-renderer] h5',
+  '[data-markdown-renderer] h6',
+].join(', ')
+
+const headingTitle = (heading: Element) => {
+  const clone = heading.cloneNode(true) as HTMLElement
+  clone
+    .querySelectorAll('[data-copy-heading-link]')
+    .forEach((node) => node.remove())
+  return removeHTML(clone.innerHTML).replace(':', '').trim()
+}
+
 interface Props {
   /** List of headings in the current documentation page */
   headingList?: Item[]
@@ -25,23 +41,25 @@ const TableOfContents = ({ headingList, children }: Props) => {
     useContext(LibraryContext)
 
   useEffect(() => {
-    const headings: Item[] = headingList ?? []
+    const headings: Item[] = headingList?.length ? headingList : []
     if (!headings.length) {
-      document.querySelectorAll('h2, h3').forEach((heading) => {
-        const headingSlug = heading.id
-        const item = {
-          title: removeHTML(heading.innerHTML).replace(':', ''),
-          slug: headingSlug,
-        }
+      document
+        .querySelectorAll(MARKDOWN_HEADINGS_SELECTOR)
+        .forEach((heading) => {
+          const headingSlug = heading.id
+          const item = {
+            title: headingTitle(heading),
+            slug: headingSlug,
+          }
 
-        if (heading.tagName === 'H2') {
-          headings.push({ ...item, children: [] })
-        } else if (headings.length > 0) {
-          headings[headings.length - 1].children.push({ ...item })
-        } else {
-          headings.push({ ...item, children: [] })
-        }
-      })
+          if (heading.tagName === 'H2') {
+            headings.push({ ...item, children: [] })
+          } else if (headings.length > 0) {
+            headings[headings.length - 1].children.push({ ...item })
+          } else {
+            headings.push({ ...item, children: [] })
+          }
+        })
       setHeadingItems(headings)
     } else setHeadingItems(headings)
   }, [router.asPath, headingList])

@@ -4,6 +4,8 @@ const sidebarContainer: SxStyleProp = {
   position: 'relative',
   width: 'auto',
   height: 'inherit',
+  minHeight: 0,
+  overflow: 'visible',
   borderRight: '1px solid #E7E9EE',
   zIndex: '1',
   left: '0',
@@ -196,6 +198,7 @@ const toggleIconBox: SxStyleProp = {
   top: '32px',
   right: '-16px',
   cursor: 'pointer',
+  zIndex: 3,
 }
 
 const toggleIconBoxActive: SxStyleProp = {

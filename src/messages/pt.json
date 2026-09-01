@@ -10,6 +10,8 @@
   "search_input.placeholder": "Buscar",
   "search_input.copy_link": "Copiar link",
   "search_input.copied": "Copiado",
+  "heading_link.copy": "Copiar link",
+  "heading_link.copied": "Copiado",
   "search_input.open_new_tab": "Abrir em nova aba",
   "search_input.clear": "Limpar busca",
   "search_input.navigate": "Navegar",
@@ -54,5 +56,8 @@
   "header.docs": "Menu",
   "header.feedback": "Feedback",
   "header.admin_tools": "Ferramentas de admin",
-  "header.home_aria": "Voltar para o início"
+  "header.home_aria": "Voltar para o início",
+  "copy_heading_link.copy": "Copiar link",
+  "copy_heading_link.copied": "Copiado",
+  "documentation_reading_time.text": "{minutes} min de leitura"
 }

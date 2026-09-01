@@ -6,15 +6,27 @@ import CaretIcon from 'components/icons/caret'
 interface Props extends Pick<TooltipProps, 'children' | 'label' | 'placement'> {
   sx?: SxStyleProp
   isCard?: boolean
+  /** When true, the tooltip stays visible even without hover. */
+  open?: boolean
+  wrapperSx?: SxStyleProp
 }
 
-const Tooltip = ({ children, label, placement, sx, isCard }: Props) => {
+const Tooltip = ({
+  children,
+  label,
+  placement,
+  sx,
+  isCard,
+  open,
+  wrapperSx,
+}: Props) => {
   const box = useRef<HTMLDivElement>()
   const [boxWidth, setBoxWidth] = useState(0)
   const [boxHeight, setBoxHeight] = useState(0)
   const [boxOffsetLeft, setBoxOffsetLeft] = useState(0)
   const [boxOffsetTop, setBoxOffsetTop] = useState(0)
-  const [visible, setVisible] = useState(false)
+  const [hovered, setHovered] = useState(false)
+  const visible = Boolean(open) || hovered
 
   useEffect(() => {
     if (box.current) {
@@ -24,6 +36,7 @@ const Tooltip = ({ children, label, placement, sx, isCard }: Props) => {
       setBoxOffsetTop(box.current.offsetTop)
     }
   }, [
+    open,
     box.current,
     box.current?.clientWidth,
     box.current?.clientHeight,
@@ -32,11 +45,11 @@ const Tooltip = ({ children, label, placement, sx, isCard }: Props) => {
   ])
 
   return (
-    <Box>
+    <Box sx={wrapperSx}>
       <Box
         ref={box}
-        onMouseEnter={() => setVisible(true)}
-        onMouseLeave={() => setVisible(false)}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
       >
         {children}
       </Box>

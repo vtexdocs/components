@@ -102,3 +102,24 @@ export const Portuguese: Story = {
     locale: 'pt',
   },
 }
+
+/** Auto-discovers h2+ headings inside MarkdownRenderer, ignoring page headings. */
+export const FromMarkdownRenderer: Story = {
+  args: {
+    headingList: [],
+    children: undefined,
+  },
+  render: ({ locale, ...args }) => (
+    <>
+      <h1 id="page-title">Page title</h1>
+      <h2 id="outside-markdown">Outside markdown</h2>
+      <div data-markdown-renderer>
+        <h2 id="overview">Overview</h2>
+        <h3 id="installation">Installation</h3>
+        <h2 id="usage">Usage</h2>
+        <h4 id="details">Details</h4>
+      </div>
+      <TableOfContents key={locale} {...args} />
+    </>
+  ),
+}

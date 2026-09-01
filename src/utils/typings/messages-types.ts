@@ -10,6 +10,8 @@ export type MessagesType = {
   'search_input.placeholder': string
   'search_input.copy_link': string
   'search_input.copied': string
+  'heading_link.copy': string
+  'heading_link.copied': string
   'search_input.open_new_tab': string
   'search_input.clear': string
   'search_input.navigate': string
@@ -55,4 +57,5 @@ export type MessagesType = {
   'header.feedback': string
   'header.admin_tools': string
   'header.home_aria': string
+  'documentation_reading_time.text': string
 }
