@@ -6,6 +6,7 @@ export {
   Sidebar,
   HamburgerMenu,
   FeedbackSection,
+  FeedbackModal,
   SearchInput,
   MobileSearch,
   Search,
@@ -70,6 +71,8 @@ export {
   type AskAIProvider,
   type FeedbackSectionProps,
   type DocPath,
+  type FeedbackModalProps,
+  type FeedbackModalPayload,
 } from './lib'
 
 /** @deprecated Use ListingFilter instead */

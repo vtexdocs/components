@@ -5,7 +5,27 @@ export type MessagesType = {
   'feedback_section.negative': string
   'feedback_section.edit': string
   'feedback_modal.title': string
-  'feedback_modal.button': string
+  'feedback_modal.description': string
+  'feedback_modal.success': string
+  'feedback_modal.error': string
+  'feedback_modal.article': string
+  'feedback_modal.message': string
+  'feedback_modal.type': string
+  'feedback_modal.name': string
+  'feedback_modal.email': string
+  'feedback_modal.cancel': string
+  'feedback_modal.submit': string
+  'feedback_modal.submitting': string
+  'feedback_modal.close': string
+  'feedback_modal.done': string
+  'feedback_modal.message_placeholder': string
+  'feedback_modal.name_placeholder': string
+  'feedback_modal.email_placeholder': string
+  'feedback_modal.type.incorrect': string
+  'feedback_modal.type.page_not_found': string
+  'feedback_modal.type.content_improvement': string
+  'feedback_modal.type.new_documentation': string
+  'feedback_modal.type.other': string
   'search_input.empty': string
   'search_input.placeholder': string
   'search_input.copy_link': string

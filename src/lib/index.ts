@@ -9,6 +9,11 @@ export type {
   FeedbackSectionProps,
   DocPath,
 } from '../components/feedback-section'
+export { default as FeedbackModal } from '../components/feedback-modal'
+export type {
+  FeedbackModalProps,
+  FeedbackModalPayload,
+} from '../components/feedback-modal'
 export { default as Search } from './search'
 export { default as SearchInput } from '../components/search-input'
 export type { SearchInputProps } from '../components/search-input'

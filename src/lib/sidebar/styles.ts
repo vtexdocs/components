@@ -18,6 +18,9 @@ const sidebar: SxStyleProp = {
   paddingRight: '16px',
   marginRight: '-16px',
   zIndex: 2,
+  'body:has(.modal[data-open="true"]) &': {
+    zIndex: 0,
+  },
   width: 'auto',
   minWidth: 'auto',
   transition: 'all 0.3s ease-in-out',
@@ -51,6 +54,9 @@ const sidebarIcons: SxStyleProp = {
   borderRight: '1px solid #E7E9EE',
   background: '#FFFFFF',
   zIndex: '2',
+  'body:has(.modal[data-open="true"]) &': {
+    zIndex: 0,
+  },
   paddingBottom: '32px',
 }
 

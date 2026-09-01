@@ -8,6 +8,9 @@ const sidebarContainer: SxStyleProp = {
   overflow: 'visible',
   borderRight: '1px solid #E7E9EE',
   zIndex: '1',
+  'body:has(.modal[data-open="true"]) &': {
+    zIndex: 0,
+  },
   left: '0',
   transition: 'all 0.3s ease-in-out',
   '.toggleIcon': {
@@ -76,8 +79,11 @@ const sidebarContainerTitle: SxStyleProp = {
   position: 'sticky',
   top: 0,
   zIndex: 2,
+  'body:has(.modal[data-open="true"]) &': {
+    zIndex: 0,
+  },
   background: '#FFFFFF',
-  px: '16px'
+  px: '16px',
 }
 
 const sidebarTitle: SxStyleProp = {
@@ -199,6 +205,9 @@ const toggleIconBox: SxStyleProp = {
   right: '-16px',
   cursor: 'pointer',
   zIndex: 3,
+  'body:has(.modal[data-open="true"]) &': {
+    zIndex: 0,
+  },
 }
 
 const toggleIconBoxActive: SxStyleProp = {
