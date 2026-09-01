@@ -84,16 +84,13 @@ const editContainer: StyleFn = ({ small } = {}) => ({
   ':hover': {
     color: '#000711 !important',
   },
-  // ml: ['0', 'auto'],
   color: '#4A596B !important',
   display: 'flex',
 })
 
 const editIcon: SxStyleProp = { mr: '4px' }
 
-const shareButton: SxStyleProp = {
-  // ml: ['0', 'auto'],
-}
+const shareButton: SxStyleProp = {}
 
 export default {
   disabled,

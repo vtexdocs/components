@@ -6,6 +6,7 @@ export {
   Sidebar,
   HamburgerMenu,
   FeedbackSection,
+  FeedbackModal,
   SearchInput,
   MobileSearch,
   Search,
@@ -14,6 +15,7 @@ export {
   CopyLinkButton,
   CopyButton,
   CopyHeadingLink,
+  AskAIMenu,
   Breadcrumb,
   Input,
   SubscriptionList,
@@ -65,6 +67,12 @@ export {
   type BreadcrumbProps,
   type CopyButtonProps,
   type CopyHeadingLinkProps,
+  type AskAIMenuProps,
+  type AskAIProvider,
+  type FeedbackSectionProps,
+  type DocPath,
+  type FeedbackModalProps,
+  type FeedbackModalPayload,
 } from './lib'
 
 /** @deprecated Use ListingFilter instead */

@@ -1,125 +1,296 @@
-import { Box, Button, Textarea, Text, Icon, IconProps } from '@vtex/brand-ui'
-import {
-  Dispatch,
-  MutableRefObject,
-  SetStateAction,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from 'react'
-import useClickOutside from 'utils/hooks/useClickOutside'
-
-import { arrowDirectionStyle, modalPositionStyle } from './functions'
-import styles from './styles'
-import { messages } from 'utils/get-message'
+import { FormEvent, useContext, useEffect, useState } from 'react'
+import { Box, Flex, Text } from '@vtex/brand-ui'
 import { LibraryContext } from 'utils/context/libraryContext'
-export interface ModalProps {
-  modalOpen: boolean
-  liked?: boolean
+import { messages } from 'utils/get-message'
+import CheckIcon from 'components/icons/check-icon'
+import WarningIcon from 'components/icons/warning-icon'
+import Modal from './modal'
+import styles from './styles'
+
+const DEFAULT_FEEDBACK_ENDPOINT = '/api/feedback-google'
+
+const FEEDBACK_TYPES = [
+  {
+    value: 'Incorrect information',
+    labelKey: 'feedback_modal.type.incorrect',
+  },
+  {
+    value: 'Page not found',
+    labelKey: 'feedback_modal.type.page_not_found',
+  },
+  {
+    value: 'Content improvement',
+    labelKey: 'feedback_modal.type.content_improvement',
+  },
+  {
+    value: 'New documentation',
+    labelKey: 'feedback_modal.type.new_documentation',
+  },
+  {
+    value: 'Other documentation feedback',
+    labelKey: 'feedback_modal.type.other',
+  },
+] as const
+
+export type FeedbackModalPayload = {
+  name: string
+  email: string
+  type: string
+  feedback: string
+  url: string
 }
 
-const FeedBackModalArrow = (props: IconProps) => {
-  return (
-    <Icon
-      {...props}
-      width="20"
-      height="14"
-      viewBox="0 0 20 14"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      {' '}
-      <path
-        d="M10.8432 12.3275C10.4448 12.8914 9.60821 12.8914 9.20976 12.3275L0.500234 6.7935e-05L19.5527 6.56171e-05L10.8432 12.3275Z"
-        fill="white"
-      />
-    </Icon>
-  )
+export interface FeedbackModalProps {
+  isOpen: boolean
+  onClose: () => void
+  /**
+   * Canonical page URL prefilled in the Article field.
+   * Defaults to `window.location.href` so Help Center and Developer Portal
+   * both record the page the user is on.
+   */
+  pageUrl?: string
+  /**
+   * @deprecated Use `pageUrl`.
+   */
+  initialMessage?: string
+  /** Endpoint that receives the form payload. Defaults to `/api/feedback-google`. */
+  feedbackEndpoint?: string
+  /** Override the default POST. */
+  sendFeedback?: (payload: FeedbackModalPayload) => Promise<void>
 }
 
-const FeedBackModal = ({
-  modalState,
-  changeModalState,
-  changeFeedBack,
-  chosenButtonRef,
-  onSubmit,
-}: {
-  modalState: ModalProps
-  changeModalState: Dispatch<SetStateAction<ModalProps>>
-  changeFeedBack: Dispatch<SetStateAction<boolean | undefined>>
-  chosenButtonRef: MutableRefObject<HTMLElement | undefined>
-  onSubmit: (comment: string) => Promise<void>
-}) => {
-  const cardRef = useRef<HTMLDivElement>()
-  const { body, documentElement } = document
-  const [comment, setComment] = useState('')
+const postFeedback = async (
+  payload: FeedbackModalPayload,
+  endpoint: string
+) => {
+  const res = await fetch(endpoint, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  })
+  if (!res.ok) {
+    const data = await res.json().catch(() => ({}))
+    throw new Error(data?.error || 'Failed to send feedback. Try again')
+  }
+}
+
+const FeedbackModal = ({
+  isOpen,
+  onClose,
+  pageUrl,
+  initialMessage,
+  feedbackEndpoint = DEFAULT_FEEDBACK_ENDPOINT,
+  sendFeedback,
+}: FeedbackModalProps) => {
   const { locale } = useContext(LibraryContext)
+  const localizedMessages = messages[locale] ?? messages.en
+  const [submitted, setSubmitted] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+  const [error, setError] = useState(false)
 
-  const closeModal = () => {
-    const feedback = modalState?.liked
-    const scrollTop = body.getBoundingClientRect().top * -1
-
-    body.classList.remove('modal-open')
-    documentElement.scrollTop = scrollTop
-    body.style.removeProperty('top')
-
-    changeModalState({ modalOpen: false })
-    changeFeedBack(feedback)
-  }
-
-  const handleClick = async () => {
-    onSubmit(comment)
-    closeModal()
-  }
+  const articleUrl =
+    pageUrl ||
+    initialMessage ||
+    (typeof window !== 'undefined' ? window.location.href : '')
 
   useEffect(() => {
-    const scrollTop = body.getBoundingClientRect().top * -1
-    body.style.top = `-${scrollTop}px`
-    body.classList.add('modal-open')
-  }, [])
+    if (isOpen) {
+      setSubmitted(false)
+      setSubmitting(false)
+      setError(false)
+    }
+  }, [isOpen])
 
-  useClickOutside(cardRef, changeModalState)
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    setSubmitting(true)
+    setError(false)
+
+    const form = event.currentTarget
+    const formData = new FormData(form)
+    const payload: FeedbackModalPayload = {
+      name: String(formData.get('name') || ''),
+      email: String(formData.get('email') || ''),
+      type: String(formData.get('type') || 'Other documentation feedback'),
+      url: String(formData.get('url') || ''),
+      feedback: String(formData.get('feedback') || ''),
+    }
+
+    try {
+      if (sendFeedback) {
+        await sendFeedback(payload)
+      } else {
+        await postFeedback(payload, feedbackEndpoint)
+      }
+      form.reset()
+      setSubmitted(true)
+    } catch {
+      setError(true)
+    } finally {
+      setSubmitting(false)
+    }
+  }
+
   return (
-    <Box sx={styles.container}>
-      <Box
-        ref={cardRef}
-        sx={modalPositionStyle(chosenButtonRef.current) || styles.box}
-      >
-        <Box
-          sx={
-            arrowDirectionStyle(chosenButtonRef.current, 'card') || styles.card
-          }
-          data-cy="feedback-modal"
-        >
-          <Text sx={styles.title}>
-            {messages[locale]['feedback_modal.title']}
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      title={localizedMessages['feedback_modal.title']}
+      description={
+        submitted ? undefined : localizedMessages['feedback_modal.description']
+      }
+      closeLabel={localizedMessages['feedback_modal.close']}
+    >
+      {submitted ? (
+        <Flex sx={styles.successState} role="status">
+          <Flex sx={styles.successIconWrap} aria-hidden="true">
+            <CheckIcon size={22} />
+          </Flex>
+          <Text sx={styles.successTitle}>
+            {localizedMessages['feedback_modal.success']}
           </Text>
-          <Textarea
-            id="feedback-modal-input"
-            sx={styles.textarea}
-            label=""
-            rows={7}
-            value={comment}
-            onChange={(e) => setComment(e.currentTarget.value)}
-          />
-          <Button
-            onClick={async () => await handleClick()}
-            sx={styles.button}
-            variant="secondary"
+          <Box
+            as="button"
+            type="button"
+            onClick={onClose}
+            sx={styles.submitButton}
           >
-            {messages[locale]['feedback_modal.button']}
-          </Button>
+            {localizedMessages['feedback_modal.done']}
+          </Box>
+        </Flex>
+      ) : (
+        <Box as="form" onSubmit={handleSubmit}>
+          <Box sx={styles.form}>
+            {error ? (
+              <Flex role="alert" sx={styles.feedbackErrorText}>
+                <WarningIcon sx={styles.errorIcon} />
+                {localizedMessages['feedback_modal.error']}
+              </Flex>
+            ) : null}
+
+            <Box sx={styles.field}>
+              <Text as="label" htmlFor="feedback-modal-url" sx={styles.label}>
+                {localizedMessages['feedback_modal.article']}
+              </Text>
+              <Box
+                as="input"
+                id="feedback-modal-url"
+                name="url"
+                defaultValue={articleUrl}
+                sx={styles.inputMuted}
+              />
+            </Box>
+
+            <Box sx={styles.field}>
+              <Text
+                as="label"
+                htmlFor="feedback-modal-message"
+                sx={styles.label}
+              >
+                {localizedMessages['feedback_modal.message']}{' '}
+                <Box as="span" sx={styles.requiredMark}>
+                  *
+                </Box>
+              </Text>
+              <Box
+                as="textarea"
+                id="feedback-modal-message"
+                name="feedback"
+                aria-required="true"
+                required
+                rows={5}
+                placeholder={
+                  localizedMessages['feedback_modal.message_placeholder']
+                }
+                sx={styles.textarea}
+              />
+            </Box>
+
+            <Box sx={styles.field}>
+              <Text as="label" htmlFor="feedback-modal-type" sx={styles.label}>
+                {localizedMessages['feedback_modal.type']}
+              </Text>
+              <Box
+                as="select"
+                id="feedback-modal-type"
+                name="type"
+                sx={styles.dropdownMenu}
+              >
+                {FEEDBACK_TYPES.map((type) => (
+                  <option key={type.value} value={type.value}>
+                    {localizedMessages[type.labelKey]}
+                  </option>
+                ))}
+              </Box>
+            </Box>
+
+            <Box sx={styles.row}>
+              <Box sx={styles.field}>
+                <Text
+                  as="label"
+                  htmlFor="feedback-modal-name"
+                  sx={styles.label}
+                >
+                  {localizedMessages['feedback_modal.name']}
+                </Text>
+                <Box
+                  as="input"
+                  id="feedback-modal-name"
+                  name="name"
+                  type="text"
+                  placeholder={
+                    localizedMessages['feedback_modal.name_placeholder']
+                  }
+                  sx={styles.input}
+                />
+              </Box>
+
+              <Box sx={styles.field}>
+                <Text
+                  as="label"
+                  htmlFor="feedback-modal-email"
+                  sx={styles.label}
+                >
+                  {localizedMessages['feedback_modal.email']}
+                </Text>
+                <Box
+                  as="input"
+                  id="feedback-modal-email"
+                  name="email"
+                  type="email"
+                  placeholder={
+                    localizedMessages['feedback_modal.email_placeholder']
+                  }
+                  sx={styles.input}
+                />
+              </Box>
+            </Box>
+
+            <Box sx={styles.actions}>
+              <Box
+                as="button"
+                type="button"
+                onClick={onClose}
+                sx={styles.cancelButton}
+              >
+                {localizedMessages['feedback_modal.cancel']}
+              </Box>
+              <Box
+                as="button"
+                type="submit"
+                sx={styles.submitButton}
+                disabled={submitting}
+              >
+                {submitting
+                  ? localizedMessages['feedback_modal.submitting']
+                  : localizedMessages['feedback_modal.submit']}
+              </Box>
+            </Box>
+          </Box>
         </Box>
-        <FeedBackModalArrow
-          sx={
-            arrowDirectionStyle(chosenButtonRef.current, 'arrow') ||
-            styles.arrow
-          }
-        />
-      </Box>
-    </Box>
+      )}
+    </Modal>
   )
 }
 
-export default FeedBackModal
+export default FeedbackModal

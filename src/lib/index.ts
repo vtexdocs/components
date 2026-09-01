@@ -4,7 +4,16 @@ export { default as OnThisPage } from './on-this-page'
 export { default as Contributors } from './contributors'
 export { default as Sidebar } from './sidebar'
 export { default as HamburgerMenu } from './hamburger-menu'
-export { default as FeedbackSection } from './feedback-section'
+export { default as FeedbackSection } from '../components/feedback-section'
+export type {
+  FeedbackSectionProps,
+  DocPath,
+} from '../components/feedback-section'
+export { default as FeedbackModal } from '../components/feedback-modal'
+export type {
+  FeedbackModalProps,
+  FeedbackModalPayload,
+} from '../components/feedback-modal'
 export { default as Search } from './search'
 export { default as SearchInput } from '../components/search-input'
 export type { SearchInputProps } from '../components/search-input'
@@ -16,6 +25,8 @@ export { default as ShareButton } from '../components/share-button'
 export { default as CopyLinkButton } from '../components/copy-link-button'
 export { default as CopyButton } from '../components/copy-button'
 export type { CopyButtonProps } from '../components/copy-button'
+export { default as AskAIMenu } from '../components/ask-ai'
+export type { AskAIMenuProps, AskAIProvider } from '../components/ask-ai'
 export { default as CopyHeadingLink } from '../components/copy-heading-link'
 export type { CopyHeadingLinkProps } from '../components/copy-heading-link'
 export { default as Breadcrumb } from '../components/breadcrumb'
@@ -73,8 +84,5 @@ export type {
 } from '../utils/troubleshooting/types'
 export { filterTroubleshootingItems } from '../utils/troubleshooting/filterItems'
 export { collectTroubleshootingFilterOptions } from '../utils/troubleshooting/collectFilterOptions'
-export type {
-  BreadcrumbItem,
-  BreadcrumbProps,
-} from '../components/breadcrumb'
+export type { BreadcrumbItem, BreadcrumbProps } from '../components/breadcrumb'
 export type { Section } from '../utils/typings/types'
