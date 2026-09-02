@@ -6199,7 +6199,7 @@ var description = {
   fontSize: "14px",
   fontWeight: "400",
   lineHeight: "20px",
-  color: "muted.1"
+  color: "muted.0"
 };
 var linkContainer = {
   mt: "8px",
