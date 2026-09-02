@@ -17,20 +17,26 @@ import { messages } from 'utils/get-message'
 import styles from './styles'
 
 export type CopyHeadingLinkProps = {
-  /** Heading `id` used as the URL hash. */
-  slug: string
+  /**
+   * Heading `id` used as the URL hash. An empty slug means the heading is an
+   * h1 (the page title), so the copied URL has no hash.
+   */
+  slug?: string
   size?: number
   sx?: SxStyleProp
 }
 
-export const getHeadingUrl = (slug: string) => {
-  const hash = slug.startsWith('#') ? slug : `#${slug}`
+export const getHeadingUrl = (slug = '') => {
   const { origin, pathname, search } = window.location
-  return `${origin}${pathname}${search}${hash}`
+  const pageUrl = `${origin}${pathname}${search}`
+  if (!slug) return pageUrl
+
+  const hash = slug.startsWith('#') ? slug : `#${slug}`
+  return `${pageUrl}${hash}`
 }
 
 const CopyHeadingLink = ({
-  slug,
+  slug = '',
   size = 16,
   sx = {},
 }: CopyHeadingLinkProps) => {
@@ -46,7 +52,6 @@ const CopyHeadingLink = ({
     (event: MouseEvent) => {
       event.preventDefault()
       event.stopPropagation()
-      if (!slug) return
 
       copy(getHeadingUrl(slug))
       setCopied(true)
@@ -59,8 +64,6 @@ const CopyHeadingLink = ({
   )
 
   useEffect(() => () => window.clearTimeout(copyTimeout.current), [])
-
-  if (!slug) return null
 
   return (
     <Tooltip

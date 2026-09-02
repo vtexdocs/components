@@ -14,7 +14,6 @@ const sidebar: SxStyleProp = {
   height: 'calc(100vh - 5rem)',
   maxHeight: 'calc(100vh - 5rem)',
   minHeight: 0,
-  overflow: 'hidden',
   paddingRight: '16px',
   marginRight: '-16px',
   zIndex: 2,

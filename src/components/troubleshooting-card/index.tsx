@@ -43,7 +43,16 @@ const TroubleshootingCard = ({
 
   if (variant === 'helpcenter') {
     return (
-      <Link href={cardHref}>
+      <Link
+        href={cardHref}
+        sx={{
+          display: 'block',
+          width: '100%',
+          maxWidth: '100%',
+          minWidth: 0,
+          textDecoration: 'none',
+        }}
+      >
         <Box sx={styles.helpcenterContainer}>
           <Text sx={styles.title} className="title">
             {title}

@@ -48,6 +48,13 @@ const cardContainer = (containerType: string) => {
           minWidth: 0,
           ':active, :hover': {
             borderRadius: '8px',
+            backgroundColor: 'transparent',
+            '.description': {
+              color: '#142032',
+            },
+          },
+          ':hover .title, :active .title': {
+            color: '#142032',
           },
           '.title, .description': {
             width: '100%',

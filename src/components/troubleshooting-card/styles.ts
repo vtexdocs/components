@@ -23,14 +23,17 @@ const devportalContainer: SxStyleProp = {
 }
 
 const helpcenterContainer: SxStyleProp = {
-  px: ['32px', '32px', '36px', '64px'],
-  py: '24px',
+  px: ['20px', '32px', '36px', '48px'],
+  py: ['20px', '24px'],
   display: 'flex',
   flexDirection: 'column',
-  gap: '16px',
+  gap: ['12px', '16px'],
   borderRadius: '4px',
   border: '1px solid #E7E9EE',
-  width: ['320px', '544px', '720px'],
+  width: '100%',
+  maxWidth: '100%',
+  minWidth: 0,
+  boxSizing: 'border-box',
   transition: 'all 0.3s ease-out',
   ':hover': {
     cursor: 'pointer',
@@ -48,10 +51,11 @@ const helpcenterContainer: SxStyleProp = {
 
 const title: SxStyleProp = {
   mb: '8px',
-  fontSize: ['14px', '20px'],
+  fontSize: ['16px', '18px', '20px'],
   fontWeight: '400',
-  lineHeight: ['22px', '30px'],
+  lineHeight: ['24px', '28px', '30px'],
   color: 'muted.0',
+  overflowWrap: 'anywhere',
 }
 
 const description: SxStyleProp = {
@@ -67,8 +71,10 @@ const description: SxStyleProp = {
 
 const tag: SxStyleProp = {
   width: 'max-content',
+  maxWidth: '100%',
   px: '8px',
   margin: '4px',
+  overflowWrap: 'anywhere',
 }
 
 const tagsContainer: SxStyleProp = {

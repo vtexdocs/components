@@ -6144,10 +6144,18 @@ import { Box as Box4, Flex as Flex3, IconCaret, Text, Link as Link2 } from "@vte
 
 // src/components/whats-next-card/styles.ts
 var container2 = {
-  mt: "16px",
+  display: "flex",
+  flexDirection: "column",
+  mt: 0,
+  padding: "16px",
   borderRadius: "4px",
   border: "1px solid #E7E9EE",
-  width: ["100%", "49%"],
+  width: "100%",
+  maxWidth: "100%",
+  minWidth: 0,
+  height: "100%",
+  boxSizing: "border-box",
+  textDecoration: "none",
   transition: "all 0.3s ease-out",
   ":hover": {
     cursor: "pointer"
@@ -6170,7 +6178,7 @@ var title = {
   mb: "8px",
   fontSize: "16px",
   fontWeight: "400",
-  lineHeight: ["22px", "18px"],
+  lineHeight: "22px",
   color: "muted.0"
 };
 var imageTitle = {
@@ -6191,7 +6199,7 @@ var description = {
   fontSize: "14px",
   fontWeight: "400",
   lineHeight: "20px",
-  color: "muted.0"
+  color: "muted.1"
 };
 var linkContainer = {
   mt: "8px",
@@ -7070,13 +7078,16 @@ var styles_default6 = { tooltipWrapper, button, buttonCopied };
 
 // src/components/copy-heading-link/index.tsx
 import { jsx as jsx12 } from "react/jsx-runtime";
-var getHeadingUrl = (slug) => {
-  const hash = slug.startsWith("#") ? slug : `#${slug}`;
+var getHeadingUrl = (slug = "") => {
   const { origin, pathname, search: search2 } = window.location;
-  return `${origin}${pathname}${search2}${hash}`;
+  const pageUrl = `${origin}${pathname}${search2}`;
+  if (!slug)
+    return pageUrl;
+  const hash = slug.startsWith("#") ? slug : `#${slug}`;
+  return `${pageUrl}${hash}`;
 };
 var CopyHeadingLink = ({
-  slug,
+  slug = "",
   size = 16,
   sx = {}
 }) => {
@@ -7090,8 +7101,6 @@ var CopyHeadingLink = ({
     (event) => {
       event.preventDefault();
       event.stopPropagation();
-      if (!slug)
-        return;
       copy(getHeadingUrl(slug));
       setCopied(true);
       window.clearTimeout(copyTimeout.current);
@@ -7102,8 +7111,6 @@ var CopyHeadingLink = ({
     [slug]
   );
   useEffect5(() => () => window.clearTimeout(copyTimeout.current), []);
-  if (!slug)
-    return null;
   return /* @__PURE__ */ jsx12(
     tooltip_default,
     {
@@ -7929,7 +7936,6 @@ var sidebar = {
   height: "calc(100vh - 5rem)",
   maxHeight: "calc(100vh - 5rem)",
   minHeight: 0,
-  overflow: "hidden",
   paddingRight: "16px",
   marginRight: "-16px",
   zIndex: 2,
@@ -10047,7 +10053,8 @@ var dropdownIcon = {
   width: "36px",
   height: "36px",
   borderRadius: "8px",
-  backgroundColor: "#f8f7fc"
+  backgroundColor: "#f8f7fc",
+  transition: "background-color 0.15s ease"
 };
 var title4 = {
   ml: "8px",
@@ -10099,7 +10106,14 @@ var cardContainer3 = (containerType) => {
       boxSizing: "border-box",
       minWidth: 0,
       ":active, :hover": {
-        borderRadius: "8px"
+        borderRadius: "8px",
+        backgroundColor: "transparent",
+        ".description": {
+          color: "#142032"
+        }
+      },
+      ":hover .title, :active .title": {
+        color: "#142032"
       },
       ".title, .description": {
         width: "100%"
@@ -17192,13 +17206,14 @@ import { Box as Box34 } from "@vtex/brand-ui";
 // src/components/header/dropdown-menu.styles.ts
 var outerContainer = {
   cursor: "initial",
-  top: "calc(5rem - 1px)",
+  top: "calc(5rem + 1px)",
   right: 0,
   position: "absolute",
   filter: "drop-shadow(0px 0px 16px rgba(0, 0, 0, 0.1))",
   clipPath: "inset(0 -32px -32px -32px)",
   borderRadius: "0px 0px 8px 8px",
   border: "1px solid #E7E9EE",
+  borderTop: "0px",
   background: "white",
   padding: "8px",
   width: "680px",
@@ -17482,7 +17497,6 @@ var Header3 = ({
   const modalOpen = useRef15(false);
   const [showDropdown, setShowDropdown] = useState28(false);
   const headerElement = useRef15(null);
-  const resolvedFeedbackUrl = feedbackUrl ?? getFeedbackURL();
   const docsSections = dropdownSections ?? hamburguerSections;
   const menuSections = isEditor && editorSections.length > 0 ? [editorSections] : docsSections;
   const defaultLogo = variant === "devportal" ? /* @__PURE__ */ jsx96(vtex_devportal_icon_default, { sx: styles_default37.logoSize }) : /* @__PURE__ */ jsx96(vtex_helpcenter_icon_default, { sx: styles_default37.logoSize });
@@ -17550,11 +17564,11 @@ var Header3 = ({
           }
         ),
         extraRightLinks2 ? /* @__PURE__ */ jsx96(Box35, { sx: styles_default37.extraRightLinks, children: extraRightLinks2 }) : null,
-        /* @__PURE__ */ jsxs76(
+        feedbackUrl ? /* @__PURE__ */ jsxs76(
           VtexLink,
           {
             sx: styles_default37.rightLinksItem,
-            href: resolvedFeedbackUrl,
+            href: feedbackUrl,
             target: "_blank",
             rel: "noreferrer",
             title: localizedMessages["header.feedback"],
@@ -17564,7 +17578,7 @@ var Header3 = ({
               /* @__PURE__ */ jsx96(Text24, { sx: styles_default37.rightButtonsText, children: localizedMessages["header.feedback"] })
             ]
           }
-        )
+        ) : null
       ] }),
       localeSwitcher ? /* @__PURE__ */ jsxs76(Flex33, { sx: styles_default37.headerEndActions, children: [
         /* @__PURE__ */ jsx96(Box35, { sx: styles_default37.hamburgerMenuToggle, children: /* @__PURE__ */ jsx96(hamburger_menu_default, { parentsArray }) }),
@@ -18698,14 +18712,17 @@ var devportalContainer = {
   }
 };
 var helpcenterContainer = {
-  px: ["32px", "32px", "36px", "64px"],
-  py: "24px",
+  px: ["20px", "32px", "36px", "48px"],
+  py: ["20px", "24px"],
   display: "flex",
   flexDirection: "column",
-  gap: "16px",
+  gap: ["12px", "16px"],
   borderRadius: "4px",
   border: "1px solid #E7E9EE",
-  width: ["320px", "544px", "720px"],
+  width: "100%",
+  maxWidth: "100%",
+  minWidth: 0,
+  boxSizing: "border-box",
   transition: "all 0.3s ease-out",
   ":hover": {
     cursor: "pointer"
@@ -18721,10 +18738,11 @@ var helpcenterContainer = {
 };
 var title8 = {
   mb: "8px",
-  fontSize: ["14px", "20px"],
+  fontSize: ["16px", "18px", "20px"],
   fontWeight: "400",
-  lineHeight: ["22px", "30px"],
-  color: "muted.0"
+  lineHeight: ["24px", "28px", "30px"],
+  color: "muted.0",
+  overflowWrap: "anywhere"
 };
 var description5 = {
   fontSize: "16px",
@@ -18738,8 +18756,10 @@ var description5 = {
 };
 var tag3 = {
   width: "max-content",
+  maxWidth: "100%",
   px: "8px",
-  margin: "4px"
+  margin: "4px",
+  overflowWrap: "anywhere"
 };
 var tagsContainer = {
   display: "flex",
@@ -18813,21 +18833,34 @@ var TroubleshootingCard = ({
   const fallbackTags = tags?.filter(Boolean) ?? [];
   const hasStructuredTags = resolvedSymptomFilters.length > 0 || resolvedDomainFilters.length > 0;
   if (variant === "helpcenter") {
-    return /* @__PURE__ */ jsx105(Link14, { href: cardHref, children: /* @__PURE__ */ jsxs83(Box40, { sx: styles_default44.helpcenterContainer, children: [
-      /* @__PURE__ */ jsx105(Text31, { sx: styles_default44.title, className: "title", children: title9 }),
-      hasStructuredTags ? /* @__PURE__ */ jsxs83(Box40, { sx: styles_default44.groupsContainer, children: [
-        resolvedSymptomFilters.length > 0 && /* @__PURE__ */ jsx105(Box40, { sx: styles_default44.groupContainer, children: /* @__PURE__ */ jsx105(Box40, { sx: styles_default44.helpcenterTagsContainer, children: resolvedSymptomFilters.map((filter) => /* @__PURE__ */ jsx105(
-          tag_default,
-          {
-            sx: styles_default44.tag,
-            color: "Blue",
-            children: filter
-          },
-          `symptom-${filter}`
-        )) }) }),
-        resolvedDomainFilters.length > 0 && /* @__PURE__ */ jsx105(Box40, { sx: styles_default44.groupContainer, children: /* @__PURE__ */ jsx105(Box40, { sx: styles_default44.helpcenterTagsContainer, children: resolvedDomainFilters.map((filter) => /* @__PURE__ */ jsx105(tag_default, { sx: styles_default44.tag, color: "Gray", children: filter }, `domain-${filter}`)) }) })
-      ] }) : null
-    ] }) });
+    return /* @__PURE__ */ jsx105(
+      Link14,
+      {
+        href: cardHref,
+        sx: {
+          display: "block",
+          width: "100%",
+          maxWidth: "100%",
+          minWidth: 0,
+          textDecoration: "none"
+        },
+        children: /* @__PURE__ */ jsxs83(Box40, { sx: styles_default44.helpcenterContainer, children: [
+          /* @__PURE__ */ jsx105(Text31, { sx: styles_default44.title, className: "title", children: title9 }),
+          hasStructuredTags ? /* @__PURE__ */ jsxs83(Box40, { sx: styles_default44.groupsContainer, children: [
+            resolvedSymptomFilters.length > 0 && /* @__PURE__ */ jsx105(Box40, { sx: styles_default44.groupContainer, children: /* @__PURE__ */ jsx105(Box40, { sx: styles_default44.helpcenterTagsContainer, children: resolvedSymptomFilters.map((filter) => /* @__PURE__ */ jsx105(
+              tag_default,
+              {
+                sx: styles_default44.tag,
+                color: "Blue",
+                children: filter
+              },
+              `symptom-${filter}`
+            )) }) }),
+            resolvedDomainFilters.length > 0 && /* @__PURE__ */ jsx105(Box40, { sx: styles_default44.groupContainer, children: /* @__PURE__ */ jsx105(Box40, { sx: styles_default44.helpcenterTagsContainer, children: resolvedDomainFilters.map((filter) => /* @__PURE__ */ jsx105(tag_default, { sx: styles_default44.tag, color: "Gray", children: filter }, `domain-${filter}`)) }) })
+          ] }) : null
+        ] })
+      }
+    );
   }
   return /* @__PURE__ */ jsx105(Link14, { href: cardHref, sx: styles_default44.devportalContainer, children: /* @__PURE__ */ jsxs83(Box40, { children: [
     /* @__PURE__ */ jsx105(Text31, { sx: styles_default44.title, className: "title", children: title9 }),
@@ -19877,6 +19910,7 @@ export {
   vtex_io_apps_icon_default as VTEXIOAppsIcon,
   vtex_logo_footer_default as VTEXLogoFooter,
   warning_icon_default as WarningIcon,
+  whats_next_card_default as WhatsNextCard,
   youtube_icon_default as YoutubeIcon,
   collectTroubleshootingFilterOptions,
   filterTroubleshootingItems,
