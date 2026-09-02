@@ -6241,7 +6241,7 @@ var WhatsNextCard = ({
       }
     ),
     /* @__PURE__ */ jsx7(Text, { sx: styles_default4.imageTitle, className: "title", children: title9 })
-  ] }) : /* @__PURE__ */ jsxs5(Box4, { sx: { padding: "16px" }, children: [
+  ] }) : /* @__PURE__ */ jsxs5(Box4, { children: [
     /* @__PURE__ */ jsx7(Text, { sx: styles_default4.title, className: "title", children: title9 }),
     description6 && /* @__PURE__ */ jsx7(Text, { sx: styles_default4.description, className: "description", children: description6 }),
     linkTitle && /* @__PURE__ */ jsxs5(Flex3, { sx: styles_default4.linkContainer, children: [
