@@ -2,13 +2,14 @@ import { SxStyleProp } from '@vtex/brand-ui'
 
 const outerContainer: SxStyleProp = {
   cursor: 'initial',
-  top: 'calc(5rem - 1px)',
+  top: 'calc(5rem + 1px)',
   right: 0,
   position: 'absolute',
   filter: 'drop-shadow(0px 0px 16px rgba(0, 0, 0, 0.1))',
   clipPath: 'inset(0 -32px -32px -32px)',
   borderRadius: '0px 0px 8px 8px',
   border: '1px solid #E7E9EE',
+  borderTop: '0px',
   background: 'white',
   padding: '8px',
   width: '680px',

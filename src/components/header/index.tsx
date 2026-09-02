@@ -10,7 +10,6 @@ import GridIcon from 'components/icons/grid-icon'
 import LongArrowIcon from 'components/icons/long-arrow-icon'
 import { LibraryContext } from 'utils/context/libraryContext'
 import { messages } from 'utils/get-message'
-import { getFeedbackURL } from 'utils/get-url'
 import type { Section } from 'utils/typings/types'
 import DropdownMenu from './dropdown-menu'
 import styles from './styles'
@@ -37,6 +36,7 @@ export type HeaderProps = {
   /** Slot rendered above the header bar (e.g. AnnouncementBar). */
   announcement?: ReactNode
   homeHref?: string
+  /** When set, shows the feedback link in the header. Hidden otherwise. */
   feedbackUrl?: string
   /** Overrides the default logo for the selected variant. */
   logo?: ReactNode
@@ -72,7 +72,6 @@ const Header = ({
   const [showDropdown, setShowDropdown] = useState(false)
   const headerElement = useRef<HTMLElement | null>(null)
 
-  const resolvedFeedbackUrl = feedbackUrl ?? getFeedbackURL()
   const docsSections = dropdownSections ?? hamburguerSections
   const menuSections =
     isEditor && editorSections.length > 0 ? [editorSections] : docsSections
@@ -163,19 +162,21 @@ const Header = ({
             <Box sx={styles.extraRightLinks}>{extraRightLinks}</Box>
           ) : null}
 
-          <VtexLink
-            sx={styles.rightLinksItem}
-            href={resolvedFeedbackUrl}
-            target="_blank"
-            rel="noreferrer"
-            title={localizedMessages['header.feedback']}
-            aria-label={localizedMessages['header.feedback']}
-          >
-            <LongArrowIcon />
-            <Text sx={styles.rightButtonsText}>
-              {localizedMessages['header.feedback']}
-            </Text>
-          </VtexLink>
+          {feedbackUrl ? (
+            <VtexLink
+              sx={styles.rightLinksItem}
+              href={feedbackUrl}
+              target="_blank"
+              rel="noreferrer"
+              title={localizedMessages['header.feedback']}
+              aria-label={localizedMessages['header.feedback']}
+            >
+              <LongArrowIcon />
+              <Text sx={styles.rightButtonsText}>
+                {localizedMessages['header.feedback']}
+              </Text>
+            </VtexLink>
+          ) : null}
         </HeaderBrand.RightLinks>
         {localeSwitcher ? (
           <Flex sx={styles.headerEndActions}>

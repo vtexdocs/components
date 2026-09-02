@@ -147,6 +147,15 @@ interface Props$3 {
 }
 declare const CookieBar: ({ onAccept }: Props$3) => react_jsx_runtime.JSX.Element;
 
+type WhatsNextDataElement = {
+    title: string;
+    description?: string;
+    linkTitle?: string;
+    linkTo: string;
+    image?: string;
+};
+declare const WhatsNextCard: ({ title, description, linkTitle, linkTo, image, }: WhatsNextDataElement) => react_jsx_runtime.JSX.Element;
+
 interface Props$2 {
     url: string;
     sx?: SxStyleProp;
@@ -184,12 +193,15 @@ type AskAIMenuProps = {
 declare const AskAIMenu: ({ filePath, pageUrl, rawContentBaseUrl, providers, onOpenProvider, contentEndpoint, onCopyPage, }: AskAIMenuProps) => react_jsx_runtime.JSX.Element;
 
 type CopyHeadingLinkProps = {
-    /** Heading `id` used as the URL hash. */
-    slug: string;
+    /**
+     * Heading `id` used as the URL hash. An empty slug means the heading is an
+     * h1 (the page title), so the copied URL has no hash.
+     */
+    slug?: string;
     size?: number;
     sx?: SxStyleProp;
 };
-declare const CopyHeadingLink: ({ slug, size, sx, }: CopyHeadingLinkProps) => react_jsx_runtime.JSX.Element | null;
+declare const CopyHeadingLink: ({ slug, size, sx, }: CopyHeadingLinkProps) => react_jsx_runtime.JSX.Element;
 
 type BreadcrumbItem = {
     slug: string;
@@ -270,6 +282,7 @@ type HeaderProps = {
     /** Slot rendered above the header bar (e.g. AnnouncementBar). */
     announcement?: ReactNode;
     homeHref?: string;
+    /** When set, shows the feedback link in the header. Hidden otherwise. */
     feedbackUrl?: string;
     /** Overrides the default logo for the selected variant. */
     logo?: ReactNode;
@@ -639,4 +652,4 @@ declare const LikeIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
 
 declare const LikeSelectedIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
 
-export { APIGuidesIcon, APIReferenceIcon, AddedIcon, type AlgoliaConfig, AnnouncementBar, type AnnouncementBarAction, type AnnouncementBarProps, type AnnouncementBarType, AnnouncementIcon, AppDevelopmentIcon, ArrowLeftIcon, ArrowRightIcon, AskAIMenu, type AskAIMenuProps, type AskAIProvider, Author, type AuthorProps, Breadcrumb, type BreadcrumbItem, type BreadcrumbProps, CaretIcon, ChatGPTIcon, CheckboxIcon, ChipFilter, type ChipFilterCategory, type ChipFilterProps, ClaudeIcon, CloseFilterIcon, CloseIcon, CommunityIcon, Contributors, type ContributorsProps, type ContributorsType, CookieBar, CopilotIcon, CopyButton, type CopyButtonProps, CopyHeadingLink, type CopyHeadingLinkProps, CopyIcon, CopyLinkButton, DeprecatedIcon, DeveloperPortalIcon, type DocPath, DocumentationUpdatesIcon, DropdownMenu, type DropdownMenuProps, EditIcon, EmailIcon, ExpandedResultsIcon, FAQIcon, FacebookCircleIcon, FacebookIcon, FeedbackModal, type FeedbackModalPayload, type FeedbackModalProps, FeedbackSection, type FeedbackSectionProps, ListingFilter as Filter, type FilterGroup, FilterIcon, type FilterOption, FixedIcon, Footer, type FooterLink, type FooterProps, type FooterVariant, GearTroubleshootingIcon, GeminiIcon, GithubIcon, GraphIcon, GridIcon, HamburgerMenu, Header, type HeaderProps, type HeaderVariant, HelpCenterIcon, type HybridSearchConfig, ImprovedIcon, InfoIcon, Input, IgIcon as InstagramIcon, type Item, KnownIssueIcon as KnownIssuesIcon, LibraryContext, LibraryContextProvider, LikeIcon, LikeSelectedIcon, LinkIcon, LinkedinCircleIcon, LinkedinIcon, ListingFilter, type ListingFilterLabels, type ListingFilterProps, type ListingFilterSelection, LongArrowIcon, MarkdownRenderer, MegaphoneIcon, MenuIcon, MobileSearch, type MobileSearchProps, NewIcon, OnThisPage, type OnThisPageProps, PaperIcon, ReleaseNotesIcon, RemovedIcon, ResizeIcon, Search, type SearchBackendConfig, SearchConfig, SearchIcon, SearchInput, type SearchInputProps, type Section, ShareButton, ShareIcon, SideBarToggleIcon, Sidebar, StartHereIcon, StorefrontDevelopmentIcon, SubscriptionList, TableOfContents, Tag, type TagColor, type TagProps, TimeToRead, type TimeToReadProps, Tooltip, TrashcanIcon, TroubleshootingCard, type TroubleshootingCardProps, type TroubleshootingCardVariant, type TroubleshootingFilterState, TroubleshootingIcon, type TroubleshootingItem, TutorialsIcon, TwitterCircleIcon, TwitterIcon, VTEXDevPortalIcon, VTEXHelpCenterIcon, VTEXIOAppsIcon, VTEXLogoFooter, WarningIcon, YoutubeIcon, collectTroubleshootingFilterOptions, filterTroubleshootingItems, getDaysElapsed };
+export { APIGuidesIcon, APIReferenceIcon, AddedIcon, type AlgoliaConfig, AnnouncementBar, type AnnouncementBarAction, type AnnouncementBarProps, type AnnouncementBarType, AnnouncementIcon, AppDevelopmentIcon, ArrowLeftIcon, ArrowRightIcon, AskAIMenu, type AskAIMenuProps, type AskAIProvider, Author, type AuthorProps, Breadcrumb, type BreadcrumbItem, type BreadcrumbProps, CaretIcon, ChatGPTIcon, CheckboxIcon, ChipFilter, type ChipFilterCategory, type ChipFilterProps, ClaudeIcon, CloseFilterIcon, CloseIcon, CommunityIcon, Contributors, type ContributorsProps, type ContributorsType, CookieBar, CopilotIcon, CopyButton, type CopyButtonProps, CopyHeadingLink, type CopyHeadingLinkProps, CopyIcon, CopyLinkButton, DeprecatedIcon, DeveloperPortalIcon, type DocPath, DocumentationUpdatesIcon, DropdownMenu, type DropdownMenuProps, EditIcon, EmailIcon, ExpandedResultsIcon, FAQIcon, FacebookCircleIcon, FacebookIcon, FeedbackModal, type FeedbackModalPayload, type FeedbackModalProps, FeedbackSection, type FeedbackSectionProps, ListingFilter as Filter, type FilterGroup, FilterIcon, type FilterOption, FixedIcon, Footer, type FooterLink, type FooterProps, type FooterVariant, GearTroubleshootingIcon, GeminiIcon, GithubIcon, GraphIcon, GridIcon, HamburgerMenu, Header, type HeaderProps, type HeaderVariant, HelpCenterIcon, type HybridSearchConfig, ImprovedIcon, InfoIcon, Input, IgIcon as InstagramIcon, type Item, KnownIssueIcon as KnownIssuesIcon, LibraryContext, LibraryContextProvider, LikeIcon, LikeSelectedIcon, LinkIcon, LinkedinCircleIcon, LinkedinIcon, ListingFilter, type ListingFilterLabels, type ListingFilterProps, type ListingFilterSelection, LongArrowIcon, MarkdownRenderer, MegaphoneIcon, MenuIcon, MobileSearch, type MobileSearchProps, NewIcon, OnThisPage, type OnThisPageProps, PaperIcon, ReleaseNotesIcon, RemovedIcon, ResizeIcon, Search, type SearchBackendConfig, SearchConfig, SearchIcon, SearchInput, type SearchInputProps, type Section, ShareButton, ShareIcon, SideBarToggleIcon, Sidebar, StartHereIcon, StorefrontDevelopmentIcon, SubscriptionList, TableOfContents, Tag, type TagColor, type TagProps, TimeToRead, type TimeToReadProps, Tooltip, TrashcanIcon, TroubleshootingCard, type TroubleshootingCardProps, type TroubleshootingCardVariant, type TroubleshootingFilterState, TroubleshootingIcon, type TroubleshootingItem, TutorialsIcon, TwitterCircleIcon, TwitterIcon, VTEXDevPortalIcon, VTEXHelpCenterIcon, VTEXIOAppsIcon, VTEXLogoFooter, WarningIcon, WhatsNextCard, type WhatsNextDataElement, YoutubeIcon, collectTroubleshootingFilterOptions, filterTroubleshootingItems, getDaysElapsed };

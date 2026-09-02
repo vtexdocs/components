@@ -35,6 +35,7 @@ const dropdownIcon: SxStyleProp = {
   height: '36px',
   borderRadius: '8px',
   backgroundColor: '#f8f7fc',
+  transition: 'background-color 0.15s ease',
 }
 
 const title: SxStyleProp = {

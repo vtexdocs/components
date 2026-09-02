@@ -1,10 +1,18 @@
 import type { SxStyleProp } from '@vtex/brand-ui'
 
 const container: SxStyleProp = {
-  mt: '16px',
+  display: 'flex',
+  flexDirection: 'column',
+  mt: 0,
+  padding: '16px',
   borderRadius: '4px',
   border: '1px solid #E7E9EE',
-  width: ['100%', '49%'],
+  width: '100%',
+  maxWidth: '100%',
+  minWidth: 0,
+  height: '100%',
+  boxSizing: 'border-box',
+  textDecoration: 'none',
   transition: 'all 0.3s ease-out',
   ':hover': {
     cursor: 'pointer',
@@ -28,7 +36,7 @@ const title: SxStyleProp = {
   mb: '8px',
   fontSize: '16px',
   fontWeight: '400',
-  lineHeight: ['22px', '18px'],
+  lineHeight: '22px',
   color: 'muted.0',
 }
 
@@ -51,7 +59,7 @@ const description: SxStyleProp = {
   fontSize: '14px',
   fontWeight: '400',
   lineHeight: '20px',
-  color: 'muted.0',
+  color: 'muted.1',
 }
 
 const linkContainer: SxStyleProp = {

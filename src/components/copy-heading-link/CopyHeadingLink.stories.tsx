@@ -40,6 +40,10 @@ export const Default: Story = {
 export const HeadingLevels: Story = {
   render: () => (
     <div style={{ fontFamily: 'sans-serif', maxWidth: 640 }}>
+      <h1>
+        Page title
+        <CopyHeadingLink slug="" size={20} />
+      </h1>
       <h2 id="overview">
         Overview
         <CopyHeadingLink slug="overview" size={18} />
