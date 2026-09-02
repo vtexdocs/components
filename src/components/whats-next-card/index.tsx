@@ -35,7 +35,7 @@ const WhatsNextCard = ({
           </Text>
         </Box>
       ) : (
-        <Box sx={{ padding: '16px' }}>
+        <Box>
           <Text sx={styles.title} className="title">
             {title}
           </Text>

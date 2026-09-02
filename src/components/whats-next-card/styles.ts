@@ -59,7 +59,7 @@ const description: SxStyleProp = {
   fontSize: '14px',
   fontWeight: '400',
   lineHeight: '20px',
-  color: 'muted.1',
+  color: 'muted.0',
 }
 
 const linkContainer: SxStyleProp = {
