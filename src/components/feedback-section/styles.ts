@@ -67,28 +67,9 @@ const selectedButton: SxStyleProp = {
   color: 'muted.1',
 }
 
-const box: StyleFn = ({ small } = {}) => ({
-  alignItems: 'center',
-  color: 'muted.0',
-  fontSize: small ? '12px' : '16px',
-  lineHeight: '22px',
-})
-
 const disabled: SxStyleProp = {
   display: 'none !important',
 }
-
-const editContainer: StyleFn = ({ small } = {}) => ({
-  ...box({ small }),
-  ...button,
-  ':hover': {
-    color: '#000711 !important',
-  },
-  color: '#4A596B !important',
-  display: 'flex',
-})
-
-const editIcon: SxStyleProp = { mr: '4px' }
 
 const shareButton: SxStyleProp = {}
 
@@ -99,9 +80,6 @@ export default {
   likeContainer,
   likeIcon,
   dislikeIcon,
-  editContainer,
-  editIcon,
-  box,
   button,
   buttonActive,
   selectedButton,

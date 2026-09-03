@@ -15,6 +15,7 @@ import YoutubeFrame from 'components/youtube-frame'
 import Steps from 'components/steps'
 import LightBox from 'components/lightbox'
 import WhatsNextCard from 'components/whats-next-card'
+import InsertAccountName from 'components/insert-account-name'
 
 import { LibraryContext } from 'utils/context/libraryContext'
 import { childrenToString, slugify } from 'utils/string-utils'
@@ -217,6 +218,7 @@ export default {
   WhatsNextCard,
   YoutubeFrame,
   Steps,
+  InsertAccountName,
   Flex: ({ node, ...props }: Component) => (
     <Flex className={styles.flexWrap} {...props} />
   ),

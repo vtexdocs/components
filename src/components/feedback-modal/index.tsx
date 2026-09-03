@@ -3,6 +3,7 @@ import { Box, Flex, Text } from '@vtex/brand-ui'
 import { LibraryContext } from 'utils/context/libraryContext'
 import { messages } from 'utils/get-message'
 import CheckIcon from 'components/icons/check-icon'
+import CommentIcon from 'components/icons/comment-icon'
 import WarningIcon from 'components/icons/warning-icon'
 import Modal from './modal'
 import styles from './styles'
@@ -41,8 +42,6 @@ export type FeedbackModalPayload = {
 }
 
 export interface FeedbackModalProps {
-  isOpen: boolean
-  onClose: () => void
   /**
    * Canonical page URL prefilled in the Article field.
    * Defaults to `window.location.href` so Help Center and Developer Portal
@@ -57,6 +56,8 @@ export interface FeedbackModalProps {
   feedbackEndpoint?: string
   /** Override the default POST. */
   sendFeedback?: (payload: FeedbackModalPayload) => Promise<void>
+  /** Open the modal on first render. Useful for Storybook. */
+  defaultOpen?: boolean
 }
 
 const postFeedback = async (
@@ -75,18 +76,20 @@ const postFeedback = async (
 }
 
 const FeedbackModal = ({
-  isOpen,
-  onClose,
   pageUrl,
   initialMessage,
   feedbackEndpoint = DEFAULT_FEEDBACK_ENDPOINT,
   sendFeedback,
+  defaultOpen = false,
 }: FeedbackModalProps) => {
   const { locale } = useContext(LibraryContext)
   const localizedMessages = messages[locale] ?? messages.en
+  const [isOpen, setIsOpen] = useState(defaultOpen)
   const [submitted, setSubmitted] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState(false)
+
+  const handleClose = () => setIsOpen(false)
 
   const articleUrl =
     pageUrl ||
@@ -132,41 +135,53 @@ const FeedbackModal = ({
   }
 
   return (
-    <Modal
-      isOpen={isOpen}
-      onClose={onClose}
-      title={localizedMessages['feedback_modal.title']}
-      description={
-        submitted ? undefined : localizedMessages['feedback_modal.description']
-      }
-      closeLabel={localizedMessages['feedback_modal.close']}
-    >
-      {submitted ? (
-        <Flex sx={styles.successState} role="status">
-          <Flex sx={styles.successIconWrap} aria-hidden="true">
-            <CheckIcon size={22} />
+    <Box sx={styles.triggerWrap}>
+      <Box
+        as="button"
+        type="button"
+        onClick={() => setIsOpen(true)}
+        sx={styles.triggerButton}
+      >
+        <CommentIcon size={14} />
+        <Text>{localizedMessages['feedback_modal.button']}</Text>
+      </Box>
+      <Modal
+        isOpen={isOpen}
+        onClose={handleClose}
+        title={localizedMessages['feedback_modal.title']}
+        description={
+          submitted
+            ? undefined
+            : localizedMessages['feedback_modal.description']
+        }
+        closeLabel={localizedMessages['feedback_modal.close']}
+      >
+        {submitted ? (
+          <Flex sx={styles.successState} role="status">
+            <Flex sx={styles.successIconWrap} aria-hidden="true">
+              <CheckIcon size={22} />
+            </Flex>
+            <Text sx={styles.successTitle}>
+              {localizedMessages['feedback_modal.success']}
+            </Text>
+            <Box
+              as="button"
+              type="button"
+              onClick={handleClose}
+              sx={styles.submitButton}
+            >
+              {localizedMessages['feedback_modal.done']}
+            </Box>
           </Flex>
-          <Text sx={styles.successTitle}>
-            {localizedMessages['feedback_modal.success']}
-          </Text>
-          <Box
-            as="button"
-            type="button"
-            onClick={onClose}
-            sx={styles.submitButton}
-          >
-            {localizedMessages['feedback_modal.done']}
-          </Box>
-        </Flex>
-      ) : (
-        <Box as="form" onSubmit={handleSubmit}>
-          <Box sx={styles.form}>
-            {error ? (
-              <Flex role="alert" sx={styles.feedbackErrorText}>
-                <WarningIcon sx={styles.errorIcon} />
-                {localizedMessages['feedback_modal.error']}
-              </Flex>
-            ) : null}
+        ) : (
+          <Box as="form" onSubmit={handleSubmit}>
+            <Box sx={styles.form}>
+              {error ? (
+                <Flex role="alert" sx={styles.feedbackErrorText}>
+                  <WarningIcon sx={styles.errorIcon} />
+                  {localizedMessages['feedback_modal.error']}
+                </Flex>
+              ) : null}
 
             <Box sx={styles.field}>
               <Text as="label" htmlFor="feedback-modal-url" sx={styles.label}>
@@ -270,7 +285,7 @@ const FeedbackModal = ({
               <Box
                 as="button"
                 type="button"
-                onClick={onClose}
+                onClick={handleClose}
                 sx={styles.cancelButton}
               >
                 {localizedMessages['feedback_modal.cancel']}
@@ -286,10 +301,11 @@ const FeedbackModal = ({
                   : localizedMessages['feedback_modal.submit']}
               </Box>
             </Box>
+            </Box>
           </Box>
-        </Box>
-      )}
-    </Modal>
+        )}
+      </Modal>
+    </Box>
   )
 }
 

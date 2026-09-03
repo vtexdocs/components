@@ -86,3 +86,4 @@ export { default as VTEXLogoFooter } from './vtex-logo-footer'
 // Feedback Icons
 export { default as LikeIcon } from './like-icon'
 export { default as LikeSelectedIcon } from './like-selected-icon'
+export { default as CommentIcon } from './comment-icon'
