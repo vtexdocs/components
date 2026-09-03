@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { ThemeProvider } from '@vtex/brand-ui'
-import { SearchInput } from 'index'
+import SearchInput from './index'
 import LibraryContextProvider from 'utils/context/libraryContext'
 import { exampleContextProps } from 'utils/storybook-constants'
 

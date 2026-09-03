@@ -28,6 +28,18 @@ export { default as CopyButton } from '../components/copy-button'
 export type { CopyButtonProps } from '../components/copy-button'
 export { default as AskAIMenu } from '../components/ask-ai'
 export type { AskAIMenuProps, AskAIProvider } from '../components/ask-ai'
+export { default as AskAssistant } from '../components/ask-assistant'
+export { DEFAULT_ASK_ASSISTANT_EXAMPLES } from '../components/ask-assistant'
+export type {
+  AskAssistantProps,
+  AskAssistantFeedback,
+  AskAssistantExampleCategory,
+  AssistantStreamEvent,
+  AssistantStreamHandler,
+  ChatMessage,
+  HistoryConversation,
+  ProcessStep,
+} from '../components/ask-assistant'
 export { default as CopyHeadingLink } from '../components/copy-heading-link'
 export type { CopyHeadingLinkProps } from '../components/copy-heading-link'
 export { default as Breadcrumb } from '../components/breadcrumb'

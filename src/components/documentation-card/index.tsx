@@ -17,6 +17,7 @@ export interface DocumentProps extends DataElement {
 export interface CardProps extends DocumentProps {
   containerType: 'dropdown' | 'see-also' | 'mobile'
   onClick?: MouseEventHandler<HTMLAnchorElement> | undefined
+  isExternalLink?: boolean
 }
 const DocumentationCard = ({
   title,
@@ -25,11 +26,14 @@ const DocumentationCard = ({
   containerType,
   Icon,
   onClick,
+  isExternalLink,
 }: CardProps) => {
   return (
     <Link href={link} legacyBehavior>
       <a
         onClick={onClick}
+        target={isExternalLink ? '_blank' : undefined}
+        rel={isExternalLink ? 'noreferrer' : undefined}
         style={{
           width: '100%',
           maxWidth: '100%',

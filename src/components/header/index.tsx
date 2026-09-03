@@ -3,6 +3,9 @@ import { Link as VtexLink, Flex, Text, Box } from '@vtex/brand-ui'
 import { useContext, useEffect, useRef, useState, type ReactNode } from 'react'
 import { useRouter } from 'next/router.js'
 import HamburgerMenu from 'lib/hamburger-menu'
+import AskAssistant, {
+  type AskAssistantProps,
+} from 'components/ask-assistant'
 import SearchInput from 'components/search-input'
 import VTEXDevPortalIcon from 'components/icons/vtex-devportal-icon'
 import VTEXHelpCenterIcon from 'components/icons/vtex-helpcenter-icon'
@@ -49,6 +52,13 @@ export type HeaderProps = {
   localeSwitcher?: ReactNode
   /** Parent slugs of the current article, used to expand the mobile sidebar. */
   parentsArray?: string[]
+  /**
+   * When true, renders AskAssistant next to the search input.
+   * Hidden on small viewports together with search.
+   */
+  showAssistant?: boolean
+  /** Props forwarded to AskAssistant when `showAssistant` is true. */
+  assistant?: AskAssistantProps
 }
 
 const Header = ({
@@ -63,6 +73,8 @@ const Header = ({
   extraRightLinks,
   localeSwitcher,
   parentsArray,
+  showAssistant = false,
+  assistant,
 }: HeaderProps) => {
   const router = useRouter()
   const { locale, hamburguerSections } = useContext(LibraryContext)
@@ -136,9 +148,16 @@ const Header = ({
           {logo ?? defaultLogo}
         </VtexLink>
 
-        <Box sx={styles.searchContainer}>
-          <SearchInput />
-        </Box>
+        <Flex sx={styles.searchRow}>
+          <Box sx={styles.searchContainer}>
+            <SearchInput />
+          </Box>
+          {showAssistant ? (
+            <Box sx={styles.assistantSlot}>
+              <AskAssistant {...assistant} />
+            </Box>
+          ) : null}
+        </Flex>
 
         <HeaderBrand.RightLinks sx={styles.rightLinks}>
           <Flex

@@ -175,11 +175,25 @@ const rightButtonsText: SxStyleProp = {
   textTransform: 'none',
 }
 
-const searchContainer: SxStyleProp = {
+const searchRow: SxStyleProp = {
   display: ['none', 'none', 'flex', 'flex'],
+  alignItems: 'center',
   justifyContent: 'center',
+  gap: '8px',
   paddingBlock: '18px',
   height: 'auto',
+  minWidth: 0,
+}
+
+const searchContainer: SxStyleProp = {
+  flex: 'none',
+  width: 'max-content',
+}
+
+const assistantSlot: SxStyleProp = {
+  flex: 'none',
+  flexShrink: 0,
+  alignSelf: 'center',
 }
 
 export default {
@@ -187,7 +201,9 @@ export default {
   headerContainer,
   headerBrand,
   headerBrandLink,
+  searchRow,
   searchContainer,
+  assistantSlot,
   rightLinks,
   rightLinksItem,
   rightButtonsText,
