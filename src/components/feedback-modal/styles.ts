@@ -1,5 +1,34 @@
 import { SxStyleProp } from '@vtex/brand-ui'
 
+const triggerWrap: SxStyleProp = {
+  display: 'inline-flex',
+  flexShrink: 0,
+  width: 'max-content',
+}
+
+const triggerButton: SxStyleProp = {
+  mt: 0,
+  px: 3,
+  minHeight: 36,
+  background: '#fff',
+  borderRadius: '4px',
+  cursor: 'pointer',
+  fontSize: 12,
+  height: 'min-content',
+  textTransform: 'none',
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: 3,
+  width: 'max-content',
+  maxWidth: '180px',
+  flexShrink: 0,
+  whiteSpace: 'nowrap',
+  color: 'muted.0',
+  border: '1px solid #E7E9EE',
+  '&:hover': { backgroundColor: '#F8F7FC', color: '#000711' },
+}
+
 const wrapContainer: SxStyleProp = {
   position: 'fixed',
   inset: 0,
@@ -292,6 +321,8 @@ const successTitle: SxStyleProp = {
 }
 
 export default {
+  triggerWrap,
+  triggerButton,
   wrapContainer,
   innerContainer,
   header,

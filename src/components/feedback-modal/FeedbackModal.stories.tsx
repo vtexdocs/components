@@ -1,5 +1,4 @@
 import type { ComponentProps } from 'react'
-import { useState } from 'react'
 import type { Meta, StoryObj } from '@storybook/react'
 import { ThemeProvider } from '@vtex/brand-ui'
 import FeedbackModal from './index'
@@ -8,25 +7,6 @@ import { exampleContextProps } from 'utils/storybook-constants'
 
 type FeedbackModalStoryArgs = ComponentProps<typeof FeedbackModal> & {
   locale?: 'en' | 'pt' | 'es'
-}
-
-const InteractiveModal = (args: FeedbackModalStoryArgs) => {
-  const [isOpen, setIsOpen] = useState(false)
-  const { locale, ...rest } = args
-
-  return (
-    <>
-      <button type="button" onClick={() => setIsOpen(true)}>
-        Send feedback
-      </button>
-      <FeedbackModal
-        key={locale}
-        {...rest}
-        isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
-      />
-    </>
-  )
 }
 
 const meta = {
@@ -45,7 +25,6 @@ const meta = {
   },
   args: {
     locale: 'en',
-    isOpen: true,
     pageUrl: 'https://developers.vtex.com/docs/guides/example',
     sendFeedback: async () => undefined,
   },
@@ -62,7 +41,7 @@ const meta = {
     ),
   ],
   render: ({ locale, ...args }) => (
-    <FeedbackModal key={locale} onClose={() => undefined} {...args} />
+    <FeedbackModal key={locale} {...args} />
   ),
 } satisfies Meta<FeedbackModalStoryArgs>
 
@@ -71,21 +50,22 @@ type Story = StoryObj<typeof meta>
 
 export const Default: Story = {}
 
-export const Interactive: Story = {
+export const Open: Story = {
   args: {
-    isOpen: false,
+    defaultOpen: true,
   },
-  render: (args) => <InteractiveModal {...args} />,
 }
 
 export const HelpCenter: Story = {
   args: {
+    defaultOpen: true,
     pageUrl: 'https://help.vtex.com/docs/tutorials/example',
   },
 }
 
 export const ErrorState: Story = {
   args: {
+    defaultOpen: true,
     sendFeedback: async () => {
       throw new Error('Network error')
     },
@@ -95,11 +75,13 @@ export const ErrorState: Story = {
 export const Spanish: Story = {
   args: {
     locale: 'es',
+    defaultOpen: true,
   },
 }
 
 export const Portuguese: Story = {
   args: {
     locale: 'pt',
+    defaultOpen: true,
   },
 }

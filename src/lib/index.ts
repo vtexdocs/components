@@ -54,6 +54,11 @@ export { default as ChipFilter } from '../components/chip-filter'
 export { default as Tooltip } from '../components/tooltip'
 export { default as Author } from '../components/author'
 export { default as TimeToRead } from '../components/time-to-read'
+export { default as DateText } from '../components/date-text'
+export { default as ArticlePagination } from '../components/article-pagination'
+export { default as InsertAccountName } from '../components/insert-account-name'
+export { default as SuggestEdits } from '../components/suggest-edits'
+export { default as ArticleRender } from '../components/article-render'
 export { default as TroubleshootingCard } from '../components/troubleshooting-card'
 export type { Item } from './table-of-contents'
 export type { OnThisPageProps } from './on-this-page'
@@ -87,6 +92,15 @@ export type {
 } from '../components/chip-filter'
 export type { AuthorProps } from '../components/author'
 export type { TimeToReadProps } from '../components/time-to-read'
+export type { DateTextProps } from '../components/date-text'
+export type {
+  ArticlePaginationProps,
+  ArticlePaginationData,
+  ArticlePaginationDoc,
+} from '../components/article-pagination'
+export type { InsertAccountNameProps } from '../components/insert-account-name'
+export type { SuggestEditsProps } from '../components/suggest-edits'
+export type { ArticleRenderProps } from '../components/article-render'
 export type {
   TroubleshootingCardProps,
   TroubleshootingCardVariant,

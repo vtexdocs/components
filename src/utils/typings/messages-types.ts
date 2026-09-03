@@ -4,6 +4,7 @@ export type MessagesType = {
   'feedback_section.positive': string
   'feedback_section.negative': string
   'feedback_section.edit': string
+  'feedback_modal.button': string
   'feedback_modal.title': string
   'feedback_modal.description': string
   'feedback_modal.success': string
@@ -78,6 +79,14 @@ export type MessagesType = {
   'header.admin_tools': string
   'header.home_aria': string
   'documentation_reading_time.text': string
+  'date_text.created': string
+  'date_text.updated': string
+  'article_pagination.previous': string
+  'article_pagination.next': string
+  'insert_account_name.placeholder': string
+  'insert_account_name.button': string
+  'insert_account_name.tooltip': string
+  'insert_account_name.error': string
   'ask_ai.copy': string
   'ask_ai.view': string
   'ask_ai.copied': string

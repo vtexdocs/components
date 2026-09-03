@@ -1,5 +1,4 @@
-import { Flex, Text, Link } from '@vtex/brand-ui'
-import EditIcon from 'components/icons/edit-icon'
+import { Flex, Text } from '@vtex/brand-ui'
 import LikeIcon from 'components/icons/like-icon'
 import LikeSelectedIcon from 'components/icons/like-selected-icon'
 import { useContext, useEffect, useState } from 'react'
@@ -7,6 +6,7 @@ import styles from './styles'
 import { LibraryContext } from 'utils/context/libraryContext'
 import { messages } from 'utils/get-message'
 import ShareButton from 'components/share-button'
+import SuggestEdits from 'components/suggest-edits'
 
 const DEFAULT_FEEDBACK_ENDPOINT = '/api/feedback/'
 
@@ -146,16 +146,8 @@ const FeedbackSection = ({
           </Flex>
         </Flex>
       </Flex>
-      {suggestEdits && (
-        <Link
-          target="_blank"
-          rel="noopener noreferrer"
-          href={urlToEdit}
-          sx={styles.editContainer({ small })}
-        >
-          <EditIcon size={small ? 18 : 24} sx={styles.editIcon} />
-          <Text>{messages[locale]['feedback_section.edit']}</Text>
-        </Link>
+      {suggestEdits && urlToEdit && (
+        <SuggestEdits urlToEdit={urlToEdit} small={small} />
       )}
       {shareButton && (
         <ShareButton url={window.location.href} sx={styles.shareButton} />
