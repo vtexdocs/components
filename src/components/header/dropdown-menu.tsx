@@ -35,6 +35,10 @@ const DropdownMenu = ({ sections }: DropdownMenuProps) => {
                 key={card.id}
                 {...card}
                 title={getSectionLabel(card, sidebarDataMaster, locale)}
+                isExternalLink={
+                  card.isExternalLink === true ||
+                  /^https?:\/\//i.test(card.link)
+                }
               />
             ))}
           </Box>

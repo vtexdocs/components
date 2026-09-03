@@ -128,3 +128,11 @@ export const Portuguese: Story = {
     localeSwitcher: <LocaleSwitcherStub />,
   },
 }
+
+export const WithAssistant: Story = {
+  args: {
+    variant: 'helpcenter',
+    showAssistant: true,
+    localeSwitcher: <LocaleSwitcherStub />,
+  },
+}
