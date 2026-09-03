@@ -192,6 +192,87 @@ type AskAIMenuProps = {
 };
 declare const AskAIMenu: ({ filePath, pageUrl, rawContentBaseUrl, providers, onOpenProvider, contentEndpoint, onCopyPage, }: AskAIMenuProps) => react_jsx_runtime.JSX.Element;
 
+type Section = {
+    id: string;
+    link: string;
+    title: string;
+    description: string;
+    Icon: (props: IconProps) => JSX.Element;
+    isExternalLink?: boolean;
+};
+type IconComponent = (props: IconProps) => JSX.Element;
+
+type AssistantStreamEvent = {
+    type: string;
+    name?: string;
+    arguments?: Record<string, unknown>;
+    output?: string;
+    is_final_answer?: boolean;
+    content?: string;
+};
+type ProcessStep = {
+    id: string;
+    name: string;
+    status: 'running' | 'complete';
+};
+type ChatMessage = {
+    id: string;
+    role: 'user' | 'assistant';
+    content: string;
+    steps?: ProcessStep[];
+    status: 'streaming' | 'complete' | 'error';
+};
+type HistoryConversation = {
+    id: string;
+    title: string;
+    messages: ChatMessage[];
+};
+type AskAssistantFeedback = {
+    query: string;
+    answer: string;
+    liked: boolean;
+};
+type AskAssistantExampleCategory = {
+    id: string;
+    title: string;
+    Icon?: IconComponent;
+    questions: string[];
+};
+type AssistantStreamHandler = (query: string, signal: AbortSignal, onEvent: (event: AssistantStreamEvent) => void) => Promise<void>;
+type AskAssistantProps = {
+    /**
+     * SSE endpoint. Relative paths are resolved against the current origin.
+     */
+    streamUrl?: string;
+    /** Override the default SSE client (useful in Storybook and tests). */
+    stream?: AssistantStreamHandler;
+    /** Controlled open state. */
+    open?: boolean;
+    /** Uncontrolled initial open state. */
+    defaultOpen?: boolean;
+    onOpenChange?: (open: boolean) => void;
+    /** Hide the pill trigger and only render the panel. */
+    hideTrigger?: boolean;
+    /** Register ⌘/Ctrl + I to toggle the panel. Defaults to true. */
+    enableShortcut?: boolean;
+    /** Seed the panel with an existing conversation. */
+    initialMessages?: ChatMessage[];
+    /**
+     * Suggested questions shown in the empty state, grouped by category.
+     * Dev Portal and Help Center should pass portal-specific lists.
+     * Defaults to `DEFAULT_ASK_ASSISTANT_EXAMPLES`. Pass `[]` to hide.
+     */
+    examples?: AskAssistantExampleCategory[];
+    /** Seed the history popover. Replaced by localStorage once a conversation is saved. */
+    initialHistory?: HistoryConversation[];
+    onAsk?: (query: string) => void;
+    onFeedback?: (payload: AskAssistantFeedback) => void;
+};
+
+declare const DEFAULT_ASK_ASSISTANT_EXAMPLES: AskAssistantExampleCategory[];
+
+declare const AskAssistant: ({ streamUrl, stream, open, defaultOpen, onOpenChange, hideTrigger, enableShortcut, initialMessages, examples, initialHistory, onAsk, onFeedback, }: AskAssistantProps) => react_jsx_runtime.JSX.Element;
+
 type CopyHeadingLinkProps = {
     /**
      * Heading `id` used as the URL hash. An empty slug means the heading is an
@@ -214,16 +295,6 @@ type BreadcrumbProps = {
     breadcumbList?: BreadcrumbItem[];
 };
 declare const Breadcrumb: ({ breadcrumbList, breadcumbList, }: BreadcrumbProps) => react_jsx_runtime.JSX.Element;
-
-type Section = {
-    id: string;
-    link: string;
-    title: string;
-    description: string;
-    Icon: (props: IconProps) => JSX.Element;
-    isExternalLink?: boolean;
-};
-type IconComponent = (props: IconProps) => JSX.Element;
 
 interface InputProps {
     value: string;
@@ -295,8 +366,15 @@ type HeaderProps = {
     localeSwitcher?: ReactNode;
     /** Parent slugs of the current article, used to expand the mobile sidebar. */
     parentsArray?: string[];
+    /**
+     * When true, renders AskAssistant next to the search input.
+     * Hidden on small viewports together with search.
+     */
+    showAssistant?: boolean;
+    /** Props forwarded to AskAssistant when `showAssistant` is true. */
+    assistant?: AskAssistantProps;
 };
-declare const Header: ({ variant, isEditor, dropdownSections, editorSections, announcement, homeHref, feedbackUrl, logo, extraRightLinks, localeSwitcher, parentsArray, }: HeaderProps) => react_jsx_runtime.JSX.Element;
+declare const Header: ({ variant, isEditor, dropdownSections, editorSections, announcement, homeHref, feedbackUrl, logo, extraRightLinks, localeSwitcher, parentsArray, showAssistant, assistant, }: HeaderProps) => react_jsx_runtime.JSX.Element;
 
 type AnnouncementBarType = 'warning' | 'new';
 type AnnouncementBarAction = {
@@ -638,6 +716,18 @@ declare const CheckboxIcon: (props: CheckboxProps) => react_jsx_runtime.JSX.Elem
 
 declare const ResizeIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
 
+declare const SparkleIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const ExpandIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const CollapseIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const SendIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const RefreshIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const NewChatIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
 declare const ArrowLeftIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
 
 declare const ArrowRightIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
@@ -652,4 +742,4 @@ declare const LikeIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
 
 declare const LikeSelectedIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
 
-export { APIGuidesIcon, APIReferenceIcon, AddedIcon, type AlgoliaConfig, AnnouncementBar, type AnnouncementBarAction, type AnnouncementBarProps, type AnnouncementBarType, AnnouncementIcon, AppDevelopmentIcon, ArrowLeftIcon, ArrowRightIcon, AskAIMenu, type AskAIMenuProps, type AskAIProvider, Author, type AuthorProps, Breadcrumb, type BreadcrumbItem, type BreadcrumbProps, CaretIcon, ChatGPTIcon, CheckboxIcon, ChipFilter, type ChipFilterCategory, type ChipFilterProps, ClaudeIcon, CloseFilterIcon, CloseIcon, CommunityIcon, Contributors, type ContributorsProps, type ContributorsType, CookieBar, CopilotIcon, CopyButton, type CopyButtonProps, CopyHeadingLink, type CopyHeadingLinkProps, CopyIcon, CopyLinkButton, DeprecatedIcon, DeveloperPortalIcon, type DocPath, DocumentationUpdatesIcon, DropdownMenu, type DropdownMenuProps, EditIcon, EmailIcon, ExpandedResultsIcon, FAQIcon, FacebookCircleIcon, FacebookIcon, FeedbackModal, type FeedbackModalPayload, type FeedbackModalProps, FeedbackSection, type FeedbackSectionProps, ListingFilter as Filter, type FilterGroup, FilterIcon, type FilterOption, FixedIcon, Footer, type FooterLink, type FooterProps, type FooterVariant, GearTroubleshootingIcon, GeminiIcon, GithubIcon, GraphIcon, GridIcon, HamburgerMenu, Header, type HeaderProps, type HeaderVariant, HelpCenterIcon, type HybridSearchConfig, ImprovedIcon, InfoIcon, Input, IgIcon as InstagramIcon, type Item, KnownIssueIcon as KnownIssuesIcon, LibraryContext, LibraryContextProvider, LikeIcon, LikeSelectedIcon, LinkIcon, LinkedinCircleIcon, LinkedinIcon, ListingFilter, type ListingFilterLabels, type ListingFilterProps, type ListingFilterSelection, LongArrowIcon, MarkdownRenderer, MegaphoneIcon, MenuIcon, MobileSearch, type MobileSearchProps, NewIcon, OnThisPage, type OnThisPageProps, PaperIcon, ReleaseNotesIcon, RemovedIcon, ResizeIcon, Search, type SearchBackendConfig, SearchConfig, SearchIcon, SearchInput, type SearchInputProps, type Section, ShareButton, ShareIcon, SideBarToggleIcon, Sidebar, StartHereIcon, StorefrontDevelopmentIcon, SubscriptionList, TableOfContents, Tag, type TagColor, type TagProps, TimeToRead, type TimeToReadProps, Tooltip, TrashcanIcon, TroubleshootingCard, type TroubleshootingCardProps, type TroubleshootingCardVariant, type TroubleshootingFilterState, TroubleshootingIcon, type TroubleshootingItem, TutorialsIcon, TwitterCircleIcon, TwitterIcon, VTEXDevPortalIcon, VTEXHelpCenterIcon, VTEXIOAppsIcon, VTEXLogoFooter, WarningIcon, WhatsNextCard, type WhatsNextDataElement, YoutubeIcon, collectTroubleshootingFilterOptions, filterTroubleshootingItems, getDaysElapsed };
+export { APIGuidesIcon, APIReferenceIcon, AddedIcon, type AlgoliaConfig, AnnouncementBar, type AnnouncementBarAction, type AnnouncementBarProps, type AnnouncementBarType, AnnouncementIcon, AppDevelopmentIcon, ArrowLeftIcon, ArrowRightIcon, AskAIMenu, type AskAIMenuProps, type AskAIProvider, AskAssistant, type AskAssistantExampleCategory, type AskAssistantFeedback, type AskAssistantProps, type AssistantStreamEvent, type AssistantStreamHandler, Author, type AuthorProps, Breadcrumb, type BreadcrumbItem, type BreadcrumbProps, CaretIcon, ChatGPTIcon, type ChatMessage, CheckboxIcon, ChipFilter, type ChipFilterCategory, type ChipFilterProps, ClaudeIcon, CloseFilterIcon, CloseIcon, CollapseIcon, CommunityIcon, Contributors, type ContributorsProps, type ContributorsType, CookieBar, CopilotIcon, CopyButton, type CopyButtonProps, CopyHeadingLink, type CopyHeadingLinkProps, CopyIcon, CopyLinkButton, DEFAULT_ASK_ASSISTANT_EXAMPLES, DeprecatedIcon, DeveloperPortalIcon, type DocPath, DocumentationUpdatesIcon, DropdownMenu, type DropdownMenuProps, EditIcon, EmailIcon, ExpandIcon, ExpandedResultsIcon, FAQIcon, FacebookCircleIcon, FacebookIcon, FeedbackModal, type FeedbackModalPayload, type FeedbackModalProps, FeedbackSection, type FeedbackSectionProps, ListingFilter as Filter, type FilterGroup, FilterIcon, type FilterOption, FixedIcon, Footer, type FooterLink, type FooterProps, type FooterVariant, GearTroubleshootingIcon, GeminiIcon, GithubIcon, GraphIcon, GridIcon, HamburgerMenu, Header, type HeaderProps, type HeaderVariant, HelpCenterIcon, type HistoryConversation, type HybridSearchConfig, ImprovedIcon, InfoIcon, Input, IgIcon as InstagramIcon, type Item, KnownIssueIcon as KnownIssuesIcon, LibraryContext, LibraryContextProvider, LikeIcon, LikeSelectedIcon, LinkIcon, LinkedinCircleIcon, LinkedinIcon, ListingFilter, type ListingFilterLabels, type ListingFilterProps, type ListingFilterSelection, LongArrowIcon, MarkdownRenderer, MegaphoneIcon, MenuIcon, MobileSearch, type MobileSearchProps, NewChatIcon, NewIcon, OnThisPage, type OnThisPageProps, PaperIcon, type ProcessStep, RefreshIcon, ReleaseNotesIcon, RemovedIcon, ResizeIcon, Search, type SearchBackendConfig, SearchConfig, SearchIcon, SearchInput, type SearchInputProps, type Section, SendIcon, ShareButton, ShareIcon, SideBarToggleIcon, Sidebar, SparkleIcon, StartHereIcon, StorefrontDevelopmentIcon, SubscriptionList, TableOfContents, Tag, type TagColor, type TagProps, TimeToRead, type TimeToReadProps, Tooltip, TrashcanIcon, TroubleshootingCard, type TroubleshootingCardProps, type TroubleshootingCardVariant, type TroubleshootingFilterState, TroubleshootingIcon, type TroubleshootingItem, TutorialsIcon, TwitterCircleIcon, TwitterIcon, VTEXDevPortalIcon, VTEXHelpCenterIcon, VTEXIOAppsIcon, VTEXLogoFooter, WarningIcon, WhatsNextCard, type WhatsNextDataElement, YoutubeIcon, collectTroubleshootingFilterOptions, filterTroubleshootingItems, getDaysElapsed };
