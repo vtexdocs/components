@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [7.0.1](https://github.com/vtexdocs/components/compare/v7.0.0...v7.0.1) (2026-09-03)
+
+
+### Features
+
+* ArticleRender ([c5cc6cf](https://github.com/vtexdocs/components/commit/c5cc6cfc17a0fb2b03f970e6834bc68928b49967))
+
 ## [7.0.0](https://github.com/vtexdocs/components/compare/v6.3.4...v7.0.0) (2026-09-03)
 
 
