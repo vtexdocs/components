@@ -81,4 +81,40 @@ export type MessagesType = {
   'ask_ai.copy': string
   'ask_ai.view': string
   'ask_ai.copied': string
+  'ask_assistant.button': string
+  'ask_assistant.title': string
+  'ask_assistant.placeholder': string
+  'ask_assistant.examples': string
+  'ask_assistant.send': string
+  'ask_assistant.close': string
+  'ask_assistant.clear': string
+  'ask_assistant.history': string
+  'ask_assistant.history_clear': string
+  'ask_assistant.expand': string
+  'ask_assistant.collapse': string
+  'ask_assistant.copy': string
+  'ask_assistant.copied': string
+  'ask_assistant.regenerate': string
+  'ask_assistant.helpful': string
+  'ask_assistant.not_helpful': string
+  'ask_assistant.error': string
+  'ask_assistant.searching': string
+  'ask_assistant.searching_docs': string
+  'ask_assistant.searching_endpoints': string
+  'ask_assistant.reading_endpoints': string
+  'ask_assistant.reading_document': string
+  'ask_assistant.read_file': string
+  'ask_assistant.read_files': string
+  'ask_assistant.found_endpoint': string
+  'ask_assistant.found_endpoints': string
+  'ask_assistant.tool': string
+  'ask_assistant.process_running': string
+  'ask_assistant.process_completed': string
+  'ask_assistant.process_completed_one': string
+  'ask_assistant.step_search_docs': string
+  'ask_assistant.step_search_endpoints': string
+  'ask_assistant.step_read_endpoints': string
+  'ask_assistant.step_read_document': string
+  'ask_assistant.step_create_response': string
+  'ask_assistant.step_search': string
 }
