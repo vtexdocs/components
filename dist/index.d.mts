@@ -253,6 +253,11 @@ type AskAssistantProps = {
     onOpenChange?: (open: boolean) => void;
     /** Hide the pill trigger and only render the panel. */
     hideTrigger?: boolean;
+    /**
+     * On viewports below the desktop grid breakpoint, render a floating
+     * action button instead of the header pill. Defaults to true.
+     */
+    floatingOnMobile?: boolean;
     /** Register ⌘/Ctrl + I to toggle the panel. Defaults to true. */
     enableShortcut?: boolean;
     /** Seed the panel with an existing conversation. */
@@ -271,7 +276,7 @@ type AskAssistantProps = {
 
 declare const DEFAULT_ASK_ASSISTANT_EXAMPLES: AskAssistantExampleCategory[];
 
-declare const AskAssistant: ({ streamUrl, stream, open, defaultOpen, onOpenChange, hideTrigger, enableShortcut, initialMessages, examples, initialHistory, onAsk, onFeedback, }: AskAssistantProps) => react_jsx_runtime.JSX.Element;
+declare const AskAssistant: ({ streamUrl, stream, open, defaultOpen, onOpenChange, hideTrigger, floatingOnMobile, enableShortcut, initialMessages, examples, initialHistory, onAsk, onFeedback, }: AskAssistantProps) => react_jsx_runtime.JSX.Element;
 
 type CopyHeadingLinkProps = {
     /**
@@ -367,8 +372,9 @@ type HeaderProps = {
     /** Parent slugs of the current article, used to expand the mobile sidebar. */
     parentsArray?: string[];
     /**
-     * When true, renders AskAssistant next to the search input.
-     * Hidden on small viewports together with search.
+     * When true, renders AskAssistant next to the search input on desktop.
+     * Search stays hidden on small viewports (use the search icon). On mobile
+     * the assistant is a floating action button in the bottom-right corner.
      */
     showAssistant?: boolean;
     /** Props forwarded to AskAssistant when `showAssistant` is true. */
@@ -474,7 +480,7 @@ type DateTextProps = {
     createdAt: Date;
     updatedAt: Date;
 };
-declare const DateText: ({ createdAt, updatedAt }: DateTextProps) => react_jsx_runtime.JSX.Element;
+declare const DateText: ({ createdAt, updatedAt }: DateTextProps) => react_jsx_runtime.JSX.Element | null;
 
 type ArticlePaginationDoc = {
     slug: string | null;
@@ -505,6 +511,17 @@ type SuggestEditsProps = {
 };
 declare const SuggestEdits: ({ urlToEdit, small, sx, }: SuggestEditsProps) => react_jsx_runtime.JSX.Element;
 
+type SeeAlsoDoc = {
+    url: string;
+    title?: string;
+    category?: string;
+};
+
+type SeeAlsoSectionProps = {
+    docs: SeeAlsoDoc[];
+};
+declare const SeeAlsoSection: ({ docs }: SeeAlsoSectionProps) => react_jsx_runtime.JSX.Element;
+
 type ArticleRenderProps = {
     serialized: MDXRemoteSerializeResult;
     breadcrumbList: BreadcrumbItem[];
@@ -519,7 +536,7 @@ type ArticleRenderProps = {
     headingList?: Item[];
     pagination?: ArticlePaginationData;
     children?: ReactNode;
-    seeAlso?: ReactNode;
+    seeAlso?: SeeAlsoDoc[] | ReactNode;
     customComponents?: MarkdownRendererProps['customComponents'];
     scope?: MarkdownRendererProps['scope'];
     /** Wrap the markdown output without remounting it on parent re-renders. */
@@ -531,10 +548,11 @@ type ArticleRenderProps = {
     showFeedbackSection?: boolean;
     showSuggestEdits?: boolean;
     showArticlePagination?: boolean;
+    showSeeAlso?: boolean;
     showTableOfContents?: boolean;
     showDateText?: boolean;
 };
-declare const ArticleRender: ({ serialized, headings, headingList, breadcrumbList, contributors, path, pagination, slug, type, pageUrl, urlToEdit, rawContentBaseUrl, children, seeAlso, customComponents, scope, renderMarkdown, showReadingTime, showAskAIMenu, showAuthor, showContributors, showFeedbackSection, showSuggestEdits, showArticlePagination, showTableOfContents, showDateText, }: ArticleRenderProps) => react_jsx_runtime.JSX.Element;
+declare const ArticleRender: ({ serialized, headings, headingList, breadcrumbList, contributors, path, pagination, slug, type, pageUrl, urlToEdit, rawContentBaseUrl, children, seeAlso, customComponents, scope, renderMarkdown, showReadingTime, showAskAIMenu, showAuthor, showContributors, showFeedbackSection, showSuggestEdits, showArticlePagination, showSeeAlso, showTableOfContents, showDateText, }: ArticleRenderProps) => react_jsx_runtime.JSX.Element;
 
 type TroubleshootingItem = {
     slug: string;
@@ -808,4 +826,4 @@ declare const LikeIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
 
 declare const LikeSelectedIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
 
-export { APIGuidesIcon, APIReferenceIcon, AddedIcon, type AlgoliaConfig, AnnouncementBar, type AnnouncementBarAction, type AnnouncementBarProps, type AnnouncementBarType, AnnouncementIcon, AppDevelopmentIcon, ArrowLeftIcon, ArrowRightIcon, ArticlePagination, type ArticlePaginationData, type ArticlePaginationDoc, type ArticlePaginationProps, ArticleRender, type ArticleRenderProps, AskAIMenu, type AskAIMenuProps, type AskAIProvider, AskAssistant, type AskAssistantExampleCategory, type AskAssistantFeedback, type AskAssistantProps, type AssistantStreamEvent, type AssistantStreamHandler, Author, type AuthorProps, Breadcrumb, type BreadcrumbItem, type BreadcrumbProps, CaretIcon, ChatGPTIcon, type ChatMessage, CheckboxIcon, ChipFilter, type ChipFilterCategory, type ChipFilterProps, ClaudeIcon, CloseFilterIcon, CloseIcon, CollapseIcon, CommunityIcon, Contributors, type ContributorsProps, type ContributorsType, CookieBar, CopilotIcon, CopyButton, type CopyButtonProps, CopyHeadingLink, type CopyHeadingLinkProps, CopyIcon, CopyLinkButton, DEFAULT_ASK_ASSISTANT_EXAMPLES, DateText, type DateTextProps, DeprecatedIcon, DeveloperPortalIcon, type DocPath, DocumentationUpdatesIcon, DropdownMenu, type DropdownMenuProps, EditIcon, EmailIcon, ExpandIcon, ExpandedResultsIcon, FAQIcon, FacebookCircleIcon, FacebookIcon, FeedbackModal, type FeedbackModalPayload, type FeedbackModalProps, FeedbackSection, type FeedbackSectionProps, ListingFilter as Filter, type FilterGroup, FilterIcon, type FilterOption, FixedIcon, Footer, type FooterLink, type FooterProps, type FooterVariant, GearTroubleshootingIcon, GeminiIcon, GithubIcon, GraphIcon, GridIcon, HamburgerMenu, Header, type HeaderProps, type HeaderVariant, HelpCenterIcon, type HistoryConversation, type HybridSearchConfig, ImprovedIcon, InfoIcon, Input, InsertAccountName, type InsertAccountNameProps, IgIcon as InstagramIcon, type Item, KnownIssueIcon as KnownIssuesIcon, LibraryContext, LibraryContextProvider, LikeIcon, LikeSelectedIcon, LinkIcon, LinkedinCircleIcon, LinkedinIcon, ListingFilter, type ListingFilterLabels, type ListingFilterProps, type ListingFilterSelection, LongArrowIcon, MarkdownRenderer, MegaphoneIcon, MenuIcon, MobileSearch, type MobileSearchProps, NewChatIcon, NewIcon, OnThisPage, type OnThisPageProps, PaperIcon, type ProcessStep, RefreshIcon, ReleaseNotesIcon, RemovedIcon, ResizeIcon, Search, type SearchBackendConfig, SearchConfig, SearchIcon, SearchInput, type SearchInputProps, type Section, SendIcon, ShareButton, ShareIcon, SideBarToggleIcon, Sidebar, SparkleIcon, StartHereIcon, StorefrontDevelopmentIcon, SubscriptionList, SuggestEdits, type SuggestEditsProps, TableOfContents, Tag, type TagColor, type TagProps, TimeToRead, type TimeToReadProps, Tooltip, TrashcanIcon, TroubleshootingCard, type TroubleshootingCardProps, type TroubleshootingCardVariant, type TroubleshootingFilterState, TroubleshootingIcon, type TroubleshootingItem, TutorialsIcon, TwitterCircleIcon, TwitterIcon, VTEXDevPortalIcon, VTEXHelpCenterIcon, VTEXIOAppsIcon, VTEXLogoFooter, WarningIcon, WhatsNextCard, type WhatsNextDataElement, YoutubeIcon, collectTroubleshootingFilterOptions, filterTroubleshootingItems, getDaysElapsed };
+export { APIGuidesIcon, APIReferenceIcon, AddedIcon, type AlgoliaConfig, AnnouncementBar, type AnnouncementBarAction, type AnnouncementBarProps, type AnnouncementBarType, AnnouncementIcon, AppDevelopmentIcon, ArrowLeftIcon, ArrowRightIcon, ArticlePagination, type ArticlePaginationData, type ArticlePaginationDoc, type ArticlePaginationProps, ArticleRender, type ArticleRenderProps, AskAIMenu, type AskAIMenuProps, type AskAIProvider, AskAssistant, type AskAssistantExampleCategory, type AskAssistantFeedback, type AskAssistantProps, type AssistantStreamEvent, type AssistantStreamHandler, Author, type AuthorProps, Breadcrumb, type BreadcrumbItem, type BreadcrumbProps, CaretIcon, ChatGPTIcon, type ChatMessage, CheckboxIcon, ChipFilter, type ChipFilterCategory, type ChipFilterProps, ClaudeIcon, CloseFilterIcon, CloseIcon, CollapseIcon, CommunityIcon, Contributors, type ContributorsProps, type ContributorsType, CookieBar, CopilotIcon, CopyButton, type CopyButtonProps, CopyHeadingLink, type CopyHeadingLinkProps, CopyIcon, CopyLinkButton, DEFAULT_ASK_ASSISTANT_EXAMPLES, DateText, type DateTextProps, DeprecatedIcon, DeveloperPortalIcon, type DocPath, DocumentationUpdatesIcon, DropdownMenu, type DropdownMenuProps, EditIcon, EmailIcon, ExpandIcon, ExpandedResultsIcon, FAQIcon, FacebookCircleIcon, FacebookIcon, FeedbackModal, type FeedbackModalPayload, type FeedbackModalProps, FeedbackSection, type FeedbackSectionProps, ListingFilter as Filter, type FilterGroup, FilterIcon, type FilterOption, FixedIcon, Footer, type FooterLink, type FooterProps, type FooterVariant, GearTroubleshootingIcon, GeminiIcon, GithubIcon, GraphIcon, GridIcon, HamburgerMenu, Header, type HeaderProps, type HeaderVariant, HelpCenterIcon, type HistoryConversation, type HybridSearchConfig, ImprovedIcon, InfoIcon, Input, InsertAccountName, type InsertAccountNameProps, IgIcon as InstagramIcon, type Item, KnownIssueIcon as KnownIssuesIcon, LibraryContext, LibraryContextProvider, LikeIcon, LikeSelectedIcon, LinkIcon, LinkedinCircleIcon, LinkedinIcon, ListingFilter, type ListingFilterLabels, type ListingFilterProps, type ListingFilterSelection, LongArrowIcon, MarkdownRenderer, MegaphoneIcon, MenuIcon, MobileSearch, type MobileSearchProps, NewChatIcon, NewIcon, OnThisPage, type OnThisPageProps, PaperIcon, type ProcessStep, RefreshIcon, ReleaseNotesIcon, RemovedIcon, ResizeIcon, Search, type SearchBackendConfig, SearchConfig, SearchIcon, SearchInput, type SearchInputProps, type Section, type SeeAlsoDoc, SeeAlsoSection, type SeeAlsoSectionProps, SendIcon, ShareButton, ShareIcon, SideBarToggleIcon, Sidebar, SparkleIcon, StartHereIcon, StorefrontDevelopmentIcon, SubscriptionList, SuggestEdits, type SuggestEditsProps, TableOfContents, Tag, type TagColor, type TagProps, TimeToRead, type TimeToReadProps, Tooltip, TrashcanIcon, TroubleshootingCard, type TroubleshootingCardProps, type TroubleshootingCardVariant, type TroubleshootingFilterState, TroubleshootingIcon, type TroubleshootingItem, TutorialsIcon, TwitterCircleIcon, TwitterIcon, VTEXDevPortalIcon, VTEXHelpCenterIcon, VTEXIOAppsIcon, VTEXLogoFooter, WarningIcon, WhatsNextCard, type WhatsNextDataElement, YoutubeIcon, collectTroubleshootingFilterOptions, filterTroubleshootingItems, getDaysElapsed };

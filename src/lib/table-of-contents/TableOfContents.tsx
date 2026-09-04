@@ -60,7 +60,7 @@ const TableOfContents = ({ headingList, children }: Props) => {
     useContext(LibraryContext)
 
   useEffect(() => {
-    if (headingList?.length) {
+    if (headingList) {
       setHeadingItems(headingList)
       return
     }

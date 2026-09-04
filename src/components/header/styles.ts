@@ -19,6 +19,7 @@ const headerContainer: SxStyleProp = {
   top: 0,
   zIndex: 9999,
   width: '100%',
+  backgroundColor: '#FFFFFF',
   transition: 'top 0.3s',
   'body:has(.modal[data-open="true"]) &': {
     zIndex: 0,
@@ -28,7 +29,7 @@ const headerContainer: SxStyleProp = {
 }
 
 const headerBrand: SxStyleProp = {
-  gridTemplateColumns: '1fr 1fr 0fr 1fr',
+  gridTemplateColumns: 'auto minmax(0, 1fr) auto auto',
   width: '100%',
   position: 'relative',
   transition: 'top 0.3s',
@@ -179,18 +180,21 @@ const searchRow: SxStyleProp = {
   display: ['none', 'none', 'flex', 'flex'],
   alignItems: 'center',
   justifyContent: 'center',
+  flexWrap: 'nowrap',
   gap: '8px',
   paddingBlock: '18px',
   height: 'auto',
   minWidth: 0,
+  maxWidth: '100%',
 }
 
 const searchContainer: SxStyleProp = {
   flex: 'none',
-  width: 'max-content',
+  minWidth: 0,
 }
 
 const assistantSlot: SxStyleProp = {
+  display: ['none', 'none', 'none', 'flex'],
   flex: 'none',
   flexShrink: 0,
   alignSelf: 'center',

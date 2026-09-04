@@ -62,6 +62,11 @@ export type AskAssistantProps = {
   onOpenChange?: (open: boolean) => void
   /** Hide the pill trigger and only render the panel. */
   hideTrigger?: boolean
+  /**
+   * On viewports below the desktop grid breakpoint, render a floating
+   * action button instead of the header pill. Defaults to true.
+   */
+  floatingOnMobile?: boolean
   /** Register ⌘/Ctrl + I to toggle the panel. Defaults to true. */
   enableShortcut?: boolean
   /** Seed the panel with an existing conversation. */

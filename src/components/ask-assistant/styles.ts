@@ -8,7 +8,7 @@ const focusRing: SxStyleProp = {
 }
 
 const trigger: SxStyleProp = {
-  display: 'inline-flex',
+  display: ['none', 'none', 'none', 'inline-flex'],
   alignItems: 'center',
   gap: '8px',
   height: '36px',
@@ -32,12 +32,39 @@ const trigger: SxStyleProp = {
   ...focusRing,
 }
 
+const floatingTrigger: SxStyleProp = {
+  display: ['inline-flex', 'inline-flex', 'inline-flex', 'none'],
+  position: 'fixed',
+  right: '16px',
+  bottom: 'calc(16px + env(safe-area-inset-bottom, 0px))',
+  zIndex: 40,
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: '56px',
+  height: '56px',
+  padding: 0,
+  border: 'none',
+  borderRadius: '50%',
+  backgroundColor: '#142032',
+  color: '#FFFFFF',
+  cursor: 'pointer',
+  boxShadow: '0 8px 24px rgba(20, 32, 50, 0.28)',
+  transition: 'background-color 0.15s ease, transform 0.15s ease',
+  ':hover': {
+    backgroundColor: '#000711',
+  },
+  ':active': {
+    transform: 'scale(0.96)',
+  },
+  ...focusRing,
+}
+
 const triggerIcon: SxStyleProp = {
   flexShrink: 0,
 }
 
 const triggerShortcut: SxStyleProp = {
-  display: ['none', 'inline-flex'],
+  display: ['none', 'none', 'none', 'none', 'inline-flex'],
   alignItems: 'center',
   gap: '4px',
   ml: '2px',
@@ -62,6 +89,37 @@ const triggerKbd: SxStyleProp = {
   letterSpacing: 0,
 }
 
+/** First Brand UI / Theme UI breakpoint — panel is a side column, not a sheet. */
+export const SPLIT_VIEW_MQ = '(min-width: 40em)'
+export const PANEL_WIDTH = 'min(400px, 100vw)'
+export const PANEL_EXPANDED_WIDTH = 'min(720px, 80vw)'
+
+export const splitViewCss = `
+@media screen and ${SPLIT_VIEW_MQ} {
+  html:has([data-ask-assistant-panel]) {
+    --ask-assistant-width: ${PANEL_WIDTH};
+    --ask-assistant-top: 0px;
+  }
+  html:has([data-ask-assistant-panel][data-expanded="true"]) {
+    --ask-assistant-width: ${PANEL_EXPANDED_WIDTH};
+  }
+  html:has([data-ask-assistant-panel]) [data-docs-header] {
+    max-width: none;
+  }
+  html:has([data-ask-assistant-panel]) [data-docs-header] ~ * {
+    box-sizing: border-box;
+    padding-right: var(--ask-assistant-width) !important;
+  }
+  html:has([data-ask-assistant-panel]) [data-article-aside] {
+    display: none !important;
+  }
+  html:has([data-ask-assistant-panel]):not(:has([data-docs-header])) body {
+    box-sizing: border-box;
+    padding-right: var(--ask-assistant-width);
+  }
+}
+`
+
 const overlay: SxStyleProp = {
   display: ['block', 'none'],
   position: 'fixed',
@@ -72,21 +130,25 @@ const overlay: SxStyleProp = {
   zIndex: 10000,
 }
 
+const EMPTY_STATE_BACKGROUND = [
+  'radial-gradient(120% 80% at 0% 0%, #F8DDEC 0%, rgba(248, 221, 236, 0) 54%)',
+  'radial-gradient(110% 85% at 100% 100%, #D2EEF8 0%, rgba(210, 238, 248, 0) 56%)',
+  'linear-gradient(135deg, #FDF6FB 0%, #F6F8FD 46%, #EEF7FC 100%)',
+].join(', ')
+
 const panel = (expanded: boolean): SxStyleProp => ({
   position: 'fixed',
-  top: 0,
+  top: [0, 'var(--ask-assistant-top, 0px)'],
   right: 0,
   bottom: 0,
-  zIndex: 10001,
+  zIndex: [10001, 40],
   display: 'flex',
   flexDirection: 'column',
-  width: expanded
-    ? ['100vw', 'min(720px, 80vw)']
-    : ['100vw', 'min(400px, 100vw)'],
+  width: expanded ? ['100vw', PANEL_EXPANDED_WIDTH] : ['100vw', PANEL_WIDTH],
   maxWidth: '100vw',
   backgroundColor: '#FFFFFF',
   borderLeft: '1px solid #E7E9EE',
-  boxShadow: '-8px 0 32px rgba(20, 32, 50, 0.12)',
+  boxShadow: ['-8px 0 32px rgba(20, 32, 50, 0.12)', 'none'],
   overscrollBehavior: 'contain',
   transition: 'width 0.2s ease',
 })
@@ -436,6 +498,8 @@ const emptyState: SxStyleProp = {
   flex: 1,
   minHeight: 0,
   overflowY: 'auto',
+  backgroundColor: '#F7F8FC',
+  backgroundImage: EMPTY_STATE_BACKGROUND,
 }
 
 const emptyMain: SxStyleProp = {
@@ -449,9 +513,11 @@ const emptyMain: SxStyleProp = {
 
 const emptyHero: SxStyleProp = {
   display: 'flex',
+  flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
   flexShrink: 0,
+  px: '24px',
   mb: '20px',
 }
 
@@ -459,11 +525,41 @@ const emptyHeroIcon: SxStyleProp = {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  width: '48px',
-  height: '48px',
-  borderRadius: '8px',
-  backgroundColor: '#F4F2FA',
-  color: '#E31C58',
+  mb: '8px',
+  color: '#5B6E84',
+  svg: {
+    overflow: 'visible',
+  },
+  path: {
+    strokeWidth: '1',
+    strokeLinecap: 'round',
+  },
+}
+
+const emptyHeroCopy: SxStyleProp = {
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  gap: '6px',
+  mt: '4px',
+  textAlign: 'center',
+}
+
+const emptyHeroTitle: SxStyleProp = {
+  m: 0,
+  color: '#142032',
+  fontSize: '22px',
+  fontWeight: '600',
+  lineHeight: '28px',
+  letterSpacing: '-0.02em',
+}
+
+const emptyHeroSubtitle: SxStyleProp = {
+  m: 0,
+  color: '#4A596B',
+  fontSize: '14px',
+  fontWeight: '400',
+  lineHeight: '20px',
 }
 
 const examples: SxStyleProp = {
@@ -503,9 +599,11 @@ const examplePill = (active: boolean): SxStyleProp => ({
   gap: '6px',
   height: '32px',
   px: '12px',
-  border: `1px solid ${active ? '#D8D8E3' : '#E7E9EE'}`,
+  border: `1px solid ${active ? 'rgba(216, 216, 227, 0.9)' : 'rgba(231, 233, 238, 0.8)'}`,
   borderRadius: '16px',
-  backgroundColor: active ? '#F8F7FC' : '#FFFFFF',
+  backgroundColor: active
+    ? 'rgba(248, 247, 252, 0.92)'
+    : 'rgba(255, 255, 255, 0.72)',
   color: '#4A596B',
   fontSize: '13px',
   fontWeight: active ? '600' : '500',
@@ -513,6 +611,8 @@ const examplePill = (active: boolean): SxStyleProp => ({
   cursor: 'pointer',
   whiteSpace: 'nowrap',
   flexShrink: 0,
+  backdropFilter: 'blur(10px)',
+  WebkitBackdropFilter: 'blur(10px)',
   transition: 'background-color 0.15s ease, border-color 0.15s ease',
   ':hover': {
     borderColor: '#3A4F66',
@@ -540,18 +640,20 @@ const exampleQuestion: SxStyleProp = {
   width: '100%',
   px: '12px',
   py: '10px',
-  border: '1px solid #E7E9EE',
+  border: '1px solid rgba(231, 233, 238, 0.8)',
   borderRadius: '8px',
-  background: '#FFFFFF',
+  background: 'rgba(255, 255, 255, 0.72)',
   color: '#4A596B',
   fontSize: '13px',
   lineHeight: '20px',
   textAlign: 'left',
   cursor: 'pointer',
+  backdropFilter: 'blur(10px)',
+  WebkitBackdropFilter: 'blur(10px)',
   transition:
     'background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease',
   ':hover': {
-    backgroundColor: '#F8F7FC',
+    backgroundColor: 'rgba(248, 247, 252, 0.92)',
     borderColor: '#D8D8E3',
     color: '#142032',
   },
@@ -575,6 +677,20 @@ const inputBox: SxStyleProp = {
   ':focus-within': {
     borderColor: '#E31C58',
     boxShadow: '0 0 0 3px rgba(227, 28, 88, 0.16)',
+  },
+}
+
+const inputBoxEmpty: SxStyleProp = {
+  ...inputBox,
+  backgroundColor: 'rgba(255, 255, 255, 0.86)',
+  borderColor: 'rgba(231, 233, 238, 0.85)',
+  boxShadow: '0 10px 32px rgba(20, 32, 50, 0.06)',
+  backdropFilter: 'blur(16px)',
+  WebkitBackdropFilter: 'blur(16px)',
+  ':focus-within': {
+    borderColor: '#E31C58',
+    boxShadow:
+      '0 0 0 3px rgba(227, 28, 88, 0.16), 0 10px 32px rgba(20, 32, 50, 0.06)',
   },
 }
 
@@ -650,14 +766,28 @@ const markdownHeading: SxStyleProp = {
 const markdownList: SxStyleProp = {
   margin: '8px 0',
   paddingLeft: '20px',
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '6px',
+  listStylePosition: 'outside',
+  'li + li': {
+    mt: '6px',
+  },
+  'ol, ul': {
+    mt: '6px',
+    mb: 0,
+  },
 }
 
-const nestedListItem: SxStyleProp = {
-  ml: '8px',
+const markdownOrderedList: SxStyleProp = {
+  ...markdownList,
+  listStyleType: 'decimal',
+}
+
+const markdownUnorderedList: SxStyleProp = {
+  ...markdownList,
   listStyleType: 'disc',
+}
+
+const markdownListItem: SxStyleProp = {
+  display: 'list-item',
 }
 
 const markdownLink: SxStyleProp = {
@@ -687,6 +817,110 @@ const inlineCode: SxStyleProp = {
   fontFamily: 'monospace',
 }
 
+const sources: SxStyleProp = {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '8px',
+  width: '100%',
+  mt: '16px',
+  pt: '14px',
+  borderTop: '1px solid #E7E9EE',
+}
+
+const sourcesLabel: SxStyleProp = {
+  color: 'muted.1',
+  fontSize: '12px',
+  fontWeight: '600',
+  lineHeight: '16px',
+  textTransform: 'uppercase',
+  letterSpacing: '0.04em',
+}
+
+const sourcesList: SxStyleProp = {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '6px',
+}
+
+const sourceCard: SxStyleProp = {
+  display: 'flex',
+  alignItems: 'center',
+  gap: '10px',
+  width: '100%',
+  px: '10px',
+  py: '8px',
+  border: '1px solid #E7E9EE',
+  borderRadius: '8px',
+  backgroundColor: '#FFFFFF',
+  color: 'inherit',
+  textDecoration: 'none',
+  cursor: 'pointer',
+  transition:
+    'background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease',
+  ':hover': {
+    backgroundColor: '#F8F7FC',
+    borderColor: '#D8D8E3',
+    '.source-title': {
+      color: '#000711',
+    },
+    '.source-arrow': {
+      color: '#4A596B',
+    },
+  },
+  ':focus-visible': {
+    outline: '2px solid #E31C58',
+    outlineOffset: '2px',
+  },
+}
+
+const sourceIcon: SxStyleProp = {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: '28px',
+  height: '28px',
+  borderRadius: '6px',
+  backgroundColor: '#F8F7FC',
+  color: '#4A596B',
+  flexShrink: 0,
+}
+
+const sourceCopy: SxStyleProp = {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '2px',
+  minWidth: 0,
+  flex: 1,
+}
+
+const sourceTitle: SxStyleProp = {
+  color: '#142032',
+  fontSize: '13px',
+  fontWeight: '500',
+  lineHeight: '18px',
+  overflow: 'hidden',
+  display: '-webkit-box',
+  WebkitLineClamp: 2,
+  WebkitBoxOrient: 'vertical',
+}
+
+const sourceMeta: SxStyleProp = {
+  color: '#5B6E84',
+  fontSize: '12px',
+  fontWeight: '400',
+  lineHeight: '16px',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
+}
+
+const sourceArrow: SxStyleProp = {
+  display: 'inline-flex',
+  flexShrink: 0,
+  color: '#C7CDD6',
+  transition: 'color 0.15s ease',
+}
+
 const errorText: SxStyleProp = {
   width: '100%',
   padding: '12px 14px',
@@ -703,6 +937,7 @@ export default {
   triggerIcon,
   triggerShortcut,
   triggerKbd,
+  floatingTrigger,
   overlay,
   panel,
   header,
@@ -742,6 +977,9 @@ export default {
   emptyMain,
   emptyHero,
   emptyHeroIcon,
+  emptyHeroCopy,
+  emptyHeroTitle,
+  emptyHeroSubtitle,
   examples,
   examplesLabel,
   examplePills,
@@ -750,6 +988,7 @@ export default {
   exampleQuestions,
   exampleQuestion,
   inputBox,
+  inputBoxEmpty,
   textarea,
   inputFooter,
   sendButton,
@@ -757,9 +996,20 @@ export default {
   markdownParagraph,
   markdownHeading,
   markdownList,
-  nestedListItem,
+  markdownOrderedList,
+  markdownUnorderedList,
+  markdownListItem,
   markdownLink,
   markdownRule,
   inlineCode,
+  sources,
+  sourcesLabel,
+  sourcesList,
+  sourceCard,
+  sourceIcon,
+  sourceCopy,
+  sourceTitle,
+  sourceMeta,
+  sourceArrow,
   errorText,
 }

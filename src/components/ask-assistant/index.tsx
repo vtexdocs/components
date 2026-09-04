@@ -3,6 +3,7 @@ import {
   useContext,
   useEffect,
   useId,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -36,9 +37,9 @@ import {
   upsertHistory,
   writeHistory,
 } from './history'
-import MarkdownMessage from './markdown'
+import MarkdownMessage, { stripAnswerMetadata } from './markdown'
 import { createDefaultStream, isInternalEvent } from './stream'
-import styles from './styles'
+import styles, { SPLIT_VIEW_MQ, splitViewCss } from './styles'
 import type {
   AskAssistantProps,
   AssistantStreamEvent,
@@ -46,6 +47,19 @@ import type {
   HistoryConversation,
   ProcessStep,
 } from './types'
+
+const SPLIT_VIEW_STYLE_ID = 'ask-assistant-split-view'
+
+const ensureSplitViewStyles = () => {
+  if (typeof document === 'undefined') return
+  let style = document.getElementById(SPLIT_VIEW_STYLE_ID) as HTMLStyleElement | null
+  if (!style) {
+    style = document.createElement('style')
+    style.id = SPLIT_VIEW_STYLE_ID
+    document.head.appendChild(style)
+  }
+  style.textContent = splitViewCss
+}
 
 const createId = () => `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`
 
@@ -97,6 +111,7 @@ const AskAssistant = ({
   defaultOpen = false,
   onOpenChange,
   hideTrigger = false,
+  floatingOnMobile = true,
   enableShortcut = true,
   initialMessages = [],
   examples = DEFAULT_ASK_ASSISTANT_EXAMPLES,
@@ -104,7 +119,8 @@ const AskAssistant = ({
   onAsk,
   onFeedback,
 }: AskAssistantProps) => {
-  const { locale } = useContext(LibraryContext)
+  const { locale, setSidebarSectionHidden } = useContext(LibraryContext)
+  const sidebarHiddenBeforeOpen = useRef<boolean | null>(null)
   const localized = messages[locale] ?? messages.en
   const titleId = useId()
   const textareaRef = useRef<HTMLTextAreaElement>(null)
@@ -118,6 +134,7 @@ const AskAssistant = ({
   const [mounted, setMounted] = useState(false)
   const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen)
   const [expanded, setExpanded] = useState(false)
+  const [isSplitView, setIsSplitView] = useState(false)
   const [draft, setDraft] = useState('')
   const [chat, setChat] = useState<ChatMessage[]>(initialMessages)
   const [feedback, setFeedback] = useState<Record<string, boolean>>({})
@@ -129,11 +146,17 @@ const AskAssistant = ({
   const isOpen = open ?? uncontrolledOpen
   const isStreaming = chat.some((message) => message.status === 'streaming')
   const canSend = Boolean(draft.trim()) && !isStreaming
+  const showFloatingTrigger =
+    floatingOnMobile && !hideTrigger && mounted && !isOpen
 
   const labels = useMemo(
     () => ({
       button: localized['ask_assistant.button'] || 'Ask Assistant',
       title: localized['ask_assistant.title'] || 'Assistant',
+      heroTitle: localized['ask_assistant.hero_title'] || 'How can I help you?',
+      heroSubtitle:
+        localized['ask_assistant.hero_subtitle'] ||
+        'Get answers from VTEX documentation.',
       placeholder:
         localized['ask_assistant.placeholder'] || 'Ask a question...',
       send: localized['ask_assistant.send'] || 'Send',
@@ -249,10 +272,11 @@ const AskAssistant = ({
       let content = ''
 
       const applyContent = (next: string, status?: ChatMessage['status']) => {
-        if (!next) return
-        content = next
+        const visible = stripAnswerMetadata(next)
+        if (!visible) return
+        content = visible
         patchAssistant(assistantId, {
-          content: next,
+          content: visible,
           ...(status ? { status } : {}),
         })
       }
@@ -301,10 +325,11 @@ const AskAssistant = ({
         }
 
         if (event.type === 'FinalAnswerStep' && event.output) {
-          content = event.output
+          const visible = stripAnswerMetadata(event.output)
+          content = visible
           patchAssistant(assistantId, (message) => ({
             ...message,
-            content: event.output as string,
+            content: visible,
             status: 'complete',
             steps: ensureFinalStep(message.steps),
           }))
@@ -436,8 +461,9 @@ const AskAssistant = ({
   }
 
   const copyAnswer = (message: ChatMessage) => {
-    if (!message.content) return
-    copy(message.content)
+    const visible = stripAnswerMetadata(message.content)
+    if (!visible) return
+    copy(visible)
     setCopiedId(message.id)
     window.setTimeout(() => setCopiedId(null), 1600)
   }
@@ -450,15 +476,75 @@ const AskAssistant = ({
         .slice(0, messageIndex)
         .reverse()
         .find((item) => item.role === 'user')?.content ?? ''
-    onFeedback?.({ query, answer: message.content, liked })
+    onFeedback?.({ query, answer: stripAnswerMetadata(message.content), liked })
   }
 
   useEffect(() => {
+    ensureSplitViewStyles()
     setMounted(true)
     const stored = readHistory()
     if (stored.length) setHistory(stored)
-    return () => abortRef.current?.abort()
+
+    const mq = window.matchMedia(SPLIT_VIEW_MQ)
+    const updateSplitView = () => setIsSplitView(mq.matches)
+    updateSplitView()
+    mq.addEventListener('change', updateSplitView)
+
+    return () => {
+      abortRef.current?.abort()
+      mq.removeEventListener('change', updateSplitView)
+    }
   }, [])
+
+  useLayoutEffect(() => {
+    const root = document.documentElement
+    if (!isOpen || !isSplitView) {
+      root.style.removeProperty('--ask-assistant-top')
+      return
+    }
+
+    const header = document.querySelector<HTMLElement>('[data-docs-header]')
+    const sync = () => {
+      const top = header
+        ? Math.max(0, Math.round(header.getBoundingClientRect().bottom))
+        : 0
+      root.style.setProperty('--ask-assistant-top', `${top}px`)
+    }
+
+    sync()
+    if (!header) return
+
+    const observer = new ResizeObserver(sync)
+    observer.observe(header)
+    window.addEventListener('resize', sync)
+    window.addEventListener('scroll', sync, { passive: true })
+
+    return () => {
+      observer.disconnect()
+      window.removeEventListener('resize', sync)
+      window.removeEventListener('scroll', sync)
+      root.style.removeProperty('--ask-assistant-top')
+    }
+  }, [isOpen, isSplitView])
+
+  useEffect(() => {
+    if (!isSplitView) setExpanded(false)
+  }, [isSplitView])
+
+  useEffect(() => {
+    if (!isOpen || !isSplitView) return
+
+    setSidebarSectionHidden((hidden) => {
+      sidebarHiddenBeforeOpen.current = hidden
+      return true
+    })
+
+    return () => {
+      const previous = sidebarHiddenBeforeOpen.current
+      sidebarHiddenBeforeOpen.current = null
+      if (previous !== null) setSidebarSectionHidden(previous)
+    }
+  }, [isOpen, isSplitView, setSidebarSectionHidden])
 
   useEffect(() => {
     if (!enableShortcut) return
@@ -548,7 +634,7 @@ const AskAssistant = ({
 
   const composer = (
     <Box sx={isEmpty ? styles.inputWrapCentered : styles.inputWrap}>
-      <Box sx={styles.inputBox}>
+      <Box sx={isEmpty ? styles.inputBoxEmpty : styles.inputBox}>
         <Box
           as="textarea"
           ref={textareaRef}
@@ -580,12 +666,15 @@ const AskAssistant = ({
 
   const panel = isOpen && mounted && (
     <>
-      <Box sx={styles.overlay} onClick={() => setOpen(false)} />
+      {isSplitView ? null : (
+        <Box sx={styles.overlay} onClick={() => setOpen(false)} />
+      )}
       <Box
         sx={styles.panel(expanded)}
         data-ask-assistant-panel
+        data-expanded={expanded ? 'true' : undefined}
         role="dialog"
-        aria-modal="true"
+        aria-modal={isSplitView ? 'false' : 'true'}
         aria-labelledby={titleId}
       >
         <Flex sx={styles.header}>
@@ -594,15 +683,21 @@ const AskAssistant = ({
             <Text>{labels.title}</Text>
           </Flex>
           <Flex sx={styles.headerActions}>
-            <Box
-              as="button"
-              type="button"
-              sx={styles.iconButton}
-              aria-label={expanded ? labels.collapse : labels.expand}
-              onClick={() => setExpanded((value) => !value)}
-            >
-              {expanded ? <CollapseIcon size={16} /> : <ExpandIcon size={16} />}
-            </Box>
+            {isSplitView ? (
+              <Box
+                as="button"
+                type="button"
+                sx={styles.iconButton}
+                aria-label={expanded ? labels.collapse : labels.expand}
+                onClick={() => setExpanded((value) => !value)}
+              >
+                {expanded ? (
+                  <CollapseIcon size={16} />
+                ) : (
+                  <ExpandIcon size={16} />
+                )}
+              </Box>
+            ) : null}
             <Box
               as="button"
               type="button"
@@ -676,10 +771,18 @@ const AskAssistant = ({
         {isEmpty ? (
           <Box sx={styles.emptyState}>
             <Box sx={styles.emptyMain}>
-              <Box sx={styles.emptyHero} aria-hidden>
-                <Flex sx={styles.emptyHeroIcon}>
-                  <SparkleIcon size={24} />
+              <Box sx={styles.emptyHero}>
+                <Flex sx={styles.emptyHeroIcon} aria-hidden>
+                  <SparkleIcon size={18} />
                 </Flex>
+                <Box sx={styles.emptyHeroCopy}>
+                  <Text as="h2" sx={styles.emptyHeroTitle}>
+                    {labels.heroTitle}
+                  </Text>
+                  <Text sx={styles.emptyHeroSubtitle}>
+                    {labels.heroSubtitle}
+                  </Text>
+                </Box>
               </Box>
               {composer}
               {activeCategory ? (
@@ -856,7 +959,11 @@ const AskAssistant = ({
         <Box
           as="button"
           type="button"
-          sx={styles.trigger}
+          sx={
+            floatingOnMobile
+              ? styles.trigger
+              : { ...styles.trigger, display: 'inline-flex' }
+          }
           data-ask-assistant-trigger
           aria-haspopup="dialog"
           aria-expanded={isOpen}
@@ -874,6 +981,25 @@ const AskAssistant = ({
           </Flex>
         </Box>
       )}
+      {showFloatingTrigger
+        ? createPortal(
+            <Box
+              as="button"
+              type="button"
+              sx={styles.floatingTrigger}
+              data-ask-assistant-trigger
+              data-ask-assistant-fab
+              aria-label={labels.button}
+              title={labels.button}
+              aria-haspopup="dialog"
+              aria-expanded={isOpen}
+              onClick={() => setOpen(true)}
+            >
+              <SparkleIcon size={22} />
+            </Box>,
+            document.body
+          )
+        : null}
       {mounted ? createPortal(panel, document.body) : null}
     </>
   )

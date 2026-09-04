@@ -37,49 +37,41 @@ const DocumentationCard = ({
         style={{
           width: '100%',
           maxWidth: '100%',
+          height: containerType === 'see-also' ? '100%' : undefined,
           display: 'block',
           overflow: 'hidden',
           textDecoration: 'none',
+          color: 'inherit',
         }}
       >
         <Box sx={cardContainer(containerType)}>
-          {containerType === 'see-also' ? (
-            <>
-              <Flex sx={titleContainer(containerType)}>
-                <Icon sx={{ color: '#4A596B', flexShrink: 0 }} size={24} />
-                <Text className="title" sx={cardTitle(containerType)}>
-                  {title}
-                </Text>
+          <Flex sx={titleContainer(containerType)}>
+            {containerType === 'dropdown' ? (
+              <Flex sx={styles.dropdownIcon}>
+                <Icon sx={{ color: '#4A596B' }} size={20} />
               </Flex>
-              <Text className="description" sx={cardDescription(containerType)}>
+            ) : containerType === 'see-also' ? (
+              <Flex sx={styles.seeAlsoIcon}>
+                <Icon sx={{ color: '#4A596B' }} size={18} />
+              </Flex>
+            ) : (
+              <Icon
+                sx={{ color: '#4A596B', flexShrink: 0, mt: '2px' }}
+                size={24}
+              />
+            )}
+            <Box sx={{ minWidth: 0, flex: 1 }}>
+              <Text className="title" sx={cardTitle(containerType)}>
+                {title}
+              </Text>
+              <Text
+                className="description"
+                sx={cardDescription(containerType)}
+              >
                 {description}
               </Text>
-            </>
-          ) : (
-            <Flex sx={titleContainer(containerType)}>
-              {containerType === 'dropdown' ? (
-                <Flex sx={styles.dropdownIcon}>
-                  <Icon sx={{ color: '#4A596B' }} size={20} />
-                </Flex>
-              ) : (
-                <Icon
-                  sx={{ color: '#4A596B', flexShrink: 0, mt: '2px' }}
-                  size={24}
-                />
-              )}
-              <Box sx={{ minWidth: 0, flex: 1 }}>
-                <Text className="title" sx={cardTitle(containerType)}>
-                  {title}
-                </Text>
-                <Text
-                  className="description"
-                  sx={cardDescription(containerType)}
-                >
-                  {description}
-                </Text>
-              </Box>
-            </Flex>
-          )}
+            </Box>
+          </Flex>
         </Box>
       </a>
     </Link>

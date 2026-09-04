@@ -132,19 +132,24 @@ const contentContainer: SxStyleProp = {
 }
 
 const documentationTitle: SxStyleProp = {
-  marginTop: '16px',
-  fontSize: ['24px', '28px'],
-  lineHeight: ['32px', '36px'],
+  display: 'block',
+  marginTop: ['16px', '16px', '24px'],
+  marginBottom: 0,
+  fontSize: ['28px', '28px', '30px'],
+  lineHeight: ['36px', '36px', '38px'],
   fontWeight: '400',
   color: '#142032',
   overflowWrap: 'anywhere',
 }
 
 const documentationExcerpt: SxStyleProp = {
-  color: '#A1A8B3',
-  padding: ['8px 0 16px', '8px 0 24px'],
-  lineHeight: ['20px', '22px'],
+  display: 'block',
+  color: '#4A596B',
+  fontSize: '16px',
+  lineHeight: '24px',
   fontWeight: '400',
+  mt: '12px',
+  mb: 0,
   overflowWrap: 'anywhere',
 }
 

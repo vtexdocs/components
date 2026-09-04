@@ -53,8 +53,9 @@ export type HeaderProps = {
   /** Parent slugs of the current article, used to expand the mobile sidebar. */
   parentsArray?: string[]
   /**
-   * When true, renders AskAssistant next to the search input.
-   * Hidden on small viewports together with search.
+   * When true, renders AskAssistant next to the search input on desktop.
+   * Search stays hidden on small viewports (use the search icon). On mobile
+   * the assistant is a floating action button in the bottom-right corner.
    */
   showAssistant?: boolean
   /** Props forwarded to AskAssistant when `showAssistant` is true. */
@@ -137,7 +138,7 @@ const Header = ({
   }, [router.events])
 
   return (
-    <Box ref={headerElement} sx={styles.headerContainer}>
+    <Box ref={headerElement} sx={styles.headerContainer} data-docs-header>
       {announcement ?? <div />}
       <HeaderBrand sx={styles.headerBrand}>
         <VtexLink
@@ -148,7 +149,7 @@ const Header = ({
           {logo ?? defaultLogo}
         </VtexLink>
 
-        <Flex sx={styles.searchRow}>
+        <Box sx={styles.searchRow}>
           <Box sx={styles.searchContainer}>
             <SearchInput />
           </Box>
@@ -157,7 +158,7 @@ const Header = ({
               <AskAssistant {...assistant} />
             </Box>
           ) : null}
-        </Flex>
+        </Box>
 
         <HeaderBrand.RightLinks sx={styles.rightLinks}>
           <Flex
