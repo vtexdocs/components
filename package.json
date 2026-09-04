@@ -28,10 +28,12 @@
   },
   "typesVersions": {
     "*": {
-      "remark": ["./dist/remark.d.mts"]
+      "remark": [
+        "./dist/remark.d.mts"
+      ]
     }
   },
-  "version": "7.0.1",
+  "version": "7.0.2",
   "description": "",
   "repository": "https://github.com/vtexdocs/components",
   "scripts": {
