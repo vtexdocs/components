@@ -31,7 +31,7 @@
       "remark": ["./dist/remark.d.mts"]
     }
   },
-  "version": "7.0.0",
+  "version": "7.0.1",
   "description": "",
   "repository": "https://github.com/vtexdocs/components",
   "scripts": {
