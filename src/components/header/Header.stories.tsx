@@ -136,3 +136,16 @@ export const WithAssistant: Story = {
     localeSwitcher: <LocaleSwitcherStub />,
   },
 }
+
+export const WithAssistantMobile: Story = {
+  args: {
+    variant: 'helpcenter',
+    showAssistant: true,
+    localeSwitcher: <LocaleSwitcherStub />,
+  },
+  parameters: {
+    viewport: {
+      defaultViewport: 'mobileSmall',
+    },
+  },
+}

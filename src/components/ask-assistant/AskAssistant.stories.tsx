@@ -77,7 +77,7 @@ const conversation: ChatMessage[] = [
     id: 'assistant-1',
     role: 'assistant',
     content:
-      'You can get started with the **[Admin API introduction](https://developers.vtex.com/docs/guides/admin-api-introduction)**.',
+      'You can get started with the **[Admin API introduction](https://developers.vtex.com/docs/guides/admin-api-introduction)**.\n\n## References\n- [Admin API introduction](https://developers.vtex.com/docs/guides/admin-api-introduction)\n- [Catalog API overview](https://developers.vtex.com/docs/guides/catalog-api-overview)',
     steps: completedSteps,
     status: 'complete',
   },
@@ -138,8 +138,56 @@ const meta = {
     (Story) => (
       <ThemeProvider>
         <LibraryContextProvider {...exampleContextProps}>
-          <Box sx={{ p: '24px', minHeight: '100vh', background: '#FFFFFF' }}>
-            <Story />
+          <Box sx={{ minHeight: '100vh', background: '#FFFFFF' }}>
+            <Box
+              sx={{
+                p: '32px',
+                maxWidth: '760px',
+                color: '#142032',
+              }}
+            >
+              <Box
+                as="p"
+                sx={{
+                  m: 0,
+                  mb: '16px',
+                  color: '#4A596B',
+                  fontSize: '13px',
+                  fontWeight: '600',
+                  letterSpacing: '0.04em',
+                  textTransform: 'uppercase',
+                }}
+              >
+                Help Center
+              </Box>
+              <Box
+                as="h1"
+                sx={{
+                  m: 0,
+                  mb: '12px',
+                  fontSize: '28px',
+                  lineHeight: '36px',
+                  fontWeight: '400',
+                }}
+              >
+                Catalog overview
+              </Box>
+              <Box
+                as="p"
+                sx={{
+                  m: 0,
+                  mb: '24px',
+                  color: '#4A596B',
+                  fontSize: '15px',
+                  lineHeight: '24px',
+                }}
+              >
+                Page content stays in a split view while the assistant is open.
+                It should reflow beside the panel instead of sitting underneath
+                it.
+              </Box>
+              <Story />
+            </Box>
           </Box>
         </LibraryContextProvider>
       </ThemeProvider>
@@ -151,6 +199,14 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 export const Default: Story = {}
+
+export const FloatingOnMobile: Story = {
+  parameters: {
+    viewport: {
+      defaultViewport: 'mobileSmall',
+    },
+  },
+}
 
 export const Open: Story = {
   args: {
@@ -175,6 +231,30 @@ export const WithConversation: Story = {
   args: {
     defaultOpen: true,
     initialMessages: conversation,
+  },
+}
+
+const numberedListConversation: ChatMessage[] = [
+  {
+    id: 'user-list',
+    role: 'user',
+    content: 'How do I authenticate with VTEX APIs?',
+    status: 'complete',
+  },
+  {
+    id: 'assistant-list',
+    role: 'assistant',
+    content:
+      'To authenticate with VTEX APIs, you can use one of the following methods:\n\n1. **API Keys:**\n   - Use an `appKey` and `appToken` generated from the [Admin](https://help.vtex.com). Learn more [here](https://developers.vtex.com/docs/guides/api-authentication-using-application-keys).\n   - The `appKey` identifies your application, and the `appToken` authenticates it.\n\n2. **User Tokens:**\n   - Use the VTEX IO CLI or the VTEX ID API. Learn more at [API authentication using user tokens](https://developers.vtex.com/docs/guides/api-authentication-using-user-tokens).\n\n3. **Login Authentication:**\n   - Sign in with your VTEX credentials to obtain a session cookie.',
+    steps: completedSteps,
+    status: 'complete',
+  },
+]
+
+export const WithNumberedList: Story = {
+  args: {
+    defaultOpen: true,
+    initialMessages: numberedListConversation,
   },
 }
 

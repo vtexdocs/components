@@ -17,9 +17,19 @@
       "require": "./dist/index.mjs",
       "style": "./dist/index.css"
     },
+    "./remark": {
+      "types": "./dist/remark.d.mts",
+      "import": "./dist/remark.mjs",
+      "require": "./dist/remark.mjs"
+    },
     "./styles": "./dist/index.css",
     "./styles.css": "./dist/index.css",
     "./dist/index.css": "./dist/index.css"
+  },
+  "typesVersions": {
+    "*": {
+      "remark": ["./dist/remark.d.mts"]
+    }
   },
   "version": "7.0.0",
   "description": "",
@@ -38,6 +48,7 @@
     "@vtex/brand-ui": "^0.46.1",
     "copy-text-to-clipboard": "^3.0.1",
     "html-react-parser": "^3.0.15",
+    "mdast-util-to-string": "^3.2.0",
     "mermaid": "^10.1.0",
     "next": "13.2.4",
     "next-mdx-remote": "^4.1.0",
@@ -49,9 +60,12 @@
     "react-router-dom": "^6.15.0",
     "react-share": "^5.1.0",
     "react-svg-pan-zoom": "^3.12.1",
+    "reading-time": "^1.5.0",
     "search-insights": "^2.3.0",
     "standard-version": "^9.5.0",
-    "swr": "^1.3.0"
+    "swr": "^1.3.0",
+    "unist-builder": "^3.0.1",
+    "unist-util-visit": "^4.1.1"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.23.2",

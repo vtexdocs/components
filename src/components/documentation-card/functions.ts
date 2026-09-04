@@ -3,9 +3,9 @@ import styles from './styles'
 
 const cardContainer = (containerType: string) => {
   const containerWidth =
-    containerType === 'dropdown'
-      ? '100%'
-      : containerType === 'mobile'
+    containerType === 'dropdown' ||
+    containerType === 'mobile' ||
+    containerType === 'see-also'
       ? '100%'
       : ['324px', '544px', '544px', '544px', '544px', '720px', '1400px']
 
@@ -60,6 +60,35 @@ const cardContainer = (containerType: string) => {
             width: '100%',
           },
         }
+      : containerType === 'see-also'
+      ? {
+          my: 0,
+          width: '100%',
+          maxWidth: '100%',
+          minWidth: 0,
+          height: '100%',
+          padding: '12px 14px',
+          borderRadius: '8px',
+          border: '1px solid #E7E9EE',
+          boxSizing: 'border-box',
+          transition:
+            'border-color 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease',
+          ':active, :hover': {
+            borderRadius: '8px',
+            borderColor: '#CCCED8',
+            backgroundColor: '#F8F7FC',
+            boxShadow: '0px 0px 16px rgba(0, 0, 0, 0.06)',
+            '.description': {
+              color: '#4A596B',
+            },
+          },
+          ':hover .title, :active .title': {
+            color: '#000711',
+          },
+          '.title, .description': {
+            width: '100%',
+          },
+        }
       : {
           '.title, .description': {
             width: textWidth,
@@ -71,13 +100,15 @@ const cardContainer = (containerType: string) => {
 }
 
 const titleContainer = (containerType: string) => {
-  const marginBottom =
-    containerType === 'dropdown' || containerType === 'mobile' ? 0 : '8px'
+  const isStacked =
+    containerType === 'dropdown' ||
+    containerType === 'mobile' ||
+    containerType === 'see-also'
 
   const titleContainer: SxStyleProp = {
     ...styles.titleContainer,
-    marginBottom,
-    ...(containerType === 'mobile' || containerType === 'dropdown'
+    marginBottom: isStacked ? 0 : '8px',
+    ...(isStacked
       ? {
           alignItems: 'flex-start',
           gap: '12px',
@@ -92,11 +123,16 @@ const cardTitle = (containerType: string) => {
   const titleAttributes =
     containerType === 'see-also'
       ? {
-          textOverflow: 'ellipsis',
-          whiteSpace: 'nowrap',
+          ml: 0,
+          fontSize: '15px',
+          lineHeight: '22px',
+          fontWeight: 500,
+          color: '#142032',
+          whiteSpace: 'normal',
           overflow: 'hidden',
-          fontSize: '18px',
-          lineHeight: '24px',
+          display: '-webkit-box',
+          WebkitLineClamp: 2,
+          WebkitBoxOrient: 'vertical',
         }
       : containerType === 'mobile'
       ? {
@@ -158,6 +194,18 @@ const cardDescription = (containerType: string) => {
       overflow: 'hidden',
     }
     return dropdownDescription
+  }
+
+  if (containerType === 'see-also') {
+    const seeAlsoDescription: SxStyleProp = {
+      ...styles.description,
+      ml: 0,
+      mt: '2px',
+      fontSize: '12px',
+      lineHeight: '16px',
+      color: '#5E6E84',
+    }
+    return seeAlsoDescription
   }
 
   return styles.description

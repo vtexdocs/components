@@ -6,6 +6,8 @@ import type { MDXRemoteSerializeResult } from 'next-mdx-remote'
 import AskAIMenu from 'components/ask-ai'
 import ArticlePagination from 'components/article-pagination'
 import type { ArticlePaginationData } from 'components/article-pagination'
+import SeeAlsoSection from 'components/see-also-section'
+import type { SeeAlsoDoc } from 'components/see-also-section'
 import Author from 'components/author'
 import Breadcrumb from 'components/breadcrumb'
 import type { BreadcrumbItem } from 'components/breadcrumb'
@@ -38,7 +40,7 @@ export type ArticleRenderProps = {
   headingList?: Item[]
   pagination?: ArticlePaginationData
   children?: ReactNode
-  seeAlso?: ReactNode
+  seeAlso?: SeeAlsoDoc[] | ReactNode
   customComponents?: MarkdownRendererProps['customComponents']
   scope?: MarkdownRendererProps['scope']
   /** Wrap the markdown output without remounting it on parent re-renders. */
@@ -50,6 +52,7 @@ export type ArticleRenderProps = {
   showFeedbackSection?: boolean
   showSuggestEdits?: boolean
   showArticlePagination?: boolean
+  showSeeAlso?: boolean
   showTableOfContents?: boolean
   showDateText?: boolean
 }
@@ -65,6 +68,12 @@ const readingTimeLabel = (readingTime: unknown) => {
     return text != null ? String(text) : undefined
   }
   return String(readingTime)
+}
+
+const parseFrontmatterDate = (value: unknown) => {
+  if (value == null || value === '') return undefined
+  const date = new Date(String(value))
+  return Number.isNaN(date.getTime()) ? undefined : date
 }
 
 const ArticleRender = ({
@@ -92,11 +101,15 @@ const ArticleRender = ({
   showFeedbackSection = true,
   showSuggestEdits = true,
   showArticlePagination = true,
+  showSeeAlso = true,
   showTableOfContents = true,
-  showDateText = true,
+  showDateText = false,
 }: ArticleRenderProps) => {
   const tocHeadings = headingList?.length ? headingList : headings
   const readingTime = readingTimeLabel(serialized?.frontmatter?.readingTime)
+  const createdAt = parseFrontmatterDate(serialized?.frontmatter?.createdAt)
+  const updatedAt = parseFrontmatterDate(serialized?.frontmatter?.updatedAt)
+  const hasDates = Boolean(createdAt && updatedAt)
   const showBottomSection = showContributors || showFeedbackSection
   const showSidebar = showContributors || showTableOfContents
   const markdown = (
@@ -133,7 +146,7 @@ const ArticleRender = ({
         </>
       </Head>
       <Flex sx={styles.innerContainer}>
-        <Box sx={styles.articleBox}>
+        <Box sx={styles.articleBox} data-article-box>
           <Box sx={styles.contentContainer}>
             <Flex sx={styles.breadcrumbRow}>
               <Breadcrumb breadcrumbList={breadcrumbList} />
@@ -142,7 +155,7 @@ const ArticleRender = ({
               <article>
                 <header>
                   <>
-                    <Text sx={styles.documentationTitle} className="title">
+                    <Text as="h1" sx={styles.documentationTitle} className="title">
                       {serialized.frontmatter?.title}
                       <CopyHeadingLink />
                     </Text>
@@ -153,7 +166,7 @@ const ArticleRender = ({
                       <Author contributor={contributors[0]} />
                     )}
                     {serialized.frontmatter?.excerpt && (
-                      <Text sx={styles.documentationExcerpt}>
+                      <Text as="p" sx={styles.documentationExcerpt}>
                         {serialized.frontmatter?.excerpt}
                       </Text>
                     )}
@@ -161,16 +174,13 @@ const ArticleRender = ({
                 </header>
 
                 <Flex sx={styles.articleMeta}>
-                  {(showDateText || (showReadingTime && readingTime)) && (
+                  {((showDateText && hasDates) ||
+                    (showReadingTime && readingTime)) && (
                     <Flex sx={styles.articleMetaInfo}>
-                      {showDateText && (
+                      {showDateText && hasDates && createdAt && updatedAt && (
                         <DateText
-                          createdAt={
-                            new Date(String(serialized.frontmatter?.createdAt))
-                          }
-                          updatedAt={
-                            new Date(String(serialized.frontmatter?.updatedAt))
-                          }
+                          createdAt={createdAt}
+                          updatedAt={updatedAt}
                         />
                       )}
                       {showReadingTime && readingTime && (
@@ -193,6 +203,10 @@ const ArticleRender = ({
                 </Flex>
                 {renderMarkdown ? renderMarkdown(markdown) : markdown}
               </article>
+              {showSeeAlso &&
+                (Array.isArray(seeAlso)
+                  ? seeAlso.length > 0 && <SeeAlsoSection docs={seeAlso} />
+                  : seeAlso)}
             </Box>
           </Box>
 
@@ -225,10 +239,9 @@ const ArticleRender = ({
               pagination={pagination}
             />
           )}
-          {seeAlso}
         </Box>
         {showSidebar && (
-          <Box sx={styles.rightContainer}>
+          <Box sx={styles.rightContainer} data-article-aside>
             {showContributors && <Contributors contributors={contributors} />}
             {showTableOfContents && (
               <TableOfContents headingList={tocHeadings}>
@@ -250,7 +263,9 @@ const ArticleRender = ({
             )}
           </Box>
         )}
-        {showTableOfContents && <OnThisPage headingList={tocHeadings} />}
+        {showTableOfContents && tocHeadings.length > 0 && (
+          <OnThisPage headingList={tocHeadings} />
+        )}
       </Flex>
     </>
   )

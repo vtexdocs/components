@@ -83,6 +83,7 @@ export type MessagesType = {
   'date_text.updated': string
   'article_pagination.previous': string
   'article_pagination.next': string
+  'see_also_section.title': string
   'insert_account_name.placeholder': string
   'insert_account_name.button': string
   'insert_account_name.tooltip': string
@@ -92,6 +93,8 @@ export type MessagesType = {
   'ask_ai.copied': string
   'ask_assistant.button': string
   'ask_assistant.title': string
+  'ask_assistant.hero_title': string
+  'ask_assistant.hero_subtitle': string
   'ask_assistant.placeholder': string
   'ask_assistant.examples': string
   'ask_assistant.send': string
@@ -126,4 +129,5 @@ export type MessagesType = {
   'ask_assistant.step_read_document': string
   'ask_assistant.step_create_response': string
   'ask_assistant.step_search': string
+  'ask_assistant.sources': string
 }

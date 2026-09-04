@@ -10,30 +10,40 @@ export type DateTextProps = {
   updatedAt: Date
 }
 
-const formatDate = (date: Date, locale: string) =>
-  new Intl.DateTimeFormat(locale).format(date)
+const formatDate = (date: Date, locale: string) => {
+  if (Number.isNaN(date.getTime())) return undefined
+  return new Intl.DateTimeFormat(locale).format(date)
+}
 
 const DateText = ({ createdAt, updatedAt }: DateTextProps) => {
   const { locale } = useContext(LibraryContext)
   const createdLabel = messages[locale]['date_text.created'] || 'Published on'
   const updatedLabel =
     messages[locale]['date_text.updated'] || 'Last updated on'
+  const created = formatDate(createdAt, locale)
+  const updated = formatDate(updatedAt, locale)
+
+  if (!created && !updated) return null
 
   return (
     <Flex sx={styles.dateContainer}>
-      <Text sx={styles.dateItem}>
-        <Text as="span" sx={styles.dateLabel}>
-          {createdLabel}
+      {created && (
+        <Text sx={styles.dateItem}>
+          <Text as="span" sx={styles.dateLabel}>
+            {createdLabel}
+          </Text>
+          {created}
         </Text>
-        {formatDate(createdAt, locale)}
-      </Text>
-      <Text sx={styles.dateSeparator}>•</Text>
-      <Text sx={styles.dateItem}>
-        <Text as="span" sx={styles.dateLabel}>
-          {updatedLabel}
+      )}
+      {created && updated && <Text sx={styles.dateSeparator}>•</Text>}
+      {updated && (
+        <Text sx={styles.dateItem}>
+          <Text as="span" sx={styles.dateLabel}>
+            {updatedLabel}
+          </Text>
+          {updated}
         </Text>
-        {formatDate(updatedAt, locale)}
-      </Text>
+      )}
     </Flex>
   )
 }

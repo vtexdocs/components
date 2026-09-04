@@ -38,6 +38,17 @@ const dropdownIcon: SxStyleProp = {
   transition: 'background-color 0.15s ease',
 }
 
+const seeAlsoIcon: SxStyleProp = {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  flexShrink: 0,
+  width: '32px',
+  height: '32px',
+  borderRadius: '8px',
+  backgroundColor: '#F4F5F7',
+}
+
 const title: SxStyleProp = {
   ml: '8px',
   color: 'muted.0',
@@ -56,4 +67,5 @@ export default {
   title,
   titleContainer,
   dropdownIcon,
+  seeAlsoIcon,
 }

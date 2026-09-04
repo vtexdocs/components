@@ -101,6 +101,18 @@ const meta = {
         name: 'Catalog',
       },
     },
+    seeAlso: [
+      {
+        url: '/docs/guides/getting-started',
+        title: 'getting-started',
+        category: 'API Guides',
+      },
+      {
+        url: '/docs/api-reference/catalog-api',
+        title: 'catalog-api',
+        category: 'api-reference',
+      },
+    ],
   },
   decorators: [
     (Story, { args }) => (
@@ -140,6 +152,12 @@ export const HeaderExtra: Story = {
   args: {
     children: <div>Known issue ID: 123456</div>,
     showSuggestEdits: false,
+  },
+}
+
+export const WithoutSeeAlso: Story = {
+  args: {
+    showSeeAlso: false,
   },
 }
 

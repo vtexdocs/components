@@ -85,6 +85,7 @@
   "date_text.updated": "Última atualização em",
   "article_pagination.previous": "Anterior",
   "article_pagination.next": "Próximo",
+  "see_also_section.title": "Veja também",
   "insert_account_name.placeholder": "Nome da conta",
   "insert_account_name.button": "Acessar documentação",
   "insert_account_name.tooltip": "Ver página de documentação no Admin VTEX",
@@ -94,6 +95,8 @@
   "ask_ai.copied": "Copiado",
   "ask_assistant.button": "Perguntar ao Assistant",
   "ask_assistant.title": "Assistant",
+  "ask_assistant.hero_title": "Como posso te ajudar?",
+  "ask_assistant.hero_subtitle": "Obtenha respostas da documentação da VTEX.",
   "ask_assistant.placeholder": "Faça uma pergunta...",
   "ask_assistant.examples": "Exemplos:",
   "ask_assistant.send": "Enviar",
@@ -127,5 +130,6 @@
   "ask_assistant.step_read_endpoints": "Ler detalhes do endpoint",
   "ask_assistant.step_read_document": "Ler documento",
   "ask_assistant.step_create_response": "Criar resposta",
-  "ask_assistant.step_search": "Buscar"
+  "ask_assistant.step_search": "Buscar",
+  "ask_assistant.sources": "Fontes"
 }
