@@ -11,8 +11,8 @@ var __commonJS = (cb, mod) => function __require() {
   return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
 };
 var __export = (target, all) => {
-  for (var name in all)
-    __defProp(target, name, { get: all[name], enumerable: true });
+  for (var name2 in all)
+    __defProp(target, name2, { get: all[name2], enumerable: true });
 };
 var __copyProps = (to, from, except, desc) => {
   if (from && typeof from === "object" || typeof from === "function") {
@@ -214,7 +214,7 @@ var require_react_is_development = __commonJS({
         var ContextProvider = REACT_PROVIDER_TYPE;
         var Element = REACT_ELEMENT_TYPE;
         var ForwardRef = REACT_FORWARD_REF_TYPE;
-        var Fragment12 = REACT_FRAGMENT_TYPE;
+        var Fragment13 = REACT_FRAGMENT_TYPE;
         var Lazy = REACT_LAZY_TYPE;
         var Memo = REACT_MEMO_TYPE;
         var Portal = REACT_PORTAL_TYPE;
@@ -273,7 +273,7 @@ var require_react_is_development = __commonJS({
         exports.ContextProvider = ContextProvider;
         exports.Element = Element;
         exports.ForwardRef = ForwardRef;
-        exports.Fragment = Fragment12;
+        exports.Fragment = Fragment13;
         exports.Lazy = Lazy;
         exports.Memo = Memo;
         exports.Portal = Portal;
@@ -5902,8 +5902,8 @@ var IconsMap = [
     Icon: Fulfillment
   }
 ];
-var getIcon = (name) => {
-  return IconsMap.find((icon6) => icon6.name === name)?.Icon;
+var getIcon = (name2) => {
+  return IconsMap.find((icon6) => icon6.name === name2)?.Icon;
 };
 var OverviewCard = ({ icon: icon6, link: link2, children }) => {
   const Icon82 = getIcon(icon6);
@@ -6751,6 +6751,7 @@ var en_default = {
   "documentation_reading_time.text": "{minutes} min read",
   "date_text.created": "Published on",
   "date_text.updated": "Last updated on",
+  "date_text.last_update": "Last update:",
   "article_pagination.previous": "Previous",
   "article_pagination.next": "Next",
   "see_also_section.title": "See also",
@@ -6888,6 +6889,7 @@ var es_default = {
   "documentation_reading_time.text": "{minutes} min de lectura",
   "date_text.created": "Publicado el",
   "date_text.updated": "\xDAltima actualizaci\xF3n el",
+  "date_text.last_update": "\xDAltima actualizaci\xF3n:",
   "article_pagination.previous": "Anterior",
   "article_pagination.next": "Siguiente",
   "see_also_section.title": "V\xE9ase tambi\xE9n",
@@ -7025,6 +7027,7 @@ var pt_default = {
   "documentation_reading_time.text": "{minutes} min de leitura",
   "date_text.created": "Publicado em",
   "date_text.updated": "\xDAltima atualiza\xE7\xE3o em",
+  "date_text.last_update": "\xDAltima atualiza\xE7\xE3o:",
   "article_pagination.previous": "Anterior",
   "article_pagination.next": "Pr\xF3ximo",
   "see_also_section.title": "Veja tamb\xE9m",
@@ -7269,6 +7272,7 @@ var mermaidInit_default = mermaidInit;
 
 // src/components/copy-heading-link/index.tsx
 import {
+  Children,
   useCallback as useCallback2,
   useContext as useContext2,
   useEffect as useEffect5,
@@ -7318,6 +7322,13 @@ var link_icon_default = LinkIcon;
 var muted = "#A1AAB7";
 var mutedHover = "#5E6E84";
 var pink = "#E31C58";
+var lastWord = {
+  display: "inline-block",
+  whiteSpace: "nowrap",
+  overflowWrap: "normal",
+  wordBreak: "normal",
+  verticalAlign: "baseline"
+};
 var tooltipWrapper = {
   display: "inline-flex",
   verticalAlign: "middle",
@@ -7352,10 +7363,41 @@ var buttonCopied = {
   ...button2,
   color: mutedHover
 };
-var styles_default7 = { tooltipWrapper, button: button2, buttonCopied };
+var styles_default7 = { lastWord, tooltipWrapper, button: button2, buttonCopied };
 
 // src/components/copy-heading-link/index.tsx
-import { jsx as jsx13 } from "react/jsx-runtime";
+import { Fragment, jsx as jsx13, jsxs as jsxs9 } from "react/jsx-runtime";
+var LAST_WORD = /^(.*?)(\s+)(\S+)$/su;
+var glueToLastWord = (content, tail) => {
+  const glued = (word) => /* @__PURE__ */ jsxs9(Box7, { as: "span", sx: styles_default7.lastWord, children: [
+    word,
+    tail
+  ] });
+  if (content == null || typeof content === "boolean")
+    return tail;
+  if (typeof content === "string" || typeof content === "number") {
+    const text4 = String(content);
+    const match = text4.match(LAST_WORD);
+    if (!match)
+      return glued(text4);
+    return /* @__PURE__ */ jsxs9(Fragment, { children: [
+      match[1],
+      match[2],
+      glued(match[3])
+    ] });
+  }
+  const items = Children.toArray(content);
+  if (items.length === 0)
+    return tail;
+  const last = items[items.length - 1];
+  const gluedLast = typeof last === "string" || typeof last === "number" ? glueToLastWord(last, tail) : glued(last);
+  if (items.length === 1)
+    return gluedLast;
+  return /* @__PURE__ */ jsxs9(Fragment, { children: [
+    items.slice(0, -1),
+    gluedLast
+  ] });
+};
 var getHeadingUrl = (slug = "") => {
   const { origin, pathname, search: search2 } = window.location;
   const pageUrl = `${origin}${pathname}${search2}`;
@@ -7367,7 +7409,8 @@ var getHeadingUrl = (slug = "") => {
 var CopyHeadingLink = ({
   slug = "",
   size = 16,
-  sx = {}
+  sx = {},
+  children
 }) => {
   const { locale } = useContext2(LibraryContext);
   const [copied, setCopied] = useState5(false);
@@ -7389,7 +7432,7 @@ var CopyHeadingLink = ({
     [slug]
   );
   useEffect5(() => () => window.clearTimeout(copyTimeout.current), []);
-  return /* @__PURE__ */ jsx13(
+  const control2 = /* @__PURE__ */ jsx13(
     tooltip_default,
     {
       label: label4,
@@ -7411,6 +7454,9 @@ var CopyHeadingLink = ({
       )
     }
   );
+  if (children == null)
+    return control2;
+  return /* @__PURE__ */ jsx13(Fragment, { children: glueToLastWord(children, control2) });
 };
 var copy_heading_link_default = CopyHeadingLink;
 
@@ -7430,7 +7476,7 @@ var styles_default8 = {
 };
 
 // src/lib/markdown-renderer/components.tsx
-import { Fragment, jsx as jsx14, jsxs as jsxs9 } from "react/jsx-runtime";
+import { Fragment as Fragment2, jsx as jsx14, jsxs as jsxs10 } from "react/jsx-runtime";
 mermaidInit_default();
 var ObservableHeading = ({
   level,
@@ -7442,10 +7488,7 @@ var ObservableHeading = ({
   const { children, ...restHeadingProps } = headingProps;
   const toSlugify = childrenToString(children);
   const slug = slugify(toSlugify);
-  const headingContent = /* @__PURE__ */ jsxs9(Fragment, { children: [
-    children,
-    /* @__PURE__ */ jsx14(copy_heading_link_default, { slug, size: level === 2 ? 18 : 16 })
-  ] });
+  const headingContent = /* @__PURE__ */ jsx14(copy_heading_link_default, { slug, size: level === 2 ? 18 : 16, children });
   return /* @__PURE__ */ jsx14(
     InView,
     {
@@ -7469,7 +7512,7 @@ var calloutColors = {
   warning: "#FFB100",
   success: "#80BE80"
 };
-var CalloutIcon = ({ type }) => /* @__PURE__ */ jsxs9(
+var CalloutIcon = ({ type }) => /* @__PURE__ */ jsxs10(
   "svg",
   {
     className: styles_default8.blockquoteIcon,
@@ -7497,10 +7540,10 @@ var CalloutIcon = ({ type }) => /* @__PURE__ */ jsxs9(
           strokeLinecap: "round",
           strokeLinejoin: "round"
         }
-      ) : type === "info" ? /* @__PURE__ */ jsxs9(Fragment, { children: [
+      ) : type === "info" ? /* @__PURE__ */ jsxs10(Fragment2, { children: [
         /* @__PURE__ */ jsx14("rect", { x: "9.1", y: "5", width: "1.8", height: "1.8", rx: "0.9", fill: "white" }),
         /* @__PURE__ */ jsx14("rect", { x: "9.1", y: "8.2", width: "1.8", height: "6.8", rx: "0.9", fill: "white" })
-      ] }) : /* @__PURE__ */ jsxs9(Fragment, { children: [
+      ] }) : /* @__PURE__ */ jsxs10(Fragment2, { children: [
         /* @__PURE__ */ jsx14("rect", { x: "9.1", y: "5", width: "1.8", height: "7", rx: "0.9", fill: "white" }),
         /* @__PURE__ */ jsx14("rect", { x: "9.1", y: "13.5", width: "1.8", height: "1.8", rx: "0.9", fill: "white" })
       ] })
@@ -7509,7 +7552,7 @@ var CalloutIcon = ({ type }) => /* @__PURE__ */ jsxs9(
 );
 var Callout = ({ node, icon: icon6, ...props }) => {
   const blockquoteType = icon6 ? icon6 : "info";
-  return /* @__PURE__ */ jsxs9(
+  return /* @__PURE__ */ jsxs10(
     "blockquote",
     {
       className: `${styles_default8.blockquote} ${blockquoteType === "info" ? styles_default8.blockquoteInfo : blockquoteType === "danger" ? styles_default8.blockquoteDanger : blockquoteType === "warning" ? styles_default8.blockquoteWarning : blockquoteType === "success" ? styles_default8.blockquoteSuccess : ""}`,
@@ -7569,9 +7612,9 @@ var ImageComponent = ({ node, ...props }) => {
     // eslint-disable-next-line @next/next/no-img-element
     /* @__PURE__ */ jsx14("img", { src: props.src, alt: props.alt, onError: () => setSrcHasError(true) })
   );
-  const errorMessage = /* @__PURE__ */ jsxs9("blockquote", { className: `${styles_default8.blockquote} ${styles_default8.blockquoteWarning}`, children: [
+  const errorMessage = /* @__PURE__ */ jsxs10("blockquote", { className: `${styles_default8.blockquote} ${styles_default8.blockquoteWarning}`, children: [
     /* @__PURE__ */ jsx14(CalloutIcon, { type: "warning" }),
-    /* @__PURE__ */ jsxs9("div", { children: [
+    /* @__PURE__ */ jsxs10("div", { children: [
       messages[locale]["image.error_loading"],
       " ",
       props.src
@@ -7731,7 +7774,7 @@ var subItemsContainer = {
 var styles_default9 = { tocTitle, itemsContainer, item, subItemsContainer, headings };
 
 // src/lib/table-of-contents/TableOfContents.tsx
-import { jsx as jsx16, jsxs as jsxs10 } from "react/jsx-runtime";
+import { jsx as jsx16, jsxs as jsxs11 } from "react/jsx-runtime";
 var MARKDOWN_HEADINGS_SELECTOR = [
   "[data-markdown-renderer] h2",
   "[data-markdown-renderer] h3",
@@ -7806,9 +7849,9 @@ var TableOfContents = ({ headingList, children }) => {
       }
     );
   };
-  return /* @__PURE__ */ jsxs10(Box10, { sx: styles_default9.itemsContainer, "data-cy": "table-of-contents", children: [
+  return /* @__PURE__ */ jsxs11(Box10, { sx: styles_default9.itemsContainer, "data-cy": "table-of-contents", children: [
     items.length > 0 && /* @__PURE__ */ jsx16(Text3, { sx: styles_default9.tocTitle, children: messages[locale]["on_this_page.title"] }),
-    /* @__PURE__ */ jsx16(Box10, { sx: styles_default9.headings, children: items.map((item2) => /* @__PURE__ */ jsxs10(Box10, { children: [
+    /* @__PURE__ */ jsx16(Box10, { sx: styles_default9.headings, children: items.map((item2) => /* @__PURE__ */ jsxs11(Box10, { children: [
       /* @__PURE__ */ jsx16(
         Item,
         {
@@ -7848,8 +7891,8 @@ import AnimateHeight2 from "react-animate-height";
 
 // src/components/icons/menu-icon.tsx
 import { Icon as Icon5 } from "@vtex/brand-ui";
-import { jsx as jsx17, jsxs as jsxs11 } from "react/jsx-runtime";
-var MenuIcon = (props) => /* @__PURE__ */ jsxs11(
+import { jsx as jsx17, jsxs as jsxs12 } from "react/jsx-runtime";
+var MenuIcon = (props) => /* @__PURE__ */ jsxs12(
   Icon5,
   {
     ...props,
@@ -8002,12 +8045,12 @@ var styles_default10 = {
 };
 
 // src/lib/on-this-page/OnThisPage.tsx
-import { jsx as jsx18, jsxs as jsxs12 } from "react/jsx-runtime";
+import { jsx as jsx18, jsxs as jsxs13 } from "react/jsx-runtime";
 var OnThisPage = ({ headingList }) => {
   const { locale } = useContext5(LibraryContext);
   const [isOpen, setIsOpen] = useState7(false);
   const title9 = messages[locale]["on_this_page.title"];
-  return /* @__PURE__ */ jsxs12(Flex6, { sx: styles_default10.container, children: [
+  return /* @__PURE__ */ jsxs13(Flex6, { sx: styles_default10.container, children: [
     /* @__PURE__ */ jsx18(
       AnimateHeight2,
       {
@@ -8017,7 +8060,7 @@ var OnThisPage = ({ headingList }) => {
         children: /* @__PURE__ */ jsx18(Box11, { sx: styles_default10.contentContainer, children: /* @__PURE__ */ jsx18(Box11, { children: /* @__PURE__ */ jsx18(TableOfContents_default, { headingList }) }) })
       }
     ),
-    /* @__PURE__ */ jsxs12(
+    /* @__PURE__ */ jsxs13(
       Flex6,
       {
         sx: styles_default10.buttonContainer,
@@ -8114,7 +8157,7 @@ var styles_default11 = {
 };
 
 // src/lib/contributors/Contributors.tsx
-import { jsx as jsx19, jsxs as jsxs13 } from "react/jsx-runtime";
+import { jsx as jsx19, jsxs as jsxs14 } from "react/jsx-runtime";
 var Contributors = ({ contributors }) => {
   const { locale } = useContext6(LibraryContext);
   const [showAll, setShowAll] = useState8(false);
@@ -8143,8 +8186,8 @@ var Contributors = ({ contributors }) => {
   }, [photosPerRow]);
   const visibleRows = photosPerRow ? showAll ? Math.ceil(contributors.length / photosPerRow) : Math.min(Math.ceil(contributors.length / photosPerRow), minRows) : minRows;
   const hiddenCount = contributors.length - minRows * photosPerRow;
-  return /* @__PURE__ */ jsxs13(Flex7, { sx: styles_default11.container, children: [
-    /* @__PURE__ */ jsxs13(Flex7, { sx: styles_default11.titleContainer, children: [
+  return /* @__PURE__ */ jsxs14(Flex7, { sx: styles_default11.container, children: [
+    /* @__PURE__ */ jsxs14(Flex7, { sx: styles_default11.titleContainer, children: [
       /* @__PURE__ */ jsx19(Text5, { sx: styles_default11.title, children: messages[locale]["contributors.title"] }),
       /* @__PURE__ */ jsx19(Text5, { sx: styles_default11.count, children: contributors.length })
     ] }),
@@ -8168,7 +8211,7 @@ var Contributors = ({ contributors }) => {
         ) }) }) }, contributor.login))
       }
     ),
-    contributors.length > minRows * photosPerRow && /* @__PURE__ */ jsxs13(
+    contributors.length > minRows * photosPerRow && /* @__PURE__ */ jsxs14(
       Flex7,
       {
         sx: styles_default11.collapseButton,
@@ -8190,7 +8233,7 @@ var Contributors_default = Contributors;
 
 // src/lib/sidebar/index.tsx
 import {
-  Fragment as Fragment4,
+  Fragment as Fragment5,
   useEffect as useEffect10,
   useMemo as useMemo3,
   useRef as useRef7,
@@ -8911,8 +8954,8 @@ var closeCategoryStyle = (method) => {
 
 // src/components/icons/close-filter-icon.tsx
 import { Icon as Icon6 } from "@vtex/brand-ui";
-import { jsx as jsx20, jsxs as jsxs14 } from "react/jsx-runtime";
-var CloseFilterIcon = (props) => /* @__PURE__ */ jsxs14(
+import { jsx as jsx20, jsxs as jsxs15 } from "react/jsx-runtime";
+var CloseFilterIcon = (props) => /* @__PURE__ */ jsxs15(
   Icon6,
   {
     ...props,
@@ -8949,14 +8992,14 @@ var CloseFilterIcon = (props) => /* @__PURE__ */ jsxs14(
 var close_filter_icon_default = CloseFilterIcon;
 
 // src/components/method-category/index.tsx
-import { jsx as jsx21, jsxs as jsxs15 } from "react/jsx-runtime";
+import { jsx as jsx21, jsxs as jsxs16 } from "react/jsx-runtime";
 var MethodCategory = ({
   method,
   active,
   origin,
   sx
 }) => {
-  return /* @__PURE__ */ jsxs15(
+  return /* @__PURE__ */ jsxs16(
     Flex8,
     {
       className: "method-category",
@@ -9054,7 +9097,7 @@ var styles_default15 = {
 };
 
 // src/components/sidebar-section-filter/index.tsx
-import { jsx as jsx22, jsxs as jsxs16 } from "react/jsx-runtime";
+import { jsx as jsx22, jsxs as jsxs17 } from "react/jsx-runtime";
 var SectionFilter = ({
   methodFilterList,
   setMethodFilter,
@@ -9104,9 +9147,9 @@ var SectionFilter = ({
       `filter-category-${methodFilter.name}`
     );
   };
-  return /* @__PURE__ */ jsxs16(Box13, { sx: isHamburgerMenu ? styles_default15.containerHamburger : styles_default15.container, children: [
+  return /* @__PURE__ */ jsxs17(Box13, { sx: isHamburgerMenu ? styles_default15.containerHamburger : styles_default15.container, children: [
     /* @__PURE__ */ jsx22(Text7, { sx: isHamburgerMenu ? styles_default15.textHamburger : styles_default15.text, children: messages[locale]["api_reference_sidebar_filter"] }),
-    /* @__PURE__ */ jsxs16(
+    /* @__PURE__ */ jsxs17(
       Flex9,
       {
         sx: isHamburgerMenu ? styles_default15.methodsRowHamburger : styles_default15.methodsRow,
@@ -9128,7 +9171,7 @@ var sidebar_section_filter_default = SectionFilter;
 
 // src/components/sidebar-elements/index.tsx
 import { useRouter as useRouter3 } from "next/router.js";
-import { Fragment as Fragment2, memo, useContext as useContext8 } from "react";
+import { Fragment as Fragment3, memo, useContext as useContext8 } from "react";
 import {
   Box as Box14,
   Flex as Flex10,
@@ -9336,7 +9379,7 @@ var textStyle = (active, isHamburgerMenu = false, isExpandable = false) => {
 };
 
 // src/components/sidebar-elements/index.tsx
-import { jsx as jsx23, jsxs as jsxs17 } from "react/jsx-runtime";
+import { jsx as jsx23, jsxs as jsxs18 } from "react/jsx-runtime";
 var SidebarElements = ({
   slugPrefix,
   items,
@@ -9371,13 +9414,13 @@ var SidebarElements = ({
   };
   const ElementRoot = ({
     slug,
-    name,
+    name: name2,
     method,
     endpoint,
     children,
     defaultOpen
   }) => {
-    const localizedName2 = typeof name === "string" ? name : name[locale];
+    const localizedName2 = typeof name2 === "string" ? name2 : name2[locale];
     const localizedSlug = typeof slug === "string" ? slug : slug[locale];
     const isExpandable = children.length > 0;
     const isOpen = isElementOpen(localizedSlug, defaultOpen);
@@ -9398,7 +9441,7 @@ var SidebarElements = ({
       {
         "data-sidebar-active": isActive ? "true" : void 0,
         sx: isHamburgerMenu ? styles_default16.elementContainerHamburger : styles_default16.elementContainer,
-        children: /* @__PURE__ */ jsxs17(Flex10, { sx: styleByLevelNormal(isHamburgerMenu), children: [
+        children: /* @__PURE__ */ jsxs18(Flex10, { sx: styleByLevelNormal(isHamburgerMenu), children: [
           isExpandable ? /* @__PURE__ */ jsx23(
             Button2,
             {
@@ -9422,7 +9465,7 @@ var SidebarElements = ({
               "aria-hidden": "true"
             }
           ),
-          documentationType !== "category" && documentationType !== "link" ? /* @__PURE__ */ jsxs17(
+          documentationType !== "category" && documentationType !== "link" ? /* @__PURE__ */ jsxs18(
             Link4,
             {
               sx: textStyle(isActive, isHamburgerMenu, isExpandable),
@@ -9448,7 +9491,7 @@ var SidebarElements = ({
                 localizedName2
               ]
             }
-          ) : documentationType === "link" ? /* @__PURE__ */ jsxs17(
+          ) : documentationType === "link" ? /* @__PURE__ */ jsxs18(
             Link4,
             {
               href: localizedSlug,
@@ -9459,7 +9502,7 @@ var SidebarElements = ({
                 localizedName2
               ]
             }
-          ) : /* @__PURE__ */ jsxs17(
+          ) : /* @__PURE__ */ jsxs18(
             Box14,
             {
               sx: textStyle(isActive, isHamburgerMenu, isExpandable),
@@ -9508,7 +9551,7 @@ var SidebarElements = ({
   return /* @__PURE__ */ jsx23(Box14, { className: "sidebar-component", children: items?.map((item2, index) => {
     const key = typeof item2.slug === "string" ? String(item2.slug) + String(index) : String(item2.slug[locale]) + String(index);
     const slug = typeof item2.slug === "string" ? `${item2.slug}` : `${item2.slug[locale]}`;
-    return /* @__PURE__ */ jsxs17(Fragment2, { children: [
+    return /* @__PURE__ */ jsxs18(Fragment3, { children: [
       /* @__PURE__ */ jsx23(ElementRoot, { ...item2, slug }),
       /* @__PURE__ */ jsx23(Box14, { children: /* @__PURE__ */ jsx23(ElementChildren, { ...item2, slug }) }),
       subItemLevel == 0 && !isHamburgerMenu ? /* @__PURE__ */ jsx23(Box14, { sx: styles_default16.sectionDivider, children: /* @__PURE__ */ jsx23("hr", {}) }) : null
@@ -9542,8 +9585,8 @@ var search_icon_default = SearchIcon;
 
 // src/components/icons/sidebar-toggle-icon.tsx
 import { Icon as Icon8 } from "@vtex/brand-ui";
-import { jsx as jsx25, jsxs as jsxs18 } from "react/jsx-runtime";
-var SideBarToggleIcon = (props) => /* @__PURE__ */ jsxs18(
+import { jsx as jsx25, jsxs as jsxs19 } from "react/jsx-runtime";
+var SideBarToggleIcon = (props) => /* @__PURE__ */ jsxs19(
   Icon8,
   {
     ...props,
@@ -9598,8 +9641,8 @@ var sidebar_toggle_icon_default = SideBarToggleIcon;
 
 // src/components/icons/arrow-left-icon.tsx
 import { Icon as Icon9 } from "@vtex/brand-ui";
-import { jsx as jsx26, jsxs as jsxs19 } from "react/jsx-runtime";
-var ArrowLeftIcon = (props) => /* @__PURE__ */ jsxs19(
+import { jsx as jsx26, jsxs as jsxs20 } from "react/jsx-runtime";
+var ArrowLeftIcon = (props) => /* @__PURE__ */ jsxs20(
   Icon9,
   {
     ...props,
@@ -9634,14 +9677,14 @@ var ArrowLeftIcon = (props) => /* @__PURE__ */ jsxs19(
 var arrow_left_icon_default = ArrowLeftIcon;
 
 // src/components/sidebar-section/index.tsx
-import { Fragment as Fragment3, jsx as jsx27, jsxs as jsxs20 } from "react/jsx-runtime";
-function localizedName(name, locale) {
-  return typeof name === "string" ? name : name[locale];
+import { Fragment as Fragment4, jsx as jsx27, jsxs as jsxs21 } from "react/jsx-runtime";
+function localizedName(name2, locale) {
+  return typeof name2 === "string" ? name2 : name2[locale];
 }
-function matchesQuery(name, query, locale) {
+function matchesQuery(name2, query, locale) {
   if (!query)
     return true;
-  return localizedName(name, locale).toLowerCase().includes(query);
+  return localizedName(name2, locale).toLowerCase().includes(query);
 }
 function matchesMethodFilter(node, methodFilterList, filterStatus) {
   if (!filterStatus || !node.method)
@@ -9706,7 +9749,7 @@ var SidebarSearchBox = ({
   const inputRef = useRef6(null);
   const { locale } = useContext9(LibraryContext);
   const clearLabel = messages[locale]["search_input.clear"] || "Clear search";
-  return /* @__PURE__ */ jsxs20(Flex11, { sx: styles_default13.searchBox, children: [
+  return /* @__PURE__ */ jsxs21(Flex11, { sx: styles_default13.searchBox, children: [
     /* @__PURE__ */ jsx27(search_icon_default, { sx: styles_default13.searchIcon }),
     /* @__PURE__ */ jsx27(
       "input",
@@ -9739,7 +9782,7 @@ var SidebarSearchBox = ({
 };
 var SidebarSection = ({
   documentation: documentation2,
-  name,
+  name: name2,
   categories,
   slugPrefix,
   isHamburgerMenu = false
@@ -9797,22 +9840,22 @@ var SidebarSection = ({
   const DocIcon = getIcon2(documentation2, sidebarSections);
   let localizedSectionTitle = "";
   if (!categories || categories.length <= 0) {
-    return /* @__PURE__ */ jsx27(Fragment3, {});
+    return /* @__PURE__ */ jsx27(Fragment4, {});
   } else {
-    localizedSectionTitle = typeof name === "string" ? name : name[locale];
+    localizedSectionTitle = typeof name2 === "string" ? name2 : name2[locale];
   }
   return isHamburgerMenu ? /* @__PURE__ */ jsx27(
     Box15,
     {
       className: sidebarSectionHidden ? "active" : "",
       sx: styles_default13.sidebarContainerHamburger,
-      children: /* @__PURE__ */ jsxs20(
+      children: /* @__PURE__ */ jsxs21(
         Box15,
         {
           className: sidebarSectionHidden ? "sidebarHide" : "",
           sx: styles_default13.sidebarContainerBoxHamburger,
           children: [
-            /* @__PURE__ */ jsxs20(Flex11, { sx: styles_default13.sidebarContainerTitle, children: [
+            /* @__PURE__ */ jsxs21(Flex11, { sx: styles_default13.sidebarContainerTitle, children: [
               /* @__PURE__ */ jsx27(
                 Button3,
                 {
@@ -9851,13 +9894,13 @@ var SidebarSection = ({
         }
       )
     }
-  ) : /* @__PURE__ */ jsxs20(
+  ) : /* @__PURE__ */ jsxs21(
     Box15,
     {
       className: sidebarSectionHidden ? "active" : "",
       sx: styles_default13.sidebarContainer,
       children: [
-        /* @__PURE__ */ jsxs20(
+        /* @__PURE__ */ jsxs21(
           Box15,
           {
             ref: sidebarBoxRef,
@@ -9865,9 +9908,9 @@ var SidebarSection = ({
             sx: styles_default13.sidebarContainerBox,
             "data-cy": "sidebar-section",
             children: [
-              /* @__PURE__ */ jsxs20(Box15, { sx: styles_default13.sidebarContainerHeader, children: [
-                isEditorPreview && /* @__PURE__ */ jsxs20(Text8, { sx: styles_default13.previewMode, children: [
-                  /* @__PURE__ */ jsxs20(
+              /* @__PURE__ */ jsxs21(Box15, { sx: styles_default13.sidebarContainerHeader, children: [
+                isEditorPreview && /* @__PURE__ */ jsxs21(Text8, { sx: styles_default13.previewMode, children: [
+                  /* @__PURE__ */ jsxs21(
                     "svg",
                     {
                       xmlns: "http://www.w3.org/2000/svg",
@@ -9950,7 +9993,7 @@ var SidebarSection = ({
 var sidebar_section_default = memo2(SidebarSection);
 
 // src/lib/sidebar/index.tsx
-import { jsx as jsx28, jsxs as jsxs21 } from "react/jsx-runtime";
+import { jsx as jsx28, jsxs as jsxs22 } from "react/jsx-runtime";
 import { createElement } from "react";
 var SideBarIcon = ({
   expandDelayStatus,
@@ -10004,7 +10047,7 @@ var SideBarIcon = ({
           },
           passHref: true,
           "aria-label": sectionElement.title,
-          children: /* @__PURE__ */ jsxs21(
+          children: /* @__PURE__ */ jsxs22(
             Flex12,
             {
               sx: activeSectionName === sectionElement.id ? styles_default12.iconBoxActive : styles_default12.iconBox,
@@ -10064,13 +10107,13 @@ var Sidebar = ({ parentsArray = [] }) => {
       timer && clearTimeout(timer);
     };
   }, [activeSectionName, sidebarSectionContent?.categories?.length]);
-  return /* @__PURE__ */ jsxs21(Flex12, { sx: styles_default12.sidebar, children: [
+  return /* @__PURE__ */ jsxs22(Flex12, { sx: styles_default12.sidebar, children: [
     /* @__PURE__ */ jsx28(
       Flex12,
       {
         className: expandDelayStatus ? "iconContainerExpanded" : "",
         sx: styles_default12.sidebarIcons,
-        children: sidebarSections.map((section, id) => /* @__PURE__ */ jsxs21(Fragment4, { children: [
+        children: sidebarSections.map((section, id) => /* @__PURE__ */ jsxs22(Fragment5, { children: [
           id > 0 && /* @__PURE__ */ jsx28(Box16, { sx: styles_default12.sectionDivider, children: /* @__PURE__ */ jsx28("hr", {}) }),
           /* @__PURE__ */ jsx28(Flex12, { sx: styles_default12.sidebarIconsContainer, children: section.map((element) => {
             const title9 = getSectionLabel(
@@ -10534,7 +10577,7 @@ var cardDescription = (containerType) => {
 };
 
 // src/components/documentation-card/index.tsx
-import { jsx as jsx29, jsxs as jsxs22 } from "react/jsx-runtime";
+import { jsx as jsx29, jsxs as jsxs23 } from "react/jsx-runtime";
 var DocumentationCard = ({
   title: title9,
   description: description6,
@@ -10559,7 +10602,7 @@ var DocumentationCard = ({
         textDecoration: "none",
         color: "inherit"
       },
-      children: /* @__PURE__ */ jsx29(Box17, { sx: cardContainer3(containerType), children: /* @__PURE__ */ jsxs22(Flex13, { sx: titleContainer3(containerType), children: [
+      children: /* @__PURE__ */ jsx29(Box17, { sx: cardContainer3(containerType), children: /* @__PURE__ */ jsxs23(Flex13, { sx: titleContainer3(containerType), children: [
         containerType === "dropdown" ? /* @__PURE__ */ jsx29(Flex13, { sx: styles_default18.dropdownIcon, children: /* @__PURE__ */ jsx29(Icon82, { sx: { color: "#4A596B" }, size: 20 }) }) : containerType === "see-also" ? /* @__PURE__ */ jsx29(Flex13, { sx: styles_default18.seeAlsoIcon, children: /* @__PURE__ */ jsx29(Icon82, { sx: { color: "#4A596B" }, size: 18 }) }) : /* @__PURE__ */ jsx29(
           Icon82,
           {
@@ -10567,7 +10610,7 @@ var DocumentationCard = ({
             size: 24
           }
         ),
-        /* @__PURE__ */ jsxs22(Box17, { sx: { minWidth: 0, flex: 1 }, children: [
+        /* @__PURE__ */ jsxs23(Box17, { sx: { minWidth: 0, flex: 1 }, children: [
           /* @__PURE__ */ jsx29(Text10, { className: "title", sx: cardTitle(containerType), children: title9 }),
           /* @__PURE__ */ jsx29(
             Text10,
@@ -11195,7 +11238,7 @@ var styles_default19 = {
 };
 
 // src/components/search-input/search-box.tsx
-import { jsx as jsx30, jsxs as jsxs23 } from "react/jsx-runtime";
+import { jsx as jsx30, jsxs as jsxs24 } from "react/jsx-runtime";
 var containerStyle = (variant) => variant === "modal" ? styles_default19.searchContainerModal : styles_default19.searchContainer;
 var iconStyle = (variant) => variant === "modal" ? styles_default19.searchIconModal : styles_default19.searchIcon;
 var inputStyle = (variant) => variant === "modal" ? styles_default19.searchInputModal : styles_default19.searchInput;
@@ -11266,7 +11309,7 @@ var SearchBoxComponent = ({
     refine("");
     inputRef.current?.focus();
   };
-  return /* @__PURE__ */ jsxs23(Flex14, { sx: containerStyle(variant), onClick: handleClick, children: [
+  return /* @__PURE__ */ jsxs24(Flex14, { sx: containerStyle(variant), onClick: handleClick, children: [
     /* @__PURE__ */ jsx30(search_icon_default, { sx: iconStyle(variant) }),
     /* @__PURE__ */ jsx30(
       "input",
@@ -11299,7 +11342,7 @@ var SearchBoxComponent = ({
         onClick: handleClear,
         children: /* @__PURE__ */ jsx30(close_icon_default, { sx: { width: "14px", height: "14px" } })
       }
-    ) : variant === "default" ? /* @__PURE__ */ jsxs23(Flex14, { sx: styles_default19.shortcutHint, "aria-hidden": "true", "data-search-shortcut": true, children: [
+    ) : variant === "default" ? /* @__PURE__ */ jsxs24(Flex14, { sx: styles_default19.shortcutHint, "aria-hidden": "true", "data-search-shortcut": true, children: [
       isMac ? /* @__PURE__ */ jsx30(Box18, { as: "kbd", sx: styles_default19.shortcutKbd, children: "\u2318" }) : /* @__PURE__ */ jsx30(Box18, { as: "kbd", sx: styles_default19.shortcutKbd, children: "Ctrl" }),
       /* @__PURE__ */ jsx30(Box18, { as: "kbd", sx: styles_default19.shortcutKbd, children: "K" })
     ] }) : null
@@ -11321,8 +11364,8 @@ import { Box as Box19, Flex as Flex16, IconCaret as IconCaret4, Text as Text12 }
 
 // src/components/icons/api-guides-icon.tsx
 import { Icon as Icon10 } from "@vtex/brand-ui";
-import { jsx as jsx31, jsxs as jsxs24 } from "react/jsx-runtime";
-var APIGuidesIcon = (props) => /* @__PURE__ */ jsxs24(
+import { jsx as jsx31, jsxs as jsxs25 } from "react/jsx-runtime";
+var APIGuidesIcon = (props) => /* @__PURE__ */ jsxs25(
   Icon10,
   {
     ...props,
@@ -11389,8 +11432,8 @@ var api_guides_icon_default = APIGuidesIcon;
 
 // src/components/icons/api-reference-icon.tsx
 import { Icon as Icon11 } from "@vtex/brand-ui";
-import { jsx as jsx32, jsxs as jsxs25 } from "react/jsx-runtime";
-var APIReferenceIcon = (props) => /* @__PURE__ */ jsxs25(
+import { jsx as jsx32, jsxs as jsxs26 } from "react/jsx-runtime";
+var APIReferenceIcon = (props) => /* @__PURE__ */ jsxs26(
   Icon11,
   {
     ...props,
@@ -11435,8 +11478,8 @@ var api_reference_icon_default = APIReferenceIcon;
 
 // src/components/icons/app-development-icon.tsx
 import { Icon as Icon12 } from "@vtex/brand-ui";
-import { jsx as jsx33, jsxs as jsxs26 } from "react/jsx-runtime";
-var AppDevelopmentIcon = (props) => /* @__PURE__ */ jsxs26(
+import { jsx as jsx33, jsxs as jsxs27 } from "react/jsx-runtime";
+var AppDevelopmentIcon = (props) => /* @__PURE__ */ jsxs27(
   Icon12,
   {
     ...props,
@@ -11483,8 +11526,8 @@ var app_development_icon_default = AppDevelopmentIcon;
 
 // src/components/icons/release-notes-icon.tsx
 import { Icon as Icon13 } from "@vtex/brand-ui";
-import { jsx as jsx34, jsxs as jsxs27 } from "react/jsx-runtime";
-var ReleaseNotesIcon = (props) => /* @__PURE__ */ jsxs27(
+import { jsx as jsx34, jsxs as jsxs28 } from "react/jsx-runtime";
+var ReleaseNotesIcon = (props) => /* @__PURE__ */ jsxs28(
   Icon13,
   {
     ...props,
@@ -11551,8 +11594,8 @@ var release_notes_icon_default = ReleaseNotesIcon;
 
 // src/components/icons/storefront-development-icon.tsx
 import { Icon as Icon14 } from "@vtex/brand-ui";
-import { jsx as jsx35, jsxs as jsxs28 } from "react/jsx-runtime";
-var StorefrontDevelopmentIcon = (props) => /* @__PURE__ */ jsxs28(
+import { jsx as jsx35, jsxs as jsxs29 } from "react/jsx-runtime";
+var StorefrontDevelopmentIcon = (props) => /* @__PURE__ */ jsxs29(
   Icon14,
   {
     ...props,
@@ -11639,8 +11682,8 @@ var storefront_development_icon_default = StorefrontDevelopmentIcon;
 
 // src/components/icons/vtex-io-apps-icon.tsx
 import { Icon as Icon15 } from "@vtex/brand-ui";
-import { jsx as jsx36, jsxs as jsxs29 } from "react/jsx-runtime";
-var VTEXIOAppsIcon = (props) => /* @__PURE__ */ jsxs29(
+import { jsx as jsx36, jsxs as jsxs30 } from "react/jsx-runtime";
+var VTEXIOAppsIcon = (props) => /* @__PURE__ */ jsxs30(
   Icon15,
   {
     ...props,
@@ -11703,8 +11746,8 @@ var vtex_io_apps_icon_default = VTEXIOAppsIcon;
 
 // src/components/icons/troubleshooting-icon.tsx
 import { Icon as Icon16 } from "@vtex/brand-ui";
-import { jsx as jsx37, jsxs as jsxs30 } from "react/jsx-runtime";
-var TroubleshootingIcon = (props) => /* @__PURE__ */ jsxs30(
+import { jsx as jsx37, jsxs as jsxs31 } from "react/jsx-runtime";
+var TroubleshootingIcon = (props) => /* @__PURE__ */ jsxs31(
   Icon16,
   {
     ...props,
@@ -11749,8 +11792,8 @@ var troubleshooting_icon_default = TroubleshootingIcon;
 
 // src/components/icons/added-icon.tsx
 import { Icon as Icon17 } from "@vtex/brand-ui";
-import { jsx as jsx38, jsxs as jsxs31 } from "react/jsx-runtime";
-var AddedIcon = (props) => /* @__PURE__ */ jsxs31(
+import { jsx as jsx38, jsxs as jsxs32 } from "react/jsx-runtime";
+var AddedIcon = (props) => /* @__PURE__ */ jsxs32(
   Icon17,
   {
     ...props,
@@ -11759,7 +11802,7 @@ var AddedIcon = (props) => /* @__PURE__ */ jsxs31(
     xmlns: "http://www.w3.org/2000/svg",
     children: [
       /* @__PURE__ */ jsx38("circle", { cx: "8", cy: "8", r: "8", fill: "#DFF1E0" }),
-      /* @__PURE__ */ jsxs31("g", { clipPath: "url(#clip0_2354_76889)", children: [
+      /* @__PURE__ */ jsxs32("g", { clipPath: "url(#clip0_2354_76889)", children: [
         /* @__PURE__ */ jsx38(
           "path",
           {
@@ -11839,8 +11882,8 @@ var added_icon_default = AddedIcon;
 
 // src/components/icons/deprecated-icon.tsx
 import { Icon as Icon18 } from "@vtex/brand-ui";
-import { jsx as jsx39, jsxs as jsxs32 } from "react/jsx-runtime";
-var DeprecatedIcon = (props) => /* @__PURE__ */ jsxs32(
+import { jsx as jsx39, jsxs as jsxs33 } from "react/jsx-runtime";
+var DeprecatedIcon = (props) => /* @__PURE__ */ jsxs33(
   Icon18,
   {
     ...props,
@@ -11865,8 +11908,8 @@ var deprecated_icon_default = DeprecatedIcon;
 
 // src/components/icons/fixed-icon.tsx
 import { Icon as Icon19 } from "@vtex/brand-ui";
-import { jsx as jsx40, jsxs as jsxs33 } from "react/jsx-runtime";
-var FixedIcon = (props) => /* @__PURE__ */ jsxs33(
+import { jsx as jsx40, jsxs as jsxs34 } from "react/jsx-runtime";
+var FixedIcon = (props) => /* @__PURE__ */ jsxs34(
   Icon19,
   {
     ...props,
@@ -11895,8 +11938,8 @@ var fixed_icon_default = FixedIcon;
 
 // src/components/icons/improved-icon.tsx
 import { Icon as Icon20 } from "@vtex/brand-ui";
-import { jsx as jsx41, jsxs as jsxs34 } from "react/jsx-runtime";
-var ImprovedIcon = (props) => /* @__PURE__ */ jsxs34(
+import { jsx as jsx41, jsxs as jsxs35 } from "react/jsx-runtime";
+var ImprovedIcon = (props) => /* @__PURE__ */ jsxs35(
   Icon20,
   {
     ...props,
@@ -11922,8 +11965,8 @@ var improved_icon_default = ImprovedIcon;
 
 // src/components/icons/removed-icon.tsx
 import { Icon as Icon21 } from "@vtex/brand-ui";
-import { jsx as jsx42, jsxs as jsxs35 } from "react/jsx-runtime";
-var RemovedIcon = (props) => /* @__PURE__ */ jsxs35(
+import { jsx as jsx42, jsxs as jsxs36 } from "react/jsx-runtime";
+var RemovedIcon = (props) => /* @__PURE__ */ jsxs36(
   Icon21,
   {
     ...props,
@@ -12090,7 +12133,7 @@ function getSearchBreadcrumbs({
 // src/components/search-input/customHighlight.tsx
 import { connectHighlight } from "react-instantsearch-dom";
 import { Flex as Flex15, Text as Text11 } from "@vtex/brand-ui";
-import { Fragment as Fragment5, jsx as jsx43 } from "react/jsx-runtime";
+import { Fragment as Fragment6, jsx as jsx43 } from "react/jsx-runtime";
 function clipAroundHighlight(parts, maxChars) {
   if (!parts.length)
     return parts;
@@ -12144,12 +12187,12 @@ var HighlightQuery = ({
   query
 }) => {
   if (!query?.trim() || !text4)
-    return /* @__PURE__ */ jsx43(Fragment5, { children: text4 });
+    return /* @__PURE__ */ jsx43(Fragment6, { children: text4 });
   const escaped = query.trim().replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   const regex = new RegExp(`(${escaped})`, "ig");
   const parts = text4.split(regex);
   const normalizedQuery = query.trim().toLowerCase();
-  return /* @__PURE__ */ jsx43(Fragment5, { children: parts.map(
+  return /* @__PURE__ */ jsx43(Fragment6, { children: parts.map(
     (part, index) => part.toLowerCase() === normalizedQuery ? /* @__PURE__ */ jsx43("mark", { style: styles_default19.hitContentHighlighted, children: part }, index) : part
   ) });
 };
@@ -12177,8 +12220,8 @@ var customHighlight_default = connectedHighlight;
 
 // src/components/icons/copy-icon.tsx
 import { Icon as Icon22 } from "@vtex/brand-ui";
-import { jsx as jsx44, jsxs as jsxs36 } from "react/jsx-runtime";
-var CopyIcon = (props) => /* @__PURE__ */ jsxs36(
+import { jsx as jsx44, jsxs as jsxs37 } from "react/jsx-runtime";
+var CopyIcon = (props) => /* @__PURE__ */ jsxs37(
   Icon22,
   {
     ...props,
@@ -12213,8 +12256,8 @@ var copy_icon_default = CopyIcon;
 
 // src/components/icons/external-link-icon.tsx
 import { Icon as Icon23 } from "@vtex/brand-ui";
-import { jsx as jsx45, jsxs as jsxs37 } from "react/jsx-runtime";
-var ExternalLinkIcon = (props) => /* @__PURE__ */ jsxs37(
+import { jsx as jsx45, jsxs as jsxs38 } from "react/jsx-runtime";
+var ExternalLinkIcon = (props) => /* @__PURE__ */ jsxs38(
   Icon23,
   {
     ...props,
@@ -12259,8 +12302,8 @@ var external_link_icon_default = ExternalLinkIcon;
 
 // src/components/icons/paper-icon.tsx
 import { Icon as Icon24 } from "@vtex/brand-ui";
-import { jsx as jsx46, jsxs as jsxs38 } from "react/jsx-runtime";
-var PaperIcon = (props) => /* @__PURE__ */ jsxs38(
+import { jsx as jsx46, jsxs as jsxs39 } from "react/jsx-runtime";
+var PaperIcon = (props) => /* @__PURE__ */ jsxs39(
   Icon24,
   {
     ...props,
@@ -12324,7 +12367,7 @@ var PaperIcon = (props) => /* @__PURE__ */ jsxs38(
 var paper_icon_default = PaperIcon;
 
 // src/components/search-input/results-box.tsx
-import { Fragment as Fragment6, jsx as jsx47, jsxs as jsxs39 } from "react/jsx-runtime";
+import { Fragment as Fragment7, jsx as jsx47, jsxs as jsxs40 } from "react/jsx-runtime";
 var VISIBLE_HITS = 7;
 var VISIBLE_HITS_MODAL = 5;
 var Hit2 = ({
@@ -12350,7 +12393,7 @@ var Hit2 = ({
   });
   const isModal = variant === "modal";
   const method = getSearchHitMethod(hit);
-  return /* @__PURE__ */ jsxs39(
+  return /* @__PURE__ */ jsxs40(
     Box19,
     {
       sx: isModal ? styles_default19.hitBoxModal : styles_default19.hitBox,
@@ -12364,7 +12407,7 @@ var Hit2 = ({
               eventName: "Search in top bar",
               objectIDs: [hit.objectID]
             }),
-            children: /* @__PURE__ */ jsxs39(Flex16, { sx: isModal ? styles_default19.hitLinkModal : styles_default19.hitLink, children: [
+            children: /* @__PURE__ */ jsxs40(Flex16, { sx: isModal ? styles_default19.hitLinkModal : styles_default19.hitLink, children: [
               /* @__PURE__ */ jsx47(
                 Box19,
                 {
@@ -12379,8 +12422,8 @@ var Hit2 = ({
                   )
                 }
               ),
-              /* @__PURE__ */ jsxs39(Box19, { sx: styles_default19.hitText, children: [
-                title9 ? /* @__PURE__ */ jsxs39(Text12, { sx: isModal ? styles_default19.hitTitleModal : styles_default19.hitTitle, children: [
+              /* @__PURE__ */ jsxs40(Box19, { sx: styles_default19.hitText, children: [
+                title9 ? /* @__PURE__ */ jsxs40(Text12, { sx: isModal ? styles_default19.hitTitleModal : styles_default19.hitTitle, children: [
                   method ? /* @__PURE__ */ jsx47(
                     method_category_default,
                     {
@@ -12393,7 +12436,7 @@ var Hit2 = ({
                   /* @__PURE__ */ jsx47(Text12, { as: "span", sx: styles_default19.hitTitleText, children: /* @__PURE__ */ jsx47(HighlightQuery, { text: title9, query }) })
                 ] }) : null,
                 !isModal && hit.content ? /* @__PURE__ */ jsx47(customHighlight_default, { hit, attribute: "content" }) : null,
-                typeof hit.doctype === "string" && /* @__PURE__ */ jsx47(Flex16, { sx: styles_default19.hitBreadcrumbs, children: isModal ? (breadcrumbs.length ? breadcrumbs : [String(hit.doctype)]).map((filter, index) => /* @__PURE__ */ jsxs39(Flex16, { sx: styles_default19.alignCenter, children: [
+                typeof hit.doctype === "string" && /* @__PURE__ */ jsx47(Flex16, { sx: styles_default19.hitBreadcrumbs, children: isModal ? (breadcrumbs.length ? breadcrumbs : [String(hit.doctype)]).map((filter, index) => /* @__PURE__ */ jsxs40(Flex16, { sx: styles_default19.alignCenter, children: [
                   index > 0 && /* @__PURE__ */ jsx47(
                     IconCaret4,
                     {
@@ -12402,9 +12445,9 @@ var Hit2 = ({
                     }
                   ),
                   /* @__PURE__ */ jsx47(Text12, { sx: styles_default19.hitBreadCrumb, children: filter || hit.doctype })
-                ] }, `${filter}${index}`)) : /* @__PURE__ */ jsxs39(Fragment6, { children: [
+                ] }, `${filter}${index}`)) : /* @__PURE__ */ jsxs40(Fragment7, { children: [
                   /* @__PURE__ */ jsx47(Text12, { sx: styles_default19.hitBreadCrumbIn, children: `${messages[locale]["search_card.in"] || "In"} ${breadcrumbs[0] || hit.doctype}` }),
-                  breadcrumbs.slice(1).map((filter, index) => /* @__PURE__ */ jsxs39(
+                  breadcrumbs.slice(1).map((filter, index) => /* @__PURE__ */ jsxs40(
                     Flex16,
                     {
                       sx: styles_default19.alignCenter,
@@ -12426,7 +12469,7 @@ var Hit2 = ({
             ] })
           }
         ) }),
-        !isModal && /* @__PURE__ */ jsxs39(Flex16, { className: "hit-actions", sx: styles_default19.hitActions, children: [
+        !isModal && /* @__PURE__ */ jsxs40(Flex16, { className: "hit-actions", sx: styles_default19.hitActions, children: [
           /* @__PURE__ */ jsx47(
             Box19,
             {
@@ -12557,11 +12600,11 @@ var HitsBox = connectStateResults(
     ]);
     if (isModal && !searchState.query)
       return null;
-    return /* @__PURE__ */ jsx47(Fragment6, { children: searchResults && /* @__PURE__ */ jsx47(
+    return /* @__PURE__ */ jsx47(Fragment7, { children: searchResults && /* @__PURE__ */ jsx47(
       Box19,
       {
         sx: isModal ? styles_default19.resultsOuterContainerModal : styles_default19.resultsOuterContainer,
-        children: /* @__PURE__ */ jsxs39(
+        children: /* @__PURE__ */ jsxs40(
           Box19,
           {
             sx: isModal ? styles_default19.resultsInnerContainerModal : styles_default19.resultsInnerContainer,
@@ -12592,27 +12635,27 @@ var HitsBox = connectStateResults(
                   ))
                 }
               ),
-              searchResults.hits.length > 0 && /* @__PURE__ */ jsxs39(
+              searchResults.hits.length > 0 && /* @__PURE__ */ jsxs40(
                 Flex16,
                 {
                   sx: isModal ? styles_default19.resultsFooterModal(hasSeeAll) : styles_default19.resultsFooter(hasSeeAll),
                   children: [
-                    !isModal && /* @__PURE__ */ jsxs39(Flex16, { sx: styles_default19.keyboardHints, children: [
-                      /* @__PURE__ */ jsxs39(Flex16, { sx: styles_default19.keyboardHint, children: [
+                    !isModal && /* @__PURE__ */ jsxs40(Flex16, { sx: styles_default19.keyboardHints, children: [
+                      /* @__PURE__ */ jsxs40(Flex16, { sx: styles_default19.keyboardHint, children: [
                         /* @__PURE__ */ jsx47(Text12, { as: "span", sx: styles_default19.kbd, children: "\u2191" }),
                         /* @__PURE__ */ jsx47(Text12, { as: "span", sx: styles_default19.kbd, children: "\u2193" }),
                         /* @__PURE__ */ jsx47(Text12, { children: messages[locale]["search_input.navigate"] || "Navigate" })
                       ] }),
-                      /* @__PURE__ */ jsxs39(Flex16, { sx: styles_default19.keyboardHint, children: [
+                      /* @__PURE__ */ jsxs40(Flex16, { sx: styles_default19.keyboardHint, children: [
                         /* @__PURE__ */ jsx47(Text12, { as: "span", sx: styles_default19.kbd, children: "\u21B5" }),
                         /* @__PURE__ */ jsx47(Text12, { children: messages[locale]["search_input.open"] || "Open" })
                       ] }),
-                      /* @__PURE__ */ jsxs39(Flex16, { sx: styles_default19.keyboardHint, children: [
+                      /* @__PURE__ */ jsxs40(Flex16, { sx: styles_default19.keyboardHint, children: [
                         /* @__PURE__ */ jsx47(Text12, { as: "span", sx: styles_default19.kbd, children: "esc" }),
                         /* @__PURE__ */ jsx47(Text12, { children: messages[locale]["search_input.close"] || "Close" })
                       ] })
                     ] }),
-                    hasSeeAll && /* @__PURE__ */ jsxs39(
+                    hasSeeAll && /* @__PURE__ */ jsxs40(
                       Box19,
                       {
                         sx: styles_default19.seeAll,
@@ -13168,7 +13211,7 @@ function SearchConfig(config) {
 }
 
 // src/components/search-input/index.tsx
-import { jsx as jsx48, jsxs as jsxs40 } from "react/jsx-runtime";
+import { jsx as jsx48, jsxs as jsxs41 } from "react/jsx-runtime";
 function SearchInput({
   variant = "default",
   autoFocus = false,
@@ -13194,7 +13237,7 @@ function SearchInput({
       variant
     }
   );
-  return /* @__PURE__ */ jsxs40(InstantSearch, { searchClient, indexName: searchIndex, children: [
+  return /* @__PURE__ */ jsxs41(InstantSearch, { searchClient, indexName: searchIndex, children: [
     searchClient.instantSearchConfigs && /* @__PURE__ */ jsx48(Configure, { ...searchClient.instantSearchConfigs }),
     searchClient.useLanguageFilter && /* @__PURE__ */ jsx48(
       Configure,
@@ -13204,10 +13247,10 @@ function SearchInput({
       }
     ),
     !searchClient.useLanguageFilter && /* @__PURE__ */ jsx48(Configure, { clickAnalytics: true }),
-    isModal ? /* @__PURE__ */ jsxs40(Flex17, { sx: styles_default19.modalRoot, children: [
+    isModal ? /* @__PURE__ */ jsxs41(Flex17, { sx: styles_default19.modalRoot, children: [
       /* @__PURE__ */ jsx48(Box20, { sx: styles_default19.modalSearchBox, children: searchBox2 }),
       /* @__PURE__ */ jsx48(Box20, { sx: styles_default19.modalResults, children: /* @__PURE__ */ jsx48(results_box_default, { changeFocus, variant }) })
-    ] }) : /* @__PURE__ */ jsxs40(
+    ] }) : /* @__PURE__ */ jsxs41(
       Box20,
       {
         onFocus: () => setfocusOut({ modaltoggle: true }),
@@ -13280,7 +13323,7 @@ var styles_default20 = {
 };
 
 // src/components/mobile-search/index.tsx
-import { Fragment as Fragment7, jsx as jsx49, jsxs as jsxs41 } from "react/jsx-runtime";
+import { Fragment as Fragment8, jsx as jsx49, jsxs as jsxs42 } from "react/jsx-runtime";
 var MobileSearch = ({ onOpen }) => {
   const router = useRouter6();
   const { locale } = useContext14(LibraryContext);
@@ -13318,7 +13361,7 @@ var MobileSearch = ({ onOpen }) => {
       router.events?.off("hashChangeStart", handleRouteChange);
     };
   }, [router.events]);
-  return /* @__PURE__ */ jsxs41(Fragment7, { children: [
+  return /* @__PURE__ */ jsxs42(Fragment8, { children: [
     /* @__PURE__ */ jsx49(
       Box21,
       {
@@ -13355,7 +13398,7 @@ var MobileSearch = ({ onOpen }) => {
 var mobile_search_default = MobileSearch;
 
 // src/lib/hamburger-menu/index.tsx
-import { jsx as jsx50, jsxs as jsxs42 } from "react/jsx-runtime";
+import { jsx as jsx50, jsxs as jsxs43 } from "react/jsx-runtime";
 function getRouteSlug(slug) {
   if (typeof slug === "string")
     return slug;
@@ -13410,17 +13453,17 @@ var HamburgerMenu = ({ parentsArray = [] }) => {
     return isDoc;
   };
   updateOpenPage({ parentsArray, context });
-  return /* @__PURE__ */ jsxs42(Header.ActionButton, { sx: styles_default17.headerActions, children: [
+  return /* @__PURE__ */ jsxs43(Header.ActionButton, { sx: styles_default17.headerActions, children: [
     /* @__PURE__ */ jsx50(mobile_search_default, { onOpen: closeMenu }),
-    /* @__PURE__ */ jsx50(Box22, { ref: hamburgerRef, sx: { display: "contents" }, children: /* @__PURE__ */ jsxs42(VtexHamburgerMenu, { sx: styles_default17.hamburgerContainer, children: [
+    /* @__PURE__ */ jsx50(Box22, { ref: hamburgerRef, sx: { display: "contents" }, children: /* @__PURE__ */ jsxs43(VtexHamburgerMenu, { sx: styles_default17.hamburgerContainer, children: [
       /* @__PURE__ */ jsx50(Box22, { sx: styles_default17.backdrop, "aria-hidden": "true", onClick: closeMenu }),
-      /* @__PURE__ */ jsx50(VtexHamburgerMenu.Menu, { sx: styles_default17.innerHambugerContainer, children: /* @__PURE__ */ jsxs42(Box22, { sx: styles_default17.menuContainer, children: [
+      /* @__PURE__ */ jsx50(VtexHamburgerMenu.Menu, { sx: styles_default17.innerHambugerContainer, children: /* @__PURE__ */ jsxs43(Box22, { sx: styles_default17.menuContainer, children: [
         /* @__PURE__ */ jsx50(Box22, { sx: styles_default17.cardContainer, children: hamburguerSections.map((section, id) => /* @__PURE__ */ jsx50(
           Box22,
           {
             sx: id > 0 ? styles_default17.updatesContainer : styles_default17.documentationContainer,
             "data-cy": "dropdown-menu-first-section",
-            children: section.map((card2) => /* @__PURE__ */ jsxs42(Box22, { sx: styles_default17.innerCardContainer, children: [
+            children: section.map((card2) => /* @__PURE__ */ jsxs43(Box22, { sx: styles_default17.innerCardContainer, children: [
               /* @__PURE__ */ jsx50(Box22, { sx: styles_default17.innerCardContent, children: /* @__PURE__ */ jsx50(
                 documentation_card_default,
                 {
@@ -13482,8 +13525,8 @@ import { Flex as Flex20, Text as Text15 } from "@vtex/brand-ui";
 
 // src/components/icons/like-icon.tsx
 import { Icon as Icon25 } from "@vtex/brand-ui";
-import { jsx as jsx51, jsxs as jsxs43 } from "react/jsx-runtime";
-var LikeIcon = (props) => /* @__PURE__ */ jsxs43(
+import { jsx as jsx51, jsxs as jsxs44 } from "react/jsx-runtime";
+var LikeIcon = (props) => /* @__PURE__ */ jsxs44(
   Icon25,
   {
     ...props,
@@ -13522,8 +13565,8 @@ var like_icon_default = LikeIcon;
 
 // src/components/icons/like-selected-icon.tsx
 import { Icon as Icon26 } from "@vtex/brand-ui";
-import { jsx as jsx52, jsxs as jsxs44 } from "react/jsx-runtime";
-var LikeSelectedIcon = (props) => /* @__PURE__ */ jsxs44(
+import { jsx as jsx52, jsxs as jsxs45 } from "react/jsx-runtime";
+var LikeSelectedIcon = (props) => /* @__PURE__ */ jsxs45(
   Icon26,
   {
     ...props,
@@ -13684,8 +13727,8 @@ var linkedin_icon_default = LinkedinIcon;
 
 // src/components/icons/share-icon.tsx
 import { Icon as Icon29 } from "@vtex/brand-ui";
-import { jsx as jsx55, jsxs as jsxs45 } from "react/jsx-runtime";
-var ShareIcon = (props) => /* @__PURE__ */ jsxs45(
+import { jsx as jsx55, jsxs as jsxs46 } from "react/jsx-runtime";
+var ShareIcon = (props) => /* @__PURE__ */ jsxs46(
   Icon29,
   {
     ...props,
@@ -13823,7 +13866,7 @@ var EmailIcon = (props) => /* @__PURE__ */ jsx57(
 var email_icon_default = EmailIcon;
 
 // src/components/share-button/index.tsx
-import { jsx as jsx58, jsxs as jsxs46 } from "react/jsx-runtime";
+import { jsx as jsx58, jsxs as jsxs47 } from "react/jsx-runtime";
 var ShareButton = ({ url, sx = {} }) => {
   const [isOpen, setIsOpen] = useState17(false);
   const containerRef = useRef11();
@@ -13836,8 +13879,8 @@ var ShareButton = ({ url, sx = {} }) => {
       console.error("Error copying link to clipboard:", error);
     }
   };
-  return /* @__PURE__ */ jsxs46(Flex19, { sx: { ...styles_default22.container, ...sx }, ref: containerRef, children: [
-    /* @__PURE__ */ jsxs46(
+  return /* @__PURE__ */ jsxs47(Flex19, { sx: { ...styles_default22.container, ...sx }, ref: containerRef, children: [
+    /* @__PURE__ */ jsxs47(
       Button5,
       {
         sx: styles_default22.button,
@@ -13849,25 +13892,25 @@ var ShareButton = ({ url, sx = {} }) => {
         ]
       }
     ),
-    isOpen && /* @__PURE__ */ jsxs46(Flex19, { sx: styles_default22.innerContainer, children: [
-      /* @__PURE__ */ jsxs46(Flex19, { sx: styles_default22.innerButton, onClick: handleCopyLink, children: [
+    isOpen && /* @__PURE__ */ jsxs47(Flex19, { sx: styles_default22.innerContainer, children: [
+      /* @__PURE__ */ jsxs47(Flex19, { sx: styles_default22.innerButton, onClick: handleCopyLink, children: [
         /* @__PURE__ */ jsx58(link_icon_default, { size: 16 }),
         /* @__PURE__ */ jsx58(Text13, { children: "Copy link" })
       ] }),
       /* @__PURE__ */ jsx58(Box23, { sx: styles_default22.divider }),
-      /* @__PURE__ */ jsx58(EmailShareButton, { url, children: /* @__PURE__ */ jsxs46(Flex19, { sx: styles_default22.innerButton, onClick: handleCopyLink, children: [
+      /* @__PURE__ */ jsx58(EmailShareButton, { url, children: /* @__PURE__ */ jsxs47(Flex19, { sx: styles_default22.innerButton, onClick: handleCopyLink, children: [
         /* @__PURE__ */ jsx58(email_icon_default, { size: 16 }),
         /* @__PURE__ */ jsx58(Text13, { children: "E-mail" })
       ] }) }),
-      /* @__PURE__ */ jsx58(TwitterShareButton, { url, children: /* @__PURE__ */ jsxs46(Flex19, { sx: styles_default22.innerButton, children: [
+      /* @__PURE__ */ jsx58(TwitterShareButton, { url, children: /* @__PURE__ */ jsxs47(Flex19, { sx: styles_default22.innerButton, children: [
         /* @__PURE__ */ jsx58(twitter_icon_default, { size: 16 }),
         /* @__PURE__ */ jsx58(Text13, { children: "Twitter" })
       ] }) }),
-      /* @__PURE__ */ jsx58(FacebookShareButton, { url, children: /* @__PURE__ */ jsxs46(Flex19, { sx: styles_default22.innerButton, children: [
+      /* @__PURE__ */ jsx58(FacebookShareButton, { url, children: /* @__PURE__ */ jsxs47(Flex19, { sx: styles_default22.innerButton, children: [
         /* @__PURE__ */ jsx58(facebook_icon_default, { size: 16 }),
         /* @__PURE__ */ jsx58(Text13, { children: "Facebook" })
       ] }) }),
-      /* @__PURE__ */ jsx58(LinkedinShareButton, { url, children: /* @__PURE__ */ jsxs46(Flex19, { sx: styles_default22.innerButton, children: [
+      /* @__PURE__ */ jsx58(LinkedinShareButton, { url, children: /* @__PURE__ */ jsxs47(Flex19, { sx: styles_default22.innerButton, children: [
         /* @__PURE__ */ jsx58(linkedin_icon_default, { size: 16 }),
         /* @__PURE__ */ jsx58(Text13, { children: "LinkedIn" })
       ] }) })
@@ -13882,8 +13925,8 @@ import { Link as Link8, Text as Text14 } from "@vtex/brand-ui";
 
 // src/components/icons/edit-icon.tsx
 import { Icon as Icon32 } from "@vtex/brand-ui";
-import { jsx as jsx59, jsxs as jsxs47 } from "react/jsx-runtime";
-var EditIcon = (props) => /* @__PURE__ */ jsxs47(
+import { jsx as jsx59, jsxs as jsxs48 } from "react/jsx-runtime";
+var EditIcon = (props) => /* @__PURE__ */ jsxs48(
   Icon32,
   {
     ...props,
@@ -13939,7 +13982,7 @@ var icon2 = {
 var styles_default23 = { container: container10, icon: icon2 };
 
 // src/components/suggest-edits/index.tsx
-import { jsx as jsx60, jsxs as jsxs48 } from "react/jsx-runtime";
+import { jsx as jsx60, jsxs as jsxs49 } from "react/jsx-runtime";
 var SuggestEdits = ({
   urlToEdit,
   small = false,
@@ -13947,7 +13990,7 @@ var SuggestEdits = ({
 }) => {
   const { locale } = useContext16(LibraryContext);
   const label4 = messages[locale]["feedback_section.edit"] || "Suggest Edits (GitHub)";
-  return /* @__PURE__ */ jsxs48(
+  return /* @__PURE__ */ jsxs49(
     Link8,
     {
       target: "_blank",
@@ -13964,7 +14007,7 @@ var SuggestEdits = ({
 var suggest_edits_default = SuggestEdits;
 
 // src/components/feedback-section/index.tsx
-import { jsx as jsx61, jsxs as jsxs49 } from "react/jsx-runtime";
+import { jsx as jsx61, jsxs as jsxs50 } from "react/jsx-runtime";
 var DEFAULT_FEEDBACK_ENDPOINT = "/api/feedback/";
 var postFeedback = async (liked, pageUrl, endpoint) => {
   await fetch(endpoint, {
@@ -14008,11 +14051,11 @@ var FeedbackSection = ({
       setFeedback(void 0);
     }
   };
-  return /* @__PURE__ */ jsxs49(Flex20, { sx: styles_default21.container({ small }), "data-cy": "feedback-section", children: [
-    /* @__PURE__ */ jsxs49(Flex20, { sx: styles_default21.likeContainer, children: [
+  return /* @__PURE__ */ jsxs50(Flex20, { sx: styles_default21.container({ small }), "data-cy": "feedback-section", children: [
+    /* @__PURE__ */ jsxs50(Flex20, { sx: styles_default21.likeContainer, children: [
       /* @__PURE__ */ jsx61(Text15, { sx: styles_default21.question({ small }), children: feedback !== void 0 ? messages[locale]["feedback_section.response"] : messages[locale]["feedback_section.question"] }),
-      /* @__PURE__ */ jsxs49(Flex20, { sx: styles_default21.iconsContainer({ small }), children: [
-        /* @__PURE__ */ jsxs49(
+      /* @__PURE__ */ jsxs50(Flex20, { sx: styles_default21.iconsContainer({ small }), children: [
+        /* @__PURE__ */ jsxs50(
           Flex20,
           {
             sx: feedback === void 0 ? styles_default21.button : feedback === true ? styles_default21.selectedButton : styles_default21.disabled,
@@ -14026,7 +14069,7 @@ var FeedbackSection = ({
             ]
           }
         ),
-        /* @__PURE__ */ jsxs49(
+        /* @__PURE__ */ jsxs50(
           Flex20,
           {
             sx: feedback === void 0 ? styles_default21.button : feedback === false ? styles_default21.selectedButton : styles_default21.disabled,
@@ -14108,8 +14151,8 @@ var comment_icon_default = CommentIcon;
 
 // src/components/icons/warning-icon.tsx
 import { Icon as Icon35 } from "@vtex/brand-ui";
-import { jsx as jsx64, jsxs as jsxs50 } from "react/jsx-runtime";
-var WarningIcon = (props) => /* @__PURE__ */ jsxs50(
+import { jsx as jsx64, jsxs as jsxs51 } from "react/jsx-runtime";
+var WarningIcon = (props) => /* @__PURE__ */ jsxs51(
   Icon35,
   {
     ...props,
@@ -14479,7 +14522,7 @@ var styles_default24 = {
 };
 
 // src/components/feedback-modal/modal.tsx
-import { jsx as jsx65, jsxs as jsxs51 } from "react/jsx-runtime";
+import { jsx as jsx65, jsxs as jsxs52 } from "react/jsx-runtime";
 var Modal = ({
   isOpen,
   onClose,
@@ -14523,14 +14566,14 @@ var Modal = ({
         "aria-modal": "true",
         "aria-labelledby": "feedback-modal-title",
         "aria-describedby": description6 ? "feedback-modal-description" : void 0,
-        children: /* @__PURE__ */ jsxs51(
+        children: /* @__PURE__ */ jsxs52(
           Box24,
           {
             sx: styles_default24.innerContainer,
             onClick: (e) => e.stopPropagation(),
             children: [
-              /* @__PURE__ */ jsxs51(Box24, { sx: styles_default24.header, children: [
-                /* @__PURE__ */ jsxs51(Flex21, { sx: styles_default24.headerTop, children: [
+              /* @__PURE__ */ jsxs52(Box24, { sx: styles_default24.header, children: [
+                /* @__PURE__ */ jsxs52(Flex21, { sx: styles_default24.headerTop, children: [
                   /* @__PURE__ */ jsx65(Text16, { id: "feedback-modal-title", sx: styles_default24.modalTitle, children: title9 }),
                   /* @__PURE__ */ jsx65(
                     Box24,
@@ -14558,7 +14601,7 @@ var Modal = ({
 var modal_default = Modal;
 
 // src/components/feedback-modal/index.tsx
-import { jsx as jsx66, jsxs as jsxs52 } from "react/jsx-runtime";
+import { jsx as jsx66, jsxs as jsxs53 } from "react/jsx-runtime";
 var DEFAULT_FEEDBACK_ENDPOINT2 = "/api/feedback-google";
 var FEEDBACK_TYPES = [
   {
@@ -14642,8 +14685,8 @@ var FeedbackModal = ({
       setSubmitting(false);
     }
   }
-  return /* @__PURE__ */ jsxs52(Box25, { sx: styles_default24.triggerWrap, children: [
-    /* @__PURE__ */ jsxs52(
+  return /* @__PURE__ */ jsxs53(Box25, { sx: styles_default24.triggerWrap, children: [
+    /* @__PURE__ */ jsxs53(
       Box25,
       {
         as: "button",
@@ -14664,7 +14707,7 @@ var FeedbackModal = ({
         title: localizedMessages["feedback_modal.title"],
         description: submitted ? void 0 : localizedMessages["feedback_modal.description"],
         closeLabel: localizedMessages["feedback_modal.close"],
-        children: submitted ? /* @__PURE__ */ jsxs52(Flex22, { sx: styles_default24.successState, role: "status", children: [
+        children: submitted ? /* @__PURE__ */ jsxs53(Flex22, { sx: styles_default24.successState, role: "status", children: [
           /* @__PURE__ */ jsx66(Flex22, { sx: styles_default24.successIconWrap, "aria-hidden": "true", children: /* @__PURE__ */ jsx66(check_icon_default, { size: 22 }) }),
           /* @__PURE__ */ jsx66(Text17, { sx: styles_default24.successTitle, children: localizedMessages["feedback_modal.success"] }),
           /* @__PURE__ */ jsx66(
@@ -14677,12 +14720,12 @@ var FeedbackModal = ({
               children: localizedMessages["feedback_modal.done"]
             }
           )
-        ] }) : /* @__PURE__ */ jsx66(Box25, { as: "form", onSubmit: handleSubmit, children: /* @__PURE__ */ jsxs52(Box25, { sx: styles_default24.form, children: [
-          error ? /* @__PURE__ */ jsxs52(Flex22, { role: "alert", sx: styles_default24.feedbackErrorText, children: [
+        ] }) : /* @__PURE__ */ jsx66(Box25, { as: "form", onSubmit: handleSubmit, children: /* @__PURE__ */ jsxs53(Box25, { sx: styles_default24.form, children: [
+          error ? /* @__PURE__ */ jsxs53(Flex22, { role: "alert", sx: styles_default24.feedbackErrorText, children: [
             /* @__PURE__ */ jsx66(warning_icon_default, { sx: styles_default24.errorIcon }),
             localizedMessages["feedback_modal.error"]
           ] }) : null,
-          /* @__PURE__ */ jsxs52(Box25, { sx: styles_default24.field, children: [
+          /* @__PURE__ */ jsxs53(Box25, { sx: styles_default24.field, children: [
             /* @__PURE__ */ jsx66(Text17, { as: "label", htmlFor: "feedback-modal-url", sx: styles_default24.label, children: localizedMessages["feedback_modal.article"] }),
             /* @__PURE__ */ jsx66(
               Box25,
@@ -14695,8 +14738,8 @@ var FeedbackModal = ({
               }
             )
           ] }),
-          /* @__PURE__ */ jsxs52(Box25, { sx: styles_default24.field, children: [
-            /* @__PURE__ */ jsxs52(
+          /* @__PURE__ */ jsxs53(Box25, { sx: styles_default24.field, children: [
+            /* @__PURE__ */ jsxs53(
               Text17,
               {
                 as: "label",
@@ -14723,7 +14766,7 @@ var FeedbackModal = ({
               }
             )
           ] }),
-          /* @__PURE__ */ jsxs52(Box25, { sx: styles_default24.field, children: [
+          /* @__PURE__ */ jsxs53(Box25, { sx: styles_default24.field, children: [
             /* @__PURE__ */ jsx66(Text17, { as: "label", htmlFor: "feedback-modal-type", sx: styles_default24.label, children: localizedMessages["feedback_modal.type"] }),
             /* @__PURE__ */ jsx66(
               Box25,
@@ -14736,8 +14779,8 @@ var FeedbackModal = ({
               }
             )
           ] }),
-          /* @__PURE__ */ jsxs52(Box25, { sx: styles_default24.row, children: [
-            /* @__PURE__ */ jsxs52(Box25, { sx: styles_default24.field, children: [
+          /* @__PURE__ */ jsxs53(Box25, { sx: styles_default24.row, children: [
+            /* @__PURE__ */ jsxs53(Box25, { sx: styles_default24.field, children: [
               /* @__PURE__ */ jsx66(
                 Text17,
                 {
@@ -14759,7 +14802,7 @@ var FeedbackModal = ({
                 }
               )
             ] }),
-            /* @__PURE__ */ jsxs52(Box25, { sx: styles_default24.field, children: [
+            /* @__PURE__ */ jsxs53(Box25, { sx: styles_default24.field, children: [
               /* @__PURE__ */ jsx66(
                 Text17,
                 {
@@ -14782,7 +14825,7 @@ var FeedbackModal = ({
               )
             ] })
           ] }),
-          /* @__PURE__ */ jsxs52(Box25, { sx: styles_default24.actions, children: [
+          /* @__PURE__ */ jsxs53(Box25, { sx: styles_default24.actions, children: [
             /* @__PURE__ */ jsx66(
               Box25,
               {
@@ -14926,7 +14969,7 @@ var SearchContextProvider = ({ children }) => {
 var search_default = SearchContextProvider;
 
 // src/components/search-section/index.tsx
-import { jsx as jsx68, jsxs as jsxs53 } from "react/jsx-runtime";
+import { jsx as jsx68, jsxs as jsxs54 } from "react/jsx-runtime";
 var SearchSection = ({ dataElement, index }) => {
   const router = useRouter8();
   const { filterSelectedSection, ocurrenceCount, changeFilterSelectedSection } = useContext19(SearchContext);
@@ -14940,7 +14983,7 @@ var SearchSection = ({ dataElement, index }) => {
   }, [router.query]);
   const allCountLabel = formatSearchTabCount(ocurrenceCount[""]);
   if (!dataElement) {
-    return /* @__PURE__ */ jsxs53(Flex23, { sx: styles_default25.sectionContainer(), onClick: () => updateFilter(""), children: [
+    return /* @__PURE__ */ jsxs54(Flex23, { sx: styles_default25.sectionContainer(), onClick: () => updateFilter(""), children: [
       /* @__PURE__ */ jsx68(
         Text18,
         {
@@ -14956,7 +14999,7 @@ var SearchSection = ({ dataElement, index }) => {
   const count2 = countsLoaded ? ocurrenceCount[dataElement.id] ?? 0 : ocurrenceCount[dataElement.id];
   const isDisabled = count2 === 0;
   const countLabel = formatSearchTabCount(count2);
-  return /* @__PURE__ */ jsxs53(
+  return /* @__PURE__ */ jsxs54(
     Flex23,
     {
       sx: styles_default25.sectionContainer(isDisabled),
@@ -14967,7 +15010,7 @@ var SearchSection = ({ dataElement, index }) => {
       },
       "data-disabled": String(isDisabled),
       children: [
-        /* @__PURE__ */ jsxs53(Flex23, { sx: styles_default25.sectionIconTitleBox, children: [
+        /* @__PURE__ */ jsxs54(Flex23, { sx: styles_default25.sectionIconTitleBox, children: [
           /* @__PURE__ */ jsx68(dataElement.Icon, { sx: styles_default25.sectionIcon(isDisabled) }),
           /* @__PURE__ */ jsx68(
             Text18,
@@ -15012,13 +15055,13 @@ var styles_default26 = {
 
 // src/components/search-sections/index.tsx
 import { useContext as useContext20 } from "react";
-import { jsx as jsx69, jsxs as jsxs54 } from "react/jsx-runtime";
+import { jsx as jsx69, jsxs as jsxs55 } from "react/jsx-runtime";
 var SearchSections = () => {
   const { sidebarSections } = useContext20(LibraryContext);
   const internalOnlySections = sidebarSections.map(
     (section) => section.filter((item2) => !item2.isExternalLink && !item2.excludeFromSearch)
   );
-  return /* @__PURE__ */ jsx69(Box27, { sx: styles_default26.container, children: internalOnlySections.map((sections, id) => /* @__PURE__ */ jsxs54(
+  return /* @__PURE__ */ jsx69(Box27, { sx: styles_default26.container, children: internalOnlySections.map((sections, id) => /* @__PURE__ */ jsxs55(
     Box27,
     {
       sx: id < internalOnlySections.length - 1 ? styles_default26.docsSection : styles_default26.notesSection,
@@ -15300,8 +15343,8 @@ var styles_default27 = {
 
 // src/components/icons/expanded-results-icon.tsx
 import { Icon as Icon36 } from "@vtex/brand-ui";
-import { jsx as jsx70, jsxs as jsxs55 } from "react/jsx-runtime";
-var ExpandedResultsIcon = ({ active }) => active ? /* @__PURE__ */ jsxs55(Icon36, { viewBox: "0 0 19 13", fill: "none", xmlns: "http://www.w3.org/2000/svg", children: [
+import { jsx as jsx70, jsxs as jsxs56 } from "react/jsx-runtime";
+var ExpandedResultsIcon = ({ active }) => active ? /* @__PURE__ */ jsxs56(Icon36, { viewBox: "0 0 19 13", fill: "none", xmlns: "http://www.w3.org/2000/svg", children: [
   /* @__PURE__ */ jsx70(
     "path",
     {
@@ -15316,7 +15359,7 @@ var ExpandedResultsIcon = ({ active }) => active ? /* @__PURE__ */ jsxs55(Icon36
       fill: "#EE2565"
     }
   )
-] }) : /* @__PURE__ */ jsxs55(Icon36, { viewBox: "0 0 23 23", fill: "none", xmlns: "http://www.w3.org/2000/svg", children: [
+] }) : /* @__PURE__ */ jsxs56(Icon36, { viewBox: "0 0 23 23", fill: "none", xmlns: "http://www.w3.org/2000/svg", children: [
   /* @__PURE__ */ jsx70(
     "path",
     {
@@ -15342,7 +15385,7 @@ var ExpandedResultsIcon = ({ active }) => active ? /* @__PURE__ */ jsxs55(Icon36
 var expanded_results_icon_default = ExpandedResultsIcon;
 
 // src/components/search-card/index.tsx
-import { jsx as jsx71, jsxs as jsxs56 } from "react/jsx-runtime";
+import { jsx as jsx71, jsxs as jsxs57 } from "react/jsx-runtime";
 var SearchCard = ({
   Icon: Icon82,
   title: title9,
@@ -15384,11 +15427,11 @@ var SearchCard = ({
     event.stopPropagation();
     window.open(url, "_blank", "noopener,noreferrer");
   };
-  return /* @__PURE__ */ jsxs56(Flex24, { sx: styles_default27.containerActive, children: [
-    /* @__PURE__ */ jsx71(Link9, { href: url, legacyBehavior: true, children: /* @__PURE__ */ jsx71("a", { children: /* @__PURE__ */ jsxs56(Flex24, { sx: styles_default27.cardBody, children: [
+  return /* @__PURE__ */ jsxs57(Flex24, { sx: styles_default27.containerActive, children: [
+    /* @__PURE__ */ jsx71(Link9, { href: url, legacyBehavior: true, children: /* @__PURE__ */ jsx71("a", { children: /* @__PURE__ */ jsxs57(Flex24, { sx: styles_default27.cardBody, children: [
       /* @__PURE__ */ jsx71(Box28, { className: "search-card-icon-wrap", sx: styles_default27.iconWrap, children: /* @__PURE__ */ jsx71(DocIcon, { className: "search-card-icon", sx: styles_default27.icon }) }),
-      /* @__PURE__ */ jsxs56(Box28, { sx: styles_default27.cardText, children: [
-        /* @__PURE__ */ jsxs56(Text19, { className: "searchCardTitle", sx: styles_default27.title, children: [
+      /* @__PURE__ */ jsxs57(Box28, { sx: styles_default27.cardText, children: [
+        /* @__PURE__ */ jsxs57(Text19, { className: "searchCardTitle", sx: styles_default27.title, children: [
           method ? /* @__PURE__ */ jsx71(
             method_category_default,
             {
@@ -15400,7 +15443,7 @@ var SearchCard = ({
           ) : null,
           /* @__PURE__ */ jsx71(Text19, { as: "span", sx: styles_default27.titleText, children: /* @__PURE__ */ jsx71(HighlightQuery, { text: displayTitle, query }) })
         ] }),
-        /* @__PURE__ */ jsxs56(Text19, { className: "searchCardDescription", sx: styles_default27.description, children: [
+        /* @__PURE__ */ jsxs57(Text19, { className: "searchCardDescription", sx: styles_default27.description, children: [
           /* @__PURE__ */ jsx71(
             customHighlight_default,
             {
@@ -15425,9 +15468,9 @@ var SearchCard = ({
             `search-card-${hit.objectID}-${index}`
           ))
         ] }),
-        crumbs.length > 0 ? /* @__PURE__ */ jsxs56(Box28, { sx: styles_default27.breadcrumbsContainer, children: [
+        crumbs.length > 0 ? /* @__PURE__ */ jsxs57(Box28, { sx: styles_default27.breadcrumbsContainer, children: [
           /* @__PURE__ */ jsx71(Text19, { sx: styles_default27.breadcrumbsIn, children: messages[locale]["search_card.in"] || "In" }),
-          crumbs.map((breadcrumb3, index) => /* @__PURE__ */ jsxs56(
+          crumbs.map((breadcrumb3, index) => /* @__PURE__ */ jsxs57(
             Flex24,
             {
               sx: index === 0 ? styles_default27.documentation : styles_default27.alignCenter,
@@ -15445,15 +15488,15 @@ var SearchCard = ({
             `${breadcrumb3}${index}`
           ))
         ] }) : null,
-        actionValue ? /* @__PURE__ */ jsxs56(Flex24, { sx: styles_default27.actionContainer, children: [
+        actionValue ? /* @__PURE__ */ jsxs57(Flex24, { sx: styles_default27.actionContainer, children: [
           /* @__PURE__ */ jsx71(actionValue.Icon, { sx: styles_default27.actionIcon }),
           " ",
           /* @__PURE__ */ jsx71(Text19, { children: actionValue?.title })
         ] }) : null
       ] })
     ] }) }) }),
-    /* @__PURE__ */ jsxs56(Flex24, { sx: styles_default27.cardToolbar, children: [
-      /* @__PURE__ */ jsxs56(Flex24, { className: "search-card-actions", sx: styles_default27.cardActions, children: [
+    /* @__PURE__ */ jsxs57(Flex24, { sx: styles_default27.cardToolbar, children: [
+      /* @__PURE__ */ jsxs57(Flex24, { className: "search-card-actions", sx: styles_default27.cardActions, children: [
         /* @__PURE__ */ jsx71(
           Box28,
           {
@@ -15587,7 +15630,7 @@ var styles_default28 = {
 };
 
 // src/components/search-results/infiniteHits.tsx
-import { jsx as jsx72, jsxs as jsxs57 } from "react/jsx-runtime";
+import { jsx as jsx72, jsxs as jsxs58 } from "react/jsx-runtime";
 var HitCard = ({ hit }) => {
   const { sidebarSections, sidebarDataMaster, locale } = useContext22(LibraryContext);
   const breadcrumbs = getSearchBreadcrumbs({
@@ -15686,7 +15729,7 @@ var InfiniteHits = ({ hits, hasMore, refineNext }) => {
       observer.disconnect();
     };
   }, [hasMore, refineNext]);
-  return /* @__PURE__ */ jsxs57(Box29, { children: [
+  return /* @__PURE__ */ jsxs58(Box29, { children: [
     /* @__PURE__ */ jsx72(StateResults, {}),
     filteredResult.length === 0 && /* @__PURE__ */ jsx72(Flex25, { sx: styles_default28.noResults, children: /* @__PURE__ */ jsx72(Text20, { children: messages[locale]["search_input.empty"] || "No results found. Try different search terms." }) }),
     filteredResult.map((hit, index) => /* @__PURE__ */ jsx72(Flex25, { sx: styles_default28.hitListItem, children: /* @__PURE__ */ jsx72(HitCard, { hit }, index) }, hit.objectID)),
@@ -15696,7 +15739,7 @@ var InfiniteHits = ({ hits, hasMore, refineNext }) => {
 var infiniteHits_default = connectInfiniteHits(InfiniteHits);
 
 // src/components/search-results/index.tsx
-import { jsx as jsx73, jsxs as jsxs58 } from "react/jsx-runtime";
+import { jsx as jsx73, jsxs as jsxs59 } from "react/jsx-runtime";
 var SearchResults = () => {
   const router = useRouter10();
   const { filterSelectedSection, ocurrenceCount } = useContext23(SearchContext);
@@ -15732,8 +15775,8 @@ var SearchResults = () => {
       page
     });
   };
-  return /* @__PURE__ */ jsxs58(Box30, { sx: styles_default28.resultContainer, children: [
-    /* @__PURE__ */ jsxs58(Text21, { sx: styles_default28.resultText, children: [
+  return /* @__PURE__ */ jsxs59(Box30, { sx: styles_default28.resultContainer, children: [
+    /* @__PURE__ */ jsxs59(Text21, { sx: styles_default28.resultText, children: [
       `${messages[locale]["search_results.showing"] || "Showing"} `,
       /* @__PURE__ */ jsx73(Text21, { as: "span", sx: styles_default28.resultCount, children: formatSearchTabCount(ocurrenceCount[filterSelectedSection]) ?? "" }),
       ` ${messages[locale]["search_results.results_for"] || "results for"} `,
@@ -15741,7 +15784,7 @@ var SearchResults = () => {
       ` ${messages[locale]["search_results.in"] || "in"} ${!filterSelectedSection ? messages[locale]["search_results.all_lowercase"] || "all results" : filterSelectedSection}`
     ] }),
     /* @__PURE__ */ jsx73("hr", {}),
-    /* @__PURE__ */ jsx73(Box30, { children: /* @__PURE__ */ jsxs58(
+    /* @__PURE__ */ jsx73(Box30, { children: /* @__PURE__ */ jsxs59(
       InstantSearch2,
       {
         searchClient,
@@ -15827,7 +15870,7 @@ var tabCount = (active) => ({
 var styles_default29 = { container: container13, tab, tabIcon, tabTitle, tabCount };
 
 // src/components/search-filter-tab-bar/index.tsx
-import { jsx as jsx74, jsxs as jsxs59 } from "react/jsx-runtime";
+import { jsx as jsx74, jsxs as jsxs60 } from "react/jsx-runtime";
 var hasFilterResults = (ocurrenceCount, filter) => {
   const count2 = ocurrenceCount[filter];
   return typeof count2 === "number" && count2 > 0;
@@ -15842,7 +15885,7 @@ var SearchFilterTab = ({
   const count2 = ocurrenceCount[filter];
   const formattedCount = formatSearchTabCount(count2);
   const isActive = filterSelectedSection === filter;
-  return /* @__PURE__ */ jsxs59(
+  return /* @__PURE__ */ jsxs60(
     Flex26,
     {
       sx: styles_default29.tab(isActive),
@@ -15891,7 +15934,7 @@ var SearchFilterTabBar = () => {
     ocurrenceCount,
     changeFilterSelectedSection
   ]);
-  return /* @__PURE__ */ jsxs59(Flex26, { sx: styles_default29.container, "data-testid": "doctype-filter-tab-bar", children: [
+  return /* @__PURE__ */ jsxs60(Flex26, { sx: styles_default29.container, "data-testid": "doctype-filter-tab-bar", children: [
     /* @__PURE__ */ jsx74(SearchFilterTab, { filter: "" }),
     visibleSections.map((section) => /* @__PURE__ */ jsx74(
       SearchFilterTab,
@@ -15917,11 +15960,11 @@ var styles_default30 = {
 };
 
 // src/lib/search/index.tsx
-import { jsx as jsx75, jsxs as jsxs60 } from "react/jsx-runtime";
+import { jsx as jsx75, jsxs as jsxs61 } from "react/jsx-runtime";
 var Search = () => {
-  return /* @__PURE__ */ jsxs60(search_default, { children: [
+  return /* @__PURE__ */ jsxs61(search_default, { children: [
     /* @__PURE__ */ jsx75(search_filter_tab_bar_default, {}),
-    /* @__PURE__ */ jsxs60(Flex27, { sx: styles_default30.body, children: [
+    /* @__PURE__ */ jsxs61(Flex27, { sx: styles_default30.body, children: [
       /* @__PURE__ */ jsx75(search_sections_default, {}),
       /* @__PURE__ */ jsx75(search_results_default, {})
     ] })
@@ -16003,13 +16046,13 @@ var styles_default31 = {
 // src/lib/cookie-bar/index.tsx
 import { Flex as Flex28, Text as Text23 } from "@vtex/brand-ui";
 import aa3 from "search-insights";
-import { jsx as jsx76, jsxs as jsxs61 } from "react/jsx-runtime";
+import { jsx as jsx76, jsxs as jsxs62 } from "react/jsx-runtime";
 var Button6 = ({ children, style, ...props }) => {
   return /* @__PURE__ */ jsx76(Flex28, { sx: style, ...props, children });
 };
 var CookieBar = ({ onAccept }) => {
   const { locale } = useContext25(LibraryContext);
-  return /* @__PURE__ */ jsxs61(
+  return /* @__PURE__ */ jsxs62(
     CookieConsent,
     {
       enableDeclineButton: true,
@@ -16146,7 +16189,7 @@ var styles_default33 = {
 };
 
 // src/components/copy-button/index.tsx
-import { jsx as jsx78, jsxs as jsxs62 } from "react/jsx-runtime";
+import { jsx as jsx78, jsxs as jsxs63 } from "react/jsx-runtime";
 var CopyButton = ({ code, sx }) => {
   const [isCopied, setIsCopied] = useState25(false);
   const copyTimeout = useRef13(void 0);
@@ -16169,7 +16212,7 @@ var CopyButton = ({ code, sx }) => {
         ...sx
       },
       "aria-label": "Copy code snippet",
-      children: /* @__PURE__ */ jsxs62(Box31, { sx: styles_default33.copyButtonIcons, "aria-hidden": "true", children: [
+      children: /* @__PURE__ */ jsxs63(Box31, { sx: styles_default33.copyButtonIcons, "aria-hidden": "true", children: [
         /* @__PURE__ */ jsx78(
           Icon37,
           {
@@ -16235,8 +16278,8 @@ var copilot_icon_default = CopilotIcon;
 
 // src/components/icons/claude-icon.tsx
 import { Icon as Icon40 } from "@vtex/brand-ui";
-import { jsx as jsx81, jsxs as jsxs63 } from "react/jsx-runtime";
-var ClaudeIcon = (props) => /* @__PURE__ */ jsxs63(
+import { jsx as jsx81, jsxs as jsxs64 } from "react/jsx-runtime";
+var ClaudeIcon = (props) => /* @__PURE__ */ jsxs64(
   Icon40,
   {
     ...props,
@@ -16274,8 +16317,8 @@ var gemini_icon_default = GeminiIcon;
 
 // src/components/icons/long-arrow-icon.tsx
 import { Icon as Icon42 } from "@vtex/brand-ui";
-import { jsx as jsx83, jsxs as jsxs64 } from "react/jsx-runtime";
-var LongArrowIcon = (props) => /* @__PURE__ */ jsxs64(
+import { jsx as jsx83, jsxs as jsxs65 } from "react/jsx-runtime";
+var LongArrowIcon = (props) => /* @__PURE__ */ jsxs65(
   Icon42,
   {
     ...props,
@@ -16310,8 +16353,8 @@ var long_arrow_icon_default = LongArrowIcon;
 
 // src/components/icons/markdown-icon.tsx
 import { Icon as Icon43 } from "@vtex/brand-ui";
-import { jsx as jsx84, jsxs as jsxs65 } from "react/jsx-runtime";
-var MarkdownIcon = (props) => /* @__PURE__ */ jsxs65(
+import { jsx as jsx84, jsxs as jsxs66 } from "react/jsx-runtime";
+var MarkdownIcon = (props) => /* @__PURE__ */ jsxs66(
   Icon43,
   {
     ...props,
@@ -16435,7 +16478,7 @@ var styles_default34 = {
 };
 
 // src/components/ask-ai/index.tsx
-import { jsx as jsx85, jsxs as jsxs66 } from "react/jsx-runtime";
+import { jsx as jsx85, jsxs as jsxs67 } from "react/jsx-runtime";
 var DEFAULT_PROVIDERS = [
   { id: "chatgpt", name: "ChatGPT", href: "https://chat.openai.com/" },
   { id: "copilot", name: "Copilot", href: "https://copilot.microsoft.com/" },
@@ -16555,9 +16598,9 @@ var AskAIMenu = ({
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [open]);
-  return /* @__PURE__ */ jsxs66(Box32, { ref: menuRef, sx: styles_default34.container, children: [
-    /* @__PURE__ */ jsxs66(Box32, { sx: styles_default34.group, children: [
-      /* @__PURE__ */ jsxs66(
+  return /* @__PURE__ */ jsxs67(Box32, { ref: menuRef, sx: styles_default34.container, children: [
+    /* @__PURE__ */ jsxs67(Box32, { sx: styles_default34.group, children: [
+      /* @__PURE__ */ jsxs67(
         Box32,
         {
           as: "button",
@@ -16586,8 +16629,8 @@ var AskAIMenu = ({
         }
       )
     ] }),
-    open && /* @__PURE__ */ jsxs66(Box32, { id: "askai-menu", sx: styles_default34.askaiMenu, role: "menu", children: [
-      /* @__PURE__ */ jsx85(Box32, { sx: styles_default34.askaiSection, children: providers.map((provider) => /* @__PURE__ */ jsxs66(
+    open && /* @__PURE__ */ jsxs67(Box32, { id: "askai-menu", sx: styles_default34.askaiMenu, role: "menu", children: [
+      /* @__PURE__ */ jsx85(Box32, { sx: styles_default34.askaiSection, children: providers.map((provider) => /* @__PURE__ */ jsxs67(
         Box32,
         {
           as: "button",
@@ -16597,7 +16640,7 @@ var AskAIMenu = ({
           "aria-label": `Open ${provider.name}`,
           children: [
             /* @__PURE__ */ jsx85(ProviderIcon, { id: provider.id, size: 12 }),
-            /* @__PURE__ */ jsxs66("span", { children: [
+            /* @__PURE__ */ jsxs67("span", { children: [
               provider.name,
               " ",
               /* @__PURE__ */ jsx85(long_arrow_icon_default, { size: 12 })
@@ -16606,7 +16649,7 @@ var AskAIMenu = ({
         },
         `lu-${provider.id}`
       )) }),
-      /* @__PURE__ */ jsx85(Box32, { sx: styles_default34.askaiSection, children: /* @__PURE__ */ jsxs66(
+      /* @__PURE__ */ jsx85(Box32, { sx: styles_default34.askaiSection, children: /* @__PURE__ */ jsxs67(
         Box32,
         {
           as: "button",
@@ -16641,8 +16684,8 @@ import { Box as Box35, Flex as Flex30, Text as Text26 } from "@vtex/brand-ui";
 
 // src/components/icons/book-icon.tsx
 import { Icon as Icon44 } from "@vtex/brand-ui";
-import { jsx as jsx86, jsxs as jsxs67 } from "react/jsx-runtime";
-var BookIcon = (props) => /* @__PURE__ */ jsxs67(
+import { jsx as jsx86, jsxs as jsxs68 } from "react/jsx-runtime";
+var BookIcon = (props) => /* @__PURE__ */ jsxs68(
   Icon44,
   {
     ...props,
@@ -16677,8 +16720,8 @@ var book_icon_default = BookIcon;
 
 // src/components/icons/collapse-icon.tsx
 import { Icon as Icon45 } from "@vtex/brand-ui";
-import { jsx as jsx87, jsxs as jsxs68 } from "react/jsx-runtime";
-var CollapseIcon = (props) => /* @__PURE__ */ jsxs68(
+import { jsx as jsx87, jsxs as jsxs69 } from "react/jsx-runtime";
+var CollapseIcon = (props) => /* @__PURE__ */ jsxs69(
   Icon45,
   {
     ...props,
@@ -16733,8 +16776,8 @@ var collapse_icon_default = CollapseIcon;
 
 // src/components/icons/expand-icon.tsx
 import { Icon as Icon46 } from "@vtex/brand-ui";
-import { jsx as jsx88, jsxs as jsxs69 } from "react/jsx-runtime";
-var ExpandIcon = (props) => /* @__PURE__ */ jsxs69(
+import { jsx as jsx88, jsxs as jsxs70 } from "react/jsx-runtime";
+var ExpandIcon = (props) => /* @__PURE__ */ jsxs70(
   Icon46,
   {
     ...props,
@@ -16789,8 +16832,8 @@ var expand_icon_default = ExpandIcon;
 
 // src/components/icons/history-icon.tsx
 import { Icon as Icon47 } from "@vtex/brand-ui";
-import { jsx as jsx89, jsxs as jsxs70 } from "react/jsx-runtime";
-var HistoryIcon = (props) => /* @__PURE__ */ jsxs70(
+import { jsx as jsx89, jsxs as jsxs71 } from "react/jsx-runtime";
+var HistoryIcon = (props) => /* @__PURE__ */ jsxs71(
   Icon47,
   {
     ...props,
@@ -16834,8 +16877,8 @@ var history_icon_default = HistoryIcon;
 
 // src/components/icons/refresh-icon.tsx
 import { Icon as Icon48 } from "@vtex/brand-ui";
-import { jsx as jsx90, jsxs as jsxs71 } from "react/jsx-runtime";
-var RefreshIcon = (props) => /* @__PURE__ */ jsxs71(
+import { jsx as jsx90, jsxs as jsxs72 } from "react/jsx-runtime";
+var RefreshIcon = (props) => /* @__PURE__ */ jsxs72(
   Icon48,
   {
     ...props,
@@ -16870,8 +16913,8 @@ var refresh_icon_default = RefreshIcon;
 
 // src/components/icons/send-icon.tsx
 import { Icon as Icon49 } from "@vtex/brand-ui";
-import { jsx as jsx91, jsxs as jsxs72 } from "react/jsx-runtime";
-var SendIcon = (props) => /* @__PURE__ */ jsxs72(
+import { jsx as jsx91, jsxs as jsxs73 } from "react/jsx-runtime";
+var SendIcon = (props) => /* @__PURE__ */ jsxs73(
   Icon49,
   {
     ...props,
@@ -16906,8 +16949,8 @@ var send_icon_default = SendIcon;
 
 // src/components/icons/sparkle-icon.tsx
 import { Icon as Icon50 } from "@vtex/brand-ui";
-import { jsx as jsx92, jsxs as jsxs73 } from "react/jsx-runtime";
-var SparkleIcon = (props) => /* @__PURE__ */ jsxs73(
+import { jsx as jsx92, jsxs as jsxs74 } from "react/jsx-runtime";
+var SparkleIcon = (props) => /* @__PURE__ */ jsxs74(
   Icon50,
   {
     ...props,
@@ -16949,8 +16992,8 @@ var sparkle_icon_default = SparkleIcon;
 
 // src/components/icons/new-chat-icon.tsx
 import { Icon as Icon51 } from "@vtex/brand-ui";
-import { jsx as jsx93, jsxs as jsxs74 } from "react/jsx-runtime";
-var NewChatIcon = (props) => /* @__PURE__ */ jsxs74(
+import { jsx as jsx93, jsxs as jsxs75 } from "react/jsx-runtime";
+var NewChatIcon = (props) => /* @__PURE__ */ jsxs75(
   Icon51,
   {
     ...props,
@@ -18024,7 +18067,7 @@ var styles_default35 = {
 };
 
 // src/components/ask-assistant/sources.tsx
-import { jsx as jsx94, jsxs as jsxs75 } from "react/jsx-runtime";
+import { jsx as jsx94, jsxs as jsxs76 } from "react/jsx-runtime";
 var SOURCES_HEADING_RE = /^(?:#{1,6}\s+)?\*{0,2}(?:references?|sources?|fontes?|refer[eê]ncias?|fuentes?)\*{0,2}:?\*{0,2}\s*$/i;
 var LINK_RE = /\[([^\]]+)\]\(([^)\s]+)(?:\s+"[^"]*")?\)/;
 var splitAnswerSources = (content) => {
@@ -18087,11 +18130,11 @@ var AnswerSources = ({ sources: sources2 }) => {
   const title9 = localized["ask_assistant.sources"] || "Sources";
   if (!sources2.length)
     return null;
-  return /* @__PURE__ */ jsxs75(Box33, { sx: styles_default35.sources, children: [
+  return /* @__PURE__ */ jsxs76(Box33, { sx: styles_default35.sources, children: [
     /* @__PURE__ */ jsx94(Text25, { sx: styles_default35.sourcesLabel, children: title9 }),
     /* @__PURE__ */ jsx94(Box33, { sx: styles_default35.sourcesList, children: sources2.map((source) => {
       const origin = originLabel(source.href);
-      return /* @__PURE__ */ jsxs75(
+      return /* @__PURE__ */ jsxs76(
         Box33,
         {
           as: "a",
@@ -18101,7 +18144,7 @@ var AnswerSources = ({ sources: sources2 }) => {
           sx: styles_default35.sourceCard,
           children: [
             /* @__PURE__ */ jsx94(Flex29, { sx: styles_default35.sourceIcon, "aria-hidden": true, children: /* @__PURE__ */ jsx94(paper_icon_default, { size: 14 }) }),
-            /* @__PURE__ */ jsxs75(Box33, { sx: styles_default35.sourceCopy, children: [
+            /* @__PURE__ */ jsxs76(Box33, { sx: styles_default35.sourceCopy, children: [
               /* @__PURE__ */ jsx94(Text25, { className: "source-title", sx: styles_default35.sourceTitle, children: source.title }),
               origin ? /* @__PURE__ */ jsx94(Text25, { sx: styles_default35.sourceMeta, children: origin }) : null
             ] }),
@@ -18116,7 +18159,7 @@ var AnswerSources = ({ sources: sources2 }) => {
 var sources_default = AnswerSources;
 
 // src/components/ask-assistant/markdown.tsx
-import { jsx as jsx95, jsxs as jsxs76 } from "react/jsx-runtime";
+import { jsx as jsx95, jsxs as jsxs77 } from "react/jsx-runtime";
 var ANSWER_METADATA_RE = /(?:\r?\n[ \t]*){0,3}(?:[*_]{1,2}[ \t]*)?Language:[ \t]*[^\n|]+[ \t]*\|[ \t]*Confidence:[ \t]*[^\n*_]+(?:[ \t]*[*_]{1,2})?[ \t]*$/i;
 var stripAnswerMetadata = (content) => content.replace(ANSWER_METADATA_RE, "").trimEnd();
 var INLINE_TOKEN = /(\[[^\]]+\]\([^)\s]+(?:\s+"[^"]*")?\)|\*\*[^*]+\*\*|`[^`]+`)/g;
@@ -18270,7 +18313,7 @@ var MarkdownMessage = ({ content }) => {
       /* @__PURE__ */ jsx95(Box34, { as: "p", sx: styles_default35.markdownParagraph, children: renderInline(paragraph.join(" "), `p-${paragraphIndex}`) }, `p-${paragraphIndex}`)
     );
   }
-  return /* @__PURE__ */ jsxs76(Box34, { sx: styles_default35.markdown, children: [
+  return /* @__PURE__ */ jsxs77(Box34, { sx: styles_default35.markdown, children: [
     nodes,
     /* @__PURE__ */ jsx95(sources_default, { sources: sources2 })
   ] });
@@ -18344,7 +18387,7 @@ var createDefaultStream = (streamUrl, locale) => async (query, signal, onEvent) 
 };
 
 // src/components/ask-assistant/index.tsx
-import { Fragment as Fragment8, jsx as jsx96, jsxs as jsxs77 } from "react/jsx-runtime";
+import { Fragment as Fragment9, jsx as jsx96, jsxs as jsxs78 } from "react/jsx-runtime";
 var SPLIT_VIEW_STYLE_ID = "ask-assistant-split-view";
 var ensureSplitViewStyles = () => {
   if (typeof document === "undefined")
@@ -18359,16 +18402,16 @@ var ensureSplitViewStyles = () => {
 };
 var createId = () => `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
 var isMacShortcut = () => typeof navigator !== "undefined" && /Mac|iPhone|iPad|iPod/.test(navigator.platform);
-var toolStepLabel = (name, labels) => {
-  if (name === "search_documentation")
+var toolStepLabel = (name2, labels) => {
+  if (name2 === "search_documentation")
     return labels.stepSearchDocs;
-  if (name === "search_endpoints")
+  if (name2 === "search_endpoints")
     return labels.stepSearchEndpoints;
-  if (name === "get_endpoint_details")
+  if (name2 === "get_endpoint_details")
     return labels.stepReadEndpoints;
-  if (name === "fetch_document")
+  if (name2 === "fetch_document")
     return labels.stepReadDocument;
-  if (name === "final_answer")
+  if (name2 === "final_answer")
     return labels.stepCreateResponse;
   return labels.stepSearch;
 };
@@ -18379,7 +18422,7 @@ var processHeaderText = (count2, complete, labels) => {
     return labels.processCompletedOne;
   return labels.processCompleted.replace("{count}", String(count2));
 };
-var ToolStepIcon = ({ name }) => name === "final_answer" || name === "fetch_document" ? /* @__PURE__ */ jsx96(book_icon_default, { size: 14, sx: styles_default35.processBookIcon }) : /* @__PURE__ */ jsx96(search_icon_default, { size: 14, sx: styles_default35.processStepIcon });
+var ToolStepIcon = ({ name: name2 }) => name2 === "final_answer" || name2 === "fetch_document" ? /* @__PURE__ */ jsx96(book_icon_default, { size: 14, sx: styles_default35.processBookIcon }) : /* @__PURE__ */ jsx96(search_icon_default, { size: 14, sx: styles_default35.processStepIcon });
 var completeSteps = (steps2 = []) => steps2.map(
   (step) => step.status === "complete" ? step : { ...step, status: "complete" }
 );
@@ -18830,7 +18873,7 @@ var AskAssistant = ({
   };
   const isEmpty = chat.length === 0;
   const activeCategory = categories.find((category) => category.id === activeExampleId) ?? categories[0];
-  const composer = /* @__PURE__ */ jsx96(Box35, { sx: isEmpty ? styles_default35.inputWrapCentered : styles_default35.inputWrap, children: /* @__PURE__ */ jsxs77(Box35, { sx: isEmpty ? styles_default35.inputBoxEmpty : styles_default35.inputBox, children: [
+  const composer = /* @__PURE__ */ jsx96(Box35, { sx: isEmpty ? styles_default35.inputWrapCentered : styles_default35.inputWrap, children: /* @__PURE__ */ jsxs78(Box35, { sx: isEmpty ? styles_default35.inputBoxEmpty : styles_default35.inputBox, children: [
     /* @__PURE__ */ jsx96(
       Box35,
       {
@@ -18858,9 +18901,9 @@ var AskAssistant = ({
       }
     ) })
   ] }) });
-  const panel2 = isOpen && mounted && /* @__PURE__ */ jsxs77(Fragment8, { children: [
+  const panel2 = isOpen && mounted && /* @__PURE__ */ jsxs78(Fragment9, { children: [
     isSplitView ? null : /* @__PURE__ */ jsx96(Box35, { sx: styles_default35.overlay, onClick: () => setOpen(false) }),
-    /* @__PURE__ */ jsxs77(
+    /* @__PURE__ */ jsxs78(
       Box35,
       {
         sx: styles_default35.panel(expanded),
@@ -18870,12 +18913,12 @@ var AskAssistant = ({
         "aria-modal": isSplitView ? "false" : "true",
         "aria-labelledby": titleId,
         children: [
-          /* @__PURE__ */ jsxs77(Flex30, { sx: styles_default35.header, children: [
-            /* @__PURE__ */ jsxs77(Flex30, { sx: styles_default35.headerTitle, id: titleId, children: [
+          /* @__PURE__ */ jsxs78(Flex30, { sx: styles_default35.header, children: [
+            /* @__PURE__ */ jsxs78(Flex30, { sx: styles_default35.headerTitle, id: titleId, children: [
               /* @__PURE__ */ jsx96(sparkle_icon_default, { size: 16, sx: styles_default35.triggerIcon }),
               /* @__PURE__ */ jsx96(Text26, { children: labels.title })
             ] }),
-            /* @__PURE__ */ jsxs77(Flex30, { sx: styles_default35.headerActions, children: [
+            /* @__PURE__ */ jsxs78(Flex30, { sx: styles_default35.headerActions, children: [
               isSplitView ? /* @__PURE__ */ jsx96(
                 Box35,
                 {
@@ -18899,7 +18942,7 @@ var AskAssistant = ({
                   children: /* @__PURE__ */ jsx96(new_chat_icon_default, { size: 16 })
                 }
               ),
-              /* @__PURE__ */ jsxs77(Box35, { ref: historyRef, sx: styles_default35.historyWrap, children: [
+              /* @__PURE__ */ jsxs78(Box35, { ref: historyRef, sx: styles_default35.historyWrap, children: [
                 /* @__PURE__ */ jsx96(
                   Box35,
                   {
@@ -18914,14 +18957,14 @@ var AskAssistant = ({
                     children: /* @__PURE__ */ jsx96(history_icon_default, { size: 16 })
                   }
                 ),
-                historyOpen && history.length > 0 ? /* @__PURE__ */ jsxs77(
+                historyOpen && history.length > 0 ? /* @__PURE__ */ jsxs78(
                   Box35,
                   {
                     sx: styles_default35.historyMenu,
                     role: "menu",
                     "aria-label": labels.history,
                     children: [
-                      /* @__PURE__ */ jsxs77(Flex30, { sx: styles_default35.historyHeader, children: [
+                      /* @__PURE__ */ jsxs78(Flex30, { sx: styles_default35.historyHeader, children: [
                         /* @__PURE__ */ jsx96(Text26, { sx: styles_default35.historyTitle, children: labels.history }),
                         /* @__PURE__ */ jsx96(
                           Box35,
@@ -18934,7 +18977,7 @@ var AskAssistant = ({
                           }
                         )
                       ] }),
-                      /* @__PURE__ */ jsx96(Box35, { sx: styles_default35.historyList, children: history.map((item2) => /* @__PURE__ */ jsxs77(
+                      /* @__PURE__ */ jsx96(Box35, { sx: styles_default35.historyList, children: history.map((item2) => /* @__PURE__ */ jsxs78(
                         Box35,
                         {
                           as: "button",
@@ -18966,16 +19009,16 @@ var AskAssistant = ({
               )
             ] })
           ] }),
-          isEmpty ? /* @__PURE__ */ jsx96(Box35, { sx: styles_default35.emptyState, children: /* @__PURE__ */ jsxs77(Box35, { sx: styles_default35.emptyMain, children: [
-            /* @__PURE__ */ jsxs77(Box35, { sx: styles_default35.emptyHero, children: [
+          isEmpty ? /* @__PURE__ */ jsx96(Box35, { sx: styles_default35.emptyState, children: /* @__PURE__ */ jsxs78(Box35, { sx: styles_default35.emptyMain, children: [
+            /* @__PURE__ */ jsxs78(Box35, { sx: styles_default35.emptyHero, children: [
               /* @__PURE__ */ jsx96(Flex30, { sx: styles_default35.emptyHeroIcon, "aria-hidden": true, children: /* @__PURE__ */ jsx96(sparkle_icon_default, { size: 18 }) }),
-              /* @__PURE__ */ jsxs77(Box35, { sx: styles_default35.emptyHeroCopy, children: [
+              /* @__PURE__ */ jsxs78(Box35, { sx: styles_default35.emptyHeroCopy, children: [
                 /* @__PURE__ */ jsx96(Text26, { as: "h2", sx: styles_default35.emptyHeroTitle, children: labels.heroTitle }),
                 /* @__PURE__ */ jsx96(Text26, { sx: styles_default35.emptyHeroSubtitle, children: labels.heroSubtitle })
               ] })
             ] }),
             composer,
-            activeCategory ? /* @__PURE__ */ jsxs77(Box35, { sx: styles_default35.examples, children: [
+            activeCategory ? /* @__PURE__ */ jsxs78(Box35, { sx: styles_default35.examples, children: [
               /* @__PURE__ */ jsx96(Text26, { sx: styles_default35.examplesLabel, children: labels.examples }),
               /* @__PURE__ */ jsx96(
                 Box35,
@@ -18986,7 +19029,7 @@ var AskAssistant = ({
                   children: categories.map((category) => {
                     const Icon82 = category.Icon;
                     const isActive = category.id === activeCategory.id;
-                    return /* @__PURE__ */ jsxs77(
+                    return /* @__PURE__ */ jsxs78(
                       Box35,
                       {
                         as: "button",
@@ -19017,11 +19060,11 @@ var AskAssistant = ({
                 question2
               )) })
             ] }) : null
-          ] }) }) : /* @__PURE__ */ jsxs77(Fragment8, { children: [
+          ] }) }) : /* @__PURE__ */ jsxs78(Fragment9, { children: [
             /* @__PURE__ */ jsx96(Box35, { ref: listRef, sx: styles_default35.messages, "aria-live": "polite", children: chat.map(
-              (message) => message.role === "user" ? /* @__PURE__ */ jsx96(Text26, { sx: styles_default35.userBubble, children: message.content }, message.id) : /* @__PURE__ */ jsxs77(Box35, { sx: styles_default35.assistantBlock, children: [
-                message.status === "streaming" || message.steps && message.steps.length > 0 ? /* @__PURE__ */ jsxs77(Box35, { sx: styles_default35.process, children: [
-                  message.status === "error" ? null : /* @__PURE__ */ jsxs77(Flex30, { sx: styles_default35.processHeader, children: [
+              (message) => message.role === "user" ? /* @__PURE__ */ jsx96(Text26, { sx: styles_default35.userBubble, children: message.content }, message.id) : /* @__PURE__ */ jsxs78(Box35, { sx: styles_default35.assistantBlock, children: [
+                message.status === "streaming" || message.steps && message.steps.length > 0 ? /* @__PURE__ */ jsxs78(Box35, { sx: styles_default35.process, children: [
+                  message.status === "error" ? null : /* @__PURE__ */ jsxs78(Flex30, { sx: styles_default35.processHeader, children: [
                     message.status === "complete" ? /* @__PURE__ */ jsx96(Flex30, { sx: styles_default35.processCheck, "aria-hidden": true, children: /* @__PURE__ */ jsx96(check_icon_default, { size: 10 }) }) : /* @__PURE__ */ jsx96(Box35, { sx: styles_default35.processSpinner, "aria-hidden": true }),
                     /* @__PURE__ */ jsx96(Text26, { children: processHeaderText(
                       message.steps?.length ?? 0,
@@ -19029,14 +19072,14 @@ var AskAssistant = ({
                       labels
                     ) })
                   ] }),
-                  message.steps && message.steps.length > 0 ? /* @__PURE__ */ jsx96(Box35, { sx: styles_default35.processSteps, children: message.steps.map((step) => /* @__PURE__ */ jsxs77(Flex30, { sx: styles_default35.processStep, children: [
+                  message.steps && message.steps.length > 0 ? /* @__PURE__ */ jsx96(Box35, { sx: styles_default35.processSteps, children: message.steps.map((step) => /* @__PURE__ */ jsxs78(Flex30, { sx: styles_default35.processStep, children: [
                     /* @__PURE__ */ jsx96(Text26, { as: "span", sx: styles_default35.processBadge, children: labels.tool }),
                     /* @__PURE__ */ jsx96(ToolStepIcon, { name: step.name }),
                     /* @__PURE__ */ jsx96(Text26, { as: "span", sx: styles_default35.processStepLabel, children: toolStepLabel(step.name, labels) })
                   ] }, step.id)) }) : null
                 ] }) : null,
                 message.status === "error" ? /* @__PURE__ */ jsx96(Text26, { sx: styles_default35.errorText, children: message.content }) : message.content ? /* @__PURE__ */ jsx96(markdown_default, { content: message.content }) : null,
-                message.status === "complete" && message.content ? /* @__PURE__ */ jsxs77(Flex30, { sx: styles_default35.messageActions, children: [
+                message.status === "complete" && message.content ? /* @__PURE__ */ jsxs78(Flex30, { sx: styles_default35.messageActions, children: [
                   /* @__PURE__ */ jsx96(
                     Box35,
                     {
@@ -19090,8 +19133,8 @@ var AskAssistant = ({
       }
     )
   ] });
-  return /* @__PURE__ */ jsxs77(Fragment8, { children: [
-    hideTrigger ? null : /* @__PURE__ */ jsxs77(
+  return /* @__PURE__ */ jsxs78(Fragment9, { children: [
+    hideTrigger ? null : /* @__PURE__ */ jsxs78(
       Box35,
       {
         as: "button",
@@ -19104,7 +19147,7 @@ var AskAssistant = ({
         children: [
           /* @__PURE__ */ jsx96(sparkle_icon_default, { size: 14, sx: styles_default35.triggerIcon }),
           /* @__PURE__ */ jsx96(Text26, { children: labels.button }),
-          /* @__PURE__ */ jsxs77(Flex30, { as: "span", sx: styles_default35.triggerShortcut, "aria-hidden": "true", children: [
+          /* @__PURE__ */ jsxs78(Flex30, { as: "span", sx: styles_default35.triggerShortcut, "aria-hidden": "true", children: [
             /* @__PURE__ */ jsx96(Box35, { as: "kbd", sx: styles_default35.triggerKbd, children: isMacShortcut() ? "\u2318" : "Ctrl" }),
             /* @__PURE__ */ jsx96(Box35, { as: "kbd", sx: styles_default35.triggerKbd, children: "I" })
           ] })
@@ -19248,14 +19291,14 @@ var styles_default37 = { container: container15, input: input3, icon: icon4 };
 
 // src/components/input/index.tsx
 import { Flex as Flex32 } from "@vtex/brand-ui";
-import { jsx as jsx98, jsxs as jsxs78 } from "react/jsx-runtime";
+import { jsx as jsx98, jsxs as jsxs79 } from "react/jsx-runtime";
 var Input = ({ value, onChange, placeholder = "", Icon: Icon82 }) => {
   const [inputValue, setInputValue] = useState28(value ?? "");
   useEffect26(() => {
     if (inputValue !== value)
       setInputValue(value);
   }, [value]);
-  return /* @__PURE__ */ jsxs78(Flex32, { sx: styles_default37.container, children: [
+  return /* @__PURE__ */ jsxs79(Flex32, { sx: styles_default37.container, children: [
     Icon82 && /* @__PURE__ */ jsx98(Icon82, { sx: styles_default37.icon }),
     /* @__PURE__ */ jsx98(
       "input",
@@ -19429,7 +19472,7 @@ var styles_default38 = {
 };
 
 // src/components/subscription-list/index.tsx
-import { jsx as jsx99, jsxs as jsxs79 } from "react/jsx-runtime";
+import { jsx as jsx99, jsxs as jsxs80 } from "react/jsx-runtime";
 var SubscriptionList = () => {
   const { locale } = useContext29(LibraryContext);
   const localizedMessages = messages[locale] ?? messages.en;
@@ -19533,10 +19576,10 @@ var SubscriptionList = () => {
       showMessage("error", localizedMessages["subscription_list.error"]);
     }
   };
-  return /* @__PURE__ */ jsxs79(Box36, { sx: styles_default38.sectionContainer, children: [
+  return /* @__PURE__ */ jsxs80(Box36, { sx: styles_default38.sectionContainer, children: [
     /* @__PURE__ */ jsx99(Text27, { sx: styles_default38.title, children: localizedMessages["landing_page_subscription.title"] }),
-    /* @__PURE__ */ jsx99(Flex33, { sx: styles_default38.cardContainer, children: /* @__PURE__ */ jsxs79("div", { children: [
-      /* @__PURE__ */ jsxs79(Text27, { sx: styles_default38.description, children: [
+    /* @__PURE__ */ jsx99(Flex33, { sx: styles_default38.cardContainer, children: /* @__PURE__ */ jsxs80("div", { children: [
+      /* @__PURE__ */ jsxs80(Text27, { sx: styles_default38.description, children: [
         localizedMessages["landing_page_subscription.description"].split(
           "newsletter"
         )[0],
@@ -19553,7 +19596,7 @@ var SubscriptionList = () => {
           "newsletter"
         )[1]
       ] }),
-      /* @__PURE__ */ jsxs79(Flex33, { sx: styles_default38.inputContainer, children: [
+      /* @__PURE__ */ jsxs80(Flex33, { sx: styles_default38.inputContainer, children: [
         /* @__PURE__ */ jsx99(
           Box36,
           {
@@ -19578,7 +19621,7 @@ var SubscriptionList = () => {
           }
         )
       ] }),
-      /* @__PURE__ */ jsxs79(Text27, { sx: styles_default38.privacyText, children: [
+      /* @__PURE__ */ jsxs80(Text27, { sx: styles_default38.privacyText, children: [
         localizedMessages["subscription_list.privacy_notice"],
         " ",
         /* @__PURE__ */ jsx99(
@@ -19612,8 +19655,8 @@ import { Box as Box37, Flex as Flex34, Link as Link12 } from "@vtex/brand-ui";
 
 // src/components/icons/vtex-logo-footer.tsx
 import { Icon as Icon52 } from "@vtex/brand-ui";
-import { jsx as jsx100, jsxs as jsxs80 } from "react/jsx-runtime";
-var VTEXLogoFooter = (props) => /* @__PURE__ */ jsxs80(
+import { jsx as jsx100, jsxs as jsxs81 } from "react/jsx-runtime";
+var VTEXLogoFooter = (props) => /* @__PURE__ */ jsxs81(
   Icon52,
   {
     ...props,
@@ -19663,8 +19706,8 @@ var vtex_logo_footer_default = VTEXLogoFooter;
 
 // src/components/icons/instagram-icon.tsx
 import { Icon as Icon53 } from "@vtex/brand-ui";
-import { jsx as jsx101, jsxs as jsxs81 } from "react/jsx-runtime";
-var IgIcon = (props) => /* @__PURE__ */ jsxs81(
+import { jsx as jsx101, jsxs as jsxs82 } from "react/jsx-runtime";
+var IgIcon = (props) => /* @__PURE__ */ jsxs82(
   Icon53,
   {
     ...props,
@@ -19702,8 +19745,8 @@ var instagram_icon_default = IgIcon;
 
 // src/components/icons/youtube-icon.tsx
 import { Icon as Icon54 } from "@vtex/brand-ui";
-import { jsx as jsx102, jsxs as jsxs82 } from "react/jsx-runtime";
-var YoutubeIcon = (props) => /* @__PURE__ */ jsxs82(
+import { jsx as jsx102, jsxs as jsxs83 } from "react/jsx-runtime";
+var YoutubeIcon = (props) => /* @__PURE__ */ jsxs83(
   Icon54,
   {
     ...props,
@@ -19748,8 +19791,8 @@ var youtube_icon_default = YoutubeIcon;
 
 // src/components/icons/facebook-circle-icon.tsx
 import { Icon as Icon55 } from "@vtex/brand-ui";
-import { jsx as jsx103, jsxs as jsxs83 } from "react/jsx-runtime";
-var FacebookCircleIcon = (props) => /* @__PURE__ */ jsxs83(
+import { jsx as jsx103, jsxs as jsxs84 } from "react/jsx-runtime";
+var FacebookCircleIcon = (props) => /* @__PURE__ */ jsxs84(
   Icon55,
   {
     ...props,
@@ -19787,8 +19830,8 @@ var facebook_circle_icon_default = FacebookCircleIcon;
 
 // src/components/icons/linkedin-circle-icon.tsx
 import { Icon as Icon56 } from "@vtex/brand-ui";
-import { jsx as jsx104, jsxs as jsxs84 } from "react/jsx-runtime";
-var LinkedinCircleIcon = (props) => /* @__PURE__ */ jsxs84(
+import { jsx as jsx104, jsxs as jsxs85 } from "react/jsx-runtime";
+var LinkedinCircleIcon = (props) => /* @__PURE__ */ jsxs85(
   Icon56,
   {
     ...props,
@@ -19911,7 +19954,7 @@ var styles_default39 = {
 };
 
 // src/components/footer/index.tsx
-import { jsx as jsx105, jsxs as jsxs85 } from "react/jsx-runtime";
+import { jsx as jsx105, jsxs as jsxs86 } from "react/jsx-runtime";
 var Footer = ({
   variant = "helpcenter",
   links,
@@ -19965,12 +20008,12 @@ var Footer = ({
       component: /* @__PURE__ */ jsx105(facebook_circle_icon_default, { sx: styles_default39.icon })
     }
   ];
-  return /* @__PURE__ */ jsxs85(Box37, { sx: styles_default39.outerBox, children: [
-    /* @__PURE__ */ jsxs85(Flex34, { sx: styles_default39.brandAndSocial, children: [
+  return /* @__PURE__ */ jsxs86(Box37, { sx: styles_default39.outerBox, children: [
+    /* @__PURE__ */ jsxs86(Flex34, { sx: styles_default39.brandAndSocial, children: [
       /* @__PURE__ */ jsx105(vtex_logo_footer_default, { sx: styles_default39.logo }),
       /* @__PURE__ */ jsx105(Flex34, { sx: styles_default39.socialMediaIcons, children: socialIcons.map((icon6) => /* @__PURE__ */ jsx105(Link12, { href: icon6.href, children: icon6.component }, icon6.href)) })
     ] }),
-    /* @__PURE__ */ jsxs85(Flex34, { sx: styles_default39.textLinkItems, children: [
+    /* @__PURE__ */ jsxs86(Flex34, { sx: styles_default39.textLinkItems, children: [
       resolvedLinks.map((link2) => /* @__PURE__ */ jsx105(Link12, { href: link2.href, children: link2.label }, link2.href)),
       localeSwitcher ? /* @__PURE__ */ jsx105(Box37, { sx: styles_default39.localeSwitch, children: localeSwitcher }) : null
     ] })
@@ -19986,8 +20029,8 @@ import { useRouter as useRouter11 } from "next/router.js";
 
 // src/components/icons/vtex-devportal-icon.tsx
 import { Icon as Icon57 } from "@vtex/brand-ui";
-import { jsx as jsx106, jsxs as jsxs86 } from "react/jsx-runtime";
-var VTEXDevPortalIcon = (props) => /* @__PURE__ */ jsxs86(
+import { jsx as jsx106, jsxs as jsxs87 } from "react/jsx-runtime";
+var VTEXDevPortalIcon = (props) => /* @__PURE__ */ jsxs87(
   Icon57,
   {
     ...props,
@@ -20032,8 +20075,8 @@ var vtex_devportal_icon_default = VTEXDevPortalIcon;
 
 // src/components/icons/vtex-helpcenter-icon.tsx
 import { Icon as Icon58 } from "@vtex/brand-ui";
-import { jsx as jsx107, jsxs as jsxs87 } from "react/jsx-runtime";
-var VTEXHelpCenterIcon = (props) => /* @__PURE__ */ jsxs87(
+import { jsx as jsx107, jsxs as jsxs88 } from "react/jsx-runtime";
+var VTEXHelpCenterIcon = (props) => /* @__PURE__ */ jsxs88(
   Icon58,
   {
     ...props,
@@ -20063,8 +20106,8 @@ var vtex_helpcenter_icon_default = VTEXHelpCenterIcon;
 
 // src/components/icons/grid-icon.tsx
 import { Icon as Icon59 } from "@vtex/brand-ui";
-import { jsx as jsx108, jsxs as jsxs88 } from "react/jsx-runtime";
-var GridIcon = (props) => /* @__PURE__ */ jsxs88(
+import { jsx as jsx108, jsxs as jsxs89 } from "react/jsx-runtime";
+var GridIcon = (props) => /* @__PURE__ */ jsxs89(
   Icon59,
   {
     ...props,
@@ -20454,7 +20497,7 @@ var styles_default40 = {
 };
 
 // src/components/header/index.tsx
-import { jsx as jsx110, jsxs as jsxs89 } from "react/jsx-runtime";
+import { jsx as jsx110, jsxs as jsxs90 } from "react/jsx-runtime";
 var HeaderBrand = BrandUI.Header;
 var Header3 = ({
   variant = "helpcenter",
@@ -20514,9 +20557,9 @@ var Header3 = ({
       router.events?.off("routeChangeStart", hideDropdown);
     };
   }, [router.events]);
-  return /* @__PURE__ */ jsxs89(Box39, { ref: headerElement, sx: styles_default40.headerContainer, "data-docs-header": true, children: [
+  return /* @__PURE__ */ jsxs90(Box39, { ref: headerElement, sx: styles_default40.headerContainer, "data-docs-header": true, children: [
     announcement ?? /* @__PURE__ */ jsx110("div", {}),
-    /* @__PURE__ */ jsxs89(HeaderBrand, { sx: styles_default40.headerBrand, children: [
+    /* @__PURE__ */ jsxs90(HeaderBrand, { sx: styles_default40.headerBrand, children: [
       /* @__PURE__ */ jsx110(
         VtexLink,
         {
@@ -20526,19 +20569,19 @@ var Header3 = ({
           children: logo2 ?? defaultLogo
         }
       ),
-      /* @__PURE__ */ jsxs89(Box39, { sx: styles_default40.searchRow, children: [
+      /* @__PURE__ */ jsxs90(Box39, { sx: styles_default40.searchRow, children: [
         /* @__PURE__ */ jsx110(Box39, { sx: styles_default40.searchContainer, children: /* @__PURE__ */ jsx110(SearchInput, {}) }),
         showAssistant ? /* @__PURE__ */ jsx110(Box39, { sx: styles_default40.assistantSlot, children: /* @__PURE__ */ jsx110(ask_assistant_default, { ...assistant }) }) : null
       ] }),
-      /* @__PURE__ */ jsxs89(HeaderBrand.RightLinks, { sx: styles_default40.rightLinks, children: [
-        /* @__PURE__ */ jsxs89(
+      /* @__PURE__ */ jsxs90(HeaderBrand.RightLinks, { sx: styles_default40.rightLinks, children: [
+        /* @__PURE__ */ jsxs90(
           Flex35,
           {
             sx: styles_default40.dropdownContainer,
             onMouseOver: () => setShowDropdown(true),
             onMouseLeave: () => setShowDropdown(false),
             children: [
-              /* @__PURE__ */ jsxs89(Flex35, { sx: styles_default40.dropdownButton(showDropdown), children: [
+              /* @__PURE__ */ jsxs90(Flex35, { sx: styles_default40.dropdownButton(showDropdown), children: [
                 /* @__PURE__ */ jsx110(grid_icon_default, {}),
                 /* @__PURE__ */ jsx110(Text28, { sx: styles_default40.rightButtonsText, "data-cy": "docs-dropdown", children: isEditor ? localizedMessages["header.admin_tools"] : localizedMessages["header.docs"] })
               ] }),
@@ -20547,7 +20590,7 @@ var Header3 = ({
           }
         ),
         extraRightLinks2 ? /* @__PURE__ */ jsx110(Box39, { sx: styles_default40.extraRightLinks, children: extraRightLinks2 }) : null,
-        feedbackUrl ? /* @__PURE__ */ jsxs89(
+        feedbackUrl ? /* @__PURE__ */ jsxs90(
           VtexLink,
           {
             sx: styles_default40.rightLinksItem,
@@ -20563,7 +20606,7 @@ var Header3 = ({
           }
         ) : null
       ] }),
-      localeSwitcher ? /* @__PURE__ */ jsxs89(Flex35, { sx: styles_default40.headerEndActions, children: [
+      localeSwitcher ? /* @__PURE__ */ jsxs90(Flex35, { sx: styles_default40.headerEndActions, children: [
         /* @__PURE__ */ jsx110(Box39, { sx: styles_default40.hamburgerMenuToggle, children: /* @__PURE__ */ jsx110(hamburger_menu_default, { parentsArray }) }),
         /* @__PURE__ */ jsx110(Box39, { sx: styles_default40.localeSwitcherSlot, children: localeSwitcher })
       ] }) : /* @__PURE__ */ jsx110(Box39, { sx: styles_default40.hamburgerMenuToggle, children: /* @__PURE__ */ jsx110(hamburger_menu_default, { parentsArray }) })
@@ -20647,8 +20690,8 @@ var styles_default41 = {
 };
 
 // src/components/announcement-bar/index.tsx
-import { jsx as jsx111, jsxs as jsxs90 } from "react/jsx-runtime";
-var CloseIcon2 = (props) => /* @__PURE__ */ jsxs90(Icon60, { ...props, children: [
+import { jsx as jsx111, jsxs as jsxs91 } from "react/jsx-runtime";
+var CloseIcon2 = (props) => /* @__PURE__ */ jsxs91(Icon60, { ...props, children: [
   /* @__PURE__ */ jsx111(
     "path",
     {
@@ -20690,8 +20733,8 @@ var AnnouncementBar = ({
   }, [closable, visible]);
   if (!visible)
     return null;
-  return /* @__PURE__ */ jsxs90(Box40, { sx: styles_default41.container(type), role: "status", "aria-label": "Announcement", children: [
-    /* @__PURE__ */ jsxs90(Box40, { sx: styles_default41.box, children: [
+  return /* @__PURE__ */ jsxs91(Box40, { sx: styles_default41.container(type), role: "status", "aria-label": "Announcement", children: [
+    /* @__PURE__ */ jsxs91(Box40, { sx: styles_default41.box, children: [
       tag4 && /* @__PURE__ */ jsx111(Text29, { sx: styles_default41.label(type), children: tag4 }),
       children ? /* @__PURE__ */ jsx111(Text29, { sx: styles_default41.text, children }) : null,
       label4 ? /* @__PURE__ */ jsx111(Text29, { sx: styles_default41.text, children: label4 }) : null,
@@ -20821,8 +20864,8 @@ import { Box as Box41, Button as Button11, Checkbox, Flex as Flex36, Text as Tex
 
 // src/components/icons/filter-icon.tsx
 import { Icon as Icon61 } from "@vtex/brand-ui";
-import { jsx as jsx113, jsxs as jsxs91 } from "react/jsx-runtime";
-var FilterIcon = (props) => /* @__PURE__ */ jsxs91(
+import { jsx as jsx113, jsxs as jsxs92 } from "react/jsx-runtime";
+var FilterIcon = (props) => /* @__PURE__ */ jsxs92(
   Icon61,
   {
     ...props,
@@ -20918,8 +20961,8 @@ var filter_icon_default = FilterIcon;
 
 // src/components/icons/trashcan-icon.tsx
 import { Icon as Icon62 } from "@vtex/brand-ui";
-import { jsx as jsx114, jsxs as jsxs92 } from "react/jsx-runtime";
-var TrashcanIcon = (props) => /* @__PURE__ */ jsxs92(
+import { jsx as jsx114, jsxs as jsxs93 } from "react/jsx-runtime";
+var TrashcanIcon = (props) => /* @__PURE__ */ jsxs93(
   Icon62,
   {
     ...props,
@@ -20989,14 +21032,14 @@ import { useState as useState32 } from "react";
 function isFilterGroup(value) {
   return typeof value === "object" && value !== null && "name" in value && "options" in value && Array.isArray(value.options);
 }
-function toFilterGroup(input4, name = "") {
+function toFilterGroup(input4, name2 = "") {
   if (!input4)
     return void 0;
   if (isFilterGroup(input4)) {
     return input4;
   }
   return {
-    name,
+    name: name2,
     options: input4.map((option) => ({ id: option, name: option }))
   };
 }
@@ -21174,7 +21217,7 @@ var styles_default43 = {
 };
 
 // src/components/listing-filter/index.tsx
-import { Fragment as Fragment9, jsx as jsx115, jsxs as jsxs93 } from "react/jsx-runtime";
+import { Fragment as Fragment10, jsx as jsx115, jsxs as jsxs94 } from "react/jsx-runtime";
 var defaultLabels = {
   button: "Filters",
   modalTitle: "Filters",
@@ -21226,7 +21269,7 @@ var ListingFilter = ({
     }
     return selectedCheckboxes?.includes(option) ?? false;
   }
-  const FilterButton = () => /* @__PURE__ */ jsxs93(
+  const FilterButton = () => /* @__PURE__ */ jsxs94(
     Flex36,
     {
       sx: { ...styles_default43.filterButton, ...buttonSx },
@@ -21247,7 +21290,7 @@ var ListingFilter = ({
   const TagFilter = () => {
     if (!normalizedTagFilter)
       return null;
-    return /* @__PURE__ */ jsxs93(Box41, { sx: styles_default43.filterContainer, children: [
+    return /* @__PURE__ */ jsxs94(Box41, { sx: styles_default43.filterContainer, children: [
       /* @__PURE__ */ jsx115(Text31, { sx: styles_default43.filterTitle, children: normalizedTagFilter.name }),
       /* @__PURE__ */ jsx115(
         Flex36,
@@ -21270,9 +21313,9 @@ var ListingFilter = ({
   const CheckboxFilters = () => {
     if (checkboxGroups.length === 0)
       return null;
-    return /* @__PURE__ */ jsx115(Fragment9, { children: checkboxGroups.map((group2, groupIndex) => /* @__PURE__ */ jsxs93(Box41, { children: [
+    return /* @__PURE__ */ jsx115(Fragment10, { children: checkboxGroups.map((group2, groupIndex) => /* @__PURE__ */ jsxs94(Box41, { children: [
       groupIndex > 0 && /* @__PURE__ */ jsx115(Divider, {}),
-      /* @__PURE__ */ jsxs93(Box41, { sx: styles_default43.filterContainer, children: [
+      /* @__PURE__ */ jsxs94(Box41, { sx: styles_default43.filterContainer, children: [
         /* @__PURE__ */ jsx115(Text31, { sx: styles_default43.filterTitle, children: group2.name }),
         /* @__PURE__ */ jsx115(Box41, { sx: styles_default43.checkBoxContainer, children: group2.options.map((option) => /* @__PURE__ */ jsx115(
           Checkbox,
@@ -21287,10 +21330,10 @@ var ListingFilter = ({
     ] }, group2.name)) });
   };
   const Divider = () => /* @__PURE__ */ jsx115(Box41, { sx: styles_default43.sectionDivider, children: /* @__PURE__ */ jsx115("hr", {}) });
-  const FilterModal = () => /* @__PURE__ */ jsxs93(Fragment9, { children: [
+  const FilterModal = () => /* @__PURE__ */ jsxs94(Fragment10, { children: [
     /* @__PURE__ */ jsx115(Box41, { sx: styles_default43.blanket, onClick: () => setIsModalOpen(false) }),
-    /* @__PURE__ */ jsxs93(Box41, { sx: styles_default43.container, children: [
-      /* @__PURE__ */ jsxs93(Box41, { sx: styles_default43.topContainer, children: [
+    /* @__PURE__ */ jsxs94(Box41, { sx: styles_default43.container, children: [
+      /* @__PURE__ */ jsxs94(Box41, { sx: styles_default43.topContainer, children: [
         /* @__PURE__ */ jsx115(Text31, { sx: styles_default43.modalTitle, children: resolvedLabels.modalTitle }),
         /* @__PURE__ */ jsx115(
           Flex36,
@@ -21301,12 +21344,12 @@ var ListingFilter = ({
           }
         )
       ] }),
-      /* @__PURE__ */ jsxs93(Box41, { sx: styles_default43.innerContainer, children: [
+      /* @__PURE__ */ jsxs94(Box41, { sx: styles_default43.innerContainer, children: [
         /* @__PURE__ */ jsx115(TagFilter, {}),
         normalizedTagFilter && checkboxGroups.length > 0 && /* @__PURE__ */ jsx115(Divider, {}),
         /* @__PURE__ */ jsx115(CheckboxFilters, {})
       ] }),
-      /* @__PURE__ */ jsxs93(Flex36, { sx: styles_default43.buttonsContainer, children: [
+      /* @__PURE__ */ jsxs94(Flex36, { sx: styles_default43.buttonsContainer, children: [
         /* @__PURE__ */ jsx115(
           Button11,
           {
@@ -21329,7 +21372,7 @@ var ListingFilter = ({
       ] })
     ] })
   ] });
-  return /* @__PURE__ */ jsxs93(Fragment9, { children: [
+  return /* @__PURE__ */ jsxs94(Fragment10, { children: [
     /* @__PURE__ */ jsx115(FilterButton, {}),
     isModalOpen && /* @__PURE__ */ jsx115(FilterModal, {})
   ] });
@@ -21485,7 +21528,7 @@ var styles_default44 = {
 };
 
 // src/components/chip-filter/index.tsx
-import { jsx as jsx116, jsxs as jsxs94 } from "react/jsx-runtime";
+import { jsx as jsx116, jsxs as jsxs95 } from "react/jsx-runtime";
 var ChipFilter = ({
   filters,
   categories,
@@ -21532,8 +21575,8 @@ var ChipFilter = ({
     window.addEventListener("resize", handleContainerScroll);
     return () => window.removeEventListener("resize", handleContainerScroll);
   }, [categories, filters]);
-  return /* @__PURE__ */ jsxs94(Flex37, { sx: styles_default44.chipButtonWrapper, children: [
-    shouldDisplayArrows.left && /* @__PURE__ */ jsxs94(Box42, { sx: styles_default44.leftArrowContainer, children: [
+  return /* @__PURE__ */ jsxs95(Flex37, { sx: styles_default44.chipButtonWrapper, children: [
+    shouldDisplayArrows.left && /* @__PURE__ */ jsxs95(Box42, { sx: styles_default44.leftArrowContainer, children: [
       /* @__PURE__ */ jsx116(
         Button12,
         {
@@ -21552,7 +21595,7 @@ var ChipFilter = ({
         sx: styles_default44.chipsContainer,
         ref: containerRef,
         onScroll: handleContainerScroll,
-        children: /* @__PURE__ */ jsxs94(Box42, { sx: styles_default44.optionsContainer, children: [
+        children: /* @__PURE__ */ jsxs95(Box42, { sx: styles_default44.optionsContainer, children: [
           /* @__PURE__ */ jsx116(
             FilterChip,
             {
@@ -21576,7 +21619,7 @@ var ChipFilter = ({
         ] })
       }
     ),
-    shouldDisplayArrows.right && /* @__PURE__ */ jsxs94(Box42, { sx: styles_default44.rightArrowContainer, children: [
+    shouldDisplayArrows.right && /* @__PURE__ */ jsxs95(Box42, { sx: styles_default44.rightArrowContainer, children: [
       /* @__PURE__ */ jsx116(
         Button12,
         {
@@ -21598,7 +21641,7 @@ function FilterChip({
   applyCategory,
   Icon: Icon82
 }) {
-  return /* @__PURE__ */ jsxs94(Flex37, { sx: styles_default44.chip(isActive), onClick: applyCategory, children: [
+  return /* @__PURE__ */ jsxs95(Flex37, { sx: styles_default44.chip(isActive), onClick: applyCategory, children: [
     Icon82 ? /* @__PURE__ */ jsx116(Icon82, { sx: styles_default44.chipIcon }) : null,
     /* @__PURE__ */ jsx116(Text32, { className: "filter-chip-title", sx: styles_default44.chipTitle(isActive), children: value }),
     /* @__PURE__ */ jsx116(Text32, { sx: styles_default44.chipCount, children: count2 })
@@ -21612,27 +21655,36 @@ import { Box as Box43, Flex as Flex38, Text as Text33 } from "@vtex/brand-ui";
 // src/components/author/styles.ts
 var container18 = {
   alignItems: "center",
-  columnGap: "16px",
-  pt: "14px"
+  columnGap: ["8px", "10px", "16px"],
+  pt: ["8px", "12px", "14px"]
 };
 var photo2 = {
-  width: "32px",
-  height: "32px",
+  flexShrink: 0,
+  width: ["24px", "28px", "32px"],
+  height: ["24px", "28px", "32px"],
   img: {
-    width: "32px",
-    height: "32px",
+    width: "100%",
+    height: "100%",
     borderRadius: "100%"
   }
 };
+var name = {
+  color: "#4A596B",
+  fontSize: ["14px", "14px", "16px"],
+  lineHeight: ["20px", "20px", "22px"],
+  fontWeight: "400",
+  overflowWrap: "anywhere"
+};
 var styles_default45 = {
   container: container18,
-  photo: photo2
+  photo: photo2,
+  name
 };
 
 // src/components/author/index.tsx
-import { jsx as jsx117, jsxs as jsxs95 } from "react/jsx-runtime";
+import { jsx as jsx117, jsxs as jsxs96 } from "react/jsx-runtime";
 var Author = ({ contributor }) => {
-  return /* @__PURE__ */ jsxs95(Flex38, { sx: styles_default45.container, children: [
+  return /* @__PURE__ */ jsxs96(Flex38, { sx: styles_default45.container, children: [
     /* @__PURE__ */ jsx117(Box43, { sx: styles_default45.photo, children: /* @__PURE__ */ jsx117(
       "img",
       {
@@ -21642,7 +21694,7 @@ var Author = ({ contributor }) => {
         height: 32
       }
     ) }, contributor?.login),
-    /* @__PURE__ */ jsx117(Text33, { children: contributor?.name })
+    /* @__PURE__ */ jsx117(Text33, { sx: styles_default45.name, children: contributor?.name })
   ] });
 };
 var author_default = Author;
@@ -21702,7 +21754,7 @@ var dateSeparator = {
 var styles_default47 = { dateContainer, dateItem, dateLabel, dateSeparator };
 
 // src/components/date-text/index.tsx
-import { jsx as jsx119, jsxs as jsxs96 } from "react/jsx-runtime";
+import { jsx as jsx119, jsxs as jsxs97 } from "react/jsx-runtime";
 var formatDate = (date, locale) => {
   if (Number.isNaN(date.getTime()))
     return void 0;
@@ -21716,13 +21768,13 @@ var DateText = ({ createdAt, updatedAt }) => {
   const updated = formatDate(updatedAt, locale);
   if (!created && !updated)
     return null;
-  return /* @__PURE__ */ jsxs96(Flex39, { sx: styles_default47.dateContainer, children: [
-    created && /* @__PURE__ */ jsxs96(Text35, { sx: styles_default47.dateItem, children: [
+  return /* @__PURE__ */ jsxs97(Flex39, { sx: styles_default47.dateContainer, children: [
+    created && /* @__PURE__ */ jsxs97(Text35, { sx: styles_default47.dateItem, children: [
       /* @__PURE__ */ jsx119(Text35, { as: "span", sx: styles_default47.dateLabel, children: createdLabel }),
       created
     ] }),
     created && updated && /* @__PURE__ */ jsx119(Text35, { sx: styles_default47.dateSeparator, children: "\u2022" }),
-    updated && /* @__PURE__ */ jsxs96(Text35, { sx: styles_default47.dateItem, children: [
+    updated && /* @__PURE__ */ jsxs97(Text35, { sx: styles_default47.dateItem, children: [
       /* @__PURE__ */ jsx119(Text35, { as: "span", sx: styles_default47.dateLabel, children: updatedLabel }),
       updated
     ] })
@@ -21734,6 +21786,30 @@ var date_text_default = DateText;
 import { useContext as useContext35 } from "react";
 import Link14 from "next/link.js";
 import { Flex as Flex40, Text as Text36, Box as Box44 } from "@vtex/brand-ui";
+
+// src/utils/format-article-date.ts
+var DATE_LOCALES = {
+  en: "en-US",
+  pt: "pt-BR",
+  es: "es-MX"
+};
+function parseArticleDate(value) {
+  if (value == null || value === "")
+    return void 0;
+  const date = new Date(String(value));
+  return Number.isNaN(date.getTime()) ? void 0 : date;
+}
+function formatArticleDate(date, locale, style) {
+  return new Intl.DateTimeFormat(DATE_LOCALES[locale], {
+    ...style === "long" ? { month: "long", day: "numeric" } : style === "medium" ? { month: "short", day: "numeric" } : { month: "2-digit", day: "2-digit" },
+    year: "numeric",
+    timeZone: "UTC"
+  }).format(date);
+}
+function formatArticleDateValue(value, locale, style) {
+  const date = parseArticleDate(value);
+  return date ? formatArticleDate(date, locale, style) : void 0;
+}
 
 // src/components/article-pagination/styles.ts
 var mainContainer = {
@@ -21791,6 +21867,14 @@ var paginationText = {
   lineHeight: ["20px", "22px"],
   color: "#4A596B"
 };
+var paginationChildren = {
+  width: "100%",
+  minWidth: 0,
+  color: "#5E6E84",
+  fontSize: ["12px", "13px"],
+  lineHeight: ["16px", "18px"],
+  fontWeight: "400"
+};
 var subTitle = {
   color: "#A1A8B3",
   fontSize: ["12px", "0.85em"],
@@ -21827,31 +21911,41 @@ var styles_default48 = {
   paginationBox,
   paginationBoxNext,
   paginationText,
+  paginationChildren,
   subTitle
 };
 
 // src/components/article-pagination/index.tsx
-import { jsx as jsx120, jsxs as jsxs97 } from "react/jsx-runtime";
+import { jsx as jsx120, jsxs as jsxs98 } from "react/jsx-runtime";
 var ArticlePagination = ({
   pagination,
   hidePaginationNext = false,
-  hidePaginationPrevious = false
+  hidePaginationPrevious = false,
+  previousChildren,
+  nextChildren
 }) => {
   const { locale } = useContext35(LibraryContext);
   const previousLabel = messages[locale]["article_pagination.previous"] || "Previous";
   const nextLabel = messages[locale]["article_pagination.next"] || "Next";
   const showPrevious = !hidePaginationPrevious && Boolean(pagination?.previousDoc?.slug) && Boolean(pagination?.previousDoc?.name);
   const showNext = !hidePaginationNext && Boolean(pagination?.nextDoc?.slug) && Boolean(pagination?.nextDoc?.name);
-  return /* @__PURE__ */ jsx120(Box44, { as: "nav", sx: styles_default48.mainContainer, children: /* @__PURE__ */ jsxs97(Flex40, { sx: styles_default48.flexContainer, children: [
+  const previousExtra = previousChildren ?? pagination?.previousDoc?.children ?? formatArticleDateValue(
+    pagination?.previousDoc?.createdAt,
+    locale,
+    "medium"
+  );
+  const nextExtra = nextChildren ?? pagination?.nextDoc?.children ?? formatArticleDateValue(pagination?.nextDoc?.createdAt, locale, "medium");
+  return /* @__PURE__ */ jsx120(Box44, { as: "nav", sx: styles_default48.mainContainer, children: /* @__PURE__ */ jsxs98(Flex40, { sx: styles_default48.flexContainer, children: [
     showPrevious && /* @__PURE__ */ jsx120(Box44, { sx: styles_default48.paginationLinkPrevious, children: /* @__PURE__ */ jsx120(
       Link14,
       {
         style: styles_default48.linkReset,
         href: pagination.previousDoc.slug,
         locale,
-        children: /* @__PURE__ */ jsxs97(Box44, { sx: styles_default48.paginationBox, children: [
+        children: /* @__PURE__ */ jsxs98(Box44, { sx: styles_default48.paginationBox, children: [
           /* @__PURE__ */ jsx120(Text36, { sx: styles_default48.subTitle, children: `\xAB ${previousLabel}` }),
-          /* @__PURE__ */ jsx120(Text36, { sx: styles_default48.paginationText, children: pagination.previousDoc.name })
+          /* @__PURE__ */ jsx120(Text36, { sx: styles_default48.paginationText, children: pagination.previousDoc.name }),
+          previousExtra != null && previousExtra !== false && /* @__PURE__ */ jsx120(Box44, { sx: styles_default48.paginationChildren, children: previousExtra })
         ] })
       }
     ) }),
@@ -21861,9 +21955,10 @@ var ArticlePagination = ({
         style: styles_default48.linkReset,
         href: pagination.nextDoc.slug,
         locale,
-        children: /* @__PURE__ */ jsxs97(Box44, { sx: styles_default48.paginationBoxNext, children: [
+        children: /* @__PURE__ */ jsxs98(Box44, { sx: styles_default48.paginationBoxNext, children: [
           /* @__PURE__ */ jsx120(Text36, { sx: styles_default48.subTitle, children: `${nextLabel} \xBB` }),
-          /* @__PURE__ */ jsx120(Text36, { sx: styles_default48.paginationText, children: pagination.nextDoc.name })
+          /* @__PURE__ */ jsx120(Text36, { sx: styles_default48.paginationText, children: pagination.nextDoc.name }),
+          nextExtra != null && nextExtra !== false && /* @__PURE__ */ jsx120(Box44, { sx: styles_default48.paginationChildren, children: nextExtra })
         ] })
       }
     ) })
@@ -21872,6 +21967,7 @@ var ArticlePagination = ({
 var article_pagination_default = ArticlePagination;
 
 // src/components/article-render/index.tsx
+import { useContext as useContext37 } from "react";
 import Head from "next/head.js";
 import { Box as Box46, Flex as Flex41, Text as Text38 } from "@vtex/brand-ui";
 
@@ -22020,7 +22116,7 @@ var styles_default49 = {
 };
 
 // src/components/see-also-section/index.tsx
-import { jsx as jsx121, jsxs as jsxs98 } from "react/jsx-runtime";
+import { jsx as jsx121, jsxs as jsxs99 } from "react/jsx-runtime";
 var isExternalLink = (url) => /^https?:\/\//.test(url);
 var SeeAlsoSection = ({ docs }) => {
   const { locale, sidebarSections, sidebarDataMaster } = useContext36(LibraryContext);
@@ -22031,7 +22127,7 @@ var SeeAlsoSection = ({ docs }) => {
       navigation: sidebarDataMaster
     })
   ) ?? [];
-  return /* @__PURE__ */ jsxs98(
+  return /* @__PURE__ */ jsxs99(
     Box45,
     {
       as: "nav",
@@ -22246,15 +22342,29 @@ var articleMetaInfo = {
     flex: "1 1 auto"
   }
 };
+var articleCreatedAt = {
+  color: MUTED,
+  fontSize: "13px",
+  lineHeight: ["18px", "20px"],
+  fontWeight: "400"
+};
 var articleReadingTime = {
   color: MUTED,
   fontSize: "13px",
-  lineHeight: "20px",
+  lineHeight: ["18px", "20px"],
   "& > *": {
     color: "inherit !important",
     fontSize: "inherit !important",
     lineHeight: "inherit !important"
   }
+};
+var articleLastUpdate = {
+  display: "block",
+  color: MUTED,
+  fontSize: "13px",
+  lineHeight: ["18px", "20px"],
+  fontWeight: "400",
+  mt: ["16px", "24px"]
 };
 var articleActions = {
   display: "flex",
@@ -22355,8 +22465,10 @@ var styles_default50 = {
   articleHeaderExtra,
   articleMeta,
   articleMetaInfo,
+  articleCreatedAt,
   articleReadingTime,
   articleActions,
+  articleLastUpdate,
   bottomContributorsContainer,
   bottomContributors,
   rightContainer,
@@ -22366,7 +22478,7 @@ var styles_default50 = {
 };
 
 // src/components/article-render/index.tsx
-import { Fragment as Fragment10, jsx as jsx122, jsxs as jsxs99 } from "react/jsx-runtime";
+import { Fragment as Fragment11, jsx as jsx122, jsxs as jsxs100 } from "react/jsx-runtime";
 var readingTimeLabel = (readingTime2) => {
   if (readingTime2 == null || readingTime2 === "")
     return void 0;
@@ -22376,12 +22488,7 @@ var readingTimeLabel = (readingTime2) => {
   }
   return String(readingTime2);
 };
-var parseFrontmatterDate = (value) => {
-  if (value == null || value === "")
-    return void 0;
-  const date = new Date(String(value));
-  return Number.isNaN(date.getTime()) ? void 0 : date;
-};
+var isSameUtcDay = (a, b) => a.getUTCFullYear() === b.getUTCFullYear() && a.getUTCMonth() === b.getUTCMonth() && a.getUTCDate() === b.getUTCDate();
 var ArticleRender = ({
   serialized,
   headings: headings2 = [],
@@ -22390,6 +22497,8 @@ var ArticleRender = ({
   contributors = [],
   path,
   pagination,
+  paginationPreviousChildren,
+  paginationNextChildren,
   slug,
   type,
   pageUrl,
@@ -22409,13 +22518,28 @@ var ArticleRender = ({
   showArticlePagination = true,
   showSeeAlso = true,
   showTableOfContents = true,
-  showDateText = false
+  showCreatedAt = false,
+  createdAtFormat = "long",
+  showUpdatedAt = false
 }) => {
+  const { locale } = useContext37(LibraryContext);
+  const localeMessages = messages[locale] ?? messages.en;
   const tocHeadings = headingList?.length ? headingList : headings2;
   const readingTime2 = readingTimeLabel(serialized?.frontmatter?.readingTime);
-  const createdAt = parseFrontmatterDate(serialized?.frontmatter?.createdAt);
-  const updatedAt = parseFrontmatterDate(serialized?.frontmatter?.updatedAt);
-  const hasDates = Boolean(createdAt && updatedAt);
+  const createdAt = parseArticleDate(serialized?.frontmatter?.createdAt);
+  const updatedAt = parseArticleDate(serialized?.frontmatter?.updatedAt);
+  const createdAtDate = createdAt ? formatArticleDate(
+    createdAt,
+    locale,
+    createdAtFormat === "published" ? "short" : "long"
+  ) : void 0;
+  const publishedLabel = localeMessages["date_text.created"] || "Published on";
+  const createdAtLabel = createdAtDate ? createdAtFormat === "published" ? `${publishedLabel}: ${createdAtDate}` : createdAtDate : void 0;
+  const hasDistinctUpdatedAt = Boolean(
+    updatedAt && (!createdAt || !isSameUtcDay(createdAt, updatedAt))
+  );
+  const updatedAtLabel = hasDistinctUpdatedAt && updatedAt ? formatArticleDate(updatedAt, locale, "short") : void 0;
+  const lastUpdateLabel = localeMessages["date_text.last_update"] || "Last update:";
   const showBottomSection = showContributors || showFeedbackSection;
   const showSidebar = showContributors || showTableOfContents;
   const markdown2 = /* @__PURE__ */ jsx122(
@@ -22426,8 +22550,8 @@ var ArticleRender = ({
       scope
     }
   );
-  return /* @__PURE__ */ jsxs99(Fragment10, { children: [
-    /* @__PURE__ */ jsx122(Head, { children: /* @__PURE__ */ jsxs99(Fragment10, { children: [
+  return /* @__PURE__ */ jsxs100(Fragment11, { children: [
+    /* @__PURE__ */ jsx122(Head, { children: /* @__PURE__ */ jsxs100(Fragment11, { children: [
       /* @__PURE__ */ jsx122("meta", { name: "docsearch:doctype", content: type }),
       serialized?.frontmatter?.title && /* @__PURE__ */ jsx122("title", { children: serialized?.frontmatter?.title }),
       serialized?.frontmatter?.title && /* @__PURE__ */ jsx122(
@@ -22446,33 +22570,24 @@ var ArticleRender = ({
         }
       )
     ] }) }),
-    /* @__PURE__ */ jsxs99(Flex41, { sx: styles_default50.innerContainer, children: [
-      /* @__PURE__ */ jsxs99(Box46, { sx: styles_default50.articleBox, "data-article-box": true, children: [
-        /* @__PURE__ */ jsxs99(Box46, { sx: styles_default50.contentContainer, children: [
+    /* @__PURE__ */ jsxs100(Flex41, { sx: styles_default50.innerContainer, children: [
+      /* @__PURE__ */ jsxs100(Box46, { sx: styles_default50.articleBox, "data-article-box": true, children: [
+        /* @__PURE__ */ jsxs100(Box46, { sx: styles_default50.contentContainer, children: [
           /* @__PURE__ */ jsx122(Flex41, { sx: styles_default50.breadcrumbRow, children: /* @__PURE__ */ jsx122(breadcrumb_default, { breadcrumbList }) }),
-          /* @__PURE__ */ jsxs99(Box46, { sx: styles_default50.textContainer, children: [
-            /* @__PURE__ */ jsxs99("article", { children: [
-              /* @__PURE__ */ jsx122("header", { children: /* @__PURE__ */ jsxs99(Fragment10, { children: [
-                /* @__PURE__ */ jsxs99(Text38, { as: "h1", sx: styles_default50.documentationTitle, className: "title", children: [
-                  serialized.frontmatter?.title,
-                  /* @__PURE__ */ jsx122(copy_heading_link_default, {})
-                ] }),
+          /* @__PURE__ */ jsxs100(Box46, { sx: styles_default50.textContainer, children: [
+            /* @__PURE__ */ jsxs100("article", { children: [
+              /* @__PURE__ */ jsx122("header", { children: /* @__PURE__ */ jsxs100(Fragment11, { children: [
+                /* @__PURE__ */ jsx122(Text38, { as: "h1", sx: styles_default50.documentationTitle, className: "title", children: /* @__PURE__ */ jsx122(copy_heading_link_default, { children: serialized.frontmatter?.title }) }),
                 children && /* @__PURE__ */ jsx122(Box46, { sx: styles_default50.articleHeaderExtra, children }),
                 showAuthor && contributors[0]?.avatar && /* @__PURE__ */ jsx122(author_default, { contributor: contributors[0] }),
                 serialized.frontmatter?.excerpt && /* @__PURE__ */ jsx122(Text38, { as: "p", sx: styles_default50.documentationExcerpt, children: serialized.frontmatter?.excerpt })
               ] }) }),
-              /* @__PURE__ */ jsxs99(Flex41, { sx: styles_default50.articleMeta, children: [
-                (showDateText && hasDates || showReadingTime && readingTime2) && /* @__PURE__ */ jsxs99(Flex41, { sx: styles_default50.articleMetaInfo, children: [
-                  showDateText && hasDates && createdAt && updatedAt && /* @__PURE__ */ jsx122(
-                    date_text_default,
-                    {
-                      createdAt,
-                      updatedAt
-                    }
-                  ),
+              /* @__PURE__ */ jsxs100(Flex41, { sx: styles_default50.articleMeta, children: [
+                (showCreatedAt && createdAtLabel || showReadingTime && readingTime2) && /* @__PURE__ */ jsxs100(Flex41, { sx: styles_default50.articleMetaInfo, children: [
+                  showCreatedAt && createdAtLabel && /* @__PURE__ */ jsx122(Text38, { sx: styles_default50.articleCreatedAt, children: createdAtLabel }),
                   showReadingTime && readingTime2 && /* @__PURE__ */ jsx122(Box46, { sx: styles_default50.articleReadingTime, children: /* @__PURE__ */ jsx122(time_to_read_default, { minutes: readingTime2 }) })
                 ] }),
-                /* @__PURE__ */ jsxs99(Flex41, { sx: styles_default50.articleActions, children: [
+                /* @__PURE__ */ jsxs100(Flex41, { sx: styles_default50.articleActions, children: [
                   /* @__PURE__ */ jsx122(feedback_modal_default, { pageUrl }),
                   showAskAIMenu && /* @__PURE__ */ jsx122(
                     ask_ai_default,
@@ -22486,10 +22601,15 @@ var ArticleRender = ({
               ] }),
               renderMarkdown ? renderMarkdown(markdown2) : markdown2
             ] }),
-            showSeeAlso && (Array.isArray(seeAlso) ? seeAlso.length > 0 && /* @__PURE__ */ jsx122(see_also_section_default, { docs: seeAlso }) : seeAlso)
+            showSeeAlso && (Array.isArray(seeAlso) ? seeAlso.length > 0 && /* @__PURE__ */ jsx122(see_also_section_default, { docs: seeAlso }) : seeAlso),
+            showUpdatedAt && updatedAtLabel && /* @__PURE__ */ jsxs100(Text38, { sx: styles_default50.articleLastUpdate, children: [
+              lastUpdateLabel,
+              " ",
+              updatedAtLabel
+            ] })
           ] })
         ] }),
-        showBottomSection && /* @__PURE__ */ jsxs99(Box46, { sx: styles_default50.bottomContributorsContainer, children: [
+        showBottomSection && /* @__PURE__ */ jsxs100(Box46, { sx: styles_default50.bottomContributorsContainer, children: [
           showContributors && /* @__PURE__ */ jsx122(Box46, { sx: styles_default50.bottomContributors, children: /* @__PURE__ */ jsx122(Contributors_default, { contributors }) }),
           showFeedbackSection && /* @__PURE__ */ jsx122(
             feedback_section_default,
@@ -22506,13 +22626,15 @@ var ArticleRender = ({
           {
             hidePaginationNext: Boolean(serialized.frontmatter?.hidePaginationNext) || false,
             hidePaginationPrevious: Boolean(serialized.frontmatter?.hidePaginationPrevious) || false,
-            pagination
+            pagination,
+            previousChildren: paginationPreviousChildren,
+            nextChildren: paginationNextChildren
           }
         )
       ] }),
-      showSidebar && /* @__PURE__ */ jsxs99(Box46, { sx: styles_default50.rightContainer, "data-article-aside": true, children: [
+      showSidebar && /* @__PURE__ */ jsxs100(Box46, { sx: styles_default50.rightContainer, "data-article-aside": true, children: [
         showContributors && /* @__PURE__ */ jsx122(Contributors_default, { contributors }),
-        showTableOfContents && /* @__PURE__ */ jsx122(TableOfContents_default, { headingList: tocHeadings, children: (showFeedbackSection || showSuggestEdits) && /* @__PURE__ */ jsxs99(Box46, { sx: styles_default50.divider, children: [
+        showTableOfContents && /* @__PURE__ */ jsx122(TableOfContents_default, { headingList: tocHeadings, children: (showFeedbackSection || showSuggestEdits) && /* @__PURE__ */ jsxs100(Box46, { sx: styles_default50.divider, children: [
           showFeedbackSection && /* @__PURE__ */ jsx122(feedback_section_default, { slug, small: true, suggestEdits: false }),
           showSuggestEdits && /* @__PURE__ */ jsx122(
             suggest_edits_default,
@@ -22648,7 +22770,7 @@ var styles_default51 = {
 };
 
 // src/components/troubleshooting-card/index.tsx
-import { jsx as jsx123, jsxs as jsxs100 } from "react/jsx-runtime";
+import { jsx as jsx123, jsxs as jsxs101 } from "react/jsx-runtime";
 function buildHref({
   slug,
   href,
@@ -22687,9 +22809,9 @@ var TroubleshootingCard = ({
           minWidth: 0,
           textDecoration: "none"
         },
-        children: /* @__PURE__ */ jsxs100(Box47, { sx: styles_default51.helpcenterContainer, children: [
+        children: /* @__PURE__ */ jsxs101(Box47, { sx: styles_default51.helpcenterContainer, children: [
           /* @__PURE__ */ jsx123(Text39, { sx: styles_default51.title, className: "title", children: title9 }),
-          hasStructuredTags ? /* @__PURE__ */ jsxs100(Box47, { sx: styles_default51.groupsContainer, children: [
+          hasStructuredTags ? /* @__PURE__ */ jsxs101(Box47, { sx: styles_default51.groupsContainer, children: [
             resolvedSymptomFilters.length > 0 && /* @__PURE__ */ jsx123(Box47, { sx: styles_default51.groupContainer, children: /* @__PURE__ */ jsx123(Box47, { sx: styles_default51.helpcenterTagsContainer, children: resolvedSymptomFilters.map((filter) => /* @__PURE__ */ jsx123(
               tag_default,
               {
@@ -22705,10 +22827,10 @@ var TroubleshootingCard = ({
       }
     );
   }
-  return /* @__PURE__ */ jsx123(Link15, { href: cardHref, sx: styles_default51.devportalContainer, children: /* @__PURE__ */ jsxs100(Box47, { children: [
+  return /* @__PURE__ */ jsx123(Link15, { href: cardHref, sx: styles_default51.devportalContainer, children: /* @__PURE__ */ jsxs101(Box47, { children: [
     /* @__PURE__ */ jsx123(Text39, { sx: styles_default51.title, className: "title", children: title9 }),
     description6 ? /* @__PURE__ */ jsx123(Text39, { sx: styles_default51.description, className: "description", children: description6 }) : null,
-    /* @__PURE__ */ jsxs100(Box47, { sx: styles_default51.tagsContainer, children: [
+    /* @__PURE__ */ jsxs101(Box47, { sx: styles_default51.tagsContainer, children: [
       resolvedSymptomFilters.length > 0 && /* @__PURE__ */ jsx123(Box47, { sx: styles_default51.tagGroup, children: resolvedSymptomFilters.map((filter) => /* @__PURE__ */ jsx123(tag_default, { sx: styles_default51.tag, color: "Blue", children: filter }, `symptom-${filter}`)) }),
       resolvedDomainFilters.length > 0 && /* @__PURE__ */ jsx123(Box47, { sx: styles_default51.tagGroup, children: resolvedDomainFilters.map((filter) => /* @__PURE__ */ jsx123(tag_default, { sx: styles_default51.tag, color: "Gray", children: filter }, `domain-${filter}`)) }),
       !hasStructuredTags && fallbackTags.map((moduleTag) => /* @__PURE__ */ jsx123(tag_default, { sx: styles_default51.tag, color: "Gray", children: moduleTag }, `tags-${moduleTag}`))
@@ -22769,9 +22891,9 @@ var getDaysElapsed = (date) => {
 
 // src/components/icons/gear-troubleshooting-icon.tsx
 import { Icon as Icon63 } from "@vtex/brand-ui";
-import { jsx as jsx124, jsxs as jsxs101 } from "react/jsx-runtime";
+import { jsx as jsx124, jsxs as jsxs102 } from "react/jsx-runtime";
 var GearTroubleshootingIcon = (props) => {
-  return /* @__PURE__ */ jsxs101(
+  return /* @__PURE__ */ jsxs102(
     Icon63,
     {
       ...props,
@@ -22844,8 +22966,8 @@ var gear_troubleshooting_icon_default = GearTroubleshootingIcon;
 
 // src/components/icons/documentation-updates-icon.tsx
 import { Icon as Icon64 } from "@vtex/brand-ui";
-import { jsx as jsx125, jsxs as jsxs102 } from "react/jsx-runtime";
-var DocumentationUpdatesIcon = (props) => /* @__PURE__ */ jsxs102(
+import { jsx as jsx125, jsxs as jsxs103 } from "react/jsx-runtime";
+var DocumentationUpdatesIcon = (props) => /* @__PURE__ */ jsxs103(
   Icon64,
   {
     ...props,
@@ -22902,8 +23024,8 @@ var documentation_updates_icon_default = DocumentationUpdatesIcon;
 
 // src/components/icons/helpcenter-icon.tsx
 import { Icon as Icon65 } from "@vtex/brand-ui";
-import { jsx as jsx126, jsxs as jsxs103 } from "react/jsx-runtime";
-var HelpCenterIcon = (props) => /* @__PURE__ */ jsxs103(
+import { jsx as jsx126, jsxs as jsxs104 } from "react/jsx-runtime";
+var HelpCenterIcon = (props) => /* @__PURE__ */ jsxs104(
   Icon65,
   {
     ...props,
@@ -22961,8 +23083,8 @@ var helpcenter_icon_default = HelpCenterIcon;
 
 // src/components/icons/developer-portal-icon.tsx
 import { Icon as Icon66 } from "@vtex/brand-ui";
-import { jsx as jsx127, jsxs as jsxs104 } from "react/jsx-runtime";
-var DeveloperPortalIcon = (props) => /* @__PURE__ */ jsxs104(
+import { jsx as jsx127, jsxs as jsxs105 } from "react/jsx-runtime";
+var DeveloperPortalIcon = (props) => /* @__PURE__ */ jsxs105(
   Icon66,
   {
     ...props,
@@ -23020,8 +23142,8 @@ var developer_portal_icon_default = DeveloperPortalIcon;
 
 // src/components/icons/faq-icon.tsx
 import { Icon as Icon67 } from "@vtex/brand-ui";
-import { jsx as jsx128, jsxs as jsxs105 } from "react/jsx-runtime";
-var FAQIcon = (props) => /* @__PURE__ */ jsxs105(
+import { jsx as jsx128, jsxs as jsxs106 } from "react/jsx-runtime";
+var FAQIcon = (props) => /* @__PURE__ */ jsxs106(
   Icon67,
   {
     ...props,
@@ -23064,8 +23186,8 @@ var faq_icon_default = FAQIcon;
 
 // src/components/icons/known-issues-icon.tsx
 import { Icon as Icon68 } from "@vtex/brand-ui";
-import { jsx as jsx129, jsxs as jsxs106 } from "react/jsx-runtime";
-var KnownIssueIcon = (props) => /* @__PURE__ */ jsxs106(
+import { jsx as jsx129, jsxs as jsxs107 } from "react/jsx-runtime";
+var KnownIssueIcon = (props) => /* @__PURE__ */ jsxs107(
   Icon68,
   {
     ...props,
@@ -23124,8 +23246,8 @@ var known_issues_icon_default = KnownIssueIcon;
 
 // src/components/icons/megaphone-icon.tsx
 import { Icon as Icon69 } from "@vtex/brand-ui";
-import { jsx as jsx130, jsxs as jsxs107 } from "react/jsx-runtime";
-var MegaphoneIcon = (props) => /* @__PURE__ */ jsxs107(
+import { jsx as jsx130, jsxs as jsxs108 } from "react/jsx-runtime";
+var MegaphoneIcon = (props) => /* @__PURE__ */ jsxs108(
   Icon69,
   {
     ...props,
@@ -23182,8 +23304,8 @@ var megaphone_icon_default = MegaphoneIcon;
 
 // src/components/icons/graph-icon.tsx
 import { Icon as Icon70 } from "@vtex/brand-ui";
-import { jsx as jsx131, jsxs as jsxs108 } from "react/jsx-runtime";
-var GraphIcon = (props) => /* @__PURE__ */ jsxs108(
+import { jsx as jsx131, jsxs as jsxs109 } from "react/jsx-runtime";
+var GraphIcon = (props) => /* @__PURE__ */ jsxs109(
   Icon70,
   {
     ...props,
@@ -23216,8 +23338,8 @@ var graph_icon_default = GraphIcon;
 
 // src/components/icons/start-here-icon.tsx
 import { Icon as Icon71 } from "@vtex/brand-ui";
-import { jsx as jsx132, jsxs as jsxs109 } from "react/jsx-runtime";
-var StartHereIcon = (props) => /* @__PURE__ */ jsxs109(
+import { jsx as jsx132, jsxs as jsxs110 } from "react/jsx-runtime";
+var StartHereIcon = (props) => /* @__PURE__ */ jsxs110(
   Icon71,
   {
     ...props,
@@ -23252,8 +23374,8 @@ var start_here_icon_default = StartHereIcon;
 
 // src/components/icons/tutorials-icon.tsx
 import { Icon as Icon72 } from "@vtex/brand-ui";
-import { jsx as jsx133, jsxs as jsxs110 } from "react/jsx-runtime";
-var TutorialsIcon = (props) => /* @__PURE__ */ jsxs110(
+import { jsx as jsx133, jsxs as jsxs111 } from "react/jsx-runtime";
+var TutorialsIcon = (props) => /* @__PURE__ */ jsxs111(
   Icon72,
   {
     ...props,
@@ -23328,8 +23450,8 @@ var tutorials_icon_default = TutorialsIcon;
 
 // src/components/icons/announcement-icon.tsx
 import { Icon as Icon73 } from "@vtex/brand-ui";
-import { jsx as jsx134, jsxs as jsxs111 } from "react/jsx-runtime";
-var AnnouncementIcon = (props) => /* @__PURE__ */ jsxs111(
+import { jsx as jsx134, jsxs as jsxs112 } from "react/jsx-runtime";
+var AnnouncementIcon = (props) => /* @__PURE__ */ jsxs112(
   Icon73,
   {
     ...props,
@@ -23367,8 +23489,8 @@ var announcement_icon_default = AnnouncementIcon;
 
 // src/components/icons/info-icon.tsx
 import { Icon as Icon74 } from "@vtex/brand-ui";
-import { jsx as jsx135, jsxs as jsxs112 } from "react/jsx-runtime";
-var InfoIcon = (props) => /* @__PURE__ */ jsxs112(
+import { jsx as jsx135, jsxs as jsxs113 } from "react/jsx-runtime";
+var InfoIcon = (props) => /* @__PURE__ */ jsxs113(
   Icon74,
   {
     ...props,
@@ -23404,8 +23526,8 @@ var info_icon_default = InfoIcon;
 
 // src/components/icons/new-icon.tsx
 import { Icon as Icon75 } from "@vtex/brand-ui";
-import { jsx as jsx136, jsxs as jsxs113 } from "react/jsx-runtime";
-var NewIcon = (props) => /* @__PURE__ */ jsxs113(
+import { jsx as jsx136, jsxs as jsxs114 } from "react/jsx-runtime";
+var NewIcon = (props) => /* @__PURE__ */ jsxs114(
   Icon75,
   {
     ...props,
@@ -23414,7 +23536,7 @@ var NewIcon = (props) => /* @__PURE__ */ jsxs113(
     xmlns: "http://www.w3.org/2000/svg",
     children: [
       /* @__PURE__ */ jsx136("circle", { cx: "8.50146", cy: "8", r: "8", fill: "#F71963" }),
-      /* @__PURE__ */ jsxs113("g", { clipPath: "url(#clip0_462_17766)", children: [
+      /* @__PURE__ */ jsxs114("g", { clipPath: "url(#clip0_462_17766)", children: [
         /* @__PURE__ */ jsx136(
           "path",
           {
@@ -23476,8 +23598,8 @@ var github_icon_default = GithubIcon;
 
 // src/components/icons/community-icon.tsx
 import { Icon as Icon77 } from "@vtex/brand-ui";
-import { jsx as jsx138, jsxs as jsxs114 } from "react/jsx-runtime";
-var CommunityIcon = (props) => /* @__PURE__ */ jsxs114(
+import { jsx as jsx138, jsxs as jsxs115 } from "react/jsx-runtime";
+var CommunityIcon = (props) => /* @__PURE__ */ jsxs115(
   Icon77,
   {
     ...props,
@@ -23517,8 +23639,8 @@ var community_icon_default = CommunityIcon;
 
 // src/components/icons/twitter-circle-icon.tsx
 import { Icon as Icon78 } from "@vtex/brand-ui";
-import { jsx as jsx139, jsxs as jsxs115 } from "react/jsx-runtime";
-var TwitterCircleIcon = (props) => /* @__PURE__ */ jsxs115(
+import { jsx as jsx139, jsxs as jsxs116 } from "react/jsx-runtime";
+var TwitterCircleIcon = (props) => /* @__PURE__ */ jsxs116(
   Icon78,
   {
     ...props,
@@ -23547,7 +23669,7 @@ var twitter_circle_icon_default = TwitterCircleIcon;
 
 // src/components/icons/checkbox.tsx
 import { Icon as Icon79 } from "@vtex/brand-ui";
-import { Fragment as Fragment11, jsx as jsx140, jsxs as jsxs116 } from "react/jsx-runtime";
+import { Fragment as Fragment12, jsx as jsx140, jsxs as jsxs117 } from "react/jsx-runtime";
 var CheckboxIcon = (props) => /* @__PURE__ */ jsx140(
   Icon79,
   {
@@ -23555,7 +23677,7 @@ var CheckboxIcon = (props) => /* @__PURE__ */ jsx140(
     viewBox: "0 0 20 20",
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg",
-    children: !props.checked ? /* @__PURE__ */ jsxs116(Fragment11, { children: [
+    children: !props.checked ? /* @__PURE__ */ jsxs117(Fragment12, { children: [
       /* @__PURE__ */ jsx140(
         "rect",
         {
@@ -23579,7 +23701,7 @@ var CheckboxIcon = (props) => /* @__PURE__ */ jsx140(
           stroke: "#B9B9B9"
         }
       )
-    ] }) : /* @__PURE__ */ jsxs116(Fragment11, { children: [
+    ] }) : /* @__PURE__ */ jsxs117(Fragment12, { children: [
       /* @__PURE__ */ jsx140("rect", { width: "20", height: "20", rx: "4", fill: "#0C1522" }),
       /* @__PURE__ */ jsx140(
         "path",
@@ -23618,8 +23740,8 @@ var resize_icon_default = ResizeIcon;
 
 // src/components/icons/arrow-right-icon.tsx
 import { Icon as Icon81 } from "@vtex/brand-ui";
-import { jsx as jsx142, jsxs as jsxs117 } from "react/jsx-runtime";
-var ArrowRightIcon = (props) => /* @__PURE__ */ jsxs117(
+import { jsx as jsx142, jsxs as jsxs118 } from "react/jsx-runtime";
+var ArrowRightIcon = (props) => /* @__PURE__ */ jsxs118(
   Icon81,
   {
     ...props,

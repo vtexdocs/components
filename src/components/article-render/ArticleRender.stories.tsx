@@ -144,7 +144,23 @@ export const WithAuthor: Story = {
 
 export const WithoutDates: Story = {
   args: {
-    showDateText: false,
+    showCreatedAt: false,
+    showUpdatedAt: false,
+  },
+}
+
+export const WithDates: Story = {
+  args: {
+    showCreatedAt: true,
+    showUpdatedAt: true,
+  },
+}
+
+export const WithPublishedCreatedAt: Story = {
+  args: {
+    showCreatedAt: true,
+    createdAtFormat: 'published',
+    showUpdatedAt: true,
   },
 }
 
@@ -152,6 +168,23 @@ export const HeaderExtra: Story = {
   args: {
     children: <div>Known issue ID: 123456</div>,
     showSuggestEdits: false,
+  },
+}
+
+export const PaginationWithCreatedAt: Story = {
+  args: {
+    pagination: {
+      previousDoc: {
+        slug: '/announcements/previous',
+        name: 'New checkout experience',
+        createdAt: '2026-09-03T12:00:00.000Z',
+      },
+      nextDoc: {
+        slug: '/announcements/next',
+        name: 'Catalog performance updates',
+        createdAt: '2026-09-08T12:00:00.000Z',
+      },
+    },
   },
 }
 

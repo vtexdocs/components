@@ -1,10 +1,12 @@
 import {
+  Children,
   useCallback,
   useContext,
   useEffect,
   useRef,
   useState,
   type MouseEvent,
+  type ReactNode,
 } from 'react'
 import { Box } from '@vtex/brand-ui'
 import type { SxStyleProp } from '@vtex/brand-ui'
@@ -24,6 +26,55 @@ export type CopyHeadingLinkProps = {
   slug?: string
   size?: number
   sx?: SxStyleProp
+  /**
+   * Heading text. When set, the copy control is glued to the last word so it
+   * never wraps onto a line by itself.
+   */
+  children?: ReactNode
+}
+
+const LAST_WORD = /^(.*?)(\s+)(\S+)$/su
+
+const glueToLastWord = (content: ReactNode, tail: ReactNode): ReactNode => {
+  const glued = (word: ReactNode) => (
+    <Box as="span" sx={styles.lastWord}>
+      {word}
+      {tail}
+    </Box>
+  )
+
+  if (content == null || typeof content === 'boolean') return tail
+
+  if (typeof content === 'string' || typeof content === 'number') {
+    const text = String(content)
+    const match = text.match(LAST_WORD)
+    if (!match) return glued(text)
+    return (
+      <>
+        {match[1]}
+        {match[2]}
+        {glued(match[3])}
+      </>
+    )
+  }
+
+  const items = Children.toArray(content)
+  if (items.length === 0) return tail
+
+  const last = items[items.length - 1]
+  const gluedLast =
+    typeof last === 'string' || typeof last === 'number'
+      ? glueToLastWord(last, tail)
+      : glued(last)
+
+  if (items.length === 1) return gluedLast
+
+  return (
+    <>
+      {items.slice(0, -1)}
+      {gluedLast}
+    </>
+  )
 }
 
 export const getHeadingUrl = (slug = '') => {
@@ -39,6 +90,7 @@ const CopyHeadingLink = ({
   slug = '',
   size = 16,
   sx = {},
+  children,
 }: CopyHeadingLinkProps) => {
   const { locale } = useContext(LibraryContext)
   const [copied, setCopied] = useState(false)
@@ -65,7 +117,7 @@ const CopyHeadingLink = ({
 
   useEffect(() => () => window.clearTimeout(copyTimeout.current), [])
 
-  return (
+  const control = (
     <Tooltip
       label={label}
       placement="top"
@@ -85,6 +137,9 @@ const CopyHeadingLink = ({
       </Box>
     </Tooltip>
   )
+
+  if (children == null) return control
+  return <>{glueToLastWord(children, control)}</>
 }
 
 export default CopyHeadingLink
