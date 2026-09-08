@@ -1,0 +1,8 @@
+node_modules
+.git
+.storybook
+storybook-static
+.env
+.env.local
+github.pem
+temp

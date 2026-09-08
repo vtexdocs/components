@@ -83,6 +83,7 @@
   "documentation_reading_time.text": "{minutes} min de lectura",
   "date_text.created": "Publicado el",
   "date_text.updated": "Última actualización el",
+  "date_text.last_update": "Última actualización:",
   "article_pagination.previous": "Anterior",
   "article_pagination.next": "Siguiente",
   "see_also_section.title": "Véase también",

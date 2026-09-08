@@ -200,15 +200,31 @@ const articleMetaInfo: SxStyleProp = {
   },
 }
 
+const articleCreatedAt: SxStyleProp = {
+  color: MUTED,
+  fontSize: '13px',
+  lineHeight: ['18px', '20px'],
+  fontWeight: '400',
+}
+
 const articleReadingTime: SxStyleProp = {
   color: MUTED,
   fontSize: '13px',
-  lineHeight: '20px',
+  lineHeight: ['18px', '20px'],
   '& > *': {
     color: 'inherit !important',
     fontSize: 'inherit !important',
     lineHeight: 'inherit !important',
   },
+}
+
+const articleLastUpdate: SxStyleProp = {
+  display: 'block',
+  color: MUTED,
+  fontSize: '13px',
+  lineHeight: ['18px', '20px'],
+  fontWeight: '400',
+  mt: ['16px', '24px'],
 }
 
 const articleActions: SxStyleProp = {
@@ -317,8 +333,10 @@ export default {
   articleHeaderExtra,
   articleMeta,
   articleMetaInfo,
+  articleCreatedAt,
   articleReadingTime,
   articleActions,
+  articleLastUpdate,
   bottomContributorsContainer,
   bottomContributors,
   rightContainer,

@@ -31,8 +31,7 @@ type Story = StoryObj<typeof meta>
 export const Default: Story = {
   render: (args) => (
     <h2 id={args.slug} style={{ fontFamily: 'sans-serif' }}>
-      Getting started
-      <CopyHeadingLink {...args} />
+      <CopyHeadingLink {...args}>Getting started</CopyHeadingLink>
     </h2>
   ),
 }
@@ -41,21 +40,35 @@ export const HeadingLevels: Story = {
   render: () => (
     <div style={{ fontFamily: 'sans-serif', maxWidth: 640 }}>
       <h1>
-        Page title
-        <CopyHeadingLink slug="" size={20} />
+        <CopyHeadingLink slug="" size={20}>
+          Page title
+        </CopyHeadingLink>
       </h1>
       <h2 id="overview">
-        Overview
-        <CopyHeadingLink slug="overview" size={18} />
+        <CopyHeadingLink slug="overview" size={18}>
+          Overview
+        </CopyHeadingLink>
       </h2>
       <h3 id="installation">
-        Installation
-        <CopyHeadingLink slug="installation" />
+        <CopyHeadingLink slug="installation">Installation</CopyHeadingLink>
       </h3>
       <h4 id="prerequisites">
-        Prerequisites
-        <CopyHeadingLink slug="prerequisites" size={14} />
+        <CopyHeadingLink slug="prerequisites" size={14}>
+          Prerequisites
+        </CopyHeadingLink>
       </h4>
+    </div>
+  ),
+}
+
+export const KeepsIconWithLastWord: Story = {
+  render: () => (
+    <div style={{ fontFamily: 'sans-serif', maxWidth: 280 }}>
+      <h1>
+        <CopyHeadingLink slug="">
+          Conheça o novo VTEX Sales App Extensibility
+        </CopyHeadingLink>
+      </h1>
     </div>
   ),
 }
@@ -70,8 +83,9 @@ export const Locales: Story = {
           locale={locale}
         >
           <h3 id={`${args.slug}-${locale}`}>
-            {locale.toUpperCase()}
-            <CopyHeadingLink slug={`${args.slug}-${locale}`} />
+            <CopyHeadingLink slug={`${args.slug}-${locale}`}>
+              {locale.toUpperCase()}
+            </CopyHeadingLink>
           </h3>
         </LibraryContextProvider>
       ))}

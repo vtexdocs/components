@@ -81,6 +81,7 @@
   "documentation_reading_time.text": "{minutes} min read",
   "date_text.created": "Published on",
   "date_text.updated": "Last updated on",
+  "date_text.last_update": "Last update:",
   "article_pagination.previous": "Previous",
   "article_pagination.next": "Next",
   "see_also_section.title": "See also",

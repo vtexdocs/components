@@ -67,6 +67,36 @@ export const HiddenPrevious: Story = {
   },
 }
 
+export const WithCreatedAt: Story = {
+  args: {
+    pagination: {
+      previousDoc: {
+        ...samplePagination.previousDoc,
+        createdAt: '2026-09-03T12:00:00.000Z',
+      },
+      nextDoc: {
+        ...samplePagination.nextDoc,
+        createdAt: '2026-09-08T12:00:00.000Z',
+      },
+    },
+  },
+}
+
+export const WithChildren: Story = {
+  args: {
+    pagination: {
+      previousDoc: {
+        ...samplePagination.previousDoc,
+        children: 'Sep 3, 2026',
+      },
+      nextDoc: {
+        ...samplePagination.nextDoc,
+        children: 'Sep 8, 2026',
+      },
+    },
+  },
+}
+
 export const LongTitles: Story = {
   args: {
     pagination: {

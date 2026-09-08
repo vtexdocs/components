@@ -4,6 +4,14 @@ const muted = '#A1AAB7'
 const mutedHover = '#5E6E84'
 const pink = '#E31C58'
 
+const lastWord: SxStyleProp = {
+  display: 'inline-block',
+  whiteSpace: 'nowrap',
+  overflowWrap: 'normal',
+  wordBreak: 'normal',
+  verticalAlign: 'baseline',
+}
+
 const tooltipWrapper: SxStyleProp = {
   display: 'inline-flex',
   verticalAlign: 'middle',
@@ -41,4 +49,4 @@ const buttonCopied: SxStyleProp = {
   color: mutedHover,
 }
 
-export default { tooltipWrapper, button, buttonCopied }
+export default { lastWord, tooltipWrapper, button, buttonCopied }

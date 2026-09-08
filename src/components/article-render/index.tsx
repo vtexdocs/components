@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import { useContext, type ReactNode } from 'react'
 import Head from 'next/head.js'
 import { Box, Flex, Text } from '@vtex/brand-ui'
 import type { MDXRemoteSerializeResult } from 'next-mdx-remote'
@@ -12,7 +12,6 @@ import Author from 'components/author'
 import Breadcrumb from 'components/breadcrumb'
 import type { BreadcrumbItem } from 'components/breadcrumb'
 import CopyHeadingLink from 'components/copy-heading-link'
-import DateText from 'components/date-text'
 import FeedbackModal from 'components/feedback-modal'
 import FeedbackSection from 'components/feedback-section'
 import SuggestEdits from 'components/suggest-edits'
@@ -24,6 +23,12 @@ import type { ContributorsType } from 'lib/contributors'
 import OnThisPage from 'lib/on-this-page'
 import TableOfContents from 'lib/table-of-contents'
 import type { Item } from 'lib/table-of-contents'
+import { LibraryContext } from 'utils/context/libraryContext'
+import {
+  formatArticleDate,
+  parseArticleDate,
+} from 'utils/format-article-date'
+import { messages } from 'utils/get-message'
 import styles from './styles'
 
 export type ArticleRenderProps = {
@@ -39,6 +44,8 @@ export type ArticleRenderProps = {
   headings?: Item[]
   headingList?: Item[]
   pagination?: ArticlePaginationData
+  paginationPreviousChildren?: ReactNode
+  paginationNextChildren?: ReactNode
   children?: ReactNode
   seeAlso?: SeeAlsoDoc[] | ReactNode
   customComponents?: MarkdownRendererProps['customComponents']
@@ -54,7 +61,9 @@ export type ArticleRenderProps = {
   showArticlePagination?: boolean
   showSeeAlso?: boolean
   showTableOfContents?: boolean
-  showDateText?: boolean
+  showCreatedAt?: boolean
+  createdAtFormat?: 'long' | 'published'
+  showUpdatedAt?: boolean
 }
 
 const readingTimeLabel = (readingTime: unknown) => {
@@ -70,11 +79,10 @@ const readingTimeLabel = (readingTime: unknown) => {
   return String(readingTime)
 }
 
-const parseFrontmatterDate = (value: unknown) => {
-  if (value == null || value === '') return undefined
-  const date = new Date(String(value))
-  return Number.isNaN(date.getTime()) ? undefined : date
-}
+const isSameUtcDay = (a: Date, b: Date) =>
+  a.getUTCFullYear() === b.getUTCFullYear() &&
+  a.getUTCMonth() === b.getUTCMonth() &&
+  a.getUTCDate() === b.getUTCDate()
 
 const ArticleRender = ({
   serialized,
@@ -84,6 +92,8 @@ const ArticleRender = ({
   contributors = [],
   path,
   pagination,
+  paginationPreviousChildren,
+  paginationNextChildren,
   slug,
   type,
   pageUrl,
@@ -103,13 +113,39 @@ const ArticleRender = ({
   showArticlePagination = true,
   showSeeAlso = true,
   showTableOfContents = true,
-  showDateText = false,
+  showCreatedAt = false,
+  createdAtFormat = 'long',
+  showUpdatedAt = false,
 }: ArticleRenderProps) => {
+  const { locale } = useContext(LibraryContext)
+  const localeMessages = messages[locale] ?? messages.en
   const tocHeadings = headingList?.length ? headingList : headings
   const readingTime = readingTimeLabel(serialized?.frontmatter?.readingTime)
-  const createdAt = parseFrontmatterDate(serialized?.frontmatter?.createdAt)
-  const updatedAt = parseFrontmatterDate(serialized?.frontmatter?.updatedAt)
-  const hasDates = Boolean(createdAt && updatedAt)
+  const createdAt = parseArticleDate(serialized?.frontmatter?.createdAt)
+  const updatedAt = parseArticleDate(serialized?.frontmatter?.updatedAt)
+  const createdAtDate = createdAt
+    ? formatArticleDate(
+        createdAt,
+        locale,
+        createdAtFormat === 'published' ? 'short' : 'long'
+      )
+    : undefined
+  const publishedLabel =
+    localeMessages['date_text.created'] || 'Published on'
+  const createdAtLabel = createdAtDate
+    ? createdAtFormat === 'published'
+      ? `${publishedLabel}: ${createdAtDate}`
+      : createdAtDate
+    : undefined
+  const hasDistinctUpdatedAt = Boolean(
+    updatedAt && (!createdAt || !isSameUtcDay(createdAt, updatedAt))
+  )
+  const updatedAtLabel =
+    hasDistinctUpdatedAt && updatedAt
+      ? formatArticleDate(updatedAt, locale, 'short')
+      : undefined
+  const lastUpdateLabel =
+    localeMessages['date_text.last_update'] || 'Last update:'
   const showBottomSection = showContributors || showFeedbackSection
   const showSidebar = showContributors || showTableOfContents
   const markdown = (
@@ -156,8 +192,9 @@ const ArticleRender = ({
                 <header>
                   <>
                     <Text as="h1" sx={styles.documentationTitle} className="title">
-                      {serialized.frontmatter?.title}
-                      <CopyHeadingLink />
+                      <CopyHeadingLink>
+                        {serialized.frontmatter?.title as ReactNode}
+                      </CopyHeadingLink>
                     </Text>
                     {children && (
                       <Box sx={styles.articleHeaderExtra}>{children}</Box>
@@ -174,14 +211,11 @@ const ArticleRender = ({
                 </header>
 
                 <Flex sx={styles.articleMeta}>
-                  {((showDateText && hasDates) ||
+                  {((showCreatedAt && createdAtLabel) ||
                     (showReadingTime && readingTime)) && (
                     <Flex sx={styles.articleMetaInfo}>
-                      {showDateText && hasDates && createdAt && updatedAt && (
-                        <DateText
-                          createdAt={createdAt}
-                          updatedAt={updatedAt}
-                        />
+                      {showCreatedAt && createdAtLabel && (
+                        <Text sx={styles.articleCreatedAt}>{createdAtLabel}</Text>
                       )}
                       {showReadingTime && readingTime && (
                         <Box sx={styles.articleReadingTime}>
@@ -207,6 +241,11 @@ const ArticleRender = ({
                 (Array.isArray(seeAlso)
                   ? seeAlso.length > 0 && <SeeAlsoSection docs={seeAlso} />
                   : seeAlso)}
+              {showUpdatedAt && updatedAtLabel && (
+                <Text sx={styles.articleLastUpdate}>
+                  {lastUpdateLabel} {updatedAtLabel}
+                </Text>
+              )}
             </Box>
           </Box>
 
@@ -237,6 +276,8 @@ const ArticleRender = ({
                 Boolean(serialized.frontmatter?.hidePaginationPrevious) || false
               }
               pagination={pagination}
+              previousChildren={paginationPreviousChildren}
+              nextChildren={paginationNextChildren}
             />
           )}
         </Box>

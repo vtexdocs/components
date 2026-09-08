@@ -19,7 +19,7 @@ const Author = ({ contributor }: AuthorProps) => {
           height={32}
         />
       </Box>
-      <Text>{contributor?.name}</Text>
+      <Text sx={styles.name}>{contributor?.name}</Text>
     </Flex>
   )
 }
