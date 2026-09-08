@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [7.0.4](https://github.com/vtexdocs/components/compare/v7.0.3...v7.0.4) (2026-09-08)
+
+
+### Features
+
+* improve copy-heading-link and article-pagination ([af03b60](https://github.com/vtexdocs/components/commit/af03b60819b665e6425a6d75937f52877181e0ed))
+
 ### [7.0.3](https://github.com/vtexdocs/components/compare/v7.0.2...v7.0.3) (2026-09-08)
 
 
