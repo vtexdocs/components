@@ -77,13 +77,15 @@ function remarkBlockquote() {
 // src/remark/reading-time.ts
 import getReadingTime from "reading-time";
 import { toString } from "mdast-util-to-string";
-function remarkReadingTime() {
-  return function(tree, file) {
+var remarkReadingTime = () => {
+  return (tree, file) => {
     const textOnPage = toString(tree);
     const readingTime = getReadingTime(textOnPage);
-    file.data.matter["readingTime"] = Math.ceil(readingTime.minutes);
+    const data = file.data;
+    data.matter ??= {};
+    data.matter.readingTime = Math.ceil(readingTime.minutes);
   };
-}
+};
 export {
   remarkBlockquote,
   remarkMermaid,

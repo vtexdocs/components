@@ -1,4 +1,5 @@
 import { Node } from 'unist';
+import { Plugin } from 'unified';
 
 declare function remarkMermaid(): (ast: Node) => void;
 
@@ -7,11 +8,6 @@ declare function remarkMermaid(): (ast: Node) => void;
  */
 declare function remarkBlockquote(): (tree: Node) => void;
 
-interface FileWithMatter {
-    data: {
-        matter: Record<string, unknown>;
-    };
-}
-declare function remarkReadingTime(): (tree: Node, file: FileWithMatter) => void;
+declare const remarkReadingTime: Plugin;
 
 export { remarkBlockquote, remarkMermaid, remarkReadingTime };
