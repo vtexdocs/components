@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [7.0.3](https://github.com/vtexdocs/components/compare/v7.0.2...v7.0.3) (2026-09-08)
+
+
+### Bug Fixes
+
+* type for remarkReadingTime ([5d44758](https://github.com/vtexdocs/components/commit/5d44758e19814a0abcd11b3d61399f6f7c9aa2a8))
+
 ### [7.0.2](https://github.com/vtexdocs/components/compare/v7.0.1...v7.0.2) (2026-09-04)
 
 
