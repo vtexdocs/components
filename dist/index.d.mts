@@ -1,8 +1,8 @@
 import * as react_jsx_runtime from 'react/jsx-runtime';
 import { MDXRemoteSerializeResult } from 'next-mdx-remote';
-import { SxStyleProp, IconProps } from '@vtex/brand-ui';
-import * as react from 'react';
-import { ReactNode, Dispatch, SetStateAction } from 'react';
+import { SxStyleProp, IconProps, TooltipProps } from '@vtex/brand-ui';
+import * as React$1 from 'react';
+import React__default, { ReactNode, Dispatch, SetStateAction } from 'react';
 import { AlgoliaSearchOptions } from 'algoliasearch/lite';
 
 interface MarkdownRendererProps {
@@ -25,13 +25,35 @@ interface Item extends SubItem {
     children: SubItem[];
 }
 
-interface Props$3 {
+interface Props$4 {
     /** List of headings in the current documentation page */
     headingList?: Item[];
     children?: React.ReactNode;
 }
 /** Table of contents for documentation pages. */
-declare const TableOfContents: ({ headingList, children }: Props$3) => react_jsx_runtime.JSX.Element;
+declare const TableOfContents: ({ headingList, children }: Props$4) => react_jsx_runtime.JSX.Element;
+
+interface OnThisPageProps {
+    /** List of headings in the current documentation page */
+    headingList?: Item[];
+}
+
+/** Mobile floating table of contents for documentation pages. */
+declare const OnThisPage: ({ headingList }: OnThisPageProps) => react_jsx_runtime.JSX.Element;
+
+interface ContributorsType {
+    name: string;
+    login: string;
+    avatar: string;
+    userPage: string;
+}
+interface ContributorsProps {
+    /** GitHub contributors of the current documentation page. */
+    contributors: ContributorsType[];
+}
+
+/** List of GitHub contributors for a documentation page. */
+declare const Contributors: ({ contributors }: ContributorsProps) => react_jsx_runtime.JSX.Element;
 
 interface SideBarSectionState {
     /** Array containing the name of the parents of the expanded page in the menu. */
@@ -49,7 +71,7 @@ interface HamburgerMenuProps {
 /** Hamburger Menu component, the menu uses the sidebar components internally, but it is only visible on the smaller breakpoints. */
 declare const HamburgerMenu: ({ parentsArray }: HamburgerMenuProps) => react_jsx_runtime.JSX.Element;
 
-interface DocPath {
+interface FeedbackSectionProps {
     /** Slug that corresponds to the current page. */
     slug?: string;
     /** Github edit URL to the corresponding documentation file. */
@@ -58,29 +80,117 @@ interface DocPath {
     suggestEdits?: boolean;
     /** Include or not a share button. */
     shareButton?: boolean;
-    /** Executes when the user sends the feedback. Receives whether it was positive (liked). */
-    sendFeedback: (liked: boolean) => Promise<void>;
+    /**
+     * Canonical page URL stored with the vote.
+     * Defaults to `window.location.href` so Help Center and Developer Portal
+     * both record the page the user is on.
+     */
+    pageUrl?: string;
+    /** Endpoint that receives the like/dislike payload. Defaults to `/api/feedback/`. */
+    feedbackEndpoint?: string;
+    /** Override the default POST. Receives whether the vote was positive (liked). */
+    sendFeedback?: (liked: boolean) => Promise<void>;
     /** Whether to render the small version of the component or not. */
     small?: boolean;
 }
-declare const FeedbackSection: ({ slug, urlToEdit, suggestEdits, shareButton, sendFeedback, small, }: DocPath) => react_jsx_runtime.JSX.Element;
+/** @deprecated Use FeedbackSectionProps */
+type DocPath = FeedbackSectionProps;
+declare const FeedbackSection: ({ slug, urlToEdit, suggestEdits, shareButton, pageUrl, feedbackEndpoint, sendFeedback, small, }: FeedbackSectionProps) => react_jsx_runtime.JSX.Element;
+
+type FeedbackModalPayload = {
+    name: string;
+    email: string;
+    type: string;
+    feedback: string;
+    url: string;
+};
+interface FeedbackModalProps {
+    /**
+     * Canonical page URL prefilled in the Article field.
+     * Defaults to `window.location.href` so Help Center and Developer Portal
+     * both record the page the user is on.
+     */
+    pageUrl?: string;
+    /**
+     * @deprecated Use `pageUrl`.
+     */
+    initialMessage?: string;
+    /** Endpoint that receives the form payload. Defaults to `/api/feedback-google`. */
+    feedbackEndpoint?: string;
+    /** Override the default POST. */
+    sendFeedback?: (payload: FeedbackModalPayload) => Promise<void>;
+    /** Open the modal on first render. Useful for Storybook. */
+    defaultOpen?: boolean;
+}
+declare const FeedbackModal: ({ pageUrl, initialMessage, feedbackEndpoint, sendFeedback, defaultOpen, }: FeedbackModalProps) => react_jsx_runtime.JSX.Element;
 
 declare const Search: () => react_jsx_runtime.JSX.Element;
 
-declare function SearchInput(): react_jsx_runtime.JSX.Element;
+type SearchInputVariant = 'default' | 'modal';
 
-interface Props$2 {
+interface SearchInputProps {
+    /** `modal` renders a full-width input with results in the document flow. */
+    variant?: SearchInputVariant;
+    autoFocus?: boolean;
+    onClose?: () => void;
+}
+declare function SearchInput({ variant, autoFocus, onClose, }: SearchInputProps): react_jsx_runtime.JSX.Element;
+
+interface MobileSearchProps {
+    /** Called when the search modal opens, e.g. to close the hamburger menu. */
+    onOpen?: () => void;
+}
+declare const MobileSearch: ({ onOpen }: MobileSearchProps) => react_jsx_runtime.JSX.Element;
+
+interface Props$3 {
     onAccept: () => void;
 }
-declare const CookieBar: ({ onAccept }: Props$2) => react_jsx_runtime.JSX.Element;
+declare const CookieBar: ({ onAccept }: Props$3) => react_jsx_runtime.JSX.Element;
 
-interface Props$1 {
+type WhatsNextDataElement = {
+    title: string;
+    description?: string;
+    linkTitle?: string;
+    linkTo: string;
+    image?: string;
+};
+declare const WhatsNextCard: ({ title, description, linkTitle, linkTo, image, }: WhatsNextDataElement) => react_jsx_runtime.JSX.Element;
+
+interface Props$2 {
     url: string;
     sx?: SxStyleProp;
 }
-declare const ShareButton: ({ url, sx }: Props$1) => react_jsx_runtime.JSX.Element;
+declare const ShareButton: ({ url, sx }: Props$2) => react_jsx_runtime.JSX.Element;
 
 declare const CopyLinkButton: () => react_jsx_runtime.JSX.Element;
+
+type CopyButtonProps = {
+    code: string;
+    sx?: SxStyleProp;
+};
+declare const CopyButton: ({ code, sx }: CopyButtonProps) => JSX.Element;
+
+type AskAIProvider = {
+    id: string;
+    name: string;
+    href?: string;
+    onClick?: () => void;
+};
+type AskAIMenuProps = {
+    /** Markdown file path sent to `contentEndpoint` and appended to `rawContentBaseUrl`. */
+    filePath: string;
+    /** Public page URL included in AI prompts. */
+    pageUrl: string;
+    /** Base URL for viewing raw markdown. `filePath` is appended. */
+    rawContentBaseUrl: string;
+    providers?: AskAIProvider[];
+    onOpenProvider?: (provider: AskAIProvider) => void;
+    /** Endpoint that returns markdown for `filePath`. */
+    contentEndpoint?: string;
+    /** Override the default fetch used by Copy page. */
+    onCopyPage?: () => Promise<string>;
+};
+declare const AskAIMenu: ({ filePath, pageUrl, rawContentBaseUrl, providers, onOpenProvider, contentEndpoint, onCopyPage, }: AskAIMenuProps) => react_jsx_runtime.JSX.Element;
 
 type Section = {
     id: string;
@@ -89,9 +199,107 @@ type Section = {
     description: string;
     Icon: (props: IconProps) => JSX.Element;
     isExternalLink?: boolean;
-    excludeFromSearch?: boolean;
 };
 type IconComponent = (props: IconProps) => JSX.Element;
+
+type AssistantStreamEvent = {
+    type: string;
+    name?: string;
+    arguments?: Record<string, unknown>;
+    output?: string;
+    is_final_answer?: boolean;
+    content?: string;
+};
+type ProcessStep = {
+    id: string;
+    name: string;
+    status: 'running' | 'complete';
+};
+type ChatMessage = {
+    id: string;
+    role: 'user' | 'assistant';
+    content: string;
+    steps?: ProcessStep[];
+    status: 'streaming' | 'complete' | 'error';
+};
+type HistoryConversation = {
+    id: string;
+    title: string;
+    messages: ChatMessage[];
+};
+type AskAssistantFeedback = {
+    query: string;
+    answer: string;
+    liked: boolean;
+};
+type AskAssistantExampleCategory = {
+    id: string;
+    title: string;
+    Icon?: IconComponent;
+    questions: string[];
+};
+type AssistantStreamHandler = (query: string, signal: AbortSignal, onEvent: (event: AssistantStreamEvent) => void) => Promise<void>;
+type AskAssistantProps = {
+    /**
+     * SSE endpoint. Relative paths are resolved against the current origin.
+     */
+    streamUrl?: string;
+    /** Override the default SSE client (useful in Storybook and tests). */
+    stream?: AssistantStreamHandler;
+    /** Controlled open state. */
+    open?: boolean;
+    /** Uncontrolled initial open state. */
+    defaultOpen?: boolean;
+    onOpenChange?: (open: boolean) => void;
+    /** Hide the pill trigger and only render the panel. */
+    hideTrigger?: boolean;
+    /**
+     * On viewports below the desktop grid breakpoint, render a floating
+     * action button instead of the header pill. Defaults to true.
+     */
+    floatingOnMobile?: boolean;
+    /** Register ⌘/Ctrl + I to toggle the panel. Defaults to true. */
+    enableShortcut?: boolean;
+    /** Seed the panel with an existing conversation. */
+    initialMessages?: ChatMessage[];
+    /**
+     * Suggested questions shown in the empty state, grouped by category.
+     * Dev Portal and Help Center should pass portal-specific lists.
+     * Defaults to `DEFAULT_ASK_ASSISTANT_EXAMPLES`. Pass `[]` to hide.
+     */
+    examples?: AskAssistantExampleCategory[];
+    /** Seed the history popover. Replaced by localStorage once a conversation is saved. */
+    initialHistory?: HistoryConversation[];
+    onAsk?: (query: string) => void;
+    onFeedback?: (payload: AskAssistantFeedback) => void;
+};
+
+declare const DEFAULT_ASK_ASSISTANT_EXAMPLES: AskAssistantExampleCategory[];
+
+declare const AskAssistant: ({ streamUrl, stream, open, defaultOpen, onOpenChange, hideTrigger, floatingOnMobile, enableShortcut, initialMessages, examples, initialHistory, onAsk, onFeedback, }: AskAssistantProps) => react_jsx_runtime.JSX.Element;
+
+type CopyHeadingLinkProps = {
+    /**
+     * Heading `id` used as the URL hash. An empty slug means the heading is an
+     * h1 (the page title), so the copied URL has no hash.
+     */
+    slug?: string;
+    size?: number;
+    sx?: SxStyleProp;
+};
+declare const CopyHeadingLink: ({ slug, size, sx, }: CopyHeadingLinkProps) => react_jsx_runtime.JSX.Element;
+
+type BreadcrumbItem = {
+    slug: string;
+    name: string;
+    type: string;
+};
+type BreadcrumbProps = {
+    breadcrumbList?: BreadcrumbItem[];
+    /** @deprecated Use `breadcrumbList`. Kept for callers that still pass the old typo. */
+    breadcumbList?: BreadcrumbItem[];
+};
+declare const Breadcrumb: ({ breadcrumbList, breadcumbList, }: BreadcrumbProps) => react_jsx_runtime.JSX.Element;
 
 interface InputProps {
     value: string;
@@ -100,6 +308,280 @@ interface InputProps {
     onChange: (value: string) => void;
 }
 declare const Input: ({ value, onChange, placeholder, Icon }: InputProps) => react_jsx_runtime.JSX.Element;
+
+declare const SubscriptionList: React__default.FC;
+
+type FooterLink = {
+    label: string;
+    href: string;
+};
+type FooterVariant = 'helpcenter' | 'devportal';
+type FooterProps = {
+    /**
+     * Which site is rendering the Footer. Help Center shows a Developer Portal
+     * link; Developer Portal shows a Help Center link.
+     */
+    variant?: FooterVariant;
+    /** Overrides the default GitHub, cross-site, Community, and Feedback links. */
+    links?: FooterLink[];
+    githubUrl?: string;
+    developerPortalUrl?: string;
+    helpCenterUrl?: string;
+    communityUrl?: string;
+    feedbackUrl?: string;
+    /** App-specific locale switcher rendered at the end of the link row. */
+    localeSwitcher?: ReactNode;
+};
+declare const Footer: ({ variant, links, githubUrl, developerPortalUrl, helpCenterUrl, communityUrl, feedbackUrl, localeSwitcher, }: FooterProps) => react_jsx_runtime.JSX.Element;
+
+type DropdownMenuProps = {
+    sections: Section[][];
+};
+declare const DropdownMenu: ({ sections }: DropdownMenuProps) => react_jsx_runtime.JSX.Element;
+
+type HeaderVariant = 'helpcenter' | 'devportal';
+type HeaderProps = {
+    /**
+     * Which site is rendering the Header. Controls the default logo.
+     * Help Center is the default; Developer Portal should pass `devportal`.
+     */
+    variant?: HeaderVariant;
+    /** When true, the docs dropdown shows `editorSections` instead of docs sections. */
+    isEditor?: boolean;
+    /**
+     * Sections shown in the docs dropdown. Defaults to the hamburger sections
+     * from LibraryContext.
+     */
+    dropdownSections?: Section[][];
+    /** Sections shown in the dropdown when `isEditor` is true. */
+    editorSections?: Section[];
+    /** Slot rendered above the header bar (e.g. AnnouncementBar). */
+    announcement?: ReactNode;
+    homeHref?: string;
+    /** When set, shows the feedback link in the header. Hidden otherwise. */
+    feedbackUrl?: string;
+    /** Overrides the default logo for the selected variant. */
+    logo?: ReactNode;
+    /**
+     * App-specific items rendered after the docs dropdown (e.g. Help Center
+     * announcements). Hidden on small viewports together with RightLinks.
+     */
+    extraRightLinks?: ReactNode;
+    /** App-specific locale switcher rendered next to the hamburger menu. */
+    localeSwitcher?: ReactNode;
+    /** Parent slugs of the current article, used to expand the mobile sidebar. */
+    parentsArray?: string[];
+    /**
+     * When true, renders AskAssistant next to the search input on desktop.
+     * Search stays hidden on small viewports (use the search icon). On mobile
+     * the assistant is a floating action button in the bottom-right corner.
+     */
+    showAssistant?: boolean;
+    /** Props forwarded to AskAssistant when `showAssistant` is true. */
+    assistant?: AskAssistantProps;
+};
+declare const Header: ({ variant, isEditor, dropdownSections, editorSections, announcement, homeHref, feedbackUrl, logo, extraRightLinks, localeSwitcher, parentsArray, showAssistant, assistant, }: HeaderProps) => react_jsx_runtime.JSX.Element;
+
+type AnnouncementBarType = 'warning' | 'new';
+type AnnouncementBarAction = {
+    href: string;
+    tag?: string;
+    button?: string;
+    target?: string;
+};
+type AnnouncementBarProps = {
+    type: AnnouncementBarType;
+    label?: string;
+    closable: boolean;
+    action: AnnouncementBarAction;
+    children?: ReactNode;
+};
+declare const AnnouncementBar: ({ closable, type, action: { tag, button, href, target }, label, children, }: AnnouncementBarProps) => react_jsx_runtime.JSX.Element | null;
+
+type TagColor = 'Default' | 'Selected' | 'New' | 'Gray' | 'Blue' | 'Green' | 'Deprecation' | 'Backlog' | 'Fixed' | 'Closed' | 'Scheduled' | 'No_Fix';
+type TagProps = {
+    sx?: SxStyleProp;
+    children: React.ReactNode;
+    color?: TagColor;
+    onClick?: () => void;
+};
+declare const Tag: ({ sx, children, color, onClick }: TagProps) => react_jsx_runtime.JSX.Element;
+
+type FilterOption = {
+    id: string;
+    name: string;
+};
+type FilterGroup = {
+    name: string;
+    options: FilterOption[];
+};
+type ListingFilterLabels = {
+    button?: string;
+    modalTitle?: string;
+    remove?: string;
+    apply?: string;
+};
+type ListingFilterSelection = {
+    tag: string[];
+    checklist: string[];
+};
+
+type ListingFilterProps = {
+    tagFilter?: FilterGroup | string[];
+    tagFilterName?: string;
+    checkBoxFilter?: FilterGroup | string[];
+    checkBoxFilters?: FilterGroup[];
+    filterName?: string;
+    selectedCheckboxes?: string[];
+    selectedTags?: string[];
+    onApply: (filters: ListingFilterSelection) => void;
+    labels?: ListingFilterLabels;
+    buttonSx?: SxStyleProp;
+    centeredTagOptions?: boolean;
+};
+declare const ListingFilter: ({ tagFilter, tagFilterName, checkBoxFilter, checkBoxFilters, filterName, onApply, selectedCheckboxes, selectedTags, labels, buttonSx, centeredTagOptions, }: ListingFilterProps) => react_jsx_runtime.JSX.Element;
+
+type ChipFilterCategory = {
+    type: string;
+    title: string;
+    Icon?: IconComponent;
+};
+type ChipFilterProps = {
+    filters: string[];
+    categories: ChipFilterCategory[];
+    applyCategory: (option: string) => void;
+    resetFilters: () => void;
+    removeCategory: (option: string) => void;
+    getCategoryAmount: (category: string) => number;
+    allResultsLabel?: string;
+};
+declare const ChipFilter: ({ filters, categories, applyCategory, resetFilters, removeCategory, getCategoryAmount, allResultsLabel, }: ChipFilterProps) => react_jsx_runtime.JSX.Element;
+
+interface Props$1 extends Pick<TooltipProps, 'children' | 'label' | 'placement'> {
+    sx?: SxStyleProp;
+    isCard?: boolean;
+    /** When true, the tooltip stays visible even without hover. */
+    open?: boolean;
+    wrapperSx?: SxStyleProp;
+}
+declare const Tooltip: ({ children, label, placement, sx, isCard, open, wrapperSx, }: Props$1) => react_jsx_runtime.JSX.Element;
+
+type AuthorProps = {
+    contributor: ContributorsType;
+};
+declare const Author: ({ contributor }: AuthorProps) => react_jsx_runtime.JSX.Element;
+
+type TimeToReadProps = {
+    minutes: string;
+};
+declare const TimeToRead: ({ minutes }: TimeToReadProps) => react_jsx_runtime.JSX.Element;
+
+type DateTextProps = {
+    createdAt: Date;
+    updatedAt: Date;
+};
+declare const DateText: ({ createdAt, updatedAt }: DateTextProps) => react_jsx_runtime.JSX.Element | null;
+
+type ArticlePaginationDoc = {
+    slug: string | null;
+    name: string | null;
+};
+type ArticlePaginationData = {
+    previousDoc: ArticlePaginationDoc;
+    nextDoc: ArticlePaginationDoc;
+};
+type ArticlePaginationProps = {
+    pagination: ArticlePaginationData;
+    hidePaginationPrevious?: boolean;
+    hidePaginationNext?: boolean;
+};
+declare const ArticlePagination: ({ pagination, hidePaginationNext, hidePaginationPrevious, }: ArticlePaginationProps) => react_jsx_runtime.JSX.Element;
+
+type InsertAccountNameProps = {
+    id: string;
+};
+declare const InsertAccountName: ({ id }: InsertAccountNameProps) => react_jsx_runtime.JSX.Element;
+
+type SuggestEditsProps = {
+    /** GitHub edit URL for the current documentation file. */
+    urlToEdit: string;
+    /** Compact size used next to the table of contents. */
+    small?: boolean;
+    sx?: SxStyleProp;
+};
+declare const SuggestEdits: ({ urlToEdit, small, sx, }: SuggestEditsProps) => react_jsx_runtime.JSX.Element;
+
+type SeeAlsoDoc = {
+    url: string;
+    title?: string;
+    category?: string;
+};
+
+type SeeAlsoSectionProps = {
+    docs: SeeAlsoDoc[];
+};
+declare const SeeAlsoSection: ({ docs }: SeeAlsoSectionProps) => react_jsx_runtime.JSX.Element;
+
+type ArticleRenderProps = {
+    serialized: MDXRemoteSerializeResult;
+    breadcrumbList: BreadcrumbItem[];
+    slug: string;
+    path: string;
+    type: string;
+    pageUrl: string;
+    urlToEdit: string;
+    rawContentBaseUrl: string;
+    contributors?: ContributorsType[];
+    headings?: Item[];
+    headingList?: Item[];
+    pagination?: ArticlePaginationData;
+    children?: ReactNode;
+    seeAlso?: SeeAlsoDoc[] | ReactNode;
+    customComponents?: MarkdownRendererProps['customComponents'];
+    scope?: MarkdownRendererProps['scope'];
+    /** Wrap the markdown output without remounting it on parent re-renders. */
+    renderMarkdown?: (markdown: ReactNode) => ReactNode;
+    showReadingTime?: boolean;
+    showAskAIMenu?: boolean;
+    showAuthor?: boolean;
+    showContributors?: boolean;
+    showFeedbackSection?: boolean;
+    showSuggestEdits?: boolean;
+    showArticlePagination?: boolean;
+    showSeeAlso?: boolean;
+    showTableOfContents?: boolean;
+    showDateText?: boolean;
+};
+declare const ArticleRender: ({ serialized, headings, headingList, breadcrumbList, contributors, path, pagination, slug, type, pageUrl, urlToEdit, rawContentBaseUrl, children, seeAlso, customComponents, scope, renderMarkdown, showReadingTime, showAskAIMenu, showAuthor, showContributors, showFeedbackSection, showSuggestEdits, showArticlePagination, showSeeAlso, showTableOfContents, showDateText, }: ArticleRenderProps) => react_jsx_runtime.JSX.Element;
+
+type TroubleshootingItem = {
+    slug: string;
+    title: string;
+    description?: string;
+    tags?: string[];
+    domainFilters?: string[];
+    symptomFilters?: string[];
+};
+type TroubleshootingFilterState = {
+    search: string;
+    domainFilters: string[];
+    symptomFilters: string[];
+};
+
+type TroubleshootingCardVariant = 'devportal' | 'helpcenter';
+type TroubleshootingCardProps = TroubleshootingItem & {
+    href?: string;
+    basePath?: string;
+    variant?: TroubleshootingCardVariant;
+};
+declare const TroubleshootingCard: ({ title, description, slug, tags, domainFilters, symptomFilters, href, basePath, variant, }: TroubleshootingCardProps) => react_jsx_runtime.JSX.Element;
+
+declare function filterTroubleshootingItems<T extends TroubleshootingItem>(items: T[], { search, domainFilters, symptomFilters }: TroubleshootingFilterState): T[];
+
+declare function collectTroubleshootingFilterOptions<T extends Pick<TroubleshootingItem, 'domainFilters' | 'symptomFilters'>>(items: T[]): {
+    domainFilters: string[];
+    symptomFilters: string[];
+};
 
 declare const getDaysElapsed: (date: Date) => number;
 
@@ -136,9 +618,10 @@ type ContextType = {
     setSidebarSectionHidden: Dispatch<SetStateAction<boolean>>;
     setActiveSectionName: Dispatch<SetStateAction<string>>;
     setActiveSidebarElement: Dispatch<SetStateAction<string>>;
-    toggleSidebarElementStatus: (title: string) => void;
+    toggleSidebarElementStatus: (title: string, currentlyOpen?: boolean) => void;
     openSidebarElement: (title: string) => void;
     closeSidebarElements: (parentsArray: string[]) => void;
+    setOpenSidebarElements: (parentsArray: string[]) => void;
     sidebarSections: Section[][];
     setSidebarSections: Dispatch<SetStateAction<Section[][]>>;
     hamburguerSections: Section[][];
@@ -149,7 +632,7 @@ type ActiveItem = {
     item: string;
     subItem: string;
 };
-declare const LibraryContext: react.Context<ContextType>;
+declare const LibraryContext: React$1.Context<ContextType>;
 /** Provider for the LibraryContext created with React.createContext. The context is used in the following components: feedback, search, sidebar, hamburger menu, markdown renderer and table of contents. */
 declare const LibraryContextProvider: ({ children, ...props }: Props) => react_jsx_runtime.JSX.Element;
 
@@ -317,6 +800,18 @@ declare const CheckboxIcon: (props: CheckboxProps) => react_jsx_runtime.JSX.Elem
 
 declare const ResizeIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
 
+declare const SparkleIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const ExpandIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const CollapseIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const SendIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const RefreshIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const NewChatIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
 declare const ArrowLeftIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
 
 declare const ArrowRightIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
@@ -331,4 +826,4 @@ declare const LikeIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
 
 declare const LikeSelectedIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
 
-export { APIGuidesIcon, APIReferenceIcon, AddedIcon, type AlgoliaConfig, AnnouncementIcon, AppDevelopmentIcon, ArrowLeftIcon, ArrowRightIcon, CaretIcon, ChatGPTIcon, CheckboxIcon, ClaudeIcon, CloseFilterIcon, CloseIcon, CommunityIcon, CookieBar, CopilotIcon, CopyIcon, CopyLinkButton, DeprecatedIcon, DeveloperPortalIcon, DocumentationUpdatesIcon, EditIcon, EmailIcon, ExpandedResultsIcon, FAQIcon, FacebookCircleIcon, FacebookIcon, FeedbackSection, FilterIcon, FixedIcon, GearTroubleshootingIcon, GeminiIcon, GithubIcon, GraphIcon, GridIcon, HamburgerMenu, HelpCenterIcon, type HybridSearchConfig, ImprovedIcon, InfoIcon, Input, IgIcon as InstagramIcon, type Item, KnownIssueIcon as KnownIssuesIcon, LibraryContext, LibraryContextProvider, LikeIcon, LikeSelectedIcon, LinkIcon, LinkedinCircleIcon, LinkedinIcon, LongArrowIcon, MarkdownRenderer, MegaphoneIcon, MenuIcon, NewIcon, PaperIcon, ReleaseNotesIcon, RemovedIcon, ResizeIcon, Search, type SearchBackendConfig, SearchConfig, SearchIcon, SearchInput, ShareButton, ShareIcon, SideBarToggleIcon, Sidebar, StartHereIcon, StorefrontDevelopmentIcon, TableOfContents, TrashcanIcon, TroubleshootingIcon, TutorialsIcon, TwitterCircleIcon, TwitterIcon, VTEXDevPortalIcon, VTEXHelpCenterIcon, VTEXIOAppsIcon, VTEXLogoFooter, WarningIcon, YoutubeIcon, getDaysElapsed };
+export { APIGuidesIcon, APIReferenceIcon, AddedIcon, type AlgoliaConfig, AnnouncementBar, type AnnouncementBarAction, type AnnouncementBarProps, type AnnouncementBarType, AnnouncementIcon, AppDevelopmentIcon, ArrowLeftIcon, ArrowRightIcon, ArticlePagination, type ArticlePaginationData, type ArticlePaginationDoc, type ArticlePaginationProps, ArticleRender, type ArticleRenderProps, AskAIMenu, type AskAIMenuProps, type AskAIProvider, AskAssistant, type AskAssistantExampleCategory, type AskAssistantFeedback, type AskAssistantProps, type AssistantStreamEvent, type AssistantStreamHandler, Author, type AuthorProps, Breadcrumb, type BreadcrumbItem, type BreadcrumbProps, CaretIcon, ChatGPTIcon, type ChatMessage, CheckboxIcon, ChipFilter, type ChipFilterCategory, type ChipFilterProps, ClaudeIcon, CloseFilterIcon, CloseIcon, CollapseIcon, CommunityIcon, Contributors, type ContributorsProps, type ContributorsType, CookieBar, CopilotIcon, CopyButton, type CopyButtonProps, CopyHeadingLink, type CopyHeadingLinkProps, CopyIcon, CopyLinkButton, DEFAULT_ASK_ASSISTANT_EXAMPLES, DateText, type DateTextProps, DeprecatedIcon, DeveloperPortalIcon, type DocPath, DocumentationUpdatesIcon, DropdownMenu, type DropdownMenuProps, EditIcon, EmailIcon, ExpandIcon, ExpandedResultsIcon, FAQIcon, FacebookCircleIcon, FacebookIcon, FeedbackModal, type FeedbackModalPayload, type FeedbackModalProps, FeedbackSection, type FeedbackSectionProps, ListingFilter as Filter, type FilterGroup, FilterIcon, type FilterOption, FixedIcon, Footer, type FooterLink, type FooterProps, type FooterVariant, GearTroubleshootingIcon, GeminiIcon, GithubIcon, GraphIcon, GridIcon, HamburgerMenu, Header, type HeaderProps, type HeaderVariant, HelpCenterIcon, type HistoryConversation, type HybridSearchConfig, ImprovedIcon, InfoIcon, Input, InsertAccountName, type InsertAccountNameProps, IgIcon as InstagramIcon, type Item, KnownIssueIcon as KnownIssuesIcon, LibraryContext, LibraryContextProvider, LikeIcon, LikeSelectedIcon, LinkIcon, LinkedinCircleIcon, LinkedinIcon, ListingFilter, type ListingFilterLabels, type ListingFilterProps, type ListingFilterSelection, LongArrowIcon, MarkdownRenderer, MegaphoneIcon, MenuIcon, MobileSearch, type MobileSearchProps, NewChatIcon, NewIcon, OnThisPage, type OnThisPageProps, PaperIcon, type ProcessStep, RefreshIcon, ReleaseNotesIcon, RemovedIcon, ResizeIcon, Search, type SearchBackendConfig, SearchConfig, SearchIcon, SearchInput, type SearchInputProps, type Section, type SeeAlsoDoc, SeeAlsoSection, type SeeAlsoSectionProps, SendIcon, ShareButton, ShareIcon, SideBarToggleIcon, Sidebar, SparkleIcon, StartHereIcon, StorefrontDevelopmentIcon, SubscriptionList, SuggestEdits, type SuggestEditsProps, TableOfContents, Tag, type TagColor, type TagProps, TimeToRead, type TimeToReadProps, Tooltip, TrashcanIcon, TroubleshootingCard, type TroubleshootingCardProps, type TroubleshootingCardVariant, type TroubleshootingFilterState, TroubleshootingIcon, type TroubleshootingItem, TutorialsIcon, TwitterCircleIcon, TwitterIcon, VTEXDevPortalIcon, VTEXHelpCenterIcon, VTEXIOAppsIcon, VTEXLogoFooter, WarningIcon, WhatsNextCard, type WhatsNextDataElement, YoutubeIcon, collectTroubleshootingFilterOptions, filterTroubleshootingItems, getDaysElapsed };

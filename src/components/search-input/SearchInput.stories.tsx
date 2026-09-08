@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { ThemeProvider } from '@vtex/brand-ui'
-import { SearchInput } from 'index'
+import SearchInput from './index'
 import LibraryContextProvider from 'utils/context/libraryContext'
 import { exampleContextProps } from 'utils/storybook-constants'
 
@@ -13,7 +13,9 @@ const meta = {
     (Story) => (
       <ThemeProvider>
         <LibraryContextProvider {...exampleContextProps}>
-          <Story />
+          <div style={{ minHeight: 560, padding: 24 }}>
+            <Story />
+          </div>
         </LibraryContextProvider>
       </ThemeProvider>
     ),
@@ -25,4 +27,24 @@ type Story = StoryObj<typeof meta>
 
 export const SimpleSearchInput: Story = {
   args: {},
+}
+
+export const ModalSearchInput: Story = {
+  args: {
+    variant: 'modal',
+  },
+  decorators: [
+    (Story) => (
+      <div
+        style={{
+          height: 560,
+          display: 'flex',
+          flexDirection: 'column',
+          border: '1px solid #E7E9EE',
+        }}
+      >
+        <Story />
+      </div>
+    ),
+  ],
 }

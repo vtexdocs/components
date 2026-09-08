@@ -12,6 +12,14 @@ const sidebar: SxStyleProp = {
   top: '5rem',
   flex: '1 0 auto',
   height: 'calc(100vh - 5rem)',
+  maxHeight: 'calc(100vh - 5rem)',
+  minHeight: 0,
+  paddingRight: '16px',
+  marginRight: '-16px',
+  zIndex: 2,
+  'body:has(.modal[data-open="true"]) &': {
+    zIndex: 0,
+  },
   width: 'auto',
   minWidth: 'auto',
   transition: 'all 0.3s ease-in-out',
@@ -31,11 +39,23 @@ const sidebar: SxStyleProp = {
 const sidebarIcons: SxStyleProp = {
   width: ['56px', '56px', '56px', '56px', '56px', '160px'],
   minWidth: 'max-content',
+  height: '100%',
+  minHeight: 0,
+  overflowX: 'hidden',
+  overflowY: 'auto',
+  overscrollBehavior: 'contain',
+  scrollbarWidth: 'none',
+  '::-webkit-scrollbar': {
+    display: 'none',
+  },
   transition: 'all 0.3s ease-in-out',
   flexDirection: 'column',
   borderRight: '1px solid #E7E9EE',
   background: '#FFFFFF',
   zIndex: '2',
+  'body:has(.modal[data-open="true"]) &': {
+    zIndex: 0,
+  },
   paddingBottom: '32px',
 }
 

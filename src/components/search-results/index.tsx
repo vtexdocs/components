@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router.js'
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 
 import { LibraryContext } from 'utils/context/libraryContext'
 import { messages } from 'utils/get-message'
@@ -11,7 +11,12 @@ import InfiniteHits from './infiniteHits'
 
 import styles from './styles'
 import { SearchContext } from 'utils/context/search'
-import { searchClient, searchIndex, hitsPerPage } from 'utils/config/search-config'
+import {
+  searchClient,
+  searchIndex,
+  SEARCH_RESULTS_HITS_PER_PAGE,
+} from 'utils/config/search-config'
+import { formatSearchTabCount } from 'utils/search-utils'
 
 const SearchResults = () => {
   const router = useRouter()
@@ -29,11 +34,25 @@ const SearchResults = () => {
   ]
     .filter(Boolean)
     .join(' AND ')
+  const keyword = String(router.query.keyword ?? '')
   const [prevFilter, setPrevFilter] = useState('')
-  const [searchState, setSearchState] = useState({})
+  const [prevKeyword, setPrevKeyword] = useState(keyword)
+  const [searchState, setSearchState] = useState<SearchState>({})
+
+  useEffect(() => {
+    if (!keyword || keyword === prevKeyword) return
+    setPrevKeyword(keyword)
+    setSearchState((currentState) => ({
+      ...currentState,
+      page: 1,
+    }))
+  }, [keyword, prevKeyword])
 
   const updateSearchState = (currentState: SearchState) => {
-    const page = filters !== prevFilter ? 1 : currentState.page || 1
+    const keywordChanged = keyword !== prevKeyword
+    const filterChanged = filters !== prevFilter
+    const page = keywordChanged || filterChanged ? 1 : currentState.page || 1
+    if (keywordChanged) setPrevKeyword(keyword)
     setPrevFilter(filters)
     setSearchState({
       ...currentState,
@@ -44,13 +63,15 @@ const SearchResults = () => {
   return (
     <Box sx={styles.resultContainer}>
       <Text sx={styles.resultText}>
-        {`${messages[locale]['search_results.showing'] || 'Showing'} ${
-          ocurrenceCount[filterSelectedSection] === undefined
-            ? ''
-            : ocurrenceCount[filterSelectedSection]
-        } ${messages[locale]['search_results.results_for'] || 'results for'} ${
-          router.query.keyword
-        } ${messages[locale]['search_results.in'] || 'in'} ${
+        {`${messages[locale]['search_results.showing'] || 'Showing'} `}
+        <Text as="span" sx={styles.resultCount}>
+          {formatSearchTabCount(ocurrenceCount[filterSelectedSection]) ?? ''}
+        </Text>
+        {` ${messages[locale]['search_results.results_for'] || 'results for'} `}
+        <Text as="span" sx={styles.resultKeyword}>
+          {`“${router.query.keyword}”`}
+        </Text>
+        {` ${messages[locale]['search_results.in'] || 'in'} ${
           !filterSelectedSection
             ? messages[locale]['search_results.all_lowercase'] || 'all results'
             : filterSelectedSection
@@ -70,11 +91,11 @@ const SearchResults = () => {
             filters={filters}
             query={router.query.keyword}
             clickAnalytics={true}
-            hitsPerPage={hitsPerPage}
+            hitsPerPage={SEARCH_RESULTS_HITS_PER_PAGE}
             facets={['doctype', 'language']}
             facetingAfterDistinct={true}
           />
-          <InfiniteHits />
+          <InfiniteHits key={keyword} />
         </InstantSearch>
       </Box>
     </Box>

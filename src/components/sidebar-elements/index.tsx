@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router.js'
-import React, { Fragment, useContext } from 'react'
+import { Fragment, memo, useContext } from 'react'
 import {
   Box,
   Flex,
@@ -11,10 +11,11 @@ import {
 
 import MethodCategory from 'components/method-category'
 
-import { styleByLevelNormal, textStyle } from './functions'
+import { isInActivePath, styleByLevelNormal, textStyle } from './functions'
 import styles from './styles'
 import { MethodType } from 'utils/typings/types'
 import { LibraryContext } from 'utils/context/libraryContext'
+import { getDocumentationType } from 'utils/navigation-utils'
 
 export interface SidebarElement {
   name: string | { en: string; pt: string; es: string }
@@ -24,15 +25,26 @@ export interface SidebarElement {
   method?: MethodType
   endpoint?: string
   children: SidebarElement[]
+  /** When true, the category starts expanded instead of collapsed. */
+  defaultOpen?: boolean
 }
 
 export interface SidebarProps {
   slugPrefix?: string
   items: SidebarElement[]
   subItemLevel: number
+  /** Expand every branch, used while search/method filters are active. */
+  forceOpen?: boolean
+  isHamburgerMenu?: boolean
 }
 
-const SidebarElements = ({ slugPrefix, items, subItemLevel }: SidebarProps) => {
+const SidebarElements = ({
+  slugPrefix,
+  items,
+  subItemLevel,
+  forceOpen = false,
+  isHamburgerMenu = false,
+}: SidebarProps) => {
   const {
     isEditorPreview,
     activeSidebarElement,
@@ -42,6 +54,12 @@ const SidebarElements = ({ slugPrefix, items, subItemLevel }: SidebarProps) => {
     locale,
   } = useContext(LibraryContext)
   const router = useRouter()
+
+  const isElementOpen = (slug: string, defaultOpen?: boolean) =>
+    forceOpen ||
+    (sidebarElementStatus.has(slug)
+      ? sidebarElementStatus.get(slug)
+      : !!defaultOpen)
 
   const handleClick = (
     e: { preventDefault: () => void },
@@ -54,44 +72,6 @@ const SidebarElements = ({ slugPrefix, items, subItemLevel }: SidebarProps) => {
     router.push(href, href, { locale }).then(() => {
       if (hasEndpointQuery) router.reload()
     })
-  }
-
-  // eslint-disable-next-line
-  // @ts-ignore
-  const checkDocumentationType = (
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    sidebarData: any,
-    slug: string,
-    type: string
-  ) => {
-    if (
-      !sidebarData ||
-      (typeof sidebarData !== 'object' && !Array.isArray(sidebarData))
-    ) {
-      return false
-    } else if (sidebarData?.slug == slug && sidebarData?.type == type) {
-      return true
-    } else if (Array.isArray(sidebarData)) {
-      for (let i = 0; i < sidebarData.length; i++) {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        const result = checkDocumentationType(sidebarData[i], slug, type)
-        if (result) {
-          return result
-        }
-      }
-    } else {
-      for (const k in sidebarData) {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        const result = checkDocumentationType(sidebarData[k], slug, type)
-        if (result) {
-          return result
-        }
-      }
-    }
-
-    return false
   }
 
   const getHref = (slugPrefix: string, pathSuffix: string, slug: string) => {
@@ -111,53 +91,69 @@ const SidebarElements = ({ slugPrefix, items, subItemLevel }: SidebarProps) => {
     method,
     endpoint,
     children,
+    defaultOpen,
   }: SidebarElement) => {
     const localizedName: string = typeof name === 'string' ? name : name[locale]
     const localizedSlug: string = typeof slug === 'string' ? slug : slug[locale]
     const isExpandable = children.length > 0
+    const isOpen = isElementOpen(localizedSlug, defaultOpen)
     const pathSuffix = method ? `#${method.toLowerCase()}-${endpoint}` : ''
     const activeItem = method ? `${localizedSlug}${pathSuffix}` : localizedSlug
+    const isActive = activeSidebarElement === activeItem
+    const isArrowActive = isInActivePath(
+      { slug, method, endpoint, children },
+      activeSidebarElement,
+      locale
+    )
+    const documentationType = getDocumentationType(
+      sidebarDataMaster,
+      localizedSlug
+    )
     return (
-      <Box sx={styles.elementContainer}>
-        <Flex sx={styleByLevelNormal(subItemLevel, isExpandable || false)}>
-          {isExpandable && (
+      <Box
+        data-sidebar-active={isActive ? 'true' : undefined}
+        sx={
+          isHamburgerMenu
+            ? styles.elementContainerHamburger
+            : styles.elementContainer
+        }
+      >
+        <Flex sx={styleByLevelNormal(isHamburgerMenu)}>
+          {isExpandable ? (
             <Button
-              aria-label={
-                sidebarElementStatus.has(localizedSlug) &&
-                sidebarElementStatus.get(localizedSlug)
-                  ? 'Collapse category'
-                  : 'Expand category'
-              }
+              aria-label={isOpen ? 'Collapse category' : 'Expand category'}
               size="regular"
               variant="tertiary"
               sx={
-                sidebarElementStatus.has(localizedSlug) &&
-                sidebarElementStatus.get(localizedSlug)
+                isHamburgerMenu
+                  ? isArrowActive
+                    ? styles.arrowIconActiveHamburger
+                    : styles.arrowIconHamburger
+                  : isArrowActive
                   ? styles.arrowIconActive
                   : styles.arrowIcon
               }
               icon={() => (
                 <IconCaret
-                  direction={
-                    sidebarElementStatus.has(localizedSlug) &&
-                    sidebarElementStatus.get(localizedSlug)
-                      ? 'down'
-                      : 'right'
-                  }
-                  size={24}
+                  direction={isOpen ? 'down' : 'right'}
+                  size={16}
                 />
               )}
-              onClick={() => toggleSidebarElementStatus(localizedSlug)}
+              onClick={() => toggleSidebarElementStatus(localizedSlug, isOpen)}
+            />
+          ) : (
+            <Box
+              sx={
+                isHamburgerMenu
+                  ? styles.arrowIconSpacerHamburger
+                  : styles.arrowIconSpacer
+              }
+              aria-hidden="true"
             />
           )}
-          {!checkDocumentationType(
-            sidebarDataMaster,
-            localizedSlug,
-            'category'
-          ) &&
-          !checkDocumentationType(sidebarDataMaster, localizedSlug, 'link') ? (
+          {documentationType !== 'category' && documentationType !== 'link' ? (
             <Link
-              sx={textStyle(activeSidebarElement === activeItem, isExpandable)}
+              sx={textStyle(isActive, isHamburgerMenu, isExpandable)}
               onClick={(e: { preventDefault: () => void }) => {
                 if (!isEditorPreview) {
                   handleClick(e, pathSuffix, localizedSlug)
@@ -171,36 +167,33 @@ const SidebarElements = ({ slugPrefix, items, subItemLevel }: SidebarProps) => {
               {method && (
                 <MethodCategory
                   sx={styles.methodBox}
-                  active={activeSidebarElement === activeItem}
+                  active={isActive}
                   origin="sidebar"
                   method={method}
                 />
               )}
               {localizedName}
             </Link>
-          ) : checkDocumentationType(
-              sidebarDataMaster,
-              localizedSlug,
-              'link'
-            ) ? (
-            <Link href={localizedSlug} target="_blank" sx={styles.elementText}>
+          ) : documentationType === 'link' ? (
+            <Link
+              href={localizedSlug}
+              target="_blank"
+              sx={textStyle(false, isHamburgerMenu, false)}
+            >
               <IconExternalLink size={16} sx={{ marginRight: '10px' }} />
               {localizedName}
             </Link>
           ) : (
             <Box
-              sx={textStyle(
-                activeSidebarElement === localizedSlug,
-                isExpandable
-              )}
+              sx={textStyle(isActive, isHamburgerMenu, isExpandable)}
               onClick={() => {
-                toggleSidebarElementStatus(localizedSlug)
+                toggleSidebarElementStatus(localizedSlug, isOpen)
               }}
             >
               {method && (
                 <MethodCategory
                   sx={styles.methodBox}
-                  active={activeSidebarElement === localizedSlug}
+                  active={isActive}
                   origin="sidebar"
                   method={method}
                 />
@@ -213,20 +206,30 @@ const SidebarElements = ({ slugPrefix, items, subItemLevel }: SidebarProps) => {
     )
   }
 
-  const ElementChildren = ({ slug, children }: SidebarElement) => {
+  const ElementChildren = ({ slug, children, defaultOpen }: SidebarElement) => {
     const isExpandable = children.length > 0
     // const newPathPrefix =
     //   slugPrefix === 'api-reference' ? `/api-reference/${slug}` : slugPrefix
 
     const localizedSlug: string = typeof slug === 'string' ? slug : slug[locale]
-    return isExpandable &&
-      sidebarElementStatus.has(localizedSlug) &&
-      sidebarElementStatus.get(localizedSlug) ? (
-      <Box>
+    return isExpandable && isElementOpen(localizedSlug, defaultOpen) ? (
+      <Box
+        sx={
+          subItemLevel === 0
+            ? isHamburgerMenu
+              ? styles.nestedGroupHamburgerFirst
+              : styles.nestedGroupFirst
+            : isHamburgerMenu
+            ? styles.nestedGroupHamburger
+            : styles.nestedGroup
+        }
+      >
         <SidebarElements
           slugPrefix={slugPrefix}
           items={children}
           subItemLevel={subItemLevel + 1}
+          forceOpen={forceOpen}
+          isHamburgerMenu={isHamburgerMenu}
           key={`${localizedSlug}sd`}
         />
       </Box>
@@ -251,7 +254,7 @@ const SidebarElements = ({ slugPrefix, items, subItemLevel }: SidebarProps) => {
             <Box>
               <ElementChildren {...item} slug={slug} />
             </Box>
-            {subItemLevel == 0 ? (
+            {subItemLevel == 0 && !isHamburgerMenu ? (
               <Box sx={styles.sectionDivider}>
                 <hr />
               </Box>
@@ -263,4 +266,4 @@ const SidebarElements = ({ slugPrefix, items, subItemLevel }: SidebarProps) => {
   )
 }
 
-export default SidebarElements
+export default memo(SidebarElements)

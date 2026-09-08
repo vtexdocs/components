@@ -15,11 +15,13 @@ import YoutubeFrame from 'components/youtube-frame'
 import Steps from 'components/steps'
 import LightBox from 'components/lightbox'
 import WhatsNextCard from 'components/whats-next-card'
+import InsertAccountName from 'components/insert-account-name'
 
 import { LibraryContext } from 'utils/context/libraryContext'
 import { childrenToString, slugify } from 'utils/string-utils'
 import mermaidInit from 'utils/mermaidInit'
 
+import CopyHeadingLink from 'components/copy-heading-link'
 import { Component, ObservableHeadingProps } from './MarkdownRenderer.types'
 import styles from './styles.module.css'
 import { messages } from 'utils/get-message'
@@ -33,8 +35,16 @@ const ObservableHeading = ({
   ...headingProps
 }: ObservableHeadingProps) => {
   const [y, setY] = useState(Infinity)
-  const toSlugify = childrenToString(headingProps.children)
+  const { children, ...restHeadingProps } = headingProps
+  const toSlugify = childrenToString(children)
   const slug = slugify(toSlugify)
+  const headingContent = (
+    <>
+      {children}
+      <CopyHeadingLink slug={slug} size={level === 2 ? 18 : 16} />
+    </>
+  )
+
   return (
     <InView
       threshold={0.5}
@@ -48,15 +58,63 @@ const ObservableHeading = ({
       }}
     >
       {level === 2 ? (
-        <h2 id={slug} className={styles.heading} {...headingProps} />
+        <h2 id={slug} className={styles.heading} {...restHeadingProps}>
+          {headingContent}
+        </h2>
       ) : (
-        <h3 id={slug} className={styles.heading} {...headingProps} />
+        <h3 id={slug} className={styles.heading} {...restHeadingProps}>
+          {headingContent}
+        </h3>
       )}
     </InView>
   )
 }
 
-const Callout = ({ node, icon, ...props }: Component) => {
+const calloutColors: Record<string, string> = {
+  info: '#8C929D',
+  danger: '#DC5A41',
+  warning: '#FFB100',
+  success: '#80BE80',
+}
+
+const CalloutIcon = ({ type }: { type: string }) => (
+  <svg
+    className={styles.blockquoteIcon}
+    width="20"
+    height="20"
+    viewBox="0 0 20 20"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <circle
+      cx="10"
+      cy="10"
+      r="10"
+      fill={calloutColors[type] ?? calloutColors.info}
+    />
+    {type === 'success' ? (
+      <path
+        d="M5.5 10.3L8.3 13L14.5 6.8"
+        stroke="white"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    ) : type === 'info' ? (
+      <>
+        <rect x="9.1" y="5" width="1.8" height="1.8" rx="0.9" fill="white" />
+        <rect x="9.1" y="8.2" width="1.8" height="6.8" rx="0.9" fill="white" />
+      </>
+    ) : (
+      <>
+        <rect x="9.1" y="5" width="1.8" height="7" rx="0.9" fill="white" />
+        <rect x="9.1" y="13.5" width="1.8" height="1.8" rx="0.9" fill="white" />
+      </>
+    )}
+  </svg>
+)
+
+export const Callout = ({ node, icon, ...props }: Component) => {
   const blockquoteType: string = icon ? icon : 'info'
   return (
     <blockquote
@@ -72,6 +130,7 @@ const Callout = ({ node, icon, ...props }: Component) => {
           : ''
       }`}
     >
+      <CalloutIcon type={blockquoteType} />
       <div {...props} />
     </blockquote>
   )
@@ -136,7 +195,10 @@ const ImageComponent = ({ node, ...props }: Component) => {
   )
   const errorMessage = (
     <blockquote className={`${styles.blockquote} ${styles.blockquoteWarning}`}>
-      {messages[locale]['image.error_loading']} {props.src}
+      <CalloutIcon type="warning" />
+      <div>
+        {messages[locale]['image.error_loading']} {props.src}
+      </div>
     </blockquote>
   )
 
@@ -156,6 +218,7 @@ export default {
   WhatsNextCard,
   YoutubeFrame,
   Steps,
+  InsertAccountName,
   Flex: ({ node, ...props }: Component) => (
     <Flex className={styles.flexWrap} {...props} />
   ),

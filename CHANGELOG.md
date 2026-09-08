@@ -2,6 +2,156 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [7.0.3](https://github.com/vtexdocs/components/compare/v7.0.2...v7.0.3) (2026-09-08)
+
+
+### Bug Fixes
+
+* type for remarkReadingTime ([5d44758](https://github.com/vtexdocs/components/commit/5d44758e19814a0abcd11b3d61399f6f7c9aa2a8))
+
+### [7.0.2](https://github.com/vtexdocs/components/compare/v7.0.1...v7.0.2) (2026-09-04)
+
+
+### Features
+
+* see also and remark plugins ([0cb7126](https://github.com/vtexdocs/components/commit/0cb71260cb241d9cb127b1965d50c2e6ea5ec67a))
+
+### [7.0.1](https://github.com/vtexdocs/components/compare/v7.0.0...v7.0.1) (2026-09-03)
+
+
+### Features
+
+* ArticleRender ([c5cc6cf](https://github.com/vtexdocs/components/commit/c5cc6cfc17a0fb2b03f970e6834bc68928b49967))
+
+## [7.0.0](https://github.com/vtexdocs/components/compare/v6.3.4...v7.0.0) (2026-09-03)
+
+
+### Features
+
+* askassistant ([20f87d9](https://github.com/vtexdocs/components/commit/20f87d978a2750b0c7354f5162e7e9bcb70ca486))
+
+### [6.3.4](https://github.com/vtexdocs/components/compare/v6.3.3...v6.3.4) (2026-09-02)
+
+### [6.3.3](https://github.com/vtexdocs/components/compare/v6.3.2...v6.3.3) (2026-09-02)
+
+### [6.3.2](https://github.com/vtexdocs/components/compare/v6.3.1...v6.3.2) (2026-09-01)
+
+
+### Features
+
+* ask ai and feedback section ([21e3781](https://github.com/vtexdocs/components/commit/21e3781f5c1f3368a846ea084c7dac375fb407e2))
+* FeedbackModal ([226d075](https://github.com/vtexdocs/components/commit/226d075a89fcf4b6f828387143c7dc3dbbd544e3))
+
+### [6.3.1](https://github.com/vtexdocs/components/compare/v6.3.0...v6.3.1) (2026-09-01)
+
+
+### Features
+
+* components from help center ([1e12ccc](https://github.com/vtexdocs/components/commit/1e12ccc7d141e160bf617d21d5378b1f809a4955))
+
+## [6.3.0](https://github.com/vtexdocs/components/compare/v6.2.6...v6.3.0) (2026-08-31)
+
+
+### Features
+
+* : mobile search ([82d1f18](https://github.com/vtexdocs/components/commit/82d1f18eaa861fb9c57ac038acb91559bb5163c8))
+* header ([1ea4426](https://github.com/vtexdocs/components/commit/1ea4426adfda6a8a9247baa9b3936da1ef0cee7d))
+* improve search and sidebar for mobile, tablet and desktop ([7a6a5a8](https://github.com/vtexdocs/components/commit/7a6a5a880cf9bbd5bb0f8020dae6b2d019ea3898))
+* improve sidebar ([86c0d18](https://github.com/vtexdocs/components/commit/86c0d1812026dda1f10f794be33fd44f4989bcf3))
+
+### [6.2.6](https://github.com/vtexdocs/components/compare/v6.2.5...v6.2.6) (2026-08-27)
+
+
+### Features
+
+* improve sidebar search ([601e595](https://github.com/vtexdocs/components/commit/601e595f1322c6ec7bc6d7c78b0709cf4486a9e0))
+
+### [6.2.5](https://github.com/vtexdocs/components/compare/v6.2.4...v6.2.5) (2026-08-27)
+
+### [6.2.4](https://github.com/vtexdocs/components/compare/v6.2.3...v6.2.4) (2026-08-27)
+
+
+### Features
+
+* improve search box ui ([9779c1c](https://github.com/vtexdocs/components/commit/9779c1c3a0a388bdae30a3fb2ba307c67b633548))
+* improve search results page ([0198d77](https://github.com/vtexdocs/components/commit/0198d77f4b99a943ebf734c1ed2bc75808d39b88))
+
+### [6.2.3](https://github.com/vtexdocs/components/compare/v6.2.2...v6.2.3) (2026-08-18)
+
+
+### Features
+
+* footer ([8e3a190](https://github.com/vtexdocs/components/commit/8e3a1902574a84f99053f6e704bc7deb8a32c967))
+
+### [6.2.2](https://github.com/vtexdocs/components/compare/v6.2.1...v6.2.2) (2026-08-16)
+
+
+### Features
+
+* Contributors and OnThisPage ([3441072](https://github.com/vtexdocs/components/commit/3441072fb6a660cad73398f08ca49484139705bd))
+
+
+### Bug Fixes
+
+* image usage ([86ee45d](https://github.com/vtexdocs/components/commit/86ee45d0f1da6fa3e97bca88841e7c7a9c1c17ee))
+* update components ([9004d53](https://github.com/vtexdocs/components/commit/9004d5327375e135214717e1eb6a564fc3c45b8e))
+
+### [6.2.1](https://github.com/vtexdocs/components/compare/v6.2.0...v6.2.1) (2026-08-14)
+
+
+### Features
+
+* added `defaultOpen` property to `SidebarElement` interface to control initial expansion state ([5a55934](https://github.com/vtexdocs/components/commit/5a55934d924d3fe8bd370f957717fcdd9707c729))
+* close sidebar on mobile ([76dfb43](https://github.com/vtexdocs/components/commit/76dfb4352bf525b577f87e099588b86577b8ab27))
+
+
+### Bug Fixes
+
+* ensure defaultOpen is always open ([2369359](https://github.com/vtexdocs/components/commit/23693591d9ae610468889b0f23c5e6845c627568))
+
+## [6.2.0](https://github.com/vtexdocs/components/compare/v6.1.3...v6.2.0) (2026-07-14)
+
+
+### Features
+
+* hybrid search implementation ([#82](https://github.com/vtexdocs/components/issues/82)) ([72c456e](https://github.com/vtexdocs/components/commit/72c456ed0c1016ace7d00654e0a037a37c756114))
+
+### [6.1.3](https://github.com/vtexdocs/components/compare/v6.1.2...v6.1.3) (2026-07-10)
+
+
+### Bug Fixes
+
+* rebuild dist to include callout icon fix ([d2a1f0e](https://github.com/vtexdocs/components/commit/d2a1f0e187a7031ce3a6fc39920752445db6c047)), closes [#86](https://github.com/vtexdocs/components/issues/86)
+
+### [6.1.2](https://github.com/vtexdocs/components/compare/v6.1.1...v6.1.2) (2026-07-10)
+
+
+### Bug Fixes
+
+* **markdown-renderer:** render callout icons as inline SVG instead of external asset ([542ec5e](https://github.com/vtexdocs/components/commit/542ec5e1bc38a20c61668c21ccc8fa302ef7cd79))
+
+### [6.1.1](https://github.com/vtexdocs/components/compare/v6.1.0...v6.1.1) (2026-06-26)
+
+
+### Features
+
+* add shared troubleshooting listing components ([560e9b2](https://github.com/vtexdocs/components/commit/560e9b2ed96b6b55142968d9ec5d5f961a50c061))
+
+## [6.1.0](https://github.com/vtexdocs/components/compare/v6.0.37...v6.1.0) (2026-06-22)
+
+
+### Features
+
+* **index.tsx:** add subscriptionlist component and export from library ([d68187c](https://github.com/vtexdocs/components/commit/d68187cdfc581f1cf430de242adaae969b4ebb22))
+* **messages-types.ts:** add locale-aware url helpers and subscription message keys ([49e3cfb](https://github.com/vtexdocs/components/commit/49e3cfbfb75ee93748559985ac263d8a36c4ecbf))
+* **subscription-list:** rebuild dist to include compiled component ([6a605f1](https://github.com/vtexdocs/components/commit/6a605f1780001a7f493af3de0520caa30f945c95))
+* **SubscriptionList.stories.tsx:** add storybook story ([690a21a](https://github.com/vtexdocs/components/commit/690a21a77f4e5d38ab8ab0bee79cf5e903da417e))
+
+
+### Bug Fixes
+
+* **SubscriptionList:** improve error handling per code review ([76c4806](https://github.com/vtexdocs/components/commit/76c4806b9e6ce4c6e16168f90958cf82995cb037))
+
 ### [6.0.37](https://github.com/vtexdocs/components/compare/v6.0.36...v6.0.37) (2026-01-20)
 
 ### [6.0.36](https://github.com/vtexdocs/components/compare/v6.0.35...v6.0.36) (2026-01-20)

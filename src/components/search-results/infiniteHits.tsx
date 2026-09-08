@@ -13,12 +13,14 @@ import {
   ActionType,
   getIconFromSection,
   getRelativeURL,
-  getTitleById,
+  getSearchBreadcrumbs,
+  getSearchHitMethod,
 } from 'utils/search-utils'
-import { Box, Flex } from '@vtex/brand-ui'
-import { MethodType } from 'utils/typings/types'
+import { Box, Flex, Text } from '@vtex/brand-ui'
 import { SearchContext } from 'utils/context/search'
 import { LibraryContext } from 'utils/context/libraryContext'
+import { messages } from 'utils/get-message'
+import resultsStyles from 'components/search-results/styles'
 
 export type FilteredHit2 = Hit & { filteredMatches?: Hit[] }
 
@@ -27,15 +29,14 @@ interface HitProps {
 }
 
 const HitCard = ({ hit }: HitProps) => {
-  const { sidebarSections } = useContext(LibraryContext)
-  const breadcrumbTitle = getTitleById(sidebarSections, hit.doctype)
-
-  const breadcrumbs = [
-    breadcrumbTitle,
-    ...(hit.doccategory ? [hit.doccategory] : []),
-    ,
-    hit.doctitle,
-  ]
+  const { sidebarSections, sidebarDataMaster, locale } =
+    useContext(LibraryContext)
+  const breadcrumbs = getSearchBreadcrumbs({
+    hit,
+    navigation: sidebarDataMaster,
+    sections: sidebarSections,
+    locale,
+  })
   const DocIcon = getIconFromSection(sidebarSections, hit.doctype)
 
   return (
@@ -43,7 +44,7 @@ const HitCard = ({ hit }: HitProps) => {
       doc={hit.doctype}
       Icon={DocIcon}
       title={hit.doctitle}
-      method={(hit.method as MethodType) || undefined}
+      method={getSearchHitMethod(hit)}
       breadcrumbs={(breadcrumbs as string[]) || []}
       actionType={(hit.actiontype as ActionType) || undefined}
       url={getRelativeURL(hit.url)}
@@ -61,37 +62,40 @@ const StateResults = connectStateResults(
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const results = searchResults as any
-      const stateFilters =
-        typeof results?._state.filters === 'string'
-          ? results._state.filters
-          : ''
-      // Ignore the always-present `NOT doctype:"..."` exclusion clauses so we
-      // only detect a positive doctype selection made by the user.
-      const positiveFilters = stateFilters.replace(/NOT doctype:"[^"]*"/g, '')
-      const isFilteringByDoctype = positiveFilters.includes('doctype:"')
+      const isFilteringByDoctype =
+        typeof results?._state.filters === 'string' &&
+        results._state.filters.includes('doctype:')
 
-      const facets = results?.facets as
-        | Array<{
-            name: string
-            data: Record<string, number>
-            exhaustive?: boolean
-          }>
-        | undefined
+      const formattedFacets: Record<string, number | undefined> = {}
+      const rawFacets = results?.facets
 
-      const doctypeFacet = facets?.find((facet) => facet.name === 'doctype')
-      const nbHits = results?.nbHits ?? 0
-
-      const formattedFacets: Record<string, number> = {}
-
-      if (doctypeFacet?.data) {
-        Object.entries(doctypeFacet.data).forEach(([key, value]) => {
+      if (Array.isArray(rawFacets)) {
+        const doctypeFacet = rawFacets.find(
+          (facet: { name?: string; data?: Record<string, number> }) =>
+            facet.name === 'doctype'
+        )
+        if (doctypeFacet?.data) {
+          Object.entries(doctypeFacet.data).forEach(([key, value]) => {
+            if (typeof value === 'number') {
+              formattedFacets[key] = value
+            }
+          })
+        }
+      } else if (rawFacets?.doctype && typeof rawFacets.doctype === 'object') {
+        Object.entries(rawFacets.doctype).forEach(([key, value]) => {
           if (typeof value === 'number') {
             formattedFacets[key] = value
           }
         })
       }
 
-      formattedFacets[''] = nbHits
+      const hybridAllCount = results?._hybridAllCount
+      const hybridCountsAttempted = results?._hybridCountsAttempted === true
+      if (typeof hybridAllCount === 'number') {
+        formattedFacets[''] = hybridAllCount
+      } else if (!isFilteringByDoctype && !hybridCountsAttempted) {
+        formattedFacets[''] = results?.nbHits ?? 0
+      }
 
       if (!isFilteringByDoctype) {
         updateOcurrenceCount(formattedFacets)
@@ -100,18 +104,12 @@ const StateResults = connectStateResults(
 
     return null
   }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ) as any
 
 const InfiniteHits = ({ hits, hasMore, refineNext }: InfiniteHitsProvided) => {
   const scrollRef = useRef<HTMLSpanElement>(null)
-
-  function onSentinelIntersection(entries: IntersectionObserverEntry[]) {
-    entries.forEach((entry: IntersectionObserverEntry) => {
-      if (entry.isIntersecting && hasMore) {
-        refineNext()
-      }
-    })
-  }
+  const { locale } = useContext(LibraryContext)
 
   const filteredResult = useMemo(() => {
     const mergeHits: FilteredHit2[] = [] //hitsData
@@ -129,18 +127,34 @@ const InfiniteHits = ({ hits, hasMore, refineNext }: InfiniteHitsProvided) => {
   }, [hits])
 
   useEffect(() => {
-    const observer = new IntersectionObserver(onSentinelIntersection, {})
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting && hasMore) {
+          refineNext()
+        }
+      })
+    })
 
-    if (scrollRef.current) observer.observe(scrollRef.current)
+    const sentinel = scrollRef.current
+    if (sentinel) observer.observe(sentinel)
     return () => {
       observer.disconnect()
     }
-  }, [hits])
+  }, [hasMore, refineNext])
+
   return (
     <Box>
       <StateResults />
+      {filteredResult.length === 0 && (
+        <Flex sx={resultsStyles.noResults}>
+          <Text>
+            {messages[locale]['search_input.empty'] ||
+              'No results found. Try different search terms.'}
+          </Text>
+        </Flex>
+      )}
       {filteredResult.map((hit: Hit, index: number) => (
-        <Flex key={hit.objectID}>
+        <Flex key={hit.objectID} sx={resultsStyles.hitListItem}>
           <HitCard hit={hit} key={index} />
         </Flex>
       ))}

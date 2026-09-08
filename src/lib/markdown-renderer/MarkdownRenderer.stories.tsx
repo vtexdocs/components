@@ -1,12 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { ThemeProvider } from '@vtex/brand-ui'
-import { MarkdownRenderer } from 'index'
+import MarkdownRenderer from './MarkdownRenderer'
 import LibraryContextProvider from 'utils/context/libraryContext'
-import {
-  TestComponent,
-  exampleContextProps,
-  serialized,
-} from 'utils/storybook-constants'
+import { exampleContextProps } from 'utils/storybook-constants'
+import { serialized } from 'utils/storybook-mdx'
 
 const meta = {
   title: 'Example/MarkdownRenderer',
@@ -28,8 +25,6 @@ type Story = StoryObj<typeof meta>
 
 export const SimpleMarkdownRenderer: Story = {
   args: {
-    serialized: serialized,
-    customComponents: { TestComponent },
-    scope: {},
+    serialized,
   },
 }

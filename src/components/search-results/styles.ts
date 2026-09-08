@@ -1,11 +1,15 @@
 import { SxStyleProp } from '@vtex/brand-ui'
 
 const resultContainer: SxStyleProp = {
-  width: ['80%', '544px', '544px', '544px', '720px', '720px', '1400px'],
-  paddingTop: ['32px', '32px', '32px', '64px'],
+  width: ['100%', '100%', '544px', '544px', '720px', '720px', '1400px'],
+  maxWidth: '100%',
+  boxSizing: 'border-box',
+  px: ['16px', '24px', 0, 0, 0, 0, 0],
+  paddingTop: ['12px', '16px', '24px', '32px'],
+  paddingBottom: ['24px', '24px', '24px', '32px'],
+  overflowX: 'hidden',
   hr: {
     marginTop: '16px',
-    marginBottom: '32px',
     borderTop: 'none',
     borderColor: '#DDDDDD',
     display: ['none', 'none', 'none', 'block'],
@@ -13,10 +17,26 @@ const resultContainer: SxStyleProp = {
 }
 
 const resultText: SxStyleProp = {
-  mb: '16px',
-  fontSize: '16px',
-  lineHeight: '22px',
-  display: ['none', 'none', 'none', 'initial'],
+  mb: ['12px', '12px', '16px'],
+  fontSize: ['13px', '14px', '16px'],
+  lineHeight: ['18px', '20px', '22px'],
+  color: 'muted.0',
+  display: 'block',
+}
+
+const resultCount: SxStyleProp = {
+  fontWeight: '600',
+  color: '#142032',
+}
+
+const resultKeyword: SxStyleProp = {
+  fontWeight: '600',
+  color: '#142032',
+  background: '#F8E3EC',
+  borderRadius: '4px',
+  px: '6px',
+  py: '1px',
+  wordBreak: 'break-word',
 }
 
 const paginationContainer: SxStyleProp = {
@@ -53,16 +73,25 @@ const paginationActualNumber: SxStyleProp = {
 const noResults: SxStyleProp = {
   justifyContent: 'center',
   alignContent: 'center',
-  padding: '12px',
+  padding: ['24px 8px', '12px'],
+  textAlign: 'center',
+}
+
+const hitListItem: SxStyleProp = {
+  width: '100%',
+  minWidth: 0,
 }
 
 export default {
   resultContainer,
   resultText,
+  resultCount,
+  resultKeyword,
   paginationContainer,
   paginationLink,
   paginationLinkDisabled,
   paginationNumber,
   paginationActualNumber,
   noResults,
+  hitListItem,
 }

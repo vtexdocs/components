@@ -4,15 +4,46 @@ export type MessagesType = {
   'feedback_section.positive': string
   'feedback_section.negative': string
   'feedback_section.edit': string
-  'feedback_modal.title': string
   'feedback_modal.button': string
+  'feedback_modal.title': string
+  'feedback_modal.description': string
+  'feedback_modal.success': string
+  'feedback_modal.error': string
+  'feedback_modal.article': string
+  'feedback_modal.message': string
+  'feedback_modal.type': string
+  'feedback_modal.name': string
+  'feedback_modal.email': string
+  'feedback_modal.cancel': string
+  'feedback_modal.submit': string
+  'feedback_modal.submitting': string
+  'feedback_modal.close': string
+  'feedback_modal.done': string
+  'feedback_modal.message_placeholder': string
+  'feedback_modal.name_placeholder': string
+  'feedback_modal.email_placeholder': string
+  'feedback_modal.type.incorrect': string
+  'feedback_modal.type.page_not_found': string
+  'feedback_modal.type.content_improvement': string
+  'feedback_modal.type.new_documentation': string
+  'feedback_modal.type.other': string
   'search_input.empty': string
   'search_input.placeholder': string
+  'search_input.copy_link': string
+  'search_input.copied': string
+  'heading_link.copy': string
+  'heading_link.copied': string
+  'search_input.open_new_tab': string
+  'search_input.clear': string
+  'search_input.navigate': string
+  'search_input.open': string
+  'search_input.close': string
+  'search_input.open_search': string
   'sidebar_search.placeholder': string
-  "search_results.showing": string
-  "search_results.results_for": string
-  "search_results.in": string
-  "search_results.all_lowercase": string
+  'search_results.showing': string
+  'search_results.results_for': string
+  'search_results.in': string
+  'search_results.all_lowercase': string
   'search_input.see_all': string
   'search_results.summary': string
   'search_results.all': string
@@ -24,4 +55,79 @@ export type MessagesType = {
   'cookie_bar.description': string
   'cookie_bar.accept': string
   'cookie_bar.decline': string
+  'landing_page_subscription.title': string
+  'landing_page_subscription.description': string
+  'landing_page_newsletter.Button': string
+  'subscription_list.api_key_error': string
+  'subscription_list.invalid_email': string
+  'subscription_list.success': string
+  'subscription_list.error': string
+  'subscription_list.privacy_notice': string
+  'subscription_list.privacy_policy_link': string
+  'on_this_page.title': string
+  'contributors.title': string
+  'contributors.toggle_less': string
+  'contributors.toggle_more': string
+  'contributors.photo_alt': string
+  'footer.github': string
+  'footer.developer_portal': string
+  'footer.help_center': string
+  'footer.community': string
+  'footer.feedback': string
+  'header.docs': string
+  'header.feedback': string
+  'header.admin_tools': string
+  'header.home_aria': string
+  'documentation_reading_time.text': string
+  'date_text.created': string
+  'date_text.updated': string
+  'article_pagination.previous': string
+  'article_pagination.next': string
+  'see_also_section.title': string
+  'insert_account_name.placeholder': string
+  'insert_account_name.button': string
+  'insert_account_name.tooltip': string
+  'insert_account_name.error': string
+  'ask_ai.copy': string
+  'ask_ai.view': string
+  'ask_ai.copied': string
+  'ask_assistant.button': string
+  'ask_assistant.title': string
+  'ask_assistant.hero_title': string
+  'ask_assistant.hero_subtitle': string
+  'ask_assistant.placeholder': string
+  'ask_assistant.examples': string
+  'ask_assistant.send': string
+  'ask_assistant.close': string
+  'ask_assistant.clear': string
+  'ask_assistant.history': string
+  'ask_assistant.history_clear': string
+  'ask_assistant.expand': string
+  'ask_assistant.collapse': string
+  'ask_assistant.copy': string
+  'ask_assistant.copied': string
+  'ask_assistant.regenerate': string
+  'ask_assistant.helpful': string
+  'ask_assistant.not_helpful': string
+  'ask_assistant.error': string
+  'ask_assistant.searching': string
+  'ask_assistant.searching_docs': string
+  'ask_assistant.searching_endpoints': string
+  'ask_assistant.reading_endpoints': string
+  'ask_assistant.reading_document': string
+  'ask_assistant.read_file': string
+  'ask_assistant.read_files': string
+  'ask_assistant.found_endpoint': string
+  'ask_assistant.found_endpoints': string
+  'ask_assistant.tool': string
+  'ask_assistant.process_running': string
+  'ask_assistant.process_completed': string
+  'ask_assistant.process_completed_one': string
+  'ask_assistant.step_search_docs': string
+  'ask_assistant.step_search_endpoints': string
+  'ask_assistant.step_read_endpoints': string
+  'ask_assistant.step_read_document': string
+  'ask_assistant.step_create_response': string
+  'ask_assistant.step_search': string
+  'ask_assistant.sources': string
 }

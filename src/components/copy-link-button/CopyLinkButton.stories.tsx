@@ -11,9 +11,6 @@ const meta = {
     layout: 'centered',
   },
   tags: ['autodocs'],
-  argTypes: {
-    onAccept: () => alert('Accept cookies'),
-  },
   decorators: [
     (Story) => (
       <ThemeProvider>

@@ -19,11 +19,13 @@ interface MethodButtonProps {
 interface SectionFilterProps {
   methodFilterList: MethodFilter[]
   setMethodFilter: Dispatch<SetStateAction<MethodFilter[]>>
+  isHamburgerMenu?: boolean
 }
 
 const SectionFilter = ({
   methodFilterList,
   setMethodFilter,
+  isHamburgerMenu = false,
 }: SectionFilterProps) => {
   const [activeFilters, setActiveFilters] = useState<MethodType[]>([])
   const { locale } = useContext(LibraryContext)
@@ -58,10 +60,11 @@ const SectionFilter = ({
     return (
       <Box
         key={`filter-category-${methodFilter.name}`}
+        sx={styles.methodButton}
         onClick={() => setFilter(methodFilter.name as MethodType)}
       >
         <MethodCategory
-          sx={styles.category}
+          sx={styles.categoryHamburger}
           active={methodFilter.active}
           method={methodFilter.name as MethodType}
           origin={'filter'}
@@ -71,11 +74,13 @@ const SectionFilter = ({
   }
 
   return (
-    <Box sx={styles.container}>
-      <Text sx={styles.text}>
+    <Box sx={isHamburgerMenu ? styles.containerHamburger : styles.container}>
+      <Text sx={isHamburgerMenu ? styles.textHamburger : styles.text}>
         {messages[locale]['api_reference_sidebar_filter']}
       </Text>
-      <Flex>
+      <Flex
+        sx={isHamburgerMenu ? styles.methodsRowHamburger : styles.methodsRow}
+      >
         {methodFilterList.map((methodFilter) => (
           <MethodButton
             key={`filter-category-${methodFilter.name}`}

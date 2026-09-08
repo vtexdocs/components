@@ -34,6 +34,7 @@ export const methodsColors = {
 export const categoryStyle = (
   method: MethodType,
   active: boolean,
+  origin: string,
   sx?: SxStyleProp
 ): SxStyleProp => {
   const categoryColors = methodsColors[method] || {
@@ -42,10 +43,13 @@ export const categoryStyle = (
     background: '#F8E3E3',
   }
 
-  const categoryStyle: SxStyleProp = active
+  const isFilled = active || origin !== 'filter'
+
+  const categoryStyle: SxStyleProp = isFilled
     ? {
         ...styles.container,
         ...categoryColors,
+        ...(origin !== 'filter' ? styles.filled : {}),
         ...sx,
         ':hover': {
           '.filter-close-button': {
@@ -67,11 +71,7 @@ export const categoryStyle = (
   return categoryStyle
 }
 
-export const categoryText = (method: MethodType, origin: string): string => {
-  const textPascalCase = method[0] + method.slice(1).toLowerCase()
-  if (origin == 'filter') return textPascalCase
-  return textPascalCase.slice(0, 2)
-}
+export const categoryText = (method: MethodType): string => method.toUpperCase()
 
 export const closeCategoryStyle = (method: MethodType) => {
   const categoryColors = methodsColors[method]

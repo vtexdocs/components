@@ -8,7 +8,15 @@ const meta = {
   title: 'Example/Search',
   component: Search,
   parameters: {
-    layout: 'centered',
+    layout: 'fullscreen',
+    nextjs: {
+      router: {
+        pathname: '/search',
+        query: {
+          keyword: 'catalog',
+        },
+      },
+    },
   },
   tags: ['autodocs'],
   decorators: [
@@ -27,4 +35,13 @@ type Story = StoryObj<typeof meta>
 
 export const SimpleSearch: Story = {
   args: {},
+}
+
+export const MobileSearch: Story = {
+  args: {},
+  parameters: {
+    viewport: {
+      defaultViewport: 'mobileSmall',
+    },
+  },
 }

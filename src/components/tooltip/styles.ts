@@ -86,6 +86,11 @@ const label: SxStyleProp = {
   fontSize: '12px',
   fontWeight: '400',
   lineHeight: '130%',
+  width: 'max-content',
+  minWidth: '64px',
+  maxWidth: '240px',
+  overflowWrap: 'break-word',
+  textAlign: 'center',
 }
 
 const labelContibutorsContainer: SxStyleProp = {
@@ -96,6 +101,8 @@ const labelContibutorsContainer: SxStyleProp = {
 const labelDocumentationContainer: SxStyleProp = {
   ...label,
   width: '284px',
+  minWidth: '284px',
+  maxWidth: '284px',
   textAlign: 'center',
   px: '12px',
   py: '8px',

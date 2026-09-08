@@ -10,6 +10,8 @@ import { stripMarkdownForSnippet } from '../string-utils'
 export let searchClient: any = {}
 export let searchIndex = ''
 export let hitsPerPage = 10 // Default page size for search results
+/** Page size for the search results page; more hits load as the user scrolls. */
+export const SEARCH_RESULTS_HITS_PER_PAGE = 100
 
 export interface AlgoliaConfig {
   appId: string
@@ -91,7 +93,52 @@ const createAlgoliaClient = (config: AlgoliaConfig) => {
 // Upstream hard cap (must match HS_MAX_LIMIT in the API proxy).
 const HYBRID_UPSTREAM_MAX_LIMIT = 100
 
+/** Fixed Help Center doctype ids (matches helpcenter src/utils/constants.ts). */
+const HYBRID_DOCTYPE_IDS = [
+  'tracks',
+  'tutorials',
+  'faq',
+  'known-issues',
+  'troubleshooting',
+  'announcements',
+] as const
+
+/** Portal tab id → upstream canonical doctype (matches helpcenter search proxy). */
+const PORTAL_TO_CANONICAL_DOCTYPE: Record<string, string> = {
+  tutorials: 'tutorial',
+  tracks: 'tracks',
+  faq: 'faq',
+  troubleshooting: 'troubleshooting',
+  announcements: 'announcements',
+}
+
+type HybridDoctypeCounts = Record<string, number | undefined>
+
+type HybridSearchCountsApiResponse = {
+  counts: {
+    tracks: number
+    tutorial: number
+    faq: number
+    troubleshooting: number
+    announcements: number
+  }
+  total: number
+}
+
 type HybridCacheEntry = {
+  key: string
+  ts: number
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  hits: any[]
+}
+
+type HybridCountCacheEntry = {
+  key: string
+  ts: number
+  counts: HybridDoctypeCounts
+}
+
+type HybridDoctypeDeepCacheEntry = {
   key: string
   ts: number
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -114,6 +161,12 @@ const createHybridClient = (config: HybridSearchConfig) => {
 
   const effectiveUpstreamLimit = clampUpstreamLimit(upstreamFetchSize)
   const cache: HybridCacheEntry[] = []
+  const countCache: HybridCountCacheEntry[] = []
+  const doctypeDeepCache: HybridDoctypeDeepCacheEntry[] = []
+  const deepenPagination = new Map<
+    string,
+    { lastPage: number; endOffset: number }
+  >()
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const getCached = (key: string): any[] | undefined => {
@@ -132,6 +185,90 @@ const createHybridClient = (config: HybridSearchConfig) => {
     while (cache.length > 20) cache.shift()
   }
 
+  const getCachedCounts = (key: string): HybridDoctypeCounts | undefined => {
+    const now = Date.now()
+    for (let i = countCache.length - 1; i >= 0; i--) {
+      if (now - countCache[i].ts > cacheTtlMs) {
+        countCache.splice(i, 1)
+      }
+    }
+    return countCache.find((e) => e.key === key)?.counts
+  }
+
+  const setCachedCounts = (key: string, counts: HybridDoctypeCounts) => {
+    countCache.push({ key, ts: Date.now(), counts })
+    while (countCache.length > 20) countCache.shift()
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const getDoctypeDeepCached = (key: string): any[] | undefined => {
+    const now = Date.now()
+    for (let i = doctypeDeepCache.length - 1; i >= 0; i--) {
+      if (now - doctypeDeepCache[i].ts > cacheTtlMs) {
+        doctypeDeepCache.splice(i, 1)
+      }
+    }
+    return doctypeDeepCache.find((e) => e.key === key)?.hits
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const setDoctypeDeepCached = (key: string, hits: any[]) => {
+    doctypeDeepCache.push({ key, ts: Date.now(), hits })
+    while (doctypeDeepCache.length > 20) doctypeDeepCache.shift()
+  }
+
+  const countsEndpoint = `${apiEndpoint.replace(/\/?$/, '')}/counts`
+
+  const mapApiCountsToPortal = (
+    counts: HybridSearchCountsApiResponse['counts'],
+    total: number
+  ): HybridDoctypeCounts => ({
+    '': total,
+    tracks: counts.tracks,
+    tutorials: counts.tutorial,
+    faq: counts.faq,
+    troubleshooting: counts.troubleshooting,
+    announcements: counts.announcements,
+    'known-issues': 0,
+  })
+
+  const fetchDoctypeCounts = async (
+    query: string,
+    locale: string
+  ): Promise<HybridDoctypeCounts | undefined> => {
+    try {
+      const url = new URL(countsEndpoint, window.location.origin)
+      url.searchParams.set('q', query)
+      if (useLanguageFilter && locale) {
+        url.searchParams.set('locale', locale)
+      }
+
+      const response = await fetch(url.toString())
+      if (!response.ok) {
+        return undefined
+      }
+
+      const data =
+        (await response.json()) as Partial<HybridSearchCountsApiResponse>
+      const { counts, total } = data
+      if (
+        !counts ||
+        typeof total !== 'number' ||
+        typeof counts.tracks !== 'number' ||
+        typeof counts.tutorial !== 'number' ||
+        typeof counts.faq !== 'number' ||
+        typeof counts.troubleshooting !== 'number' ||
+        typeof counts.announcements !== 'number'
+      ) {
+        return undefined
+      }
+
+      return mapApiCountsToPortal(counts, total)
+    } catch {
+      return undefined
+    }
+  }
+
   // Initialize minimal analytics (disabled for hybrid)
   aa('init', {
     appId: 'hybrid-search',
@@ -147,6 +284,7 @@ const createHybridClient = (config: HybridSearchConfig) => {
 
     async search(
       requests: MultipleQueriesQuery[]
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ): Promise<MultipleQueriesResponse<any> | undefined> {
       if (requests.every(({ params }) => !params?.query)) {
         return undefined
@@ -161,23 +299,34 @@ const createHybridClient = (config: HybridSearchConfig) => {
         const hitsPerPage = params.hitsPerPage || pageSize
         const page = params.page || 0
 
-        const { locale, doctypes, excludedDoctypes } = extractHybridFilters(params)
+        const { locale, doctypes, excludedDoctypes } =
+          extractHybridFilters(params)
 
-        // The upstream Hybrid Search API does not support pagination or doctype
-        // filtering, so we always fetch a large slice once per (query, locale)
-        // pair and paginate / doctype-filter client-side.
+        // The upstream Hybrid Search API does not support pagination, so we
+        // fetch a large slice once per (query, locale) pair and paginate /
+        // doctype-filter client-side for the result list. Excluded doctypes
+        // (e.g. `NOT doctype:"..."` from `excludeFromSearch`) are dropped
+        // client-side as well.
         const cacheKey = JSON.stringify({
           q: query,
           locale: useLanguageFilter ? locale || '' : '',
           limit: effectiveUpstreamLimit,
         })
 
+        const countCacheKey = JSON.stringify({
+          q: query,
+          locale: useLanguageFilter ? locale || '' : '',
+        })
+
+        const isSearchResultsRequest =
+          typeof params?.filters === 'string' && params.filters.length > 0
+
         const cachedHits = getCached(cacheKey)
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        let allHits: any[]
-        if (cachedHits) {
-          allHits = cachedHits
-        } else {
+        let cachedCounts = getCachedCounts(countCacheKey)
+
+        const hitsPromise = (async () => {
+          if (cachedHits) return cachedHits
+
           const url = new URL(apiEndpoint, window.location.origin)
           url.searchParams.set('q', query)
           url.searchParams.set('limit', String(effectiveUpstreamLimit))
@@ -195,43 +344,159 @@ const createHybridClient = (config: HybridSearchConfig) => {
           const rawResults: any[] = Array.isArray(data?.results)
             ? data.results
             : []
-          allHits = rawResults.map(transformHybridToAlgolia)
+          const allHits = rawResults.map(transformHybridToAlgolia)
           setCached(cacheKey, allHits)
+          return allHits
+        })()
+
+        const countsPromise = (async (): Promise<
+          HybridDoctypeCounts | undefined
+        > => {
+          if (!isSearchResultsRequest) return undefined
+          if (cachedCounts) return cachedCounts
+
+          const counts = await fetchDoctypeCounts(query, locale)
+          if (counts) {
+            setCachedCounts(countCacheKey, counts)
+          }
+          return counts
+        })()
+
+        const [fetchedHits, doctypeCounts] = await Promise.all([
+          hitsPromise,
+          countsPromise,
+        ])
+
+        if (doctypeCounts) {
+          cachedCounts = doctypeCounts
         }
 
-        // Doctype filter is applied client-side because the upstream API
-        // does not understand it. Excluded doctypes (e.g. `NOT doctype:"..."`)
-        // are removed first; an optional positive doctype selection narrows further.
-        // Facet counts are computed on searchable hits (after exclusions, before
-        // the positive doctype filter) so tab counts stay consistent.
-        const searchableHits = excludeHitsByDoctype(allHits, excludedDoctypes)
-        const filteredHits = filterHitsByDoctype(searchableHits, doctypes)
-        const nbHits = filteredHits.length
-        const nbPages = Math.max(1, Math.ceil(nbHits / hitsPerPage))
-        const start = page * hitsPerPage
-        const pageHits = filteredHits.slice(start, start + hitsPerPage)
+        const allHits = excludeHitsByDoctype(fetchedHits, excludedDoctypes)
+        const initialFilteredHits = filterHitsByDoctype(allHits, doctypes)
+        let listHits = doctypes.length ? initialFilteredHits : allHits
 
-        const facets = extractFacetsFromHits(searchableHits)
+        const doctypeDeepCacheKey =
+          doctypes.length === 1
+            ? JSON.stringify({
+                q: query,
+                locale: useLanguageFilter ? locale || '' : '',
+                doctype: doctypes[0],
+                limit: effectiveUpstreamLimit,
+              })
+            : ''
+
+        let start = page * hitsPerPage
+
+        if (doctypes.length === 1) {
+          const portalDoctype = doctypes[0]
+          const canonicalDoctype = PORTAL_TO_CANONICAL_DOCTYPE[portalDoctype]
+          const prevPage = deepenPagination.get(doctypeDeepCacheKey)
+
+          if (page === 0 || !prevPage || prevPage.lastPage !== page - 1) {
+            start = page === 0 ? 0 : page * hitsPerPage
+            if (page === 0) deepenPagination.delete(doctypeDeepCacheKey)
+          } else {
+            start = prevPage.endOffset
+          }
+
+          if (canonicalDoctype && start >= initialFilteredHits.length) {
+            let deepenedHits = getDoctypeDeepCached(doctypeDeepCacheKey)
+            if (!deepenedHits) {
+              const url = new URL(apiEndpoint, window.location.origin)
+              url.searchParams.set('q', query)
+              url.searchParams.set('limit', String(effectiveUpstreamLimit))
+              url.searchParams.set('doctype', portalDoctype)
+              if (useLanguageFilter && locale) {
+                url.searchParams.set('locale', locale)
+              }
+
+              const response = await fetch(url.toString())
+              if (response.ok) {
+                const data = await response.json()
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                const rawResults: any[] = Array.isArray(data?.results)
+                  ? data.results
+                  : []
+                deepenedHits = rawResults.map(transformHybridToAlgolia)
+                setDoctypeDeepCached(doctypeDeepCacheKey, deepenedHits)
+              } else {
+                deepenedHits = []
+              }
+            }
+
+            listHits = mergeDeepenedHits(initialFilteredHits, deepenedHits)
+          }
+        }
+
+        const doctypeCount =
+          doctypes.length === 1 ? cachedCounts?.[doctypes[0]] : undefined
+        const hasDeepened =
+          doctypes.length === 1 &&
+          (Boolean(getDoctypeDeepCached(doctypeDeepCacheKey)) ||
+            listHits.length > initialFilteredHits.length)
+        const nbHits = (() => {
+          if (!doctypes.length) return allHits.length
+          const cap = HYBRID_UPSTREAM_MAX_LIMIT
+          if (typeof doctypeCount === 'number') {
+            if (hasDeepened) {
+              return Math.min(doctypeCount, cap, listHits.length)
+            }
+            return Math.min(doctypeCount, cap)
+          }
+          return Math.min(listHits.length, cap)
+        })()
+        const nbPages = Math.max(1, Math.ceil(nbHits / hitsPerPage))
+        const pageHits = listHits.slice(start, start + hitsPerPage)
+
+        if (doctypes.length === 1) {
+          deepenPagination.set(doctypeDeepCacheKey, {
+            lastPage: page,
+            endOffset: start + pageHits.length,
+          })
+        }
+
+        const excludedDoctypeSet = new Set(
+          excludedDoctypes.map((d) => d.toLowerCase())
+        )
+        const doctypeFacetData: Record<string, number> = {}
+        if (cachedCounts) {
+          HYBRID_DOCTYPE_IDS.forEach((id) => {
+            if (excludedDoctypeSet.has(id.toLowerCase())) return
+            const count = cachedCounts[id]
+            if (typeof count === 'number') {
+              doctypeFacetData[id] = count
+            }
+          })
+        }
+
+        const hybridAllCount = cachedCounts?.['']
+
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const searchResult: any = {
+          hits: pageHits,
+          nbHits,
+          page,
+          nbPages,
+          hitsPerPage,
+          exhaustiveNbHits: true,
+          query,
+          params: '',
+          index: request.indexName || '',
+          processingTimeMS: 0,
+          facets: {
+            doctype: doctypeFacetData,
+            language: {},
+          },
+          facets_stats: {},
+          exhaustiveFacetsCount: true,
+          queryID: generateQueryID(),
+          _hybridCountsAttempted: isSearchResultsRequest,
+          _hybridAllCount:
+            typeof hybridAllCount === 'number' ? hybridAllCount : undefined,
+        }
 
         return {
-          results: [
-            {
-              hits: pageHits,
-              nbHits,
-              page,
-              nbPages,
-              hitsPerPage,
-              exhaustiveNbHits: true,
-              query,
-              params: '',
-              index: request.indexName || '',
-              processingTimeMS: 0,
-              facets: facets.facets,
-              facets_stats: {},
-              exhaustiveFacetsCount: true,
-              queryID: generateQueryID(),
-            },
-          ],
+          results: [searchResult],
         }
       } catch (error) {
         console.error('Hybrid search error:', error)
@@ -354,9 +619,23 @@ function filterHitsByDoctype<T extends { doctype?: string }>(
 ): T[] {
   if (!doctypes.length) return hits
   const wanted = new Set(doctypes.map((d) => d.toLowerCase()))
-  return hits.filter((h) =>
-    wanted.has(String(h.doctype || '').toLowerCase())
-  )
+  return hits.filter((h) => wanted.has(String(h.doctype || '').toLowerCase()))
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function mergeDeepenedHits(initial: any[], deepened: any[]): any[] {
+  const seen = new Set<string>()
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const merged: any[] = []
+
+  for (const hit of [...initial, ...deepened]) {
+    const key = hit.url_without_anchor || hit.objectID || ''
+    if (!key || seen.has(key)) continue
+    seen.add(key)
+    merged.push(hit)
+  }
+
+  return merged.slice(0, HYBRID_UPSTREAM_MAX_LIMIT)
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -488,31 +767,13 @@ function buildUrlFromFilePath(filePath: string): string {
   return `/${locale}/${doctype}/${slug}`
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function extractFacetsFromHits(
-  hits: any[]
-): { facets: Record<string, Record<string, number>> } {
-  const facets: Record<string, Record<string, number>> = {
-    doctype: {},
-    language: {},
-  }
-
-  hits.forEach((hit) => {
-    const doctype = hit.doctype || 'Other'
-    facets.doctype[doctype] = (facets.doctype[doctype] || 0) + 1
-
-    const language = hit.language || 'en'
-    facets.language[language] = (facets.language[language] || 0) + 1
-  })
-
-  return { facets }
-}
-
 function generateQueryID(): string {
   return `hybrid_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
 }
 
-export default function SearchConfig(config: SearchBackendConfig | AlgoliaConfig) {
+export default function SearchConfig(
+  config: SearchBackendConfig | AlgoliaConfig
+) {
   // Backward compatibility: if config doesn't have 'backend', assume Algolia
   if ('backend' in config) {
     if (config.backend === 'hybrid') {
