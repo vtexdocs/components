@@ -61,6 +61,15 @@ const paginationText: SxStyleProp = {
   color: '#4A596B',
 }
 
+const paginationChildren: SxStyleProp = {
+  width: '100%',
+  minWidth: 0,
+  color: '#5E6E84',
+  fontSize: ['12px', '13px'],
+  lineHeight: ['16px', '18px'],
+  fontWeight: '400',
+}
+
 const subTitle: SxStyleProp = {
   color: '#A1A8B3',
   fontSize: ['12px', '0.85em'],
@@ -101,5 +110,6 @@ export default {
   paginationBox,
   paginationBoxNext,
   paginationText,
+  paginationChildren,
   subTitle,
 }

@@ -1,14 +1,17 @@
-import { useContext } from 'react'
+import { useContext, type ReactNode } from 'react'
 import Link from 'next/link.js'
 import { Flex, Text, Box } from '@vtex/brand-ui'
 
 import { LibraryContext } from 'utils/context/libraryContext'
+import { formatArticleDateValue } from 'utils/format-article-date'
 import { messages } from 'utils/get-message'
 import styles from './styles'
 
 export type ArticlePaginationDoc = {
   slug: string | null
   name: string | null
+  createdAt?: string | null
+  children?: ReactNode
 }
 
 export type ArticlePaginationData = {
@@ -20,12 +23,16 @@ export type ArticlePaginationProps = {
   pagination: ArticlePaginationData
   hidePaginationPrevious?: boolean
   hidePaginationNext?: boolean
+  previousChildren?: ReactNode
+  nextChildren?: ReactNode
 }
 
 const ArticlePagination = ({
   pagination,
   hidePaginationNext = false,
   hidePaginationPrevious = false,
+  previousChildren,
+  nextChildren,
 }: ArticlePaginationProps) => {
   const { locale } = useContext(LibraryContext)
   const previousLabel =
@@ -40,6 +47,19 @@ const ArticlePagination = ({
     !hidePaginationNext &&
     Boolean(pagination?.nextDoc?.slug) &&
     Boolean(pagination?.nextDoc?.name)
+
+  const previousExtra =
+    previousChildren ??
+    pagination?.previousDoc?.children ??
+    formatArticleDateValue(
+      pagination?.previousDoc?.createdAt,
+      locale,
+      'medium'
+    )
+  const nextExtra =
+    nextChildren ??
+    pagination?.nextDoc?.children ??
+    formatArticleDateValue(pagination?.nextDoc?.createdAt, locale, 'medium')
 
   return (
     <Box as="nav" sx={styles.mainContainer}>
@@ -56,6 +76,9 @@ const ArticlePagination = ({
                 <Text sx={styles.paginationText}>
                   {pagination.previousDoc.name}
                 </Text>
+                {previousExtra != null && previousExtra !== false && (
+                  <Box sx={styles.paginationChildren}>{previousExtra}</Box>
+                )}
               </Box>
             </Link>
           </Box>
@@ -73,6 +96,9 @@ const ArticlePagination = ({
                 <Text sx={styles.paginationText}>
                   {pagination.nextDoc.name}
                 </Text>
+                {nextExtra != null && nextExtra !== false && (
+                  <Box sx={styles.paginationChildren}>{nextExtra}</Box>
+                )}
               </Box>
             </Link>
           </Box>

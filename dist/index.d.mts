@@ -286,8 +286,13 @@ type CopyHeadingLinkProps = {
     slug?: string;
     size?: number;
     sx?: SxStyleProp;
+    /**
+     * Heading text. When set, the copy control is glued to the last word so it
+     * never wraps onto a line by itself.
+     */
+    children?: ReactNode;
 };
-declare const CopyHeadingLink: ({ slug, size, sx, }: CopyHeadingLinkProps) => react_jsx_runtime.JSX.Element;
+declare const CopyHeadingLink: ({ slug, size, sx, children, }: CopyHeadingLinkProps) => react_jsx_runtime.JSX.Element;
 
 type BreadcrumbItem = {
     slug: string;
@@ -485,6 +490,8 @@ declare const DateText: ({ createdAt, updatedAt }: DateTextProps) => react_jsx_r
 type ArticlePaginationDoc = {
     slug: string | null;
     name: string | null;
+    createdAt?: string | null;
+    children?: ReactNode;
 };
 type ArticlePaginationData = {
     previousDoc: ArticlePaginationDoc;
@@ -494,8 +501,10 @@ type ArticlePaginationProps = {
     pagination: ArticlePaginationData;
     hidePaginationPrevious?: boolean;
     hidePaginationNext?: boolean;
+    previousChildren?: ReactNode;
+    nextChildren?: ReactNode;
 };
-declare const ArticlePagination: ({ pagination, hidePaginationNext, hidePaginationPrevious, }: ArticlePaginationProps) => react_jsx_runtime.JSX.Element;
+declare const ArticlePagination: ({ pagination, hidePaginationNext, hidePaginationPrevious, previousChildren, nextChildren, }: ArticlePaginationProps) => react_jsx_runtime.JSX.Element;
 
 type InsertAccountNameProps = {
     id: string;
@@ -535,6 +544,8 @@ type ArticleRenderProps = {
     headings?: Item[];
     headingList?: Item[];
     pagination?: ArticlePaginationData;
+    paginationPreviousChildren?: ReactNode;
+    paginationNextChildren?: ReactNode;
     children?: ReactNode;
     seeAlso?: SeeAlsoDoc[] | ReactNode;
     customComponents?: MarkdownRendererProps['customComponents'];
@@ -550,9 +561,11 @@ type ArticleRenderProps = {
     showArticlePagination?: boolean;
     showSeeAlso?: boolean;
     showTableOfContents?: boolean;
-    showDateText?: boolean;
+    showCreatedAt?: boolean;
+    createdAtFormat?: 'long' | 'published';
+    showUpdatedAt?: boolean;
 };
-declare const ArticleRender: ({ serialized, headings, headingList, breadcrumbList, contributors, path, pagination, slug, type, pageUrl, urlToEdit, rawContentBaseUrl, children, seeAlso, customComponents, scope, renderMarkdown, showReadingTime, showAskAIMenu, showAuthor, showContributors, showFeedbackSection, showSuggestEdits, showArticlePagination, showSeeAlso, showTableOfContents, showDateText, }: ArticleRenderProps) => react_jsx_runtime.JSX.Element;
+declare const ArticleRender: ({ serialized, headings, headingList, breadcrumbList, contributors, path, pagination, paginationPreviousChildren, paginationNextChildren, slug, type, pageUrl, urlToEdit, rawContentBaseUrl, children, seeAlso, customComponents, scope, renderMarkdown, showReadingTime, showAskAIMenu, showAuthor, showContributors, showFeedbackSection, showSuggestEdits, showArticlePagination, showSeeAlso, showTableOfContents, showCreatedAt, createdAtFormat, showUpdatedAt, }: ArticleRenderProps) => react_jsx_runtime.JSX.Element;
 
 type TroubleshootingItem = {
     slug: string;

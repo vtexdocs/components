@@ -39,10 +39,9 @@ const ObservableHeading = ({
   const toSlugify = childrenToString(children)
   const slug = slugify(toSlugify)
   const headingContent = (
-    <>
+    <CopyHeadingLink slug={slug} size={level === 2 ? 18 : 16}>
       {children}
-      <CopyHeadingLink slug={slug} size={level === 2 ? 18 : 16} />
-    </>
+    </CopyHeadingLink>
   )
 
   return (

@@ -81,6 +81,7 @@ export type MessagesType = {
   'documentation_reading_time.text': string
   'date_text.created': string
   'date_text.updated': string
+  'date_text.last_update': string
   'article_pagination.previous': string
   'article_pagination.next': string
   'see_also_section.title': string
