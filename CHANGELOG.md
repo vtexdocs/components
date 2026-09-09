@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [7.0.6](https://github.com/vtexdocs/components/compare/v7.0.5...v7.0.6) (2026-09-09)
+
+
+### Features
+
+* hideTOC ([566cb08](https://github.com/vtexdocs/components/commit/566cb08bcc6655414425d675824ec525041149bc))
+
 ### [7.0.5](https://github.com/vtexdocs/components/compare/v7.0.4...v7.0.5) (2026-09-09)
 
 
