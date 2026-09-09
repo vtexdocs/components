@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useContext, useEffect, useRef, useState } from 'react'
-import { Box, Flex } from '@vtex/brand-ui'
+import { Box } from '@vtex/brand-ui'
 import {
   ReactSVGPanZoom,
   UncontrolledReactSVGPanZoom,
@@ -14,6 +14,7 @@ import OverviewCard from 'components/overview-card'
 import YoutubeFrame from 'components/youtube-frame'
 import Steps from 'components/steps'
 import LightBox from 'components/lightbox'
+import Card from 'components/card'
 import WhatsNextCard from 'components/whats-next-card'
 import InsertAccountName from 'components/insert-account-name'
 
@@ -214,12 +215,16 @@ const ImageComponent = ({ node, ...props }: Component) => {
 export default {
   CH,
   OverviewCard,
+  Card,
   WhatsNextCard,
   YoutubeFrame,
   Steps,
   InsertAccountName,
-  Flex: ({ node, ...props }: Component) => (
-    <Flex className={styles.flexWrap} {...props} />
+  Flex: ({ node, className, ...props }: Component) => (
+    <Box
+      className={[styles.flexWrap, className].filter(Boolean).join(' ')}
+      {...props}
+    />
   ),
   table: ({ node, ...props }: Component) => <table {...props} />,
   td: ({ node, ...props }: Component) => <td {...props} />,
