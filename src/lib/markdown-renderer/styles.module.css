@@ -28,8 +28,25 @@
   overflow-wrap: break-word;
 }
 
+.tableScroll {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: none;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  margin: 1.5em 0;
+}
+
+.tableScroll > table {
+  margin: 0;
+  width: 100%;
+  table-layout: auto;
+}
+
 table .code {
   word-break: normal;
+  overflow-wrap: normal;
 }
 
 .blockquote {

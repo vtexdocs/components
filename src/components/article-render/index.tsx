@@ -61,6 +61,8 @@ export type ArticleRenderProps = {
   showArticlePagination?: boolean
   showSeeAlso?: boolean
   showTableOfContents?: boolean
+  /** Hide the right-hand table of contents. Also respects `frontmatter.hideTOC`. */
+  hideTOC?: boolean
   showCreatedAt?: boolean
   createdAtFormat?: 'long' | 'published'
   showUpdatedAt?: boolean
@@ -113,6 +115,7 @@ const ArticleRender = ({
   showArticlePagination = true,
   showSeeAlso = true,
   showTableOfContents = true,
+  hideTOC = false,
   showCreatedAt = false,
   createdAtFormat = 'long',
   showUpdatedAt = false,
@@ -146,8 +149,12 @@ const ArticleRender = ({
       : undefined
   const lastUpdateLabel =
     localeMessages['date_text.last_update'] || 'Last update:'
+  const hideToc =
+    hideTOC || serialized?.frontmatter?.hideTOC === true
+  const shouldShowTableOfContents = showTableOfContents && !hideToc
   const showBottomSection = showContributors || showFeedbackSection
-  const showSidebar = showContributors || showTableOfContents
+  const showSidebar =
+    !hideToc && (showContributors || shouldShowTableOfContents)
   const markdown = (
     <MarkdownRenderer
       serialized={serialized}
@@ -250,7 +257,12 @@ const ArticleRender = ({
           </Box>
 
           {showBottomSection && (
-            <Box sx={styles.bottomContributorsContainer}>
+            <Box
+              sx={{
+                ...styles.bottomContributorsContainer,
+                ...(!showSidebar && { display: 'flex' }),
+              }}
+            >
               {showContributors && (
                 <Box sx={styles.bottomContributors}>
                   <Contributors contributors={contributors} />
@@ -284,7 +296,7 @@ const ArticleRender = ({
         {showSidebar && (
           <Box sx={styles.rightContainer} data-article-aside>
             {showContributors && <Contributors contributors={contributors} />}
-            {showTableOfContents && (
+            {shouldShowTableOfContents && (
               <TableOfContents headingList={tocHeadings}>
                 {(showFeedbackSection || showSuggestEdits) && (
                   <Box sx={styles.divider}>
@@ -304,7 +316,7 @@ const ArticleRender = ({
             )}
           </Box>
         )}
-        {showTableOfContents && tocHeadings.length > 0 && (
+        {shouldShowTableOfContents && tocHeadings.length > 0 && (
           <OnThisPage headingList={tocHeadings} />
         )}
       </Flex>
