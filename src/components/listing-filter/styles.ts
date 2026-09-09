@@ -131,10 +131,12 @@ const checkBoxContainer: SxStyleProp = {
 
 const buttonsContainer: SxStyleProp = {
   py: '16px',
-  px: '32px',
+  px: ['16px', '32px'],
   alignItems: 'center',
   justifyContent: 'space-between',
   borderTop: '1px solid #E7E9EE',
+  gap: '12px',
+  flexWrap: 'wrap',
 }
 
 const sectionDivider: SxStyleProp = {
