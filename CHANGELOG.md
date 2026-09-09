@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [7.0.5](https://github.com/vtexdocs/components/compare/v7.0.4...v7.0.5) (2026-09-09)
+
+
+### Features
+
+* card component, markdown friendly ([d20bd3a](https://github.com/vtexdocs/components/commit/d20bd3a6dcc1bbdcfdb0002ffc4031945b3fa2a4))
+
 ### [7.0.4](https://github.com/vtexdocs/components/compare/v7.0.3...v7.0.4) (2026-09-08)
 
 
