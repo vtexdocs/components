@@ -570,11 +570,13 @@ type ArticleRenderProps = {
     showArticlePagination?: boolean;
     showSeeAlso?: boolean;
     showTableOfContents?: boolean;
+    /** Hide the right-hand table of contents. Also respects `frontmatter.hideTOC`. */
+    hideTOC?: boolean;
     showCreatedAt?: boolean;
     createdAtFormat?: 'long' | 'published';
     showUpdatedAt?: boolean;
 };
-declare const ArticleRender: ({ serialized, headings, headingList, breadcrumbList, contributors, path, pagination, paginationPreviousChildren, paginationNextChildren, slug, type, pageUrl, urlToEdit, rawContentBaseUrl, children, seeAlso, customComponents, scope, renderMarkdown, showReadingTime, showAskAIMenu, showAuthor, showContributors, showFeedbackSection, showSuggestEdits, showArticlePagination, showSeeAlso, showTableOfContents, showCreatedAt, createdAtFormat, showUpdatedAt, }: ArticleRenderProps) => react_jsx_runtime.JSX.Element;
+declare const ArticleRender: ({ serialized, headings, headingList, breadcrumbList, contributors, path, pagination, paginationPreviousChildren, paginationNextChildren, slug, type, pageUrl, urlToEdit, rawContentBaseUrl, children, seeAlso, customComponents, scope, renderMarkdown, showReadingTime, showAskAIMenu, showAuthor, showContributors, showFeedbackSection, showSuggestEdits, showArticlePagination, showSeeAlso, showTableOfContents, hideTOC, showCreatedAt, createdAtFormat, showUpdatedAt, }: ArticleRenderProps) => react_jsx_runtime.JSX.Element;
 
 type TroubleshootingItem = {
     slug: string;

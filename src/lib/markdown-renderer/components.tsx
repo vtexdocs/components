@@ -226,7 +226,11 @@ export default {
       {...props}
     />
   ),
-  table: ({ node, ...props }: Component) => <table {...props} />,
+  table: ({ node, ...props }: Component) => (
+    <div className={styles.tableScroll}>
+      <table {...props} />
+    </div>
+  ),
   td: ({ node, ...props }: Component) => <td {...props} />,
   img: ImageComponent,
   text: ({ node, ...props }: Component) => {

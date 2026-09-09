@@ -194,6 +194,12 @@ export const WithoutSeeAlso: Story = {
   },
 }
 
+export const HiddenTOC: Story = {
+  args: {
+    hideTOC: true,
+  },
+}
+
 export const Spanish: Story = {
   args: {
     locale: 'es',

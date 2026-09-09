@@ -22,6 +22,15 @@ const articleBox: SxStyleProp = {
   maxWidth: '100%',
   color: 'rgb(51, 65, 85)',
   overflowWrap: 'anywhere',
+  table: {
+    overflowWrap: 'normal',
+    wordBreak: 'normal',
+  },
+  'th, td': {
+    overflowWrap: 'normal',
+    wordBreak: 'normal',
+    hyphens: 'none',
+  },
   img: {
     maxWidth: '100%',
     height: 'auto',

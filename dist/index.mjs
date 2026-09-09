@@ -7736,6 +7736,7 @@ var styles_default8 = {
   img: "styles_img",
   heading: "styles_heading",
   code: "styles_code",
+  tableScroll: "styles_tableScroll",
   blockquote: "styles_blockquote",
   blockquoteIcon: "styles_blockquoteIcon",
   blockquoteInfo: "styles_blockquoteInfo",
@@ -7915,7 +7916,7 @@ var components_default = {
       ...props
     }
   ),
-  table: ({ node, ...props }) => /* @__PURE__ */ jsx14("table", { ...props }),
+  table: ({ node, ...props }) => /* @__PURE__ */ jsx14("div", { className: styles_default8.tableScroll, children: /* @__PURE__ */ jsx14("table", { ...props }) }),
   td: ({ node, ...props }) => /* @__PURE__ */ jsx14("td", { ...props }),
   img: ImageComponent,
   text: ({ node, ...props }) => {
@@ -19394,7 +19395,7 @@ var AskAssistant = ({
           /* @__PURE__ */ jsx96(sparkle_icon_default, { size: 14, sx: styles_default35.triggerIcon }),
           /* @__PURE__ */ jsx96(Text26, { children: labels.button }),
           /* @__PURE__ */ jsxs78(Flex29, { as: "span", sx: styles_default35.triggerShortcut, "aria-hidden": "true", children: [
-            /* @__PURE__ */ jsx96(Box35, { as: "kbd", sx: styles_default35.triggerKbd, children: isMacShortcut() ? "\u2318" : "Ctrl" }),
+            /* @__PURE__ */ jsx96(Box35, { as: "kbd", sx: styles_default35.triggerKbd, children: mounted && isMacShortcut() ? "\u2318" : "Ctrl" }),
             /* @__PURE__ */ jsx96(Box35, { as: "kbd", sx: styles_default35.triggerKbd, children: "I" })
           ] })
         ]
@@ -22420,6 +22421,15 @@ var articleBox = {
   maxWidth: "100%",
   color: "rgb(51, 65, 85)",
   overflowWrap: "anywhere",
+  table: {
+    overflowWrap: "normal",
+    wordBreak: "normal"
+  },
+  "th, td": {
+    overflowWrap: "normal",
+    wordBreak: "normal",
+    hyphens: "none"
+  },
   img: {
     maxWidth: "100%",
     height: "auto"
@@ -22766,6 +22776,7 @@ var ArticleRender = ({
   showArticlePagination = true,
   showSeeAlso = true,
   showTableOfContents = true,
+  hideTOC = false,
   showCreatedAt = false,
   createdAtFormat = "long",
   showUpdatedAt = false
@@ -22788,8 +22799,10 @@ var ArticleRender = ({
   );
   const updatedAtLabel = hasDistinctUpdatedAt && updatedAt ? formatArticleDate(updatedAt, locale, "short") : void 0;
   const lastUpdateLabel = localeMessages["date_text.last_update"] || "Last update:";
+  const hideToc = hideTOC || serialized?.frontmatter?.hideTOC === true;
+  const shouldShowTableOfContents = showTableOfContents && !hideToc;
   const showBottomSection = showContributors || showFeedbackSection;
-  const showSidebar = showContributors || showTableOfContents;
+  const showSidebar = !hideToc && (showContributors || shouldShowTableOfContents);
   const markdown2 = /* @__PURE__ */ jsx122(
     MarkdownRenderer_default,
     {
@@ -22857,18 +22870,27 @@ var ArticleRender = ({
             ] })
           ] })
         ] }),
-        showBottomSection && /* @__PURE__ */ jsxs100(Box46, { sx: styles_default50.bottomContributorsContainer, children: [
-          showContributors && /* @__PURE__ */ jsx122(Box46, { sx: styles_default50.bottomContributors, children: /* @__PURE__ */ jsx122(Contributors_default, { contributors }) }),
-          showFeedbackSection && /* @__PURE__ */ jsx122(
-            feedback_section_default,
-            {
-              slug,
-              urlToEdit,
-              pageUrl,
-              suggestEdits: showSuggestEdits
-            }
-          )
-        ] }),
+        showBottomSection && /* @__PURE__ */ jsxs100(
+          Box46,
+          {
+            sx: {
+              ...styles_default50.bottomContributorsContainer,
+              ...!showSidebar && { display: "flex" }
+            },
+            children: [
+              showContributors && /* @__PURE__ */ jsx122(Box46, { sx: styles_default50.bottomContributors, children: /* @__PURE__ */ jsx122(Contributors_default, { contributors }) }),
+              showFeedbackSection && /* @__PURE__ */ jsx122(
+                feedback_section_default,
+                {
+                  slug,
+                  urlToEdit,
+                  pageUrl,
+                  suggestEdits: showSuggestEdits
+                }
+              )
+            ]
+          }
+        ),
         showArticlePagination && pagination && /* @__PURE__ */ jsx122(
           article_pagination_default,
           {
@@ -22882,7 +22904,7 @@ var ArticleRender = ({
       ] }),
       showSidebar && /* @__PURE__ */ jsxs100(Box46, { sx: styles_default50.rightContainer, "data-article-aside": true, children: [
         showContributors && /* @__PURE__ */ jsx122(Contributors_default, { contributors }),
-        showTableOfContents && /* @__PURE__ */ jsx122(TableOfContents_default, { headingList: tocHeadings, children: (showFeedbackSection || showSuggestEdits) && /* @__PURE__ */ jsxs100(Box46, { sx: styles_default50.divider, children: [
+        shouldShowTableOfContents && /* @__PURE__ */ jsx122(TableOfContents_default, { headingList: tocHeadings, children: (showFeedbackSection || showSuggestEdits) && /* @__PURE__ */ jsxs100(Box46, { sx: styles_default50.divider, children: [
           showFeedbackSection && /* @__PURE__ */ jsx122(feedback_section_default, { slug, small: true, suggestEdits: false }),
           showSuggestEdits && /* @__PURE__ */ jsx122(
             suggest_edits_default,
@@ -22894,7 +22916,7 @@ var ArticleRender = ({
           )
         ] }) })
       ] }),
-      showTableOfContents && tocHeadings.length > 0 && /* @__PURE__ */ jsx122(OnThisPage_default, { headingList: tocHeadings })
+      shouldShowTableOfContents && tocHeadings.length > 0 && /* @__PURE__ */ jsx122(OnThisPage_default, { headingList: tocHeadings })
     ] })
   ] });
 };
