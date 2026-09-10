@@ -15940,7 +15940,9 @@ var StateResults = connectStateResults2(
       if (!searchResults)
         return;
       const results = searchResults;
-      const isFilteringByDoctype = typeof results?._state.filters === "string" && results._state.filters.includes("doctype:");
+      const stateFilters = typeof results?._state.filters === "string" ? results._state.filters : "";
+      const positiveFilters = stateFilters.replace(/NOT doctype:"[^"]*"/g, "");
+      const isFilteringByDoctype = positiveFilters.includes('doctype:"');
       const formattedFacets = {};
       const rawFacets = results?.facets;
       if (Array.isArray(rawFacets)) {
