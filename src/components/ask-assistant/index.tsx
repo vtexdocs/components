@@ -973,7 +973,7 @@ const AskAssistant = ({
           <Text>{labels.button}</Text>
           <Flex as="span" sx={styles.triggerShortcut} aria-hidden="true">
             <Box as="kbd" sx={styles.triggerKbd}>
-              {isMacShortcut() ? '⌘' : 'Ctrl'}
+              {mounted && isMacShortcut() ? '⌘' : 'Ctrl'}
             </Box>
             <Box as="kbd" sx={styles.triggerKbd}>
               I

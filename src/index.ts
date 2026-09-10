@@ -11,6 +11,7 @@ export {
   MobileSearch,
   Search,
   CookieBar,
+  Card,
   WhatsNextCard,
   ShareButton,
   CopyLinkButton,
@@ -99,6 +100,7 @@ export {
   type DocPath,
   type FeedbackModalProps,
   type FeedbackModalPayload,
+  type CardProps,
   type WhatsNextDataElement,
 } from './lib'
 

@@ -2,10 +2,14 @@ import type { SxStyleProp } from '@vtex/brand-ui'
 
 const devportalContainer: SxStyleProp = {
   mt: '16px',
-  padding: '25px',
+  padding: ['16px', '25px'],
   borderRadius: '4px',
   border: '1px solid #E7E9EE',
   width: '100%',
+  maxWidth: '100%',
+  minWidth: 0,
+  boxSizing: 'border-box',
+  display: 'block',
   transition: 'all 0.3s ease-out',
   ':hover': {
     cursor: 'pointer',
@@ -59,14 +63,13 @@ const title: SxStyleProp = {
 }
 
 const description: SxStyleProp = {
-  fontSize: '16px',
-  lineHeight: '22px',
+  fontSize: ['14px', '16px'],
+  lineHeight: ['20px', '22px'],
   fontWeight: '400',
   color: 'muted.1',
-  overflow: 'hidden',
+  overflowWrap: 'anywhere',
   width: '100%',
-  height: '50%',
-  display: ['none', 'none', 'block', 'block', 'block', 'block', 'block'],
+  display: 'block',
 }
 
 const tag: SxStyleProp = {
@@ -81,7 +84,7 @@ const tagsContainer: SxStyleProp = {
   display: 'flex',
   flexWrap: 'wrap',
   mt: '12px',
-  gap: '16px',
+  gap: ['8px', '16px'],
 }
 
 const tagGroup: SxStyleProp = {

@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [7.0.6](https://github.com/vtexdocs/components/compare/v7.0.5...v7.0.6) (2026-09-09)
+
+
+### Features
+
+* hideTOC ([566cb08](https://github.com/vtexdocs/components/commit/566cb08bcc6655414425d675824ec525041149bc))
+
+### [7.0.5](https://github.com/vtexdocs/components/compare/v7.0.4...v7.0.5) (2026-09-09)
+
+
+### Features
+
+* card component, markdown friendly ([d20bd3a](https://github.com/vtexdocs/components/commit/d20bd3a6dcc1bbdcfdb0002ffc4031945b3fa2a4))
+
+### [7.0.4](https://github.com/vtexdocs/components/compare/v7.0.3...v7.0.4) (2026-09-08)
+
+
+### Features
+
+* improve copy-heading-link and article-pagination ([af03b60](https://github.com/vtexdocs/components/commit/af03b60819b665e6425a6d75937f52877181e0ed))
+
 ### [7.0.3](https://github.com/vtexdocs/components/compare/v7.0.2...v7.0.3) (2026-09-08)
 
 
