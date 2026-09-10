@@ -208,6 +208,7 @@ type Section = {
     description: string;
     Icon: (props: IconProps) => JSX.Element;
     isExternalLink?: boolean;
+    excludeFromSearch?: boolean;
 };
 type IconComponent = (props: IconProps) => JSX.Element;
 

@@ -299,11 +299,14 @@ const createHybridClient = (config: HybridSearchConfig) => {
         const hitsPerPage = params.hitsPerPage || pageSize
         const page = params.page || 0
 
-        const { locale, doctypes } = extractHybridFilters(params)
+        const { locale, doctypes, excludedDoctypes } =
+          extractHybridFilters(params)
 
         // The upstream Hybrid Search API does not support pagination, so we
         // fetch a large slice once per (query, locale) pair and paginate /
-        // doctype-filter client-side for the result list.
+        // doctype-filter client-side for the result list. Excluded doctypes
+        // (e.g. `NOT doctype:"..."` from `excludeFromSearch`) are dropped
+        // client-side as well.
         const cacheKey = JSON.stringify({
           q: query,
           locale: useLanguageFilter ? locale || '' : '',
@@ -359,7 +362,7 @@ const createHybridClient = (config: HybridSearchConfig) => {
           return counts
         })()
 
-        const [allHits, doctypeCounts] = await Promise.all([
+        const [fetchedHits, doctypeCounts] = await Promise.all([
           hitsPromise,
           countsPromise,
         ])
@@ -368,6 +371,7 @@ const createHybridClient = (config: HybridSearchConfig) => {
           cachedCounts = doctypeCounts
         }
 
+        const allHits = excludeHitsByDoctype(fetchedHits, excludedDoctypes)
         const initialFilteredHits = filterHitsByDoctype(allHits, doctypes)
         let listHits = doctypes.length ? initialFilteredHits : allHits
 
@@ -451,9 +455,13 @@ const createHybridClient = (config: HybridSearchConfig) => {
           })
         }
 
+        const excludedDoctypeSet = new Set(
+          excludedDoctypes.map((d) => d.toLowerCase())
+        )
         const doctypeFacetData: Record<string, number> = {}
         if (cachedCounts) {
           HYBRID_DOCTYPE_IDS.forEach((id) => {
+            if (excludedDoctypeSet.has(id.toLowerCase())) return
             const count = cachedCounts[id]
             if (typeof count === 'number') {
               doctypeFacetData[id] = count
@@ -523,20 +531,33 @@ function clampUpstreamLimit(raw: number): number {
  *
  * Two filter shapes need to be supported:
  *  1. `Configure.filters` (a single string like
- *     `language:en AND doctype:"tutorials"`), used by the full Search page.
+ *     `language:en AND doctype:"tutorials" AND NOT doctype:"known-issues"`),
+ *     used by the full Search page.
  *  2. `Configure.facetFilters` (an array like `['language:en']`), used by
  *     the SearchInput dropdown in the header.
+ *
+ * `NOT doctype:"..."` clauses are parsed as exclusions (e.g. sections flagged
+ * `excludeFromSearch` in the consuming app). Positive `doctype:"..."` clauses
+ * narrow results to a selected tab.
  */
 function extractHybridFilters(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   params: any
-): { locale: string; doctypes: string[] } {
+): { locale: string; doctypes: string[]; excludedDoctypes: string[] } {
   let locale = ''
   const doctypes: string[] = []
+  const excludedDoctypes: string[] = []
 
   const pushDoctype = (raw: string) => {
     const value = raw.replace(/^"|"$/g, '').trim()
     if (value && !doctypes.includes(value)) doctypes.push(value)
+  }
+
+  const pushExcludedDoctype = (raw: string) => {
+    const value = raw.replace(/^"|"$/g, '').trim()
+    if (value && !excludedDoctypes.includes(value)) {
+      excludedDoctypes.push(value)
+    }
   }
 
   // 1) Configure.filters as a string expression
@@ -545,9 +566,20 @@ function extractHybridFilters(
     const langMatch = filtersStr.match(/language\s*:\s*([\w-]+)/i)
     if (langMatch) locale = langMatch[1]
 
+    const excludedRegex = /NOT\s+doctype\s*:\s*(?:"([^"]+)"|([^\s)]+))/gi
+    let excludedMatch: RegExpExecArray | null
+    while ((excludedMatch = excludedRegex.exec(filtersStr)) !== null) {
+      pushExcludedDoctype(excludedMatch[1] || excludedMatch[2] || '')
+    }
+
+    // Strip exclusion clauses before parsing positive doctype selections.
+    const positiveFiltersStr = filtersStr.replace(
+      /NOT\s+doctype\s*:\s*(?:"[^"]+"|[^\s)]+)/gi,
+      ''
+    )
     const doctypeRegex = /doctype\s*:\s*(?:"([^"]+)"|([^\s)]+))/gi
     let m: RegExpExecArray | null
-    while ((m = doctypeRegex.exec(filtersStr)) !== null) {
+    while ((m = doctypeRegex.exec(positiveFiltersStr)) !== null) {
       pushDoctype(m[1] || m[2] || '')
     }
   }
@@ -567,7 +599,18 @@ function extractHybridFilters(
   }
   visit(facetFilters)
 
-  return { locale, doctypes }
+  return { locale, doctypes, excludedDoctypes }
+}
+
+function excludeHitsByDoctype<T extends { doctype?: string }>(
+  hits: T[],
+  excludedDoctypes: string[]
+): T[] {
+  if (!excludedDoctypes.length) return hits
+  const excluded = new Set(excludedDoctypes.map((d) => d.toLowerCase()))
+  return hits.filter(
+    (h) => !excluded.has(String(h.doctype || '').toLowerCase())
+  )
 }
 
 function filterHitsByDoctype<T extends { doctype?: string }>(

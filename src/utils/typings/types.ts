@@ -7,6 +7,7 @@ export type Section = {
   description: string
   Icon: (props: IconProps) => JSX.Element
   isExternalLink?: boolean
+  excludeFromSearch?: boolean
 }
 
 export type MethodType = 'POST' | 'GET' | 'PUT' | 'DELETE' | 'PATCH'

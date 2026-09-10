@@ -71,7 +71,7 @@ const SearchFilterTabBar = () => {
   const countsLoaded = Object.keys(ocurrenceCount).length > 0
   const visibleSections = sidebarSections
     .flat()
-    .filter((section) => !section.isExternalLink)
+    .filter((section) => !section.isExternalLink && !section.excludeFromSearch)
     .filter(
       (section) => !countsLoaded || hasFilterResults(ocurrenceCount, section.id)
     )

@@ -13131,7 +13131,7 @@ var createHybridClient = (config) => {
         const query = params.query || "";
         const hitsPerPage2 = params.hitsPerPage || pageSize;
         const page = params.page || 0;
-        const { locale, doctypes } = extractHybridFilters(params);
+        const { locale, doctypes, excludedDoctypes } = extractHybridFilters(params);
         const cacheKey = JSON.stringify({
           q: query,
           locale: useLanguageFilter ? locale || "" : "",
@@ -13174,13 +13174,14 @@ var createHybridClient = (config) => {
           }
           return counts;
         })();
-        const [allHits, doctypeCounts] = await Promise.all([
+        const [fetchedHits, doctypeCounts] = await Promise.all([
           hitsPromise,
           countsPromise
         ]);
         if (doctypeCounts) {
           cachedCounts = doctypeCounts;
         }
+        const allHits = excludeHitsByDoctype(fetchedHits, excludedDoctypes);
         const initialFilteredHits = filterHitsByDoctype(allHits, doctypes);
         let listHits = doctypes.length ? initialFilteredHits : allHits;
         const doctypeDeepCacheKey = doctypes.length === 1 ? JSON.stringify({
@@ -13246,9 +13247,14 @@ var createHybridClient = (config) => {
             endOffset: start + pageHits.length
           });
         }
+        const excludedDoctypeSet = new Set(
+          excludedDoctypes.map((d) => d.toLowerCase())
+        );
         const doctypeFacetData = {};
         if (cachedCounts) {
           HYBRID_DOCTYPE_IDS.forEach((id) => {
+            if (excludedDoctypeSet.has(id.toLowerCase()))
+              return;
             const count2 = cachedCounts[id];
             if (typeof count2 === "number") {
               doctypeFacetData[id] = count2;
@@ -13310,19 +13316,35 @@ function clampUpstreamLimit(raw) {
 function extractHybridFilters(params) {
   let locale = "";
   const doctypes = [];
+  const excludedDoctypes = [];
   const pushDoctype = (raw) => {
     const value = raw.replace(/^"|"$/g, "").trim();
     if (value && !doctypes.includes(value))
       doctypes.push(value);
+  };
+  const pushExcludedDoctype = (raw) => {
+    const value = raw.replace(/^"|"$/g, "").trim();
+    if (value && !excludedDoctypes.includes(value)) {
+      excludedDoctypes.push(value);
+    }
   };
   const filtersStr = typeof params?.filters === "string" ? params.filters : "";
   if (filtersStr) {
     const langMatch = filtersStr.match(/language\s*:\s*([\w-]+)/i);
     if (langMatch)
       locale = langMatch[1];
+    const excludedRegex = /NOT\s+doctype\s*:\s*(?:"([^"]+)"|([^\s)]+))/gi;
+    let excludedMatch;
+    while ((excludedMatch = excludedRegex.exec(filtersStr)) !== null) {
+      pushExcludedDoctype(excludedMatch[1] || excludedMatch[2] || "");
+    }
+    const positiveFiltersStr = filtersStr.replace(
+      /NOT\s+doctype\s*:\s*(?:"[^"]+"|[^\s)]+)/gi,
+      ""
+    );
     const doctypeRegex = /doctype\s*:\s*(?:"([^"]+)"|([^\s)]+))/gi;
     let m;
-    while ((m = doctypeRegex.exec(filtersStr)) !== null) {
+    while ((m = doctypeRegex.exec(positiveFiltersStr)) !== null) {
       pushDoctype(m[1] || m[2] || "");
     }
   }
@@ -13339,7 +13361,15 @@ function extractHybridFilters(params) {
     }
   };
   visit(facetFilters);
-  return { locale, doctypes };
+  return { locale, doctypes, excludedDoctypes };
+}
+function excludeHitsByDoctype(hits, excludedDoctypes) {
+  if (!excludedDoctypes.length)
+    return hits;
+  const excluded = new Set(excludedDoctypes.map((d) => d.toLowerCase()));
+  return hits.filter(
+    (h) => !excluded.has(String(h.doctype || "").toLowerCase())
+  );
 }
 function filterHitsByDoctype(hits, doctypes) {
   if (!doctypes.length)
@@ -15308,7 +15338,7 @@ import { jsx as jsx69, jsxs as jsxs55 } from "react/jsx-runtime";
 var SearchSections = () => {
   const { sidebarSections } = useContext20(LibraryContext);
   const internalOnlySections = sidebarSections.map(
-    (section) => section.filter((item2) => !item2.isExternalLink)
+    (section) => section.filter((item2) => !item2.isExternalLink && !item2.excludeFromSearch)
   );
   return /* @__PURE__ */ jsx69(Box27, { sx: styles_default26.container, children: internalOnlySections.map((sections, id) => /* @__PURE__ */ jsxs55(
     Box27,
@@ -15910,7 +15940,9 @@ var StateResults = connectStateResults2(
       if (!searchResults)
         return;
       const results = searchResults;
-      const isFilteringByDoctype = typeof results?._state.filters === "string" && results._state.filters.includes("doctype:");
+      const stateFilters = typeof results?._state.filters === "string" ? results._state.filters : "";
+      const positiveFilters = stateFilters.replace(/NOT doctype:"[^"]*"/g, "");
+      const isFilteringByDoctype = positiveFilters.includes('doctype:"');
       const formattedFacets = {};
       const rawFacets = results?.facets;
       if (Array.isArray(rawFacets)) {
@@ -15992,10 +16024,12 @@ import { jsx as jsx73, jsxs as jsxs59 } from "react/jsx-runtime";
 var SearchResults = () => {
   const router = useRouter10();
   const { filterSelectedSection, ocurrenceCount } = useContext23(SearchContext);
-  const { locale } = useContext23(LibraryContext);
+  const { locale, sidebarSections } = useContext23(LibraryContext);
+  const excludedDoctypesFilter = sidebarSections.flat().filter((section) => section.excludeFromSearch).map((section) => `NOT doctype:"${section.id}"`).join(" AND ");
   const filters = [
     `language:${locale}`,
-    filterSelectedSection ? `doctype:"${filterSelectedSection}"` : ""
+    filterSelectedSection ? `doctype:"${filterSelectedSection}"` : "",
+    excludedDoctypesFilter
   ].filter(Boolean).join(" AND ");
   const keyword = String(router.query.keyword ?? "");
   const [prevFilter, setPrevFilter] = useState23("");
@@ -16166,7 +16200,7 @@ var SearchFilterTabBar = () => {
   const { sidebarSections, sidebarDataMaster, locale } = useContext24(LibraryContext);
   const { ocurrenceCount, filterSelectedSection, changeFilterSelectedSection } = useContext24(SearchContext);
   const countsLoaded = Object.keys(ocurrenceCount).length > 0;
-  const visibleSections = sidebarSections.flat().filter((section) => !section.isExternalLink).filter(
+  const visibleSections = sidebarSections.flat().filter((section) => !section.isExternalLink && !section.excludeFromSearch).filter(
     (section) => !countsLoaded || hasFilterResults(ocurrenceCount, section.id)
   );
   useEffect22(() => {
