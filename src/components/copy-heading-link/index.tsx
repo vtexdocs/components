@@ -1,7 +1,6 @@
 import {
   Children,
   useCallback,
-  useContext,
   useEffect,
   useRef,
   useState,
@@ -14,7 +13,7 @@ import copy from 'copy-text-to-clipboard'
 
 import LinkIcon from 'components/icons/link-icon'
 import Tooltip from 'components/tooltip'
-import { LibraryContext } from 'utils/context/libraryContext'
+import { useLocale } from 'utils/context/libraryContext'
 import { messages } from 'utils/get-message'
 import styles from './styles'
 
@@ -92,7 +91,7 @@ const CopyHeadingLink = ({
   sx = {},
   children,
 }: CopyHeadingLinkProps) => {
-  const { locale } = useContext(LibraryContext)
+  const locale = useLocale()
   const [copied, setCopied] = useState(false)
   const copyTimeout = useRef<number | undefined>(undefined)
 

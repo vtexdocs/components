@@ -64,13 +64,14 @@ const statusColors: Record<TagColor, SxStyleProp> = {
     background: '#FFE0EF',
   },
   Gray: {
-    color: '#4A596B',
-    background: '#E7E9EE',
+    border: '1px solid #C5CDD6',
+    color: '#5B6E84',
+    background: '#ECEFF2',
   },
   Deprecation: {
-    border: '1px solid #E8A5BE',
-    color: '#A23D6E',
-    background: '#FCEAF2',
+    border: '1px solid #E5A3A3',
+    color: '#CC3D3D',
+    background: '#F8E3E3',
   },
   Blue: {
     border: '1px solid #A5C0FF',

@@ -1,6 +1,6 @@
-import { FormEvent, useContext, useEffect, useState } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
 import { Box, Flex, Text } from '@vtex/brand-ui'
-import { LibraryContext } from 'utils/context/libraryContext'
+import { useLocale } from 'utils/context/libraryContext'
 import { messages } from 'utils/get-message'
 import CheckIcon from 'components/icons/check-icon'
 import CommentIcon from 'components/icons/comment-icon'
@@ -82,7 +82,7 @@ const FeedbackModal = ({
   sendFeedback,
   defaultOpen = false,
 }: FeedbackModalProps) => {
-  const { locale } = useContext(LibraryContext)
+  const locale = useLocale()
   const localizedMessages = messages[locale] ?? messages.en
   const [isOpen, setIsOpen] = useState(defaultOpen)
   const [submitted, setSubmitted] = useState(false)

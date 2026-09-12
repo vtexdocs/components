@@ -18,7 +18,7 @@ import {
 } from 'utils/search-utils'
 import { Box, Flex, Text } from '@vtex/brand-ui'
 import { SearchContext } from 'utils/context/search'
-import { LibraryContext } from 'utils/context/libraryContext'
+import { LibraryContext, useLocale } from 'utils/context/libraryContext'
 import { messages } from 'utils/get-message'
 import resultsStyles from 'components/search-results/styles'
 
@@ -109,7 +109,7 @@ const StateResults = connectStateResults(
 
 const InfiniteHits = ({ hits, hasMore, refineNext }: InfiniteHitsProvided) => {
   const scrollRef = useRef<HTMLSpanElement>(null)
-  const { locale } = useContext(LibraryContext)
+  const locale = useLocale()
 
   const filteredResult = useMemo(() => {
     const mergeHits: FilteredHit2[] = [] //hitsData

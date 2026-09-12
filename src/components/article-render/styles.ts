@@ -2,6 +2,9 @@ import type { SxStyleProp } from '@vtex/brand-ui'
 
 const MUTED = '#5E6E84'
 
+/** Brand UI breakpoint index 4 (`80em`). Sidebar TOC vs mobile On This Page. */
+export const ARTICLE_SIDEBAR_MQ = '(min-width: 80em)'
+
 const innerContainer: SxStyleProp = {
   justifyContent: 'center',
   width: '100%',
@@ -260,7 +263,7 @@ const articleActions: SxStyleProp = {
 }
 
 const bottomContributorsContainer: SxStyleProp = {
-  display: ['flex', 'flex', 'flex', 'flex', 'none'],
+  display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
   width: '100%',

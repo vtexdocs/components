@@ -1,9 +1,8 @@
-import { useContext } from 'react'
 import { Box, Flex, Text } from '@vtex/brand-ui'
 
 import ExternalLinkIcon from 'components/icons/external-link-icon'
 import PaperIcon from 'components/icons/paper-icon'
-import { LibraryContext } from 'utils/context/libraryContext'
+import { useLocale } from 'utils/context/libraryContext'
 import { messages } from 'utils/get-message'
 
 import styles from './styles'
@@ -80,7 +79,7 @@ const originLabel = (href: string) => {
 }
 
 const AnswerSources = ({ sources }: { sources: AnswerSource[] }) => {
-  const { locale } = useContext(LibraryContext)
+  const locale = useLocale()
   const localized = messages[locale] ?? messages.en
   const title = localized['ask_assistant.sources'] || 'Sources'
 

@@ -1,5 +1,5 @@
 import { Box, Flex, Text, IconCaret, Tooltip } from '@vtex/brand-ui'
-import { useContext, useEffect, useState, MouseEvent } from 'react'
+import { useEffect, useState, MouseEvent } from 'react'
 import { useRouter } from 'next/router.js'
 import Link from 'next/link.js'
 import { Hit } from 'react-instantsearch-core'
@@ -8,7 +8,7 @@ import styles from './styles'
 import CustomHighlight, {
   HighlightQuery,
 } from 'components/search-input/customHighlight'
-import { LibraryContext } from 'utils/context/libraryContext'
+import { useLocale } from 'utils/context/libraryContext'
 import { messages } from 'utils/get-message'
 import ExpandedResultsIcon from 'components/icons/expanded-results-icon'
 import CopyIcon from 'components/icons/copy-icon'
@@ -42,7 +42,7 @@ const SearchCard = ({
   const actionValue = actionType ? getAction(actionType) : null
   const [toggleChildResults, setToggleChildResults] = useState<boolean>(false)
   const [copied, setCopied] = useState(false)
-  const { locale } = useContext(LibraryContext)
+  const locale = useLocale()
   const router = useRouter()
   const query = String(router.query.keyword ?? '')
   const DocIcon = Icon || PaperIcon

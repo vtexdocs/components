@@ -1,6 +1,35 @@
 import { SxStyleProp } from '@vtex/brand-ui'
 import styles from './styles'
 
+export function HighlightedText({
+  text,
+  query,
+}: {
+  text: string
+  query?: string
+}) {
+  const trimmed = query?.trim()
+  if (!trimmed) return <>{text}</>
+
+  const escaped = trimmed.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  const parts = text.split(new RegExp(`(${escaped})`, 'ig'))
+  const normalized = trimmed.toLowerCase()
+
+  return (
+    <>
+      {parts.map((part, index) =>
+        part.toLowerCase() === normalized ? (
+          <strong key={index} style={{ fontWeight: 700 }}>
+            {part}
+          </strong>
+        ) : (
+          part
+        )
+      )}
+    </>
+  )
+}
+
 type NestedSidebarNode = {
   slug: string | { en: string; pt: string; es: string }
   method?: string

@@ -1,7 +1,6 @@
-import { useContext } from 'react'
 import { Flex, Text } from '@vtex/brand-ui'
 
-import { LibraryContext } from 'utils/context/libraryContext'
+import { useLocale } from 'utils/context/libraryContext'
 import { messages } from 'utils/get-message'
 import styles from './styles'
 
@@ -16,7 +15,7 @@ const formatDate = (date: Date, locale: string) => {
 }
 
 const DateText = ({ createdAt, updatedAt }: DateTextProps) => {
-  const { locale } = useContext(LibraryContext)
+  const locale = useLocale()
   const createdLabel = messages[locale]['date_text.created'] || 'Published on'
   const updatedLabel =
     messages[locale]['date_text.updated'] || 'Last updated on'

@@ -59,9 +59,23 @@ const meta = {
           {...exampleContextProps}
           locale={args.locale ?? 'en'}
         >
-          <div style={{ minHeight: '100vh', padding: 24 }}>
-            <p style={{ color: '#4A4A4A', maxWidth: 360 }}>
-              Mobile floating table of contents. Tap the control at the bottom
+          <div
+            style={{
+              minHeight: '100vh',
+              padding: 24,
+              background:
+                'linear-gradient(180deg, #F8F7FC 0%, #FFFFFF 28%, #FFFFFF 100%)',
+            }}
+          >
+            <p
+              style={{
+                color: '#4A596B',
+                maxWidth: 360,
+                fontSize: 14,
+                lineHeight: '22px',
+              }}
+            >
+              Mobile floating table of contents. Tap the pill at the bottom
               right to open it.
             </p>
             <Story />

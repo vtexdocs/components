@@ -1,9 +1,9 @@
 import { Flex, Text } from '@vtex/brand-ui'
 import LikeIcon from 'components/icons/like-icon'
 import LikeSelectedIcon from 'components/icons/like-selected-icon'
-import { useContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import styles from './styles'
-import { LibraryContext } from 'utils/context/libraryContext'
+import { useLocale } from 'utils/context/libraryContext'
 import { messages } from 'utils/get-message'
 import ShareButton from 'components/share-button'
 import SuggestEdits from 'components/suggest-edits'
@@ -64,7 +64,7 @@ const FeedbackSection = ({
   small = false,
 }: FeedbackSectionProps) => {
   const [feedback, setFeedback] = useState<boolean | undefined>(undefined)
-  const { locale } = useContext(LibraryContext)
+  const locale = useLocale()
 
   useEffect(() => {
     setFeedback(undefined)

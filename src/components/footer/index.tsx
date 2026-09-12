@@ -1,6 +1,6 @@
-import { useContext, type ReactNode } from 'react'
+import { type ReactNode } from 'react'
 import { Box, Flex, Link } from '@vtex/brand-ui'
-import { LibraryContext } from 'utils/context/libraryContext'
+import { useLocale } from 'utils/context/libraryContext'
 import { messages } from 'utils/get-message'
 import {
   getCommunityURL,
@@ -55,7 +55,7 @@ const Footer = ({
   feedbackUrl,
   localeSwitcher,
 }: FooterProps) => {
-  const { locale } = useContext(LibraryContext)
+  const locale = useLocale()
   const localizedMessages = messages[locale] ?? messages.en
 
   const crossSiteLink: FooterLink =
@@ -107,7 +107,7 @@ const Footer = ({
   ]
 
   return (
-    <Box sx={styles.outerBox}>
+    <Box as="footer" sx={styles.outerBox} data-docs-footer>
       <Flex sx={styles.brandAndSocial}>
         <VTEXLogoFooter sx={styles.logo} />
         <Flex sx={styles.socialMediaIcons}>

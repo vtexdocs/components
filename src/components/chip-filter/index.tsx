@@ -18,6 +18,8 @@ export type ChipFilterProps = {
   removeCategory: (option: string) => void
   getCategoryAmount: (category: string) => number
   allResultsLabel?: string
+  allResultsCount?: number
+  hideEmptyCategories?: boolean
 }
 
 const ChipFilter = ({
@@ -28,6 +30,8 @@ const ChipFilter = ({
   removeCategory,
   getCategoryAmount,
   allResultsLabel = 'All results',
+  allResultsCount,
+  hideEmptyCategories = false,
 }: ChipFilterProps) => {
   const containerRef = useRef<HTMLDivElement | null>(null)
 
@@ -36,10 +40,12 @@ const ChipFilter = ({
     right: boolean
   }>({ left: false, right: false })
 
-  const totalCount = categories.reduce(
-    (sum, category) => sum + getCategoryAmount(category.type),
-    0
-  )
+  const totalCount =
+    allResultsCount ??
+    categories.reduce(
+      (sum, category) => sum + getCategoryAmount(category.type),
+      0
+    )
 
   function handleLeftArrowClick() {
     if (containerRef.current) {
@@ -77,7 +83,7 @@ const ChipFilter = ({
     handleContainerScroll()
     window.addEventListener('resize', handleContainerScroll)
     return () => window.removeEventListener('resize', handleContainerScroll)
-  }, [categories, filters])
+  }, [categories, filters, hideEmptyCategories, totalCount])
 
   return (
     <Flex sx={styles.chipButtonWrapper}>
@@ -106,20 +112,28 @@ const ChipFilter = ({
             count={totalCount}
             applyCategory={() => resetFilters()}
           />
-          {categories.map((category) => (
-            <FilterChip
-              key={category.type}
-              value={category.title}
-              count={getCategoryAmount(category.type)}
-              applyCategory={() =>
+          {categories
+            .filter((category) => {
+              if (!hideEmptyCategories) return true
+              return (
+                getCategoryAmount(category.type) > 0 ||
                 isCategoryActive(category.type)
-                  ? removeCategory(category.type)
-                  : applyCategory(category.type)
-              }
-              isActive={isCategoryActive(category.type)}
-              Icon={category.Icon}
-            />
-          ))}
+              )
+            })
+            .map((category) => (
+              <FilterChip
+                key={category.type}
+                value={category.title}
+                count={getCategoryAmount(category.type)}
+                applyCategory={() =>
+                  isCategoryActive(category.type)
+                    ? removeCategory(category.type)
+                    : applyCategory(category.type)
+                }
+                isActive={isCategoryActive(category.type)}
+                Icon={category.Icon}
+              />
+            ))}
         </Box>
       </Box>
       {shouldDisplayArrows.right && (

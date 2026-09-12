@@ -1,9 +1,8 @@
-import { useContext } from 'react'
 import { Link, Text } from '@vtex/brand-ui'
 import type { SxStyleProp } from '@vtex/brand-ui'
 
 import EditIcon from 'components/icons/edit-icon'
-import { LibraryContext } from 'utils/context/libraryContext'
+import { useLocale } from 'utils/context/libraryContext'
 import { messages } from 'utils/get-message'
 import styles from './styles'
 
@@ -20,7 +19,7 @@ const SuggestEdits = ({
   small = false,
   sx = {},
 }: SuggestEditsProps) => {
-  const { locale } = useContext(LibraryContext)
+  const locale = useLocale()
   const label =
     messages[locale]['feedback_section.edit'] || 'Suggest Edits (GitHub)'
 

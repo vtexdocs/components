@@ -1,7 +1,7 @@
+import * as react from 'react';
+import react__default, { ReactNode, Dispatch, SetStateAction } from 'react';
 import * as react_jsx_runtime from 'react/jsx-runtime';
 import { MDXRemoteSerializeResult } from 'next-mdx-remote';
-import * as React$1 from 'react';
-import React__default, { ReactNode, Dispatch, SetStateAction } from 'react';
 import { SxStyleProp, IconProps, TooltipProps } from '@vtex/brand-ui';
 import { AlgoliaSearchOptions } from 'algoliasearch/lite';
 
@@ -15,7 +15,7 @@ interface MarkdownRendererProps {
     };
 }
 
-declare const MarkdownRenderer: ({ serialized, customComponents, scope, }: MarkdownRendererProps) => react_jsx_runtime.JSX.Element;
+declare const _default: react.MemoExoticComponent<({ serialized, customComponents, scope, }: MarkdownRendererProps) => react_jsx_runtime.JSX.Element>;
 
 interface SubItem {
     title: string;
@@ -29,9 +29,11 @@ interface Props$4 {
     /** List of headings in the current documentation page */
     headingList?: Item[];
     children?: React.ReactNode;
+    /** Hide the "On this page" heading, e.g. when nested in the mobile sheet. */
+    hideTitle?: boolean;
 }
 /** Table of contents for documentation pages. */
-declare const TableOfContents: ({ headingList, children }: Props$4) => react_jsx_runtime.JSX.Element;
+declare const TableOfContents: ({ headingList, children, hideTitle }: Props$4) => react_jsx_runtime.JSX.Element;
 
 interface OnThisPageProps {
     /** List of headings in the current documentation page */
@@ -323,7 +325,7 @@ interface InputProps {
 }
 declare const Input: ({ value, onChange, placeholder, Icon }: InputProps) => react_jsx_runtime.JSX.Element;
 
-declare const SubscriptionList: React__default.FC;
+declare const SubscriptionList: react__default.FC;
 
 type FooterLink = {
     label: string;
@@ -468,8 +470,10 @@ type ChipFilterProps = {
     removeCategory: (option: string) => void;
     getCategoryAmount: (category: string) => number;
     allResultsLabel?: string;
+    allResultsCount?: number;
+    hideEmptyCategories?: boolean;
 };
-declare const ChipFilter: ({ filters, categories, applyCategory, resetFilters, removeCategory, getCategoryAmount, allResultsLabel, }: ChipFilterProps) => react_jsx_runtime.JSX.Element;
+declare const ChipFilter: ({ filters, categories, applyCategory, resetFilters, removeCategory, getCategoryAmount, allResultsLabel, allResultsCount, hideEmptyCategories, }: ChipFilterProps) => react_jsx_runtime.JSX.Element;
 
 interface Props$1 extends Pick<TooltipProps, 'children' | 'label' | 'placement'> {
     sx?: SxStyleProp;
@@ -609,28 +613,30 @@ declare function collectTroubleshootingFilterOptions<T extends Pick<Troubleshoot
 
 declare const getDaysElapsed: (date: Date) => number;
 
-interface Props extends Partial<ContextType> {
-    children: ReactNode;
-    /** The navigation array containing the list of documentations shown in the sidebar. */
-    fallback?: any;
-    /** Documentation sections, the same sections that divide the fallback. */
-    sections: Section[][];
-    /** Whether is a branch preview or not. */
-    isPreview: boolean;
-    /** The section currently selected. */
-    sectionSelected: string;
-    /** The sections to be used on the hamburguer menu */
-    hamburguerMenuSections: Section[][];
-    /** The portal language. The default is english. */
-    locale?: 'en' | 'pt' | 'es';
-}
-type ContextType = {
+type Locale = 'en' | 'pt' | 'es';
+type ActiveItem = {
+    item: string;
+    subItem: string;
+};
+type LocaleContextType = {
+    locale: Locale;
+};
+type TocStateContextType = {
     headingItems: Item[];
-    setHeadingItems: Dispatch<SetStateAction<Item[]>>;
     activeItem: ActiveItem;
+};
+type TocActionsContextType = {
+    setHeadingItems: Dispatch<SetStateAction<Item[]>>;
     setActiveItem: Dispatch<SetStateAction<ActiveItem>>;
     goToPreviousItem: () => void;
     goToPreviousSubItem: () => void;
+    onHeadingEnter: (slug: string) => void;
+    onHeadingLeave: (slug: string, entry: IntersectionObserverEntry, y: number) => void;
+    onSubHeadingEnter: (slug: string) => void;
+    onSubHeadingLeave: (slug: string, entry: IntersectionObserverEntry, y: number) => void;
+};
+/** Sidebar, preview, and locale. Does not include TOC scroll-spy state. */
+type ContextType = {
     isEditorPreview: boolean;
     sidebarSectionHidden: boolean;
     activeSectionName: string;
@@ -650,14 +656,31 @@ type ContextType = {
     setSidebarSections: Dispatch<SetStateAction<Section[][]>>;
     hamburguerSections: Section[][];
     setHamburguerSections: Dispatch<SetStateAction<Section[][]>>;
-    locale: 'en' | 'pt' | 'es';
+    locale: Locale;
 };
-type ActiveItem = {
-    item: string;
-    subItem: string;
-};
-declare const LibraryContext: React$1.Context<ContextType>;
-/** Provider for the LibraryContext created with React.createContext. The context is used in the following components: feedback, search, sidebar, hamburger menu, markdown renderer and table of contents. */
+interface Props extends Partial<ContextType> {
+    children: ReactNode;
+    /** The navigation array containing the list of documentations shown in the sidebar. */
+    fallback?: any;
+    /** Documentation sections, the same sections that divide the fallback. */
+    sections: Section[][];
+    /** Whether is a branch preview or not. */
+    isPreview: boolean;
+    /** The section currently selected. */
+    sectionSelected: string;
+    /** The sections to be used on the hamburguer menu */
+    hamburguerMenuSections: Section[][];
+    /** The portal language. The default is english. */
+    locale?: Locale;
+}
+declare const LocaleContext: react.Context<LocaleContextType>;
+declare const TocStateContext: react.Context<TocStateContextType>;
+declare const TocActionsContext: react.Context<TocActionsContextType>;
+declare const LibraryContext: react.Context<ContextType>;
+declare const useLocale: () => Locale;
+declare const useTocState: () => TocStateContextType;
+declare const useTocActions: () => TocActionsContextType;
+/** Provider for docs UI state. Locale, TOC scroll-spy, and sidebar are separate contexts so article scroll does not re-render the page. */
 declare const LibraryContextProvider: ({ children, ...props }: Props) => react_jsx_runtime.JSX.Element;
 
 interface AlgoliaConfig {
@@ -751,6 +774,8 @@ declare const DeprecatedIcon: (props: IconProps) => react_jsx_runtime.JSX.Elemen
 declare const FixedIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
 
 declare const ImprovedIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
+
+declare const BreakingChangeIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
 
 declare const RemovedIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
 
@@ -850,4 +875,4 @@ declare const LikeIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
 
 declare const LikeSelectedIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
 
-export { APIGuidesIcon, APIReferenceIcon, AddedIcon, type AlgoliaConfig, AnnouncementBar, type AnnouncementBarAction, type AnnouncementBarProps, type AnnouncementBarType, AnnouncementIcon, AppDevelopmentIcon, ArrowLeftIcon, ArrowRightIcon, ArticlePagination, type ArticlePaginationData, type ArticlePaginationDoc, type ArticlePaginationProps, ArticleRender, type ArticleRenderProps, AskAIMenu, type AskAIMenuProps, type AskAIProvider, AskAssistant, type AskAssistantExampleCategory, type AskAssistantFeedback, type AskAssistantProps, type AssistantStreamEvent, type AssistantStreamHandler, Author, type AuthorProps, Breadcrumb, type BreadcrumbItem, type BreadcrumbProps, Card, type CardProps, CaretIcon, ChatGPTIcon, type ChatMessage, CheckboxIcon, ChipFilter, type ChipFilterCategory, type ChipFilterProps, ClaudeIcon, CloseFilterIcon, CloseIcon, CollapseIcon, CommunityIcon, Contributors, type ContributorsProps, type ContributorsType, CookieBar, CopilotIcon, CopyButton, type CopyButtonProps, CopyHeadingLink, type CopyHeadingLinkProps, CopyIcon, CopyLinkButton, DEFAULT_ASK_ASSISTANT_EXAMPLES, DateText, type DateTextProps, DeprecatedIcon, DeveloperPortalIcon, type DocPath, DocumentationUpdatesIcon, DropdownMenu, type DropdownMenuProps, EditIcon, EmailIcon, ExpandIcon, ExpandedResultsIcon, FAQIcon, FacebookCircleIcon, FacebookIcon, FeedbackModal, type FeedbackModalPayload, type FeedbackModalProps, FeedbackSection, type FeedbackSectionProps, ListingFilter as Filter, type FilterGroup, FilterIcon, type FilterOption, FixedIcon, Footer, type FooterLink, type FooterProps, type FooterVariant, GearTroubleshootingIcon, GeminiIcon, GithubIcon, GraphIcon, GridIcon, HamburgerMenu, Header, type HeaderProps, type HeaderVariant, HelpCenterIcon, type HistoryConversation, type HybridSearchConfig, ImprovedIcon, InfoIcon, Input, InsertAccountName, type InsertAccountNameProps, IgIcon as InstagramIcon, type Item, KnownIssueIcon as KnownIssuesIcon, LibraryContext, LibraryContextProvider, LikeIcon, LikeSelectedIcon, LinkIcon, LinkedinCircleIcon, LinkedinIcon, ListingFilter, type ListingFilterLabels, type ListingFilterProps, type ListingFilterSelection, LongArrowIcon, MarkdownRenderer, MegaphoneIcon, MenuIcon, MobileSearch, type MobileSearchProps, NewChatIcon, NewIcon, OnThisPage, type OnThisPageProps, PaperIcon, type ProcessStep, RefreshIcon, ReleaseNotesIcon, RemovedIcon, ResizeIcon, Search, type SearchBackendConfig, SearchConfig, SearchIcon, SearchInput, type SearchInputProps, type Section, type SeeAlsoDoc, SeeAlsoSection, type SeeAlsoSectionProps, SendIcon, ShareButton, ShareIcon, SideBarToggleIcon, Sidebar, SparkleIcon, StartHereIcon, StorefrontDevelopmentIcon, SubscriptionList, SuggestEdits, type SuggestEditsProps, TableOfContents, Tag, type TagColor, type TagProps, TimeToRead, type TimeToReadProps, Tooltip, TrashcanIcon, TroubleshootingCard, type TroubleshootingCardProps, type TroubleshootingCardVariant, type TroubleshootingFilterState, TroubleshootingIcon, type TroubleshootingItem, TutorialsIcon, TwitterCircleIcon, TwitterIcon, VTEXDevPortalIcon, VTEXHelpCenterIcon, VTEXIOAppsIcon, VTEXLogoFooter, WarningIcon, Card as WhatsNextCard, type WhatsNextDataElement, YoutubeIcon, collectTroubleshootingFilterOptions, filterTroubleshootingItems, getDaysElapsed };
+export { APIGuidesIcon, APIReferenceIcon, AddedIcon, type AlgoliaConfig, AnnouncementBar, type AnnouncementBarAction, type AnnouncementBarProps, type AnnouncementBarType, AnnouncementIcon, AppDevelopmentIcon, ArrowLeftIcon, ArrowRightIcon, ArticlePagination, type ArticlePaginationData, type ArticlePaginationDoc, type ArticlePaginationProps, ArticleRender, type ArticleRenderProps, AskAIMenu, type AskAIMenuProps, type AskAIProvider, AskAssistant, type AskAssistantExampleCategory, type AskAssistantFeedback, type AskAssistantProps, type AssistantStreamEvent, type AssistantStreamHandler, Author, type AuthorProps, Breadcrumb, type BreadcrumbItem, type BreadcrumbProps, BreakingChangeIcon, Card, type CardProps, CaretIcon, ChatGPTIcon, type ChatMessage, CheckboxIcon, ChipFilter, type ChipFilterCategory, type ChipFilterProps, ClaudeIcon, CloseFilterIcon, CloseIcon, CollapseIcon, CommunityIcon, Contributors, type ContributorsProps, type ContributorsType, CookieBar, CopilotIcon, CopyButton, type CopyButtonProps, CopyHeadingLink, type CopyHeadingLinkProps, CopyIcon, CopyLinkButton, DEFAULT_ASK_ASSISTANT_EXAMPLES, DateText, type DateTextProps, DeprecatedIcon, DeveloperPortalIcon, type DocPath, DocumentationUpdatesIcon, DropdownMenu, type DropdownMenuProps, EditIcon, EmailIcon, ExpandIcon, ExpandedResultsIcon, FAQIcon, FacebookCircleIcon, FacebookIcon, FeedbackModal, type FeedbackModalPayload, type FeedbackModalProps, FeedbackSection, type FeedbackSectionProps, ListingFilter as Filter, type FilterGroup, FilterIcon, type FilterOption, FixedIcon, Footer, type FooterLink, type FooterProps, type FooterVariant, GearTroubleshootingIcon, GeminiIcon, GithubIcon, GraphIcon, GridIcon, HamburgerMenu, Header, type HeaderProps, type HeaderVariant, HelpCenterIcon, type HistoryConversation, type HybridSearchConfig, ImprovedIcon, InfoIcon, Input, InsertAccountName, type InsertAccountNameProps, IgIcon as InstagramIcon, type Item, KnownIssueIcon as KnownIssuesIcon, LibraryContext, LibraryContextProvider, LikeIcon, LikeSelectedIcon, LinkIcon, LinkedinCircleIcon, LinkedinIcon, ListingFilter, type ListingFilterLabels, type ListingFilterProps, type ListingFilterSelection, LocaleContext, LongArrowIcon, _default as MarkdownRenderer, MegaphoneIcon, MenuIcon, MobileSearch, type MobileSearchProps, NewChatIcon, NewIcon, OnThisPage, type OnThisPageProps, PaperIcon, type ProcessStep, RefreshIcon, ReleaseNotesIcon, RemovedIcon, ResizeIcon, Search, type SearchBackendConfig, SearchConfig, SearchIcon, SearchInput, type SearchInputProps, type Section, type SeeAlsoDoc, SeeAlsoSection, type SeeAlsoSectionProps, SendIcon, ShareButton, ShareIcon, SideBarToggleIcon, Sidebar, SparkleIcon, StartHereIcon, StorefrontDevelopmentIcon, SubscriptionList, SuggestEdits, type SuggestEditsProps, TableOfContents, Tag, type TagColor, type TagProps, TimeToRead, type TimeToReadProps, TocActionsContext, TocStateContext, Tooltip, TrashcanIcon, TroubleshootingCard, type TroubleshootingCardProps, type TroubleshootingCardVariant, type TroubleshootingFilterState, TroubleshootingIcon, type TroubleshootingItem, TutorialsIcon, TwitterCircleIcon, TwitterIcon, VTEXDevPortalIcon, VTEXHelpCenterIcon, VTEXIOAppsIcon, VTEXLogoFooter, WarningIcon, Card as WhatsNextCard, type WhatsNextDataElement, YoutubeIcon, collectTroubleshootingFilterOptions, filterTroubleshootingItems, getDaysElapsed, useLocale, useTocActions, useTocState };

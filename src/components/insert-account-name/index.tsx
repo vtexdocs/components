@@ -1,8 +1,8 @@
-import { useContext, useState, type ChangeEvent } from 'react'
+import { useState, type ChangeEvent } from 'react'
 import { Box, Text } from '@vtex/brand-ui'
 
 import Tooltip from 'components/tooltip'
-import { LibraryContext } from 'utils/context/libraryContext'
+import { useLocale } from 'utils/context/libraryContext'
 import { messages } from 'utils/get-message'
 import styles from './styles'
 
@@ -11,7 +11,7 @@ export type InsertAccountNameProps = {
 }
 
 const InsertAccountName = ({ id }: InsertAccountNameProps) => {
-  const { locale } = useContext(LibraryContext)
+  const locale = useLocale()
   const [accountName, setAccountName] = useState('')
   const [showError, setShowError] = useState(false)
   const [hovered, setHovered] = useState(false)

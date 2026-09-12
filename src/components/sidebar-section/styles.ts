@@ -1,4 +1,10 @@
 import { SxStyleProp } from '@vtex/brand-ui'
+import {
+  searchFieldClearButton,
+  searchFieldIcon,
+  searchFieldInput,
+  searchFieldShell,
+} from 'styles/search-field'
 
 const sidebarContainer: SxStyleProp = {
   position: 'relative',
@@ -64,6 +70,15 @@ const sidebarContainerBoxHamburger: SxStyleProp = {
 
 const sidebarContainerBody: SxStyleProp = {
   px: '16px',
+}
+
+const noResults: SxStyleProp = {
+  display: 'block',
+  py: '16px',
+  fontSize: '14px',
+  lineHeight: '20px',
+  color: 'muted.1',
+  textAlign: 'left',
 }
 
 const sidebarContainerHeader: SxStyleProp = {
@@ -137,54 +152,22 @@ const sidebarHelpIcon: SxStyleProp = {
 }
 
 const searchBox: SxStyleProp = {
+  ...searchFieldShell,
   mt: '16px',
   mb: '20px',
-  alignItems: 'center',
-  borderRadius: '4px',
-  background: '#F4F4F4',
   width: '265px',
-  height: '40px',
-  paddingLeft: '12px',
-  paddingRight: '8px',
+  maxWidth: '100%',
+  flexShrink: 0,
 }
 
 const searchInput: SxStyleProp = {
+  ...searchFieldInput,
   width: 'auto',
-  flex: '1',
-  minWidth: 0,
-  background: '#F4F4F4',
-  border: '#F4F4F4',
-  color: '#545454',
-  fontSize: ['14px'],
-  outline: 'none',
 }
 
-const searchIcon: SxStyleProp = {
-  minWidth: '16px',
-  minHeight: '16px',
-  width: '16px',
-  mr: '8px',
-}
+const searchIcon: SxStyleProp = searchFieldIcon
 
-const clearButton: SxStyleProp = {
-  display: 'inline-flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  width: '24px',
-  height: '24px',
-  ml: '4px',
-  padding: 0,
-  border: 'none',
-  borderRadius: '50%',
-  background: 'transparent',
-  color: '#4A596B',
-  cursor: 'pointer',
-  flexShrink: 0,
-  ':hover': {
-    background: '#EDEDED',
-    color: '#142032',
-  },
-}
+const clearButton: SxStyleProp = searchFieldClearButton
 
 const clearIcon: SxStyleProp = {
   width: '14px',
@@ -256,6 +239,7 @@ export default {
   sidebarContainerBodyHamburger,
   sidebarContainerFilterHamburger,
   sidebarContainerBody,
+  noResults,
   sidebarContainerHeader,
   sidebarContainerTitle,
   sidebarTitle,

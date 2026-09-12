@@ -1,3 +1,4 @@
+import { memo, useMemo } from 'react'
 import { Box } from '@vtex/brand-ui'
 import { MDXRemote } from 'next-mdx-remote'
 import { MarkdownRendererProps } from './MarkdownRenderer.types'
@@ -10,24 +11,22 @@ const MarkdownRenderer = ({
   customComponents,
   scope,
 }: MarkdownRendererProps) => {
-  if (components && scope) {
-    return (
-      <Box data-markdown-renderer>
-        <MDXRemote2
-          components={{ ...components, ...customComponents }}
-          lazy
-          {...serialized}
-          scope={scope}
-        />
-      </Box>
-    )
-  }
+  const mergedComponents = useMemo(
+    () =>
+      customComponents ? { ...components, ...customComponents } : components,
+    [customComponents]
+  )
 
   return (
     <Box data-markdown-renderer>
-      <MDXRemote2 components={components} lazy {...serialized} />
+      <MDXRemote2
+        components={mergedComponents}
+        lazy
+        {...serialized}
+        {...(scope ? { scope } : {})}
+      />
     </Box>
   )
 }
 
-export default MarkdownRenderer
+export default memo(MarkdownRenderer)

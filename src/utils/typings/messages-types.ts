@@ -40,6 +40,7 @@ export type MessagesType = {
   'search_input.close': string
   'search_input.open_search': string
   'sidebar_search.placeholder': string
+  'sidebar_search.empty': string
   'search_results.showing': string
   'search_results.results_for': string
   'search_results.in': string

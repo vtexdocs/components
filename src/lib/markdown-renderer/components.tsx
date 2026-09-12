@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useContext, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Box } from '@vtex/brand-ui'
 import {
   ReactSVGPanZoom,
@@ -7,7 +7,6 @@ import {
 } from 'react-svg-pan-zoom'
 import mermaid from 'mermaid'
 import parse from 'html-react-parser'
-import { InView } from 'react-intersection-observer'
 
 import { CH } from '@code-hike/mdx/components'
 import OverviewCard from 'components/overview-card'
@@ -18,12 +17,13 @@ import Card from 'components/card'
 import WhatsNextCard from 'components/whats-next-card'
 import InsertAccountName from 'components/insert-account-name'
 
-import { LibraryContext } from 'utils/context/libraryContext'
+import { useLocale, useTocActions } from 'utils/context/libraryContext'
 import { childrenToString, slugify } from 'utils/string-utils'
 import mermaidInit from 'utils/mermaidInit'
 
 import CopyHeadingLink from 'components/copy-heading-link'
 import { Component, ObservableHeadingProps } from './MarkdownRenderer.types'
+import { observeHeading, type HeadingObservation } from './heading-observer'
 import styles from './styles.module.css'
 import { messages } from 'utils/get-message'
 
@@ -35,28 +35,33 @@ const ObservableHeading = ({
   onLeaveView,
   ...headingProps
 }: ObservableHeadingProps) => {
-  const [y, setY] = useState(Infinity)
+  const wrapperRef = useRef<HTMLDivElement>(null)
+  const observationRef = useRef<HeadingObservation>({
+    slug: '',
+    y: Infinity,
+    onEnterView,
+    onLeaveView,
+  })
+  observationRef.current.onEnterView = onEnterView
+  observationRef.current.onLeaveView = onLeaveView
+
   const { children, ...restHeadingProps } = headingProps
-  const toSlugify = childrenToString(children)
-  const slug = slugify(toSlugify)
+  const slug = slugify(childrenToString(children))
+  observationRef.current.slug = slug
   const headingContent = (
     <CopyHeadingLink slug={slug} size={level === 2 ? 18 : 16}>
       {children}
     </CopyHeadingLink>
   )
 
-  return (
-    <InView
-      threshold={0.5}
-      className="heading"
-      rootMargin="0px 0px -80% 0px"
-      onChange={(inView, entry) => {
-        if (inView) onEnterView(slug)
-        else onLeaveView(slug, entry, y)
+  useEffect(() => {
+    const node = wrapperRef.current
+    if (!node) return
+    return observeHeading(node, observationRef.current)
+  }, [slug])
 
-        setY(entry.boundingClientRect.y)
-      }}
-    >
+  return (
+    <div ref={wrapperRef} className="heading">
       {level === 2 ? (
         <h2 id={slug} className={styles.heading} {...restHeadingProps}>
           {headingContent}
@@ -66,7 +71,7 @@ const ObservableHeading = ({
           {headingContent}
         </h3>
       )}
-    </InView>
+    </div>
   )
 }
 
@@ -188,7 +193,7 @@ const MermaidDiagram = ({ node, ...props }: Component) => {
 
 const ImageComponent = ({ node, ...props }: Component) => {
   const [srcHasError, setSrcHasError] = useState(false)
-  const { locale } = useContext(LibraryContext)
+  const locale = useLocale()
   const regularImg = (
     // eslint-disable-next-line @next/next/no-img-element
     <img src={props.src} alt={props.alt} onError={() => setSrcHasError(true)} />
@@ -249,45 +254,25 @@ export default {
     return <pre className={styles.pre} {...props} />
   },
   h2: ({ node, ...props }: Component) => {
-    const { activeItem, setActiveItem, goToPreviousItem } =
-      useContext(LibraryContext)
+    const { onHeadingEnter, onHeadingLeave } = useTocActions()
 
     return (
       <ObservableHeading
         level={2}
-        onEnterView={(slug) => {
-          setActiveItem(({ item, subItem }) => ({
-            item: slug,
-            subItem: item !== slug ? '' : subItem,
-          }))
-        }}
-        onLeaveView={(slug, entry, y) => {
-          if (entry.boundingClientRect.y > y && activeItem.item === slug) {
-            goToPreviousItem()
-          }
-        }}
+        onEnterView={onHeadingEnter}
+        onLeaveView={onHeadingLeave}
         {...props}
       />
     )
   },
   h3: ({ node, ...props }: Component) => {
-    const { activeItem, setActiveItem, goToPreviousSubItem } =
-      useContext(LibraryContext)
+    const { onSubHeadingEnter, onSubHeadingLeave } = useTocActions()
 
     return (
       <ObservableHeading
         level={3}
-        onEnterView={(slug) => {
-          setActiveItem(({ item }) => ({
-            item,
-            subItem: slug,
-          }))
-        }}
-        onLeaveView={(slug, entry, y) => {
-          if (entry.boundingClientRect.y > y && activeItem.subItem === slug) {
-            goToPreviousSubItem()
-          }
-        }}
+        onEnterView={onSubHeadingEnter}
+        onLeaveView={onSubHeadingLeave}
         {...props}
       />
     )

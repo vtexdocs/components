@@ -32,32 +32,47 @@ const trigger: SxStyleProp = {
   ...focusRing,
 }
 
-const floatingTrigger: SxStyleProp = {
+/** Brand UI 4th breakpoint (`64em`). FAB is hidden from this width up. */
+export const DESKTOP_TRIGGER_MQ = '(min-width: 64em)'
+/** Matches the mobile On This Page pill so the two controls read as a pair. */
+export const FLOATING_TRIGGER_SIZE = 44
+export const FLOATING_TRIGGER_GAP = 12
+
+const FLOATING_SHADOW =
+  '0 8px 24px rgba(20, 32, 50, 0.12), 0 1px 2px rgba(20, 32, 50, 0.06)'
+
+const floatingTrigger = (hidden = false): SxStyleProp => ({
   display: ['inline-flex', 'inline-flex', 'inline-flex', 'none'],
   position: 'fixed',
   right: '16px',
   bottom: 'calc(16px + env(safe-area-inset-bottom, 0px))',
-  zIndex: 40,
+  zIndex: 10001,
   alignItems: 'center',
   justifyContent: 'center',
-  width: '56px',
-  height: '56px',
+  width: `${FLOATING_TRIGGER_SIZE}px`,
+  height: `${FLOATING_TRIGGER_SIZE}px`,
   padding: 0,
-  border: 'none',
+  border: '1px solid #E7E9EE',
   borderRadius: '50%',
-  backgroundColor: '#142032',
-  color: '#FFFFFF',
-  cursor: 'pointer',
-  boxShadow: '0 8px 24px rgba(20, 32, 50, 0.28)',
-  transition: 'background-color 0.15s ease, transform 0.15s ease',
+  backgroundColor: '#FFFFFF',
+  color: '#142032',
+  cursor: hidden ? 'default' : 'pointer',
+  boxShadow: FLOATING_SHADOW,
+  opacity: hidden ? 0 : 1,
+  visibility: hidden ? 'hidden' : 'visible',
+  pointerEvents: hidden ? 'none' : 'auto',
+  transform: hidden ? 'translateY(10px)' : 'none',
+  transition:
+    'background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease, transform 0.2s ease, opacity 0.2s ease, visibility 0.2s ease',
   ':hover': {
-    backgroundColor: '#000711',
+    backgroundColor: '#F8F7FC',
+    borderColor: '#D8D8E3',
   },
   ':active': {
-    transform: 'scale(0.96)',
+    transform: hidden ? 'translateY(10px)' : 'scale(0.96)',
   },
   ...focusRing,
-}
+})
 
 const triggerIcon: SxStyleProp = {
   flexShrink: 0,
@@ -95,6 +110,11 @@ export const PANEL_WIDTH = 'min(400px, 100vw)'
 export const PANEL_EXPANDED_WIDTH = 'min(720px, 80vw)'
 
 export const splitViewCss = `
+@media not screen and ${DESKTOP_TRIGGER_MQ} {
+  html:has([data-ask-assistant-fab]) {
+    --ask-assistant-fab-offset: ${FLOATING_TRIGGER_SIZE + FLOATING_TRIGGER_GAP}px;
+  }
+}
 @media screen and ${SPLIT_VIEW_MQ} {
   html:has([data-ask-assistant-panel]) {
     --ask-assistant-width: ${PANEL_WIDTH};
@@ -131,12 +151,12 @@ const overlay: SxStyleProp = {
 }
 
 const EMPTY_STATE_BACKGROUND = [
-  'radial-gradient(120% 80% at 0% 0%, #F8DDEC 0%, rgba(248, 221, 236, 0) 54%)',
+  'radial-gradient(120% 80% at 0% 0%, #E8E6F2 0%, rgba(232, 230, 242, 0) 54%)',
   'radial-gradient(110% 85% at 100% 100%, #D2EEF8 0%, rgba(210, 238, 248, 0) 56%)',
-  'linear-gradient(135deg, #FDF6FB 0%, #F6F8FD 46%, #EEF7FC 100%)',
+  'linear-gradient(135deg, #F7F8FC 0%, #F6F8FD 50%, #EEF7FC 100%)',
 ].join(', ')
 
-const panel = (expanded: boolean): SxStyleProp => ({
+const panel = (expanded: boolean, isEmpty = false): SxStyleProp => ({
   position: 'fixed',
   top: [0, 'var(--ask-assistant-top, 0px)'],
   right: 0,
@@ -146,23 +166,24 @@ const panel = (expanded: boolean): SxStyleProp => ({
   flexDirection: 'column',
   width: expanded ? ['100vw', PANEL_EXPANDED_WIDTH] : ['100vw', PANEL_WIDTH],
   maxWidth: '100vw',
-  backgroundColor: '#FFFFFF',
+  backgroundColor: isEmpty ? '#F7F8FC' : '#FFFFFF',
+  backgroundImage: isEmpty ? EMPTY_STATE_BACKGROUND : 'none',
   borderLeft: '1px solid #E7E9EE',
   boxShadow: ['-8px 0 32px rgba(20, 32, 50, 0.12)', 'none'],
   overscrollBehavior: 'contain',
   transition: 'width 0.2s ease',
 })
 
-const header: SxStyleProp = {
+const header = (isEmpty = false): SxStyleProp => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
   flexShrink: 0,
   px: '16px',
   py: '12px',
-  borderBottom: '1px solid #E7E9EE',
-  backgroundColor: '#FFFFFF',
-}
+  borderBottom: isEmpty ? '1px solid transparent' : '1px solid #E7E9EE',
+  backgroundColor: isEmpty ? 'transparent' : '#FFFFFF',
+})
 
 const headerTitle: SxStyleProp = {
   display: 'flex',
@@ -498,8 +519,6 @@ const emptyState: SxStyleProp = {
   flex: 1,
   minHeight: 0,
   overflowY: 'auto',
-  backgroundColor: '#F7F8FC',
-  backgroundImage: EMPTY_STATE_BACKGROUND,
 }
 
 const emptyMain: SxStyleProp = {
@@ -509,6 +528,7 @@ const emptyMain: SxStyleProp = {
   justifyContent: 'center',
   flex: 1,
   minHeight: '200px',
+  py: ['24px', '32px'],
 }
 
 const emptyHero: SxStyleProp = {
@@ -518,20 +538,29 @@ const emptyHero: SxStyleProp = {
   justifyContent: 'center',
   flexShrink: 0,
   px: '24px',
-  mb: '20px',
+  mb: '24px',
 }
 
 const emptyHeroIcon: SxStyleProp = {
+  position: 'relative',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  mb: '8px',
-  color: '#5B6E84',
+  width: '48px',
+  height: '48px',
+  mb: '14px',
+  borderRadius: '50%',
+  color: '#142032',
+  background:
+    'linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(248, 247, 252, 0.9) 100%)',
+  border: '1px solid rgba(231, 233, 238, 0.95)',
+  boxShadow:
+    '0 0 0 8px rgba(20, 32, 50, 0.04), 0 1px 2px rgba(20, 32, 50, 0.04), 0 10px 24px rgba(20, 32, 50, 0.08)',
   svg: {
     overflow: 'visible',
   },
   path: {
-    strokeWidth: '1',
+    strokeWidth: '1.15',
     strokeLinecap: 'round',
   },
 }
@@ -540,23 +569,22 @@ const emptyHeroCopy: SxStyleProp = {
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  gap: '6px',
-  mt: '4px',
+  gap: '8px',
   textAlign: 'center',
 }
 
 const emptyHeroTitle: SxStyleProp = {
   m: 0,
   color: '#142032',
-  fontSize: '22px',
+  fontSize: '24px',
   fontWeight: '600',
-  lineHeight: '28px',
-  letterSpacing: '-0.02em',
+  lineHeight: '32px',
+  letterSpacing: '-0.03em',
 }
 
 const emptyHeroSubtitle: SxStyleProp = {
   m: 0,
-  color: '#4A596B',
+  color: '#5B6E84',
   fontSize: '14px',
   fontWeight: '400',
   lineHeight: '20px',
@@ -565,20 +593,20 @@ const emptyHeroSubtitle: SxStyleProp = {
 const examples: SxStyleProp = {
   display: 'flex',
   flexDirection: 'column',
-  gap: '12px',
+  gap: '10px',
   width: '100%',
   px: '16px',
-  pt: '12px',
-  pb: '16px',
+  pt: '20px',
+  pb: '8px',
 }
 
 const examplesLabel: SxStyleProp = {
-  color: 'muted.1',
-  fontSize: '12px',
+  color: '#7C879A',
+  fontSize: '11px',
   fontWeight: '600',
   lineHeight: '16px',
   textTransform: 'uppercase',
-  letterSpacing: '0.04em',
+  letterSpacing: '0.08em',
 }
 
 const examplePills: SxStyleProp = {
@@ -588,6 +616,11 @@ const examplePills: SxStyleProp = {
   overflowX: 'auto',
   scrollbarWidth: 'none',
   msOverflowStyle: 'none',
+  WebkitOverflowScrolling: 'touch',
+  maskImage:
+    'linear-gradient(90deg, #000 0%, #000 calc(100% - 28px), transparent 100%)',
+  WebkitMaskImage:
+    'linear-gradient(90deg, #000 0%, #000 calc(100% - 28px), transparent 100%)',
   '&::-webkit-scrollbar': {
     display: 'none',
   },
@@ -599,24 +632,27 @@ const examplePill = (active: boolean): SxStyleProp => ({
   gap: '6px',
   height: '32px',
   px: '12px',
-  border: `1px solid ${active ? 'rgba(216, 216, 227, 0.9)' : 'rgba(231, 233, 238, 0.8)'}`,
-  borderRadius: '16px',
+  border: `1px solid ${active ? '#D8D8E3' : 'rgba(231, 233, 238, 0.9)'}`,
+  borderRadius: '999px',
   backgroundColor: active
-    ? 'rgba(248, 247, 252, 0.92)'
-    : 'rgba(255, 255, 255, 0.72)',
-  color: '#4A596B',
+    ? 'rgba(248, 247, 252, 0.96)'
+    : 'rgba(255, 255, 255, 0.58)',
+  color: active ? '#142032' : '#4A596B',
   fontSize: '13px',
   fontWeight: active ? '600' : '500',
   lineHeight: '16px',
   cursor: 'pointer',
   whiteSpace: 'nowrap',
   flexShrink: 0,
-  backdropFilter: 'blur(10px)',
-  WebkitBackdropFilter: 'blur(10px)',
-  transition: 'background-color 0.15s ease, border-color 0.15s ease',
+  boxShadow: active ? '0 1px 3px rgba(20, 32, 50, 0.06)' : 'none',
+  backdropFilter: 'blur(12px)',
+  WebkitBackdropFilter: 'blur(12px)',
+  transition:
+    'background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease',
   ':hover': {
-    borderColor: '#3A4F66',
-    color: '#4A596B',
+    borderColor: '#C7CDD6',
+    backgroundColor: 'rgba(255, 255, 255, 0.96)',
+    color: '#142032',
   },
   ...focusRing,
 })
@@ -633,31 +669,58 @@ const exampleQuestions: SxStyleProp = {
   display: 'flex',
   flexDirection: 'column',
   gap: '8px',
+  mt: '4px',
 }
 
 const exampleQuestion: SxStyleProp = {
-  display: 'block',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  gap: '12px',
   width: '100%',
-  px: '12px',
-  py: '10px',
-  border: '1px solid rgba(231, 233, 238, 0.8)',
-  borderRadius: '8px',
-  background: 'rgba(255, 255, 255, 0.72)',
-  color: '#4A596B',
+  px: '14px',
+  py: '12px',
+  border: '1px solid rgba(231, 233, 238, 0.9)',
+  borderRadius: '12px',
+  background: 'rgba(255, 255, 255, 0.78)',
+  color: '#142032',
   fontSize: '13px',
   lineHeight: '20px',
   textAlign: 'left',
   cursor: 'pointer',
-  backdropFilter: 'blur(10px)',
-  WebkitBackdropFilter: 'blur(10px)',
+  boxShadow: '0 1px 2px rgba(20, 32, 50, 0.03)',
+  backdropFilter: 'blur(12px)',
+  WebkitBackdropFilter: 'blur(12px)',
   transition:
-    'background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease',
+    'background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease',
   ':hover': {
-    backgroundColor: 'rgba(248, 247, 252, 0.92)',
+    backgroundColor: '#FFFFFF',
     borderColor: '#D8D8E3',
-    color: '#142032',
+    boxShadow: '0 8px 20px rgba(20, 32, 50, 0.08)',
+    transform: 'translateY(-1px)',
+    svg: {
+      color: '#142032',
+      opacity: 1,
+      transform: 'translateX(2px)',
+    },
   },
   ...focusRing,
+}
+
+const exampleQuestionText: SxStyleProp = {
+  minWidth: 0,
+  flex: 1,
+}
+
+const exampleQuestionArrow: SxStyleProp = {
+  flexShrink: 0,
+  color: '#C7CDD6',
+  opacity: 0.85,
+  transition:
+    'color 0.15s ease, opacity 0.15s ease, transform 0.15s ease',
+  path: {
+    stroke: 'currentColor',
+  },
 }
 
 const inputBox: SxStyleProp = {
@@ -668,7 +731,7 @@ const inputBox: SxStyleProp = {
   pt: '10px',
   pb: '10px',
   border: '1px solid #E7E9EE',
-  borderRadius: '8px',
+  borderRadius: '12px',
   backgroundColor: '#FFFFFF',
   transition: 'border-color 0.15s ease, box-shadow 0.15s ease',
   ':hover': {
@@ -682,15 +745,20 @@ const inputBox: SxStyleProp = {
 
 const inputBoxEmpty: SxStyleProp = {
   ...inputBox,
-  backgroundColor: 'rgba(255, 255, 255, 0.86)',
-  borderColor: 'rgba(231, 233, 238, 0.85)',
-  boxShadow: '0 10px 32px rgba(20, 32, 50, 0.06)',
-  backdropFilter: 'blur(16px)',
-  WebkitBackdropFilter: 'blur(16px)',
+  borderRadius: '12px',
+  backgroundColor: 'rgba(255, 255, 255, 0.9)',
+  borderColor: 'rgba(231, 233, 238, 0.95)',
+  boxShadow:
+    '0 1px 2px rgba(20, 32, 50, 0.04), 0 12px 32px rgba(20, 32, 50, 0.08)',
+  backdropFilter: 'blur(18px)',
+  WebkitBackdropFilter: 'blur(18px)',
+  ':hover': {
+    borderColor: '#C7CDD6',
+  },
   ':focus-within': {
     borderColor: '#E31C58',
     boxShadow:
-      '0 0 0 3px rgba(227, 28, 88, 0.16), 0 10px 32px rgba(20, 32, 50, 0.06)',
+      '0 0 0 3px rgba(227, 28, 88, 0.14), 0 12px 32px rgba(20, 32, 50, 0.08)',
   },
 }
 
@@ -728,14 +796,17 @@ const sendButton = (enabled: boolean): SxStyleProp => ({
   height: '32px',
   padding: 0,
   border: 'none',
-  borderRadius: '6px',
-  backgroundColor: '#142032',
-  color: '#FFFFFF',
-  opacity: enabled ? 1 : 0.55,
+  borderRadius: '50%',
+  backgroundColor: enabled ? '#142032' : '#EEF1F5',
+  color: enabled ? '#FFFFFF' : '#A1A8B3',
   cursor: enabled ? 'pointer' : 'not-allowed',
-  transition: 'background-color 0.15s ease, opacity 0.15s ease',
+  flexShrink: 0,
+  transition: 'background-color 0.15s ease, color 0.15s ease, transform 0.15s ease',
   ':hover': {
-    backgroundColor: enabled ? '#000711' : '#142032',
+    backgroundColor: enabled ? '#000711' : '#EEF1F5',
+  },
+  ':active': {
+    transform: enabled ? 'scale(0.96)' : 'none',
   },
   ...focusRing,
 })
@@ -987,6 +1058,8 @@ export default {
   examplePillIcon,
   exampleQuestions,
   exampleQuestion,
+  exampleQuestionText,
+  exampleQuestionArrow,
   inputBox,
   inputBoxEmpty,
   textarea,

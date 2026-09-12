@@ -1,4 +1,4 @@
-import { useContext, type ReactNode } from 'react'
+import { type ReactNode, useEffect } from 'react'
 import Head from 'next/head.js'
 import { Box, Flex, Text } from '@vtex/brand-ui'
 import type { MDXRemoteSerializeResult } from 'next-mdx-remote'
@@ -23,13 +23,14 @@ import type { ContributorsType } from 'lib/contributors'
 import OnThisPage from 'lib/on-this-page'
 import TableOfContents from 'lib/table-of-contents'
 import type { Item } from 'lib/table-of-contents'
-import { LibraryContext } from 'utils/context/libraryContext'
+import { useLocale, useTocActions } from 'utils/context/libraryContext'
 import {
   formatArticleDate,
   parseArticleDate,
 } from 'utils/format-article-date'
 import { messages } from 'utils/get-message'
-import styles from './styles'
+import useMediaQuery from 'utils/hooks/useMediaQuery'
+import styles, { ARTICLE_SIDEBAR_MQ } from './styles'
 
 export type ArticleRenderProps = {
   serialized: MDXRemoteSerializeResult
@@ -86,12 +87,16 @@ const isSameUtcDay = (a: Date, b: Date) =>
   a.getUTCMonth() === b.getUTCMonth() &&
   a.getUTCDate() === b.getUTCDate()
 
+const EMPTY_HEADINGS: Item[] = []
+const EMPTY_CONTRIBUTORS: ContributorsType[] = []
+const EMPTY_SCOPE: MarkdownRendererProps['scope'] = {}
+
 const ArticleRender = ({
   serialized,
-  headings = [],
+  headings = EMPTY_HEADINGS,
   headingList,
   breadcrumbList,
-  contributors = [],
+  contributors = EMPTY_CONTRIBUTORS,
   path,
   pagination,
   paginationPreviousChildren,
@@ -104,7 +109,7 @@ const ArticleRender = ({
   children,
   seeAlso,
   customComponents,
-  scope = {},
+  scope = EMPTY_SCOPE,
   renderMarkdown,
   showReadingTime = true,
   showAskAIMenu = true,
@@ -120,8 +125,10 @@ const ArticleRender = ({
   createdAtFormat = 'long',
   showUpdatedAt = false,
 }: ArticleRenderProps) => {
-  const { locale } = useContext(LibraryContext)
+  const locale = useLocale()
   const localeMessages = messages[locale] ?? messages.en
+  const { setHeadingItems } = useTocActions()
+  const isDesktop = useMediaQuery(ARTICLE_SIDEBAR_MQ)
   const tocHeadings = headingList?.length ? headingList : headings
   const readingTime = readingTimeLabel(serialized?.frontmatter?.readingTime)
   const createdAt = parseArticleDate(serialized?.frontmatter?.createdAt)
@@ -155,6 +162,17 @@ const ArticleRender = ({
   const showBottomSection = showContributors || showFeedbackSection
   const showSidebar =
     !hideToc && (showContributors || shouldShowTableOfContents)
+  const showDesktopSidebar = showSidebar && isDesktop === true
+  const showMobileBottomSection =
+    showBottomSection && (isDesktop === false || !showSidebar)
+  const showMobileToc =
+    shouldShowTableOfContents && tocHeadings.length > 0 && isDesktop === false
+
+  useEffect(() => {
+    if (!shouldShowTableOfContents) return
+    setHeadingItems(tocHeadings)
+  }, [shouldShowTableOfContents, tocHeadings, setHeadingItems])
+
   const markdown = (
     <MarkdownRenderer
       serialized={serialized}
@@ -256,13 +274,8 @@ const ArticleRender = ({
             </Box>
           </Box>
 
-          {showBottomSection && (
-            <Box
-              sx={{
-                ...styles.bottomContributorsContainer,
-                ...(!showSidebar && { display: 'flex' }),
-              }}
-            >
+          {showMobileBottomSection && (
+            <Box sx={styles.bottomContributorsContainer}>
               {showContributors && (
                 <Box sx={styles.bottomContributors}>
                   <Contributors contributors={contributors} />
@@ -293,32 +306,40 @@ const ArticleRender = ({
             />
           )}
         </Box>
-        {showSidebar && (
+        {showSidebar && isDesktop !== false && (
           <Box sx={styles.rightContainer} data-article-aside>
-            {showContributors && <Contributors contributors={contributors} />}
-            {shouldShowTableOfContents && (
-              <TableOfContents headingList={tocHeadings}>
-                {(showFeedbackSection || showSuggestEdits) && (
-                  <Box sx={styles.divider}>
-                    {showFeedbackSection && (
-                      <FeedbackSection slug={slug} small suggestEdits={false} />
-                    )}
-                    {showSuggestEdits && (
-                      <SuggestEdits
-                        urlToEdit={urlToEdit}
-                        small
-                        sx={styles.editContainer}
-                      />
-                    )}
-                  </Box>
+            {showDesktopSidebar && (
+              <>
+                {showContributors && (
+                  <Contributors contributors={contributors} />
                 )}
-              </TableOfContents>
+                {shouldShowTableOfContents && (
+                  <TableOfContents headingList={tocHeadings}>
+                    {(showFeedbackSection || showSuggestEdits) && (
+                      <Box sx={styles.divider}>
+                        {showFeedbackSection && (
+                          <FeedbackSection
+                            slug={slug}
+                            small
+                            suggestEdits={false}
+                          />
+                        )}
+                        {showSuggestEdits && (
+                          <SuggestEdits
+                            urlToEdit={urlToEdit}
+                            small
+                            sx={styles.editContainer}
+                          />
+                        )}
+                      </Box>
+                    )}
+                  </TableOfContents>
+                )}
+              </>
             )}
           </Box>
         )}
-        {shouldShowTableOfContents && tocHeadings.length > 0 && (
-          <OnThisPage headingList={tocHeadings} />
-        )}
+        {showMobileToc && <OnThisPage headingList={tocHeadings} />}
       </Flex>
     </>
   )

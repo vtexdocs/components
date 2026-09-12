@@ -1,7 +1,6 @@
-import { useContext } from 'react'
 import { Text } from '@vtex/brand-ui'
 
-import { LibraryContext } from 'utils/context/libraryContext'
+import { useLocale } from 'utils/context/libraryContext'
 import { messages } from 'utils/get-message'
 import styles from './styles'
 
@@ -10,7 +9,7 @@ export type TimeToReadProps = {
 }
 
 const TimeToRead = ({ minutes }: TimeToReadProps) => {
-  const { locale } = useContext(LibraryContext)
+  const locale = useLocale()
   const template =
     messages[locale]['documentation_reading_time.text'] || '{minutes} min read'
 
