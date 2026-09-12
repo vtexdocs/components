@@ -5,6 +5,11 @@ import {
   MultipleQueriesResponse,
 } from '@algolia/client-search'
 import { stripMarkdownForSnippet } from '../string-utils'
+import {
+  getSearchHitArticleKey,
+  stripLeadingTitleFromSnippet,
+  uniqueHitsByArticle,
+} from '../search-hit'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export let searchClient: any = {}
@@ -341,7 +346,9 @@ const createHybridClient = (config: HybridSearchConfig) => {
           const rawResults: any[] = Array.isArray(data?.results)
             ? data.results
             : []
-          const allHits = rawResults.map(transformHybridToAlgolia)
+          const allHits = uniqueHitsByArticle(
+            rawResults.map(transformHybridToAlgolia)
+          )
           setCached(cacheKey, allHits)
           return allHits
         })()
@@ -413,7 +420,9 @@ const createHybridClient = (config: HybridSearchConfig) => {
                 const rawResults: any[] = Array.isArray(data?.results)
                   ? data.results
                   : []
-                deepenedHits = rawResults.map(transformHybridToAlgolia)
+                deepenedHits = uniqueHitsByArticle(
+                  rawResults.map(transformHybridToAlgolia)
+                )
                 setDoctypeDeepCached(doctypeDeepCacheKey, deepenedHits)
               } else {
                 deepenedHits = []
@@ -586,7 +595,7 @@ function mergeDeepenedHits(initial: any[], deepened: any[]): any[] {
   const merged: any[] = []
 
   for (const hit of [...initial, ...deepened]) {
-    const key = hit.url_without_anchor || hit.objectID || ''
+    const key = getSearchHitArticleKey(hit)
     if (!key || seen.has(key)) continue
     seen.add(key)
     merged.push(hit)
@@ -609,8 +618,12 @@ function transformHybridToAlgolia(result: any): any {
   const url = buildUrlFromFilePath(filePath)
 
   // Strip markdown syntax from snippets for display
+  const title = result.title || 'Untitled'
   const rawContent = result.snippet || result.content || ''
-  const cleanContent = stripMarkdownForSnippet(rawContent)
+  const cleanContent = stripLeadingTitleFromSnippet(
+    stripMarkdownForSnippet(rawContent),
+    title
+  )
 
   return {
     objectID: String(result.id),
@@ -618,7 +631,7 @@ function transformHybridToAlgolia(result: any): any {
     url,
     url_without_anchor: url.split('#')[0],
     doctype,
-    doctitle: result.title || 'Untitled',
+    doctitle: title,
     content: cleanContent,
     hierarchy,
     language: result.metadata?.locale || 'en',
@@ -643,7 +656,7 @@ function transformHybridToAlgolia(result: any): any {
     },
     _snippetResult: {
       content: {
-        value: result.snippet ? stripMarkdownForSnippet(result.snippet) : '',
+        value: cleanContent,
         matchLevel: 'full',
       },
     },

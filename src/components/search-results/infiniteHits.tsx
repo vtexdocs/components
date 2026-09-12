@@ -16,6 +16,7 @@ import {
   getSearchBreadcrumbs,
   getSearchHitMethod,
 } from 'utils/search-utils'
+import { mergeHitsByArticle } from 'utils/search-hit'
 import { Box, Flex, Text } from '@vtex/brand-ui'
 import { SearchContext } from 'utils/context/search'
 import { LibraryContext, useLocale } from 'utils/context/libraryContext'
@@ -111,20 +112,10 @@ const InfiniteHits = ({ hits, hasMore, refineNext }: InfiniteHitsProvided) => {
   const scrollRef = useRef<HTMLSpanElement>(null)
   const locale = useLocale()
 
-  const filteredResult = useMemo(() => {
-    const mergeHits: FilteredHit2[] = [] //hitsData
-    hits.forEach((hit) => {
-      const alreadyExists = mergeHits.findIndex(
-        (e) => e.url_without_anchor === hit.url_without_anchor
-      )
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const filteredHit: any = { ...hit, filteredMatches: [] }
-      if (alreadyExists >= 0) {
-        mergeHits[alreadyExists].filteredMatches?.push(filteredHit)
-      } else mergeHits.push(filteredHit)
-    })
-    return mergeHits
-  }, [hits])
+  const filteredResult = useMemo(
+    () => mergeHitsByArticle(hits as FilteredHit2[]),
+    [hits]
+  )
 
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {

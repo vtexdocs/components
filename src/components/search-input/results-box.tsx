@@ -19,6 +19,7 @@ import {
   getSearchBreadcrumbs,
   getSearchHitMethod,
 } from 'utils/search-utils'
+import { uniqueHitsByArticle } from 'utils/search-hit'
 import CustomHighlight, { HighlightQuery } from './customHighlight'
 import styles from './styles'
 import { LibraryContext, useLocale } from 'utils/context/libraryContext'
@@ -116,7 +117,11 @@ const Hit2 = ({
                 </Text>
               ) : null}
               {!isModal && hit.content ? (
-                <CustomHighlight hit={hit} attribute="content" />
+                <CustomHighlight
+                  hit={hit}
+                  attribute="content"
+                  query={query}
+                />
               ) : null}
               {typeof hit.doctype === 'string' && (
                 <Flex sx={styles.hitBreadcrumbs}>
@@ -222,12 +227,9 @@ const HitsBox = connectStateResults<HitsBoxProps>(
     const isModal = variant === 'modal'
     const maxHits = isModal ? VISIBLE_HITS_MODAL : VISIBLE_HITS
 
-    const visibleHits = searchResults
-      ? searchResults.hits.slice(0, maxHits)
-      : []
-    const hasSeeAll = Boolean(
-      searchResults && searchResults.hits.length > maxHits
-    )
+    const uniqueHits = uniqueHitsByArticle(searchResults?.hits || [])
+    const visibleHits = uniqueHits.slice(0, maxHits)
+    const hasSeeAll = uniqueHits.length > maxHits
     const itemCount = visibleHits.length + (hasSeeAll ? 1 : 0)
 
     const seeAllSubmit = (keyword: string) => {
@@ -348,7 +350,7 @@ const HitsBox = connectStateResults<HitsBoxProps>(
             >
               <Box
                 sx={
-                  searchResults.hits.length &&
+                  uniqueHits.length &&
                   (isModal ? styles.resultsBoxModal : styles.resultsBox)
                 }
               >
@@ -370,7 +372,7 @@ const HitsBox = connectStateResults<HitsBoxProps>(
                   </Box>
                 ))}
               </Box>
-              {searchResults.hits.length > 0 && (
+              {uniqueHits.length > 0 && (
                 <Flex
                   sx={
                     isModal
@@ -426,7 +428,7 @@ const HitsBox = connectStateResults<HitsBoxProps>(
                   )}
                 </Flex>
               )}
-              {!searchResults.hits.length && (
+              {!uniqueHits.length && (
                 <Flex sx={styles.noResults}>
                   <Text>
                     {messages[locale]['search_input.empty'] ||
