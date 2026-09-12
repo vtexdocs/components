@@ -531,11 +531,11 @@ const hitTitleModal: SxStyleProp = {
   lineHeight: '22px',
 }
 
-const hitContentHighlighted: SxStyleProp = {
-  background: '#F8E3EC',
-  color: '#142032',
-  borderRadius: '3px',
-  padding: '0 2px',
+const hitSnippetHighlighted: SxStyleProp = {
+  background: 'none',
+  backgroundColor: 'transparent',
+  color: '#D71D55',
+  padding: 0,
   fontWeight: '600',
   display: 'inline',
 }
@@ -580,7 +580,7 @@ export default {
   clearButton,
   alignCenter,
   noResults,
-  hitContentHighlighted,
+  hitSnippetHighlighted,
   modalRoot,
   modalSearchBox,
   modalResults,

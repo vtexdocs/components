@@ -11685,11 +11685,11 @@ var hitTitleModal = {
   fontWeight: "600",
   lineHeight: "22px"
 };
-var hitContentHighlighted = {
-  background: "#F8E3EC",
-  color: "#142032",
-  borderRadius: "3px",
-  padding: "0 2px",
+var hitSnippetHighlighted = {
+  background: "none",
+  backgroundColor: "transparent",
+  color: "#D71D55",
+  padding: 0,
   fontWeight: "600",
   display: "inline"
 };
@@ -11733,7 +11733,7 @@ var styles_default19 = {
   clearButton: clearButton2,
   alignCenter,
   noResults: noResults2,
-  hitContentHighlighted,
+  hitSnippetHighlighted,
   modalRoot,
   modalSearchBox,
   modalResults,
@@ -12634,28 +12634,99 @@ function getSearchBreadcrumbs({
   if (categoryName && categoryName !== sectionTitle3 && categoryName !== title9) {
     crumbs.push(categoryName);
   }
-  if (title9 && crumbs[crumbs.length - 1] !== title9) {
-    crumbs.push(title9);
-  }
   return crumbs.filter(Boolean);
+}
+
+// src/utils/search-hit.ts
+var asString = (value) => typeof value === "string" ? value : "";
+function slugFromPath(path) {
+  if (!path)
+    return "";
+  const clean = path.replace(/^https?:\/\/[^/]+/i, "").split("#")[0].split("?")[0];
+  const parts = clean.split("/").filter(Boolean);
+  const last = parts[parts.length - 1] || "";
+  return last.replace(/\.mdx?$/i, "").toLowerCase();
+}
+function getSearchHitSlug(hit) {
+  return slugFromPath(asString(hit.filePath)) || slugFromPath(asString(hit.url_without_anchor) || asString(hit.url));
+}
+function getSearchHitArticleKey(hit) {
+  const slug = getSearchHitSlug(hit);
+  const doctype = asString(hit.doctype).toLowerCase();
+  if (slug)
+    return `${doctype}::${slug}`;
+  return asString(hit.url_without_anchor) || asString(hit.url) || String(hit.objectID ?? "");
+}
+function uniqueHitsByArticle(hits) {
+  const seen = /* @__PURE__ */ new Set();
+  const unique = [];
+  for (const hit of hits) {
+    const key = getSearchHitArticleKey(hit);
+    if (!key || seen.has(key))
+      continue;
+    seen.add(key);
+    unique.push(hit);
+  }
+  return unique;
+}
+function mergeHitsByArticle(hits) {
+  const merged = [];
+  const indexByKey = /* @__PURE__ */ new Map();
+  for (const hit of hits) {
+    const key = getSearchHitArticleKey(hit);
+    const existingIndex = indexByKey.get(key);
+    const copy5 = { ...hit, filteredMatches: hit.filteredMatches || [] };
+    if (existingIndex !== void 0) {
+      merged[existingIndex].filteredMatches?.push(copy5);
+    } else {
+      indexByKey.set(key, merged.length);
+      merged.push(copy5);
+    }
+  }
+  return merged;
+}
+function stripLeadingTitleFromSnippet(text4, title9) {
+  if (!text4 || !title9)
+    return text4;
+  const normalizedTitle = title9.trim();
+  if (!normalizedTitle)
+    return text4;
+  if (text4.trim().toLowerCase() === normalizedTitle.toLowerCase())
+    return "";
+  const escaped = normalizedTitle.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const stripped = text4.replace(new RegExp(`^${escaped}(?:\\s*[-\u2013\u2014:]\\s*|\\s+)`, "i"), "").trim();
+  if (stripped.toLowerCase() === normalizedTitle.toLowerCase())
+    return "";
+  return stripped;
 }
 
 // src/components/search-input/customHighlight.tsx
 import { connectHighlight } from "react-instantsearch-dom";
 import { Flex as Flex14, Text as Text11 } from "@vtex/brand-ui";
 import { Fragment as Fragment8, jsx as jsx43 } from "react/jsx-runtime";
-function clipAroundHighlight(parts, maxChars) {
+function partsFromQuery(text4, query) {
+  if (!text4)
+    return [];
+  if (!query?.trim())
+    return [{ value: text4, isHighlighted: false }];
+  const escaped = query.trim().replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const regex = new RegExp(`(${escaped})`, "ig");
+  const normalizedQuery = query.trim().toLowerCase();
+  return text4.split(regex).filter(Boolean).map((part) => ({
+    value: part,
+    isHighlighted: part.toLowerCase() === normalizedQuery
+  }));
+}
+function clipAroundHighlight(parts, maxChars, contextBefore = 36) {
   if (!parts.length)
     return parts;
   const full = parts.map((part) => part.value).join("");
-  if (full.length <= maxChars) {
-    return parts.map((part) => ({ ...part }));
-  }
   const firstHighlight = parts.findIndex((part) => part.isHighlighted);
+  const highlightStart = firstHighlight < 0 ? -1 : parts.slice(0, firstHighlight).reduce((sum, part) => sum + part.value.length, 0);
+  const highlightEnd = highlightStart < 0 ? -1 : highlightStart + parts[firstHighlight].value.length;
   let start = 0;
-  if (firstHighlight > 0) {
-    const beforeLength = parts.slice(0, firstHighlight).reduce((sum, part) => sum + part.value.length, 0);
-    start = Math.max(0, beforeLength - 36);
+  if (highlightStart >= 0 && highlightEnd > maxChars) {
+    start = Math.max(0, highlightStart - contextBefore);
   }
   if (start > 0) {
     const space = full.lastIndexOf(" ", start);
@@ -12663,7 +12734,13 @@ function clipAroundHighlight(parts, maxChars) {
       start = space + 1;
   }
   let end = Math.min(full.length, start + maxChars);
-  if (end < full.length) {
+  if (highlightEnd >= 0 && end < highlightEnd) {
+    end = Math.min(full.length, highlightEnd + 24);
+    start = Math.max(0, end - maxChars);
+    const space = full.lastIndexOf(" ", start);
+    if (start > 0 && space >= 0)
+      start = space + 1;
+  } else if (end < full.length) {
     const space = full.lastIndexOf(" ", end);
     if (space > start)
       end = space;
@@ -12692,6 +12769,31 @@ function clipAroundHighlight(parts, maxChars) {
   }
   return result;
 }
+function stripLeadingTitleFromParts(parts, title9) {
+  if (!parts.length || !title9?.trim())
+    return parts;
+  const full = parts.map((part) => part.value).join("");
+  const stripped = stripLeadingTitleFromSnippet(full, title9);
+  if (stripped === full)
+    return parts;
+  if (!stripped)
+    return [];
+  const cut = full.length - stripped.length;
+  const result = [];
+  let cursor = 0;
+  for (const part of parts) {
+    const partStart = cursor;
+    const partEnd = cursor + part.value.length;
+    cursor = partEnd;
+    if (partEnd <= cut)
+      continue;
+    const value = part.value.slice(Math.max(0, cut - partStart));
+    if (!value)
+      continue;
+    result.push({ ...part, value });
+  }
+  return result;
+}
 var HighlightQuery = ({
   text: text4,
   query
@@ -12703,26 +12805,42 @@ var HighlightQuery = ({
   const parts = text4.split(regex);
   const normalizedQuery = query.trim().toLowerCase();
   return /* @__PURE__ */ jsx43(Fragment8, { children: parts.map(
-    (part, index) => part.toLowerCase() === normalizedQuery ? /* @__PURE__ */ jsx43("mark", { style: styles_default19.hitContentHighlighted, children: part }, index) : part
+    (part, index) => part.toLowerCase() === normalizedQuery ? /* @__PURE__ */ jsx43("mark", { style: styles_default19.hitSnippetHighlighted, children: part }, index) : part
   ) });
 };
 var Highlight = ({
   highlight,
   attribute,
   hit,
-  searchPage
+  searchPage,
+  query
 }) => {
   const hitHighlights = highlight({
     highlightProperty: "_highlightResult",
     attribute: hit.type != "content" ? `hierarchy.${hit.type}` : attribute,
     hit
   });
+  const title9 = typeof hit.doctitle === "string" ? hit.doctitle : "";
+  const strippedParts = stripLeadingTitleFromParts(hitHighlights, title9);
+  let snippetText2 = strippedParts.map((part) => part.value).join("");
+  const normalizedQuery = query?.trim().toLowerCase() || "";
+  if (normalizedQuery && !snippetText2.toLowerCase().includes(normalizedQuery)) {
+    const fallback = typeof hit.content === "string" ? stripLeadingTitleFromSnippet(hit.content, title9) : "";
+    if (fallback.toLowerCase().includes(normalizedQuery)) {
+      snippetText2 = fallback;
+    }
+  }
+  const queryParts = partsFromQuery(snippetText2, query);
+  const sourceParts = queryParts.some((part) => part.isHighlighted) ? queryParts : strippedParts;
   const displayParts = clipAroundHighlight(
-    hitHighlights,
-    searchPage ? 700 : 160
+    sourceParts,
+    searchPage ? 700 : 64,
+    searchPage ? 48 : 16
   );
+  if (!displayParts.length)
+    return null;
   return /* @__PURE__ */ jsx43(Flex14, { className: "hit-content-title", sx: styles_default19.hitContentContainer, children: /* @__PURE__ */ jsx43(Text11, { sx: searchPage ? styles_default19.hitContent : styles_default19.hitContentSmall, children: displayParts.map(
-    (part, index) => part.isHighlighted ? /* @__PURE__ */ jsx43("mark", { style: styles_default19.hitContentHighlighted, children: part.value }, index) : part.value
+    (part, index) => part.isHighlighted ? /* @__PURE__ */ jsx43("mark", { style: styles_default19.hitSnippetHighlighted, children: part.value }, index) : part.value
   ) }) });
 };
 var connectedHighlight = connectHighlight(Highlight);
@@ -12945,7 +13063,14 @@ var Hit2 = ({
                   ) : null,
                   /* @__PURE__ */ jsx47(Text12, { as: "span", sx: styles_default19.hitTitleText, children: /* @__PURE__ */ jsx47(HighlightQuery, { text: title9, query }) })
                 ] }) : null,
-                !isModal && hit.content ? /* @__PURE__ */ jsx47(customHighlight_default, { hit, attribute: "content" }) : null,
+                !isModal && hit.content ? /* @__PURE__ */ jsx47(
+                  customHighlight_default,
+                  {
+                    hit,
+                    attribute: "content",
+                    query
+                  }
+                ) : null,
                 typeof hit.doctype === "string" && /* @__PURE__ */ jsx47(Flex15, { sx: styles_default19.hitBreadcrumbs, children: isModal ? (breadcrumbs.length ? breadcrumbs : [String(hit.doctype)]).map((filter, index) => /* @__PURE__ */ jsxs39(Flex15, { sx: styles_default19.alignCenter, children: [
                   index > 0 && /* @__PURE__ */ jsx47(
                     IconCaret5,
@@ -13020,10 +13145,9 @@ var HitsBox = connectStateResults(
     const [copiedId, setCopiedId] = useState14(null);
     const isModal = variant === "modal";
     const maxHits = isModal ? VISIBLE_HITS_MODAL : VISIBLE_HITS;
-    const visibleHits = searchResults ? searchResults.hits.slice(0, maxHits) : [];
-    const hasSeeAll = Boolean(
-      searchResults && searchResults.hits.length > maxHits
-    );
+    const uniqueHits = uniqueHitsByArticle(searchResults?.hits || []);
+    const visibleHits = uniqueHits.slice(0, maxHits);
+    const hasSeeAll = uniqueHits.length > maxHits;
     const itemCount = visibleHits.length + (hasSeeAll ? 1 : 0);
     const seeAllSubmit = (keyword) => {
       router.push({
@@ -13122,7 +13246,7 @@ var HitsBox = connectStateResults(
               /* @__PURE__ */ jsx47(
                 Box19,
                 {
-                  sx: searchResults.hits.length && (isModal ? styles_default19.resultsBoxModal : styles_default19.resultsBox),
+                  sx: uniqueHits.length && (isModal ? styles_default19.resultsBoxModal : styles_default19.resultsBox),
                   children: visibleHits.map((searchResult, index) => /* @__PURE__ */ jsx47(
                     Box19,
                     {
@@ -13145,7 +13269,7 @@ var HitsBox = connectStateResults(
                   ))
                 }
               ),
-              searchResults.hits.length > 0 && /* @__PURE__ */ jsxs39(
+              uniqueHits.length > 0 && /* @__PURE__ */ jsxs39(
                 Flex15,
                 {
                   sx: isModal ? styles_default19.resultsFooterModal(hasSeeAll) : styles_default19.resultsFooter(hasSeeAll),
@@ -13181,7 +13305,7 @@ var HitsBox = connectStateResults(
                   ]
                 }
               ),
-              !searchResults.hits.length && /* @__PURE__ */ jsx47(Flex15, { sx: styles_default19.noResults, children: /* @__PURE__ */ jsx47(Text12, { children: messages[locale]["search_input.empty"] || "No results found. Try different search terms." }) })
+              !uniqueHits.length && /* @__PURE__ */ jsx47(Flex15, { sx: styles_default19.noResults, children: /* @__PURE__ */ jsx47(Text12, { children: messages[locale]["search_input.empty"] || "No results found. Try different search terms." }) })
             ]
           }
         )
@@ -13390,7 +13514,9 @@ var createHybridClient = (config) => {
           }
           const data = await response.json();
           const rawResults = Array.isArray(data?.results) ? data.results : [];
-          const allHits2 = rawResults.map(transformHybridToAlgolia);
+          const allHits2 = uniqueHitsByArticle(
+            rawResults.map(transformHybridToAlgolia)
+          );
           setCached(cacheKey, allHits2);
           return allHits2;
         })();
@@ -13446,7 +13572,9 @@ var createHybridClient = (config) => {
               if (response.ok) {
                 const data = await response.json();
                 const rawResults = Array.isArray(data?.results) ? data.results : [];
-                deepenedHits = rawResults.map(transformHybridToAlgolia);
+                deepenedHits = uniqueHitsByArticle(
+                  rawResults.map(transformHybridToAlgolia)
+                );
                 setDoctypeDeepCached(doctypeDeepCacheKey, deepenedHits);
               } else {
                 deepenedHits = [];
@@ -13582,7 +13710,7 @@ function mergeDeepenedHits(initial, deepened) {
   const seen = /* @__PURE__ */ new Set();
   const merged = [];
   for (const hit of [...initial, ...deepened]) {
-    const key = hit.url_without_anchor || hit.objectID || "";
+    const key = getSearchHitArticleKey(hit);
     if (!key || seen.has(key))
       continue;
     seen.add(key);
@@ -13599,15 +13727,19 @@ function transformHybridToAlgolia(result) {
     lvl2: deriveCategoryFromFilePath(filePath)
   };
   const url = buildUrlFromFilePath(filePath);
+  const title9 = result.title || "Untitled";
   const rawContent = result.snippet || result.content || "";
-  const cleanContent = stripMarkdownForSnippet(rawContent);
+  const cleanContent = stripLeadingTitleFromSnippet(
+    stripMarkdownForSnippet(rawContent),
+    title9
+  );
   return {
     objectID: String(result.id),
     ...result,
     url,
     url_without_anchor: url.split("#")[0],
     doctype,
-    doctitle: result.title || "Untitled",
+    doctitle: title9,
     content: cleanContent,
     hierarchy,
     language: result.metadata?.locale || "en",
@@ -13632,7 +13764,7 @@ function transformHybridToAlgolia(result) {
     },
     _snippetResult: {
       content: {
-        value: result.snippet ? stripMarkdownForSnippet(result.snippet) : "",
+        value: cleanContent,
         matchLevel: "full"
       }
     }
@@ -15928,7 +16060,8 @@ var SearchCard = ({
             {
               hit,
               attribute: "content",
-              ...{ searchPage: true }
+              query,
+              searchPage: true
             }
           ),
           toggleChildResults && hit.filteredMatches?.map((childHit, index) => /* @__PURE__ */ jsx71(
@@ -15940,7 +16073,8 @@ var SearchCard = ({
                 {
                   hit: childHit,
                   attribute: "content",
-                  ...{ searchPage: true }
+                  query,
+                  searchPage: true
                 }
               )
             },
@@ -16179,20 +16313,10 @@ var StateResults = connectStateResults2(
 var InfiniteHits = ({ hits, hasMore, refineNext }) => {
   const scrollRef = useRef13(null);
   const locale = useLocale();
-  const filteredResult = useMemo5(() => {
-    const mergeHits = [];
-    hits.forEach((hit) => {
-      const alreadyExists = mergeHits.findIndex(
-        (e) => e.url_without_anchor === hit.url_without_anchor
-      );
-      const filteredHit = { ...hit, filteredMatches: [] };
-      if (alreadyExists >= 0) {
-        mergeHits[alreadyExists].filteredMatches?.push(filteredHit);
-      } else
-        mergeHits.push(filteredHit);
-    });
-    return mergeHits;
-  }, [hits]);
+  const filteredResult = useMemo5(
+    () => mergeHitsByArticle(hits),
+    [hits]
+  );
   useEffect22(() => {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {

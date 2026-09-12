@@ -103,7 +103,8 @@ const SearchCard = ({
                 <CustomHighlight
                   hit={hit}
                   attribute="content"
-                  {...{ searchPage: true }}
+                  query={query}
+                  searchPage
                 />
                 {toggleChildResults &&
                   hit.filteredMatches?.map((childHit, index: number) => (
@@ -114,7 +115,8 @@ const SearchCard = ({
                       <CustomHighlight
                         hit={childHit}
                         attribute="content"
-                        {...{ searchPage: true }}
+                        query={query}
+                        searchPage
                       />
                     </Box>
                   ))}

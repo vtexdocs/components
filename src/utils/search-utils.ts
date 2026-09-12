@@ -199,8 +199,9 @@ function nodeContainsHit(
 }
 
 /**
- * Builds search breadcrumbs as [section, parent category, page title].
- * API Reference omits the category and uses [section, page title].
+ * Builds search breadcrumbs as [section, parent category].
+ * The page title is omitted because it already appears as the result heading.
+ * API Reference uses [section, page title].
  */
 export function getSearchBreadcrumbs({
   hit,
@@ -252,10 +253,6 @@ export function getSearchBreadcrumbs({
 
   if (categoryName && categoryName !== sectionTitle && categoryName !== title) {
     crumbs.push(categoryName)
-  }
-
-  if (title && crumbs[crumbs.length - 1] !== title) {
-    crumbs.push(title)
   }
 
   return crumbs.filter(Boolean)
