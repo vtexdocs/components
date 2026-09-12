@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import copy from 'copy-text-to-clipboard'
 import { Box, Text, IconCaret } from '@vtex/brand-ui'
 
@@ -9,7 +9,7 @@ import GeminiIcon from 'components/icons/gemini-icon'
 import LongArrowIcon from 'components/icons/long-arrow-icon'
 import MarkdownIcon from 'components/icons/markdown-icon'
 import CheckIcon from 'components/icons/check-icon'
-import { LibraryContext } from 'utils/context/libraryContext'
+import { useLocale } from 'utils/context/libraryContext'
 import { messages } from 'utils/get-message'
 import styles from './styles'
 
@@ -89,7 +89,7 @@ const AskAIMenu = ({
   contentEndpoint = DEFAULT_CONTENT_ENDPOINT,
   onCopyPage,
 }: AskAIMenuProps) => {
-  const { locale } = useContext(LibraryContext)
+  const locale = useLocale()
   const localizedMessages = messages[locale] ?? messages.en
   const copyLabel = localizedMessages['ask_ai.copy'] || 'Copy markdown'
   const viewLabel = localizedMessages['ask_ai.view'] || 'View markdown'

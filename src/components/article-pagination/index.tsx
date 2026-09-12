@@ -1,8 +1,8 @@
-import { useContext, type ReactNode } from 'react'
+import { type ReactNode } from 'react'
 import Link from 'next/link.js'
 import { Flex, Text, Box } from '@vtex/brand-ui'
 
-import { LibraryContext } from 'utils/context/libraryContext'
+import { useLocale } from 'utils/context/libraryContext'
 import { formatArticleDateValue } from 'utils/format-article-date'
 import { messages } from 'utils/get-message'
 import styles from './styles'
@@ -34,7 +34,7 @@ const ArticlePagination = ({
   previousChildren,
   nextChildren,
 }: ArticlePaginationProps) => {
-  const { locale } = useContext(LibraryContext)
+  const locale = useLocale()
   const previousLabel =
     messages[locale]['article_pagination.previous'] || 'Previous'
   const nextLabel = messages[locale]['article_pagination.next'] || 'Next'

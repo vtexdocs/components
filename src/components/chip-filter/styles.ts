@@ -13,7 +13,7 @@ const chipsContainer: SxStyleProp = {
   scrollbarWidth: 'none',
   msOverflowStyle: 'none',
   overflowX: 'auto',
-  overflowY: 'hidden',
+  overflowY: 'visible',
   scrollBehavior: 'smooth',
   display: 'flex',
   alignItems: 'center',
@@ -28,6 +28,7 @@ const optionsContainer: SxStyleProp = {
   display: 'flex',
   flexWrap: 'nowrap',
   gap: '8px',
+  width: 'max-content',
 }
 
 const chip: (active: boolean) => SxStyleProp = (active) => ({
@@ -43,6 +44,7 @@ const chip: (active: boolean) => SxStyleProp = (active) => ({
   backgroundColor: active ? '#F8F7FC' : '#FFFFFF',
   cursor: 'pointer',
   minWidth: 'max-content',
+  flexShrink: 0,
   ':hover': {
     borderColor: '#3A4F66',
     '.filter-chip-title': {

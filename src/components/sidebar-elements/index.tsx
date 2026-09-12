@@ -11,7 +11,12 @@ import {
 
 import MethodCategory from 'components/method-category'
 
-import { isInActivePath, styleByLevelNormal, textStyle } from './functions'
+import {
+  HighlightedText,
+  isInActivePath,
+  styleByLevelNormal,
+  textStyle,
+} from './functions'
 import styles from './styles'
 import { MethodType } from 'utils/typings/types'
 import { LibraryContext } from 'utils/context/libraryContext'
@@ -36,6 +41,7 @@ export interface SidebarProps {
   /** Expand every branch, used while search/method filters are active. */
   forceOpen?: boolean
   isHamburgerMenu?: boolean
+  highlightQuery?: string
 }
 
 const SidebarElements = ({
@@ -44,6 +50,7 @@ const SidebarElements = ({
   subItemLevel,
   forceOpen = false,
   isHamburgerMenu = false,
+  highlightQuery = '',
 }: SidebarProps) => {
   const {
     isEditorPreview,
@@ -172,7 +179,9 @@ const SidebarElements = ({
                   method={method}
                 />
               )}
-              {localizedName}
+              <span>
+                <HighlightedText text={localizedName} query={highlightQuery} />
+              </span>
             </Link>
           ) : documentationType === 'link' ? (
             <Link
@@ -181,7 +190,9 @@ const SidebarElements = ({
               sx={textStyle(false, isHamburgerMenu, false)}
             >
               <IconExternalLink size={16} sx={{ marginRight: '10px' }} />
-              {localizedName}
+              <span>
+                <HighlightedText text={localizedName} query={highlightQuery} />
+              </span>
             </Link>
           ) : (
             <Box
@@ -198,7 +209,9 @@ const SidebarElements = ({
                   method={method}
                 />
               )}
-              {localizedName}
+              <span>
+                <HighlightedText text={localizedName} query={highlightQuery} />
+              </span>
             </Box>
           )}
         </Flex>
@@ -230,6 +243,7 @@ const SidebarElements = ({
           subItemLevel={subItemLevel + 1}
           forceOpen={forceOpen}
           isHamburgerMenu={isHamburgerMenu}
+          highlightQuery={highlightQuery}
           key={`${localizedSlug}sd`}
         />
       </Box>

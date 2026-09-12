@@ -1,9 +1,9 @@
-import { ReactNode, useContext } from 'react'
+import { ReactNode } from 'react'
 import { CookieConsent } from 'react-cookie-consent'
 import styles from './styles'
 import { Flex, SxStyleProp, Text } from '@vtex/brand-ui'
 import { messages } from 'utils/get-message'
-import { LibraryContext } from 'utils/context/libraryContext'
+import { useLocale } from 'utils/context/libraryContext'
 import aa from 'search-insights'
 
 interface Props {
@@ -24,7 +24,7 @@ const Button = ({ children, style, ...props }: ButtonProps) => {
 }
 
 const CookieBar = ({ onAccept }: Props) => {
-  const { locale } = useContext(LibraryContext)
+  const locale = useLocale()
 
   return (
     <CookieConsent

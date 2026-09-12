@@ -4,6 +4,7 @@ import FilterIcon from 'components/icons/filter-icon'
 import TrashcanIcon from 'components/icons/trashcan-icon'
 import Tag from 'components/tag'
 import { useState } from 'react'
+import { createPortal } from 'react-dom'
 
 import { toFilterGroup, toFilterGroups } from './normalize'
 import styles from './styles'
@@ -218,7 +219,7 @@ const ListingFilter = ({
   return (
     <>
       <FilterButton />
-      {isModalOpen && <FilterModal />}
+      {isModalOpen && createPortal(<FilterModal />, document.body)}
     </>
   )
 }

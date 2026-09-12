@@ -1,14 +1,14 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import { Box, Button, Text, Flex, Link } from '@vtex/brand-ui'
 import { messages } from 'utils/get-message'
 import { getPrivacyNoticeURL, getNewsletterURL } from 'utils/get-url'
-import { LibraryContext } from 'utils/context/libraryContext'
+import { useLocale } from 'utils/context/libraryContext'
 import styles from './styles'
 
 type EmailValidationResult = 'valid' | 'invalid' | 'error'
 
 const SubscriptionList: React.FC = () => {
-  const { locale } = useContext(LibraryContext)
+  const locale = useLocale()
   const localizedMessages = messages[locale] ?? messages.en
   const [email, setEmail] = useState('')
   const [message, setMessage] = useState('')

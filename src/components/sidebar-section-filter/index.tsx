@@ -1,10 +1,10 @@
 import { Box, Flex, Text } from '@vtex/brand-ui'
 import MethodCategory from 'components/method-category'
-import { Dispatch, SetStateAction, useContext, useState } from 'react'
+import { Dispatch, SetStateAction, useState } from 'react'
 
 import styles from './styles'
 import { MethodType } from 'utils/typings/types'
-import { LibraryContext } from 'utils/context/libraryContext'
+import { useLocale } from 'utils/context/libraryContext'
 import { messages } from 'utils/get-message'
 
 type MethodFilter = {
@@ -28,7 +28,7 @@ const SectionFilter = ({
   isHamburgerMenu = false,
 }: SectionFilterProps) => {
   const [activeFilters, setActiveFilters] = useState<MethodType[]>([])
-  const { locale } = useContext(LibraryContext)
+  const locale = useLocale()
 
   const setFilter = (methodFilterChanged: MethodType | null) => {
     if (methodFilterChanged) {

@@ -21,7 +21,7 @@ import {
 } from 'utils/search-utils'
 import CustomHighlight, { HighlightQuery } from './customHighlight'
 import styles from './styles'
-import { LibraryContext } from 'utils/context/libraryContext'
+import { LibraryContext, useLocale } from 'utils/context/libraryContext'
 import { messages } from 'utils/get-message'
 import CopyIcon from 'components/icons/copy-icon'
 import ExternalLinkIcon from 'components/icons/external-link-icon'
@@ -216,7 +216,7 @@ const HitWithInsights = connectHitInsights(aa)(Hit2) as any
 const HitsBox = connectStateResults<HitsBoxProps>(
   ({ searchState, searchResults, changeFocus, variant = 'default' }) => {
     const router = useRouter()
-    const { locale } = useContext(LibraryContext)
+    const locale = useLocale()
     const [activeIndex, setActiveIndex] = useState(-1)
     const [copiedId, setCopiedId] = useState<string | null>(null)
     const isModal = variant === 'modal'

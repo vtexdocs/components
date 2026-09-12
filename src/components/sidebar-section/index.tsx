@@ -18,7 +18,7 @@ import CloseIcon from 'components/icons/close-icon'
 import SideBarToggleIcon from 'components/icons/sidebar-toggle-icon'
 import ArrowLeftIcon from 'components/icons/arrow-left-icon'
 import { getIcon } from 'utils/sidebar-utils'
-import { LibraryContext } from 'utils/context/libraryContext'
+import { LibraryContext, useLocale } from 'utils/context/libraryContext'
 import { messages } from 'utils/get-message'
 
 export interface SidebarSectionProps {
@@ -152,7 +152,7 @@ const SidebarSearchBox = ({
   onChange: (value: string) => void
 }) => {
   const inputRef = useRef<HTMLInputElement>(null)
-  const { locale } = useContext(LibraryContext)
+  const locale = useLocale()
   const clearLabel = messages[locale]['search_input.clear'] || 'Clear search'
 
   return (
@@ -227,6 +227,23 @@ const SidebarSection = ({
     [filterStatus, methodFilterList, categories, searchValue, locale]
   )
 
+  const isFiltering = searchValue !== '' || filterStatus
+  const hasNoMatches = isFiltering && (filteredResult?.length ?? 0) === 0
+  const sidebarList = hasNoMatches ? (
+    <Text as="p" sx={styles.noResults} role="status">
+      {messages[locale]['sidebar_search.empty'] || 'No results found'}
+    </Text>
+  ) : (
+    <SideBarElements
+      items={filteredResult ?? []}
+      subItemLevel={0}
+      slugPrefix={slugPrefix}
+      forceOpen={isFiltering}
+      isHamburgerMenu={isHamburgerMenu}
+      highlightQuery={searchValue}
+    />
+  )
+
   useLayoutEffect(() => {
     if (isHamburgerMenu || !activeSidebarElement) return
     const container = sidebarBoxRef.current
@@ -289,15 +306,7 @@ const SidebarSection = ({
             />
           </Box>
         )}
-        <Box sx={styles.sidebarContainerBodyHamburger}>
-          <SideBarElements
-            items={filteredResult ?? []}
-            subItemLevel={0}
-            slugPrefix={slugPrefix}
-            forceOpen={searchValue !== '' || filterStatus}
-            isHamburgerMenu
-          />
-        </Box>
+        <Box sx={styles.sidebarContainerBodyHamburger}>{sidebarList}</Box>
       </Box>
     </Box>
   ) : (
@@ -337,11 +346,7 @@ const SidebarSection = ({
           <Text sx={styles.sidebarTitle}>{localizedSectionTitle}</Text>
           <SidebarSearchBox
             value={searchValue}
-            placeholder={
-              messages[locale]['sidebar_search.placeholder'] +
-              ' ' +
-              localizedSectionTitle
-            }
+            placeholder={messages[locale]['sidebar_search.placeholder']}
             onChange={setSearchValue}
           />
         </Box>
@@ -351,14 +356,7 @@ const SidebarSection = ({
             setMethodFilter={setMethodFilterList}
           />
         )}
-        <Box sx={styles.sidebarContainerBody}>
-          <SideBarElements
-            items={filteredResult ?? []}
-            subItemLevel={0}
-            slugPrefix={slugPrefix}
-            forceOpen={searchValue !== '' || filterStatus}
-          />
-        </Box>
+        <Box sx={styles.sidebarContainerBody}>{sidebarList}</Box>
       </Box>
       <Flex
         className="toggleIcon"

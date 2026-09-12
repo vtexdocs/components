@@ -1,8 +1,8 @@
-import { useContext, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Box, Flex, Grid, IconCaret, Text } from '@vtex/brand-ui'
 
 import Tooltip from 'components/tooltip'
-import { LibraryContext } from 'utils/context/libraryContext'
+import { useLocale } from 'utils/context/libraryContext'
 import { messages } from 'utils/get-message'
 
 import styles from './styles'
@@ -10,7 +10,7 @@ import { ContributorsProps } from './Contributors.types'
 
 /** List of GitHub contributors for a documentation page. */
 const Contributors = ({ contributors }: ContributorsProps) => {
-  const { locale } = useContext(LibraryContext)
+  const locale = useLocale()
 
   const [showAll, setShowAll] = useState(false)
   const [pageWidth, setPageWidth] = useState(0)

@@ -108,7 +108,15 @@ export {
 export { ListingFilter as Filter } from './lib'
 export { getDaysElapsed } from 'utils/get-days-elapsed'
 export { default as LibraryContextProvider } from 'utils/context/libraryContext'
-export { LibraryContext } from 'utils/context/libraryContext'
+export {
+  LibraryContext,
+  LocaleContext,
+  TocStateContext,
+  TocActionsContext,
+  useLocale,
+  useTocState,
+  useTocActions,
+} from 'utils/context/libraryContext'
 export { default as SearchConfig } from 'utils/config/search-config'
 export type {
   SearchBackendConfig,
@@ -149,6 +157,7 @@ export {
   DeprecatedIcon,
   FixedIcon,
   ImprovedIcon,
+  BreakingChangeIcon,
   RemovedIcon,
   InfoIcon,
   NewIcon,

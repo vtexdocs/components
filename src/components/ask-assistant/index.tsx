@@ -13,6 +13,7 @@ import { createPortal } from 'react-dom'
 import copy from 'copy-text-to-clipboard'
 import { Box, Flex, Text } from '@vtex/brand-ui'
 
+import ArrowRightIcon from 'components/icons/arrow-right-icon'
 import BookIcon from 'components/icons/book-icon'
 import CheckIcon from 'components/icons/check-icon'
 import CloseIcon from 'components/icons/close-icon'
@@ -29,6 +30,7 @@ import SparkleIcon from 'components/icons/sparkle-icon'
 import NewChatIcon from 'components/icons/new-chat-icon'
 import { LibraryContext } from 'utils/context/libraryContext'
 import { messages } from 'utils/get-message'
+import useFooterInView from 'utils/hooks/useFooterInView'
 
 import { DEFAULT_ASK_ASSISTANT_EXAMPLES } from './default-examples'
 import {
@@ -146,12 +148,13 @@ const AskAssistant = ({
   const isOpen = open ?? uncontrolledOpen
   const isStreaming = chat.some((message) => message.status === 'streaming')
   const canSend = Boolean(draft.trim()) && !isStreaming
+  const footerInView = useFooterInView()
   const showFloatingTrigger =
     floatingOnMobile && !hideTrigger && mounted && !isOpen
 
   const labels = useMemo(
     () => ({
-      button: localized['ask_assistant.button'] || 'Ask Assistant',
+      button: localized['ask_assistant.button'] || 'Assistant',
       title: localized['ask_assistant.title'] || 'Assistant',
       heroTitle: localized['ask_assistant.hero_title'] || 'How can I help you?',
       heroSubtitle:
@@ -670,14 +673,14 @@ const AskAssistant = ({
         <Box sx={styles.overlay} onClick={() => setOpen(false)} />
       )}
       <Box
-        sx={styles.panel(expanded)}
+        sx={styles.panel(expanded, isEmpty)}
         data-ask-assistant-panel
         data-expanded={expanded ? 'true' : undefined}
         role="dialog"
         aria-modal={isSplitView ? 'false' : 'true'}
         aria-labelledby={titleId}
       >
-        <Flex sx={styles.header}>
+        <Flex sx={styles.header(isEmpty)}>
           <Flex sx={styles.headerTitle} id={titleId}>
             <SparkleIcon size={16} sx={styles.triggerIcon} />
             <Text>{labels.title}</Text>
@@ -773,7 +776,7 @@ const AskAssistant = ({
             <Box sx={styles.emptyMain}>
               <Box sx={styles.emptyHero}>
                 <Flex sx={styles.emptyHeroIcon} aria-hidden>
-                  <SparkleIcon size={18} />
+                  <SparkleIcon size={20} />
                 </Flex>
                 <Box sx={styles.emptyHeroCopy}>
                   <Text as="h2" sx={styles.emptyHeroTitle}>
@@ -825,7 +828,13 @@ const AskAssistant = ({
                           sx={styles.exampleQuestion}
                           onClick={() => void submit(question)}
                         >
-                          {question}
+                          <Box as="span" sx={styles.exampleQuestionText}>
+                            {question}
+                          </Box>
+                          <ArrowRightIcon
+                            size={14}
+                            sx={styles.exampleQuestionArrow}
+                          />
                         </Box>
                       ))}
                   </Box>
@@ -986,16 +995,18 @@ const AskAssistant = ({
             <Box
               as="button"
               type="button"
-              sx={styles.floatingTrigger}
+              sx={styles.floatingTrigger(footerInView)}
               data-ask-assistant-trigger
               data-ask-assistant-fab
               aria-label={labels.button}
               title={labels.button}
               aria-haspopup="dialog"
               aria-expanded={isOpen}
+              aria-hidden={footerInView}
+              tabIndex={footerInView ? -1 : undefined}
               onClick={() => setOpen(true)}
             >
-              <SparkleIcon size={22} />
+              <SparkleIcon size={18} sx={{ width: 18, height: 18, flexShrink: 0 }} />
             </Box>,
             document.body
           )

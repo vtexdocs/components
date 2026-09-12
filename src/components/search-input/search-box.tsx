@@ -2,7 +2,6 @@ import {
   useRef,
   KeyboardEvent,
   MouseEvent,
-  useContext,
   useEffect,
   useState,
 } from 'react'
@@ -15,7 +14,7 @@ import SearchIcon from 'components/icons/search-icon'
 import CloseIcon from 'components/icons/close-icon'
 import styles from './styles'
 import { messages } from 'utils/get-message'
-import { LibraryContext } from 'utils/context/libraryContext'
+import { useLocale } from 'utils/context/libraryContext'
 import { SearchInputVariant } from './types'
 
 interface SearchBoxProps extends SearchBoxProvided {
@@ -42,7 +41,7 @@ const SearchBoxComponent = ({
 }: SearchBoxProps) => {
   const router = useRouter()
   const inputRef = useRef<HTMLInputElement>(null)
-  const { locale } = useContext(LibraryContext)
+  const locale = useLocale()
   const [isMac, setIsMac] = useState(false)
 
   useEffect(() => {

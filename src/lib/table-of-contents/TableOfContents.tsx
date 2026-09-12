@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react'
+import { memo, useEffect } from 'react'
 import Link from 'next/link.js'
 import { useRouter } from 'next/router.js'
 import { Box, Text } from '@vtex/brand-ui'
@@ -7,10 +7,50 @@ import AnimateHeight from 'react-animate-height'
 import { removeHTML } from 'utils/string-utils'
 import { Item } from './TableOfContents.types'
 
-import { LibraryContext } from 'utils/context/libraryContext'
+import {
+  useLocale,
+  useTocActions,
+  useTocState,
+} from 'utils/context/libraryContext'
 import { messages } from 'utils/get-message'
 
 import styles from './styles'
+
+type TocItemProps = {
+  title: string
+  slug: string
+  level: number
+  active: boolean
+}
+
+const TocItem = memo(function TocItem({
+  title,
+  slug,
+  level,
+  active,
+}: TocItemProps) {
+  const { setActiveItem } = useTocActions()
+
+  return (
+    <Link
+      href={`#${slug}`}
+      onClick={() => {
+        setActiveItem((prev) => {
+          const next = {
+            item: level === 1 ? slug : prev.item,
+            subItem: level === 1 ? '' : slug,
+          }
+          if (next.item === prev.item && next.subItem === prev.subItem) {
+            return prev
+          }
+          return next
+        })
+      }}
+    >
+      <Text sx={styles.item(level, active)}>{title}</Text>
+    </Link>
+  )
+})
 
 const MARKDOWN_HEADINGS_SELECTOR = [
   '[data-markdown-renderer] h2',
@@ -51,19 +91,19 @@ interface Props {
   /** List of headings in the current documentation page */
   headingList?: Item[]
   children?: React.ReactNode
+  /** Hide the "On this page" heading, e.g. when nested in the mobile sheet. */
+  hideTitle?: boolean
 }
 
 /** Table of contents for documentation pages. */
-const TableOfContents = ({ headingList, children }: Props) => {
+const TableOfContents = ({ headingList, children, hideTitle }: Props) => {
   const router = useRouter()
-  const { headingItems, activeItem, setHeadingItems, setActiveItem, locale } =
-    useContext(LibraryContext)
+  const locale = useLocale()
+  const { headingItems, activeItem } = useTocState()
+  const { setHeadingItems } = useTocActions()
 
   useEffect(() => {
-    if (headingList) {
-      setHeadingItems(headingList)
-      return
-    }
+    if (headingList) return
 
     const applyFromDom = () => {
       const headings = collectHeadingsFromDom()
@@ -84,35 +124,9 @@ const TableOfContents = ({ headingList, children }: Props) => {
 
   const items = headingList?.length ? headingList : headingItems
 
-  const Item = ({
-    title,
-    slug,
-    level,
-    active,
-  }: {
-    title: string
-    slug: string
-    level: number
-    active: boolean
-  }) => {
-    return (
-      <Link
-        href={`#${slug}`}
-        onClick={() => {
-          setActiveItem(({ item }) => ({
-            item: level === 1 ? slug : item,
-            subItem: level === 1 ? '' : slug,
-          }))
-        }}
-      >
-        <Text sx={styles.item(level, active)}>{title}</Text>
-      </Link>
-    )
-  }
-
   return (
     <Box sx={styles.itemsContainer} data-cy="table-of-contents">
-      {items.length > 0 && (
+      {items.length > 0 && !hideTitle && (
         <Text sx={styles.tocTitle}>
           {messages[locale]['on_this_page.title']}
         </Text>
@@ -120,7 +134,7 @@ const TableOfContents = ({ headingList, children }: Props) => {
       <Box sx={styles.headings}>
         {items.map((item) => (
           <Box key={item.slug}>
-            <Item
+            <TocItem
               title={item.title}
               slug={item.slug}
               level={1}
@@ -132,7 +146,7 @@ const TableOfContents = ({ headingList, children }: Props) => {
             >
               <Box sx={styles.subItemsContainer}>
                 {item.children.map((subItem) => (
-                  <Item
+                  <TocItem
                     key={subItem.slug}
                     title={subItem.title}
                     slug={subItem.slug}

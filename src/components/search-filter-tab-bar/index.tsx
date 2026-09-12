@@ -3,7 +3,7 @@ import { Flex, Text } from '@vtex/brand-ui'
 
 import styles from './styles'
 import { SearchContext } from 'utils/context/search'
-import { LibraryContext } from 'utils/context/libraryContext'
+import { LibraryContext, useLocale } from 'utils/context/libraryContext'
 import { messages } from 'utils/get-message'
 import { formatSearchTabCount } from 'utils/search-utils'
 import { getSectionLabel } from 'utils/sidebar-utils'
@@ -28,7 +28,7 @@ const SearchFilterTab = ({
 }) => {
   const { filterSelectedSection, changeFilterSelectedSection, ocurrenceCount } =
     useContext(SearchContext)
-  const { locale } = useContext(LibraryContext)
+  const locale = useLocale()
 
   const count = ocurrenceCount[filter]
   const formattedCount = formatSearchTabCount(count)

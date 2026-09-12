@@ -1,10 +1,10 @@
 import { Box, Flex } from '@vtex/brand-ui'
-import { useContext, useEffect, useState, MouseEvent } from 'react'
+import { useEffect, useState, MouseEvent } from 'react'
 import { useRouter } from 'next/router.js'
 
 import SearchInput from 'components/search-input'
 import SearchIcon from 'components/icons/search-icon'
-import { LibraryContext } from 'utils/context/libraryContext'
+import { useLocale } from 'utils/context/libraryContext'
 import { messages } from 'utils/get-message'
 import styles from './styles'
 
@@ -15,7 +15,7 @@ export interface MobileSearchProps {
 
 const MobileSearch = ({ onOpen }: MobileSearchProps) => {
   const router = useRouter()
-  const { locale } = useContext(LibraryContext)
+  const locale = useLocale()
   const [isOpen, setIsOpen] = useState(false)
 
   const openLabel =

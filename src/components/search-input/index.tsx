@@ -2,10 +2,10 @@ import { Configure, InstantSearch } from 'react-instantsearch-dom'
 import SearchBox from './search-box'
 import Results from './results-box'
 import { Box, Flex } from '@vtex/brand-ui'
-import { useContext, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import useClickOutside from 'utils/hooks/useClickOutside'
 import { searchClient, searchIndex } from 'utils/config/search-config'
-import { LibraryContext } from 'utils/context/libraryContext'
+import { useLocale } from 'utils/context/libraryContext'
 import styles from './styles'
 import { SearchInputVariant } from './types'
 
@@ -23,7 +23,7 @@ export default function SearchInput({
   autoFocus = false,
   onClose,
 }: SearchInputProps) {
-  const { locale } = useContext(LibraryContext)
+  const locale = useLocale()
   const isModal = variant === 'modal'
   const [focusOut, setfocusOut] = useState<{ modaltoggle: boolean }>({
     modaltoggle: true,

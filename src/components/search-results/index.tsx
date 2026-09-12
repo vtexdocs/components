@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router.js'
 import { useContext, useEffect, useState } from 'react'
 
-import { LibraryContext } from 'utils/context/libraryContext'
+import { useLocale } from 'utils/context/libraryContext'
 import { messages } from 'utils/get-message'
 import { Box, Text } from '@vtex/brand-ui'
 
@@ -21,7 +21,7 @@ import { formatSearchTabCount } from 'utils/search-utils'
 const SearchResults = () => {
   const router = useRouter()
   const { filterSelectedSection, ocurrenceCount } = useContext(SearchContext)
-  const { locale } = useContext(LibraryContext)
+  const locale = useLocale()
   const filters = [
     `language:${locale}`,
     filterSelectedSection ? `doctype:"${filterSelectedSection}"` : '',
