@@ -1,5 +1,6 @@
 import { type ReactNode } from 'react'
 import Link from 'next/link.js'
+import { useRouter } from 'next/router.js'
 import { Flex, Text, Box } from '@vtex/brand-ui'
 
 import { useLocale } from 'utils/context/libraryContext'
@@ -34,7 +35,12 @@ const ArticlePagination = ({
   previousChildren,
   nextChildren,
 }: ArticlePaginationProps) => {
-  const locale = useLocale()
+  const router = useRouter()
+  const contextLocale = useLocale()
+  const locale =
+    router.locale === 'pt' || router.locale === 'es' || router.locale === 'en'
+      ? router.locale
+      : contextLocale
   const previousLabel =
     messages[locale]['article_pagination.previous'] || 'Previous'
   const nextLabel = messages[locale]['article_pagination.next'] || 'Next'
@@ -51,11 +57,7 @@ const ArticlePagination = ({
   const previousExtra =
     previousChildren ??
     pagination?.previousDoc?.children ??
-    formatArticleDateValue(
-      pagination?.previousDoc?.createdAt,
-      locale,
-      'medium'
-    )
+    formatArticleDateValue(pagination?.previousDoc?.createdAt, locale, 'medium')
   const nextExtra =
     nextChildren ??
     pagination?.nextDoc?.children ??
