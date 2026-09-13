@@ -9965,21 +9965,25 @@ var SidebarElements = ({
     locale
   } = useContext2(LibraryContext);
   const router = useRouter3();
+  const navigationLocale = router.locale || locale;
   const isElementOpen = (slug, defaultOpen) => forceOpen || (sidebarElementStatus.has(slug) ? sidebarElementStatus.get(slug) : !!defaultOpen);
+  const getPath = (prefix, pathSuffix, slug) => {
+    const href = prefix === "docs/api-reference" ? `/${prefix}/${slug}/${pathSuffix}` : `/${prefix}/${slug}`;
+    return href.replaceAll("//", "/");
+  };
+  const getHref = (prefix, pathSuffix, slug) => {
+    const path = getPath(prefix, pathSuffix, slug);
+    const localePrefix = navigationLocale && navigationLocale !== "en" ? `/${navigationLocale}` : "";
+    return `${localePrefix}${path}`.replaceAll("//", "/");
+  };
   const handleClick = (e, pathSuffix, slug) => {
     e.preventDefault();
     const hasEndpointQuery = router.query.endpoint;
-    const href = getHref(slugPrefix || "", pathSuffix, slug);
-    router.push(href, href, { locale }).then(() => {
+    const path = getPath(slugPrefix || "", pathSuffix, slug);
+    router.push(path, void 0, { locale: navigationLocale }).then(() => {
       if (hasEndpointQuery)
         router.reload();
     });
-  };
-  const getHref = (slugPrefix2, pathSuffix, slug) => {
-    const validLocales = ["pt", "es"];
-    const localePrefix = locale && validLocales.includes(locale) ? `/${locale}` : "";
-    const href = slugPrefix2 === "docs/api-reference" ? `/${slugPrefix2}/${slug}/${pathSuffix}` : `${localePrefix}/${slugPrefix2}/${slug}`;
-    return href.replaceAll("//", "/");
   };
   const ElementRoot = ({
     slug,
@@ -10018,13 +10022,7 @@ var SidebarElements = ({
               size: "regular",
               variant: "tertiary",
               sx: isHamburgerMenu ? isArrowActive ? styles_default16.arrowIconActiveHamburger : styles_default16.arrowIconHamburger : isArrowActive ? styles_default16.arrowIconActive : styles_default16.arrowIcon,
-              icon: () => /* @__PURE__ */ jsx23(
-                IconCaret4,
-                {
-                  direction: isOpen ? "down" : "right",
-                  size: 16
-                }
-              ),
+              icon: () => /* @__PURE__ */ jsx23(IconCaret4, { direction: isOpen ? "down" : "right", size: 16 }),
               onClick: () => toggleSidebarElementStatus(localizedSlug, isOpen)
             }
           ) : /* @__PURE__ */ jsx23(
@@ -10046,7 +10044,7 @@ var SidebarElements = ({
               },
               href: getHref(slugPrefix || "", pathSuffix, localizedSlug),
               target: isEditorPreview === true ? "_blank" : "_self",
-              locale,
+              locale: navigationLocale,
               children: [
                 method && /* @__PURE__ */ jsx23(
                   method_category_default,
@@ -22505,6 +22503,7 @@ var date_text_default = DateText;
 
 // src/components/article-pagination/index.tsx
 import Link14 from "next/link.js";
+import { useRouter as useRouter12 } from "next/router.js";
 import { Flex as Flex39, Text as Text36, Box as Box44 } from "@vtex/brand-ui";
 
 // src/utils/format-article-date.ts
@@ -22644,16 +22643,14 @@ var ArticlePagination = ({
   previousChildren,
   nextChildren
 }) => {
-  const locale = useLocale();
+  const router = useRouter12();
+  const contextLocale = useLocale();
+  const locale = router.locale === "pt" || router.locale === "es" || router.locale === "en" ? router.locale : contextLocale;
   const previousLabel = messages[locale]["article_pagination.previous"] || "Previous";
   const nextLabel = messages[locale]["article_pagination.next"] || "Next";
   const showPrevious = !hidePaginationPrevious && Boolean(pagination?.previousDoc?.slug) && Boolean(pagination?.previousDoc?.name);
   const showNext = !hidePaginationNext && Boolean(pagination?.nextDoc?.slug) && Boolean(pagination?.nextDoc?.name);
-  const previousExtra = previousChildren ?? pagination?.previousDoc?.children ?? formatArticleDateValue(
-    pagination?.previousDoc?.createdAt,
-    locale,
-    "medium"
-  );
+  const previousExtra = previousChildren ?? pagination?.previousDoc?.children ?? formatArticleDateValue(pagination?.previousDoc?.createdAt, locale, "medium");
   const nextExtra = nextChildren ?? pagination?.nextDoc?.children ?? formatArticleDateValue(pagination?.nextDoc?.createdAt, locale, "medium");
   return /* @__PURE__ */ jsx121(Box44, { as: "nav", sx: styles_default48.mainContainer, children: /* @__PURE__ */ jsxs98(Flex39, { sx: styles_default48.flexContainer, children: [
     showPrevious && /* @__PURE__ */ jsx121(Box44, { sx: styles_default48.paginationLinkPrevious, children: /* @__PURE__ */ jsx121(

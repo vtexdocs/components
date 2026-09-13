@@ -61,12 +61,30 @@ const SidebarElements = ({
     locale,
   } = useContext(LibraryContext)
   const router = useRouter()
+  const navigationLocale = router.locale || locale
 
   const isElementOpen = (slug: string, defaultOpen?: boolean) =>
     forceOpen ||
     (sidebarElementStatus.has(slug)
       ? sidebarElementStatus.get(slug)
       : !!defaultOpen)
+
+  const getPath = (prefix: string, pathSuffix: string, slug: string) => {
+    const href =
+      prefix === 'docs/api-reference'
+        ? `/${prefix}/${slug}/${pathSuffix}`
+        : `/${prefix}/${slug}`
+    return href.replaceAll('//', '/')
+  }
+
+  const getHref = (prefix: string, pathSuffix: string, slug: string) => {
+    const path = getPath(prefix, pathSuffix, slug)
+    const localePrefix =
+      navigationLocale && navigationLocale !== 'en'
+        ? `/${navigationLocale}`
+        : ''
+    return `${localePrefix}${path}`.replaceAll('//', '/')
+  }
 
   const handleClick = (
     e: { preventDefault: () => void },
@@ -75,21 +93,12 @@ const SidebarElements = ({
   ) => {
     e.preventDefault()
     const hasEndpointQuery = router.query.endpoint
-    const href = getHref(slugPrefix || '', pathSuffix, slug)
-    router.push(href, href, { locale }).then(() => {
+    const path = getPath(slugPrefix || '', pathSuffix, slug)
+    // Do not put the locale in both the path and the locale option. That makes
+    // Next/Netlify treat shared slugs (e.g. amazon in en/es/pt) as English.
+    router.push(path, undefined, { locale: navigationLocale }).then(() => {
       if (hasEndpointQuery) router.reload()
     })
-  }
-
-  const getHref = (slugPrefix: string, pathSuffix: string, slug: string) => {
-    const validLocales = ['pt', 'es']
-    const localePrefix =
-      locale && validLocales.includes(locale) ? `/${locale}` : ''
-    const href =
-      slugPrefix === 'docs/api-reference'
-        ? `/${slugPrefix}/${slug}/${pathSuffix}`
-        : `${localePrefix}/${slugPrefix}/${slug}`
-    return href.replaceAll('//', '/')
   }
 
   const ElementRoot = ({
@@ -141,10 +150,7 @@ const SidebarElements = ({
                   : styles.arrowIcon
               }
               icon={() => (
-                <IconCaret
-                  direction={isOpen ? 'down' : 'right'}
-                  size={16}
-                />
+                <IconCaret direction={isOpen ? 'down' : 'right'} size={16} />
               )}
               onClick={() => toggleSidebarElementStatus(localizedSlug, isOpen)}
             />
@@ -169,7 +175,7 @@ const SidebarElements = ({
               }}
               href={getHref(slugPrefix || '', pathSuffix, localizedSlug)}
               target={isEditorPreview === true ? '_blank' : '_self'}
-              locale={locale}
+              locale={navigationLocale}
             >
               {method && (
                 <MethodCategory
