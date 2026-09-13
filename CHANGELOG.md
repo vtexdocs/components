@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [7.0.9](https://github.com/vtexdocs/components/compare/v7.0.8...v7.0.9) (2026-09-13)
+
+
+### Bug Fixes
+
+* locale switcher common slug ([aecd4ea](https://github.com/vtexdocs/components/commit/aecd4ea030137d4f41d84c53d3bf45c442fe3f22))
+
 ### [7.0.8](https://github.com/vtexdocs/components/compare/v7.0.7...v7.0.8) (2026-09-12)
 
 ### [7.0.7](https://github.com/vtexdocs/components/compare/v7.0.6...v7.0.7) (2026-09-12)
