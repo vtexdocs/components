@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [7.0.10](https://github.com/vtexdocs/components/compare/v7.0.9...v7.0.10) (2026-09-14)
+
+
+### Features
+
+* sidebar divider ([afafeb3](https://github.com/vtexdocs/components/commit/afafeb3e89136d95572005a50d522115f5a6977e))
+
 ### [7.0.9](https://github.com/vtexdocs/components/compare/v7.0.8...v7.0.9) (2026-09-13)
 
 
