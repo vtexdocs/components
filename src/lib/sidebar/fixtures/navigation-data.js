@@ -6,3 +6,5 @@ export const developersNavigation = developersNavigationData
 
 /** Snapshot of https://help.vtex.com/navigation.json (`navbar`). */
 export const helpNavigation = helpNavigationData
+
+export { dividerNavigation } from './divider-navigation'

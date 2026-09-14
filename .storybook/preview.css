@@ -1,0 +1,11 @@
+/* Storybook canvas only: render stories on white instead of the theme's tinted background. */
+:root,
+body,
+#storybook-root {
+  --theme-ui-colors-background: #ffffff;
+}
+
+body,
+#storybook-root {
+  background-color: var(--theme-ui-colors-background);
+}
