@@ -35,7 +35,11 @@ function indexDocumentationTypes(
   }
 
   const node = data as { slug?: unknown; type?: unknown }
-  if (typeof node.type === 'string' && node.slug != null) {
+  if (
+    typeof node.type === 'string' &&
+    node.type !== 'divider' &&
+    node.slug != null
+  ) {
     if (typeof node.slug === 'string') {
       index.set(node.slug, node.type)
     } else if (typeof node.slug === 'object') {
@@ -54,7 +58,7 @@ function indexDocumentationTypes(
   }
 }
 
-/** O(1) lookup of a nav node's `type` (`markdown` | `category` | `link`). */
+/** O(1) lookup of a nav node's `type` (`markdown` | `category` | `link`). Dividers are omitted. */
 export function getDocumentationType(
   sidebarData: unknown,
   slug: string

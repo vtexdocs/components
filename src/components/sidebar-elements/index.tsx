@@ -24,8 +24,9 @@ import { getDocumentationType } from 'utils/navigation-utils'
 
 export interface SidebarElement {
   name: string | { en: string; pt: string; es: string }
+  /** Optional for dividers; when present, it is only a stable id. */
   slug: string | { en: string; pt: string; es: string }
-  origin: string
+  origin?: string
   type: string
   method?: MethodType
   endpoint?: string
@@ -42,6 +43,8 @@ export interface SidebarProps {
   forceOpen?: boolean
   isHamburgerMenu?: boolean
   highlightQuery?: string
+  /** Set when rendering the children of a divider, which own the section rule. */
+  insideDivider?: boolean
 }
 
 const SidebarElements = ({
@@ -51,6 +54,7 @@ const SidebarElements = ({
   forceOpen = false,
   isHamburgerMenu = false,
   highlightQuery = '',
+  insideDivider = false,
 }: SidebarProps) => {
   const {
     isEditorPreview,
@@ -101,6 +105,35 @@ const SidebarElements = ({
     })
   }
 
+  const ElementDivider = ({ name }: Pick<SidebarElement, 'name'>) => {
+    const localizedName: string = typeof name === 'string' ? name : name[locale]
+    return (
+      <Box
+        as="div"
+        role="separator"
+        aria-label={localizedName}
+        data-sidebar-divider="true"
+        sx={
+          isHamburgerMenu ? styles.sectionLabelHamburger : styles.sectionLabel
+        }
+      >
+        <Flex sx={styleByLevelNormal(isHamburgerMenu)}>
+          <Box
+            sx={
+              isHamburgerMenu
+                ? styles.arrowIconSpacerHamburger
+                : styles.arrowIconSpacer
+            }
+            aria-hidden="true"
+          />
+          <Box as="span" sx={styles.sectionLabelText}>
+            {localizedName}
+          </Box>
+        </Flex>
+      </Box>
+    )
+  }
+
   const ElementRoot = ({
     slug,
     name,
@@ -110,8 +143,9 @@ const SidebarElements = ({
     defaultOpen,
   }: SidebarElement) => {
     const localizedName: string = typeof name === 'string' ? name : name[locale]
-    const localizedSlug: string = typeof slug === 'string' ? slug : slug[locale]
-    const isExpandable = children.length > 0
+    const localizedSlug: string =
+      typeof slug === 'string' ? slug : slug?.[locale] || ''
+    const isExpandable = (children || []).length > 0
     const isOpen = isElementOpen(localizedSlug, defaultOpen)
     const pathSuffix = method ? `#${method.toLowerCase()}-${endpoint}` : ''
     const activeItem = method ? `${localizedSlug}${pathSuffix}` : localizedSlug
@@ -226,11 +260,12 @@ const SidebarElements = ({
   }
 
   const ElementChildren = ({ slug, children, defaultOpen }: SidebarElement) => {
-    const isExpandable = children.length > 0
+    const isExpandable = (children || []).length > 0
     // const newPathPrefix =
     //   slugPrefix === 'api-reference' ? `/api-reference/${slug}` : slugPrefix
 
-    const localizedSlug: string = typeof slug === 'string' ? slug : slug[locale]
+    const localizedSlug: string =
+      typeof slug === 'string' ? slug : slug?.[locale] || ''
     return isExpandable && isElementOpen(localizedSlug, defaultOpen) ? (
       <Box
         sx={
@@ -256,17 +291,60 @@ const SidebarElements = ({
     ) : null
   }
 
+  // Sections built with dividers group their items with the section rule, so the
+  // per-category rules of the classic layout would only add noise.
+  const usesDividers =
+    insideDivider || !!items?.some((item) => item.type === 'divider')
+  const showCategoryRules =
+    subItemLevel === 0 && !isHamburgerMenu && !usesDividers
+
   return (
     <Box className="sidebar-component">
       {items?.map((item, index) => {
+        if (item.type === 'divider') {
+          const dividerId =
+            typeof item.slug === 'string'
+              ? item.slug
+              : item.slug?.[locale] ??
+                (typeof item.name === 'string' ? item.name : item.name[locale])
+          const dividerChildren = item.children || []
+          return (
+            <Fragment key={`divider-${dividerId}-${index}`}>
+              <ElementDivider name={item.name} />
+              {/* A divider groups its children in place: no caret, no indentation. */}
+              {dividerChildren.length > 0 && (
+                <SidebarElements
+                  slugPrefix={slugPrefix}
+                  items={dividerChildren}
+                  subItemLevel={subItemLevel}
+                  forceOpen={forceOpen}
+                  isHamburgerMenu={isHamburgerMenu}
+                  highlightQuery={highlightQuery}
+                  insideDivider
+                />
+              )}
+              {index < items.length - 1 && (
+                <Box
+                  aria-hidden="true"
+                  sx={
+                    isHamburgerMenu
+                      ? styles.sectionRuleHamburger
+                      : styles.sectionRule
+                  }
+                />
+              )}
+            </Fragment>
+          )
+        }
+
         const key =
           typeof item.slug === 'string'
             ? String(item.slug) + String(index)
-            : String(item.slug[locale]) + String(index)
+            : String(item.slug?.[locale] ?? index) + String(index)
         const slug =
           typeof item.slug === 'string'
             ? `${item.slug}`
-            : `${item.slug[locale]}`
+            : `${item.slug?.[locale] ?? ''}`
 
         return (
           <Fragment key={String(key)}>
@@ -274,7 +352,7 @@ const SidebarElements = ({
             <Box>
               <ElementChildren {...item} slug={slug} />
             </Box>
-            {subItemLevel == 0 && !isHamburgerMenu ? (
+            {showCategoryRules ? (
               <Box sx={styles.sectionDivider}>
                 <hr />
               </Box>

@@ -1,5 +1,6 @@
 import type { Preview } from '@storybook/react'
 import SearchConfig from '../src/utils/config/search-config'
+import './preview.css'
 
 const algoliaAppId = process.env.NEXT_PUBLIC_ALGOLIA_APP_ID
 const algoliaSearchKey = process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_KEY

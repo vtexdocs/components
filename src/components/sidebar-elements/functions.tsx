@@ -42,6 +42,11 @@ export const isInActivePath = (
   activeSlug: string,
   locale: 'en' | 'pt' | 'es'
 ): boolean => {
+  const children = node.children || []
+  if (!node.slug) {
+    return children.some((child) => isInActivePath(child, activeSlug, locale))
+  }
+
   const slug = typeof node.slug === 'string' ? node.slug : node.slug[locale]
   const item = node.method
     ? `${slug}#${node.method.toLowerCase()}-${node.endpoint}`
@@ -49,9 +54,7 @@ export const isInActivePath = (
 
   if (item === activeSlug || slug === activeSlug) return true
 
-  return node.children.some((child) =>
-    isInActivePath(child, activeSlug, locale)
-  )
+  return children.some((child) => isInActivePath(child, activeSlug, locale))
 }
 
 export const styleByLevelNormal = (isHamburgerMenu = false) => {

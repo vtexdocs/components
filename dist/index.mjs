@@ -8932,7 +8932,7 @@ function indexDocumentationTypes(data, index) {
     return;
   }
   const node = data;
-  if (typeof node.type === "string" && node.slug != null) {
+  if (typeof node.type === "string" && node.type !== "divider" && node.slug != null) {
     if (typeof node.slug === "string") {
       index.set(node.slug, node.type);
     } else if (typeof node.slug === "object") {
@@ -9854,11 +9854,45 @@ var methodBox = {
   mr: 0,
   flexShrink: 0
 };
+var sectionLabel = {
+  mt: "4px",
+  pointerEvents: "none",
+  cursor: "default",
+  ":hover": {
+    background: "transparent"
+  }
+};
+var sectionLabelHamburger = {
+  ...sectionLabel,
+  px: "8px"
+};
 var sectionDivider2 = {
   hr: {
     border: "1px solid #E7E9EE",
     borderTop: "none"
   }
+};
+var sectionRule = {
+  mt: "12px",
+  mb: "8px",
+  borderTop: "1px solid #E7E9EE"
+};
+var sectionRuleHamburger = {
+  ...sectionRule,
+  mx: "8px"
+};
+var sectionLabelText = {
+  color: "#4A596B",
+  fontSize: "12px",
+  lineHeight: "16px",
+  fontWeight: "600",
+  letterSpacing: "0.04em",
+  textTransform: "uppercase",
+  paddingBlock: "8px",
+  flex: 1,
+  minWidth: 0,
+  whiteSpace: "normal",
+  overflowWrap: "break-word"
 };
 var styles_default16 = {
   elementContainer,
@@ -9877,7 +9911,12 @@ var styles_default16 = {
   nestedGroupHamburgerFirst,
   elementButton,
   methodBox,
-  sectionDivider: sectionDivider2
+  sectionDivider: sectionDivider2,
+  sectionLabel,
+  sectionLabelHamburger,
+  sectionRule,
+  sectionRuleHamburger,
+  sectionLabelText
 };
 
 // src/components/sidebar-elements/functions.tsx
@@ -9897,13 +9936,15 @@ function HighlightedText({
   ) });
 }
 var isInActivePath = (node, activeSlug, locale) => {
+  const children = node.children || [];
+  if (!node.slug) {
+    return children.some((child) => isInActivePath(child, activeSlug, locale));
+  }
   const slug = typeof node.slug === "string" ? node.slug : node.slug[locale];
   const item2 = node.method ? `${slug}#${node.method.toLowerCase()}-${node.endpoint}` : slug;
   if (item2 === activeSlug || slug === activeSlug)
     return true;
-  return node.children.some(
-    (child) => isInActivePath(child, activeSlug, locale)
-  );
+  return children.some((child) => isInActivePath(child, activeSlug, locale));
 };
 var styleByLevelNormal = (isHamburgerMenu = false) => {
   const normal = {
@@ -9954,7 +9995,8 @@ var SidebarElements = ({
   subItemLevel,
   forceOpen = false,
   isHamburgerMenu = false,
-  highlightQuery = ""
+  highlightQuery = "",
+  insideDivider = false
 }) => {
   const {
     isEditorPreview,
@@ -9985,6 +10027,29 @@ var SidebarElements = ({
         router.reload();
     });
   };
+  const ElementDivider = ({ name: name2 }) => {
+    const localizedName2 = typeof name2 === "string" ? name2 : name2[locale];
+    return /* @__PURE__ */ jsx23(
+      Box14,
+      {
+        as: "div",
+        role: "separator",
+        "aria-label": localizedName2,
+        "data-sidebar-divider": "true",
+        sx: isHamburgerMenu ? styles_default16.sectionLabelHamburger : styles_default16.sectionLabel,
+        children: /* @__PURE__ */ jsxs17(Flex9, { sx: styleByLevelNormal(isHamburgerMenu), children: [
+          /* @__PURE__ */ jsx23(
+            Box14,
+            {
+              sx: isHamburgerMenu ? styles_default16.arrowIconSpacerHamburger : styles_default16.arrowIconSpacer,
+              "aria-hidden": "true"
+            }
+          ),
+          /* @__PURE__ */ jsx23(Box14, { as: "span", sx: styles_default16.sectionLabelText, children: localizedName2 })
+        ] })
+      }
+    );
+  };
   const ElementRoot = ({
     slug,
     name: name2,
@@ -9994,8 +10059,8 @@ var SidebarElements = ({
     defaultOpen
   }) => {
     const localizedName2 = typeof name2 === "string" ? name2 : name2[locale];
-    const localizedSlug = typeof slug === "string" ? slug : slug[locale];
-    const isExpandable = children.length > 0;
+    const localizedSlug = typeof slug === "string" ? slug : slug?.[locale] || "";
+    const isExpandable = (children || []).length > 0;
     const isOpen = isElementOpen(localizedSlug, defaultOpen);
     const pathSuffix = method ? `#${method.toLowerCase()}-${endpoint}` : "";
     const activeItem = method ? `${localizedSlug}${pathSuffix}` : localizedSlug;
@@ -10095,8 +10160,8 @@ var SidebarElements = ({
     );
   };
   const ElementChildren = ({ slug, children, defaultOpen }) => {
-    const isExpandable = children.length > 0;
-    const localizedSlug = typeof slug === "string" ? slug : slug[locale];
+    const isExpandable = (children || []).length > 0;
+    const localizedSlug = typeof slug === "string" ? slug : slug?.[locale] || "";
     return isExpandable && isElementOpen(localizedSlug, defaultOpen) ? /* @__PURE__ */ jsx23(
       Box14,
       {
@@ -10116,13 +10181,41 @@ var SidebarElements = ({
       }
     ) : null;
   };
+  const usesDividers = insideDivider || !!items?.some((item2) => item2.type === "divider");
+  const showCategoryRules = subItemLevel === 0 && !isHamburgerMenu && !usesDividers;
   return /* @__PURE__ */ jsx23(Box14, { className: "sidebar-component", children: items?.map((item2, index) => {
-    const key = typeof item2.slug === "string" ? String(item2.slug) + String(index) : String(item2.slug[locale]) + String(index);
-    const slug = typeof item2.slug === "string" ? `${item2.slug}` : `${item2.slug[locale]}`;
+    if (item2.type === "divider") {
+      const dividerId = typeof item2.slug === "string" ? item2.slug : item2.slug?.[locale] ?? (typeof item2.name === "string" ? item2.name : item2.name[locale]);
+      const dividerChildren = item2.children || [];
+      return /* @__PURE__ */ jsxs17(Fragment5, { children: [
+        /* @__PURE__ */ jsx23(ElementDivider, { name: item2.name }),
+        dividerChildren.length > 0 && /* @__PURE__ */ jsx23(
+          SidebarElements,
+          {
+            slugPrefix,
+            items: dividerChildren,
+            subItemLevel,
+            forceOpen,
+            isHamburgerMenu,
+            highlightQuery,
+            insideDivider: true
+          }
+        ),
+        index < items.length - 1 && /* @__PURE__ */ jsx23(
+          Box14,
+          {
+            "aria-hidden": "true",
+            sx: isHamburgerMenu ? styles_default16.sectionRuleHamburger : styles_default16.sectionRule
+          }
+        )
+      ] }, `divider-${dividerId}-${index}`);
+    }
+    const key = typeof item2.slug === "string" ? String(item2.slug) + String(index) : String(item2.slug?.[locale] ?? index) + String(index);
+    const slug = typeof item2.slug === "string" ? `${item2.slug}` : `${item2.slug?.[locale] ?? ""}`;
     return /* @__PURE__ */ jsxs17(Fragment5, { children: [
       /* @__PURE__ */ jsx23(ElementRoot, { ...item2, slug }),
       /* @__PURE__ */ jsx23(Box14, { children: /* @__PURE__ */ jsx23(ElementChildren, { ...item2, slug }) }),
-      subItemLevel == 0 && !isHamburgerMenu ? /* @__PURE__ */ jsx23(Box14, { sx: styles_default16.sectionDivider, children: /* @__PURE__ */ jsx23("hr", {}) }) : null
+      showCategoryRules ? /* @__PURE__ */ jsx23(Box14, { sx: styles_default16.sectionDivider, children: /* @__PURE__ */ jsx23("hr", {}) }) : null
     ] }, String(key));
   }) });
 };

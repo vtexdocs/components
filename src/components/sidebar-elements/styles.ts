@@ -20,7 +20,7 @@ const elementContainerHamburger: SxStyleProp = {
 }
 
 const linkReset: SxStyleProp = {
-  pl: "1px",
+  pl: '1px',
   textDecoration: 'none !important',
   ':hover, :focus, :visited, :active': {
     textDecoration: 'none !important',
@@ -136,11 +136,52 @@ const methodBox: SxStyleProp = {
   flexShrink: 0,
 }
 
+const sectionLabel: SxStyleProp = {
+  mt: '4px',
+  pointerEvents: 'none',
+  cursor: 'default',
+  ':hover': {
+    background: 'transparent',
+  },
+}
+
+const sectionLabelHamburger: SxStyleProp = {
+  ...sectionLabel,
+  px: '8px',
+}
+
+/** Legacy look, used by sections that have no divider: a rule per root category. */
 const sectionDivider: SxStyleProp = {
   hr: {
     border: '1px solid #E7E9EE',
     borderTop: 'none',
   },
+}
+
+/** Closes a divider section, after its last child. */
+const sectionRule: SxStyleProp = {
+  mt: '12px',
+  mb: '8px',
+  borderTop: '1px solid #E7E9EE',
+}
+
+const sectionRuleHamburger: SxStyleProp = {
+  ...sectionRule,
+  mx: '8px',
+}
+
+const sectionLabelText: SxStyleProp = {
+  color: '#4A596B',
+  fontSize: '12px',
+  lineHeight: '16px',
+  fontWeight: '600',
+  letterSpacing: '0.04em',
+  textTransform: 'uppercase',
+  paddingBlock: '8px',
+  flex: 1,
+  minWidth: 0,
+  whiteSpace: 'normal',
+  overflowWrap: 'break-word',
 }
 
 export default {
@@ -161,4 +202,9 @@ export default {
   elementButton,
   methodBox,
   sectionDivider,
+  sectionLabel,
+  sectionLabelHamburger,
+  sectionRule,
+  sectionRuleHamburger,
+  sectionLabelText,
 }

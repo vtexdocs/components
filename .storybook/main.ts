@@ -85,6 +85,7 @@ const config: StorybookConfig = {
           components: path.join(srcPath, 'components'),
           utils: path.join(srcPath, 'utils'),
           lib: path.join(srcPath, 'lib'),
+          styles: path.join(srcPath, 'styles'),
           'next/image.js': path.join(mocksPath, 'next-image.tsx'),
           'next/link.js': path.join(mocksPath, 'next-link.tsx'),
           'next/router.js': path.join(mocksPath, 'next-router.ts'),
