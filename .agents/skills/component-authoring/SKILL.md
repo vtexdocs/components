@@ -32,7 +32,7 @@ consumers. See Step 8.
 
 Two checks before you commit to a location:
 
-- **Is it already there?** 48 component folders exist. Grep the barrel (`src/index.ts`)
+- **Is it already there?** Grep the barrel (`src/index.ts`)
   and `src/components/` before adding anything — a near-duplicate with a new prop is
   almost always better than a new component.
 - **Does it respect the layering?** A `components/*` file MUST NOT import from `lib/*`.
