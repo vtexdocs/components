@@ -92,3 +92,35 @@ export const Portuguese: Story = {
     locale: 'pt',
   },
 }
+
+/** Follow-up panel opened automatically right after voting "Yes". */
+export const FollowUpOpen: Story = {
+  args: {
+    defaultPanelStage: 'open',
+  },
+}
+
+/** Follow-up panel after the user sends the optional comment/email. */
+export const FollowUpSubmitted: Story = {
+  args: {
+    defaultPanelStage: 'submitted',
+  },
+}
+
+/** Follow-up panel when sending the detailed feedback fails. */
+export const FollowUpError: Story = {
+  args: {
+    defaultPanelStage: 'open',
+    sendDetailedFeedback: async () => {
+      throw new Error('Network error')
+    },
+  },
+}
+
+/** Compact version of the follow-up panel used next to the table of contents. */
+export const FollowUpOpenSmall: Story = {
+  args: {
+    small: true,
+    defaultPanelStage: 'open',
+  },
+}
