@@ -7609,6 +7609,25 @@ var childrenToString = (children) => {
   }
 };
 
+// src/utils/link-utils.ts
+var INTERNAL_HOSTS = ["developers.vtex.com", "help.vtex.com"];
+var getHost = (href) => {
+  const match = href.match(/^(?:https?:)?\/\/([^/?#]+)/i);
+  return match ? match[1].toLowerCase() : null;
+};
+var isInternalLink = (href) => {
+  if (!href)
+    return false;
+  const host = getHost(href);
+  if (!host) {
+    return !/^[a-z][a-z0-9+.-]*:/i.test(href);
+  }
+  return INTERNAL_HOSTS.some(
+    (internalHost) => host === internalHost || host.endsWith(`.${internalHost}`)
+  );
+};
+var getLinkTargetProps = (href) => isInternalLink(href) ? {} : { target: "_blank", rel: "noopener noreferrer" };
+
 // src/utils/mermaidInit.ts
 import mermaid from "mermaid";
 var mermaidInit = () => {
@@ -8039,23 +8058,11 @@ var ImageComponent = ({ node, ...props }) => {
   }
   return !srcHasError ? /* @__PURE__ */ jsx14(LightBox, { children: regularImg }) : errorMessage;
 };
-var isInternalHref = (href) => !!href && href.startsWith("/") && !href.startsWith("//");
-var isExternalHref = (href) => !!href && /^(https?:)?\/\//i.test(href);
+var isRootRelativeHref = (href) => !!href && href.startsWith("/") && !href.startsWith("//");
 var Anchor = ({ node, href, ...props }) => {
-  if (isInternalHref(href))
+  if (isRootRelativeHref(href))
     return /* @__PURE__ */ jsx14(Link3, { href, ...props });
-  if (isExternalHref(href)) {
-    return /* @__PURE__ */ jsx14(
-      "a",
-      {
-        href,
-        target: "_blank",
-        rel: "noopener noreferrer",
-        ...props
-      }
-    );
-  }
-  return /* @__PURE__ */ jsx14("a", { href, ...props });
+  return /* @__PURE__ */ jsx14("a", { href, ...getLinkTargetProps(href), ...props });
 };
 var components_default = {
   CH,
@@ -19319,8 +19326,7 @@ var renderInline = (text4, keyPrefix) => {
         {
           as: "a",
           href: link2[2],
-          target: "_blank",
-          rel: "noreferrer",
+          ...getLinkTargetProps(link2[2]),
           sx: styles_default36.markdownLink,
           children: renderInline(link2[1], key)
         },
@@ -19333,8 +19339,7 @@ var renderInline = (text4, keyPrefix) => {
         {
           as: "a",
           href: part,
-          target: "_blank",
-          rel: "noreferrer",
+          ...getLinkTargetProps(part),
           sx: styles_default36.markdownLink,
           children: part
         },

@@ -20,6 +20,7 @@ import InsertAccountName from 'components/insert-account-name'
 
 import { useLocale, useTocActions } from 'utils/context/libraryContext'
 import { childrenToString, slugify } from 'utils/string-utils'
+import { getLinkTargetProps } from 'utils/link-utils'
 import mermaidInit from 'utils/mermaidInit'
 
 import CopyHeadingLink from 'components/copy-heading-link'
@@ -218,27 +219,13 @@ const ImageComponent = ({ node, ...props }: Component) => {
   return !srcHasError ? <LightBox>{regularImg}</LightBox> : errorMessage
 }
 
-const isInternalHref = (href?: string) =>
+const isRootRelativeHref = (href?: string) =>
   !!href && href.startsWith('/') && !href.startsWith('//')
 
-const isExternalHref = (href?: string) =>
-  !!href && /^(https?:)?\/\//i.test(href)
-
 const Anchor = ({ node, href, ...props }: Component) => {
-  if (isInternalHref(href)) return <Link href={href} {...props} />
+  if (isRootRelativeHref(href)) return <Link href={href} {...props} />
 
-  if (isExternalHref(href)) {
-    return (
-      <a
-        href={href}
-        target="_blank"
-        rel="noopener noreferrer"
-        {...props}
-      />
-    )
-  }
-
-  return <a href={href} {...props} />
+  return <a href={href} {...getLinkTargetProps(href)} {...props} />
 }
 
 export default {
