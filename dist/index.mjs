@@ -18192,35 +18192,35 @@ var triggerKbd = {
 var SPLIT_VIEW_MQ = "(min-width: 40em)";
 var PANEL_WIDTH = "min(400px, 100vw)";
 var PANEL_EXPANDED_WIDTH = "min(720px, 80vw)";
-var PANEL_OFFSET = `max(0px, calc((100% - ${LAYOUT_MAX_WIDTH}) / 2))`;
-var splitViewCss = `
-@media not screen and ${DESKTOP_TRIGGER_MQ} {
-  html:has([data-ask-assistant-fab]) {
-    --ask-assistant-fab-offset: ${FLOATING_TRIGGER_SIZE + FLOATING_TRIGGER_GAP}px;
-  }
-}
-@media screen and ${SPLIT_VIEW_MQ} {
-  html:has([data-ask-assistant-panel]) {
-    --ask-assistant-width: ${PANEL_WIDTH};
-    --ask-assistant-top: 0px;
-    --ask-assistant-offset: ${PANEL_OFFSET};
-  }
-  html:has([data-ask-assistant-panel][data-expanded="true"]) {
-    --ask-assistant-width: ${PANEL_EXPANDED_WIDTH};
-  }
-  html:has([data-ask-assistant-panel]) [data-docs-header] ~ * {
-    box-sizing: border-box;
-    padding-right: var(--ask-assistant-width) !important;
-  }
-  html:has([data-ask-assistant-panel]) [data-article-aside] {
-    display: none !important;
-  }
-  html:has([data-ask-assistant-panel]):not(:has([data-docs-header])) body {
-    box-sizing: border-box;
-    padding-right: calc(var(--ask-assistant-width) + var(--ask-assistant-offset, 0px));
-  }
-}
-`;
+var PANEL_OFFSET = "max(0px, calc((100% - " + LAYOUT_MAX_WIDTH + ") / 2))";
+var splitViewCss = [
+  "@media not screen and " + DESKTOP_TRIGGER_MQ + " {",
+  "  html:has([data-ask-assistant-fab]) {",
+  "    --ask-assistant-fab-offset: " + String(FLOATING_TRIGGER_SIZE + FLOATING_TRIGGER_GAP) + "px;",
+  "  }",
+  "}",
+  "@media screen and " + SPLIT_VIEW_MQ + " {",
+  "  html:has([data-ask-assistant-panel]) {",
+  "    --ask-assistant-width: " + PANEL_WIDTH + ";",
+  "    --ask-assistant-top: 0px;",
+  "    --ask-assistant-offset: " + PANEL_OFFSET + ";",
+  "  }",
+  '  html:has([data-ask-assistant-panel][data-expanded="true"]) {',
+  "    --ask-assistant-width: " + PANEL_EXPANDED_WIDTH + ";",
+  "  }",
+  "  html:has([data-ask-assistant-panel]) [data-docs-header] ~ * {",
+  "    box-sizing: border-box;",
+  "    padding-right: var(--ask-assistant-width) !important;",
+  "  }",
+  "  html:has([data-ask-assistant-panel]) [data-article-aside] {",
+  "    display: none !important;",
+  "  }",
+  "  html:has([data-ask-assistant-panel]):not(:has([data-docs-header])) body {",
+  "    box-sizing: border-box;",
+  "    padding-right: calc(var(--ask-assistant-width) + var(--ask-assistant-offset, 0px));",
+  "  }",
+  "}"
+].join("\n");
 var overlay3 = {
   display: ["block", "none"],
   position: "fixed",

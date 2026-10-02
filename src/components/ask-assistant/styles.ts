@@ -115,36 +115,41 @@ export const PANEL_EXPANDED_WIDTH = 'min(720px, 80vw)'
  * right edge of that centered layout instead of the viewport edge, so it
  * stays next to the content. `100%` (not `100vw`) so the scrollbar is excluded.
  */
-const PANEL_OFFSET = `max(0px, calc((100% - ${LAYOUT_MAX_WIDTH}) / 2))`
+const PANEL_OFFSET = 'max(0px, calc((100% - ' + LAYOUT_MAX_WIDTH + ') / 2))'
 
-export const splitViewCss = `
-@media not screen and ${DESKTOP_TRIGGER_MQ} {
-  html:has([data-ask-assistant-fab]) {
-    --ask-assistant-fab-offset: ${FLOATING_TRIGGER_SIZE + FLOATING_TRIGGER_GAP}px;
-  }
-}
-@media screen and ${SPLIT_VIEW_MQ} {
-  html:has([data-ask-assistant-panel]) {
-    --ask-assistant-width: ${PANEL_WIDTH};
-    --ask-assistant-top: 0px;
-    --ask-assistant-offset: ${PANEL_OFFSET};
-  }
-  html:has([data-ask-assistant-panel][data-expanded="true"]) {
-    --ask-assistant-width: ${PANEL_EXPANDED_WIDTH};
-  }
-  html:has([data-ask-assistant-panel]) [data-docs-header] ~ * {
-    box-sizing: border-box;
-    padding-right: var(--ask-assistant-width) !important;
-  }
-  html:has([data-ask-assistant-panel]) [data-article-aside] {
-    display: none !important;
-  }
-  html:has([data-ask-assistant-panel]):not(:has([data-docs-header])) body {
-    box-sizing: border-box;
-    padding-right: calc(var(--ask-assistant-width) + var(--ask-assistant-offset, 0px));
-  }
-}
-`
+// Built with plain string concatenation on purpose: the SWC minifier used by
+// Next.js production builds mangles multi-line template literals that contain
+// interpolations, which silently breaks every rule in this stylesheet.
+export const splitViewCss = [
+  '@media not screen and ' + DESKTOP_TRIGGER_MQ + ' {',
+  '  html:has([data-ask-assistant-fab]) {',
+  '    --ask-assistant-fab-offset: ' +
+    String(FLOATING_TRIGGER_SIZE + FLOATING_TRIGGER_GAP) +
+    'px;',
+  '  }',
+  '}',
+  '@media screen and ' + SPLIT_VIEW_MQ + ' {',
+  '  html:has([data-ask-assistant-panel]) {',
+  '    --ask-assistant-width: ' + PANEL_WIDTH + ';',
+  '    --ask-assistant-top: 0px;',
+  '    --ask-assistant-offset: ' + PANEL_OFFSET + ';',
+  '  }',
+  '  html:has([data-ask-assistant-panel][data-expanded="true"]) {',
+  '    --ask-assistant-width: ' + PANEL_EXPANDED_WIDTH + ';',
+  '  }',
+  '  html:has([data-ask-assistant-panel]) [data-docs-header] ~ * {',
+  '    box-sizing: border-box;',
+  '    padding-right: var(--ask-assistant-width) !important;',
+  '  }',
+  '  html:has([data-ask-assistant-panel]) [data-article-aside] {',
+  '    display: none !important;',
+  '  }',
+  '  html:has([data-ask-assistant-panel]):not(:has([data-docs-header])) body {',
+  '    box-sizing: border-box;',
+  '    padding-right: calc(var(--ask-assistant-width) + var(--ask-assistant-offset, 0px));',
+  '  }',
+  '}',
+].join('\n')
 
 const overlay: SxStyleProp = {
   display: ['block', 'none'],
