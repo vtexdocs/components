@@ -3,6 +3,7 @@ import type { ReactNode } from 'react'
 import { Box, Text } from '@vtex/brand-ui'
 import copy from 'copy-text-to-clipboard'
 
+import { getLinkTargetProps } from 'utils/link-utils'
 import AnswerSources, { splitAnswerSources } from './sources'
 import styles from './styles'
 
@@ -54,8 +55,7 @@ const renderInline = (text: string, keyPrefix: string): ReactNode[] => {
           as="a"
           key={key}
           href={link[2]}
-          target="_blank"
-          rel="noreferrer"
+          {...getLinkTargetProps(link[2])}
           sx={styles.markdownLink}
         >
           {renderInline(link[1], key)}
@@ -69,8 +69,7 @@ const renderInline = (text: string, keyPrefix: string): ReactNode[] => {
           as="a"
           key={key}
           href={part}
-          target="_blank"
-          rel="noreferrer"
+          {...getLinkTargetProps(part)}
           sx={styles.markdownLink}
         >
           {part}
