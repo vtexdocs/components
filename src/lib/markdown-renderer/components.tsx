@@ -157,14 +157,13 @@ const MermaidDiagram = ({ node, ...props }: Component) => {
       setWidth(ref.current?.clientWidth ?? 0)
       setHeight(ref.current?.clientWidth / 2 ?? 0)
     })
-
+  
     const mermaidRenderer = async function () {
-      const { svg } = await mermaid.render('mermaid-id', props.children)
-      setDiagram(
-        svg.replace('id="mermaid-id"', '').replaceAll('#mermaid-id', '')
-      )
+      const id = `mermaid-${crypto.randomUUID()}`
+      const { svg } = await mermaid.render(id, props.children)
+      setDiagram(svg)
     }
-
+  
     mermaidRenderer()
     if (ref.current) resizeObserver.observe(ref.current)
   }, [])

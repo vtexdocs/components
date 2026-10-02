@@ -3,6 +3,7 @@ import mermaid from 'mermaid'
 const mermaidInit = () => {
   mermaid.initialize({
     theme: 'base',
+    flowchart: { htmlLabels: false },
     themeVariables: {
       primaryColor: '#FFFFFF',
       primaryTextColor: '#142032',
