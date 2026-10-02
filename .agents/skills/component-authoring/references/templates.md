@@ -2,7 +2,7 @@
 
 Copy-paste starting points for a component in `@vtexdocs/components`. Replace
 `MyComponent` / `my-component` / `my_component` throughout. These match the shape used by
-the existing 48 component folders — see `src/components/author/` for the smallest
+the existing component folders — see `src/components/author/` for the smallest
 complete example and `src/components/troubleshooting-card/` for a variant-driven one.
 
 ---
