@@ -3,10 +3,10 @@ import { visit, SKIP } from 'unist-util-visit'
 import type { Node, Parent } from 'unist'
 
 const extendedNames: Record<string, RegExp> = {
-  info: /^ℹ️/,
-  warning: /^\u26A0/,
-  danger: /^\u2757/,
-  success: /^\u2705/,
+  info: /^\s*\u2139\uFE0F?\s*/,
+  warning: /^\s*\u26A0\uFE0F?\s*/,
+  danger: /^\s*\u2757\uFE0F?\s*/,
+  success: /^\s*\u2705\uFE0F?\s*/,
 }
 
 interface TextNode extends Node {
@@ -43,7 +43,7 @@ export default function remarkBlockquote() {
       )
       if (!result) return
 
-      textNode.value = textNode.value.substring(2)
+      textNode.value = textNode.value.replace(result[1], '')
 
       const newChild = {
         type: 'paragraph',

@@ -1,4 +1,5 @@
 import type { SxStyleProp } from '@vtex/brand-ui'
+import { LAYOUT_MAX_WIDTH } from 'components/header/styles'
 
 const focusRing: SxStyleProp = {
   ':focus-visible': {
@@ -109,6 +110,13 @@ export const SPLIT_VIEW_MQ = '(min-width: 40em)'
 export const PANEL_WIDTH = 'min(400px, 100vw)'
 export const PANEL_EXPANDED_WIDTH = 'min(720px, 80vw)'
 
+/**
+ * On viewports wider than the header's max width, the panel docks to the
+ * right edge of that centered layout instead of the viewport edge, so it
+ * stays next to the content. `100%` (not `100vw`) so the scrollbar is excluded.
+ */
+const PANEL_OFFSET = `max(0px, calc((100% - ${LAYOUT_MAX_WIDTH}) / 2))`
+
 export const splitViewCss = `
 @media not screen and ${DESKTOP_TRIGGER_MQ} {
   html:has([data-ask-assistant-fab]) {
@@ -119,12 +127,10 @@ export const splitViewCss = `
   html:has([data-ask-assistant-panel]) {
     --ask-assistant-width: ${PANEL_WIDTH};
     --ask-assistant-top: 0px;
+    --ask-assistant-offset: ${PANEL_OFFSET};
   }
   html:has([data-ask-assistant-panel][data-expanded="true"]) {
     --ask-assistant-width: ${PANEL_EXPANDED_WIDTH};
-  }
-  html:has([data-ask-assistant-panel]) [data-docs-header] {
-    max-width: none;
   }
   html:has([data-ask-assistant-panel]) [data-docs-header] ~ * {
     box-sizing: border-box;
@@ -135,7 +141,7 @@ export const splitViewCss = `
   }
   html:has([data-ask-assistant-panel]):not(:has([data-docs-header])) body {
     box-sizing: border-box;
-    padding-right: var(--ask-assistant-width);
+    padding-right: calc(var(--ask-assistant-width) + var(--ask-assistant-offset, 0px));
   }
 }
 `
@@ -159,7 +165,7 @@ const EMPTY_STATE_BACKGROUND = [
 const panel = (expanded: boolean, isEmpty = false): SxStyleProp => ({
   position: 'fixed',
   top: [0, 'var(--ask-assistant-top, 0px)'],
-  right: 0,
+  right: [0, 'var(--ask-assistant-offset, 0px)'],
   bottom: 0,
   zIndex: [10001, 40],
   display: 'flex',
@@ -818,32 +824,53 @@ const markdown: SxStyleProp = {
   lineHeight: '22px',
 }
 
-const markdownParagraph: SxStyleProp = {
+// Vertical rhythm: every block owns its top margin based on what precedes it,
+// so paragraphs, lists, headings and code blocks stack with consistent gaps.
+const BLOCK_GAP = '10px'
+const AFTER_HEADING_GAP = '4px'
+const HEADING_GAP = '18px'
+
+const markdownBlock: SxStyleProp = {
   margin: 0,
-  '& + &': {
-    mt: '10px',
+  '* + &': {
+    mt: BLOCK_GAP,
+  },
+  'h1 + &, h2 + &, h3 + &, h4 + &': {
+    mt: AFTER_HEADING_GAP,
+  },
+  'hr + &': {
+    mt: '14px',
+  },
+  'li > &': {
+    mt: '6px',
   },
 }
 
+const markdownParagraph: SxStyleProp = {
+  ...markdownBlock,
+}
+
 const markdownHeading: SxStyleProp = {
-  margin: '0 0 8px',
+  margin: 0,
   fontSize: '15px',
   fontWeight: '600',
   lineHeight: '22px',
   letterSpacing: '-0.01em',
   color: '#142032',
+  '* + &': {
+    mt: HEADING_GAP,
+  },
+  'h1 + &, h2 + &, h3 + &, h4 + &': {
+    mt: BLOCK_GAP,
+  },
 }
 
 const markdownList: SxStyleProp = {
-  margin: '8px 0',
+  ...markdownBlock,
   paddingLeft: '20px',
   listStylePosition: 'outside',
   'li + li': {
-    mt: '6px',
-  },
-  'ol, ul': {
-    mt: '6px',
-    mb: 0,
+    mt: '4px',
   },
 }
 
@@ -873,19 +900,117 @@ const markdownLink: SxStyleProp = {
 }
 
 const markdownRule: SxStyleProp = {
+  ...markdownBlock,
   border: 'none',
   borderTop: '1px solid #E7E9EE',
-  my: '12px',
+  '* + &': {
+    mt: '14px',
+  },
 }
 
 const inlineCode: SxStyleProp = {
-  px: '4px',
-  py: '1px',
+  px: '0.3em',
+  py: 0,
   borderRadius: '4px',
+  backgroundColor: '#EEF0F4',
+  fontSize: '0.9em',
+  fontFamily: 'monospace',
+  overflowWrap: 'anywhere',
+}
+
+const codeBlock: SxStyleProp = {
+  ...markdownBlock,
+  borderRadius: '8px',
   border: '1px solid #E7E9EE',
   backgroundColor: '#F8F7FC',
+  overflow: 'hidden',
+}
+
+const codeBlockHeader: SxStyleProp = {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  px: '12px',
+  py: '6px',
+  borderBottom: '1px solid #E7E9EE',
+  backgroundColor: '#F3F2F8',
+}
+
+const codeBlockLanguage: SxStyleProp = {
+  fontSize: '11px',
+  fontWeight: '600',
+  letterSpacing: '0.04em',
+  textTransform: 'uppercase',
+  color: '#5E6E84',
+}
+
+const codeBlockCopy: SxStyleProp = {
+  border: 'none',
+  background: 'transparent',
+  padding: '2px 6px',
+  borderRadius: '4px',
+  fontSize: '12px',
+  fontWeight: '600',
+  color: '#4A596B',
+  cursor: 'pointer',
+  ':hover': {
+    backgroundColor: '#E7E9EE',
+    color: '#142032',
+  },
+}
+
+const codeBlockPre: SxStyleProp = {
+  margin: 0,
+  px: '12px',
+  py: '10px',
+  overflowX: 'auto',
   fontSize: '13px',
+  lineHeight: '20px',
   fontFamily: 'monospace',
+  tabSize: 2,
+}
+
+const codeBlockCode: SxStyleProp = {
+  fontFamily: 'inherit',
+  fontSize: 'inherit',
+  whiteSpace: 'pre',
+}
+
+const markdownQuote: SxStyleProp = {
+  ...markdownBlock,
+  pl: '12px',
+  borderLeft: '3px solid #D71D55',
+  color: '#4A596B',
+}
+
+const markdownTableWrapper: SxStyleProp = {
+  ...markdownBlock,
+  width: '100%',
+  overflowX: 'auto',
+}
+
+const markdownTable: SxStyleProp = {
+  width: '100%',
+  borderCollapse: 'collapse',
+  fontSize: '13px',
+  lineHeight: '20px',
+}
+
+const markdownTableHeadCell: SxStyleProp = {
+  px: '10px',
+  py: '6px',
+  fontWeight: '600',
+  color: '#142032',
+  borderBottom: '2px solid #E7E9EE',
+  backgroundColor: '#F8F7FC',
+  whiteSpace: 'nowrap',
+}
+
+const markdownTableCell: SxStyleProp = {
+  px: '10px',
+  py: '6px',
+  borderBottom: '1px solid #E7E9EE',
+  verticalAlign: 'top',
 }
 
 const sources: SxStyleProp = {
@@ -1074,7 +1199,18 @@ export default {
   markdownListItem,
   markdownLink,
   markdownRule,
+  markdownQuote,
+  markdownTableWrapper,
+  markdownTable,
+  markdownTableHeadCell,
+  markdownTableCell,
   inlineCode,
+  codeBlock,
+  codeBlockHeader,
+  codeBlockLanguage,
+  codeBlockCopy,
+  codeBlockPre,
+  codeBlockCode,
   sources,
   sourcesLabel,
   sourcesList,

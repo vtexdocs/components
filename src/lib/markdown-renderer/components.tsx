@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useRef, useState } from 'react'
+import Link from 'next/link.js'
 import { Box } from '@vtex/brand-ui'
 import {
   ReactSVGPanZoom,
@@ -217,6 +218,29 @@ const ImageComponent = ({ node, ...props }: Component) => {
   return !srcHasError ? <LightBox>{regularImg}</LightBox> : errorMessage
 }
 
+const isInternalHref = (href?: string) =>
+  !!href && href.startsWith('/') && !href.startsWith('//')
+
+const isExternalHref = (href?: string) =>
+  !!href && /^(https?:)?\/\//i.test(href)
+
+const Anchor = ({ node, href, ...props }: Component) => {
+  if (isInternalHref(href)) return <Link href={href} {...props} />
+
+  if (isExternalHref(href)) {
+    return (
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        {...props}
+      />
+    )
+  }
+
+  return <a href={href} {...props} />
+}
+
 export default {
   CH,
   OverviewCard,
@@ -238,6 +262,7 @@ export default {
   ),
   td: ({ node, ...props }: Component) => <td {...props} />,
   img: ImageComponent,
+  a: Anchor,
   text: ({ node, ...props }: Component) => {
     return <Box sx={{ marginBlock: '1em' }} {...props} />
   },
