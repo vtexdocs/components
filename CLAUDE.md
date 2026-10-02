@@ -4,7 +4,7 @@
 
 `@vtexdocs/components` is the shared React component library behind VTEX's documentation
 portals: the [Developers Portal](https://github.com/vtexdocs/devportal) and the
-[Help Center](https://github.com/vtexdocs/helpcenter). It publishes ~48 components
+[Help Center](https://github.com/vtexdocs/helpcenter). It publishes various components
 (headers, sidebars, search, MDX rendering, feedback widgets, cards, tags) plus the i18n
 catalogs and React contexts those components need, bundled by `tsup` into a single ESM
 entry point.
