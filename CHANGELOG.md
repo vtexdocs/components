@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [7.0.13](https://github.com/vtexdocs/components/compare/v7.0.12...v7.0.13) (2026-10-02)
+
+
+### Features
+
+* open links in new tab ([b454213](https://github.com/vtexdocs/components/commit/b4542139c0113133304fb687e48b56db339b8caf))
+
 ### [7.0.12](https://github.com/vtexdocs/components/compare/v7.0.11...v7.0.12) (2026-10-02)
 
 
