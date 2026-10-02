@@ -282,7 +282,7 @@ Each of these exists somewhere in the repository today. Do not extend them.
 | Mixing alias and relative imports for the same target (`troubleshooting-card` uses both `components/tag` and `../../utils/troubleshooting/types`) | Alias everything outside the component folder |
 | `eslint-disable @typescript-eslint/no-explicit-any` (legacy in `utils/context/libraryContext.tsx`) | Type it; if impossible, justify in a comment and in the PR |
 | Long inline `sx={{ … }}` blocks in JSX (`troubleshooting-card`) | Move to `styles.ts` |
-| Shipping a component with no story (17 of 48 folders) | Write the story in the same PR |
+| Shipping a component with no story | Write the story in the same PR |
 | Running `eslint --fix` over `src/` to silence the red lint baseline | Fix only the files you touched |
 | Reformatting untouched code that happened to be nearby | Leave it; the baseline is a separate maintainer PR |
 | Hardcoded English string with no catalog key | Add the key to all three catalogs |
