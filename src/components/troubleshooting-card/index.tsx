@@ -1,4 +1,5 @@
-import { Box, Link, Text } from '@vtex/brand-ui'
+import Link from 'next/link.js'
+import { Box, Text } from '@vtex/brand-ui'
 import Tag from 'components/tag'
 
 import type { TroubleshootingItem } from '../../utils/troubleshooting/types'
@@ -43,7 +44,8 @@ const TroubleshootingCard = ({
 
   if (variant === 'helpcenter') {
     return (
-      <Link
+      <Box
+        as={Link}
         href={cardHref}
         sx={{
           display: 'block',
@@ -88,12 +90,12 @@ const TroubleshootingCard = ({
             </Box>
           ) : null}
         </Box>
-      </Link>
+      </Box>
     )
   }
 
   return (
-    <Link href={cardHref} sx={styles.devportalContainer}>
+    <Box as={Link} href={cardHref} sx={styles.devportalContainer}>
       <Box>
         <Text sx={styles.title} className="title">
           {title}
@@ -130,7 +132,7 @@ const TroubleshootingCard = ({
             ))}
         </Box>
       </Box>
-    </Link>
+    </Box>
   )
 }
 
