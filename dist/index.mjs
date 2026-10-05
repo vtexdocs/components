@@ -7633,6 +7633,7 @@ import mermaid from "mermaid";
 var mermaidInit = () => {
   mermaid.initialize({
     theme: "base",
+    flowchart: { htmlLabels: false },
     themeVariables: {
       primaryColor: "#FFFFFF",
       primaryTextColor: "#142032",
@@ -8006,10 +8007,9 @@ var MermaidDiagram = ({ node, ...props }) => {
       setHeight(ref.current?.clientWidth / 2);
     });
     const mermaidRenderer = async function() {
-      const { svg } = await mermaid2.render("mermaid-id", props.children);
-      setDiagram(
-        svg.replace('id="mermaid-id"', "").replaceAll("#mermaid-id", "")
-      );
+      const id = `mermaid-${crypto.randomUUID()}`;
+      const { svg } = await mermaid2.render(id, props.children);
+      setDiagram(svg);
     };
     mermaidRenderer();
     if (ref.current)
