@@ -3774,7 +3774,7 @@ import { Box as Box9 } from "@vtex/brand-ui";
 import { MDXRemote } from "next-mdx-remote";
 
 // src/lib/markdown-renderer/components.tsx
-import { useEffect as useEffect6, useRef as useRef5, useState as useState6 } from "react";
+import { useEffect as useEffect6, useId, useRef as useRef5, useState as useState6 } from "react";
 import Link3 from "next/link.js";
 import { Box as Box8 } from "@vtex/brand-ui";
 import {
@@ -7642,6 +7642,9 @@ var mermaidInit = () => {
       labelBoxBkgColor: "#FFF3F6",
       lineColor: "#A1AAB7",
       mainBkg: "#F8F7FC"
+    },
+    flowchart: {
+      htmlLabels: false
     }
   });
 };
@@ -7894,6 +7897,7 @@ var styles_default8 = {
   img: "styles_img",
   heading: "styles_heading",
   code: "styles_code",
+  pre: "styles_pre",
   tableScroll: "styles_tableScroll",
   blockquote: "styles_blockquote",
   blockquoteIcon: "styles_blockquoteIcon",
@@ -7995,6 +7999,7 @@ var Callout = ({ node, icon: icon6, ...props }) => {
 var MermaidDiagram = ({ node, ...props }) => {
   const viewerRef = useRef5(null);
   const ref = useRef5();
+  const diagramId = `mermaid-${useId().replace(/[^a-zA-Z0-9_-]/g, "")}`;
   const [diagram, setDiagram] = useState6("");
   const [width, setWidth] = useState6(0);
   const [height, setHeight] = useState6(0);
@@ -8006,15 +8011,13 @@ var MermaidDiagram = ({ node, ...props }) => {
       setHeight(ref.current?.clientWidth / 2);
     });
     const mermaidRenderer = async function() {
-      const { svg } = await mermaid2.render("mermaid-id", props.children);
-      setDiagram(
-        svg.replace('id="mermaid-id"', "").replaceAll("#mermaid-id", "")
-      );
+      const { svg } = await mermaid2.render(diagramId, props.children);
+      setDiagram(svg.replace(/<svg /, '<svg class="mermaid">'));
     };
     mermaidRenderer();
     if (ref.current)
       resizeObserver.observe(ref.current);
-  }, []);
+  }, [diagramId]);
   return /* @__PURE__ */ jsx14(Box8, { ref, className: styles_default8.svgContainer, children: /* @__PURE__ */ jsx14(
     UncontrolledReactSVGPanZoom,
     {
@@ -8318,7 +8321,7 @@ var TableOfContents = ({ headingList, children, hideTitle }) => {
 var TableOfContents_default = TableOfContents;
 
 // src/lib/on-this-page/OnThisPage.tsx
-import { useEffect as useEffect9, useId, useState as useState8 } from "react";
+import { useEffect as useEffect9, useId as useId2, useState as useState8 } from "react";
 import { Box as Box11, Flex as Flex5, IconCaret as IconCaret2, Text as Text4 } from "@vtex/brand-ui";
 
 // src/utils/hooks/useFooterInView.ts
@@ -8512,7 +8515,7 @@ var ListIcon = () => /* @__PURE__ */ jsxs12(
 );
 var OnThisPage = ({ headingList }) => {
   const locale = useLocale();
-  const panelId = useId();
+  const panelId = useId2();
   const [isOpen, setIsOpen] = useState8(false);
   const footerInView = useFooterInView_default();
   const title9 = messages[locale]["on_this_page.title"];
@@ -17391,7 +17394,7 @@ import {
   useCallback as useCallback4,
   useContext as useContext12,
   useEffect as useEffect28,
-  useId as useId2,
+  useId as useId3,
   useLayoutEffect as useLayoutEffect2,
   useMemo as useMemo6,
   useRef as useRef16,
@@ -19785,7 +19788,7 @@ var AskAssistant = ({
   const { locale, setSidebarSectionHidden } = useContext12(LibraryContext);
   const sidebarHiddenBeforeOpen = useRef16(null);
   const localized = messages[locale] ?? messages.en;
-  const titleId = useId2();
+  const titleId = useId3();
   const textareaRef = useRef16(null);
   const listRef = useRef16(null);
   const historyRef = useRef16(null);

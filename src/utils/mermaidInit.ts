@@ -13,6 +13,9 @@ const mermaidInit = () => {
       lineColor: '#A1AAB7',
       mainBkg: '#F8F7FC',
     },
+    flowchart: {
+      htmlLabels: false,
+    },
   })
 }
 
