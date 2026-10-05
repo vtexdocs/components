@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [7.0.14](https://github.com/vtexdocs/components/compare/v7.0.13...v7.0.14) (2026-10-05)
+
+
+### Features
+
+* **feedback-section:** open follow-up panel after vote ([26a7839](https://github.com/vtexdocs/components/commit/26a7839eadb9b02c3ed476a3328d850df530be67))
+* **typings:** add new feedback section follow-up message types ([55b8c5f](https://github.com/vtexdocs/components/commit/55b8c5fcde73dd36dd74a63f702af9e3ceaac3b1))
+
 ### [7.0.13](https://github.com/vtexdocs/components/compare/v7.0.12...v7.0.13) (2026-10-02)
 
 
