@@ -8030,7 +8030,7 @@ var MermaidDiagram = ({ node, ...props }) => {
     });
     const mermaidRenderer = async function() {
       const { svg } = await mermaid2.render(diagramId, props.children);
-      setDiagram(svg.replace(/<svg /, '<svg class="mermaid">'));
+      setDiagram(svg);
     };
     mermaidRenderer();
     if (ref.current)

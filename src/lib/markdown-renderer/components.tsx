@@ -161,7 +161,7 @@ const MermaidDiagram = ({ node, ...props }: Component) => {
 
     const mermaidRenderer = async function () {
       const { svg } = await mermaid.render(diagramId, props.children)
-      setDiagram(svg.replace(/<svg /, '<svg class="mermaid">'))
+      setDiagram(svg)
     }
 
     mermaidRenderer()
