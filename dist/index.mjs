@@ -8017,6 +8017,7 @@ var Callout = ({ node, icon: icon6, ...props }) => {
 var MermaidDiagram = ({ node, ...props }) => {
   const viewerRef = useRef5(null);
   const ref = useRef5();
+  const renderCount = useRef5(0);
   const diagramId = `mermaid-${useId().replace(/[^a-zA-Z0-9_-]/g, "")}`;
   const [diagram, setDiagram] = useState6("");
   const [width, setWidth] = useState6(0);
@@ -8028,13 +8029,24 @@ var MermaidDiagram = ({ node, ...props }) => {
       setWidth(ref.current?.clientWidth ?? 0);
       setHeight(ref.current?.clientWidth / 2);
     });
+    let cancelled = false;
     const mermaidRenderer = async function() {
-      const { svg } = await mermaid2.render(diagramId, props.children);
-      setDiagram(svg);
+      const renderId = `${diagramId}-${renderCount.current++}`;
+      try {
+        const { svg } = await mermaid2.render(renderId, props.children);
+        if (!cancelled)
+          setDiagram(svg);
+      } catch (error) {
+        console.error("Mermaid render error", error);
+      }
     };
     mermaidRenderer();
     if (ref.current)
       resizeObserver.observe(ref.current);
+    return () => {
+      cancelled = true;
+      resizeObserver.disconnect();
+    };
   }, [diagramId]);
   return /* @__PURE__ */ jsx14(Box8, { ref, className: styles_default8.svgContainer, children: /* @__PURE__ */ jsx14(
     UncontrolledReactSVGPanZoom,

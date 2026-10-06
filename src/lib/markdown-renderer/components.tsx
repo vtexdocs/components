@@ -146,6 +146,7 @@ export const Callout = ({ node, icon, ...props }: Component) => {
 const MermaidDiagram = ({ node, ...props }: Component) => {
   const viewerRef = useRef<ReactSVGPanZoom>(null)
   const ref = useRef<HTMLElement>()
+  const renderCount = useRef(0)
   const diagramId = `mermaid-${useId().replace(/[^a-zA-Z0-9_-]/g, '')}`
 
   const [diagram, setDiagram] = useState('')
@@ -159,13 +160,24 @@ const MermaidDiagram = ({ node, ...props }: Component) => {
       setHeight(ref.current?.clientWidth / 2 ?? 0)
     })
 
+    let cancelled = false
+
     const mermaidRenderer = async function () {
-      const { svg } = await mermaid.render(diagramId, props.children)
-      setDiagram(svg)
+      const renderId = `${diagramId}-${renderCount.current++}`
+      try {
+        const { svg } = await mermaid.render(renderId, props.children)
+        if (!cancelled) setDiagram(svg)
+      } catch (error) {
+        console.error('Mermaid render error', error)
+      }
     }
 
     mermaidRenderer()
     if (ref.current) resizeObserver.observe(ref.current)
+    return () => {
+      cancelled = true
+      resizeObserver.disconnect()
+    }
   }, [diagramId])
 
   return (
