@@ -7029,6 +7029,12 @@ var en_default = {
   "feedback_section.positive": "Yes",
   "feedback_section.negative": "No",
   "feedback_section.edit": "Suggest Edits (GitHub)",
+  "feedback_section.followup_placeholder": "Tell us more (optional)",
+  "feedback_section.followup_email_placeholder": "Leave your email if you'd like a reply (optional)",
+  "feedback_section.followup_send": "Send",
+  "feedback_section.followup_skip": "Skip",
+  "feedback_section.followup_success": "Thanks for the detailed feedback!",
+  "feedback_section.followup_error": "We couldn't send your feedback. Please try again.",
   "feedback_modal.button": "Send feedback",
   "feedback_modal.title": "Send feedback",
   "feedback_modal.description": "Share suggestions, issues found, or ideas to improve our documentation.",
@@ -7166,6 +7172,12 @@ var es_default = {
   "feedback_section.positive": "S\xED",
   "feedback_section.negative": "No",
   "feedback_section.edit": "Sugerir cambios (GitHub)",
+  "feedback_section.followup_placeholder": "Cu\xE9ntanos m\xE1s (opcional)",
+  "feedback_section.followup_email_placeholder": "Deja tu email si quieres una respuesta (opcional)",
+  "feedback_section.followup_send": "Enviar",
+  "feedback_section.followup_skip": "Omitir",
+  "feedback_section.followup_success": "\xA1Gracias por el detalle!",
+  "feedback_section.followup_error": "No pudimos enviar tu feedback. Int\xE9ntalo de nuevo.",
   "feedback_modal.button": "Enviar feedback",
   "feedback_modal.title": "Enviar feedback",
   "feedback_modal.description": "Comparte sugerencias, problemas encontrados o ideas para mejorar nuestra documentaci\xF3n.",
@@ -7305,6 +7317,12 @@ var pt_default = {
   "feedback_section.positive": "Sim",
   "feedback_section.negative": "N\xE3o",
   "feedback_section.edit": "Sugerir edi\xE7\xF5es (GitHub)",
+  "feedback_section.followup_placeholder": "Conte mais (opcional)",
+  "feedback_section.followup_email_placeholder": "Deixe seu email se quiser retorno (opcional)",
+  "feedback_section.followup_send": "Enviar",
+  "feedback_section.followup_skip": "Pular",
+  "feedback_section.followup_success": "Obrigado pelo detalhamento!",
+  "feedback_section.followup_error": "N\xE3o foi poss\xEDvel enviar. Tente novamente.",
   "feedback_modal.button": "Enviar feedback",
   "feedback_modal.title": "Enviar feedback",
   "feedback_modal.description": "Compartilhe sugest\xF5es, problemas encontrados ou ideias para melhorar nossa documenta\xE7\xE3o.",
@@ -14255,7 +14273,8 @@ var HamburgerMenu = ({ parentsArray = [] }) => {
 var hamburger_menu_default = HamburgerMenu;
 
 // src/components/feedback-section/index.tsx
-import { Flex as Flex19, Text as Text15 } from "@vtex/brand-ui";
+import { useEffect as useEffect17, useRef as useRef13, useState as useState19 } from "react";
+import { Box as Box24, Flex as Flex19, Text as Text15 } from "@vtex/brand-ui";
 
 // src/components/icons/like-icon.tsx
 import { Icon as Icon24 } from "@vtex/brand-ui";
@@ -14334,10 +14353,81 @@ var LikeSelectedIcon = (props) => /* @__PURE__ */ jsxs44(
 );
 var like_selected_icon_default = LikeSelectedIcon;
 
-// src/components/feedback-section/index.tsx
-import { useEffect as useEffect17, useState as useState19 } from "react";
+// src/components/icons/check-icon.tsx
+import { Icon as Icon26 } from "@vtex/brand-ui";
+import { jsx as jsx53 } from "react/jsx-runtime";
+var CheckIcon = (props) => /* @__PURE__ */ jsx53(
+  Icon26,
+  {
+    ...props,
+    viewBox: "0 0 16 16",
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg",
+    children: /* @__PURE__ */ jsx53(
+      "path",
+      {
+        d: "M13.333 4L6 11.333 2.667 8",
+        stroke: "currentColor",
+        strokeWidth: "1.5",
+        strokeLinecap: "round",
+        strokeLinejoin: "round"
+      }
+    )
+  }
+);
+var check_icon_default = CheckIcon;
+
+// src/components/icons/warning-icon.tsx
+import { Icon as Icon27 } from "@vtex/brand-ui";
+import { jsx as jsx54, jsxs as jsxs45 } from "react/jsx-runtime";
+var WarningIcon = (props) => /* @__PURE__ */ jsxs45(
+  Icon27,
+  {
+    ...props,
+    viewBox: "0 0 18 16",
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg",
+    children: [
+      /* @__PURE__ */ jsx54(
+        "path",
+        {
+          d: "M7.71758 1.89497L1.36508 12.5C1.2341 12.7268 1.1648 12.9839 1.16407 13.2459C1.16334 13.5078 1.23119 13.7653 1.3609 13.9929C1.4906 14.2204 1.67762 14.41 1.90336 14.5429C2.12909 14.6757 2.38568 14.7471 2.64758 14.75H15.3526C15.6145 14.7471 15.8711 14.6757 16.0968 14.5429C16.3225 14.41 16.5096 14.2204 16.6393 13.9929C16.769 13.7653 16.8368 13.5078 16.8361 13.2459C16.8354 12.9839 16.766 12.7268 16.6351 12.5L10.2826 1.89497C10.1489 1.67455 9.96062 1.49231 9.73597 1.36583C9.51133 1.23936 9.25788 1.17291 9.00008 1.17291C8.74227 1.17291 8.48882 1.23936 8.26418 1.36583C8.03953 1.49231 7.85128 1.67455 7.71758 1.89497Z",
+          stroke: "currentcolor",
+          strokeWidth: "1.5",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx54(
+        "path",
+        {
+          d: "M9 5.75V8.75",
+          stroke: "currentcolor",
+          strokeWidth: "1.5",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      ),
+      /* @__PURE__ */ jsx54(
+        "path",
+        {
+          d: "M9 11.75H9.0075",
+          stroke: "currentcolor",
+          strokeWidth: "1.5",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        }
+      )
+    ]
+  }
+);
+var warning_icon_default = WarningIcon;
 
 // src/components/feedback-section/styles.ts
+var wrapper2 = () => ({
+  width: "100%",
+  flexDirection: "column"
+});
 var container8 = ({ small } = {}) => ({
   width: "100%",
   flexDirection: small ? "column" : ["column", "row"],
@@ -14398,8 +14488,137 @@ var disabled = {
   display: "none !important"
 };
 var shareButton = {};
+var panelControl = {
+  width: "100%",
+  boxSizing: "border-box",
+  padding: "10px 12px",
+  border: "1px solid #E7E9EE",
+  borderRadius: "8px",
+  background: "#FFFFFF",
+  color: "#142032",
+  fontFamily: "inherit",
+  fontSize: "14px",
+  lineHeight: "20px",
+  outline: "none",
+  transition: "border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease",
+  "::placeholder": {
+    color: "#A1A8B3"
+  },
+  ":hover": {
+    borderColor: "#C7CDD6"
+  },
+  ":focus": {
+    borderColor: "#E31C58",
+    boxShadow: "0 0 0 3px rgba(227, 28, 88, 0.16)"
+  }
+};
+var panel2 = ({ small } = {}) => ({
+  width: "100%",
+  marginTop: small ? "8px" : "12px",
+  padding: small ? "12px" : "16px",
+  border: "1px solid #E7E9EE",
+  borderRadius: "8px",
+  background: "#FAFAFB",
+  display: "flex",
+  flexDirection: "column",
+  gap: "10px"
+});
+var panelForm = {
+  display: "flex",
+  flexDirection: "column",
+  gap: "10px"
+};
+var panelTextarea = {
+  ...panelControl,
+  minHeight: "80px",
+  resize: "vertical"
+};
+var panelEmailInput = {
+  ...panelControl,
+  height: "38px"
+};
+var panelActions = {
+  display: "flex",
+  gap: "8px",
+  alignItems: "center",
+  justifyContent: "flex-end"
+};
+var panelSkipButton = {
+  display: "inline-flex",
+  alignItems: "center",
+  justifyContent: "center",
+  minHeight: "36px",
+  px: "14px",
+  background: "transparent",
+  color: "#4A596B",
+  border: "1px solid #E7E9EE",
+  borderRadius: "8px",
+  cursor: "pointer",
+  fontFamily: "inherit",
+  fontSize: "13px",
+  fontWeight: "600",
+  ":hover": {
+    background: "#F8F7FC",
+    color: "#142032"
+  }
+};
+var panelSendButton = {
+  display: "inline-flex",
+  alignItems: "center",
+  justifyContent: "center",
+  minHeight: "36px",
+  px: "14px",
+  background: "#142032",
+  color: "#FFFFFF",
+  border: "none",
+  borderRadius: "8px",
+  cursor: "pointer",
+  fontFamily: "inherit",
+  fontSize: "13px",
+  fontWeight: "600",
+  transition: "background 0.15s ease, opacity 0.15s ease",
+  ":hover": {
+    background: "#000711"
+  },
+  ":disabled": {
+    opacity: 0.6,
+    cursor: "not-allowed"
+  }
+};
+var panelSuccess = {
+  alignItems: "center",
+  gap: "8px"
+};
+var panelSuccessIcon = {
+  flexShrink: 0,
+  color: "#36875A"
+};
+var panelSuccessText = {
+  fontSize: "13px",
+  color: "#142032"
+};
+var panelErrorText = {
+  display: "flex",
+  alignItems: "flex-start",
+  gap: "8px",
+  padding: "10px 12px",
+  background: "#FFF6F4",
+  border: "1px solid #F8D0C8",
+  borderRadius: "8px",
+  color: "#8A1F11",
+  fontSize: "13px",
+  lineHeight: "18px"
+};
+var panelErrorIcon = {
+  flexShrink: 0,
+  width: "16px",
+  height: "16px",
+  mt: "1px",
+  color: "#D44333"
+};
 var styles_default21 = {
   disabled,
+  wrapper: wrapper2,
   container: container8,
   question,
   likeContainer,
@@ -14409,23 +14628,35 @@ var styles_default21 = {
   buttonActive,
   selectedButton,
   shareButton,
-  iconsContainer
+  iconsContainer,
+  panel: panel2,
+  panelForm,
+  panelTextarea,
+  panelEmailInput,
+  panelActions,
+  panelSkipButton,
+  panelSendButton,
+  panelSuccess,
+  panelSuccessIcon,
+  panelSuccessText,
+  panelErrorText,
+  panelErrorIcon
 };
 
 // src/components/share-button/index.tsx
 import { Box as Box23, Button as Button5, Flex as Flex18, Text as Text13 } from "@vtex/brand-ui";
 
 // src/components/icons/facebook-icon.tsx
-import { Icon as Icon26 } from "@vtex/brand-ui";
-import { jsx as jsx53 } from "react/jsx-runtime";
-var FacebookIcon = (props) => /* @__PURE__ */ jsx53(
-  Icon26,
+import { Icon as Icon28 } from "@vtex/brand-ui";
+import { jsx as jsx55 } from "react/jsx-runtime";
+var FacebookIcon = (props) => /* @__PURE__ */ jsx55(
+  Icon28,
   {
     ...props,
     viewBox: "0 0 8 16",
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg",
-    children: /* @__PURE__ */ jsx53(
+    children: /* @__PURE__ */ jsx55(
       "path",
       {
         d: "M7.47581 8.93204L7.89039 6.05825H5.29681V4.19417C5.29681 3.40778 5.65844 2.64078 6.8201 2.64078H8V0.194175C8 0.194175 6.92967 0 5.90684 0C3.76989 0 2.37444 1.37668 2.37444 3.86796V6.05825H0V8.93204H2.37444V15.8796C2.85114 15.9592 3.33882 16 3.83563 16C4.33243 16 4.82011 15.9592 5.29681 15.8796V8.93204H7.47581Z",
@@ -14437,16 +14668,16 @@ var FacebookIcon = (props) => /* @__PURE__ */ jsx53(
 var facebook_icon_default = FacebookIcon;
 
 // src/components/icons/linkedin-icon.tsx
-import { Icon as Icon27 } from "@vtex/brand-ui";
-import { jsx as jsx54 } from "react/jsx-runtime";
-var LinkedinIcon = (props) => /* @__PURE__ */ jsx54(
-  Icon27,
+import { Icon as Icon29 } from "@vtex/brand-ui";
+import { jsx as jsx56 } from "react/jsx-runtime";
+var LinkedinIcon = (props) => /* @__PURE__ */ jsx56(
+  Icon29,
   {
     ...props,
     viewBox: "0 0 26 24",
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg",
-    children: /* @__PURE__ */ jsx54(
+    children: /* @__PURE__ */ jsx56(
       "path",
       {
         fillRule: "evenodd",
@@ -14460,34 +14691,34 @@ var LinkedinIcon = (props) => /* @__PURE__ */ jsx54(
 var linkedin_icon_default = LinkedinIcon;
 
 // src/components/icons/share-icon.tsx
-import { Icon as Icon28 } from "@vtex/brand-ui";
-import { jsx as jsx55, jsxs as jsxs45 } from "react/jsx-runtime";
-var ShareIcon = (props) => /* @__PURE__ */ jsxs45(
-  Icon28,
+import { Icon as Icon30 } from "@vtex/brand-ui";
+import { jsx as jsx57, jsxs as jsxs46 } from "react/jsx-runtime";
+var ShareIcon = (props) => /* @__PURE__ */ jsxs46(
+  Icon30,
   {
     ...props,
     viewBox: "0 0 24 24",
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg",
     children: [
-      /* @__PURE__ */ jsx55("path", { d: "m0 0h24v24h-24z", opacity: "0", stroke: "currentColor" }),
-      /* @__PURE__ */ jsx55("path", { d: "m18 15a3 3 0 0 0 -2.1.86l-7.9-3.52c0-.12 0-.22 0-.34s0-.22 0-.33l7.9-3.53a3 3 0 1 0 -.9-2.14v.34l-7.9 3.52a3 3 0 1 0 0 4.28l7.9 3.53v.33a3 3 0 1 0 3-3z", fill: "currentColor" })
+      /* @__PURE__ */ jsx57("path", { d: "m0 0h24v24h-24z", opacity: "0", stroke: "currentColor" }),
+      /* @__PURE__ */ jsx57("path", { d: "m18 15a3 3 0 0 0 -2.1.86l-7.9-3.52c0-.12 0-.22 0-.34s0-.22 0-.33l7.9-3.53a3 3 0 1 0 -.9-2.14v.34l-7.9 3.52a3 3 0 1 0 0 4.28l7.9 3.53v.33a3 3 0 1 0 3-3z", fill: "currentColor" })
     ]
   }
 );
 var share_icon_default = ShareIcon;
 
 // src/components/icons/twitter-icon.tsx
-import { Icon as Icon29 } from "@vtex/brand-ui";
-import { jsx as jsx56 } from "react/jsx-runtime";
-var TwitterIcon = (props) => /* @__PURE__ */ jsx56(
-  Icon29,
+import { Icon as Icon31 } from "@vtex/brand-ui";
+import { jsx as jsx58 } from "react/jsx-runtime";
+var TwitterIcon = (props) => /* @__PURE__ */ jsx58(
+  Icon31,
   {
     ...props,
     viewBox: "0 0 16 16",
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg",
-    children: /* @__PURE__ */ jsx56(
+    children: /* @__PURE__ */ jsx58(
       "path",
       {
         fillRule: "evenodd",
@@ -14577,10 +14808,10 @@ var styles_default22 = {
 };
 
 // src/components/icons/email-icon.tsx
-import { Icon as Icon30 } from "@vtex/brand-ui";
-import { jsx as jsx57 } from "react/jsx-runtime";
-var EmailIcon = (props) => /* @__PURE__ */ jsx57(
-  Icon30,
+import { Icon as Icon32 } from "@vtex/brand-ui";
+import { jsx as jsx59 } from "react/jsx-runtime";
+var EmailIcon = (props) => /* @__PURE__ */ jsx59(
+  Icon32,
   {
     ...props,
     width: "25",
@@ -14588,7 +14819,7 @@ var EmailIcon = (props) => /* @__PURE__ */ jsx57(
     viewBox: "0 0 24 24",
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg",
-    children: /* @__PURE__ */ jsx57(
+    children: /* @__PURE__ */ jsx59(
       "path",
       {
         d: "M12 0C5.376 0 0 5.376 0 12C0 18.624 5.376 24 12 24H18V21.6H12C6.792 21.6 2.4 17.208 2.4 12C2.4 6.792 6.792 2.4 12 2.4C17.208 2.4 21.6 6.792 21.6 12V13.716C21.6 14.664 20.748 15.6 19.8 15.6C18.852 15.6 18 14.664 18 13.716V12C18 8.688 15.312 6 12 6C8.688 6 6 8.688 6 12C6 15.312 8.688 18 12 18C13.656 18 15.168 17.328 16.248 16.236C17.028 17.304 18.372 18 19.8 18C22.164 18 24 16.08 24 13.716V12C24 5.376 18.624 0 12 0ZM12 15.6C10.008 15.6 8.4 13.992 8.4 12C8.4 10.008 10.008 8.4 12 8.4C13.992 8.4 15.6 10.008 15.6 12C15.6 13.992 13.992 15.6 12 15.6Z",
@@ -14600,7 +14831,7 @@ var EmailIcon = (props) => /* @__PURE__ */ jsx57(
 var email_icon_default = EmailIcon;
 
 // src/components/share-button/index.tsx
-import { jsx as jsx58, jsxs as jsxs46 } from "react/jsx-runtime";
+import { jsx as jsx60, jsxs as jsxs47 } from "react/jsx-runtime";
 var ShareButton = ({ url, sx = {} }) => {
   const [isOpen, setIsOpen] = useState18(false);
   const containerRef = useRef12();
@@ -14613,40 +14844,40 @@ var ShareButton = ({ url, sx = {} }) => {
       console.error("Error copying link to clipboard:", error);
     }
   };
-  return /* @__PURE__ */ jsxs46(Flex18, { sx: { ...styles_default22.container, ...sx }, ref: containerRef, children: [
-    /* @__PURE__ */ jsxs46(
+  return /* @__PURE__ */ jsxs47(Flex18, { sx: { ...styles_default22.container, ...sx }, ref: containerRef, children: [
+    /* @__PURE__ */ jsxs47(
       Button5,
       {
         sx: styles_default22.button,
         variant: "tertiary",
         onClick: () => setIsOpen(!isOpen),
         children: [
-          /* @__PURE__ */ jsx58(share_icon_default, { sx: styles_default22.shareIcon, size: 24 }),
+          /* @__PURE__ */ jsx60(share_icon_default, { sx: styles_default22.shareIcon, size: 24 }),
           " Share"
         ]
       }
     ),
-    isOpen && /* @__PURE__ */ jsxs46(Flex18, { sx: styles_default22.innerContainer, children: [
-      /* @__PURE__ */ jsxs46(Flex18, { sx: styles_default22.innerButton, onClick: handleCopyLink, children: [
-        /* @__PURE__ */ jsx58(link_icon_default, { size: 16 }),
-        /* @__PURE__ */ jsx58(Text13, { children: "Copy link" })
+    isOpen && /* @__PURE__ */ jsxs47(Flex18, { sx: styles_default22.innerContainer, children: [
+      /* @__PURE__ */ jsxs47(Flex18, { sx: styles_default22.innerButton, onClick: handleCopyLink, children: [
+        /* @__PURE__ */ jsx60(link_icon_default, { size: 16 }),
+        /* @__PURE__ */ jsx60(Text13, { children: "Copy link" })
       ] }),
-      /* @__PURE__ */ jsx58(Box23, { sx: styles_default22.divider }),
-      /* @__PURE__ */ jsx58(EmailShareButton, { url, children: /* @__PURE__ */ jsxs46(Flex18, { sx: styles_default22.innerButton, onClick: handleCopyLink, children: [
-        /* @__PURE__ */ jsx58(email_icon_default, { size: 16 }),
-        /* @__PURE__ */ jsx58(Text13, { children: "E-mail" })
+      /* @__PURE__ */ jsx60(Box23, { sx: styles_default22.divider }),
+      /* @__PURE__ */ jsx60(EmailShareButton, { url, children: /* @__PURE__ */ jsxs47(Flex18, { sx: styles_default22.innerButton, onClick: handleCopyLink, children: [
+        /* @__PURE__ */ jsx60(email_icon_default, { size: 16 }),
+        /* @__PURE__ */ jsx60(Text13, { children: "E-mail" })
       ] }) }),
-      /* @__PURE__ */ jsx58(TwitterShareButton, { url, children: /* @__PURE__ */ jsxs46(Flex18, { sx: styles_default22.innerButton, children: [
-        /* @__PURE__ */ jsx58(twitter_icon_default, { size: 16 }),
-        /* @__PURE__ */ jsx58(Text13, { children: "Twitter" })
+      /* @__PURE__ */ jsx60(TwitterShareButton, { url, children: /* @__PURE__ */ jsxs47(Flex18, { sx: styles_default22.innerButton, children: [
+        /* @__PURE__ */ jsx60(twitter_icon_default, { size: 16 }),
+        /* @__PURE__ */ jsx60(Text13, { children: "Twitter" })
       ] }) }),
-      /* @__PURE__ */ jsx58(FacebookShareButton, { url, children: /* @__PURE__ */ jsxs46(Flex18, { sx: styles_default22.innerButton, children: [
-        /* @__PURE__ */ jsx58(facebook_icon_default, { size: 16 }),
-        /* @__PURE__ */ jsx58(Text13, { children: "Facebook" })
+      /* @__PURE__ */ jsx60(FacebookShareButton, { url, children: /* @__PURE__ */ jsxs47(Flex18, { sx: styles_default22.innerButton, children: [
+        /* @__PURE__ */ jsx60(facebook_icon_default, { size: 16 }),
+        /* @__PURE__ */ jsx60(Text13, { children: "Facebook" })
       ] }) }),
-      /* @__PURE__ */ jsx58(LinkedinShareButton, { url, children: /* @__PURE__ */ jsxs46(Flex18, { sx: styles_default22.innerButton, children: [
-        /* @__PURE__ */ jsx58(linkedin_icon_default, { size: 16 }),
-        /* @__PURE__ */ jsx58(Text13, { children: "LinkedIn" })
+      /* @__PURE__ */ jsx60(LinkedinShareButton, { url, children: /* @__PURE__ */ jsxs47(Flex18, { sx: styles_default22.innerButton, children: [
+        /* @__PURE__ */ jsx60(linkedin_icon_default, { size: 16 }),
+        /* @__PURE__ */ jsx60(Text13, { children: "LinkedIn" })
       ] }) })
     ] })
   ] });
@@ -14657,10 +14888,10 @@ var share_button_default = ShareButton;
 import { Link as Link9, Text as Text14 } from "@vtex/brand-ui";
 
 // src/components/icons/edit-icon.tsx
-import { Icon as Icon31 } from "@vtex/brand-ui";
-import { jsx as jsx59, jsxs as jsxs47 } from "react/jsx-runtime";
-var EditIcon = (props) => /* @__PURE__ */ jsxs47(
-  Icon31,
+import { Icon as Icon33 } from "@vtex/brand-ui";
+import { jsx as jsx61, jsxs as jsxs48 } from "react/jsx-runtime";
+var EditIcon = (props) => /* @__PURE__ */ jsxs48(
+  Icon33,
   {
     ...props,
     width: "25",
@@ -14669,7 +14900,7 @@ var EditIcon = (props) => /* @__PURE__ */ jsxs47(
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg",
     children: [
-      /* @__PURE__ */ jsx59(
+      /* @__PURE__ */ jsx61(
         "path",
         {
           fillRule: "evenodd",
@@ -14681,7 +14912,7 @@ var EditIcon = (props) => /* @__PURE__ */ jsxs47(
           strokeLinejoin: "round"
         }
       ),
-      /* @__PURE__ */ jsx59(
+      /* @__PURE__ */ jsx61(
         "path",
         {
           d: "M14.25 8.15234L17.34 11.2423",
@@ -14715,7 +14946,7 @@ var icon2 = {
 var styles_default23 = { container: container10, icon: icon2 };
 
 // src/components/suggest-edits/index.tsx
-import { jsx as jsx60, jsxs as jsxs48 } from "react/jsx-runtime";
+import { jsx as jsx62, jsxs as jsxs49 } from "react/jsx-runtime";
 var SuggestEdits = ({
   urlToEdit,
   small = false,
@@ -14723,7 +14954,7 @@ var SuggestEdits = ({
 }) => {
   const locale = useLocale();
   const label4 = messages[locale]["feedback_section.edit"] || "Suggest Edits (GitHub)";
-  return /* @__PURE__ */ jsxs48(
+  return /* @__PURE__ */ jsxs49(
     Link9,
     {
       target: "_blank",
@@ -14731,8 +14962,8 @@ var SuggestEdits = ({
       href: urlToEdit,
       sx: { ...styles_default23.container({ small }), ...sx },
       children: [
-        /* @__PURE__ */ jsx60(edit_icon_default, { size: small ? 18 : 24, sx: styles_default23.icon }),
-        /* @__PURE__ */ jsx60(Text14, { children: label4 })
+        /* @__PURE__ */ jsx62(edit_icon_default, { size: small ? 18 : 24, sx: styles_default23.icon }),
+        /* @__PURE__ */ jsx62(Text14, { children: label4 })
       ]
     }
   );
@@ -14740,8 +14971,9 @@ var SuggestEdits = ({
 var suggest_edits_default = SuggestEdits;
 
 // src/components/feedback-section/index.tsx
-import { jsx as jsx61, jsxs as jsxs49 } from "react/jsx-runtime";
+import { jsx as jsx63, jsxs as jsxs50 } from "react/jsx-runtime";
 var DEFAULT_FEEDBACK_ENDPOINT = "/api/feedback/";
+var DEFAULT_DETAILED_FEEDBACK_ENDPOINT = "/api/feedback/";
 var postFeedback = async (liked, pageUrl, endpoint) => {
   await fetch(endpoint, {
     method: "POST",
@@ -14754,6 +14986,23 @@ var postFeedback = async (liked, pageUrl, endpoint) => {
     })
   });
 };
+var postDetailedFeedback = async (payload, endpoint) => {
+  const res = await fetch(endpoint, {
+    method: "POST",
+    body: JSON.stringify({
+      data: [
+        (/* @__PURE__ */ new Date()).toISOString(),
+        payload.url,
+        payload.type,
+        payload.feedback,
+        payload.email
+      ]
+    })
+  });
+  if (!res.ok) {
+    throw new Error("Failed to send detailed feedback");
+  }
+};
 var FeedbackSection = ({
   slug,
   urlToEdit,
@@ -14762,18 +15011,35 @@ var FeedbackSection = ({
   pageUrl,
   feedbackEndpoint = DEFAULT_FEEDBACK_ENDPOINT,
   sendFeedback,
-  small = false
+  small = false,
+  collectDetailedFeedback = true,
+  detailedFeedbackEndpoint = DEFAULT_DETAILED_FEEDBACK_ENDPOINT,
+  sendDetailedFeedback,
+  defaultPanelStage = "closed"
 }) => {
   const [feedback, setFeedback] = useState19(void 0);
+  const [panelStage, setPanelStage] = useState19(defaultPanelStage);
+  const [comment, setComment] = useState19("");
+  const [email, setEmail] = useState19("");
+  const [submitting, setSubmitting] = useState19(false);
+  const textareaRef = useRef13(null);
   const locale = useLocale();
   useEffect17(() => {
     setFeedback(void 0);
+    setPanelStage("closed");
+    setComment("");
+    setEmail("");
   }, [slug]);
+  useEffect17(() => {
+    if (panelStage === "open") {
+      textareaRef.current?.focus();
+    }
+  }, [panelStage]);
+  const resolvedPageUrl = pageUrl ?? (typeof window !== "undefined" ? window.location.href : "");
   const handleSend = async (liked) => {
     if (feedback !== void 0)
       return;
     setFeedback(liked);
-    const resolvedPageUrl = pageUrl ?? (typeof window !== "undefined" ? window.location.href : "");
     try {
       if (sendFeedback) {
         await sendFeedback(liked);
@@ -14782,93 +15048,170 @@ var FeedbackSection = ({
       }
     } catch (e) {
       setFeedback(void 0);
+      return;
+    }
+    if (collectDetailedFeedback) {
+      setPanelStage("open");
     }
   };
-  return /* @__PURE__ */ jsxs49(Flex19, { sx: styles_default21.container({ small }), "data-cy": "feedback-section", children: [
-    /* @__PURE__ */ jsxs49(Flex19, { sx: styles_default21.likeContainer, children: [
-      /* @__PURE__ */ jsx61(Text15, { sx: styles_default21.question({ small }), children: feedback !== void 0 ? messages[locale]["feedback_section.response"] : messages[locale]["feedback_section.question"] }),
-      /* @__PURE__ */ jsxs49(Flex19, { sx: styles_default21.iconsContainer({ small }), children: [
-        /* @__PURE__ */ jsxs49(
-          Flex19,
-          {
-            sx: feedback === void 0 ? styles_default21.button : feedback === true ? styles_default21.selectedButton : styles_default21.disabled,
-            onClick: () => handleSend(true),
-            role: "button",
-            "aria-pressed": feedback === true,
-            "data-cy": "feedback-section-like",
-            children: [
-              feedback === true ? /* @__PURE__ */ jsx61(like_selected_icon_default, { size: small ? 18 : 24, sx: styles_default21.likeIcon }) : /* @__PURE__ */ jsx61(like_icon_default, { size: small ? 18 : 24, sx: styles_default21.likeIcon }),
-              !small && /* @__PURE__ */ jsx61(Text15, { children: messages[locale]["feedback_section.positive"] })
-            ]
-          }
-        ),
-        /* @__PURE__ */ jsxs49(
-          Flex19,
-          {
-            sx: feedback === void 0 ? styles_default21.button : feedback === false ? styles_default21.selectedButton : styles_default21.disabled,
-            onClick: () => handleSend(false),
-            role: "button",
-            "aria-pressed": feedback === false,
-            "data-cy": "feedback-section-dislike",
-            children: [
-              feedback === false ? /* @__PURE__ */ jsx61(
-                like_selected_icon_default,
-                {
-                  size: small ? 18 : 24,
-                  sx: styles_default21.dislikeIcon
-                }
-              ) : /* @__PURE__ */ jsx61(like_icon_default, { size: small ? 18 : 24, sx: styles_default21.dislikeIcon }),
-              !small && /* @__PURE__ */ jsx61(Text15, { children: messages[locale]["feedback_section.negative"] })
-            ]
-          }
-        )
-      ] })
+  const handleSkip = () => {
+    setPanelStage("closed");
+  };
+  const handleSubmitDetails = async (event) => {
+    event.preventDefault();
+    if (!comment.trim() && !email.trim()) {
+      setPanelStage("closed");
+      return;
+    }
+    setSubmitting(true);
+    const payload = {
+      type: feedback === true ? "positive" : "negative",
+      feedback: comment.trim(),
+      email: email.trim(),
+      url: resolvedPageUrl
+    };
+    try {
+      if (sendDetailedFeedback) {
+        await sendDetailedFeedback(payload);
+      } else {
+        await postDetailedFeedback(payload, detailedFeedbackEndpoint);
+      }
+      setPanelStage("submitted");
+    } catch (e) {
+      setPanelStage("error");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+  return /* @__PURE__ */ jsxs50(Flex19, { sx: styles_default21.wrapper({ small }), children: [
+    /* @__PURE__ */ jsxs50(Flex19, { sx: styles_default21.container({ small }), "data-cy": "feedback-section", children: [
+      /* @__PURE__ */ jsxs50(Flex19, { sx: styles_default21.likeContainer, children: [
+        /* @__PURE__ */ jsx63(Text15, { sx: styles_default21.question({ small }), children: feedback !== void 0 ? messages[locale]["feedback_section.response"] : messages[locale]["feedback_section.question"] }),
+        /* @__PURE__ */ jsxs50(Flex19, { sx: styles_default21.iconsContainer({ small }), children: [
+          /* @__PURE__ */ jsxs50(
+            Flex19,
+            {
+              sx: feedback === void 0 ? styles_default21.button : feedback === true ? styles_default21.selectedButton : styles_default21.disabled,
+              onClick: () => handleSend(true),
+              role: "button",
+              "aria-pressed": feedback === true,
+              "data-cy": "feedback-section-like",
+              children: [
+                feedback === true ? /* @__PURE__ */ jsx63(like_selected_icon_default, { size: small ? 18 : 24, sx: styles_default21.likeIcon }) : /* @__PURE__ */ jsx63(like_icon_default, { size: small ? 18 : 24, sx: styles_default21.likeIcon }),
+                !small && /* @__PURE__ */ jsx63(Text15, { children: messages[locale]["feedback_section.positive"] })
+              ]
+            }
+          ),
+          /* @__PURE__ */ jsxs50(
+            Flex19,
+            {
+              sx: feedback === void 0 ? styles_default21.button : feedback === false ? styles_default21.selectedButton : styles_default21.disabled,
+              onClick: () => handleSend(false),
+              role: "button",
+              "aria-pressed": feedback === false,
+              "data-cy": "feedback-section-dislike",
+              children: [
+                feedback === false ? /* @__PURE__ */ jsx63(
+                  like_selected_icon_default,
+                  {
+                    size: small ? 18 : 24,
+                    sx: styles_default21.dislikeIcon
+                  }
+                ) : /* @__PURE__ */ jsx63(like_icon_default, { size: small ? 18 : 24, sx: styles_default21.dislikeIcon }),
+                !small && /* @__PURE__ */ jsx63(Text15, { children: messages[locale]["feedback_section.negative"] })
+              ]
+            }
+          )
+        ] })
+      ] }),
+      suggestEdits && urlToEdit && /* @__PURE__ */ jsx63(suggest_edits_default, { urlToEdit, small }),
+      shareButton2 && /* @__PURE__ */ jsx63(share_button_default, { url: window.location.href, sx: styles_default21.shareButton })
     ] }),
-    suggestEdits && urlToEdit && /* @__PURE__ */ jsx61(suggest_edits_default, { urlToEdit, small }),
-    shareButton2 && /* @__PURE__ */ jsx61(share_button_default, { url: window.location.href, sx: styles_default21.shareButton })
+    collectDetailedFeedback && panelStage !== "closed" && /* @__PURE__ */ jsx63(
+      Box24,
+      {
+        sx: styles_default21.panel({ small }),
+        "aria-live": "polite",
+        "data-cy": "feedback-section-panel",
+        children: panelStage === "submitted" ? /* @__PURE__ */ jsxs50(Flex19, { sx: styles_default21.panelSuccess, role: "status", children: [
+          /* @__PURE__ */ jsx63(check_icon_default, { size: 16, sx: styles_default21.panelSuccessIcon }),
+          /* @__PURE__ */ jsx63(Text15, { sx: styles_default21.panelSuccessText, children: messages[locale]["feedback_section.followup_success"] })
+        ] }) : /* @__PURE__ */ jsxs50(Box24, { as: "form", sx: styles_default21.panelForm, onSubmit: handleSubmitDetails, children: [
+          panelStage === "error" && /* @__PURE__ */ jsxs50(Flex19, { role: "alert", sx: styles_default21.panelErrorText, children: [
+            /* @__PURE__ */ jsx63(warning_icon_default, { sx: styles_default21.panelErrorIcon }),
+            messages[locale]["feedback_section.followup_error"]
+          ] }),
+          /* @__PURE__ */ jsx63(
+            Box24,
+            {
+              as: "textarea",
+              ref: textareaRef,
+              value: comment,
+              onChange: (e) => setComment(e.target.value),
+              rows: small ? 3 : 4,
+              placeholder: messages[locale]["feedback_section.followup_placeholder"],
+              sx: styles_default21.panelTextarea,
+              "data-cy": "feedback-section-followup-textarea"
+            }
+          ),
+          /* @__PURE__ */ jsx63(
+            Box24,
+            {
+              as: "input",
+              type: "email",
+              value: email,
+              onChange: (e) => setEmail(e.target.value),
+              placeholder: messages[locale]["feedback_section.followup_email_placeholder"],
+              sx: styles_default21.panelEmailInput,
+              "data-cy": "feedback-section-followup-email"
+            }
+          ),
+          /* @__PURE__ */ jsxs50(Flex19, { sx: styles_default21.panelActions, children: [
+            /* @__PURE__ */ jsx63(
+              Box24,
+              {
+                as: "button",
+                type: "button",
+                onClick: handleSkip,
+                sx: styles_default21.panelSkipButton,
+                "data-cy": "feedback-section-followup-skip",
+                children: messages[locale]["feedback_section.followup_skip"]
+              }
+            ),
+            /* @__PURE__ */ jsx63(
+              Box24,
+              {
+                as: "button",
+                type: "submit",
+                disabled: submitting,
+                sx: styles_default21.panelSendButton,
+                "data-cy": "feedback-section-followup-send",
+                children: messages[locale]["feedback_section.followup_send"]
+              }
+            )
+          ] })
+        ] })
+      }
+    )
   ] });
 };
 var feedback_section_default = FeedbackSection;
 
 // src/components/feedback-modal/index.tsx
 import { useEffect as useEffect19, useState as useState21 } from "react";
-import { Box as Box25, Flex as Flex21, Text as Text17 } from "@vtex/brand-ui";
-
-// src/components/icons/check-icon.tsx
-import { Icon as Icon32 } from "@vtex/brand-ui";
-import { jsx as jsx62 } from "react/jsx-runtime";
-var CheckIcon = (props) => /* @__PURE__ */ jsx62(
-  Icon32,
-  {
-    ...props,
-    viewBox: "0 0 16 16",
-    fill: "none",
-    xmlns: "http://www.w3.org/2000/svg",
-    children: /* @__PURE__ */ jsx62(
-      "path",
-      {
-        d: "M13.333 4L6 11.333 2.667 8",
-        stroke: "currentColor",
-        strokeWidth: "1.5",
-        strokeLinecap: "round",
-        strokeLinejoin: "round"
-      }
-    )
-  }
-);
-var check_icon_default = CheckIcon;
+import { Box as Box26, Flex as Flex21, Text as Text17 } from "@vtex/brand-ui";
 
 // src/components/icons/comment-icon.tsx
-import { Icon as Icon33 } from "@vtex/brand-ui";
-import { jsx as jsx63 } from "react/jsx-runtime";
-var CommentIcon = (props) => /* @__PURE__ */ jsx63(
-  Icon33,
+import { Icon as Icon34 } from "@vtex/brand-ui";
+import { jsx as jsx64 } from "react/jsx-runtime";
+var CommentIcon = (props) => /* @__PURE__ */ jsx64(
+  Icon34,
   {
     ...props,
     viewBox: "0 0 16 16",
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg",
-    children: /* @__PURE__ */ jsx63(
+    children: /* @__PURE__ */ jsx64(
       "path",
       {
         d: "M13.5 2.5H2.5C1.94772 2.5 1.5 2.94772 1.5 3.5V10.5C1.5 11.0523 1.94772 11.5 2.5 11.5H4.5V14L8 11.5H13.5C14.0523 11.5 14.5 11.0523 14.5 10.5V3.5C14.5 2.94772 14.0523 2.5 13.5 2.5Z",
@@ -14882,56 +15225,10 @@ var CommentIcon = (props) => /* @__PURE__ */ jsx63(
 );
 var comment_icon_default = CommentIcon;
 
-// src/components/icons/warning-icon.tsx
-import { Icon as Icon34 } from "@vtex/brand-ui";
-import { jsx as jsx64, jsxs as jsxs50 } from "react/jsx-runtime";
-var WarningIcon = (props) => /* @__PURE__ */ jsxs50(
-  Icon34,
-  {
-    ...props,
-    viewBox: "0 0 18 16",
-    fill: "none",
-    xmlns: "http://www.w3.org/2000/svg",
-    children: [
-      /* @__PURE__ */ jsx64(
-        "path",
-        {
-          d: "M7.71758 1.89497L1.36508 12.5C1.2341 12.7268 1.1648 12.9839 1.16407 13.2459C1.16334 13.5078 1.23119 13.7653 1.3609 13.9929C1.4906 14.2204 1.67762 14.41 1.90336 14.5429C2.12909 14.6757 2.38568 14.7471 2.64758 14.75H15.3526C15.6145 14.7471 15.8711 14.6757 16.0968 14.5429C16.3225 14.41 16.5096 14.2204 16.6393 13.9929C16.769 13.7653 16.8368 13.5078 16.8361 13.2459C16.8354 12.9839 16.766 12.7268 16.6351 12.5L10.2826 1.89497C10.1489 1.67455 9.96062 1.49231 9.73597 1.36583C9.51133 1.23936 9.25788 1.17291 9.00008 1.17291C8.74227 1.17291 8.48882 1.23936 8.26418 1.36583C8.03953 1.49231 7.85128 1.67455 7.71758 1.89497Z",
-          stroke: "currentcolor",
-          strokeWidth: "1.5",
-          strokeLinecap: "round",
-          strokeLinejoin: "round"
-        }
-      ),
-      /* @__PURE__ */ jsx64(
-        "path",
-        {
-          d: "M9 5.75V8.75",
-          stroke: "currentcolor",
-          strokeWidth: "1.5",
-          strokeLinecap: "round",
-          strokeLinejoin: "round"
-        }
-      ),
-      /* @__PURE__ */ jsx64(
-        "path",
-        {
-          d: "M9 11.75H9.0075",
-          stroke: "currentcolor",
-          strokeWidth: "1.5",
-          strokeLinecap: "round",
-          strokeLinejoin: "round"
-        }
-      )
-    ]
-  }
-);
-var warning_icon_default = WarningIcon;
-
 // src/components/feedback-modal/modal.tsx
 import { useEffect as useEffect18, useState as useState20 } from "react";
 import { createPortal } from "react-dom";
-import { Box as Box24, Flex as Flex20, Text as Text16 } from "@vtex/brand-ui";
+import { Box as Box25, Flex as Flex20, Text as Text16 } from "@vtex/brand-ui";
 
 // src/components/feedback-modal/styles.ts
 var triggerWrap = {
@@ -15288,7 +15585,7 @@ var Modal = ({
     return null;
   return createPortal(
     /* @__PURE__ */ jsx65(
-      Box24,
+      Box25,
       {
         sx: styles_default24.wrapContainer,
         onClick: onClose,
@@ -15300,16 +15597,16 @@ var Modal = ({
         "aria-labelledby": "feedback-modal-title",
         "aria-describedby": description6 ? "feedback-modal-description" : void 0,
         children: /* @__PURE__ */ jsxs51(
-          Box24,
+          Box25,
           {
             sx: styles_default24.innerContainer,
             onClick: (e) => e.stopPropagation(),
             children: [
-              /* @__PURE__ */ jsxs51(Box24, { sx: styles_default24.header, children: [
+              /* @__PURE__ */ jsxs51(Box25, { sx: styles_default24.header, children: [
                 /* @__PURE__ */ jsxs51(Flex20, { sx: styles_default24.headerTop, children: [
                   /* @__PURE__ */ jsx65(Text16, { id: "feedback-modal-title", sx: styles_default24.modalTitle, children: title9 }),
                   /* @__PURE__ */ jsx65(
-                    Box24,
+                    Box25,
                     {
                       as: "button",
                       type: "button",
@@ -15322,7 +15619,7 @@ var Modal = ({
                 ] }),
                 description6 ? /* @__PURE__ */ jsx65(Text16, { id: "feedback-modal-description", sx: styles_default24.modalDescription, children: description6 }) : null
               ] }),
-              /* @__PURE__ */ jsx65(Box24, { sx: styles_default24.body, children })
+              /* @__PURE__ */ jsx65(Box25, { sx: styles_default24.body, children })
             ]
           }
         )
@@ -15418,9 +15715,9 @@ var FeedbackModal = ({
       setSubmitting(false);
     }
   }
-  return /* @__PURE__ */ jsxs52(Box25, { sx: styles_default24.triggerWrap, children: [
+  return /* @__PURE__ */ jsxs52(Box26, { sx: styles_default24.triggerWrap, children: [
     /* @__PURE__ */ jsxs52(
-      Box25,
+      Box26,
       {
         as: "button",
         type: "button",
@@ -15444,7 +15741,7 @@ var FeedbackModal = ({
           /* @__PURE__ */ jsx66(Flex21, { sx: styles_default24.successIconWrap, "aria-hidden": "true", children: /* @__PURE__ */ jsx66(check_icon_default, { size: 22 }) }),
           /* @__PURE__ */ jsx66(Text17, { sx: styles_default24.successTitle, children: localizedMessages["feedback_modal.success"] }),
           /* @__PURE__ */ jsx66(
-            Box25,
+            Box26,
             {
               as: "button",
               type: "button",
@@ -15453,15 +15750,15 @@ var FeedbackModal = ({
               children: localizedMessages["feedback_modal.done"]
             }
           )
-        ] }) : /* @__PURE__ */ jsx66(Box25, { as: "form", onSubmit: handleSubmit, children: /* @__PURE__ */ jsxs52(Box25, { sx: styles_default24.form, children: [
+        ] }) : /* @__PURE__ */ jsx66(Box26, { as: "form", onSubmit: handleSubmit, children: /* @__PURE__ */ jsxs52(Box26, { sx: styles_default24.form, children: [
           error ? /* @__PURE__ */ jsxs52(Flex21, { role: "alert", sx: styles_default24.feedbackErrorText, children: [
             /* @__PURE__ */ jsx66(warning_icon_default, { sx: styles_default24.errorIcon }),
             localizedMessages["feedback_modal.error"]
           ] }) : null,
-          /* @__PURE__ */ jsxs52(Box25, { sx: styles_default24.field, children: [
+          /* @__PURE__ */ jsxs52(Box26, { sx: styles_default24.field, children: [
             /* @__PURE__ */ jsx66(Text17, { as: "label", htmlFor: "feedback-modal-url", sx: styles_default24.label, children: localizedMessages["feedback_modal.article"] }),
             /* @__PURE__ */ jsx66(
-              Box25,
+              Box26,
               {
                 as: "input",
                 id: "feedback-modal-url",
@@ -15471,7 +15768,7 @@ var FeedbackModal = ({
               }
             )
           ] }),
-          /* @__PURE__ */ jsxs52(Box25, { sx: styles_default24.field, children: [
+          /* @__PURE__ */ jsxs52(Box26, { sx: styles_default24.field, children: [
             /* @__PURE__ */ jsxs52(
               Text17,
               {
@@ -15481,12 +15778,12 @@ var FeedbackModal = ({
                 children: [
                   localizedMessages["feedback_modal.message"],
                   " ",
-                  /* @__PURE__ */ jsx66(Box25, { as: "span", sx: styles_default24.requiredMark, children: "*" })
+                  /* @__PURE__ */ jsx66(Box26, { as: "span", sx: styles_default24.requiredMark, children: "*" })
                 ]
               }
             ),
             /* @__PURE__ */ jsx66(
-              Box25,
+              Box26,
               {
                 as: "textarea",
                 id: "feedback-modal-message",
@@ -15499,10 +15796,10 @@ var FeedbackModal = ({
               }
             )
           ] }),
-          /* @__PURE__ */ jsxs52(Box25, { sx: styles_default24.field, children: [
+          /* @__PURE__ */ jsxs52(Box26, { sx: styles_default24.field, children: [
             /* @__PURE__ */ jsx66(Text17, { as: "label", htmlFor: "feedback-modal-type", sx: styles_default24.label, children: localizedMessages["feedback_modal.type"] }),
             /* @__PURE__ */ jsx66(
-              Box25,
+              Box26,
               {
                 as: "select",
                 id: "feedback-modal-type",
@@ -15512,8 +15809,8 @@ var FeedbackModal = ({
               }
             )
           ] }),
-          /* @__PURE__ */ jsxs52(Box25, { sx: styles_default24.row, children: [
-            /* @__PURE__ */ jsxs52(Box25, { sx: styles_default24.field, children: [
+          /* @__PURE__ */ jsxs52(Box26, { sx: styles_default24.row, children: [
+            /* @__PURE__ */ jsxs52(Box26, { sx: styles_default24.field, children: [
               /* @__PURE__ */ jsx66(
                 Text17,
                 {
@@ -15524,7 +15821,7 @@ var FeedbackModal = ({
                 }
               ),
               /* @__PURE__ */ jsx66(
-                Box25,
+                Box26,
                 {
                   as: "input",
                   id: "feedback-modal-name",
@@ -15535,7 +15832,7 @@ var FeedbackModal = ({
                 }
               )
             ] }),
-            /* @__PURE__ */ jsxs52(Box25, { sx: styles_default24.field, children: [
+            /* @__PURE__ */ jsxs52(Box26, { sx: styles_default24.field, children: [
               /* @__PURE__ */ jsx66(
                 Text17,
                 {
@@ -15546,7 +15843,7 @@ var FeedbackModal = ({
                 }
               ),
               /* @__PURE__ */ jsx66(
-                Box25,
+                Box26,
                 {
                   as: "input",
                   id: "feedback-modal-email",
@@ -15558,9 +15855,9 @@ var FeedbackModal = ({
               )
             ] })
           ] }),
-          /* @__PURE__ */ jsxs52(Box25, { sx: styles_default24.actions, children: [
+          /* @__PURE__ */ jsxs52(Box26, { sx: styles_default24.actions, children: [
             /* @__PURE__ */ jsx66(
-              Box25,
+              Box26,
               {
                 as: "button",
                 type: "button",
@@ -15570,7 +15867,7 @@ var FeedbackModal = ({
               }
             ),
             /* @__PURE__ */ jsx66(
-              Box25,
+              Box26,
               {
                 as: "button",
                 type: "submit",
@@ -15591,10 +15888,10 @@ var feedback_modal_default = FeedbackModal;
 import { Flex as Flex26 } from "@vtex/brand-ui";
 
 // src/components/search-sections/index.tsx
-import { Box as Box27 } from "@vtex/brand-ui";
+import { Box as Box28 } from "@vtex/brand-ui";
 
 // src/components/search-section/index.tsx
-import { Box as Box26, Flex as Flex22, Text as Text18 } from "@vtex/brand-ui";
+import { Box as Box27, Flex as Flex22, Text as Text18 } from "@vtex/brand-ui";
 import { useContext as useContext7, useEffect as useEffect20 } from "react";
 
 // src/components/search-section/styles.ts
@@ -15725,7 +16022,7 @@ var SearchSection = ({ dataElement, index }) => {
           children: messages[locale]["search_results.all"] || "All results"
         }
       ),
-      allCountLabel !== void 0 && /* @__PURE__ */ jsx68(Box26, { className: "search-section-count", sx: styles_default25.sectionCount, children: allCountLabel })
+      allCountLabel !== void 0 && /* @__PURE__ */ jsx68(Box27, { className: "search-section-count", sx: styles_default25.sectionCount, children: allCountLabel })
     ] });
   }
   const countsLoaded = Object.keys(ocurrenceCount).length > 0;
@@ -15754,7 +16051,7 @@ var SearchSection = ({ dataElement, index }) => {
             }
           )
         ] }),
-        countLabel !== void 0 && /* @__PURE__ */ jsx68(Box26, { className: "search-section-count", sx: styles_default25.sectionCount, children: countLabel })
+        countLabel !== void 0 && /* @__PURE__ */ jsx68(Box27, { className: "search-section-count", sx: styles_default25.sectionCount, children: countLabel })
       ]
     },
     `search-section-${dataElement.id}${index}`
@@ -15794,8 +16091,8 @@ var SearchSections = () => {
   const internalOnlySections = sidebarSections.map(
     (section) => section.filter((item2) => !item2.isExternalLink)
   );
-  return /* @__PURE__ */ jsx69(Box27, { sx: styles_default26.container, children: internalOnlySections.map((sections, id) => /* @__PURE__ */ jsxs54(
-    Box27,
+  return /* @__PURE__ */ jsx69(Box28, { sx: styles_default26.container, children: internalOnlySections.map((sections, id) => /* @__PURE__ */ jsxs54(
+    Box28,
     {
       sx: id < internalOnlySections.length - 1 ? styles_default26.docsSection : styles_default26.notesSection,
       children: [
@@ -15818,18 +16115,18 @@ var search_sections_default = SearchSections;
 // src/components/search-results/index.tsx
 import { useRouter as useRouter10 } from "next/router.js";
 import { useContext as useContext10, useEffect as useEffect23, useState as useState24 } from "react";
-import { Box as Box30, Text as Text21 } from "@vtex/brand-ui";
+import { Box as Box31, Text as Text21 } from "@vtex/brand-ui";
 import { Configure as Configure2, InstantSearch as InstantSearch2 } from "react-instantsearch-dom";
 
 // src/components/search-results/infiniteHits.tsx
-import { useContext as useContext9, useEffect as useEffect22, useMemo as useMemo5, useRef as useRef13 } from "react";
+import { useContext as useContext9, useEffect as useEffect22, useMemo as useMemo5, useRef as useRef14 } from "react";
 import {
   connectInfiniteHits,
   connectStateResults as connectStateResults2
 } from "react-instantsearch-dom";
 
 // src/components/search-card/index.tsx
-import { Box as Box28, Flex as Flex23, Text as Text19, IconCaret as IconCaret7, Tooltip as Tooltip2 } from "@vtex/brand-ui";
+import { Box as Box29, Flex as Flex23, Text as Text19, IconCaret as IconCaret7, Tooltip as Tooltip2 } from "@vtex/brand-ui";
 import { useEffect as useEffect21, useState as useState23 } from "react";
 import { useRouter as useRouter9 } from "next/router.js";
 import Link10 from "next/link.js";
@@ -16162,8 +16459,8 @@ var SearchCard = ({
   };
   return /* @__PURE__ */ jsxs56(Flex23, { sx: styles_default27.containerActive, children: [
     /* @__PURE__ */ jsx71(Link10, { href: url, legacyBehavior: true, children: /* @__PURE__ */ jsx71("a", { children: /* @__PURE__ */ jsxs56(Flex23, { sx: styles_default27.cardBody, children: [
-      /* @__PURE__ */ jsx71(Box28, { className: "search-card-icon-wrap", sx: styles_default27.iconWrap, children: /* @__PURE__ */ jsx71(DocIcon, { className: "search-card-icon", sx: styles_default27.icon }) }),
-      /* @__PURE__ */ jsxs56(Box28, { sx: styles_default27.cardText, children: [
+      /* @__PURE__ */ jsx71(Box29, { className: "search-card-icon-wrap", sx: styles_default27.iconWrap, children: /* @__PURE__ */ jsx71(DocIcon, { className: "search-card-icon", sx: styles_default27.icon }) }),
+      /* @__PURE__ */ jsxs56(Box29, { sx: styles_default27.cardText, children: [
         /* @__PURE__ */ jsxs56(Text19, { className: "searchCardTitle", sx: styles_default27.title, children: [
           method ? /* @__PURE__ */ jsx71(
             method_category_default,
@@ -16187,7 +16484,7 @@ var SearchCard = ({
             }
           ),
           toggleChildResults && hit.filteredMatches?.map((childHit, index) => /* @__PURE__ */ jsx71(
-            Box28,
+            Box29,
             {
               sx: styles_default27.descriptionExpandedItem,
               children: /* @__PURE__ */ jsx71(
@@ -16203,7 +16500,7 @@ var SearchCard = ({
             `search-card-${hit.objectID}-${index}`
           ))
         ] }),
-        crumbs.length > 0 ? /* @__PURE__ */ jsxs56(Box28, { sx: styles_default27.breadcrumbsContainer, children: [
+        crumbs.length > 0 ? /* @__PURE__ */ jsxs56(Box29, { sx: styles_default27.breadcrumbsContainer, children: [
           /* @__PURE__ */ jsx71(Text19, { sx: styles_default27.breadcrumbsIn, children: messages[locale]["search_card.in"] || "In" }),
           crumbs.map((breadcrumb3, index) => /* @__PURE__ */ jsxs56(
             Flex23,
@@ -16233,7 +16530,7 @@ var SearchCard = ({
     /* @__PURE__ */ jsxs56(Flex23, { sx: styles_default27.cardToolbar, children: [
       /* @__PURE__ */ jsxs56(Flex23, { className: "search-card-actions", sx: styles_default27.cardActions, children: [
         /* @__PURE__ */ jsx71(
-          Box28,
+          Box29,
           {
             as: "button",
             type: "button",
@@ -16246,7 +16543,7 @@ var SearchCard = ({
           }
         ),
         /* @__PURE__ */ jsx71(
-          Box28,
+          Box29,
           {
             as: "button",
             type: "button",
@@ -16260,7 +16557,7 @@ var SearchCard = ({
         )
       ] }),
       hit.filteredMatches && hit.filteredMatches.length > 0 && /* @__PURE__ */ jsx71(
-        Box28,
+        Box29,
         {
           sx: styles_default27.descriptionToggle,
           onClick: (event) => {
@@ -16276,7 +16573,7 @@ var SearchCard = ({
 var search_card_default = SearchCard;
 
 // src/components/search-results/infiniteHits.tsx
-import { Box as Box29, Flex as Flex24, Text as Text20 } from "@vtex/brand-ui";
+import { Box as Box30, Flex as Flex24, Text as Text20 } from "@vtex/brand-ui";
 
 // src/components/search-results/styles.ts
 var resultContainer = {
@@ -16433,7 +16730,7 @@ var StateResults = connectStateResults2(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 );
 var InfiniteHits = ({ hits, hasMore, refineNext }) => {
-  const scrollRef = useRef13(null);
+  const scrollRef = useRef14(null);
   const locale = useLocale();
   const filteredResult = useMemo5(
     () => mergeHitsByArticle(hits),
@@ -16454,7 +16751,7 @@ var InfiniteHits = ({ hits, hasMore, refineNext }) => {
       observer.disconnect();
     };
   }, [hasMore, refineNext]);
-  return /* @__PURE__ */ jsxs57(Box29, { children: [
+  return /* @__PURE__ */ jsxs57(Box30, { children: [
     /* @__PURE__ */ jsx72(StateResults, {}),
     filteredResult.length === 0 && /* @__PURE__ */ jsx72(Flex24, { sx: styles_default28.noResults, children: /* @__PURE__ */ jsx72(Text20, { children: messages[locale]["search_input.empty"] || "No results found. Try different search terms." }) }),
     filteredResult.map((hit, index) => /* @__PURE__ */ jsx72(Flex24, { sx: styles_default28.hitListItem, children: /* @__PURE__ */ jsx72(HitCard, { hit }, index) }, hit.objectID)),
@@ -16498,7 +16795,7 @@ var SearchResults = () => {
       page
     });
   };
-  return /* @__PURE__ */ jsxs58(Box30, { sx: styles_default28.resultContainer, children: [
+  return /* @__PURE__ */ jsxs58(Box31, { sx: styles_default28.resultContainer, children: [
     /* @__PURE__ */ jsxs58(Text21, { sx: styles_default28.resultText, children: [
       `${messages[locale]["search_results.showing"] || "Showing"} `,
       /* @__PURE__ */ jsx73(Text21, { as: "span", sx: styles_default28.resultCount, children: formatSearchTabCount(ocurrenceCount[filterSelectedSection]) ?? "" }),
@@ -16507,7 +16804,7 @@ var SearchResults = () => {
       ` ${messages[locale]["search_results.in"] || "in"} ${!filterSelectedSection ? messages[locale]["search_results.all_lowercase"] || "all results" : filterSelectedSection}`
     ] }),
     /* @__PURE__ */ jsx73("hr", {}),
-    /* @__PURE__ */ jsx73(Box30, { children: /* @__PURE__ */ jsxs58(
+    /* @__PURE__ */ jsx73(Box31, { children: /* @__PURE__ */ jsxs58(
       InstantSearch2,
       {
         searchClient,
@@ -16845,9 +17142,9 @@ var CopyLinkButton = () => {
 var copy_link_button_default = CopyLinkButton;
 
 // src/components/copy-button/index.tsx
-import { useCallback as useCallback3, useState as useState26, useRef as useRef14, useEffect as useEffect25 } from "react";
+import { useCallback as useCallback3, useState as useState26, useRef as useRef15, useEffect as useEffect25 } from "react";
 import copy2 from "copy-text-to-clipboard";
-import { Box as Box31, Button as Button8, Icon as Icon36 } from "@vtex/brand-ui";
+import { Box as Box32, Button as Button8, Icon as Icon36 } from "@vtex/brand-ui";
 
 // src/components/copy-button/styles.ts
 var basicButton = {
@@ -16914,7 +17211,7 @@ var styles_default33 = {
 import { jsx as jsx78, jsxs as jsxs62 } from "react/jsx-runtime";
 var CopyButton = ({ code, sx }) => {
   const [isCopied, setIsCopied] = useState26(false);
-  const copyTimeout = useRef14(void 0);
+  const copyTimeout = useRef15(void 0);
   const handleCopyCode = useCallback3(() => {
     copy2(code);
     setIsCopied(true);
@@ -16934,7 +17231,7 @@ var CopyButton = ({ code, sx }) => {
         ...sx
       },
       "aria-label": "Copy code snippet",
-      children: /* @__PURE__ */ jsxs62(Box31, { sx: styles_default33.copyButtonIcons, "aria-hidden": "true", children: [
+      children: /* @__PURE__ */ jsxs62(Box32, { sx: styles_default33.copyButtonIcons, "aria-hidden": "true", children: [
         /* @__PURE__ */ jsx78(
           Icon36,
           {
@@ -16958,9 +17255,9 @@ var CopyButton = ({ code, sx }) => {
 var copy_button_default = CopyButton;
 
 // src/components/ask-ai/index.tsx
-import { useEffect as useEffect26, useRef as useRef15, useState as useState27 } from "react";
+import { useEffect as useEffect26, useRef as useRef16, useState as useState27 } from "react";
 import copy3 from "copy-text-to-clipboard";
-import { Box as Box32, Text as Text24, IconCaret as IconCaret8 } from "@vtex/brand-ui";
+import { Box as Box33, Text as Text24, IconCaret as IconCaret8 } from "@vtex/brand-ui";
 
 // src/components/icons/chatgpt-icon.tsx
 import { Icon as Icon37 } from "@vtex/brand-ui";
@@ -17255,7 +17552,7 @@ var AskAIMenu = ({
   const [open, setOpen] = useState27(false);
   const [isCopied, setIsCopied] = useState27(false);
   const [isLoading, setIsLoading] = useState27(false);
-  const menuRef = useRef15(null);
+  const menuRef = useRef16(null);
   const handleProvider = (provider) => {
     onOpenProvider?.(provider);
     if (provider.onClick) {
@@ -17320,10 +17617,10 @@ var AskAIMenu = ({
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [open]);
-  return /* @__PURE__ */ jsxs66(Box32, { ref: menuRef, sx: styles_default34.container, children: [
-    /* @__PURE__ */ jsxs66(Box32, { sx: styles_default34.group, children: [
+  return /* @__PURE__ */ jsxs66(Box33, { ref: menuRef, sx: styles_default34.container, children: [
+    /* @__PURE__ */ jsxs66(Box33, { sx: styles_default34.group, children: [
       /* @__PURE__ */ jsxs66(
-        Box32,
+        Box33,
         {
           as: "button",
           type: "button",
@@ -17338,7 +17635,7 @@ var AskAIMenu = ({
         }
       ),
       /* @__PURE__ */ jsx85(
-        Box32,
+        Box33,
         {
           as: "button",
           type: "button",
@@ -17351,9 +17648,9 @@ var AskAIMenu = ({
         }
       )
     ] }),
-    open && /* @__PURE__ */ jsxs66(Box32, { id: "askai-menu", sx: styles_default34.askaiMenu, role: "menu", children: [
-      /* @__PURE__ */ jsx85(Box32, { sx: styles_default34.askaiSection, children: providers.map((provider) => /* @__PURE__ */ jsxs66(
-        Box32,
+    open && /* @__PURE__ */ jsxs66(Box33, { id: "askai-menu", sx: styles_default34.askaiMenu, role: "menu", children: [
+      /* @__PURE__ */ jsx85(Box33, { sx: styles_default34.askaiSection, children: providers.map((provider) => /* @__PURE__ */ jsxs66(
+        Box33,
         {
           as: "button",
           sx: styles_default34.askaiItem,
@@ -17371,8 +17668,8 @@ var AskAIMenu = ({
         },
         `lu-${provider.id}`
       )) }),
-      /* @__PURE__ */ jsx85(Box32, { sx: styles_default34.askaiSection, children: /* @__PURE__ */ jsxs66(
-        Box32,
+      /* @__PURE__ */ jsx85(Box33, { sx: styles_default34.askaiSection, children: /* @__PURE__ */ jsxs66(
+        Box33,
         {
           as: "button",
           sx: styles_default34.askaiItem,
@@ -17397,12 +17694,12 @@ import {
   useId as useId3,
   useLayoutEffect as useLayoutEffect2,
   useMemo as useMemo6,
-  useRef as useRef16,
+  useRef as useRef17,
   useState as useState29
 } from "react";
 import { createPortal as createPortal2 } from "react-dom";
 import copy5 from "copy-text-to-clipboard";
-import { Box as Box35, Flex as Flex29, Text as Text27 } from "@vtex/brand-ui";
+import { Box as Box36, Flex as Flex29, Text as Text27 } from "@vtex/brand-ui";
 
 // src/components/icons/arrow-right-icon.tsx
 import { Icon as Icon43 } from "@vtex/brand-ui";
@@ -17897,11 +18194,11 @@ var upsertHistory = (current, conversation) => {
 
 // src/components/ask-assistant/markdown.tsx
 import { useEffect as useEffect27, useState as useState28 } from "react";
-import { Box as Box34, Text as Text26 } from "@vtex/brand-ui";
+import { Box as Box35, Text as Text26 } from "@vtex/brand-ui";
 import copy4 from "copy-text-to-clipboard";
 
 // src/components/ask-assistant/sources.tsx
-import { Box as Box33, Flex as Flex28, Text as Text25 } from "@vtex/brand-ui";
+import { Box as Box34, Flex as Flex28, Text as Text25 } from "@vtex/brand-ui";
 
 // src/components/header/styles.ts
 var navItem = {
@@ -18245,7 +18542,7 @@ var EMPTY_STATE_BACKGROUND = [
   "radial-gradient(110% 85% at 100% 100%, #D2EEF8 0%, rgba(210, 238, 248, 0) 56%)",
   "linear-gradient(135deg, #F7F8FC 0%, #F6F8FD 50%, #EEF7FC 100%)"
 ].join(", ");
-var panel2 = (expanded, isEmpty = false) => ({
+var panel3 = (expanded, isEmpty = false) => ({
   position: "fixed",
   top: [0, "var(--ask-assistant-top, 0px)"],
   right: [0, "var(--ask-assistant-offset, 0px)"],
@@ -19114,7 +19411,7 @@ var styles_default36 = {
   triggerKbd,
   floatingTrigger,
   overlay: overlay3,
-  panel: panel2,
+  panel: panel3,
   header: header2,
   headerTitle,
   headerActions: headerActions2,
@@ -19266,12 +19563,12 @@ var AnswerSources = ({ sources: sources2 }) => {
   const title9 = localized["ask_assistant.sources"] || "Sources";
   if (!sources2.length)
     return null;
-  return /* @__PURE__ */ jsxs76(Box33, { sx: styles_default36.sources, children: [
+  return /* @__PURE__ */ jsxs76(Box34, { sx: styles_default36.sources, children: [
     /* @__PURE__ */ jsx95(Text25, { sx: styles_default36.sourcesLabel, children: title9 }),
-    /* @__PURE__ */ jsx95(Box33, { sx: styles_default36.sourcesList, children: sources2.map((source) => {
+    /* @__PURE__ */ jsx95(Box34, { sx: styles_default36.sourcesList, children: sources2.map((source) => {
       const origin = originLabel(source.href);
       return /* @__PURE__ */ jsxs76(
-        Box33,
+        Box34,
         {
           as: "a",
           href: source.href,
@@ -19280,11 +19577,11 @@ var AnswerSources = ({ sources: sources2 }) => {
           sx: styles_default36.sourceCard,
           children: [
             /* @__PURE__ */ jsx95(Flex28, { sx: styles_default36.sourceIcon, "aria-hidden": true, children: /* @__PURE__ */ jsx95(paper_icon_default, { size: 14 }) }),
-            /* @__PURE__ */ jsxs76(Box33, { sx: styles_default36.sourceCopy, children: [
+            /* @__PURE__ */ jsxs76(Box34, { sx: styles_default36.sourceCopy, children: [
               /* @__PURE__ */ jsx95(Text25, { className: "source-title", sx: styles_default36.sourceTitle, children: source.title }),
               origin ? /* @__PURE__ */ jsx95(Text25, { sx: styles_default36.sourceMeta, children: origin }) : null
             ] }),
-            /* @__PURE__ */ jsx95(Box33, { as: "span", className: "source-arrow", sx: styles_default36.sourceArrow, children: /* @__PURE__ */ jsx95(external_link_icon_default, { size: 12 }) })
+            /* @__PURE__ */ jsx95(Box34, { as: "span", className: "source-arrow", sx: styles_default36.sourceArrow, children: /* @__PURE__ */ jsx95(external_link_icon_default, { size: 12 }) })
           ]
         },
         source.href
@@ -19320,12 +19617,12 @@ var renderInline = (text4, keyPrefix) => {
     if (!part)
       return null;
     if (part.startsWith("`") && part.endsWith("`") && part.length > 2) {
-      return /* @__PURE__ */ jsx96(Box34, { as: "code", sx: styles_default36.inlineCode, children: part.slice(1, -1) }, key);
+      return /* @__PURE__ */ jsx96(Box35, { as: "code", sx: styles_default36.inlineCode, children: part.slice(1, -1) }, key);
     }
     const link2 = part.match(LINK_RE2);
     if (link2) {
       return /* @__PURE__ */ jsx96(
-        Box34,
+        Box35,
         {
           as: "a",
           href: link2[2],
@@ -19338,7 +19635,7 @@ var renderInline = (text4, keyPrefix) => {
     }
     if (BARE_URL_RE.test(part)) {
       return /* @__PURE__ */ jsx96(
-        Box34,
+        Box35,
         {
           as: "a",
           href: part,
@@ -19409,11 +19706,11 @@ var CodeBlock = ({ code, language }) => {
     const timeout = window.setTimeout(() => setCopied(false), 1500);
     return () => window.clearTimeout(timeout);
   }, [copied]);
-  return /* @__PURE__ */ jsxs77(Box34, { sx: styles_default36.codeBlock, children: [
-    /* @__PURE__ */ jsxs77(Box34, { sx: styles_default36.codeBlockHeader, children: [
+  return /* @__PURE__ */ jsxs77(Box35, { sx: styles_default36.codeBlock, children: [
+    /* @__PURE__ */ jsxs77(Box35, { sx: styles_default36.codeBlockHeader, children: [
       /* @__PURE__ */ jsx96(Text26, { sx: styles_default36.codeBlockLanguage, children: language || "code" }),
       /* @__PURE__ */ jsx96(
-        Box34,
+        Box35,
         {
           as: "button",
           type: "button",
@@ -19427,7 +19724,7 @@ var CodeBlock = ({ code, language }) => {
         }
       )
     ] }),
-    /* @__PURE__ */ jsx96(Box34, { as: "pre", sx: styles_default36.codeBlockPre, children: /* @__PURE__ */ jsx96(Box34, { as: "code", sx: styles_default36.codeBlockCode, children: code }) })
+    /* @__PURE__ */ jsx96(Box35, { as: "pre", sx: styles_default36.codeBlockPre, children: /* @__PURE__ */ jsx96(Box35, { as: "code", sx: styles_default36.codeBlockCode, children: code }) })
   ] });
 };
 var splitTableRow = (line) => line.trim().replace(/^\|/, "").replace(/\|$/, "").split(/(?<!\\)\|/).map((cell) => cell.trim().replace(/\\\|/g, "|"));
@@ -19486,7 +19783,7 @@ var renderList = (lines, start, minIndent) => {
       const nested = renderList(lines, nestedIndex, baseIndent + 1);
       children.push(
         /* @__PURE__ */ jsx96(
-          Box34,
+          Box35,
           {
             as: nested.ordered ? "ol" : "ul",
             sx: nested.ordered ? styles_default36.markdownOrderedList : styles_default36.markdownUnorderedList,
@@ -19498,7 +19795,7 @@ var renderList = (lines, start, minIndent) => {
       index = nested.end;
     }
     items.push(
-      /* @__PURE__ */ jsx96(Box34, { as: "li", sx: styles_default36.markdownListItem, children }, `li-${itemIndex}`)
+      /* @__PURE__ */ jsx96(Box35, { as: "li", sx: styles_default36.markdownListItem, children }, `li-${itemIndex}`)
     );
   }
   return { items, ordered, end: index };
@@ -19552,13 +19849,13 @@ var renderBlocks = (lines, keyPrefix = "b") => {
     if (heading) {
       const Tag2 = headingTag(heading[1].length);
       nodes.push(
-        /* @__PURE__ */ jsx96(Box34, { as: Tag2, sx: styles_default36.markdownHeading, children: renderInline(heading[2].replace(/\s+#+$/, ""), `h-${key}`) }, `h-${key}`)
+        /* @__PURE__ */ jsx96(Box35, { as: Tag2, sx: styles_default36.markdownHeading, children: renderInline(heading[2].replace(/\s+#+$/, ""), `h-${key}`) }, `h-${key}`)
       );
       index += 1;
       continue;
     }
     if (isRule(line)) {
-      nodes.push(/* @__PURE__ */ jsx96(Box34, { as: "hr", sx: styles_default36.markdownRule }, `hr-${key}`));
+      nodes.push(/* @__PURE__ */ jsx96(Box35, { as: "hr", sx: styles_default36.markdownRule }, `hr-${key}`));
       index += 1;
       continue;
     }
@@ -19569,7 +19866,7 @@ var renderBlocks = (lines, keyPrefix = "b") => {
         index += 1;
       }
       nodes.push(
-        /* @__PURE__ */ jsx96(Box34, { as: "blockquote", sx: styles_default36.markdownQuote, children: renderBlocks(quoteLines, `q-${key}`) }, `q-${key}`)
+        /* @__PURE__ */ jsx96(Box35, { as: "blockquote", sx: styles_default36.markdownQuote, children: renderBlocks(quoteLines, `q-${key}`) }, `q-${key}`)
       );
       continue;
     }
@@ -19583,9 +19880,9 @@ var renderBlocks = (lines, keyPrefix = "b") => {
         index += 1;
       }
       nodes.push(
-        /* @__PURE__ */ jsx96(Box34, { sx: styles_default36.markdownTableWrapper, children: /* @__PURE__ */ jsxs77(Box34, { as: "table", sx: styles_default36.markdownTable, children: [
+        /* @__PURE__ */ jsx96(Box35, { sx: styles_default36.markdownTableWrapper, children: /* @__PURE__ */ jsxs77(Box35, { as: "table", sx: styles_default36.markdownTable, children: [
           /* @__PURE__ */ jsx96("thead", { children: /* @__PURE__ */ jsx96("tr", { children: header3.map((cell, cellIndex) => /* @__PURE__ */ jsx96(
-            Box34,
+            Box35,
             {
               as: "th",
               sx: {
@@ -19597,7 +19894,7 @@ var renderBlocks = (lines, keyPrefix = "b") => {
             `th-${key}-${cellIndex}`
           )) }) }),
           /* @__PURE__ */ jsx96("tbody", { children: rows.map((row2, rowIndex) => /* @__PURE__ */ jsx96("tr", { children: header3.map((_, cellIndex) => /* @__PURE__ */ jsx96(
-            Box34,
+            Box35,
             {
               as: "td",
               sx: {
@@ -19619,7 +19916,7 @@ var renderBlocks = (lines, keyPrefix = "b") => {
       const list = renderList(lines, index, 0);
       nodes.push(
         /* @__PURE__ */ jsx96(
-          Box34,
+          Box35,
           {
             as: list.ordered ? "ol" : "ul",
             sx: list.ordered ? styles_default36.markdownOrderedList : styles_default36.markdownUnorderedList,
@@ -19640,7 +19937,7 @@ var renderBlocks = (lines, keyPrefix = "b") => {
       index += 1;
     }
     nodes.push(
-      /* @__PURE__ */ jsx96(Box34, { as: "p", sx: styles_default36.markdownParagraph, children: renderInline(
+      /* @__PURE__ */ jsx96(Box35, { as: "p", sx: styles_default36.markdownParagraph, children: renderInline(
         paragraph.map((part) => part.trim()).join(" "),
         `p-${paragraphKey}`
       ) }, `p-${paragraphKey}`)
@@ -19651,7 +19948,7 @@ var renderBlocks = (lines, keyPrefix = "b") => {
 var MarkdownMessage = ({ content }) => {
   const { body: body3, sources: sources2 } = splitAnswerSources(stripAnswerMetadata(content));
   const lines = body3.replace(/\r\n/g, "\n").split("\n");
-  return /* @__PURE__ */ jsxs77(Box34, { sx: styles_default36.markdown, children: [
+  return /* @__PURE__ */ jsxs77(Box35, { sx: styles_default36.markdown, children: [
     renderBlocks(lines),
     /* @__PURE__ */ jsx96(sources_default, { sources: sources2 })
   ] });
@@ -19786,16 +20083,16 @@ var AskAssistant = ({
   onFeedback
 }) => {
   const { locale, setSidebarSectionHidden } = useContext12(LibraryContext);
-  const sidebarHiddenBeforeOpen = useRef16(null);
+  const sidebarHiddenBeforeOpen = useRef17(null);
   const localized = messages[locale] ?? messages.en;
   const titleId = useId3();
-  const textareaRef = useRef16(null);
-  const listRef = useRef16(null);
-  const historyRef = useRef16(null);
-  const abortRef = useRef16(null);
-  const pendingToolsRef = useRef16([]);
-  const conversationIdRef = useRef16(null);
-  const chatRef = useRef16(initialMessages);
+  const textareaRef = useRef17(null);
+  const listRef = useRef17(null);
+  const historyRef = useRef17(null);
+  const abortRef = useRef17(null);
+  const pendingToolsRef = useRef17([]);
+  const conversationIdRef = useRef17(null);
+  const chatRef = useRef17(initialMessages);
   const [mounted, setMounted] = useState29(false);
   const [uncontrolledOpen, setUncontrolledOpen] = useState29(defaultOpen);
   const [expanded, setExpanded] = useState29(false);
@@ -20212,9 +20509,9 @@ var AskAssistant = ({
   };
   const isEmpty = chat.length === 0;
   const activeCategory = categories.find((category) => category.id === activeExampleId) ?? categories[0];
-  const composer = /* @__PURE__ */ jsx97(Box35, { sx: isEmpty ? styles_default36.inputWrapCentered : styles_default36.inputWrap, children: /* @__PURE__ */ jsxs78(Box35, { sx: isEmpty ? styles_default36.inputBoxEmpty : styles_default36.inputBox, children: [
+  const composer = /* @__PURE__ */ jsx97(Box36, { sx: isEmpty ? styles_default36.inputWrapCentered : styles_default36.inputWrap, children: /* @__PURE__ */ jsxs78(Box36, { sx: isEmpty ? styles_default36.inputBoxEmpty : styles_default36.inputBox, children: [
     /* @__PURE__ */ jsx97(
-      Box35,
+      Box36,
       {
         as: "textarea",
         ref: textareaRef,
@@ -20228,7 +20525,7 @@ var AskAssistant = ({
       }
     ),
     /* @__PURE__ */ jsx97(Flex29, { sx: styles_default36.inputFooter, children: /* @__PURE__ */ jsx97(
-      Box35,
+      Box36,
       {
         as: "button",
         type: "button",
@@ -20240,10 +20537,10 @@ var AskAssistant = ({
       }
     ) })
   ] }) });
-  const panel3 = isOpen && mounted && /* @__PURE__ */ jsxs78(Fragment11, { children: [
-    isSplitView ? null : /* @__PURE__ */ jsx97(Box35, { sx: styles_default36.overlay, onClick: () => setOpen(false) }),
+  const panel4 = isOpen && mounted && /* @__PURE__ */ jsxs78(Fragment11, { children: [
+    isSplitView ? null : /* @__PURE__ */ jsx97(Box36, { sx: styles_default36.overlay, onClick: () => setOpen(false) }),
     /* @__PURE__ */ jsxs78(
-      Box35,
+      Box36,
       {
         sx: styles_default36.panel(expanded, isEmpty),
         "data-ask-assistant-panel": true,
@@ -20259,7 +20556,7 @@ var AskAssistant = ({
             ] }),
             /* @__PURE__ */ jsxs78(Flex29, { sx: styles_default36.headerActions, children: [
               isSplitView ? /* @__PURE__ */ jsx97(
-                Box35,
+                Box36,
                 {
                   as: "button",
                   type: "button",
@@ -20270,7 +20567,7 @@ var AskAssistant = ({
                 }
               ) : null,
               /* @__PURE__ */ jsx97(
-                Box35,
+                Box36,
                 {
                   as: "button",
                   type: "button",
@@ -20281,9 +20578,9 @@ var AskAssistant = ({
                   children: /* @__PURE__ */ jsx97(new_chat_icon_default, { size: 16 })
                 }
               ),
-              /* @__PURE__ */ jsxs78(Box35, { ref: historyRef, sx: styles_default36.historyWrap, children: [
+              /* @__PURE__ */ jsxs78(Box36, { ref: historyRef, sx: styles_default36.historyWrap, children: [
                 /* @__PURE__ */ jsx97(
-                  Box35,
+                  Box36,
                   {
                     as: "button",
                     type: "button",
@@ -20297,7 +20594,7 @@ var AskAssistant = ({
                   }
                 ),
                 historyOpen && history.length > 0 ? /* @__PURE__ */ jsxs78(
-                  Box35,
+                  Box36,
                   {
                     sx: styles_default36.historyMenu,
                     role: "menu",
@@ -20306,7 +20603,7 @@ var AskAssistant = ({
                       /* @__PURE__ */ jsxs78(Flex29, { sx: styles_default36.historyHeader, children: [
                         /* @__PURE__ */ jsx97(Text27, { sx: styles_default36.historyTitle, children: labels.history }),
                         /* @__PURE__ */ jsx97(
-                          Box35,
+                          Box36,
                           {
                             as: "button",
                             type: "button",
@@ -20316,8 +20613,8 @@ var AskAssistant = ({
                           }
                         )
                       ] }),
-                      /* @__PURE__ */ jsx97(Box35, { sx: styles_default36.historyList, children: history.map((item2) => /* @__PURE__ */ jsxs78(
-                        Box35,
+                      /* @__PURE__ */ jsx97(Box36, { sx: styles_default36.historyList, children: history.map((item2) => /* @__PURE__ */ jsxs78(
+                        Box36,
                         {
                           as: "button",
                           type: "button",
@@ -20336,7 +20633,7 @@ var AskAssistant = ({
                 ) : null
               ] }),
               /* @__PURE__ */ jsx97(
-                Box35,
+                Box36,
                 {
                   as: "button",
                   type: "button",
@@ -20348,19 +20645,19 @@ var AskAssistant = ({
               )
             ] })
           ] }),
-          isEmpty ? /* @__PURE__ */ jsx97(Box35, { sx: styles_default36.emptyState, children: /* @__PURE__ */ jsxs78(Box35, { sx: styles_default36.emptyMain, children: [
-            /* @__PURE__ */ jsxs78(Box35, { sx: styles_default36.emptyHero, children: [
+          isEmpty ? /* @__PURE__ */ jsx97(Box36, { sx: styles_default36.emptyState, children: /* @__PURE__ */ jsxs78(Box36, { sx: styles_default36.emptyMain, children: [
+            /* @__PURE__ */ jsxs78(Box36, { sx: styles_default36.emptyHero, children: [
               /* @__PURE__ */ jsx97(Flex29, { sx: styles_default36.emptyHeroIcon, "aria-hidden": true, children: /* @__PURE__ */ jsx97(sparkle_icon_default, { size: 20 }) }),
-              /* @__PURE__ */ jsxs78(Box35, { sx: styles_default36.emptyHeroCopy, children: [
+              /* @__PURE__ */ jsxs78(Box36, { sx: styles_default36.emptyHeroCopy, children: [
                 /* @__PURE__ */ jsx97(Text27, { as: "h2", sx: styles_default36.emptyHeroTitle, children: labels.heroTitle }),
                 /* @__PURE__ */ jsx97(Text27, { sx: styles_default36.emptyHeroSubtitle, children: labels.heroSubtitle })
               ] })
             ] }),
             composer,
-            activeCategory ? /* @__PURE__ */ jsxs78(Box35, { sx: styles_default36.examples, children: [
+            activeCategory ? /* @__PURE__ */ jsxs78(Box36, { sx: styles_default36.examples, children: [
               /* @__PURE__ */ jsx97(Text27, { sx: styles_default36.examplesLabel, children: labels.examples }),
               /* @__PURE__ */ jsx97(
-                Box35,
+                Box36,
                 {
                   sx: styles_default36.examplePills,
                   role: "tablist",
@@ -20369,7 +20666,7 @@ var AskAssistant = ({
                     const Icon83 = category.Icon;
                     const isActive = category.id === activeCategory.id;
                     return /* @__PURE__ */ jsxs78(
-                      Box35,
+                      Box36,
                       {
                         as: "button",
                         type: "button",
@@ -20387,15 +20684,15 @@ var AskAssistant = ({
                   })
                 }
               ),
-              /* @__PURE__ */ jsx97(Box35, { sx: styles_default36.exampleQuestions, children: activeCategory.questions.filter((question2) => question2.trim()).map((question2) => /* @__PURE__ */ jsxs78(
-                Box35,
+              /* @__PURE__ */ jsx97(Box36, { sx: styles_default36.exampleQuestions, children: activeCategory.questions.filter((question2) => question2.trim()).map((question2) => /* @__PURE__ */ jsxs78(
+                Box36,
                 {
                   as: "button",
                   type: "button",
                   sx: styles_default36.exampleQuestion,
                   onClick: () => void submit(question2),
                   children: [
-                    /* @__PURE__ */ jsx97(Box35, { as: "span", sx: styles_default36.exampleQuestionText, children: question2 }),
+                    /* @__PURE__ */ jsx97(Box36, { as: "span", sx: styles_default36.exampleQuestionText, children: question2 }),
                     /* @__PURE__ */ jsx97(
                       arrow_right_icon_default,
                       {
@@ -20409,18 +20706,18 @@ var AskAssistant = ({
               )) })
             ] }) : null
           ] }) }) : /* @__PURE__ */ jsxs78(Fragment11, { children: [
-            /* @__PURE__ */ jsx97(Box35, { ref: listRef, sx: styles_default36.messages, "aria-live": "polite", children: chat.map(
-              (message) => message.role === "user" ? /* @__PURE__ */ jsx97(Text27, { sx: styles_default36.userBubble, children: message.content }, message.id) : /* @__PURE__ */ jsxs78(Box35, { sx: styles_default36.assistantBlock, children: [
-                message.status === "streaming" || message.steps && message.steps.length > 0 ? /* @__PURE__ */ jsxs78(Box35, { sx: styles_default36.process, children: [
+            /* @__PURE__ */ jsx97(Box36, { ref: listRef, sx: styles_default36.messages, "aria-live": "polite", children: chat.map(
+              (message) => message.role === "user" ? /* @__PURE__ */ jsx97(Text27, { sx: styles_default36.userBubble, children: message.content }, message.id) : /* @__PURE__ */ jsxs78(Box36, { sx: styles_default36.assistantBlock, children: [
+                message.status === "streaming" || message.steps && message.steps.length > 0 ? /* @__PURE__ */ jsxs78(Box36, { sx: styles_default36.process, children: [
                   message.status === "error" ? null : /* @__PURE__ */ jsxs78(Flex29, { sx: styles_default36.processHeader, children: [
-                    message.status === "complete" ? /* @__PURE__ */ jsx97(Flex29, { sx: styles_default36.processCheck, "aria-hidden": true, children: /* @__PURE__ */ jsx97(check_icon_default, { size: 10 }) }) : /* @__PURE__ */ jsx97(Box35, { sx: styles_default36.processSpinner, "aria-hidden": true }),
+                    message.status === "complete" ? /* @__PURE__ */ jsx97(Flex29, { sx: styles_default36.processCheck, "aria-hidden": true, children: /* @__PURE__ */ jsx97(check_icon_default, { size: 10 }) }) : /* @__PURE__ */ jsx97(Box36, { sx: styles_default36.processSpinner, "aria-hidden": true }),
                     /* @__PURE__ */ jsx97(Text27, { children: processHeaderText(
                       message.steps?.length ?? 0,
                       message.status === "complete",
                       labels
                     ) })
                   ] }),
-                  message.steps && message.steps.length > 0 ? /* @__PURE__ */ jsx97(Box35, { sx: styles_default36.processSteps, children: message.steps.map((step) => /* @__PURE__ */ jsxs78(Flex29, { sx: styles_default36.processStep, children: [
+                  message.steps && message.steps.length > 0 ? /* @__PURE__ */ jsx97(Box36, { sx: styles_default36.processSteps, children: message.steps.map((step) => /* @__PURE__ */ jsxs78(Flex29, { sx: styles_default36.processStep, children: [
                     /* @__PURE__ */ jsx97(Text27, { as: "span", sx: styles_default36.processBadge, children: labels.tool }),
                     /* @__PURE__ */ jsx97(ToolStepIcon, { name: step.name }),
                     /* @__PURE__ */ jsx97(Text27, { as: "span", sx: styles_default36.processStepLabel, children: toolStepLabel(step.name, labels) })
@@ -20429,7 +20726,7 @@ var AskAssistant = ({
                 message.status === "error" ? /* @__PURE__ */ jsx97(Text27, { sx: styles_default36.errorText, children: message.content }) : message.content ? /* @__PURE__ */ jsx97(markdown_default, { content: message.content }) : null,
                 message.status === "complete" && message.content ? /* @__PURE__ */ jsxs78(Flex29, { sx: styles_default36.messageActions, children: [
                   /* @__PURE__ */ jsx97(
-                    Box35,
+                    Box36,
                     {
                       as: "button",
                       type: "button",
@@ -20440,7 +20737,7 @@ var AskAssistant = ({
                     }
                   ),
                   /* @__PURE__ */ jsx97(
-                    Box35,
+                    Box36,
                     {
                       as: "button",
                       type: "button",
@@ -20451,7 +20748,7 @@ var AskAssistant = ({
                     }
                   ),
                   /* @__PURE__ */ jsx97(
-                    Box35,
+                    Box36,
                     {
                       as: "button",
                       type: "button",
@@ -20462,7 +20759,7 @@ var AskAssistant = ({
                     }
                   ),
                   /* @__PURE__ */ jsx97(
-                    Box35,
+                    Box36,
                     {
                       as: "button",
                       type: "button",
@@ -20483,7 +20780,7 @@ var AskAssistant = ({
   ] });
   return /* @__PURE__ */ jsxs78(Fragment11, { children: [
     hideTrigger ? null : /* @__PURE__ */ jsxs78(
-      Box35,
+      Box36,
       {
         as: "button",
         type: "button",
@@ -20496,15 +20793,15 @@ var AskAssistant = ({
           /* @__PURE__ */ jsx97(sparkle_icon_default, { size: 14, sx: styles_default36.triggerIcon }),
           /* @__PURE__ */ jsx97(Text27, { children: labels.button }),
           /* @__PURE__ */ jsxs78(Flex29, { as: "span", sx: styles_default36.triggerShortcut, "aria-hidden": "true", children: [
-            /* @__PURE__ */ jsx97(Box35, { as: "kbd", sx: styles_default36.triggerKbd, children: mounted && isMacShortcut() ? "\u2318" : "Ctrl" }),
-            /* @__PURE__ */ jsx97(Box35, { as: "kbd", sx: styles_default36.triggerKbd, children: "I" })
+            /* @__PURE__ */ jsx97(Box36, { as: "kbd", sx: styles_default36.triggerKbd, children: mounted && isMacShortcut() ? "\u2318" : "Ctrl" }),
+            /* @__PURE__ */ jsx97(Box36, { as: "kbd", sx: styles_default36.triggerKbd, children: "I" })
           ] })
         ]
       }
     ),
     showFloatingTrigger ? createPortal2(
       /* @__PURE__ */ jsx97(
-        Box35,
+        Box36,
         {
           as: "button",
           type: "button",
@@ -20523,7 +20820,7 @@ var AskAssistant = ({
       ),
       document.body
     ) : null,
-    mounted ? createPortal2(panel3, document.body) : null
+    mounted ? createPortal2(panel4, document.body) : null
   ] });
 };
 var ask_assistant_default = AskAssistant;
@@ -20601,7 +20898,7 @@ var Breadcrumb = ({
 var breadcrumb_default = Breadcrumb;
 
 // src/components/input/index.tsx
-import { useEffect as useEffect29, useRef as useRef17, useState as useState30 } from "react";
+import { useEffect as useEffect29, useRef as useRef18, useState as useState30 } from "react";
 import { Flex as Flex31 } from "@vtex/brand-ui";
 
 // src/components/input/styles.ts
@@ -20622,7 +20919,7 @@ var styles_default38 = { container: container15, input: input3, icon: icon4, cle
 import { jsx as jsx99, jsxs as jsxs79 } from "react/jsx-runtime";
 var Input = ({ value, onChange, placeholder = "", Icon: Icon83 }) => {
   const [inputValue, setInputValue] = useState30(value ?? "");
-  const inputRef = useRef17(null);
+  const inputRef = useRef18(null);
   const locale = useLocale();
   const clearLabel = messages[locale]["search_input.clear"] || "Clear search";
   useEffect29(() => {
@@ -20674,7 +20971,7 @@ var input_default = Input;
 
 // src/components/subscription-list/index.tsx
 import { useState as useState31 } from "react";
-import { Box as Box36, Button as Button9, Text as Text28, Flex as Flex32, Link as Link12 } from "@vtex/brand-ui";
+import { Box as Box37, Button as Button9, Text as Text28, Flex as Flex32, Link as Link12 } from "@vtex/brand-ui";
 
 // src/utils/get-url.tsx
 var getFeedbackURL = (currentUrl) => {
@@ -20932,7 +21229,7 @@ var SubscriptionList = () => {
       showMessage("error", localizedMessages["subscription_list.error"]);
     }
   };
-  return /* @__PURE__ */ jsxs80(Box36, { sx: styles_default39.sectionContainer, children: [
+  return /* @__PURE__ */ jsxs80(Box37, { sx: styles_default39.sectionContainer, children: [
     /* @__PURE__ */ jsx100(Text28, { sx: styles_default39.title, children: localizedMessages["landing_page_subscription.title"] }),
     /* @__PURE__ */ jsx100(Flex32, { sx: styles_default39.cardContainer, children: /* @__PURE__ */ jsxs80("div", { children: [
       /* @__PURE__ */ jsxs80(Text28, { sx: styles_default39.description, children: [
@@ -20954,7 +21251,7 @@ var SubscriptionList = () => {
       ] }),
       /* @__PURE__ */ jsxs80(Flex32, { sx: styles_default39.inputContainer, children: [
         /* @__PURE__ */ jsx100(
-          Box36,
+          Box37,
           {
             as: "input",
             id: "email",
@@ -20991,7 +21288,7 @@ var SubscriptionList = () => {
         )
       ] }),
       message && /* @__PURE__ */ jsx100(
-        Box36,
+        Box37,
         {
           sx: {
             ...styles_default39.popupCard,
@@ -21006,7 +21303,7 @@ var SubscriptionList = () => {
 var subscription_list_default = SubscriptionList;
 
 // src/components/footer/index.tsx
-import { Box as Box37, Flex as Flex33, Link as Link13 } from "@vtex/brand-ui";
+import { Box as Box38, Flex as Flex33, Link as Link13 } from "@vtex/brand-ui";
 
 // src/components/icons/vtex-logo-footer.tsx
 import { Icon as Icon52 } from "@vtex/brand-ui";
@@ -21363,14 +21660,14 @@ var Footer = ({
       component: /* @__PURE__ */ jsx106(facebook_circle_icon_default, { sx: styles_default40.icon })
     }
   ];
-  return /* @__PURE__ */ jsxs86(Box37, { as: "footer", sx: styles_default40.outerBox, "data-docs-footer": true, children: [
+  return /* @__PURE__ */ jsxs86(Box38, { as: "footer", sx: styles_default40.outerBox, "data-docs-footer": true, children: [
     /* @__PURE__ */ jsxs86(Flex33, { sx: styles_default40.brandAndSocial, children: [
       /* @__PURE__ */ jsx106(vtex_logo_footer_default, { sx: styles_default40.logo }),
       /* @__PURE__ */ jsx106(Flex33, { sx: styles_default40.socialMediaIcons, children: socialIcons.map((icon6) => /* @__PURE__ */ jsx106(Link13, { href: icon6.href, children: icon6.component }, icon6.href)) })
     ] }),
     /* @__PURE__ */ jsxs86(Flex33, { sx: styles_default40.textLinkItems, children: [
       resolvedLinks.map((link2) => /* @__PURE__ */ jsx106(Link13, { href: link2.href, children: link2.label }, link2.href)),
-      localeSwitcher ? /* @__PURE__ */ jsx106(Box37, { sx: styles_default40.localeSwitch, children: localeSwitcher }) : null
+      localeSwitcher ? /* @__PURE__ */ jsx106(Box38, { sx: styles_default40.localeSwitch, children: localeSwitcher }) : null
     ] })
   ] });
 };
@@ -21378,8 +21675,8 @@ var footer_default = Footer;
 
 // src/components/header/index.tsx
 import * as BrandUI from "@vtex/brand-ui";
-import { Link as VtexLink, Flex as Flex34, Text as Text29, Box as Box39 } from "@vtex/brand-ui";
-import { useContext as useContext14, useEffect as useEffect30, useRef as useRef18, useState as useState32 } from "react";
+import { Link as VtexLink, Flex as Flex34, Text as Text29, Box as Box40 } from "@vtex/brand-ui";
+import { useContext as useContext14, useEffect as useEffect30, useRef as useRef19, useState as useState32 } from "react";
 import { useRouter as useRouter11 } from "next/router.js";
 
 // src/components/icons/vtex-devportal-icon.tsx
@@ -21558,7 +21855,7 @@ var grid_icon_default = GridIcon;
 
 // src/components/header/dropdown-menu.tsx
 import { useContext as useContext13 } from "react";
-import { Box as Box38 } from "@vtex/brand-ui";
+import { Box as Box39 } from "@vtex/brand-ui";
 
 // src/components/header/dropdown-menu.styles.ts
 var outerContainer = {
@@ -21624,8 +21921,8 @@ var dropdown_menu_styles_default = {
 import { jsx as jsx110 } from "react/jsx-runtime";
 var DropdownMenu = ({ sections }) => {
   const { locale, sidebarDataMaster } = useContext13(LibraryContext);
-  return /* @__PURE__ */ jsx110(Box38, { sx: dropdown_menu_styles_default.outerContainer, children: /* @__PURE__ */ jsx110(Box38, { sx: dropdown_menu_styles_default.innerContainer, "data-cy": "dropdown-menu", children: sections.map((section, id) => /* @__PURE__ */ jsx110(
-    Box38,
+  return /* @__PURE__ */ jsx110(Box39, { sx: dropdown_menu_styles_default.outerContainer, children: /* @__PURE__ */ jsx110(Box39, { sx: dropdown_menu_styles_default.innerContainer, "data-cy": "dropdown-menu", children: sections.map((section, id) => /* @__PURE__ */ jsx110(
+    Box39,
     {
       sx: {
         ...dropdown_menu_styles_default.documentationContainer,
@@ -21669,9 +21966,9 @@ var Header3 = ({
   const router = useRouter11();
   const { locale, hamburguerSections } = useContext14(LibraryContext);
   const localizedMessages = messages[locale] ?? messages.en;
-  const modalOpen = useRef18(false);
+  const modalOpen = useRef19(false);
   const [showDropdown, setShowDropdown] = useState32(false);
-  const headerElement = useRef18(null);
+  const headerElement = useRef19(null);
   const docsSections = dropdownSections ?? hamburguerSections;
   const menuSections = isEditor && editorSections.length > 0 ? [editorSections] : docsSections;
   const defaultLogo = variant === "devportal" ? /* @__PURE__ */ jsx111(vtex_devportal_icon_default, { sx: styles_default35.logoSize }) : /* @__PURE__ */ jsx111(vtex_helpcenter_icon_default, { sx: styles_default35.logoSize });
@@ -21709,7 +22006,7 @@ var Header3 = ({
       router.events?.off("routeChangeStart", hideDropdown);
     };
   }, [router.events]);
-  return /* @__PURE__ */ jsxs90(Box39, { ref: headerElement, sx: styles_default35.headerContainer, "data-docs-header": true, children: [
+  return /* @__PURE__ */ jsxs90(Box40, { ref: headerElement, sx: styles_default35.headerContainer, "data-docs-header": true, children: [
     announcement ?? /* @__PURE__ */ jsx111("div", {}),
     /* @__PURE__ */ jsxs90(HeaderBrand, { sx: styles_default35.headerBrand, children: [
       /* @__PURE__ */ jsx111(
@@ -21721,9 +22018,9 @@ var Header3 = ({
           children: logo2 ?? defaultLogo
         }
       ),
-      /* @__PURE__ */ jsxs90(Box39, { sx: styles_default35.searchRow, children: [
-        /* @__PURE__ */ jsx111(Box39, { sx: styles_default35.searchContainer, children: /* @__PURE__ */ jsx111(SearchInput, {}) }),
-        showAssistant ? /* @__PURE__ */ jsx111(Box39, { sx: styles_default35.assistantSlot, children: /* @__PURE__ */ jsx111(ask_assistant_default, { ...assistant }) }) : null
+      /* @__PURE__ */ jsxs90(Box40, { sx: styles_default35.searchRow, children: [
+        /* @__PURE__ */ jsx111(Box40, { sx: styles_default35.searchContainer, children: /* @__PURE__ */ jsx111(SearchInput, {}) }),
+        showAssistant ? /* @__PURE__ */ jsx111(Box40, { sx: styles_default35.assistantSlot, children: /* @__PURE__ */ jsx111(ask_assistant_default, { ...assistant }) }) : null
       ] }),
       /* @__PURE__ */ jsxs90(HeaderBrand.RightLinks, { sx: styles_default35.rightLinks, children: [
         /* @__PURE__ */ jsxs90(
@@ -21741,7 +22038,7 @@ var Header3 = ({
             ]
           }
         ),
-        extraRightLinks2 ? /* @__PURE__ */ jsx111(Box39, { sx: styles_default35.extraRightLinks, children: extraRightLinks2 }) : null,
+        extraRightLinks2 ? /* @__PURE__ */ jsx111(Box40, { sx: styles_default35.extraRightLinks, children: extraRightLinks2 }) : null,
         feedbackUrl ? /* @__PURE__ */ jsxs90(
           VtexLink,
           {
@@ -21759,9 +22056,9 @@ var Header3 = ({
         ) : null
       ] }),
       localeSwitcher ? /* @__PURE__ */ jsxs90(Flex34, { sx: styles_default35.headerEndActions, children: [
-        /* @__PURE__ */ jsx111(Box39, { sx: styles_default35.hamburgerMenuToggle, children: /* @__PURE__ */ jsx111(hamburger_menu_default, { parentsArray }) }),
-        /* @__PURE__ */ jsx111(Box39, { sx: styles_default35.localeSwitcherSlot, children: localeSwitcher })
-      ] }) : /* @__PURE__ */ jsx111(Box39, { sx: styles_default35.hamburgerMenuToggle, children: /* @__PURE__ */ jsx111(hamburger_menu_default, { parentsArray }) })
+        /* @__PURE__ */ jsx111(Box40, { sx: styles_default35.hamburgerMenuToggle, children: /* @__PURE__ */ jsx111(hamburger_menu_default, { parentsArray }) }),
+        /* @__PURE__ */ jsx111(Box40, { sx: styles_default35.localeSwitcherSlot, children: localeSwitcher })
+      ] }) : /* @__PURE__ */ jsx111(Box40, { sx: styles_default35.hamburgerMenuToggle, children: /* @__PURE__ */ jsx111(hamburger_menu_default, { parentsArray }) })
     ] })
   ] });
 };
@@ -21769,7 +22066,7 @@ var header_default = Header3;
 
 // src/components/announcement-bar/index.tsx
 import { useEffect as useEffect31, useState as useState33 } from "react";
-import { Box as Box40, Button as Button10, Text as Text30, Link as Link14, Icon as Icon60 } from "@vtex/brand-ui";
+import { Box as Box41, Button as Button10, Text as Text30, Link as Link14, Icon as Icon60 } from "@vtex/brand-ui";
 
 // src/components/announcement-bar/styles.ts
 var container16 = (type) => {
@@ -21885,14 +22182,14 @@ var AnnouncementBar = ({
   }, [closable, visible]);
   if (!visible)
     return null;
-  return /* @__PURE__ */ jsxs91(Box40, { sx: styles_default41.container(type), role: "status", "aria-label": "Announcement", children: [
-    /* @__PURE__ */ jsxs91(Box40, { sx: styles_default41.box, children: [
+  return /* @__PURE__ */ jsxs91(Box41, { sx: styles_default41.container(type), role: "status", "aria-label": "Announcement", children: [
+    /* @__PURE__ */ jsxs91(Box41, { sx: styles_default41.box, children: [
       tag4 && /* @__PURE__ */ jsx112(Text30, { sx: styles_default41.label(type), children: tag4 }),
       children ? /* @__PURE__ */ jsx112(Text30, { sx: styles_default41.text, children }) : null,
       label4 ? /* @__PURE__ */ jsx112(Text30, { sx: styles_default41.text, children: label4 }) : null,
       button8 && /* @__PURE__ */ jsx112(Link14, { sx: styles_default41.button(type), target, href, children: button8 })
     ] }),
-    closable && /* @__PURE__ */ jsx112(Box40, { children: /* @__PURE__ */ jsx112(
+    closable && /* @__PURE__ */ jsx112(Box41, { children: /* @__PURE__ */ jsx112(
       Button10,
       {
         "aria-label": "Close Announcement Bar",
@@ -22013,7 +22310,7 @@ var Tag = ({ sx = {}, children, color = "Default", onClick }) => {
 var tag_default = Tag;
 
 // src/components/listing-filter/index.tsx
-import { Box as Box41, Button as Button11, Checkbox, Flex as Flex35, Text as Text32 } from "@vtex/brand-ui";
+import { Box as Box42, Button as Button11, Checkbox, Flex as Flex35, Text as Text32 } from "@vtex/brand-ui";
 
 // src/components/icons/filter-icon.tsx
 import { Icon as Icon61 } from "@vtex/brand-ui";
@@ -22446,7 +22743,7 @@ var ListingFilter = ({
   const TagFilter = () => {
     if (!normalizedTagFilter)
       return null;
-    return /* @__PURE__ */ jsxs94(Box41, { sx: styles_default43.filterContainer, children: [
+    return /* @__PURE__ */ jsxs94(Box42, { sx: styles_default43.filterContainer, children: [
       /* @__PURE__ */ jsx116(Text32, { sx: styles_default43.filterTitle, children: normalizedTagFilter.name }),
       /* @__PURE__ */ jsx116(
         Flex35,
@@ -22469,11 +22766,11 @@ var ListingFilter = ({
   const CheckboxFilters = () => {
     if (checkboxGroups.length === 0)
       return null;
-    return /* @__PURE__ */ jsx116(Fragment12, { children: checkboxGroups.map((group2, groupIndex) => /* @__PURE__ */ jsxs94(Box41, { children: [
+    return /* @__PURE__ */ jsx116(Fragment12, { children: checkboxGroups.map((group2, groupIndex) => /* @__PURE__ */ jsxs94(Box42, { children: [
       groupIndex > 0 && /* @__PURE__ */ jsx116(Divider, {}),
-      /* @__PURE__ */ jsxs94(Box41, { sx: styles_default43.filterContainer, children: [
+      /* @__PURE__ */ jsxs94(Box42, { sx: styles_default43.filterContainer, children: [
         /* @__PURE__ */ jsx116(Text32, { sx: styles_default43.filterTitle, children: group2.name }),
-        /* @__PURE__ */ jsx116(Box41, { sx: styles_default43.checkBoxContainer, children: group2.options.map((option) => /* @__PURE__ */ jsx116(
+        /* @__PURE__ */ jsx116(Box42, { sx: styles_default43.checkBoxContainer, children: group2.options.map((option) => /* @__PURE__ */ jsx116(
           Checkbox,
           {
             label: option.name,
@@ -22485,11 +22782,11 @@ var ListingFilter = ({
       ] })
     ] }, group2.name)) });
   };
-  const Divider = () => /* @__PURE__ */ jsx116(Box41, { sx: styles_default43.sectionDivider, children: /* @__PURE__ */ jsx116("hr", {}) });
+  const Divider = () => /* @__PURE__ */ jsx116(Box42, { sx: styles_default43.sectionDivider, children: /* @__PURE__ */ jsx116("hr", {}) });
   const FilterModal = () => /* @__PURE__ */ jsxs94(Fragment12, { children: [
-    /* @__PURE__ */ jsx116(Box41, { sx: styles_default43.blanket, onClick: () => setIsModalOpen(false) }),
-    /* @__PURE__ */ jsxs94(Box41, { sx: styles_default43.container, children: [
-      /* @__PURE__ */ jsxs94(Box41, { sx: styles_default43.topContainer, children: [
+    /* @__PURE__ */ jsx116(Box42, { sx: styles_default43.blanket, onClick: () => setIsModalOpen(false) }),
+    /* @__PURE__ */ jsxs94(Box42, { sx: styles_default43.container, children: [
+      /* @__PURE__ */ jsxs94(Box42, { sx: styles_default43.topContainer, children: [
         /* @__PURE__ */ jsx116(Text32, { sx: styles_default43.modalTitle, children: resolvedLabels.modalTitle }),
         /* @__PURE__ */ jsx116(
           Flex35,
@@ -22500,7 +22797,7 @@ var ListingFilter = ({
           }
         )
       ] }),
-      /* @__PURE__ */ jsxs94(Box41, { sx: styles_default43.innerContainer, children: [
+      /* @__PURE__ */ jsxs94(Box42, { sx: styles_default43.innerContainer, children: [
         /* @__PURE__ */ jsx116(TagFilter, {}),
         normalizedTagFilter && checkboxGroups.length > 0 && /* @__PURE__ */ jsx116(Divider, {}),
         /* @__PURE__ */ jsx116(CheckboxFilters, {})
@@ -22536,8 +22833,8 @@ var ListingFilter = ({
 var listing_filter_default = ListingFilter;
 
 // src/components/chip-filter/index.tsx
-import { Box as Box42, Flex as Flex36, Button as Button12, Text as Text33 } from "@vtex/brand-ui";
-import { useEffect as useEffect32, useRef as useRef19, useState as useState35 } from "react";
+import { Box as Box43, Flex as Flex36, Button as Button12, Text as Text33 } from "@vtex/brand-ui";
+import { useEffect as useEffect32, useRef as useRef20, useState as useState35 } from "react";
 
 // src/components/chip-filter/styles.ts
 var chipButtonWrapper = {
@@ -22698,7 +22995,7 @@ var ChipFilter = ({
   allResultsCount,
   hideEmptyCategories = false
 }) => {
-  const containerRef = useRef19(null);
+  const containerRef = useRef20(null);
   const [shouldDisplayArrows, setShouldDisplayArrows] = useState35({ left: false, right: false });
   const totalCount = allResultsCount ?? categories.reduce(
     (sum, category) => sum + getCategoryAmount(category.type),
@@ -22736,7 +23033,7 @@ var ChipFilter = ({
     return () => window.removeEventListener("resize", handleContainerScroll);
   }, [categories, filters, hideEmptyCategories, totalCount]);
   return /* @__PURE__ */ jsxs95(Flex36, { sx: styles_default44.chipButtonWrapper, children: [
-    shouldDisplayArrows.left && /* @__PURE__ */ jsxs95(Box42, { sx: styles_default44.leftArrowContainer, children: [
+    shouldDisplayArrows.left && /* @__PURE__ */ jsxs95(Box43, { sx: styles_default44.leftArrowContainer, children: [
       /* @__PURE__ */ jsx117(
         Button12,
         {
@@ -22747,15 +23044,15 @@ var ChipFilter = ({
           children: `\u2039`
         }
       ),
-      /* @__PURE__ */ jsx117(Box42, { sx: styles_default44.leftArrowBlur })
+      /* @__PURE__ */ jsx117(Box43, { sx: styles_default44.leftArrowBlur })
     ] }),
     /* @__PURE__ */ jsx117(
-      Box42,
+      Box43,
       {
         sx: styles_default44.chipsContainer,
         ref: containerRef,
         onScroll: handleContainerScroll,
-        children: /* @__PURE__ */ jsxs95(Box42, { sx: styles_default44.optionsContainer, children: [
+        children: /* @__PURE__ */ jsxs95(Box43, { sx: styles_default44.optionsContainer, children: [
           /* @__PURE__ */ jsx117(
             FilterChip,
             {
@@ -22783,7 +23080,7 @@ var ChipFilter = ({
         ] })
       }
     ),
-    shouldDisplayArrows.right && /* @__PURE__ */ jsxs95(Box42, { sx: styles_default44.rightArrowContainer, children: [
+    shouldDisplayArrows.right && /* @__PURE__ */ jsxs95(Box43, { sx: styles_default44.rightArrowContainer, children: [
       /* @__PURE__ */ jsx117(
         Button12,
         {
@@ -22794,7 +23091,7 @@ var ChipFilter = ({
           children: `\u203A`
         }
       ),
-      /* @__PURE__ */ jsx117(Box42, { sx: styles_default44.rightArrowBlur })
+      /* @__PURE__ */ jsx117(Box43, { sx: styles_default44.rightArrowBlur })
     ] })
   ] });
 };
@@ -22814,7 +23111,7 @@ function FilterChip({
 var chip_filter_default = ChipFilter;
 
 // src/components/author/index.tsx
-import { Box as Box43, Flex as Flex37, Text as Text34 } from "@vtex/brand-ui";
+import { Box as Box44, Flex as Flex37, Text as Text34 } from "@vtex/brand-ui";
 
 // src/components/author/styles.ts
 var container18 = {
@@ -22849,7 +23146,7 @@ var styles_default45 = {
 import { jsx as jsx118, jsxs as jsxs96 } from "react/jsx-runtime";
 var Author = ({ contributor }) => {
   return /* @__PURE__ */ jsxs96(Flex37, { sx: styles_default45.container, children: [
-    /* @__PURE__ */ jsx118(Box43, { sx: styles_default45.photo, children: /* @__PURE__ */ jsx118(
+    /* @__PURE__ */ jsx118(Box44, { sx: styles_default45.photo, children: /* @__PURE__ */ jsx118(
       "img",
       {
         src: contributor?.avatar,
@@ -22947,7 +23244,7 @@ var date_text_default = DateText;
 // src/components/article-pagination/index.tsx
 import Link15 from "next/link.js";
 import { useRouter as useRouter12 } from "next/router.js";
-import { Flex as Flex39, Text as Text37, Box as Box44 } from "@vtex/brand-ui";
+import { Flex as Flex39, Text as Text37, Box as Box45 } from "@vtex/brand-ui";
 
 // src/utils/format-article-date.ts
 var DATE_LOCALES = {
@@ -23095,30 +23392,30 @@ var ArticlePagination = ({
   const showNext = !hidePaginationNext && Boolean(pagination?.nextDoc?.slug) && Boolean(pagination?.nextDoc?.name);
   const previousExtra = previousChildren ?? pagination?.previousDoc?.children ?? formatArticleDateValue(pagination?.previousDoc?.createdAt, locale, "medium");
   const nextExtra = nextChildren ?? pagination?.nextDoc?.children ?? formatArticleDateValue(pagination?.nextDoc?.createdAt, locale, "medium");
-  return /* @__PURE__ */ jsx121(Box44, { as: "nav", sx: styles_default48.mainContainer, children: /* @__PURE__ */ jsxs98(Flex39, { sx: styles_default48.flexContainer, children: [
-    showPrevious && /* @__PURE__ */ jsx121(Box44, { sx: styles_default48.paginationLinkPrevious, children: /* @__PURE__ */ jsx121(
+  return /* @__PURE__ */ jsx121(Box45, { as: "nav", sx: styles_default48.mainContainer, children: /* @__PURE__ */ jsxs98(Flex39, { sx: styles_default48.flexContainer, children: [
+    showPrevious && /* @__PURE__ */ jsx121(Box45, { sx: styles_default48.paginationLinkPrevious, children: /* @__PURE__ */ jsx121(
       Link15,
       {
         style: styles_default48.linkReset,
         href: pagination.previousDoc.slug,
         locale,
-        children: /* @__PURE__ */ jsxs98(Box44, { sx: styles_default48.paginationBox, children: [
+        children: /* @__PURE__ */ jsxs98(Box45, { sx: styles_default48.paginationBox, children: [
           /* @__PURE__ */ jsx121(Text37, { sx: styles_default48.subTitle, children: `\xAB ${previousLabel}` }),
           /* @__PURE__ */ jsx121(Text37, { sx: styles_default48.paginationText, children: pagination.previousDoc.name }),
-          previousExtra != null && previousExtra !== false && /* @__PURE__ */ jsx121(Box44, { sx: styles_default48.paginationChildren, children: previousExtra })
+          previousExtra != null && previousExtra !== false && /* @__PURE__ */ jsx121(Box45, { sx: styles_default48.paginationChildren, children: previousExtra })
         ] })
       }
     ) }),
-    showNext && /* @__PURE__ */ jsx121(Box44, { sx: styles_default48.paginationLinkNext, children: /* @__PURE__ */ jsx121(
+    showNext && /* @__PURE__ */ jsx121(Box45, { sx: styles_default48.paginationLinkNext, children: /* @__PURE__ */ jsx121(
       Link15,
       {
         style: styles_default48.linkReset,
         href: pagination.nextDoc.slug,
         locale,
-        children: /* @__PURE__ */ jsxs98(Box44, { sx: styles_default48.paginationBoxNext, children: [
+        children: /* @__PURE__ */ jsxs98(Box45, { sx: styles_default48.paginationBoxNext, children: [
           /* @__PURE__ */ jsx121(Text37, { sx: styles_default48.subTitle, children: `${nextLabel} \xBB` }),
           /* @__PURE__ */ jsx121(Text37, { sx: styles_default48.paginationText, children: pagination.nextDoc.name }),
-          nextExtra != null && nextExtra !== false && /* @__PURE__ */ jsx121(Box44, { sx: styles_default48.paginationChildren, children: nextExtra })
+          nextExtra != null && nextExtra !== false && /* @__PURE__ */ jsx121(Box45, { sx: styles_default48.paginationChildren, children: nextExtra })
         ] })
       }
     ) })
@@ -23129,11 +23426,11 @@ var article_pagination_default = ArticlePagination;
 // src/components/article-render/index.tsx
 import { useEffect as useEffect34 } from "react";
 import Head from "next/head.js";
-import { Box as Box46, Flex as Flex40, Text as Text39 } from "@vtex/brand-ui";
+import { Box as Box47, Flex as Flex40, Text as Text39 } from "@vtex/brand-ui";
 
 // src/components/see-also-section/index.tsx
 import { useContext as useContext15 } from "react";
-import { Box as Box45, Text as Text38 } from "@vtex/brand-ui";
+import { Box as Box46, Text as Text38 } from "@vtex/brand-ui";
 
 // src/components/see-also-section/functions.ts
 var ACRONYMS = {
@@ -23288,7 +23585,7 @@ var SeeAlsoSection = ({ docs }) => {
     })
   ) ?? [];
   return /* @__PURE__ */ jsxs99(
-    Box45,
+    Box46,
     {
       as: "nav",
       sx: styles_default49.seeAlsoContainer,
@@ -23296,7 +23593,7 @@ var SeeAlsoSection = ({ docs }) => {
       "aria-labelledby": "see-also-heading",
       children: [
         /* @__PURE__ */ jsx122(Text38, { as: "h2", id: "see-also-heading", sx: styles_default49.sectionTitle, children: title9 }),
-        /* @__PURE__ */ jsx122(Box45, { sx: styles_default49.cards, children: cards2.map((card2) => /* @__PURE__ */ jsx122(
+        /* @__PURE__ */ jsx122(Box46, { sx: styles_default49.cards, children: cards2.map((card2) => /* @__PURE__ */ jsx122(
           documentation_card_default,
           {
             containerType: "see-also",
@@ -23776,21 +24073,21 @@ var ArticleRender = ({
       )
     ] }) }),
     /* @__PURE__ */ jsxs100(Flex40, { sx: styles_default50.innerContainer, children: [
-      /* @__PURE__ */ jsxs100(Box46, { sx: styles_default50.articleBox, "data-article-box": true, children: [
-        /* @__PURE__ */ jsxs100(Box46, { sx: styles_default50.contentContainer, children: [
+      /* @__PURE__ */ jsxs100(Box47, { sx: styles_default50.articleBox, "data-article-box": true, children: [
+        /* @__PURE__ */ jsxs100(Box47, { sx: styles_default50.contentContainer, children: [
           /* @__PURE__ */ jsx123(Flex40, { sx: styles_default50.breadcrumbRow, children: /* @__PURE__ */ jsx123(breadcrumb_default, { breadcrumbList }) }),
-          /* @__PURE__ */ jsxs100(Box46, { sx: styles_default50.textContainer, children: [
+          /* @__PURE__ */ jsxs100(Box47, { sx: styles_default50.textContainer, children: [
             /* @__PURE__ */ jsxs100("article", { children: [
               /* @__PURE__ */ jsx123("header", { children: /* @__PURE__ */ jsxs100(Fragment13, { children: [
                 /* @__PURE__ */ jsx123(Text39, { as: "h1", sx: styles_default50.documentationTitle, className: "title", children: /* @__PURE__ */ jsx123(copy_heading_link_default, { children: serialized.frontmatter?.title }) }),
-                children && /* @__PURE__ */ jsx123(Box46, { sx: styles_default50.articleHeaderExtra, children }),
+                children && /* @__PURE__ */ jsx123(Box47, { sx: styles_default50.articleHeaderExtra, children }),
                 showAuthor && contributors[0]?.avatar && /* @__PURE__ */ jsx123(author_default, { contributor: contributors[0] }),
                 serialized.frontmatter?.excerpt && /* @__PURE__ */ jsx123(Text39, { as: "p", sx: styles_default50.documentationExcerpt, children: serialized.frontmatter?.excerpt })
               ] }) }),
               /* @__PURE__ */ jsxs100(Flex40, { sx: styles_default50.articleMeta, children: [
                 (showCreatedAt && createdAtLabel || showReadingTime && readingTime2) && /* @__PURE__ */ jsxs100(Flex40, { sx: styles_default50.articleMetaInfo, children: [
                   showCreatedAt && createdAtLabel && /* @__PURE__ */ jsx123(Text39, { sx: styles_default50.articleCreatedAt, children: createdAtLabel }),
-                  showReadingTime && readingTime2 && /* @__PURE__ */ jsx123(Box46, { sx: styles_default50.articleReadingTime, children: /* @__PURE__ */ jsx123(time_to_read_default, { minutes: readingTime2 }) })
+                  showReadingTime && readingTime2 && /* @__PURE__ */ jsx123(Box47, { sx: styles_default50.articleReadingTime, children: /* @__PURE__ */ jsx123(time_to_read_default, { minutes: readingTime2 }) })
                 ] }),
                 /* @__PURE__ */ jsxs100(Flex40, { sx: styles_default50.articleActions, children: [
                   /* @__PURE__ */ jsx123(feedback_modal_default, { pageUrl }),
@@ -23814,8 +24111,8 @@ var ArticleRender = ({
             ] })
           ] })
         ] }),
-        showMobileBottomSection && /* @__PURE__ */ jsxs100(Box46, { sx: styles_default50.bottomContributorsContainer, children: [
-          showContributors && /* @__PURE__ */ jsx123(Box46, { sx: styles_default50.bottomContributors, children: /* @__PURE__ */ jsx123(Contributors_default, { contributors }) }),
+        showMobileBottomSection && /* @__PURE__ */ jsxs100(Box47, { sx: styles_default50.bottomContributorsContainer, children: [
+          showContributors && /* @__PURE__ */ jsx123(Box47, { sx: styles_default50.bottomContributors, children: /* @__PURE__ */ jsx123(Contributors_default, { contributors }) }),
           showFeedbackSection && /* @__PURE__ */ jsx123(
             feedback_section_default,
             {
@@ -23837,9 +24134,9 @@ var ArticleRender = ({
           }
         )
       ] }),
-      showSidebar && isDesktop !== false && /* @__PURE__ */ jsx123(Box46, { sx: styles_default50.rightContainer, "data-article-aside": true, children: showDesktopSidebar && /* @__PURE__ */ jsxs100(Fragment13, { children: [
+      showSidebar && isDesktop !== false && /* @__PURE__ */ jsx123(Box47, { sx: styles_default50.rightContainer, "data-article-aside": true, children: showDesktopSidebar && /* @__PURE__ */ jsxs100(Fragment13, { children: [
         showContributors && /* @__PURE__ */ jsx123(Contributors_default, { contributors }),
-        shouldShowTableOfContents && /* @__PURE__ */ jsx123(TableOfContents_default, { headingList: tocHeadings, children: (showFeedbackSection || showSuggestEdits) && /* @__PURE__ */ jsxs100(Box46, { sx: styles_default50.divider, children: [
+        shouldShowTableOfContents && /* @__PURE__ */ jsx123(TableOfContents_default, { headingList: tocHeadings, children: (showFeedbackSection || showSuggestEdits) && /* @__PURE__ */ jsxs100(Box47, { sx: styles_default50.divider, children: [
           showFeedbackSection && /* @__PURE__ */ jsx123(
             feedback_section_default,
             {
@@ -23866,7 +24163,7 @@ var article_render_default = ArticleRender;
 
 // src/components/troubleshooting-card/index.tsx
 import Link16 from "next/link.js";
-import { Box as Box47, Text as Text40 } from "@vtex/brand-ui";
+import { Box as Box48, Text as Text40 } from "@vtex/brand-ui";
 
 // src/components/troubleshooting-card/styles.ts
 var devportalContainer = {
@@ -24015,7 +24312,7 @@ var TroubleshootingCard = ({
   const hasStructuredTags = resolvedSymptomFilters.length > 0 || resolvedDomainFilters.length > 0;
   if (variant === "helpcenter") {
     return /* @__PURE__ */ jsx124(
-      Box47,
+      Box48,
       {
         as: Link16,
         href: cardHref,
@@ -24026,10 +24323,10 @@ var TroubleshootingCard = ({
           minWidth: 0,
           textDecoration: "none"
         },
-        children: /* @__PURE__ */ jsxs101(Box47, { sx: styles_default51.helpcenterContainer, children: [
+        children: /* @__PURE__ */ jsxs101(Box48, { sx: styles_default51.helpcenterContainer, children: [
           /* @__PURE__ */ jsx124(Text40, { sx: styles_default51.title, className: "title", children: title9 }),
-          hasStructuredTags ? /* @__PURE__ */ jsxs101(Box47, { sx: styles_default51.groupsContainer, children: [
-            resolvedSymptomFilters.length > 0 && /* @__PURE__ */ jsx124(Box47, { sx: styles_default51.groupContainer, children: /* @__PURE__ */ jsx124(Box47, { sx: styles_default51.helpcenterTagsContainer, children: resolvedSymptomFilters.map((filter) => /* @__PURE__ */ jsx124(
+          hasStructuredTags ? /* @__PURE__ */ jsxs101(Box48, { sx: styles_default51.groupsContainer, children: [
+            resolvedSymptomFilters.length > 0 && /* @__PURE__ */ jsx124(Box48, { sx: styles_default51.groupContainer, children: /* @__PURE__ */ jsx124(Box48, { sx: styles_default51.helpcenterTagsContainer, children: resolvedSymptomFilters.map((filter) => /* @__PURE__ */ jsx124(
               tag_default,
               {
                 sx: styles_default51.tag,
@@ -24038,18 +24335,18 @@ var TroubleshootingCard = ({
               },
               `symptom-${filter}`
             )) }) }),
-            resolvedDomainFilters.length > 0 && /* @__PURE__ */ jsx124(Box47, { sx: styles_default51.groupContainer, children: /* @__PURE__ */ jsx124(Box47, { sx: styles_default51.helpcenterTagsContainer, children: resolvedDomainFilters.map((filter) => /* @__PURE__ */ jsx124(tag_default, { sx: styles_default51.tag, color: "Gray", children: filter }, `domain-${filter}`)) }) })
+            resolvedDomainFilters.length > 0 && /* @__PURE__ */ jsx124(Box48, { sx: styles_default51.groupContainer, children: /* @__PURE__ */ jsx124(Box48, { sx: styles_default51.helpcenterTagsContainer, children: resolvedDomainFilters.map((filter) => /* @__PURE__ */ jsx124(tag_default, { sx: styles_default51.tag, color: "Gray", children: filter }, `domain-${filter}`)) }) })
           ] }) : null
         ] })
       }
     );
   }
-  return /* @__PURE__ */ jsx124(Box47, { as: Link16, href: cardHref, sx: styles_default51.devportalContainer, children: /* @__PURE__ */ jsxs101(Box47, { children: [
+  return /* @__PURE__ */ jsx124(Box48, { as: Link16, href: cardHref, sx: styles_default51.devportalContainer, children: /* @__PURE__ */ jsxs101(Box48, { children: [
     /* @__PURE__ */ jsx124(Text40, { sx: styles_default51.title, className: "title", children: title9 }),
     description6 ? /* @__PURE__ */ jsx124(Text40, { sx: styles_default51.description, className: "description", children: description6 }) : null,
-    /* @__PURE__ */ jsxs101(Box47, { sx: styles_default51.tagsContainer, children: [
-      resolvedSymptomFilters.length > 0 && /* @__PURE__ */ jsx124(Box47, { sx: styles_default51.tagGroup, children: resolvedSymptomFilters.map((filter) => /* @__PURE__ */ jsx124(tag_default, { sx: styles_default51.tag, color: "Blue", children: filter }, `symptom-${filter}`)) }),
-      resolvedDomainFilters.length > 0 && /* @__PURE__ */ jsx124(Box47, { sx: styles_default51.tagGroup, children: resolvedDomainFilters.map((filter) => /* @__PURE__ */ jsx124(tag_default, { sx: styles_default51.tag, color: "Gray", children: filter }, `domain-${filter}`)) }),
+    /* @__PURE__ */ jsxs101(Box48, { sx: styles_default51.tagsContainer, children: [
+      resolvedSymptomFilters.length > 0 && /* @__PURE__ */ jsx124(Box48, { sx: styles_default51.tagGroup, children: resolvedSymptomFilters.map((filter) => /* @__PURE__ */ jsx124(tag_default, { sx: styles_default51.tag, color: "Blue", children: filter }, `symptom-${filter}`)) }),
+      resolvedDomainFilters.length > 0 && /* @__PURE__ */ jsx124(Box48, { sx: styles_default51.tagGroup, children: resolvedDomainFilters.map((filter) => /* @__PURE__ */ jsx124(tag_default, { sx: styles_default51.tag, color: "Gray", children: filter }, `domain-${filter}`)) }),
       !hasStructuredTags && fallbackTags.map((moduleTag) => /* @__PURE__ */ jsx124(tag_default, { sx: styles_default51.tag, color: "Gray", children: moduleTag }, `tags-${moduleTag}`))
     ] })
   ] }) });
