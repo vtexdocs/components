@@ -20074,6 +20074,9 @@ var streamAssistant = async (url, signal, onEvent) => {
   if (!response.ok || !response.body) {
     throw new Error(`Assistant request failed (${response.status})`);
   }
+  const requestId = response.headers.get("x-request-id")?.trim();
+  if (requestId)
+    onEvent({ type: "RequestId", content: requestId });
   const reader = response.body.getReader();
   const decoder = new TextDecoder();
   let buffer = "";
@@ -20163,7 +20166,8 @@ var AskAssistant = ({
   examples: examples2 = DEFAULT_ASK_ASSISTANT_EXAMPLES,
   initialHistory = [],
   onAsk,
-  onFeedback
+  onFeedback,
+  feedbackUrl
 }) => {
   const { locale, setSidebarSectionHidden } = useContext12(LibraryContext);
   const sidebarHiddenBeforeOpen = useRef17(null);
@@ -20176,6 +20180,7 @@ var AskAssistant = ({
   const pendingToolsRef = useRef17([]);
   const conversationIdRef = useRef17(null);
   const chatRef = useRef17(initialMessages);
+  const feedbackAttemptRef = useRef17({});
   const [mounted, setMounted] = useState29(false);
   const [uncontrolledOpen, setUncontrolledOpen] = useState29(defaultOpen);
   const [expanded, setExpanded] = useState29(false);
@@ -20292,6 +20297,10 @@ var AskAssistant = ({
         });
       };
       const handleEvent = (event) => {
+        if (event.type === "RequestId" && event.content) {
+          patchAssistant(assistantId, { requestId: event.content });
+          return;
+        }
         if (isInternalEvent(event.type))
           return;
         if (event.type === "ToolCall" && event.name) {
@@ -20456,10 +20465,44 @@ var AskAssistant = ({
     window.setTimeout(() => setCopiedId(null), 1600);
   };
   const vote = (message, liked) => {
+    if (feedback[message.id] === liked)
+      return;
+    const previous = feedback[message.id];
+    const attempt = (feedbackAttemptRef.current[message.id] ?? 0) + 1;
+    feedbackAttemptRef.current[message.id] = attempt;
     setFeedback((current) => ({ ...current, [message.id]: liked }));
     const messageIndex = chat.findIndex((item2) => item2.id === message.id);
     const query = chat.slice(0, messageIndex).reverse().find((item2) => item2.role === "user")?.content ?? "";
-    onFeedback?.({ query, answer: stripAnswerMetadata(message.content), liked });
+    onFeedback?.({
+      query,
+      answer: stripAnswerMetadata(message.content),
+      liked,
+      requestId: message.requestId
+    });
+    if (!feedbackUrl || !message.requestId)
+      return;
+    void fetch(feedbackUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        requestId: message.requestId,
+        feedback: liked ? "positive" : "negative"
+      })
+    }).then((response) => {
+      if (!response.ok)
+        throw new Error("Feedback request failed");
+    }).catch(() => {
+      if (feedbackAttemptRef.current[message.id] !== attempt)
+        return;
+      setFeedback((current) => {
+        const next = { ...current };
+        if (previous === void 0)
+          delete next[message.id];
+        else
+          next[message.id] = previous;
+        return next;
+      });
+    });
   };
   useEffect28(() => {
     ensureSplitViewStyles();
