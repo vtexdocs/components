@@ -15037,6 +15037,9 @@ var FeedbackSection = ({
     if (feedback !== void 0)
       return;
     setFeedback(liked);
+    if (collectDetailedFeedback) {
+      setPanelStage("open");
+    }
     try {
       if (sendFeedback) {
         await sendFeedback(liked);
@@ -15045,10 +15048,8 @@ var FeedbackSection = ({
       }
     } catch (e) {
       setFeedback(void 0);
+      setPanelStage("closed");
       return;
-    }
-    if (collectDetailedFeedback) {
-      setPanelStage("open");
     }
   };
   const handleSkip = () => {

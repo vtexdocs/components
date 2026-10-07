@@ -148,6 +148,10 @@ const FeedbackSection = ({
   const handleSend = async (liked: boolean) => {
     if (feedback !== undefined) return
     setFeedback(liked)
+    if (collectDetailedFeedback) {
+      setPanelStage('open')
+    }
+
     try {
       if (sendFeedback) {
         await sendFeedback(liked)
@@ -156,11 +160,8 @@ const FeedbackSection = ({
       }
     } catch (e) {
       setFeedback(undefined)
+      setPanelStage('closed')
       return
-    }
-
-    if (collectDetailedFeedback) {
-      setPanelStage('open')
     }
   }
 
