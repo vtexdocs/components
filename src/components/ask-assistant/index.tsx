@@ -126,6 +126,7 @@ const AskAssistant = ({
   initialHistory = [],
   onAsk,
   onFeedback,
+  feedbackUrl,
 }: AskAssistantProps) => {
   const { locale, setSidebarSectionHidden } = useContext(LibraryContext)
   const sidebarHiddenBeforeOpen = useRef<boolean | null>(null)
@@ -138,6 +139,7 @@ const AskAssistant = ({
   const pendingToolsRef = useRef<{ name: string; stepId: string }[]>([])
   const conversationIdRef = useRef<string | null>(null)
   const chatRef = useRef<ChatMessage[]>(initialMessages)
+  const feedbackAttemptRef = useRef<Record<string, number>>({})
 
   const [mounted, setMounted] = useState(false)
   const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen)
@@ -291,6 +293,11 @@ const AskAssistant = ({
       }
 
       const handleEvent = (event: AssistantStreamEvent) => {
+        if (event.type === 'RequestId' && event.content) {
+          patchAssistant(assistantId, { requestId: event.content })
+          return
+        }
+
         if (isInternalEvent(event.type)) return
 
         if (event.type === 'ToolCall' && event.name) {
@@ -478,14 +485,48 @@ const AskAssistant = ({
   }
 
   const vote = (message: ChatMessage, liked: boolean) => {
+    if (feedback[message.id] === liked) return
+
+    const previous = feedback[message.id]
+    const attempt = (feedbackAttemptRef.current[message.id] ?? 0) + 1
+    feedbackAttemptRef.current[message.id] = attempt
     setFeedback((current) => ({ ...current, [message.id]: liked }))
+
     const messageIndex = chat.findIndex((item) => item.id === message.id)
     const query =
       chat
         .slice(0, messageIndex)
         .reverse()
         .find((item) => item.role === 'user')?.content ?? ''
-    onFeedback?.({ query, answer: stripAnswerMetadata(message.content), liked })
+    onFeedback?.({
+      query,
+      answer: stripAnswerMetadata(message.content),
+      liked,
+      requestId: message.requestId,
+    })
+
+    if (!feedbackUrl || !message.requestId) return
+
+    void fetch(feedbackUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        requestId: message.requestId,
+        feedback: liked ? 'positive' : 'negative',
+      }),
+    })
+      .then((response) => {
+        if (!response.ok) throw new Error('Feedback request failed')
+      })
+      .catch(() => {
+        if (feedbackAttemptRef.current[message.id] !== attempt) return
+        setFeedback((current) => {
+          const next = { ...current }
+          if (previous === undefined) delete next[message.id]
+          else next[message.id] = previous
+          return next
+        })
+      })
   }
 
   useEffect(() => {
