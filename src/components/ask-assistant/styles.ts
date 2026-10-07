@@ -9,6 +9,7 @@ const focusRing: SxStyleProp = {
 }
 
 const trigger: SxStyleProp = {
+  position: 'relative',
   display: ['none', 'none', 'none', 'inline-flex'],
   alignItems: 'center',
   gap: '8px',
@@ -29,6 +30,16 @@ const trigger: SxStyleProp = {
     backgroundColor: '#F8F7FC',
     borderColor: '#D8D8E3',
     color: '#000711',
+    '& [data-ask-assistant-sparkle] path': {
+      stroke: '#000711',
+    },
+    '& [data-ask-assistant-label]': {
+      color: '#000711',
+    },
+    '& [data-ask-assistant-label-sheen]': {
+      animation: 'none',
+      opacity: 0,
+    },
   },
   ...focusRing,
 }
@@ -75,8 +86,91 @@ const floatingTrigger = (hidden = false): SxStyleProp => ({
   ...focusRing,
 })
 
+/**
+ * 1px ring over the gray border. A soft conic highlight rotates inside it,
+ * so only a short stretch of the outline glows.
+ */
+const triggerBeam: SxStyleProp = {
+  position: 'absolute',
+  top: '-1px',
+  left: '-1px',
+  width: 'calc(100% + 2px)',
+  height: 'calc(100% + 2px)',
+  boxSizing: 'border-box',
+  borderRadius: 'inherit',
+  padding: '1px',
+  pointerEvents: 'none',
+  overflow: 'hidden',
+  display: 'block',
+  WebkitMask:
+    'linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)',
+  WebkitMaskComposite: 'xor',
+  mask: 'linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)',
+  maskComposite: 'exclude',
+  filter: 'drop-shadow(0 0 1.5px rgba(227, 28, 88, 0.45))',
+  '@media (prefers-reduced-motion: reduce)': {
+    display: 'none',
+  },
+}
+
+const triggerBeamLight: SxStyleProp = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  width: '480px',
+  height: '480px',
+  background:
+    'conic-gradient(from 0deg, transparent 0deg 300deg, rgba(227, 28, 88, 0) 308deg, rgba(227, 28, 88, 0.2) 326deg, rgba(227, 28, 88, 0.65) 342deg, #E31C58 352deg, #FFB7CF 358deg, transparent 360deg)',
+  transform: 'translate(-50%, -50%) rotate(292deg)',
+  animation: 'askAssistantBeam 3.5s linear infinite',
+  '@keyframes askAssistantBeam': {
+    from: { transform: 'translate(-50%, -50%) rotate(292deg)' },
+    to: { transform: 'translate(-50%, -50%) rotate(652deg)' },
+  },
+}
+
 const triggerIcon: SxStyleProp = {
   flexShrink: 0,
+}
+
+/** Pink band painted over the solid label. It only crosses while the border light is on the top edge. */
+const triggerLabelSheen: SxStyleProp = {
+  position: 'absolute',
+  inset: 0,
+  color: 'transparent',
+  pointerEvents: 'none',
+  backgroundImage:
+    'linear-gradient(105deg, transparent 0%, transparent 42%, #C81E51 48%, #E31C58 50%, #C81E51 52%, transparent 58%, transparent 100%)',
+  backgroundSize: '200% 100%',
+  backgroundRepeat: 'no-repeat',
+  backgroundClip: 'text',
+  WebkitBackgroundClip: 'text',
+  WebkitTextFillColor: 'transparent',
+  animation: 'askAssistantSheen 3.5s linear infinite',
+  '@keyframes askAssistantSheen': {
+    '0%': { backgroundPosition: '100% 0', opacity: 1 },
+    '2%': { backgroundPosition: '75% 0', opacity: 1 },
+    '7%': { backgroundPosition: '50% 0', opacity: 1 },
+    '19%': { backgroundPosition: '25% 0', opacity: 1 },
+    '31%': { backgroundPosition: '0% 0', opacity: 1 },
+    '36%, 100%': { backgroundPosition: '-20% 0', opacity: 0 },
+  },
+  '@media (prefers-reduced-motion: reduce)': {
+    display: 'none',
+  },
+}
+
+/** Solid slate word. The pink pass sits on top and never replaces the letters. */
+const triggerLabel: SxStyleProp = {
+  position: 'relative',
+  color: '#4A596B',
+}
+
+/** Static brand pink. Hover turns it dark with the label. */
+const triggerSparkle: SxStyleProp = {
+  display: 'inline-flex',
+  flexShrink: 0,
+  color: '#E31C58',
 }
 
 const triggerShortcut: SxStyleProp = {
@@ -1135,7 +1229,12 @@ const errorText: SxStyleProp = {
 
 export default {
   trigger,
+  triggerBeam,
+  triggerBeamLight,
   triggerIcon,
+  triggerSparkle,
+  triggerLabel,
+  triggerLabelSheen,
   triggerShortcut,
   triggerKbd,
   floatingTrigger,

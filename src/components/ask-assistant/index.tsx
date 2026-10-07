@@ -69,6 +69,12 @@ const isMacShortcut = () =>
   typeof navigator !== 'undefined' &&
   /Mac|iPhone|iPad|iPod/.test(navigator.platform)
 
+const TriggerBeam = () => (
+  <Box as="span" aria-hidden="true" sx={styles.triggerBeam}>
+    <Box as="span" sx={styles.triggerBeamLight} />
+  </Box>
+)
+
 const toolStepLabel = (name: string, labels: Record<string, string>) => {
   if (name === 'search_documentation') return labels.stepSearchDocs
   if (name === 'search_endpoints') return labels.stepSearchEndpoints
@@ -978,8 +984,21 @@ const AskAssistant = ({
           aria-expanded={isOpen}
           onClick={() => setOpen(!isOpen)}
         >
-          <SparkleIcon size={14} sx={styles.triggerIcon} />
-          <Text>{labels.button}</Text>
+          <TriggerBeam />
+          <Box as="span" data-ask-assistant-sparkle sx={styles.triggerSparkle}>
+            <SparkleIcon size={14} sx={styles.triggerIcon} />
+          </Box>
+          <Box as="span" data-ask-assistant-label sx={styles.triggerLabel}>
+            {labels.button}
+            <Box
+              as="span"
+              aria-hidden="true"
+              data-ask-assistant-label-sheen
+              sx={styles.triggerLabelSheen}
+            >
+              {labels.button}
+            </Box>
+          </Box>
           <Flex as="span" sx={styles.triggerShortcut} aria-hidden="true">
             <Box as="kbd" sx={styles.triggerKbd}>
               {mounted && isMacShortcut() ? '⌘' : 'Ctrl'}
@@ -1006,6 +1025,7 @@ const AskAssistant = ({
               tabIndex={footerInView ? -1 : undefined}
               onClick={() => setOpen(true)}
             >
+              <TriggerBeam />
               <SparkleIcon size={18} sx={{ width: 18, height: 18, flexShrink: 0 }} />
             </Box>,
             document.body
