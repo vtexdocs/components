@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [7.0.16](https://github.com/vtexdocs/components/compare/v7.0.15...v7.0.16) (2026-10-07)
+
+
+### Features
+
+* ask assistant feedback ([a6eee03](https://github.com/vtexdocs/components/commit/a6eee03e5d8064b1c5e34179f360741e634c4d25))
+
 ### [7.0.15](https://github.com/vtexdocs/components/compare/v7.0.14...v7.0.15) (2026-10-07)
 
 
