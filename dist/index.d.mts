@@ -257,6 +257,8 @@ type ChatMessage = {
     content: string;
     steps?: ProcessStep[];
     status: 'streaming' | 'complete' | 'error';
+    /** Upstream id from the stream response, used to submit feedback. */
+    requestId?: string;
 };
 type HistoryConversation = {
     id: string;
@@ -267,6 +269,7 @@ type AskAssistantFeedback = {
     query: string;
     answer: string;
     liked: boolean;
+    requestId?: string;
 };
 type AskAssistantExampleCategory = {
     id: string;
@@ -308,11 +311,16 @@ type AskAssistantProps = {
     initialHistory?: HistoryConversation[];
     onAsk?: (query: string) => void;
     onFeedback?: (payload: AskAssistantFeedback) => void;
+    /**
+     * Same-origin endpoint that receives thumbs up/down.
+     * Body: `{ requestId, feedback: "positive" | "negative" }`.
+     */
+    feedbackUrl?: string;
 };
 
 declare const DEFAULT_ASK_ASSISTANT_EXAMPLES: AskAssistantExampleCategory[];
 
-declare const AskAssistant: ({ streamUrl, stream, open, defaultOpen, onOpenChange, hideTrigger, floatingOnMobile, enableShortcut, initialMessages, examples, initialHistory, onAsk, onFeedback, }: AskAssistantProps) => react_jsx_runtime.JSX.Element;
+declare const AskAssistant: ({ streamUrl, stream, open, defaultOpen, onOpenChange, hideTrigger, floatingOnMobile, enableShortcut, initialMessages, examples, initialHistory, onAsk, onFeedback, feedbackUrl, }: AskAssistantProps) => react_jsx_runtime.JSX.Element;
 
 type CopyHeadingLinkProps = {
     /**
