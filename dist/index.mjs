@@ -7663,7 +7663,16 @@ var mermaidInit = () => {
     },
     flowchart: {
       htmlLabels: false
-    }
+    },
+    themeCSS: `
+      foreignObject div,
+      foreignObject span,
+      .nodeLabel,
+      .edgeLabel,
+      .label {
+        line-height: 1.25 !important;
+      }
+    `
   });
 };
 var mermaidInit_default = mermaidInit;
