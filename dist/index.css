@@ -25,6 +25,18 @@
   word-break: break-word;
   overflow-wrap: break-word;
 }
+.styles_pre {
+  background-color: var(--md-code-background, #f8f7fc);
+  border-radius: 4px;
+  padding: 16px;
+  margin: 16px 0;
+  overflow-x: auto;
+}
+.styles_pre .styles_code {
+  background: none;
+  padding: 0;
+  white-space: pre;
+}
 .styles_tableScroll {
   width: 100%;
   max-width: 100%;
