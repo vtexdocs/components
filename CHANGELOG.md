@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [7.0.17](https://github.com/vtexdocs/components/compare/v7.0.16...v7.0.17) (2026-10-08)
+
+
+### Features
+
+* add themeCSS for improved line height in mermaid flowcharts ([3a0062f](https://github.com/vtexdocs/components/commit/3a0062f395aaf00f318c51ef04062a2fd1d75bf5))
+
+
+### Bug Fixes
+
+* keep original svg attributes when rendering mermaid ([a14f3ef](https://github.com/vtexdocs/components/commit/a14f3ef804c30dac934568bc637540ef30555ab5))
+* scope mermaid styles, avoid clipped flowchart labels and style plain code blocks ([77f7c17](https://github.com/vtexdocs/components/commit/77f7c17fea2bf4beaafa780cdbcc42fe11d89807))
+* use a unique id per mermaid render call ([2093a73](https://github.com/vtexdocs/components/commit/2093a7392b5aff8ce6b5e182829fea4efd98ab40))
+
 ### [7.0.16](https://github.com/vtexdocs/components/compare/v7.0.15...v7.0.16) (2026-10-07)
 
 
