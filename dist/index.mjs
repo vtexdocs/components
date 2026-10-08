@@ -15061,6 +15061,9 @@ var FeedbackSection = ({
     if (feedback !== void 0)
       return;
     setFeedback(liked);
+    if (collectDetailedFeedback) {
+      setPanelStage("open");
+    }
     try {
       if (sendFeedback) {
         await sendFeedback(liked);
@@ -15069,10 +15072,8 @@ var FeedbackSection = ({
       }
     } catch (e) {
       setFeedback(void 0);
+      setPanelStage("closed");
       return;
-    }
-    if (collectDetailedFeedback) {
-      setPanelStage("open");
     }
   };
   const handleSkip = () => {
@@ -18433,6 +18434,7 @@ var focusRing2 = {
   }
 };
 var trigger2 = {
+  position: "relative",
   display: ["none", "none", "none", "inline-flex"],
   alignItems: "center",
   gap: "8px",
@@ -18451,7 +18453,17 @@ var trigger2 = {
   ":hover": {
     backgroundColor: "#F8F7FC",
     borderColor: "#D8D8E3",
-    color: "#000711"
+    color: "#000711",
+    "& [data-ask-assistant-sparkle] path": {
+      stroke: "#000711"
+    },
+    "& [data-ask-assistant-label]": {
+      color: "#000711"
+    },
+    "& [data-ask-assistant-label-sheen]": {
+      animation: "none",
+      opacity: 0
+    }
   },
   ...focusRing2
 };
@@ -18490,8 +18502,76 @@ var floatingTrigger = (hidden = false) => ({
   },
   ...focusRing2
 });
+var triggerBeam = {
+  position: "absolute",
+  top: "-1px",
+  left: "-1px",
+  width: "calc(100% + 2px)",
+  height: "calc(100% + 2px)",
+  boxSizing: "border-box",
+  borderRadius: "inherit",
+  padding: "1px",
+  pointerEvents: "none",
+  overflow: "hidden",
+  display: "block",
+  WebkitMask: "linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)",
+  WebkitMaskComposite: "xor",
+  mask: "linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)",
+  maskComposite: "exclude",
+  filter: "drop-shadow(0 0 1.5px rgba(227, 28, 88, 0.45))",
+  "@media (prefers-reduced-motion: reduce)": {
+    display: "none"
+  }
+};
+var triggerBeamLight = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  width: "480px",
+  height: "480px",
+  background: "conic-gradient(from 0deg, transparent 0deg 300deg, rgba(227, 28, 88, 0) 308deg, rgba(227, 28, 88, 0.2) 326deg, rgba(227, 28, 88, 0.65) 342deg, #E31C58 352deg, #FFB7CF 358deg, transparent 360deg)",
+  transform: "translate(-50%, -50%) rotate(292deg)",
+  animation: "askAssistantBeam 3.5s linear infinite",
+  "@keyframes askAssistantBeam": {
+    from: { transform: "translate(-50%, -50%) rotate(292deg)" },
+    to: { transform: "translate(-50%, -50%) rotate(652deg)" }
+  }
+};
 var triggerIcon = {
   flexShrink: 0
+};
+var triggerLabelSheen = {
+  position: "absolute",
+  inset: 0,
+  color: "transparent",
+  pointerEvents: "none",
+  backgroundImage: "linear-gradient(105deg, transparent 0%, transparent 42%, #C81E51 48%, #E31C58 50%, #C81E51 52%, transparent 58%, transparent 100%)",
+  backgroundSize: "200% 100%",
+  backgroundRepeat: "no-repeat",
+  backgroundClip: "text",
+  WebkitBackgroundClip: "text",
+  WebkitTextFillColor: "transparent",
+  animation: "askAssistantSheen 3.5s linear infinite",
+  "@keyframes askAssistantSheen": {
+    "0%": { backgroundPosition: "100% 0", opacity: 1 },
+    "2%": { backgroundPosition: "75% 0", opacity: 1 },
+    "7%": { backgroundPosition: "50% 0", opacity: 1 },
+    "19%": { backgroundPosition: "25% 0", opacity: 1 },
+    "31%": { backgroundPosition: "0% 0", opacity: 1 },
+    "36%, 100%": { backgroundPosition: "-20% 0", opacity: 0 }
+  },
+  "@media (prefers-reduced-motion: reduce)": {
+    display: "none"
+  }
+};
+var triggerLabel = {
+  position: "relative",
+  color: "#4A596B"
+};
+var triggerSparkle = {
+  display: "inline-flex",
+  flexShrink: 0,
+  color: "#E31C58"
 };
 var triggerShortcut = {
   display: ["none", "none", "none", "none", "inline-flex"],
@@ -19427,7 +19507,12 @@ var errorText2 = {
 };
 var styles_default36 = {
   trigger: trigger2,
+  triggerBeam,
+  triggerBeamLight,
   triggerIcon,
+  triggerSparkle,
+  triggerLabel,
+  triggerLabelSheen,
   triggerShortcut,
   triggerKbd,
   floatingTrigger,
@@ -20013,6 +20098,9 @@ var streamAssistant = async (url, signal, onEvent) => {
   if (!response.ok || !response.body) {
     throw new Error(`Assistant request failed (${response.status})`);
   }
+  const requestId = response.headers.get("x-request-id")?.trim();
+  if (requestId)
+    onEvent({ type: "RequestId", content: requestId });
   const reader = response.body.getReader();
   const decoder = new TextDecoder();
   let buffer = "";
@@ -20058,6 +20146,7 @@ var ensureSplitViewStyles = () => {
 };
 var createId = () => `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
 var isMacShortcut = () => typeof navigator !== "undefined" && /Mac|iPhone|iPad|iPod/.test(navigator.platform);
+var TriggerBeam = () => /* @__PURE__ */ jsx97(Box36, { as: "span", "aria-hidden": "true", sx: styles_default36.triggerBeam, children: /* @__PURE__ */ jsx97(Box36, { as: "span", sx: styles_default36.triggerBeamLight }) });
 var toolStepLabel = (name2, labels) => {
   if (name2 === "search_documentation")
     return labels.stepSearchDocs;
@@ -20101,7 +20190,8 @@ var AskAssistant = ({
   examples: examples2 = DEFAULT_ASK_ASSISTANT_EXAMPLES,
   initialHistory = [],
   onAsk,
-  onFeedback
+  onFeedback,
+  feedbackUrl
 }) => {
   const { locale, setSidebarSectionHidden } = useContext12(LibraryContext);
   const sidebarHiddenBeforeOpen = useRef17(null);
@@ -20114,6 +20204,7 @@ var AskAssistant = ({
   const pendingToolsRef = useRef17([]);
   const conversationIdRef = useRef17(null);
   const chatRef = useRef17(initialMessages);
+  const feedbackAttemptRef = useRef17({});
   const [mounted, setMounted] = useState29(false);
   const [uncontrolledOpen, setUncontrolledOpen] = useState29(defaultOpen);
   const [expanded, setExpanded] = useState29(false);
@@ -20230,6 +20321,10 @@ var AskAssistant = ({
         });
       };
       const handleEvent = (event) => {
+        if (event.type === "RequestId" && event.content) {
+          patchAssistant(assistantId, { requestId: event.content });
+          return;
+        }
         if (isInternalEvent(event.type))
           return;
         if (event.type === "ToolCall" && event.name) {
@@ -20394,10 +20489,44 @@ var AskAssistant = ({
     window.setTimeout(() => setCopiedId(null), 1600);
   };
   const vote = (message, liked) => {
+    if (feedback[message.id] === liked)
+      return;
+    const previous = feedback[message.id];
+    const attempt = (feedbackAttemptRef.current[message.id] ?? 0) + 1;
+    feedbackAttemptRef.current[message.id] = attempt;
     setFeedback((current) => ({ ...current, [message.id]: liked }));
     const messageIndex = chat.findIndex((item2) => item2.id === message.id);
     const query = chat.slice(0, messageIndex).reverse().find((item2) => item2.role === "user")?.content ?? "";
-    onFeedback?.({ query, answer: stripAnswerMetadata(message.content), liked });
+    onFeedback?.({
+      query,
+      answer: stripAnswerMetadata(message.content),
+      liked,
+      requestId: message.requestId
+    });
+    if (!feedbackUrl || !message.requestId)
+      return;
+    void fetch(feedbackUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        requestId: message.requestId,
+        feedback: liked ? "positive" : "negative"
+      })
+    }).then((response) => {
+      if (!response.ok)
+        throw new Error("Feedback request failed");
+    }).catch(() => {
+      if (feedbackAttemptRef.current[message.id] !== attempt)
+        return;
+      setFeedback((current) => {
+        const next = { ...current };
+        if (previous === void 0)
+          delete next[message.id];
+        else
+          next[message.id] = previous;
+        return next;
+      });
+    });
   };
   useEffect28(() => {
     ensureSplitViewStyles();
@@ -20811,8 +20940,21 @@ var AskAssistant = ({
         "aria-expanded": isOpen,
         onClick: () => setOpen(!isOpen),
         children: [
-          /* @__PURE__ */ jsx97(sparkle_icon_default, { size: 14, sx: styles_default36.triggerIcon }),
-          /* @__PURE__ */ jsx97(Text27, { children: labels.button }),
+          /* @__PURE__ */ jsx97(TriggerBeam, {}),
+          /* @__PURE__ */ jsx97(Box36, { as: "span", "data-ask-assistant-sparkle": true, sx: styles_default36.triggerSparkle, children: /* @__PURE__ */ jsx97(sparkle_icon_default, { size: 14, sx: styles_default36.triggerIcon }) }),
+          /* @__PURE__ */ jsxs78(Box36, { as: "span", "data-ask-assistant-label": true, sx: styles_default36.triggerLabel, children: [
+            labels.button,
+            /* @__PURE__ */ jsx97(
+              Box36,
+              {
+                as: "span",
+                "aria-hidden": "true",
+                "data-ask-assistant-label-sheen": true,
+                sx: styles_default36.triggerLabelSheen,
+                children: labels.button
+              }
+            )
+          ] }),
           /* @__PURE__ */ jsxs78(Flex29, { as: "span", sx: styles_default36.triggerShortcut, "aria-hidden": "true", children: [
             /* @__PURE__ */ jsx97(Box36, { as: "kbd", sx: styles_default36.triggerKbd, children: mounted && isMacShortcut() ? "\u2318" : "Ctrl" }),
             /* @__PURE__ */ jsx97(Box36, { as: "kbd", sx: styles_default36.triggerKbd, children: "I" })
@@ -20821,7 +20963,7 @@ var AskAssistant = ({
       }
     ),
     showFloatingTrigger ? createPortal2(
-      /* @__PURE__ */ jsx97(
+      /* @__PURE__ */ jsxs78(
         Box36,
         {
           as: "button",
@@ -20836,7 +20978,10 @@ var AskAssistant = ({
           "aria-hidden": footerInView,
           tabIndex: footerInView ? -1 : void 0,
           onClick: () => setOpen(true),
-          children: /* @__PURE__ */ jsx97(sparkle_icon_default, { size: 18, sx: { width: 18, height: 18, flexShrink: 0 } })
+          children: [
+            /* @__PURE__ */ jsx97(TriggerBeam, {}),
+            /* @__PURE__ */ jsx97(sparkle_icon_default, { size: 18, sx: { width: 18, height: 18, flexShrink: 0 } })
+          ]
         }
       ),
       document.body

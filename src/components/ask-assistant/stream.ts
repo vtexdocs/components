@@ -50,6 +50,9 @@ export const streamAssistant = async (
     throw new Error(`Assistant request failed (${response.status})`)
   }
 
+  const requestId = response.headers.get('x-request-id')?.trim()
+  if (requestId) onEvent({ type: 'RequestId', content: requestId })
+
   const reader = response.body.getReader()
   const decoder = new TextDecoder()
   let buffer = ''
