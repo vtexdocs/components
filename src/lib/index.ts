@@ -63,6 +63,7 @@ export { default as ArticlePagination } from '../components/article-pagination'
 export { default as InsertAccountName } from '../components/insert-account-name'
 export { default as SuggestEdits } from '../components/suggest-edits'
 export { default as ArticleRender } from '../components/article-render'
+export { default as ArticleIndexing } from '../components/article-indexing'
 export { default as SeeAlsoSection } from '../components/see-also-section'
 export { default as TroubleshootingCard } from '../components/troubleshooting-card'
 export type { Item } from './table-of-contents'
@@ -106,6 +107,11 @@ export type {
 export type { InsertAccountNameProps } from '../components/insert-account-name'
 export type { SuggestEditsProps } from '../components/suggest-edits'
 export type { ArticleRenderProps } from '../components/article-render'
+export type {
+  ArticleIndexingProps,
+  ArticleIndexingItem,
+  ArticleIndexingVariant,
+} from '../components/article-indexing'
 export type {
   SeeAlsoDoc,
   SeeAlsoSectionProps,
