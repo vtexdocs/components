@@ -6800,6 +6800,7 @@ var LibraryContextProvider = ({ children, ...props }) => {
   );
   const locale = props.locale ?? "en";
   const fallback = props.fallback;
+  const getCategoryHref = props.getCategoryHref;
   const headingItemsRef = useRef3(headingItems);
   headingItemsRef.current = headingItems;
   const activeItemRef = useRef3(activeItem);
@@ -6988,7 +6989,8 @@ var LibraryContextProvider = ({ children, ...props }) => {
       setSidebarSections,
       hamburguerSections,
       setHamburguerSections,
-      locale
+      locale,
+      getCategoryHref
     }),
     [
       isEditorPreview,
@@ -7003,7 +7005,8 @@ var LibraryContextProvider = ({ children, ...props }) => {
       sidebarDataMaster,
       sidebarSections,
       hamburguerSections,
-      locale
+      locale,
+      getCategoryHref
     ]
   );
   return /* @__PURE__ */ jsx10(LocaleContext.Provider, { value: localeValue, children: /* @__PURE__ */ jsx10(TocActionsContext.Provider, { value: tocActionsValue, children: /* @__PURE__ */ jsx10(TocStateContext.Provider, { value: tocStateValue, children: /* @__PURE__ */ jsx10(LibraryContext.Provider, { value: contextValue, children: /* @__PURE__ */ jsx10(
@@ -10004,7 +10007,8 @@ var SidebarElements = ({
     sidebarElementStatus,
     toggleSidebarElementStatus,
     sidebarDataMaster,
-    locale
+    locale,
+    getCategoryHref
   } = useContext2(LibraryContext);
   const router = useRouter3();
   const navigationLocale = router.locale || locale;
@@ -10013,20 +10017,20 @@ var SidebarElements = ({
     const href = prefix === "docs/api-reference" ? `/${prefix}/${slug}/${pathSuffix}` : `/${prefix}/${slug}`;
     return href.replaceAll("//", "/");
   };
-  const getHref = (prefix, pathSuffix, slug) => {
-    const path = getPath(prefix, pathSuffix, slug);
+  const withLocalePrefix = (path) => {
     const localePrefix = navigationLocale && navigationLocale !== "en" ? `/${navigationLocale}` : "";
     return `${localePrefix}${path}`.replaceAll("//", "/");
   };
-  const handleClick = (e, pathSuffix, slug) => {
+  const getHref = (prefix, pathSuffix, slug) => withLocalePrefix(getPath(prefix, pathSuffix, slug));
+  const navigateTo = (e, path) => {
     e.preventDefault();
     const hasEndpointQuery = router.query.endpoint;
-    const path = getPath(slugPrefix || "", pathSuffix, slug);
     router.push(path, void 0, { locale: navigationLocale }).then(() => {
       if (hasEndpointQuery)
         router.reload();
     });
   };
+  const handleClick = (e, pathSuffix, slug) => navigateTo(e, getPath(slugPrefix || "", pathSuffix, slug));
   const ElementDivider = ({ name: name2 }) => {
     const localizedName2 = typeof name2 === "string" ? name2 : name2[locale];
     return /* @__PURE__ */ jsx23(
@@ -10074,6 +10078,10 @@ var SidebarElements = ({
       sidebarDataMaster,
       localizedSlug
     );
+    const categoryHref = documentationType === "category" && isExpandable ? getCategoryHref?.({
+      slug: localizedSlug,
+      slugPrefix: slugPrefix || ""
+    }) || null : null;
     return /* @__PURE__ */ jsx23(
       Box14,
       {
@@ -10097,7 +10105,24 @@ var SidebarElements = ({
               "aria-hidden": "true"
             }
           ),
-          documentationType !== "category" && documentationType !== "link" ? /* @__PURE__ */ jsxs17(
+          categoryHref ? /* @__PURE__ */ jsx23(
+            Link4,
+            {
+              sx: textStyle(isActive, isHamburgerMenu, isExpandable),
+              onClick: (e) => {
+                if (!isEditorPreview) {
+                  navigateTo(e, categoryHref);
+                }
+                if (!isOpen) {
+                  toggleSidebarElementStatus(localizedSlug, isOpen);
+                }
+              },
+              href: withLocalePrefix(categoryHref),
+              target: isEditorPreview === true ? "_blank" : "_self",
+              locale: navigationLocale,
+              children: /* @__PURE__ */ jsx23("span", { children: /* @__PURE__ */ jsx23(HighlightedText, { text: localizedName2, query: highlightQuery }) })
+            }
+          ) : documentationType !== "category" && documentationType !== "link" ? /* @__PURE__ */ jsxs17(
             Link4,
             {
               sx: textStyle(isActive, isHamburgerMenu, isExpandable),
@@ -23540,13 +23565,7 @@ var cardsTitle = {
 };
 var cardsGrid = {
   display: "grid !important",
-  gridTemplateColumns: [
-    "1fr",
-    "repeat(2, minmax(0, 1fr))",
-    "repeat(2, minmax(0, 1fr))",
-    "repeat(2, minmax(0, 1fr))",
-    "repeat(3, minmax(0, 1fr))"
-  ],
+  gridTemplateColumns: ["1fr", "repeat(2, minmax(0, 1fr))"],
   gap: ["12px", "16px"],
   width: "100%",
   minWidth: 0,

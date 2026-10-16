@@ -24,13 +24,7 @@ const cardsTitle: SxStyleProp = {
 
 const cardsGrid: SxStyleProp = {
   display: 'grid !important',
-  gridTemplateColumns: [
-    '1fr',
-    'repeat(2, minmax(0, 1fr))',
-    'repeat(2, minmax(0, 1fr))',
-    'repeat(2, minmax(0, 1fr))',
-    'repeat(3, minmax(0, 1fr))',
-  ],
+  gridTemplateColumns: ['1fr', 'repeat(2, minmax(0, 1fr))'],
   gap: ['12px', '16px'],
   width: '100%',
   minWidth: 0,

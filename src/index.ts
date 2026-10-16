@@ -120,6 +120,7 @@ export {
   useLocale,
   useTocState,
   useTocActions,
+  type CategoryHrefResolver,
 } from 'utils/context/libraryContext'
 export { default as SearchConfig } from 'utils/config/search-config'
 export type {
