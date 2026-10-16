@@ -1,5 +1,6 @@
 import { type ReactNode } from 'react'
-import { Box, Flex, IconCaret, Text, Link } from '@vtex/brand-ui'
+import Link from 'next/link.js'
+import { Box, Flex, IconCaret, Text } from '@vtex/brand-ui'
 import styles from './styles'
 import { flattenText, parseCardChildren } from './parseCardChildren'
 
@@ -85,9 +86,9 @@ const Card = ({
   }
 
   return (
-    <Link href={linkTo} sx={styles.container}>
+    <Box as={Link} href={linkTo} sx={styles.container}>
       {body}
-    </Link>
+    </Box>
   )
 }
 

@@ -29,10 +29,10 @@ function remarkMermaid() {
 import { u as u2 } from "unist-builder";
 import { visit as visit2, SKIP as SKIP2 } from "unist-util-visit";
 var extendedNames = {
-  info: /^ℹ️/,
-  warning: /^\u26A0/,
-  danger: /^\u2757/,
-  success: /^\u2705/
+  info: /^\s*\u2139\uFE0F?\s*/,
+  warning: /^\s*\u26A0\uFE0F?\s*/,
+  danger: /^\s*\u2757\uFE0F?\s*/,
+  success: /^\s*\u2705\uFE0F?\s*/
 };
 function remarkBlockquote() {
   return (tree) => {
@@ -52,7 +52,7 @@ function remarkBlockquote() {
       );
       if (!result)
         return;
-      textNode.value = textNode.value.substring(2);
+      textNode.value = textNode.value.replace(result[1], "");
       const newChild = {
         type: "paragraph",
         children

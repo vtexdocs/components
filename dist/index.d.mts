@@ -73,6 +73,15 @@ interface HamburgerMenuProps {
 /** Hamburger Menu component, the menu uses the sidebar components internally, but it is only visible on the smaller breakpoints. */
 declare const HamburgerMenu: ({ parentsArray }: HamburgerMenuProps) => react_jsx_runtime.JSX.Element;
 
+type DetailedFeedbackPayload = {
+    /** 'positive' | 'negative', matching the original vote. */
+    type: string;
+    /** Optional free-text comment left by the user. */
+    feedback: string;
+    /** Optional email left by the user for a follow-up. */
+    email: string;
+    url: string;
+};
 interface FeedbackSectionProps {
     /** Slug that corresponds to the current page. */
     slug?: string;
@@ -94,10 +103,26 @@ interface FeedbackSectionProps {
     sendFeedback?: (liked: boolean) => Promise<void>;
     /** Whether to render the small version of the component or not. */
     small?: boolean;
+    /**
+     * Whether to show the inline follow-up panel (optional comment + email)
+     * right after the user votes. Defaults to `true`.
+     */
+    collectDetailedFeedback?: boolean;
+    /**
+     * Endpoint that receives the detailed follow-up payload (comment + email).
+     * Appends a second row to the same spreadsheet as the vote.
+     * Defaults to `/api/feedback/`.
+     */
+    detailedFeedbackEndpoint?: string;
+    /** Override the default POST for the detailed follow-up. */
+    sendDetailedFeedback?: (payload: DetailedFeedbackPayload) => Promise<void>;
+    /** Force the initial state of the follow-up panel. Useful for Storybook. */
+    defaultPanelStage?: PanelStage;
 }
 /** @deprecated Use FeedbackSectionProps */
 type DocPath = FeedbackSectionProps;
-declare const FeedbackSection: ({ slug, urlToEdit, suggestEdits, shareButton, pageUrl, feedbackEndpoint, sendFeedback, small, }: FeedbackSectionProps) => react_jsx_runtime.JSX.Element;
+type PanelStage = 'closed' | 'open' | 'submitted' | 'error';
+declare const FeedbackSection: ({ slug, urlToEdit, suggestEdits, shareButton, pageUrl, feedbackEndpoint, sendFeedback, small, collectDetailedFeedback, detailedFeedbackEndpoint, sendDetailedFeedback, defaultPanelStage, }: FeedbackSectionProps) => react_jsx_runtime.JSX.Element;
 
 type FeedbackModalPayload = {
     name: string;
@@ -232,6 +257,8 @@ type ChatMessage = {
     content: string;
     steps?: ProcessStep[];
     status: 'streaming' | 'complete' | 'error';
+    /** Upstream id from the stream response, used to submit feedback. */
+    requestId?: string;
 };
 type HistoryConversation = {
     id: string;
@@ -242,6 +269,7 @@ type AskAssistantFeedback = {
     query: string;
     answer: string;
     liked: boolean;
+    requestId?: string;
 };
 type AskAssistantExampleCategory = {
     id: string;
@@ -283,11 +311,16 @@ type AskAssistantProps = {
     initialHistory?: HistoryConversation[];
     onAsk?: (query: string) => void;
     onFeedback?: (payload: AskAssistantFeedback) => void;
+    /**
+     * Same-origin endpoint that receives thumbs up/down.
+     * Body: `{ requestId, feedback: "positive" | "negative" }`.
+     */
+    feedbackUrl?: string;
 };
 
 declare const DEFAULT_ASK_ASSISTANT_EXAMPLES: AskAssistantExampleCategory[];
 
-declare const AskAssistant: ({ streamUrl, stream, open, defaultOpen, onOpenChange, hideTrigger, floatingOnMobile, enableShortcut, initialMessages, examples, initialHistory, onAsk, onFeedback, }: AskAssistantProps) => react_jsx_runtime.JSX.Element;
+declare const AskAssistant: ({ streamUrl, stream, open, defaultOpen, onOpenChange, hideTrigger, floatingOnMobile, enableShortcut, initialMessages, examples, initialHistory, onAsk, onFeedback, feedbackUrl, }: AskAssistantProps) => react_jsx_runtime.JSX.Element;
 
 type CopyHeadingLinkProps = {
     /**

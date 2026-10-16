@@ -1,4 +1,5 @@
 import type { SxStyleProp } from '@vtex/brand-ui'
+import { LAYOUT_MAX_WIDTH } from 'components/header/styles'
 
 const focusRing: SxStyleProp = {
   ':focus-visible': {
@@ -8,6 +9,7 @@ const focusRing: SxStyleProp = {
 }
 
 const trigger: SxStyleProp = {
+  position: 'relative',
   display: ['none', 'none', 'none', 'inline-flex'],
   alignItems: 'center',
   gap: '8px',
@@ -28,6 +30,16 @@ const trigger: SxStyleProp = {
     backgroundColor: '#F8F7FC',
     borderColor: '#D8D8E3',
     color: '#000711',
+    '& [data-ask-assistant-sparkle] path': {
+      stroke: '#000711',
+    },
+    '& [data-ask-assistant-label]': {
+      color: '#000711',
+    },
+    '& [data-ask-assistant-label-sheen]': {
+      animation: 'none',
+      opacity: 0,
+    },
   },
   ...focusRing,
 }
@@ -74,8 +86,91 @@ const floatingTrigger = (hidden = false): SxStyleProp => ({
   ...focusRing,
 })
 
+/**
+ * 1px ring over the gray border. A soft conic highlight rotates inside it,
+ * so only a short stretch of the outline glows.
+ */
+const triggerBeam: SxStyleProp = {
+  position: 'absolute',
+  top: '-1px',
+  left: '-1px',
+  width: 'calc(100% + 2px)',
+  height: 'calc(100% + 2px)',
+  boxSizing: 'border-box',
+  borderRadius: 'inherit',
+  padding: '1px',
+  pointerEvents: 'none',
+  overflow: 'hidden',
+  display: 'block',
+  WebkitMask:
+    'linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)',
+  WebkitMaskComposite: 'xor',
+  mask: 'linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)',
+  maskComposite: 'exclude',
+  filter: 'drop-shadow(0 0 1.5px rgba(227, 28, 88, 0.45))',
+  '@media (prefers-reduced-motion: reduce)': {
+    display: 'none',
+  },
+}
+
+const triggerBeamLight: SxStyleProp = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  width: '480px',
+  height: '480px',
+  background:
+    'conic-gradient(from 0deg, transparent 0deg 300deg, rgba(227, 28, 88, 0) 308deg, rgba(227, 28, 88, 0.2) 326deg, rgba(227, 28, 88, 0.65) 342deg, #E31C58 352deg, #FFB7CF 358deg, transparent 360deg)',
+  transform: 'translate(-50%, -50%) rotate(292deg)',
+  animation: 'askAssistantBeam 3.5s linear infinite',
+  '@keyframes askAssistantBeam': {
+    from: { transform: 'translate(-50%, -50%) rotate(292deg)' },
+    to: { transform: 'translate(-50%, -50%) rotate(652deg)' },
+  },
+}
+
 const triggerIcon: SxStyleProp = {
   flexShrink: 0,
+}
+
+/** Pink band painted over the solid label. It only crosses while the border light is on the top edge. */
+const triggerLabelSheen: SxStyleProp = {
+  position: 'absolute',
+  inset: 0,
+  color: 'transparent',
+  pointerEvents: 'none',
+  backgroundImage:
+    'linear-gradient(105deg, transparent 0%, transparent 42%, #C81E51 48%, #E31C58 50%, #C81E51 52%, transparent 58%, transparent 100%)',
+  backgroundSize: '200% 100%',
+  backgroundRepeat: 'no-repeat',
+  backgroundClip: 'text',
+  WebkitBackgroundClip: 'text',
+  WebkitTextFillColor: 'transparent',
+  animation: 'askAssistantSheen 3.5s linear infinite',
+  '@keyframes askAssistantSheen': {
+    '0%': { backgroundPosition: '100% 0', opacity: 1 },
+    '2%': { backgroundPosition: '75% 0', opacity: 1 },
+    '7%': { backgroundPosition: '50% 0', opacity: 1 },
+    '19%': { backgroundPosition: '25% 0', opacity: 1 },
+    '31%': { backgroundPosition: '0% 0', opacity: 1 },
+    '36%, 100%': { backgroundPosition: '-20% 0', opacity: 0 },
+  },
+  '@media (prefers-reduced-motion: reduce)': {
+    display: 'none',
+  },
+}
+
+/** Solid slate word. The pink pass sits on top and never replaces the letters. */
+const triggerLabel: SxStyleProp = {
+  position: 'relative',
+  color: '#4A596B',
+}
+
+/** Static brand pink. Hover turns it dark with the label. */
+const triggerSparkle: SxStyleProp = {
+  display: 'inline-flex',
+  flexShrink: 0,
+  color: '#E31C58',
 }
 
 const triggerShortcut: SxStyleProp = {
@@ -109,36 +204,46 @@ export const SPLIT_VIEW_MQ = '(min-width: 40em)'
 export const PANEL_WIDTH = 'min(400px, 100vw)'
 export const PANEL_EXPANDED_WIDTH = 'min(720px, 80vw)'
 
-export const splitViewCss = `
-@media not screen and ${DESKTOP_TRIGGER_MQ} {
-  html:has([data-ask-assistant-fab]) {
-    --ask-assistant-fab-offset: ${FLOATING_TRIGGER_SIZE + FLOATING_TRIGGER_GAP}px;
-  }
-}
-@media screen and ${SPLIT_VIEW_MQ} {
-  html:has([data-ask-assistant-panel]) {
-    --ask-assistant-width: ${PANEL_WIDTH};
-    --ask-assistant-top: 0px;
-  }
-  html:has([data-ask-assistant-panel][data-expanded="true"]) {
-    --ask-assistant-width: ${PANEL_EXPANDED_WIDTH};
-  }
-  html:has([data-ask-assistant-panel]) [data-docs-header] {
-    max-width: none;
-  }
-  html:has([data-ask-assistant-panel]) [data-docs-header] ~ * {
-    box-sizing: border-box;
-    padding-right: var(--ask-assistant-width) !important;
-  }
-  html:has([data-ask-assistant-panel]) [data-article-aside] {
-    display: none !important;
-  }
-  html:has([data-ask-assistant-panel]):not(:has([data-docs-header])) body {
-    box-sizing: border-box;
-    padding-right: var(--ask-assistant-width);
-  }
-}
-`
+/**
+ * On viewports wider than the header's max width, the panel docks to the
+ * right edge of that centered layout instead of the viewport edge, so it
+ * stays next to the content. `100%` (not `100vw`) so the scrollbar is excluded.
+ */
+const PANEL_OFFSET = 'max(0px, calc((100% - ' + LAYOUT_MAX_WIDTH + ') / 2))'
+
+// Built with plain string concatenation on purpose: the SWC minifier used by
+// Next.js production builds mangles multi-line template literals that contain
+// interpolations, which silently breaks every rule in this stylesheet.
+export const splitViewCss = [
+  '@media not screen and ' + DESKTOP_TRIGGER_MQ + ' {',
+  '  html:has([data-ask-assistant-fab]) {',
+  '    --ask-assistant-fab-offset: ' +
+    String(FLOATING_TRIGGER_SIZE + FLOATING_TRIGGER_GAP) +
+    'px;',
+  '  }',
+  '}',
+  '@media screen and ' + SPLIT_VIEW_MQ + ' {',
+  '  html:has([data-ask-assistant-panel]) {',
+  '    --ask-assistant-width: ' + PANEL_WIDTH + ';',
+  '    --ask-assistant-top: 0px;',
+  '    --ask-assistant-offset: ' + PANEL_OFFSET + ';',
+  '  }',
+  '  html:has([data-ask-assistant-panel][data-expanded="true"]) {',
+  '    --ask-assistant-width: ' + PANEL_EXPANDED_WIDTH + ';',
+  '  }',
+  '  html:has([data-ask-assistant-panel]) [data-docs-header] ~ * {',
+  '    box-sizing: border-box;',
+  '    padding-right: var(--ask-assistant-width) !important;',
+  '  }',
+  '  html:has([data-ask-assistant-panel]) [data-article-aside] {',
+  '    display: none !important;',
+  '  }',
+  '  html:has([data-ask-assistant-panel]):not(:has([data-docs-header])) body {',
+  '    box-sizing: border-box;',
+  '    padding-right: calc(var(--ask-assistant-width) + var(--ask-assistant-offset, 0px));',
+  '  }',
+  '}',
+].join('\n')
 
 const overlay: SxStyleProp = {
   display: ['block', 'none'],
@@ -159,7 +264,7 @@ const EMPTY_STATE_BACKGROUND = [
 const panel = (expanded: boolean, isEmpty = false): SxStyleProp => ({
   position: 'fixed',
   top: [0, 'var(--ask-assistant-top, 0px)'],
-  right: 0,
+  right: [0, 'var(--ask-assistant-offset, 0px)'],
   bottom: 0,
   zIndex: [10001, 40],
   display: 'flex',
@@ -818,32 +923,53 @@ const markdown: SxStyleProp = {
   lineHeight: '22px',
 }
 
-const markdownParagraph: SxStyleProp = {
+// Vertical rhythm: every block owns its top margin based on what precedes it,
+// so paragraphs, lists, headings and code blocks stack with consistent gaps.
+const BLOCK_GAP = '10px'
+const AFTER_HEADING_GAP = '4px'
+const HEADING_GAP = '18px'
+
+const markdownBlock: SxStyleProp = {
   margin: 0,
-  '& + &': {
-    mt: '10px',
+  '* + &': {
+    mt: BLOCK_GAP,
+  },
+  'h1 + &, h2 + &, h3 + &, h4 + &': {
+    mt: AFTER_HEADING_GAP,
+  },
+  'hr + &': {
+    mt: '14px',
+  },
+  'li > &': {
+    mt: '6px',
   },
 }
 
+const markdownParagraph: SxStyleProp = {
+  ...markdownBlock,
+}
+
 const markdownHeading: SxStyleProp = {
-  margin: '0 0 8px',
+  margin: 0,
   fontSize: '15px',
   fontWeight: '600',
   lineHeight: '22px',
   letterSpacing: '-0.01em',
   color: '#142032',
+  '* + &': {
+    mt: HEADING_GAP,
+  },
+  'h1 + &, h2 + &, h3 + &, h4 + &': {
+    mt: BLOCK_GAP,
+  },
 }
 
 const markdownList: SxStyleProp = {
-  margin: '8px 0',
+  ...markdownBlock,
   paddingLeft: '20px',
   listStylePosition: 'outside',
   'li + li': {
-    mt: '6px',
-  },
-  'ol, ul': {
-    mt: '6px',
-    mb: 0,
+    mt: '4px',
   },
 }
 
@@ -873,19 +999,117 @@ const markdownLink: SxStyleProp = {
 }
 
 const markdownRule: SxStyleProp = {
+  ...markdownBlock,
   border: 'none',
   borderTop: '1px solid #E7E9EE',
-  my: '12px',
+  '* + &': {
+    mt: '14px',
+  },
 }
 
 const inlineCode: SxStyleProp = {
-  px: '4px',
-  py: '1px',
+  px: '0.3em',
+  py: 0,
   borderRadius: '4px',
+  backgroundColor: '#EEF0F4',
+  fontSize: '0.9em',
+  fontFamily: 'monospace',
+  overflowWrap: 'anywhere',
+}
+
+const codeBlock: SxStyleProp = {
+  ...markdownBlock,
+  borderRadius: '8px',
   border: '1px solid #E7E9EE',
   backgroundColor: '#F8F7FC',
+  overflow: 'hidden',
+}
+
+const codeBlockHeader: SxStyleProp = {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  px: '12px',
+  py: '6px',
+  borderBottom: '1px solid #E7E9EE',
+  backgroundColor: '#F3F2F8',
+}
+
+const codeBlockLanguage: SxStyleProp = {
+  fontSize: '11px',
+  fontWeight: '600',
+  letterSpacing: '0.04em',
+  textTransform: 'uppercase',
+  color: '#5E6E84',
+}
+
+const codeBlockCopy: SxStyleProp = {
+  border: 'none',
+  background: 'transparent',
+  padding: '2px 6px',
+  borderRadius: '4px',
+  fontSize: '12px',
+  fontWeight: '600',
+  color: '#4A596B',
+  cursor: 'pointer',
+  ':hover': {
+    backgroundColor: '#E7E9EE',
+    color: '#142032',
+  },
+}
+
+const codeBlockPre: SxStyleProp = {
+  margin: 0,
+  px: '12px',
+  py: '10px',
+  overflowX: 'auto',
   fontSize: '13px',
+  lineHeight: '20px',
   fontFamily: 'monospace',
+  tabSize: 2,
+}
+
+const codeBlockCode: SxStyleProp = {
+  fontFamily: 'inherit',
+  fontSize: 'inherit',
+  whiteSpace: 'pre',
+}
+
+const markdownQuote: SxStyleProp = {
+  ...markdownBlock,
+  pl: '12px',
+  borderLeft: '3px solid #D71D55',
+  color: '#4A596B',
+}
+
+const markdownTableWrapper: SxStyleProp = {
+  ...markdownBlock,
+  width: '100%',
+  overflowX: 'auto',
+}
+
+const markdownTable: SxStyleProp = {
+  width: '100%',
+  borderCollapse: 'collapse',
+  fontSize: '13px',
+  lineHeight: '20px',
+}
+
+const markdownTableHeadCell: SxStyleProp = {
+  px: '10px',
+  py: '6px',
+  fontWeight: '600',
+  color: '#142032',
+  borderBottom: '2px solid #E7E9EE',
+  backgroundColor: '#F8F7FC',
+  whiteSpace: 'nowrap',
+}
+
+const markdownTableCell: SxStyleProp = {
+  px: '10px',
+  py: '6px',
+  borderBottom: '1px solid #E7E9EE',
+  verticalAlign: 'top',
 }
 
 const sources: SxStyleProp = {
@@ -1005,7 +1229,12 @@ const errorText: SxStyleProp = {
 
 export default {
   trigger,
+  triggerBeam,
+  triggerBeamLight,
   triggerIcon,
+  triggerSparkle,
+  triggerLabel,
+  triggerLabelSheen,
   triggerShortcut,
   triggerKbd,
   floatingTrigger,
@@ -1074,7 +1303,18 @@ export default {
   markdownListItem,
   markdownLink,
   markdownRule,
+  markdownQuote,
+  markdownTableWrapper,
+  markdownTable,
+  markdownTableHeadCell,
+  markdownTableCell,
   inlineCode,
+  codeBlock,
+  codeBlockHeader,
+  codeBlockLanguage,
+  codeBlockCopy,
+  codeBlockPre,
+  codeBlockCode,
   sources,
   sourcesLabel,
   sourcesList,

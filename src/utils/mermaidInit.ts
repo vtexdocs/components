@@ -13,6 +13,18 @@ const mermaidInit = () => {
       lineColor: '#A1AAB7',
       mainBkg: '#F8F7FC',
     },
+    flowchart: {
+      htmlLabels: false,
+    },
+    themeCSS: `
+      foreignObject div,
+      foreignObject span,
+      .nodeLabel,
+      .edgeLabel,
+      .label {
+        line-height: 1.25 !important;
+      }
+    `,
   })
 }
 

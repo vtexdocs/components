@@ -14,6 +14,8 @@ const navItem: SxStyleProp = {
   },
 }
 
+export const LAYOUT_MAX_WIDTH = '2024px'
+
 const headerContainer: SxStyleProp = {
   position: 'sticky',
   top: 0,
@@ -24,7 +26,7 @@ const headerContainer: SxStyleProp = {
   'body:has(.modal[data-open="true"]) &': {
     zIndex: 0,
   },
-  maxWidth: '2024px',
+  maxWidth: LAYOUT_MAX_WIDTH,
   mx: 'auto',
 }
 

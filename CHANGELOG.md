@@ -2,6 +2,59 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [7.0.17](https://github.com/vtexdocs/components/compare/v7.0.16...v7.0.17) (2026-10-08)
+
+
+### Features
+
+* add themeCSS for improved line height in mermaid flowcharts ([3a0062f](https://github.com/vtexdocs/components/commit/3a0062f395aaf00f318c51ef04062a2fd1d75bf5))
+
+
+### Bug Fixes
+
+* keep original svg attributes when rendering mermaid ([a14f3ef](https://github.com/vtexdocs/components/commit/a14f3ef804c30dac934568bc637540ef30555ab5))
+* scope mermaid styles, avoid clipped flowchart labels and style plain code blocks ([77f7c17](https://github.com/vtexdocs/components/commit/77f7c17fea2bf4beaafa780cdbcc42fe11d89807))
+* use a unique id per mermaid render call ([2093a73](https://github.com/vtexdocs/components/commit/2093a7392b5aff8ce6b5e182829fea4efd98ab40))
+
+### [7.0.16](https://github.com/vtexdocs/components/compare/v7.0.15...v7.0.16) (2026-10-07)
+
+
+### Features
+
+* ask assistant feedback ([a6eee03](https://github.com/vtexdocs/components/commit/a6eee03e5d8064b1c5e34179f360741e634c4d25))
+
+### [7.0.15](https://github.com/vtexdocs/components/compare/v7.0.14...v7.0.15) (2026-10-07)
+
+
+### Bug Fixes
+
+* rebuild dist with feedback component changes ([b54bb78](https://github.com/vtexdocs/components/commit/b54bb78684205b77a3c92aab7ea37ee5f072d056))
+* show detailed feedback form immediately ([2c69cea](https://github.com/vtexdocs/components/commit/2c69cea5c9667d7309b00a85f404742a5b1e80fd))
+
+### [7.0.14](https://github.com/vtexdocs/components/compare/v7.0.13...v7.0.14) (2026-10-05)
+
+
+### Features
+
+* **feedback-section:** open follow-up panel after vote ([26a7839](https://github.com/vtexdocs/components/commit/26a7839eadb9b02c3ed476a3328d850df530be67))
+* **typings:** add new feedback section follow-up message types ([55b8c5f](https://github.com/vtexdocs/components/commit/55b8c5fcde73dd36dd74a63f702af9e3ceaac3b1))
+
+### [7.0.13](https://github.com/vtexdocs/components/compare/v7.0.12...v7.0.13) (2026-10-02)
+
+
+### Features
+
+* open links in new tab ([b454213](https://github.com/vtexdocs/components/commit/b4542139c0113133304fb687e48b56db339b8caf))
+
+### [7.0.12](https://github.com/vtexdocs/components/compare/v7.0.11...v7.0.12) (2026-10-02)
+
+
+### Bug Fixes
+
+* ai assistant split view ([191138f](https://github.com/vtexdocs/components/commit/191138f76f1b409d7e594173bc445d4b737a3cc7))
+
+### [7.0.11](https://github.com/vtexdocs/components/compare/v7.0.10...v7.0.11) (2026-10-02)
+
 ### [7.0.10](https://github.com/vtexdocs/components/compare/v7.0.9...v7.0.10) (2026-09-14)
 
 

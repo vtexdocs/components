@@ -21,6 +21,8 @@ export type ChatMessage = {
   content: string
   steps?: ProcessStep[]
   status: 'streaming' | 'complete' | 'error'
+  /** Upstream id from the stream response, used to submit feedback. */
+  requestId?: string
 }
 
 export type HistoryConversation = {
@@ -33,6 +35,7 @@ export type AskAssistantFeedback = {
   query: string
   answer: string
   liked: boolean
+  requestId?: string
 }
 
 export type AskAssistantExampleCategory = {
@@ -81,4 +84,9 @@ export type AskAssistantProps = {
   initialHistory?: HistoryConversation[]
   onAsk?: (query: string) => void
   onFeedback?: (payload: AskAssistantFeedback) => void
+  /**
+   * Same-origin endpoint that receives thumbs up/down.
+   * Body: `{ requestId, feedback: "positive" | "negative" }`.
+   */
+  feedbackUrl?: string
 }

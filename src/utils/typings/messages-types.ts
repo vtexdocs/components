@@ -4,6 +4,12 @@ export type MessagesType = {
   'feedback_section.positive': string
   'feedback_section.negative': string
   'feedback_section.edit': string
+  'feedback_section.followup_placeholder': string
+  'feedback_section.followup_email_placeholder': string
+  'feedback_section.followup_send': string
+  'feedback_section.followup_skip': string
+  'feedback_section.followup_success': string
+  'feedback_section.followup_error': string
   'feedback_modal.button': string
   'feedback_modal.title': string
   'feedback_modal.description': string
