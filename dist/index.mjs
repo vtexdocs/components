@@ -24362,7 +24362,8 @@ var cardsContainer = {
   px: ["16px", "32px"],
   py: ["24px", "48px"],
   width: "100%",
-  maxWidth: "1100px",
+  // 720px content width (same as the `list` variant used in Help Center) + 2 * 32px horizontal padding
+  maxWidth: ["100%", "100%", "100%", "100%", "784px"],
   boxSizing: "border-box",
   color: "#4A4A4A"
 };
