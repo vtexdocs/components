@@ -1,7 +1,9 @@
 import type { SxStyleProp } from '@vtex/brand-ui'
 
 const cardsContainer: SxStyleProp = {
-  mx: 'auto',
+  // Left-aligned next to the sidebar; free space stays on the right
+  mr: 'auto',
+  ml: 0,
   px: ['16px', '32px'],
   py: ['24px', '48px'],
   width: '100%',

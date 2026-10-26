@@ -24358,7 +24358,9 @@ import { Box as Box48, Flex as Flex41, Link as Link16, Text as Text40 } from "@v
 
 // src/components/article-indexing/styles.ts
 var cardsContainer = {
-  mx: "auto",
+  // Left-aligned next to the sidebar; free space stays on the right
+  mr: "auto",
+  ml: 0,
   px: ["16px", "32px"],
   py: ["24px", "48px"],
   width: "100%",
