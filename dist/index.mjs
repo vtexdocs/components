@@ -24362,9 +24362,7 @@ import { Box as Box48, Text as Text40 } from "@vtex/brand-ui";
 
 // src/components/article-indexing/styles.ts
 var container19 = {
-  // Left-aligned next to the sidebar; free space stays on the right
-  mr: "auto",
-  ml: 0,
+  mx: "auto",
   px: ["16px", "32px"],
   py: ["24px", "48px"],
   width: "100%",

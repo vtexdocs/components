@@ -1,9 +1,7 @@
 import type { SxStyleProp } from '@vtex/brand-ui'
 
 const container: SxStyleProp = {
-  // Left-aligned next to the sidebar; free space stays on the right
-  mr: 'auto',
-  ml: 0,
+  mx: 'auto',
   px: ['16px', '32px'],
   py: ['24px', '48px'],
   width: '100%',
