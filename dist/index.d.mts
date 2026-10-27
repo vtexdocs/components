@@ -653,60 +653,6 @@ type TroubleshootingCardProps = TroubleshootingItem & {
 };
 declare const TroubleshootingCard: ({ title, description, slug, tags, domainFilters, symptomFilters, href, basePath, variant, }: TroubleshootingCardProps) => react_jsx_runtime.JSX.Element;
 
-type SectionCardProps = {
-    Icon: (props: IconProps) => JSX.Element;
-    title: string;
-    description: string;
-    link: string;
-    ctaLabel: string;
-    isExternalLink?: boolean;
-};
-declare const SectionCard: ({ Icon, title, description, link, ctaLabel, isExternalLink, }: SectionCardProps) => react_jsx_runtime.JSX.Element;
-
-type SectionCardGridProps = {
-    children: ReactNode;
-    sx?: SxStyleProp;
-    'data-cy'?: string;
-};
-declare const SectionCardGrid: ({ children, sx, ...props }: SectionCardGridProps) => react_jsx_runtime.JSX.Element;
-
-declare const landingTokens: {
-    ink: string;
-    body: string;
-    muted: string;
-    border: string;
-    cardHoverBorder: string;
-    surface: string;
-    pink: string;
-    pinkHover: string;
-    contentMaxWidth: string;
-    cardRadius: string;
-    cardShadow: string;
-    cardGap: readonly ["16px", "24px"];
-    cardsPerRow: number;
-    sectionPaddingX: readonly ["24px", "32px", "48px", "64px"];
-    sectionPaddingY: readonly ["48px", "56px", "72px"];
-    type: {
-        heroTitle: readonly ["28px", "32px", "36px", "40px"];
-        heroTitleLine: readonly ["34px", "40px", "44px", "48px"];
-        heroBody: readonly ["16px", "16px", "18px", "18px"];
-        heroBodyLine: readonly ["24px", "24px", "26px", "26px"];
-        sectionTitle: readonly ["24px", "28px", "28px", "32px"];
-        sectionTitleLine: readonly ["32px", "36px", "36px", "40px"];
-        sectionBody: readonly ["16px", "16px", "18px"];
-        sectionBodyLine: readonly ["24px", "24px", "26px"];
-        cardTitle: string;
-        cardTitleLine: string;
-        cardBody: string;
-        cardBodyLine: string;
-        cardCta: string;
-        cardCtaLine: string;
-        meta: string;
-        metaLine: string;
-    };
-};
-type LandingTokens = typeof landingTokens;
-
 declare function filterTroubleshootingItems<T extends TroubleshootingItem>(items: T[], { search, domainFilters, symptomFilters }: TroubleshootingFilterState): T[];
 
 declare function collectTroubleshootingFilterOptions<T extends Pick<TroubleshootingItem, 'domainFilters' | 'symptomFilters'>>(items: T[]): {
@@ -988,4 +934,4 @@ declare const LikeIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
 
 declare const LikeSelectedIcon: (props: IconProps) => react_jsx_runtime.JSX.Element;
 
-export { APIGuidesIcon, APIReferenceIcon, AddedIcon, type AlgoliaConfig, AnnouncementBar, type AnnouncementBarAction, type AnnouncementBarProps, type AnnouncementBarType, AnnouncementIcon, AppDevelopmentIcon, ArrowLeftIcon, ArrowRightIcon, ArticleIndexing, type ArticleIndexingItem, type ArticleIndexingProps, ArticlePagination, type ArticlePaginationData, type ArticlePaginationDoc, type ArticlePaginationProps, ArticleRender, type ArticleRenderProps, AskAIMenu, type AskAIMenuProps, type AskAIProvider, AskAssistant, type AskAssistantExampleCategory, type AskAssistantFeedback, type AskAssistantProps, type AssistantStreamEvent, type AssistantStreamHandler, Author, type AuthorProps, Breadcrumb, type BreadcrumbItem, type BreadcrumbProps, BreakingChangeIcon, Card, type CardProps, CaretIcon, type CategoryHrefResolver, ChatGPTIcon, type ChatMessage, CheckboxIcon, ChipFilter, type ChipFilterCategory, type ChipFilterProps, ClaudeIcon, CloseFilterIcon, CloseIcon, CollapseIcon, CommunityIcon, Contributors, type ContributorsProps, type ContributorsType, CookieBar, CopilotIcon, CopyButton, type CopyButtonProps, CopyHeadingLink, type CopyHeadingLinkProps, CopyIcon, CopyLinkButton, DEFAULT_ASK_ASSISTANT_EXAMPLES, DateText, type DateTextProps, DeprecatedIcon, DeveloperPortalIcon, type DocPath, DocumentationUpdatesIcon, DropdownMenu, type DropdownMenuProps, EditIcon, EmailIcon, ExpandIcon, ExpandedResultsIcon, FAQIcon, FacebookCircleIcon, FacebookIcon, FeedbackModal, type FeedbackModalPayload, type FeedbackModalProps, FeedbackSection, type FeedbackSectionProps, ListingFilter as Filter, type FilterGroup, FilterIcon, type FilterOption, FixedIcon, Footer, type FooterLink, type FooterProps, type FooterVariant, GearTroubleshootingIcon, GeminiIcon, GithubIcon, GraphIcon, GridIcon, HamburgerMenu, Header, type HeaderProps, type HeaderVariant, HelpCenterIcon, type HistoryConversation, type HybridSearchConfig, ImprovedIcon, InfoIcon, Input, InsertAccountName, type InsertAccountNameProps, IgIcon as InstagramIcon, type Item, KnownIssueIcon as KnownIssuesIcon, type LandingTokens, LibraryContext, LibraryContextProvider, LikeIcon, LikeSelectedIcon, LinkIcon, LinkedinCircleIcon, LinkedinIcon, ListingFilter, type ListingFilterLabels, type ListingFilterProps, type ListingFilterSelection, LocaleContext, LongArrowIcon, _default as MarkdownRenderer, MegaphoneIcon, MenuIcon, MobileSearch, type MobileSearchProps, NewChatIcon, NewIcon, OnThisPage, type OnThisPageProps, PaperIcon, type ProcessStep, RefreshIcon, ReleaseNotesIcon, RemovedIcon, ResizeIcon, Search, type SearchBackendConfig, SearchConfig, SearchIcon, SearchInput, type SearchInputProps, type Section, SectionCard, SectionCardGrid, type SectionCardGridProps, type SectionCardProps, type SeeAlsoDoc, SeeAlsoSection, type SeeAlsoSectionProps, SendIcon, ShareButton, ShareIcon, SideBarToggleIcon, Sidebar, SparkleIcon, StartHereIcon, StorefrontDevelopmentIcon, SubscriptionList, SuggestEdits, type SuggestEditsProps, TableOfContents, Tag, type TagColor, type TagProps, TimeToRead, type TimeToReadProps, TocActionsContext, TocStateContext, Tooltip, TrashcanIcon, TroubleshootingCard, type TroubleshootingCardProps, type TroubleshootingCardVariant, type TroubleshootingFilterState, TroubleshootingIcon, type TroubleshootingItem, TutorialsIcon, TwitterCircleIcon, TwitterIcon, VTEXDevPortalIcon, VTEXHelpCenterIcon, VTEXIOAppsIcon, VTEXLogoFooter, WarningIcon, Card as WhatsNextCard, type WhatsNextDataElement, YoutubeIcon, collectTroubleshootingFilterOptions, filterTroubleshootingItems, getDaysElapsed, landingTokens, useLocale, useTocActions, useTocState };
+export { APIGuidesIcon, APIReferenceIcon, AddedIcon, type AlgoliaConfig, AnnouncementBar, type AnnouncementBarAction, type AnnouncementBarProps, type AnnouncementBarType, AnnouncementIcon, AppDevelopmentIcon, ArrowLeftIcon, ArrowRightIcon, ArticleIndexing, type ArticleIndexingItem, type ArticleIndexingProps, ArticlePagination, type ArticlePaginationData, type ArticlePaginationDoc, type ArticlePaginationProps, ArticleRender, type ArticleRenderProps, AskAIMenu, type AskAIMenuProps, type AskAIProvider, AskAssistant, type AskAssistantExampleCategory, type AskAssistantFeedback, type AskAssistantProps, type AssistantStreamEvent, type AssistantStreamHandler, Author, type AuthorProps, Breadcrumb, type BreadcrumbItem, type BreadcrumbProps, BreakingChangeIcon, Card, type CardProps, CaretIcon, type CategoryHrefResolver, ChatGPTIcon, type ChatMessage, CheckboxIcon, ChipFilter, type ChipFilterCategory, type ChipFilterProps, ClaudeIcon, CloseFilterIcon, CloseIcon, CollapseIcon, CommunityIcon, Contributors, type ContributorsProps, type ContributorsType, CookieBar, CopilotIcon, CopyButton, type CopyButtonProps, CopyHeadingLink, type CopyHeadingLinkProps, CopyIcon, CopyLinkButton, DEFAULT_ASK_ASSISTANT_EXAMPLES, DateText, type DateTextProps, DeprecatedIcon, DeveloperPortalIcon, type DocPath, DocumentationUpdatesIcon, DropdownMenu, type DropdownMenuProps, EditIcon, EmailIcon, ExpandIcon, ExpandedResultsIcon, FAQIcon, FacebookCircleIcon, FacebookIcon, FeedbackModal, type FeedbackModalPayload, type FeedbackModalProps, FeedbackSection, type FeedbackSectionProps, ListingFilter as Filter, type FilterGroup, FilterIcon, type FilterOption, FixedIcon, Footer, type FooterLink, type FooterProps, type FooterVariant, GearTroubleshootingIcon, GeminiIcon, GithubIcon, GraphIcon, GridIcon, HamburgerMenu, Header, type HeaderProps, type HeaderVariant, HelpCenterIcon, type HistoryConversation, type HybridSearchConfig, ImprovedIcon, InfoIcon, Input, InsertAccountName, type InsertAccountNameProps, IgIcon as InstagramIcon, type Item, KnownIssueIcon as KnownIssuesIcon, LibraryContext, LibraryContextProvider, LikeIcon, LikeSelectedIcon, LinkIcon, LinkedinCircleIcon, LinkedinIcon, ListingFilter, type ListingFilterLabels, type ListingFilterProps, type ListingFilterSelection, LocaleContext, LongArrowIcon, _default as MarkdownRenderer, MegaphoneIcon, MenuIcon, MobileSearch, type MobileSearchProps, NewChatIcon, NewIcon, OnThisPage, type OnThisPageProps, PaperIcon, type ProcessStep, RefreshIcon, ReleaseNotesIcon, RemovedIcon, ResizeIcon, Search, type SearchBackendConfig, SearchConfig, SearchIcon, SearchInput, type SearchInputProps, type Section, type SeeAlsoDoc, SeeAlsoSection, type SeeAlsoSectionProps, SendIcon, ShareButton, ShareIcon, SideBarToggleIcon, Sidebar, SparkleIcon, StartHereIcon, StorefrontDevelopmentIcon, SubscriptionList, SuggestEdits, type SuggestEditsProps, TableOfContents, Tag, type TagColor, type TagProps, TimeToRead, type TimeToReadProps, TocActionsContext, TocStateContext, Tooltip, TrashcanIcon, TroubleshootingCard, type TroubleshootingCardProps, type TroubleshootingCardVariant, type TroubleshootingFilterState, TroubleshootingIcon, type TroubleshootingItem, TutorialsIcon, TwitterCircleIcon, TwitterIcon, VTEXDevPortalIcon, VTEXHelpCenterIcon, VTEXIOAppsIcon, VTEXLogoFooter, WarningIcon, Card as WhatsNextCard, type WhatsNextDataElement, YoutubeIcon, collectTroubleshootingFilterOptions, filterTroubleshootingItems, getDaysElapsed, useLocale, useTocActions, useTocState };
