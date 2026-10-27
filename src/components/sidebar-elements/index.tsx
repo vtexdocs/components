@@ -63,6 +63,7 @@ const SidebarElements = ({
     toggleSidebarElementStatus,
     sidebarDataMaster,
     locale,
+    getCategoryHref,
   } = useContext(LibraryContext)
   const router = useRouter()
   const navigationLocale = router.locale || locale
@@ -81,8 +82,7 @@ const SidebarElements = ({
     return href.replaceAll('//', '/')
   }
 
-  const getHref = (prefix: string, pathSuffix: string, slug: string) => {
-    const path = getPath(prefix, pathSuffix, slug)
+  const withLocalePrefix = (path: string) => {
     const localePrefix =
       navigationLocale && navigationLocale !== 'en'
         ? `/${navigationLocale}`
@@ -90,20 +90,24 @@ const SidebarElements = ({
     return `${localePrefix}${path}`.replaceAll('//', '/')
   }
 
-  const handleClick = (
-    e: { preventDefault: () => void },
-    pathSuffix: string,
-    slug: string
-  ) => {
+  const getHref = (prefix: string, pathSuffix: string, slug: string) =>
+    withLocalePrefix(getPath(prefix, pathSuffix, slug))
+
+  const navigateTo = (e: { preventDefault: () => void }, path: string) => {
     e.preventDefault()
     const hasEndpointQuery = router.query.endpoint
-    const path = getPath(slugPrefix || '', pathSuffix, slug)
     // Do not put the locale in both the path and the locale option. That makes
     // Next/Netlify treat shared slugs (e.g. amazon in en/es/pt) as English.
     router.push(path, undefined, { locale: navigationLocale }).then(() => {
       if (hasEndpointQuery) router.reload()
     })
   }
+
+  const handleClick = (
+    e: { preventDefault: () => void },
+    pathSuffix: string,
+    slug: string
+  ) => navigateTo(e, getPath(slugPrefix || '', pathSuffix, slug))
 
   const ElementDivider = ({ name }: Pick<SidebarElement, 'name'>) => {
     const localizedName: string = typeof name === 'string' ? name : name[locale]
@@ -159,6 +163,13 @@ const SidebarElements = ({
       sidebarDataMaster,
       localizedSlug
     )
+    const categoryHref =
+      documentationType === 'category' && isExpandable
+        ? getCategoryHref?.({
+            slug: localizedSlug,
+            slugPrefix: slugPrefix || '',
+          }) || null
+        : null
     return (
       <Box
         data-sidebar-active={isActive ? 'true' : undefined}
@@ -198,7 +209,27 @@ const SidebarElements = ({
               aria-hidden="true"
             />
           )}
-          {documentationType !== 'category' && documentationType !== 'link' ? (
+          {categoryHref ? (
+            <Link
+              sx={textStyle(isActive, isHamburgerMenu, isExpandable)}
+              onClick={(e: { preventDefault: () => void }) => {
+                if (!isEditorPreview) {
+                  navigateTo(e, categoryHref)
+                }
+                if (!isOpen) {
+                  toggleSidebarElementStatus(localizedSlug, isOpen)
+                }
+              }}
+              href={withLocalePrefix(categoryHref)}
+              target={isEditorPreview === true ? '_blank' : '_self'}
+              locale={navigationLocale}
+            >
+              <span>
+                <HighlightedText text={localizedName} query={highlightQuery} />
+              </span>
+            </Link>
+          ) : documentationType !== 'category' &&
+            documentationType !== 'link' ? (
             <Link
               sx={textStyle(isActive, isHamburgerMenu, isExpandable)}
               onClick={(e: { preventDefault: () => void }) => {

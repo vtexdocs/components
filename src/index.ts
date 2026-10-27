@@ -38,6 +38,7 @@ export {
   InsertAccountName,
   SuggestEdits,
   ArticleRender,
+  ArticleIndexing,
   SeeAlsoSection,
   TroubleshootingCard,
   filterTroubleshootingItems,
@@ -64,6 +65,8 @@ export {
   type InsertAccountNameProps,
   type SuggestEditsProps,
   type ArticleRenderProps,
+  type ArticleIndexingProps,
+  type ArticleIndexingItem,
   type SeeAlsoDoc,
   type SeeAlsoSectionProps,
   type TroubleshootingCardProps,
@@ -116,6 +119,7 @@ export {
   useLocale,
   useTocState,
   useTocActions,
+  type CategoryHrefResolver,
 } from 'utils/context/libraryContext'
 export { default as SearchConfig } from 'utils/config/search-config'
 export type {
