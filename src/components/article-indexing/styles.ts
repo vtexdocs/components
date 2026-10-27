@@ -1,22 +1,31 @@
 import type { SxStyleProp } from '@vtex/brand-ui'
 
+import articleStyles from '../article-render/styles'
+
+// Mirrors the article page layout so the title and cards line up with the
+// article text column, leaving the table-of-contents column empty.
 const container: SxStyleProp = {
-  mx: 'auto',
-  px: ['16px', '32px'],
-  py: ['24px', '48px'],
-  width: '100%',
-  // 720px content width + 2 * 32px horizontal padding
-  maxWidth: ['100%', '100%', '100%', '100%', '784px'],
-  boxSizing: 'border-box',
+  ...articleStyles.innerContainer,
   color: '#4A4A4A',
 }
+
+const content: SxStyleProp = {
+  flex: '1 1 auto',
+  width: '100%',
+  minWidth: 0,
+}
+
+const asideSpacer: SxStyleProp = articleStyles.rightContainer
 
 const breadcrumb: SxStyleProp = {
   mb: '16px',
 }
 
 const title: SxStyleProp = {
+  display: 'block',
   mb: ['24px', '32px'],
+  pb: ['12px', '16px'],
+  borderBottom: '1px solid #E7E9EE',
   fontSize: ['28px', '36px'],
   lineHeight: ['36px', '44px'],
   fontWeight: '400',
@@ -34,6 +43,8 @@ const grid: SxStyleProp = {
 
 export default {
   container,
+  content,
+  asideSpacer,
   breadcrumb,
   title,
   grid,

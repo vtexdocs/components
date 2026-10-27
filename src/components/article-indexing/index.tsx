@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import Head from 'next/head.js'
-import { Box, Text } from '@vtex/brand-ui'
+import { Box, Flex, Text } from '@vtex/brand-ui'
 
 import Breadcrumb from 'components/breadcrumb'
 import type { BreadcrumbItem } from 'components/breadcrumb'
@@ -45,27 +45,30 @@ const ArticleIndexing = ({
         <meta name="docsearch:doctitle" content={pageTitle} />
         {type && <meta name="docsearch:doctype" content={type} />}
       </Head>
-      <Box sx={styles.container}>
-        <Box sx={styles.breadcrumb}>
-          {breadcrumbList.length > 0 && (
-            <Breadcrumb breadcrumbList={breadcrumbList} />
-          )}
+      <Flex sx={styles.container}>
+        <Box sx={styles.content}>
+          <Box sx={styles.breadcrumb}>
+            {breadcrumbList.length > 0 && (
+              <Breadcrumb breadcrumbList={breadcrumbList} />
+            )}
+          </Box>
+          <Text as="h1" sx={styles.title}>
+            {pageTitle}
+          </Text>
+          <Box sx={styles.grid}>
+            {items.map((item) => (
+              <WhatsNextCard
+                key={item.url}
+                title={item.name}
+                description={item.description}
+                linkTitle={cardLinkTitle}
+                linkTo={item.url}
+              />
+            ))}
+          </Box>
         </Box>
-        <Text as="h1" sx={styles.title}>
-          {pageTitle}
-        </Text>
-        <Box sx={styles.grid}>
-          {items.map((item) => (
-            <WhatsNextCard
-              key={item.url}
-              title={item.name}
-              description={item.description}
-              linkTitle={cardLinkTitle}
-              linkTo={item.url}
-            />
-          ))}
-        </Box>
-      </Box>
+        <Box sx={styles.asideSpacer} aria-hidden />
+      </Flex>
     </>
   )
 }

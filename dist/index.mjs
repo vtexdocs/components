@@ -1373,10 +1373,10 @@ function deserializeSuccess(response) {
     throw createDeserializationError(e.message, response);
   }
 }
-function deserializeFailure({ content: content2, status }, stackFrame) {
-  let message = content2;
+function deserializeFailure({ content: content3, status }, stackFrame) {
+  let message = content3;
   try {
-    message = JSON.parse(content2).message;
+    message = JSON.parse(content3).message;
   } catch (e) {
   }
   return createApiError(message, status, stackFrame);
@@ -3248,12 +3248,12 @@ function createNodeHttpRequester({ agent: userGlobalAgent, httpAgent: userHttpAg
             });
           });
         });
-        const createTimeout = (timeout, content2) => {
+        const createTimeout = (timeout, content3) => {
           return setTimeout(() => {
             req.abort();
             resolve({
               status: 0,
-              content: content2,
+              content: content3,
               isTimedOut: true
             });
           }, timeout * 1e3);
@@ -3540,12 +3540,12 @@ function createNodeHttpRequester2({ agent: userGlobalAgent, httpAgent: userHttpA
             });
           });
         });
-        const createTimeout = (timeout, content2) => {
+        const createTimeout = (timeout, content3) => {
           return setTimeout(() => {
             req.abort();
             resolve({
               status: 0,
-              content: content2,
+              content: content3,
               isTimedOut: true
             });
           }, timeout * 1e3);
@@ -7780,15 +7780,15 @@ var styles_default7 = { lastWord, tooltipWrapper, button: button2, buttonCopied 
 // src/components/copy-heading-link/index.tsx
 import { Fragment, jsx as jsx13, jsxs as jsxs9 } from "react/jsx-runtime";
 var LAST_WORD = /^(.*?)(\s+)(\S+)$/su;
-var glueToLastWord = (content2, tail) => {
+var glueToLastWord = (content3, tail) => {
   const glued = (word) => /* @__PURE__ */ jsxs9(Box7, { as: "span", sx: styles_default7.lastWord, children: [
     word,
     tail
   ] });
-  if (content2 == null || typeof content2 === "boolean")
+  if (content3 == null || typeof content3 === "boolean")
     return tail;
-  if (typeof content2 === "string" || typeof content2 === "number") {
-    const text4 = String(content2);
+  if (typeof content3 === "string" || typeof content3 === "number") {
+    const text4 = String(content3);
     const match = text4.match(LAST_WORD);
     if (!match)
       return glued(text4);
@@ -7798,7 +7798,7 @@ var glueToLastWord = (content2, tail) => {
       glued(match[3])
     ] });
   }
-  const items = Children2.toArray(content2);
+  const items = Children2.toArray(content3);
   if (items.length === 0)
     return tail;
   const last = items[items.length - 1];
@@ -19637,8 +19637,8 @@ var styles_default36 = {
 import { jsx as jsx95, jsxs as jsxs76 } from "react/jsx-runtime";
 var SOURCES_HEADING_RE = /^(?:#{1,6}\s+)?\*{0,2}(?:references?|sources?|fontes?|refer[eê]ncias?|fuentes?)\*{0,2}:?\*{0,2}\s*$/i;
 var LINK_RE = /\[([^\]]+)\]\(([^)\s]+)(?:\s+"[^"]*")?\)/;
-var splitAnswerSources = (content2) => {
-  const lines = content2.replace(/\r\n/g, "\n").split("\n");
+var splitAnswerSources = (content3) => {
+  const lines = content3.replace(/\r\n/g, "\n").split("\n");
   let headingIndex = -1;
   for (let i = lines.length - 1; i >= 0; i -= 1) {
     if (SOURCES_HEADING_RE.test(lines[i].trim())) {
@@ -19647,7 +19647,7 @@ var splitAnswerSources = (content2) => {
     }
   }
   if (headingIndex === -1) {
-    return { body: content2, sources: [] };
+    return { body: content3, sources: [] };
   }
   const seen = /* @__PURE__ */ new Set();
   const sources2 = [];
@@ -19668,7 +19668,7 @@ var splitAnswerSources = (content2) => {
     });
   }
   if (!sources2.length) {
-    return { body: content2, sources: [] };
+    return { body: content3, sources: [] };
   }
   let end = headingIndex;
   while (end > 0 && (!lines[end - 1].trim() || /^---+$/.test(lines[end - 1].trim()))) {
@@ -19728,7 +19728,7 @@ var sources_default = AnswerSources;
 // src/components/ask-assistant/markdown.tsx
 import { jsx as jsx96, jsxs as jsxs77 } from "react/jsx-runtime";
 var ANSWER_METADATA_RE = /(?:\r?\n[ \t]*){0,3}(?:[*_]{1,2}[ \t]*)?Language:[ \t]*[^\n|]+[ \t]*\|[ \t]*Confidence:[ \t]*[^\n*_]+(?:[ \t]*[*_]{1,2})?[ \t]*$/i;
-var stripAnswerMetadata = (content2) => content2.replace(ANSWER_METADATA_RE, "").trimEnd();
+var stripAnswerMetadata = (content3) => content3.replace(ANSWER_METADATA_RE, "").trimEnd();
 var INLINE_TOKEN = new RegExp(
   `(${[
     "`[^`\\n]+`",
@@ -20079,8 +20079,8 @@ var renderBlocks = (lines, keyPrefix = "b") => {
   }
   return nodes;
 };
-var MarkdownMessage = ({ content: content2 }) => {
-  const { body: body3, sources: sources2 } = splitAnswerSources(stripAnswerMetadata(content2));
+var MarkdownMessage = ({ content: content3 }) => {
+  const { body: body3, sources: sources2 } = splitAnswerSources(stripAnswerMetadata(content3));
   const lines = body3.replace(/\r\n/g, "\n").split("\n");
   return /* @__PURE__ */ jsxs77(Box35, { sx: styles_default36.markdown, children: [
     renderBlocks(lines),
@@ -20337,12 +20337,12 @@ var AskAssistant = ({
       const controller = new AbortController();
       abortRef.current = controller;
       pendingToolsRef.current = [];
-      let content2 = "";
+      let content3 = "";
       const applyContent = (next, status) => {
         const visible = stripAnswerMetadata(next);
         if (!visible)
           return;
-        content2 = visible;
+        content3 = visible;
         patchAssistant(assistantId, {
           content: visible,
           ...status ? { status } : {}
@@ -20387,7 +20387,7 @@ var AskAssistant = ({
         }
         if (event.type === "FinalAnswerStep" && event.output) {
           const visible = stripAnswerMetadata(event.output);
-          content2 = visible;
+          content3 = visible;
           patchAssistant(assistantId, (message) => ({
             ...message,
             content: visible,
@@ -20404,9 +20404,9 @@ var AskAssistant = ({
         await run(query, controller.signal, handleEvent);
         patchAssistant(assistantId, (message) => ({
           ...message,
-          status: content2 ? "complete" : "error",
-          content: content2 || labels.error,
-          steps: content2 ? ensureFinalStep(message.steps) : completeSteps(message.steps)
+          status: content3 ? "complete" : "error",
+          content: content3 || labels.error,
+          steps: content3 ? ensureFinalStep(message.steps) : completeSteps(message.steps)
         }));
       } catch (error) {
         if (error.name === "AbortError")
@@ -24358,24 +24358,27 @@ var article_render_default = ArticleRender;
 // src/components/article-indexing/index.tsx
 import { useContext as useContext16 } from "react";
 import Head2 from "next/head.js";
-import { Box as Box48, Text as Text40 } from "@vtex/brand-ui";
+import { Box as Box48, Flex as Flex41, Text as Text40 } from "@vtex/brand-ui";
 
 // src/components/article-indexing/styles.ts
 var container19 = {
-  mx: "auto",
-  px: ["16px", "32px"],
-  py: ["24px", "48px"],
-  width: "100%",
-  // 720px content width + 2 * 32px horizontal padding
-  maxWidth: ["100%", "100%", "100%", "100%", "784px"],
-  boxSizing: "border-box",
+  ...styles_default50.innerContainer,
   color: "#4A4A4A"
 };
+var content = {
+  flex: "1 1 auto",
+  width: "100%",
+  minWidth: 0
+};
+var asideSpacer = styles_default50.rightContainer;
 var breadcrumb3 = {
   mb: "16px"
 };
 var title8 = {
+  display: "block",
   mb: ["24px", "32px"],
+  pb: ["12px", "16px"],
+  borderBottom: "1px solid #E7E9EE",
   fontSize: ["28px", "36px"],
   lineHeight: ["36px", "44px"],
   fontWeight: "400",
@@ -24391,6 +24394,8 @@ var grid = {
 };
 var styles_default51 = {
   container: container19,
+  content,
+  asideSpacer,
   breadcrumb: breadcrumb3,
   title: title8,
   grid
@@ -24415,19 +24420,22 @@ var ArticleIndexing = ({
       /* @__PURE__ */ jsx124("meta", { name: "docsearch:doctitle", content: pageTitle }),
       type2 && /* @__PURE__ */ jsx124("meta", { name: "docsearch:doctype", content: type2 })
     ] }),
-    /* @__PURE__ */ jsxs101(Box48, { sx: styles_default51.container, children: [
-      /* @__PURE__ */ jsx124(Box48, { sx: styles_default51.breadcrumb, children: breadcrumbList.length > 0 && /* @__PURE__ */ jsx124(breadcrumb_default, { breadcrumbList }) }),
-      /* @__PURE__ */ jsx124(Text40, { as: "h1", sx: styles_default51.title, children: pageTitle }),
-      /* @__PURE__ */ jsx124(Box48, { sx: styles_default51.grid, children: items.map((item3) => /* @__PURE__ */ jsx124(
-        card_default,
-        {
-          title: item3.name,
-          description: item3.description,
-          linkTitle: cardLinkTitle,
-          linkTo: item3.url
-        },
-        item3.url
-      )) })
+    /* @__PURE__ */ jsxs101(Flex41, { sx: styles_default51.container, children: [
+      /* @__PURE__ */ jsxs101(Box48, { sx: styles_default51.content, children: [
+        /* @__PURE__ */ jsx124(Box48, { sx: styles_default51.breadcrumb, children: breadcrumbList.length > 0 && /* @__PURE__ */ jsx124(breadcrumb_default, { breadcrumbList }) }),
+        /* @__PURE__ */ jsx124(Text40, { as: "h1", sx: styles_default51.title, children: pageTitle }),
+        /* @__PURE__ */ jsx124(Box48, { sx: styles_default51.grid, children: items.map((item3) => /* @__PURE__ */ jsx124(
+          card_default,
+          {
+            title: item3.name,
+            description: item3.description,
+            linkTitle: cardLinkTitle,
+            linkTo: item3.url
+          },
+          item3.url
+        )) })
+      ] }),
+      /* @__PURE__ */ jsx124(Box48, { sx: styles_default51.asideSpacer, "aria-hidden": true })
     ] })
   ] });
 };
@@ -24627,7 +24635,7 @@ var troubleshooting_card_default = TroubleshootingCard;
 
 // src/components/section-card/index.tsx
 import Link17 from "next/link.js";
-import { Box as Box50, Flex as Flex41, Text as Text42 } from "@vtex/brand-ui";
+import { Box as Box50, Flex as Flex42, Text as Text42 } from "@vtex/brand-ui";
 
 // src/styles/tokens.ts
 var landingTokens = {
@@ -24700,7 +24708,7 @@ var container20 = {
     }
   }
 };
-var content = {
+var content2 = {
   flex: 1,
   flexDirection: "column",
   alignItems: "center",
@@ -24752,7 +24760,7 @@ var cta = {
 };
 var styles_default53 = {
   container: container20,
-  content,
+  content: content2,
   icon: icon6,
   title: title10,
   description: description6,
@@ -24778,12 +24786,12 @@ var SectionCard = ({
     rel: isExternalLink2 ? "noopener noreferrer" : void 0,
     sx: styles_default53.container,
     children: [
-      /* @__PURE__ */ jsxs103(Flex41, { sx: styles_default53.content, children: [
+      /* @__PURE__ */ jsxs103(Flex42, { sx: styles_default53.content, children: [
         /* @__PURE__ */ jsx126(Icon83, { sx: styles_default53.icon }),
         /* @__PURE__ */ jsx126(Text42, { className: "title", sx: styles_default53.title, children: title11 }),
         /* @__PURE__ */ jsx126(Text42, { className: "description", sx: styles_default53.description, children: description7 })
       ] }),
-      /* @__PURE__ */ jsxs103(Flex41, { className: "footer", sx: styles_default53.footer, children: [
+      /* @__PURE__ */ jsxs103(Flex42, { className: "footer", sx: styles_default53.footer, children: [
         /* @__PURE__ */ jsx126(Text42, { sx: styles_default53.cta, children: ctaLabel }),
         isExternalLink2 && /* @__PURE__ */ jsx126(long_arrow_icon_default, { size: 18 })
       ] })
@@ -24794,7 +24802,7 @@ var section_card_default = SectionCard;
 
 // src/components/section-card-grid/index.tsx
 import { Children as Children3, isValidElement as isValidElement2 } from "react";
-import { Box as Box51, Flex as Flex42 } from "@vtex/brand-ui";
+import { Box as Box51, Flex as Flex43 } from "@vtex/brand-ui";
 
 // src/components/section-card-grid/styles.ts
 var { cardGap, cardsPerRow, contentMaxWidth } = tokens_default;
@@ -24823,7 +24831,7 @@ var styles_default54 = {
 
 // src/components/section-card-grid/index.tsx
 import { jsx as jsx127 } from "react/jsx-runtime";
-var SectionCardGrid = ({ children, sx, ...props }) => /* @__PURE__ */ jsx127(Flex42, { sx: { ...styles_default54.container, ...sx }, ...props, children: Children3.toArray(children).map((child, index) => /* @__PURE__ */ jsx127(Box51, { sx: styles_default54.item, children: child }, isValidElement2(child) ? child.key : index)) });
+var SectionCardGrid = ({ children, sx, ...props }) => /* @__PURE__ */ jsx127(Flex43, { sx: { ...styles_default54.container, ...sx }, ...props, children: Children3.toArray(children).map((child, index) => /* @__PURE__ */ jsx127(Box51, { sx: styles_default54.item, children: child }, isValidElement2(child) ? child.key : index)) });
 var section_card_grid_default = SectionCardGrid;
 
 // src/utils/troubleshooting/filterItems.ts
