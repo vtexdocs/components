@@ -116,7 +116,6 @@ export type { ArticleRenderProps } from '../components/article-render'
 export type {
   ArticleIndexingProps,
   ArticleIndexingItem,
-  ArticleIndexingVariant,
 } from '../components/article-indexing'
 export type {
   SeeAlsoDoc,

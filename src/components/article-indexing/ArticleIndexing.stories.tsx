@@ -56,26 +56,9 @@ export const CardsWithDescriptions: Story = {
   },
 }
 
-export const List: Story = {
-  args: {
-    variant: 'list',
-  },
-}
-
-export const ListWithDescriptions: Story = {
-  args: {
-    variant: 'list',
-    items: sampleItems.map((item) => ({
-      ...item,
-      description: `Learn how to configure ${item.name}.`,
-    })),
-  },
-}
-
 export const CustomLabels: Story = {
   args: {
     title: 'Pedidos',
-    sectionTitle: 'Nesta seção',
     linkTitle: 'Ver mais',
     items: [
       {

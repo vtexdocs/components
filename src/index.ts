@@ -70,7 +70,6 @@ export {
   type ArticleRenderProps,
   type ArticleIndexingProps,
   type ArticleIndexingItem,
-  type ArticleIndexingVariant,
   type SeeAlsoDoc,
   type SeeAlsoSectionProps,
   type TroubleshootingCardProps,
