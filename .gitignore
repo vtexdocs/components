@@ -5,3 +5,7 @@ storybook-static
 github.pem
 
 temp/
+
+# Local clone of the full VTEX agent skills catalog (only the vendored
+# skills under .agents/skills are versioned here)
+.agents/vtex-skills/
