@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [7.0.18](https://github.com/vtexdocs/components/compare/v7.0.17...v7.0.18) (2026-11-06)
+
+
+### Features
+
+* add ArticleIndexing component with styles and stories ([ef538d3](https://github.com/vtexdocs/components/commit/ef538d36118e16627a2ca07dd36ad9ed5c378151))
+* add CategoryHrefResolver type and integrate into LibraryContext for sidebar navigation ([f62315b](https://github.com/vtexdocs/components/commit/f62315be6b5344b53f51d6cc2513d24ee40c3864))
+* add SectionCard and SectionCardGrid components with associated types and declarations ([239958b](https://github.com/vtexdocs/components/commit/239958b2e03430e956572c0f401c02ffd73ab147))
+* introduce SectionCard and SectionCardGrid components with styles and stories ([9d0515e](https://github.com/vtexdocs/components/commit/9d0515e85103b7ac405e9a0d34e4cd5a1252fb4a))
+
+
+### Bug Fixes
+
+* adjust cardsContainer alignment for improved layout next to sidebar ([b8b8bf9](https://github.com/vtexdocs/components/commit/b8b8bf98cf58ecece110efd2224e5cb5fbe7588c))
+* update alignment styles for article indexing component to center container ([de28fd2](https://github.com/vtexdocs/components/commit/de28fd21bd8175b60d5abd4ac4afcad1fe2f1632))
+* update maxWidth for cardsContainer to improve layout consistency across components ([119d6ed](https://github.com/vtexdocs/components/commit/119d6ed26ab0e01c92368db305c8b9179f24d6e1))
+
 ### [7.0.17](https://github.com/vtexdocs/components/compare/v7.0.16...v7.0.17) (2026-10-08)
 
 
