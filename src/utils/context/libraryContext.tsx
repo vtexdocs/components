@@ -23,6 +23,15 @@ export type LocaleContextType = {
   locale: Locale
 }
 
+/**
+ * Returns the URL of a category cover page, or `null` when the category has
+ * no cover and should only expand/collapse in the sidebar.
+ */
+export type CategoryHrefResolver = (category: {
+  slug: string
+  slugPrefix: string
+}) => string | null | undefined
+
 export type TocStateContextType = {
   headingItems: Item[]
   activeItem: ActiveItem
@@ -71,6 +80,8 @@ export type ContextType = {
   hamburguerSections: Section[][]
   setHamburguerSections: Dispatch<SetStateAction<Section[][]>>
   locale: Locale
+  /** When omitted, sidebar categories only expand/collapse. */
+  getCategoryHref?: CategoryHrefResolver
 }
 
 interface Props extends Partial<ContextType> {
@@ -165,6 +176,7 @@ const LibraryContextProvider = ({ children, ...props }: Props) => {
   )
   const locale = props.locale ?? 'en'
   const fallback = props.fallback
+  const getCategoryHref = props.getCategoryHref
 
   const headingItemsRef = useRef(headingItems)
   headingItemsRef.current = headingItems
@@ -376,6 +388,7 @@ const LibraryContextProvider = ({ children, ...props }: Props) => {
       hamburguerSections,
       setHamburguerSections,
       locale,
+      getCategoryHref,
     }),
     [
       isEditorPreview,
@@ -391,6 +404,7 @@ const LibraryContextProvider = ({ children, ...props }: Props) => {
       sidebarSections,
       hamburguerSections,
       locale,
+      getCategoryHref,
     ]
   )
 

@@ -92,6 +92,7 @@
   "article_pagination.previous": "Previous",
   "article_pagination.next": "Next",
   "see_also_section.title": "See also",
+  "article_indexing.see_more": "See more",
   "insert_account_name.placeholder": "Account name",
   "insert_account_name.button": "Go to documentation",
   "insert_account_name.tooltip": "View documentation page on VTEX Admin",

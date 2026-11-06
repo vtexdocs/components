@@ -92,6 +92,7 @@ export type MessagesType = {
   'article_pagination.previous': string
   'article_pagination.next': string
   'see_also_section.title': string
+  'article_indexing.see_more': string
   'insert_account_name.placeholder': string
   'insert_account_name.button': string
   'insert_account_name.tooltip': string
